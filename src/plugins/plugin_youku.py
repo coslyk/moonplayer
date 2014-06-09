@@ -1,7 +1,7 @@
 ﻿#!/usr/bin/python
 # -*- encoding: utf-8 -*-
 
-from utils import list_links, re2
+from utils import list_links, re2, parse_flvcd_page
 import re
 import json
 import moonplayer
@@ -57,68 +57,18 @@ def parse(url, options):
     if not match:
         moonplayer.warn('Please input a valid youku url.')
         return
-    url = 'http://v.youku.com/player/getPlayList/VideoIDS/' + match.group(1)
+    url = 'http://www.flvcd.com/parse.php?kw=' + url
+    if options & moonplayer.OPT_QL_SUPER:
+        url += '&format=super'
+    elif options & moonplayer.OPT_QL_HIGH:
+        url += '&format=high'
     moonplayer.get_url(url, parse_cb, options)
     
 ## Parse videos
 def parse_cb(page, options):
-    data = json.loads(page)[u'data'][0]
-    #alternative language
-    try:
-        langvid = data[u'dvd'][u'audiolang'][1][u'vid']
-        if langvid != data[u'vidEncoded']:
-            lang = data[u'dvd'][u'audiolang'][1][u'lang'].encode('UTF-8')
-            if moonplayer.question('是否解析为：' + lang):
-                url = 'http://v.youku.com/player/getPlayList/VideoIDS/' + str(langvid)
-                moonplayer.get_url(url, parse_cb, options)
-                return
-    except KeyError:
-        pass
-    except IndexError:
-        pass
-    #check error
-    if u'error' in data:
-        moonplayer.warn('Error: ' + data[u'error'].encode('UTF-8'))
-        return
-    seed = data[u'seed']
-    segs = data[u'segs']
-    name = data[u'title'].encode('UTF-8')
-    if options & moonplayer.OPT_QL_SUPER and u'hd2' in segs:
-        keys = [str(i[u'k']) for i in segs[u'hd2']]
-        fileid = data[u'streamfileids'][u'hd2']
-        fmt = 'flv'
-    elif options & (moonplayer.OPT_QL_HIGH | moonplayer.OPT_QL_SUPER) and u'mp4' in segs:
-        keys = [str(i[u'k']) for i in segs[u'mp4']]
-        fileid = data[u'streamfileids'][u'mp4']
-        fmt = 'mp4'
-    else:
-        keys = [str(i[u'k']) for i in segs[u'flv']]
-        fileid = data[u'streamfileids'][u'flv']
-        fmt = 'flv'
-    source = r'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/\:._-1234567890'
-    mixed = ''
-    for i in xrange(len(source)):
-        seed = (seed * 211 + 30031) % 65536
-        index = int(float(seed) / 65536 * len(source))
-        mixed += source[index]
-        source = ''.join(source.split(source[index]))
-    ids = fileid.split('*')
-    realld = ''
-    for i in ids:
-        if len(i):
-            realld += mixed[int(i)]
-        else:
-            realld += mixed[0]
-    result = []
-    for i in xrange(len(keys)):
-        if i < 0x10:
-            ll = '0' + hex(i)[2:].upper()
-        else:
-            ll = hex(i)[2:].upper()
-        result.append('%s_%s.%s' % (name, ll, fmt))
-        result.append('http://f.youku.com/player/getFlvPath/sid/00_00/st/%s/fileid/%s%s%s?K=%s' % (fmt, realld[0:8], ll, realld[10:-1], keys[i]))
+    result = parse_flvcd_page(page, None)
     if options & moonplayer.OPT_DOWNLOAD:
-        moonplayer.download(result, '%s.%s' % (name, fmt))
+        moonplayer.download(result, result[0])
     else:
         moonplayer.play(result)
     

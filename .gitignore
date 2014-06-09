@@ -1,6 +1,10 @@
 debug
 release
-moonplayer.*
+moonplayer.ncb
+moonplayer.sln
+moonplayer.suo
+moonplayer.vcproj
+moonplayer.vcproj.*
 ui_*.h
 vc90.idb
 vc90.pdb

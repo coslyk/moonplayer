@@ -325,7 +325,7 @@ void Player::onSetButton()
 //open homepage
 void Player::openHomepage()
 {
-    static QUrl url("http://code.google.com/p/moonplayer/");
+    static QUrl url("https://github.com/coslyk/moonplayer");
     QDesktopServices::openUrl(url);
 }
 
