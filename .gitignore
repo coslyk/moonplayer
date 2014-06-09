@@ -1,0 +1,6 @@
+debug
+release
+moonplayer.*
+ui_*.h
+vc90.idb
+vc90.pdb
