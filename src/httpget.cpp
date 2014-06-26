@@ -79,7 +79,7 @@ void HttpGet::onFinished()
     {
         //check redirect
         int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-        if (status == 302) //redirect
+        if (status == 301 || status == 302) //redirect
         {
             reply->deleteLater();
             file->seek(0);

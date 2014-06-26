@@ -42,7 +42,7 @@ private slots:
     void onAddButton(void);
     void onDelButton(void);
     void onStartButton(void);
-    void onFinished(void);
+    void onFinished(int status);
     void readOutput(void);
 };
 

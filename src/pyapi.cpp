@@ -68,7 +68,7 @@ void GetUrl::onFinished()
 {
     //check redirection
     int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    if (status == 302)
+    if (status == 301 || status == 302)
     {
         reply->deleteLater();
         QByteArray final_url = reply->rawHeader("Location");

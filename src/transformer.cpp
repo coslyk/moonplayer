@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QTimer>
 #include <QMessageBox>
+#include <QTextCodec>
 
 TransformerItem::TransformerItem(QTreeWidget *view, const QString &file, const QString &outfile) :
     QTreeWidgetItem(view)
@@ -32,8 +33,7 @@ Transformer::Transformer(QWidget *parent) :
     connect(ui->delPushButton, SIGNAL(clicked()), this, SLOT(onDelButton()));
     connect(ui->startPushButton, SIGNAL(clicked()), this, SLOT(onStartButton()));
     process = new QProcess(this);
-    process->setProcessChannelMode(QProcess::MergedChannels);
-    connect(process, SIGNAL(finished(int)), this, SLOT(onFinished()));
+    connect(process, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(readOutput()));
 }
@@ -91,15 +91,26 @@ void Transformer::onDelButton()
 void Transformer::onStartButton()
 {
     TransformerItem *item = static_cast<TransformerItem*>(ui->treeWidget->topLevelItem(0));
+    QStringList lavcopts;
     if (item)
     {
         ui->startPushButton->setEnabled(false);
+        ui->addPushButton->setEnabled(false);
+        ui->tabWidget->setEnabled(false);
 
         //read audio settings
         args.clear();
         args << "-of" << "lavf" << "-oac";
-        if (ui->acodecComboBox->currentText() == "ac3")
-            args << "lavc" << "-lavcopts" << "acodec=ac3:abitrate=96";
+        if (ui->acodecComboBox->currentText() == "faac")
+        {
+            args << "lavc" << "-af" << "channels=1,lavcresample=" + ui->srateComboBox->currentText();
+            lavcopts << "acodec=libfaac" << "abitrate=128";
+        }
+        else if (ui->acodecComboBox->currentText() == "ac3")
+        {
+            args << "lavc" << "-af" << "channels=1,lavcresample=" + ui->srateComboBox->currentText();
+            lavcopts << "acodec=ac3" << "abitrate=96";
+        }
         else
             args << "mp3lame" << "-lameopts" << "aq=7:abr:br=96";
         args << "-srate" << ui->srateComboBox->currentText();
@@ -109,12 +120,18 @@ void Transformer::onStartButton()
         qsnprintf(vfmsg, 255, "scale=%d:%d,harddup", ui->widthSpinBox->value(), ui->heightSpinBox->value());
         args << "-vf" << vfmsg << "-ofps" << "15";
 
-        if (ui->vcodecComboBox->currentText() == "xvid")
+        if (ui->vcodecComboBox->currentText() == "mpeg4")
+        {
+            args << "-ovc" << "lavc";
+            lavcopts << "vcodec=mpeg4" << ("vqscale=" + QString::number(ui->qualitySpinBox->value()));
+        }
+        else
             args << "-ovc" << "xvid" << "-xvidencopts" <<
                     "fixed_quant=" + QString::number(ui->qualitySpinBox->value()) + ":threads=2";
-        else
-            args << "-ovc" << "lavc" << "-ffourcc" << "DX50" << "-lavcopts" <<
-                    "vcodec=mpeg4:vqscale=" + QString::number(ui->qualitySpinBox->value());
+
+        // Set -lavcopts
+        if (!lavcopts.isEmpty())
+            args << "-lavcopts" << lavcopts.join(":");
 
         //start
         start(item);
@@ -141,16 +158,22 @@ void Transformer::start(TransformerItem *item)
     timer->start(1000);
 }
 
-void Transformer::onFinished()
+void Transformer::onFinished(int status)
 {
     timer->stop();
     delete current;
     current = NULL;
+    if (status)
+        QMessageBox::critical(this, "Mencoder ERROR", QTextCodec::codecForLocale()->toUnicode(process->readAllStandardError()));
     TransformerItem *item = static_cast<TransformerItem*>(ui->treeWidget->topLevelItem(0));
     if (item)
         start(item);
     else
+    {
         ui->startPushButton->setEnabled(true);
+        ui->addPushButton->setEnabled(true);
+        ui->tabWidget->setEnabled(true);
+    }
 }
 
 void Transformer::readOutput()
