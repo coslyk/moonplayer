@@ -17,7 +17,7 @@ void initPlugins()
     PyRun_SimpleString("sys.path.append('plugins')");
 #else
     PyRun_SimpleString("import os");
-    PyRun_SimpleString("sys.path.append('/usr/share/moonplayer/plugins')");
+    PyRun_SimpleString("sys.path.insert(0, '/usr/share/moonplayer/plugins')");
     PyRun_SimpleString("sys.path.append(os.environ['HOME'] + '/.moonplayer/plugins')");
 #endif
 
