@@ -37,7 +37,7 @@ private:
 private slots:
     void onFinished(HttpGet *get, bool error);
     void onProgressChanged(HttpGet *get, int progress, bool is_percentage);
-    void onPaused(HttpGet *get);
+    void onPaused(HttpGet *get, int reason);
     void onPauseButton(void);
     void onPlayButton(void);
     void onDelButton(void);

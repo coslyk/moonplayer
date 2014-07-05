@@ -66,38 +66,39 @@ void HttpGet::onFinished()
 {
     Q_ASSERT(reply);
     file->write(reply->readAll());
-    if (reply->error() != QNetworkReply::NoError) //has error or pause
+
+    //check redirect
+    int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (status == 301 || status == 302) //redirect
     {
+        reply->deleteLater();
+        file->seek(0);
+        last_finished = 0;
+        url = QString::fromUtf8(reply->rawHeader("Location"));
+        start();
+    }
+
+    else if (reply->error() != QNetworkReply::NoError) //has error or pause
+    {
+        int reason = (int) reply->error();
+        qDebug("%s", reply->errorString().toUtf8().constData());
         last_finished = file->size();
         reply->deleteLater();
         reply = 0;
         is_paused = true;
-        emit paused(this);
+        emit paused(this, reason);
     }
 
-    else
+    else  //finished
     {
-        //check redirect
-        int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-        if (status == 301 || status == 302) //redirect
-        {
-            reply->deleteLater();
-            file->seek(0);
-            last_finished = 0;
-            url = QString::fromUtf8(reply->rawHeader("Location"));
-            start();
-        }
-        else  //finished
-        {
-            reply->deleteLater();
-            reply = 0;
-            emit finished(this, false);
-            deleteLater(); //task end, delete self
-            //close file
-            file->close();
-            delete file;
-            file = 0;
-        }
+        reply->deleteLater();
+        reply = 0;
+        emit finished(this, false);
+        deleteLater(); //task end, delete self
+        //close file
+        file->close();
+        delete file;
+        file = 0;
     }
 }
 

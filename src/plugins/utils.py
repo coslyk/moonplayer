@@ -38,7 +38,7 @@ def list_links(page, start, keyword = ''):
     return links
     
     
-url_re = re.compile(r'<a href="(http://.+?)".+?onclick="_alert.+?>\s*http://')
+url_re = re.compile(r'<a href="(http://.+?)".+?onclick=.+?>\s*http://')
 name_re = re.compile(r'document.title\s*=\s*"([^"]+)"')
 def parse_flvcd_page(content, suffix):
     page = content.decode('GBK').encode('UTF-8')
