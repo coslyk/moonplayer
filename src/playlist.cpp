@@ -72,6 +72,16 @@ void Playlist::setSkin(const QDir &dir)
     setPalette(pal);
 }
 
+void Playlist::setNoSkin()
+{
+    QSize size(18, 18);
+    Skin::setButton(ui->addButton, QIcon::fromTheme("list-add"), size);
+    Skin::setButton(ui->delButton, QIcon::fromTheme("list-remove"), size);
+    Skin::setButton(ui->clearButton, QIcon::fromTheme("edit-clear"), size);
+    ui->listWidget->setStyleSheet(0);
+    setAutoFillBackground(false);
+}
+
 void Playlist::showMenu()
 {
     QPoint pos;

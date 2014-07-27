@@ -250,6 +250,8 @@ PyObject* WebVideo::showList(PyObject *list)
             return NULL;
         result.append(str);
     }
+    show();
+    activateWindow();
     Py_IncRef(Py_None);
     return Py_None;
 }

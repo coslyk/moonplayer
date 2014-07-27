@@ -2,6 +2,7 @@
 #define MPLAYER_H
 
 #include <QWidget>
+#include <QHash>
 class QTimer;
 class QMenu;
 class QProcess;
@@ -26,9 +27,10 @@ public:
     typedef enum {CHANNEL_NORMAL, CHANNEL_LEFT,CHANNEL_RIGHT} Channel;
 
     explicit MPlayer(QWidget *parent = 0);
+    ~MPlayer();
     MPlayerState state;
     Channel channel;
-    static const int UPDATE_FREQUENCY = 5; //Update the progress every 10s.
+    static const int UPDATE_FREQUENCY = 5; //Update the progress every 5s.
     inline QWidget* getLayer(){return layer;}
     inline int getTime(){return progress;}
     inline QString currentFile(){return wait_to_play;}
@@ -79,6 +81,8 @@ private:
     bool is_waiting;
     bool is_mplayer2;
     QString wait_to_play;
+    QString playing_file;
+    QHash<QString, int> unfinished_time;
 
     void cb_start(QString& msg);
     void cb_ratioChanged(QString& msg);

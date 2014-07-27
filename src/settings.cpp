@@ -21,6 +21,8 @@ bool Settings::fixLastFrame;
 bool Settings::ffodivxvdpau;
 bool Settings::autoResize;
 bool Settings::enableScreenshot;
+bool Settings::useSkin;
+bool Settings::rememberUnfinished;
 enum Settings::Quality Settings::quality;
 
 //Show settings dialog
@@ -46,6 +48,7 @@ void Settings::loadSettings()
 {
     ui->voComboBox->setCurrentIndex(ui->voComboBox->findText(vout));
     ui->skinComboBox->setCurrentIndex(currentSkin);
+    ui->skinCheckBox->setChecked(useSkin);
     ui->proxyEdit->setText(proxy);
     ui->portEdit->setText(QString::number(port));
     ui->cacheSpinBox->setValue(cacheSize);
@@ -58,6 +61,7 @@ void Settings::loadSettings()
     ui->fixCheckBox->setChecked(fixLastFrame);
     ui->resizeCheckBox->setChecked(autoResize);
     ui->screenshotCheckBox->setChecked(enableScreenshot);
+    ui->rememberCheckBox->setChecked(rememberUnfinished);
     switch (quality)
     {
     case NORMAL: ui->normalRadioButton->setChecked(true);break;
@@ -89,8 +93,10 @@ void Settings::saveSettings()
     fixLastFrame = ui->fixCheckBox->isChecked();
     quality = (enum Quality) group->checkedId();
     currentSkin = ui->skinComboBox->currentIndex();
+    useSkin = ui->skinCheckBox->isChecked();
     autoResize = ui->resizeCheckBox->isChecked();
     enableScreenshot = ui->screenshotCheckBox->isChecked();
+    rememberUnfinished = ui->rememberCheckBox->isChecked();
 
     //open file
 #ifdef Q_OS_WIN
@@ -99,8 +105,10 @@ void Settings::saveSettings()
     QSettings settings(QDir::homePath() + "/.config/moonplayer.ini", QSettings::IniFormat);
 #endif
     settings.setValue("Player/current_skin", currentSkin);
+    settings.setValue("Player/use_skin", useSkin);
     settings.setValue("Player/auto_resize", autoResize);
     settings.setValue("Player/screenshot", enableScreenshot);
+    settings.setValue("Player/remember_unfinished", rememberUnfinished);
     settings.setValue("Video/out", vout);
     settings.setValue("Video/framedrop", framedrop);
     settings.setValue("Video/double", doubleBuffer);
@@ -157,8 +165,10 @@ void Settings::initSettings()
     fixLastFrame = settings.value("Video/fixlastframe", false).toBool();
     ffodivxvdpau = settings.value("Video/ffodivxvdpau", true).toBool();
     currentSkin = settings.value("Player/current_skin", 0).toInt();
+    useSkin = settings.value("Player/use_skin", true).toBool();
     autoResize = settings.value("Player/auto_resize", true).toBool();
     enableScreenshot = settings.value("Player/screenshot", true).toBool();
+    rememberUnfinished = settings.value("Player/remember_unfinished", true).toBool();
     proxy = settings.value("Net/proxy").toString();
     port = settings.value("Net/port").toInt();
     cacheSize = settings.value("Net/cache_size", 4096).toInt();

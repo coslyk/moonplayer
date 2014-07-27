@@ -31,7 +31,9 @@ public:
     static bool fixLastFrame;
     static bool ffodivxvdpau;
     static bool autoResize;
+    static bool useSkin;
     static bool enableScreenshot;
+    static bool rememberUnfinished;
     static enum Quality {NORMAL, HIGH, SUPER} quality;
 
     ~Settings();

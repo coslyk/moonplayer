@@ -20,6 +20,7 @@ public:
     explicit Playlist(QWidget *parent = 0);
     void playNext(void);
     void setSkin(const QDir &dir);
+    void setNoSkin(void);
     ~Playlist();
 
 public slots:

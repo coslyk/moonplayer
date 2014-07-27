@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <QWidget>
+#include <QIcon>
 class MPlayer;
 class Playlist;
 class QCloseEvent;
@@ -11,6 +12,7 @@ class QMouseEvent;
 class Border;
 class QLabel;
 class QMenu;
+class QMenuBar;
 class Downloader;
 class Transformer;
 
@@ -25,7 +27,6 @@ class Player : public QWidget
     
 public:
     explicit Player(QWidget *parent = 0);
-    void setSkin(const QString& skin_name);
     ~Player();
     Playlist* playlist;
 
@@ -47,19 +48,19 @@ private:
     Border* topRightBorder;
     QLabel* timeShow;
     QMenu* menu;
+    QMenuBar* menubar;
 
-    enum SKIN{
-        SKIN_PLAY,
-        SKIN_STOP,
-        SKIN_PAUSE,
-        SKIN_ADD,
-        SKIN_NUM
-    };
-    QPixmap skin[SKIN_NUM];
+    QIcon play_icon;
+    QIcon pause_icon;
+    QSize play_icon_size;
+
     bool no_play_next;
     bool is_fullscreen;
     bool toolbar_visible;
     int toolbar_pos_y;
+
+    void setSkin(const QString& skin_name);
+    void setNoSkin(void);
 
 private slots:
     void setIconToPlay(void);

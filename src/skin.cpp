@@ -40,28 +40,23 @@ void Skin::setSlider(QWidget *slider, const QString &bg, const QString &handle)
         slider->setStyleSheet(sheet.arg(bg, handle));
 }
 
-void Skin::setButton(QPushButton *button, const QPixmap &img)
+void Skin::setButton(QPushButton *button, const QIcon &icon, const QSize &size)
 {
-    QIcon icon(img);
+    button->setStyleSheet(0);
     button->setIcon(icon);
-    button->setIconSize(img.size());
-    button->setFixedSize(img.size());
+    button->setIconSize(size);
+    button->setFixedSize(size);
     button->setFocusPolicy(Qt::NoFocus);
     button->setFlat(true);
 }
 
-void Skin::setButton(QPushButton *button, const QString &normal, const QString &hover, const QString &pressed, const QString &text)
+void Skin::setButton(QPushButton *button, const QString &normal, const QString &hover, const QString &pressed)
 {
+    button->setIcon(QIcon());
     static QString stylesheet =
             "QPushButton {border-image:url(%1);}"
             "QPushButton:hover:!pressed {border-image:url(%2);}"
             "QPushButton:hover:pressed {border-image:url(%3);}";
-    if (!QFile::exists(normal))
-    {
-        button->setStyleSheet(0);
-        button->setText(text);
-        return;
-    }
     button->setText(0);
     QSize size = QPixmap(normal).size();
     button->setFixedSize(size);

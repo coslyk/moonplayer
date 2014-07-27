@@ -9,6 +9,7 @@
 #include "skin.h"
 #include <QDir>
 #include <QMenu>
+#include <QMenuBar>
 #include <QCloseEvent>
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -74,12 +75,14 @@ Player::Player(QWidget *parent) :
     transformer = new Transformer;
 
     //Add menu
-    menu = new QMenu(this);
+    menubar = new QMenuBar;
+    menu = menubar->addMenu(tr("Player"));
     menu->addAction(tr("Online video"), webvideo, SLOT(show()));
     menu->addAction(tr("Transform video"), transformer, SLOT(show()));
     menu->addAction(tr("Settings"), this, SLOT(onSetButton()));
     menu->addSeparator();
     menu->addAction(tr("Homepage"), this, SLOT(openHomepage()));
+    ui->mainLayout->insertWidget(0, menubar);
 
     //Add time show
     timeShow = new QLabel(mplayer);
@@ -115,7 +118,10 @@ Player::Player(QWidget *parent) :
     connect(downloader, SIGNAL(newFile(const QString&,const QString&)), playlist, SLOT(addFile(const QString&,const QString&)));
 
     //Set skin
-    setSkin(Settings::skinList[Settings::currentSkin]);
+    if (Settings::useSkin)
+        setSkin(Settings::skinList[Settings::currentSkin]);
+    else
+        setNoSkin();
 
     no_play_next = false;
     is_fullscreen = false;
@@ -172,23 +178,32 @@ void Player::setFullScreen()
         showNormal();
         is_fullscreen = false;
         //show hidden widgets
-        ui->titleBar->show();
+        if (Settings::useSkin)
+        {
+            ui->titleBar->show();
+            //show borders
+            leftBorder->show();
+            rightBorder->show();
+            bottomBorder->show();
+        }
+        else
+            menubar->show();
+
         ui->toolBar->show();
         playlist->show();
         ui->hideButton->setEnabled(true);
         ui->netButton->setEnabled(true);
-        //show borders
-        leftBorder->show();
-        rightBorder->show();
-        bottomBorder->show();
     }
     else
     {
         showFullScreen();
         is_fullscreen = true;
         //hide other widgets
+        if (Settings::useSkin)
+            ui->titleBar->hide();
+        else
+            menubar->hide();
         ui->toolBar->hide();
-        ui->titleBar->hide();
         playlist->hide();
         ui->hideButton->setEnabled(false);
         ui->netButton->setEnabled(false);
@@ -309,14 +324,19 @@ void Player::onStopped()
 void Player::onSetButton()
 {
     static Settings* dialog = NULL;
-    int oldSkin = Settings::currentSkin;
+    int oldSkin = Settings::useSkin ? Settings::currentSkin : -1;
     if (dialog == NULL)
         dialog = new Settings(this);
     onNeedPause(true);
     dialog->exec();
-    if (oldSkin != Settings::currentSkin)
+
+    int newSkin = Settings::useSkin ? Settings::currentSkin : -1;
+    if (oldSkin != newSkin)
     {
-        setSkin(Settings::skinList[Settings::currentSkin]);
+        if (newSkin == -1)
+            setNoSkin();
+        else
+            setSkin(Settings::skinList[Settings::currentSkin]);
         show();
     }
     onNeedPause(false);
@@ -339,12 +359,12 @@ void Player::onNeedPause(bool b)
 
 void Player::setIconToPlay()
 {
-    ui->playButton->setIcon(skin[SKIN_PLAY]);
+    ui->playButton->setIcon(play_icon);
 }
 
 void Player::setIconToPause()
 {
-    ui->playButton->setIcon(skin[SKIN_PAUSE]);
+    ui->playButton->setIcon(pause_icon);
 }
 
 void Player::onLengthChanged(int len)
@@ -421,6 +441,39 @@ void Player::onProgressChanged(int pos)
     ui->progressBar->setValue(pos / MPlayer::UPDATE_FREQUENCY);
 }
 
+
+void Player::setNoSkin()
+{
+    // play/pause button and stop button
+    play_icon = QIcon::fromTheme("media-playback-start");
+    pause_icon = QIcon::fromTheme("media-playback-pause");
+    play_icon_size = QSize(32, 32);
+    Skin::setButton(ui->playButton, play_icon, play_icon_size);
+    Skin::setButton(ui->stopButton, QIcon::fromTheme("media-playback-stop"), play_icon_size);
+    // buttons
+    Skin::setButton(ui->hideButton, QIcon::fromTheme("media-playlist-repeat"), QSize(16, 16));
+    Skin::setButton(ui->netButton, QIcon::fromTheme("applications-internet"), QSize(16, 16));
+
+    //playlist, volumn icon and toolbar
+    playlist->setNoSkin();
+    ui->volumePic->setPixmap(QIcon::fromTheme("audio-volume-high").pixmap(16));
+    ui->toolBar->setStyleSheet(0);
+
+    //titlebar and borders
+    setWindowFlags(0);
+    menubar->show();
+    ui->titleBar->hide();
+    bottomBorder->hide();
+    leftBorder->hide();
+    rightBorder->hide();
+    topLeftBorder->hide();
+    topRightBorder->hide();
+
+    //sliders
+    ui->progressBar->setStyleSheet(0);
+    ui->volumeSlider->setStyleSheet(0);
+}
+
 void Player::setSkin(const QString& skin_name)
 {
     QDir dir = QDir(Settings::path);
@@ -433,17 +486,20 @@ void Player::setSkin(const QString& skin_name)
 #endif
 
     //buttons
-    skin[SKIN_PLAY] = QPixmap(dir.filePath("play.png"));
-    skin[SKIN_STOP] = QPixmap(dir.filePath("stop.png"));
-    skin[SKIN_PAUSE] = QPixmap(dir.filePath("pause.png"));
-    Skin::setButton(ui->playButton, skin[SKIN_PLAY]);
-    Skin::setButton(ui->stopButton, skin[SKIN_STOP]);
+    QPixmap play_pixmap(dir.filePath("play.png"));
+    QPixmap pause_pixmap(dir.filePath("pause.png"));
+    QPixmap stop_pixmap(dir.filePath("stop.png"));
+    play_icon = play_pixmap;
+    pause_icon = pause_pixmap;
+    play_icon_size = play_pixmap.size();
+    Skin::setButton(ui->playButton, play_icon, play_icon_size);
+    Skin::setButton(ui->stopButton, stop_pixmap, stop_pixmap.size());
     Skin::setButton(ui->closeButton, dir.filePath("close.png"), dir.filePath("close_over.png"));
     Skin::setButton(ui->maxButton, dir.filePath("max.png"), dir.filePath("max_over.png"));
     Skin::setButton(ui->minButton, dir.filePath("min.png"), dir.filePath("min_over.png"));
     Skin::setButton(ui->hideButton, dir.filePath("playlist.png"), dir.filePath("playlist_over.png"));
     Skin::setButton(ui->netButton, dir.filePath("net.png"), dir.filePath("net_over.png"));
-    Skin::setButton(ui->menuButton, dir.filePath("menu.png"), dir.filePath("menu_over.png"), dir.filePath("menu_over.png"), tr("Menu"));
+    Skin::setButton(ui->menuButton, dir.filePath("menu.png"), dir.filePath("menu_over.png"), dir.filePath("menu_over.png"));
 
     //playlist, volumn icon and toolbar
     playlist->setSkin(dir);
@@ -452,25 +508,20 @@ void Player::setSkin(const QString& skin_name)
 
     //titlebar and borders
     Skin::setWidgetBG(ui->titleBar, dir.filePath("top.png"));
-    if (dir.exists("top.png"))
-    {
-        setWindowFlags(Qt::FramelessWindowHint); //hide borders
-        ui->closeButton->show();
-        ui->minButton->show();
-        ui->maxButton->show();
-    }
-    else
-    {
-        setWindowFlags(0);
-        ui->closeButton->hide();
-        ui->minButton->hide();
-        ui->maxButton->hide();
-    }
+    setWindowFlags(Qt::FramelessWindowHint); //hide borders
+    ui->titleBar->show();
+    menubar->hide();
+
     bottomBorder->setPicture(QPixmap(dir.filePath("bottom_border.png")));
     leftBorder->setPicture(dir.filePath("left_border.png"));
     rightBorder->setPicture(dir.filePath("right_border.png"));
     Skin::setWidgetBG(topLeftBorder, dir.filePath("topleft_border.png"));
     Skin::setWidgetBG(topRightBorder, dir.filePath("topright_border.png"));
+    bottomBorder->show();
+    leftBorder->show();
+    rightBorder->show();
+    topLeftBorder->show();
+    topRightBorder->show();
 
     //sliders
     Skin::setSlider(ui->progressBar, dir.filePath("slider-bg.png"), dir.filePath("slider.png"));
