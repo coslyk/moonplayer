@@ -4,11 +4,13 @@
 #include "settings.h"
 #include "playlist.h"
 #include <QDir>
+#include <QIcon>
 #include <QLocale>
 #include <QDebug>
 #include <QTextCodec>
 #include <Python.h>
 #include "pyapi.h"
+#include <iostream>
 #ifdef Q_OS_LINUX
 #include <QDBusInterface>
 #endif
@@ -19,6 +21,8 @@ int main(int argc, char *argv[])
 
     //check whether another MoonPlayer instance is running
 #ifdef Q_OS_LINUX
+    std::cout << "Checking another instance..." << std::endl;
+
     QDBusInterface iface("com.moonsoft.MoonPlayer", "/", "local.Playlist");
     if (iface.isValid())
     {
@@ -48,10 +52,14 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_WIN
     Settings::path = QString(argv[0]).section('\\', 0, -2);
 #endif
+    std::cout << "Initialize settings..." << std::endl;
     Settings::initSettings();
+
+    std::cout << "Initialize API for Python..." << std::endl;
     initAPI();
 
     //translate moonplayer
+    std::cout << "Initialize language support..." << std::endl;
     QTranslator translator;
     QDir path(Settings::path);
     translator.load(path.filePath("moonplayer_" + QLocale::system().name()));
@@ -62,6 +70,7 @@ int main(int argc, char *argv[])
 
     if (argc > 1)
     {
+        std::cout << "Loading file..." << std::endl;
         QTextCodec* codec = QTextCodec::codecForLocale();
         QString file = codec->toUnicode(argv[1]);
         if (file.startsWith("http://"))

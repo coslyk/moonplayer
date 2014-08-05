@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <QTextCodec>
+#include <iostream>
 
 TransformerItem::TransformerItem(QTreeWidget *view, const QString &file, const QString &outfile) :
     QTreeWidgetItem(view)
@@ -28,6 +29,7 @@ Transformer::Transformer(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Transformer)
 {
+    std::cout << "Initialize transformer..." << std::endl;
     ui->setupUi(this);
     connect(ui->addPushButton, SIGNAL(clicked()), this, SLOT(onAddButton()));
     connect(ui->delPushButton, SIGNAL(clicked()), this, SLOT(onDelButton()));

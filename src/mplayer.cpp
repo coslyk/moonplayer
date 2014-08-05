@@ -10,11 +10,13 @@
 #include <QMouseEvent>
 #include <QLabel>
 #include <QDir>
+#include <iostream>
 using namespace std;
 
 MPlayer::MPlayer(QWidget *parent) :
     QWidget(parent)
 {
+    std::cout << "Initialize mplayer backend..." << std::endl;
     w = h = 1;
 
     //Create timer

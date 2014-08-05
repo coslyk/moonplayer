@@ -11,12 +11,14 @@
 #include <QHash>
 #include "httpget.h"
 #include "settings.h"
+#include <iostream>
 
 Downloader *downloader = NULL;
 
 Downloader::Downloader(QWidget *parent) :
     QWidget(parent)
 {
+    std::cout << "Initialize downloader..." << std::endl;
     n_downloading = 0;
     QStringList labels;
     labels << tr("File name") << tr("State");

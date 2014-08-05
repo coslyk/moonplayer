@@ -19,6 +19,7 @@
 #include <QUrl>
 #include <QListWidget>
 #include <QMessageBox>
+#include <iostream>
 
 static QString secToTime(int second);
 
@@ -26,6 +27,7 @@ Player::Player(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Player)
 {
+    std::cout << "Initialize player..." << std::endl;
     ui->setupUi(this);
 
     //Add MPlayer frame

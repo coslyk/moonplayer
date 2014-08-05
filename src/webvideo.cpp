@@ -13,12 +13,14 @@
 #include <QLabel>
 #include "plugins.h"
 #include "pyapi.h"
+#include <iostream>
 
 WebVideo *webvideo = NULL;
 
 WebVideo::WebVideo(QWidget *parent) :
     QTabWidget(parent)
 {
+    std::cout << "Initialize webview..." << std::endl;
     webvideo = this;
     setObjectName("WebVideo");
 
