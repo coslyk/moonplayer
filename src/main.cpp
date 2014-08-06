@@ -1,4 +1,4 @@
-#include <QtGui/QApplication>
+#include <QApplication>
 #include "player.h"
 #include <QTranslator>
 #include "settings.h"

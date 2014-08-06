@@ -82,8 +82,11 @@ MPlayer::MPlayer(QWidget *parent) :
     QFile file(filename);
     if (!file.open(QFile::ReadOnly))
         return;
-    QStringList list = QString::fromUtf8(file.readAll()).split('\n');
+    QByteArray data = file.readAll();
     file.close();
+    if (data.isEmpty())
+        return;
+    QStringList list = QString::fromUtf8(data).split('\n');
     for (int i = 0; i < list.size(); i += 2)
         unfinished_time[list[i]] = list[i + 1].toInt();
 #endif
@@ -105,6 +108,8 @@ MPlayer::~MPlayer()
             i++;
         }
         data.chop(1); // Remove last '\n'
+        if (data.isEmpty())
+            return;
         QString filename = QDir::homePath() + "/.moonplayer/unfinished.txt";
         QFile file(filename);
         if (!file.open(QFile::WriteOnly))
