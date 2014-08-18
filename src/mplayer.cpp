@@ -36,6 +36,7 @@ MPlayer::MPlayer(QWidget *parent) :
     //Set state
     state = STOPPING;
     is_waiting = false;
+    stop_called = false;
     volume = 100;
 
     //Set color
@@ -301,6 +302,7 @@ void MPlayer::changeState()
  */
 void MPlayer::stop()
 {
+    stop_called = true;
     if (state != STOPPING)
         process->write("stop\n");
     process->waitForFinished(2000);
@@ -318,6 +320,14 @@ void MPlayer::onFinished(int)
         unfinished_time[playing_file] = progress;
     else
         unfinished_time.remove(playing_file);
+
+    // Check whether mplayer quits abnormally
+    if (progress < length - 1 && !stop_called)
+    {
+        is_waiting = true;
+        wait_to_play = playing_file;
+    }
+    stop_called = false;
 
     if (is_waiting)
         //play after event loop

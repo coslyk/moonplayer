@@ -1,7 +1,7 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 # -*- encoding: utf-8 -*-
 
-from utils import list_links, re2
+from moonplayer_utils import list_links, re2, parse_flvcd_page
 import re
 import json
 import moonplayer
@@ -57,67 +57,23 @@ def parse(url, options):
     if not match:
         moonplayer.warn('Please input a valid youku url.')
         return
-    url = 'http://v.youku.com/player/getPlayList/VideoIDS/' + match.group(1)
+    url = 'http://www.flvcd.com/parse.php?kw=' + url
+    if options & moonplayer.OPT_QL_SUPER:
+        url += '&format=super'
+    elif options & moonplayer.OPT_QL_HIGH:
+        url += '&format=high'
     moonplayer.get_url(url, parse_cb, options)
     
 ## Parse videos
+warning_msg = '抱歉！不知为何，下载优酷视频地址（k.youku.com/...）总是失败（404），希望懂网络编程的朋友联系作者，感激不尽！'
 def parse_cb(page, options):
-    data = json.loads(page)[u'data'][0]
-    vid = data[u'vidEncoded']
-    #alternative language
-    try:
-        langvid = data[u'dvd'][u'audiolang'][1][u'vid']
-        if langvid != vid:
-            lang = data[u'dvd'][u'audiolang'][1][u'lang'].encode('UTF-8')
-            if moonplayer.question('是否解析为：' + lang):
-                url = 'http://v.youku.com/player/getPlayList/VideoIDS/' + str(langvid)
-                moonplayer.get_url(url, parse_cb, options)
-                return
-    except KeyError:
-        pass
-    except IndexError:
-        pass
-    #check error
-    if u'error' in data:
-        moonplayer.warn('Error: ' + data[u'error'].encode('UTF-8'))
-        return
-    # Set quality
-    segs = data[u'segs']
-    name = data[u'title'].encode('UTF-8')
-    if options & moonplayer.OPT_QL_SUPER and u'hd2' in segs:
-        fmt = 'hd2'
-    elif options & (moonplayer.OPT_QL_HIGH | moonplayer.OPT_QL_SUPER) and u'mp4' in segs:
-        fmt = 'mp4'
-    else:
-        fmt = 'flv'
-    # Get video's urls
-    url = 'http://v.youku.com/player/getM3U8/vid/%s/type/%s/ts/v.m3u8' % (vid, fmt)
-    moonplayer.get_url(url, parse_cb2, (options, name))
-    
-cb2_re = re.compile(r'(http://.+?)\.ts')
-def parse_cb2(page, data):
-    prev_url = None
-    i = 0
-    result = []
-    options = data[0]
-    name = data[1]
-    match = cb2_re.search(page)
-    while match:
-        url = match.group(1)
-        if url != prev_url:
-            prev_url = url
-            fmt = url.split('.')[-1]
-            result.append('%s_%i.%s' % (name, i, fmt))
-            result.append(url)
-            i += 1
-        match = cb2_re.search(page, match.end(0))
+    result = parse_flvcd_page(page, None)
     if options & moonplayer.OPT_DOWNLOAD:
-        if i == 1: # Only one video
-            moonplayer.download(result)
-        else:
-            moonplayer.download(result, '%s.%s' % (name, fmt))
+        moonplayer.warn(warning_msg)
+        moonplayer.download(result, result[0])
     else:
         moonplayer.play(result)
+    
         
 ## Parse details
 detail_re = re.compile(r'<a href="(http://v.youku.com/.+?)".+?>(\d+)</a>')
@@ -179,4 +135,3 @@ def library(is_movie, tp, page):
 def library_cb(content, data):
     links = list_links(content, 'http://www.youku.com/show_page/id_')
     moonplayer.show_list(links)
- 

@@ -79,6 +79,7 @@ private:
     int time_offset;
     int w, h;
     bool is_waiting;
+    bool stop_called;
     bool is_mplayer2;
     QString wait_to_play;
     QString playing_file;

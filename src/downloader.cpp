@@ -59,7 +59,7 @@ void Downloader::addTask(const QString &url, const QString &filename, bool in_gr
     }
 
     HttpGet::setProxy(Settings::proxy, Settings::port);
-    HttpGet *get = new HttpGet(url, filename, this);
+    HttpGet *get = new HttpGet(url.simplified(), filename, this);
     connect(get, SIGNAL(finished(HttpGet*,bool)), this, SLOT(onFinished(HttpGet*,bool)));
     connect(get, SIGNAL(paused(HttpGet*,int)), this, SLOT(onPaused(HttpGet*,int)));
     connect(get, SIGNAL(progressChanged(HttpGet*,int,bool)), this, SLOT(onProgressChanged(HttpGet*,int,bool)));

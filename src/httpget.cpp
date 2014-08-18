@@ -80,13 +80,14 @@ void HttpGet::onFinished()
 
     else if (reply->error() != QNetworkReply::NoError) //has error or pause
     {
-        int reason = (int) reply->error();
-        qDebug("%s", reply->errorString().toUtf8().constData());
+        QNetworkReply::NetworkError reason = reply->error();
+        if (reason != QNetworkReply::OperationCanceledError)
+            qDebug("Http status code: %d\n%s\n", status, reply->errorString().toUtf8().constData());
         last_finished = file->size();
         reply->deleteLater();
         reply = 0;
         is_paused = true;
-        emit paused(this, reason);
+        emit paused(this, (int) reason);
     }
 
     else  //finished

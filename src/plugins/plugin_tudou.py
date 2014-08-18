@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from utils import list_links, convert_to_utf8
+from moonplayer_utils import list_links, convert_to_utf8
 import re
 import moonplayer
 try:
@@ -45,14 +45,14 @@ def parse(url, options):
         moonplayer.warn('Please input a valid tudou url.')
     
 #parse videos
-iid_re = re.compile(r'"pt":(\d+),"k":(\d+)')
+iid_re = re.compile(r'"pt":(\d+)[^}]+"k":(\d+)')
 name_re = re.compile(r'kw:\s*[\'"]([^\'"]+)')
 def parse_cb(page, options):
     #page = content.decode('GBK').encode('UTF-8')
     page = convert_to_utf8(page)
     name_match = name_re.search(page)
     if not name_match:
-        moonplayer.warn('Fail!')
+        moonplayer.warn('Cannot get video name.')
         return
     name = name_match.group(1)
     
