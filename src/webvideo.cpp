@@ -11,6 +11,7 @@
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QLabel>
+#include <QUrl>
 #include "plugins.h"
 #include "pyapi.h"
 #include <iostream>
@@ -282,7 +283,9 @@ void WebVideo::onDoubleClicked(QListWidgetItem *item)
         return;
     }
     int i = listWidget->row(item);
-    plugins[provider]->parse(result[i].constData(), false);
+    QByteArray url = result[i];
+    Plugin *plugin = getPluginByHost(QUrl(QString::fromUtf8(url)).host());
+    plugin->parse(url.constData(), false);
 }
 
 
