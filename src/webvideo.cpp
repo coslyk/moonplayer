@@ -285,6 +285,8 @@ void WebVideo::onDoubleClicked(QListWidgetItem *item)
     int i = listWidget->row(item);
     QByteArray url = result[i];
     Plugin *plugin = getPluginByHost(QUrl(QString::fromUtf8(url)).host());
+    if (plugin == 0)
+        plugin = plugins[provider];
     plugin->parse(url.constData(), false);
 }
 
