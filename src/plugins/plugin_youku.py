@@ -4,6 +4,7 @@
 from moonplayer_utils import list_links, re2, parse_flvcd_page
 import re
 import json
+import thread
 import moonplayer
 
 #hosts
@@ -65,12 +66,14 @@ def parse(url, options):
     moonplayer.get_url(url, parse_cb, options)
     
 ## Parse videos
-warning_msg = '抱歉！不知为何，下载优酷视频地址（k.youku.com/...）总是失败（404），希望懂网络编程的朋友联系作者，感激不尽！'
 def parse_cb(page, options):
     result = parse_flvcd_page(page, None)
     if options & moonplayer.OPT_DOWNLOAD:
-        moonplayer.warn(warning_msg)
-        moonplayer.download(result, result[0])
+        try:
+            process_redirections(result)
+            moonplayer.download(result, result[0])
+        except:
+            moonplayer.warn('Network error')
     else:
         moonplayer.play(result)
     
@@ -135,3 +138,35 @@ def library(is_movie, tp, page):
 def library_cb(content, data):
     links = list_links(content, 'http://www.youku.com/show_page/id_')
     moonplayer.show_list(links)
+    
+    
+### Process redirection in Python
+# I don't know why it will raise HTTP 404 error if I directly send
+# original urls to moonplayer. Maybe it is a QtNetwork's bug?
+
+import urllib2
+class RedirectHandler(urllib2.HTTPRedirectHandler):
+    def http_error_301(self, req, fp, code, msg, headers):
+        pass
+    def http_error_302(self, req, fp, code, msg, headers):
+        pass
+
+cookieprocessor = urllib2.HTTPCookieProcessor()
+my_opener = urllib2.build_opener(RedirectHandler, cookieprocessor)
+    
+def get_redirected_url(src_url):
+    req = urllib2.Request(src_url, headers={'User-Agent': 'moonplayer'})
+    try:
+        response = my_opener.open(req, timeout=5)
+        return response.info()['Location']
+    except urllib2.HTTPError, e:
+        if e.code == 301 or e.code == 302:
+            return e.info()['Location']
+        raise e
+    
+def process_redirections(result):
+    for i in xrange(1, len(result), 2):
+        origin = result[i]
+        url = get_redirected_url(origin)
+        result[i] = url
+    return url
