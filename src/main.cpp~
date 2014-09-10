@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_LINUX
     std::cout << "Checking another instance..." << std::endl;
 
-    QDBusInterface iface("com.moonsoft.MoonPlayer", "/");
+    QDBusInterface iface("com.moonsoft.MoonPlayer", "/", "local.Playlist");
     if (iface.isValid())
     {
         if (argc == 1)

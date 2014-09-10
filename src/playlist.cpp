@@ -41,7 +41,7 @@ Playlist::Playlist(QWidget *parent) :
 
 #ifdef Q_OS_LINUX
     QDBusConnection conn = QDBusConnection::sessionBus();
-    if (!conn.registerObject("/", this, QDBusConnection::ExportNonScriptableSlots))
+    if (!conn.registerObject("/", this, QDBusConnection::ExportAllSlots))
     {
         qDebug() << conn.lastError().message();
         exit(EXIT_FAILURE);
