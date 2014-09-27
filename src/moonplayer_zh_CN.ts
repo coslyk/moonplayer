@@ -4,42 +4,42 @@
 <context>
     <name>Downloader</name>
     <message>
-        <location filename="downloader.cpp" line="22"/>
+        <location filename="downloader.cpp" line="24"/>
         <source>File name</source>
         <translation type="unfinished">文件名</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="22"/>
+        <location filename="downloader.cpp" line="24"/>
         <source>State</source>
         <translation type="unfinished">状态</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="28"/>
+        <location filename="downloader.cpp" line="30"/>
         <source>Play</source>
         <translation type="unfinished">播放</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="29"/>
+        <location filename="downloader.cpp" line="31"/>
         <source>Delete</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="30"/>
+        <location filename="downloader.cpp" line="32"/>
         <source>Pause</source>
         <translation type="unfinished">暂停</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="40"/>
+        <location filename="downloader.cpp" line="42"/>
         <source>Download Manager</source>
         <translation type="unfinished">下载管理器</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="55"/>
+        <location filename="downloader.cpp" line="57"/>
         <source> is existed. Download again?</source>
         <translation type="unfinished">已存在。重新下载吗？</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="158"/>
+        <location filename="downloader.cpp" line="160"/>
         <source>File is being downloaded. Still want to delete?</source>
         <translation type="unfinished">文件正在下载，仍要删除吗？</translation>
     </message>
@@ -51,37 +51,37 @@
 <context>
     <name>MPlayer</name>
     <message>
-        <location filename="mplayer.cpp" line="52"/>
+        <location filename="mplayer.cpp" line="55"/>
         <source>Ratio</source>
         <translation type="unfinished">宽高比</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="56"/>
+        <location filename="mplayer.cpp" line="59"/>
         <source>Default</source>
         <translation type="unfinished">默认</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="58"/>
+        <location filename="mplayer.cpp" line="61"/>
         <source>Channel</source>
         <translation type="unfinished">声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="59"/>
+        <location filename="mplayer.cpp" line="62"/>
         <source>Left</source>
         <translation type="unfinished">左声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="60"/>
+        <location filename="mplayer.cpp" line="63"/>
         <source>Right</source>
         <translation type="unfinished">右声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="61"/>
+        <location filename="mplayer.cpp" line="64"/>
         <source>Normal</source>
         <translation type="unfinished">立体声</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="69"/>
+        <location filename="mplayer.cpp" line="72"/>
         <source>Screenshot (Shortcut:s)</source>
         <translation type="unfinished">截图 (快捷键：s)</translation>
     </message>
@@ -138,43 +138,43 @@
         <translation type="obsolete">缓冲中，请稍后...</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="72"/>
+        <location filename="player.cpp" line="74"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="79"/>
+        <location filename="player.cpp" line="81"/>
         <source>Player</source>
         <translation type="unfinished">播放器</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="80"/>
+        <location filename="player.cpp" line="82"/>
         <source>Online video</source>
         <oldsource>Search videos</oldsource>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="81"/>
+        <location filename="player.cpp" line="83"/>
         <source>Transform video</source>
         <translation type="unfinished">视频转码</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="82"/>
+        <location filename="player.cpp" line="84"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="84"/>
+        <location filename="player.cpp" line="86"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="140"/>
+        <location filename="player.cpp" line="142"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="151"/>
+        <location filename="player.cpp" line="153"/>
         <source>Some files are being transformed. Do you still want to close?</source>
         <translation type="unfinished">一些视频正在转码。确认关闭吗？</translation>
     </message>
@@ -210,22 +210,22 @@
         <translation type="obsolete">清空</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="32"/>
+        <location filename="playlist.cpp" line="34"/>
         <source>Add file</source>
         <translation type="unfinished">添加文件</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="33"/>
+        <location filename="playlist.cpp" line="35"/>
         <source>Add url</source>
         <translation type="unfinished">添加/解析网址</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="34"/>
+        <location filename="playlist.cpp" line="36"/>
         <source>Add playlist</source>
         <translation type="unfinished">添加播放列表</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="197"/>
+        <location filename="playlist.cpp" line="199"/>
         <source>Another file is parsing. Please wait.</source>
         <translation type="unfinished">其他任务正在进行中，请稍后。</translation>
     </message>
@@ -234,12 +234,12 @@
         <translation type="obsolete">其他文件正在解析中。</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="184"/>
+        <location filename="playlist.cpp" line="186"/>
         <source>Enter url</source>
         <translation type="unfinished">输入网址</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="184"/>
+        <location filename="playlist.cpp" line="186"/>
         <source>Please enter url</source>
         <translation type="unfinished">请输入网址</translation>
     </message>
@@ -248,7 +248,7 @@
         <translation type="obsolete">请输入视频名称。</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="200"/>
+        <location filename="playlist.cpp" line="202"/>
         <source>Download?</source>
         <translation type="unfinished">下载吗？</translation>
     </message>
@@ -467,6 +467,51 @@
     </message>
 </context>
 <context>
+    <name>SortingDialog</name>
+    <message>
+        <location filename="sortingdialog.ui" line="14"/>
+        <source>Sort files</source>
+        <translation type="unfinished">文件排序</translation>
+    </message>
+    <message>
+        <location filename="sortingdialog.ui" line="20"/>
+        <location filename="sortingdialog.cpp" line="34"/>
+        <location filename="sortingdialog.cpp" line="83"/>
+        <source>Save to:</source>
+        <translation type="unfinished">保存至：</translation>
+    </message>
+    <message>
+        <location filename="sortingdialog.ui" line="27"/>
+        <source>Change</source>
+        <translation type="unfinished">更改</translation>
+    </message>
+    <message>
+        <location filename="sortingdialog.ui" line="37"/>
+        <source>Add</source>
+        <translation type="unfinished">添加</translation>
+    </message>
+    <message>
+        <location filename="sortingdialog.ui" line="44"/>
+        <source>Delete</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
+        <location filename="sortingdialog.ui" line="51"/>
+        <source>Move up</source>
+        <translation type="unfinished">上移</translation>
+    </message>
+    <message>
+        <location filename="sortingdialog.ui" line="58"/>
+        <source>Move down</source>
+        <translation type="unfinished">下移</translation>
+    </message>
+    <message>
+        <location filename="sortingdialog.cpp" line="77"/>
+        <source>Set file name</source>
+        <translation type="unfinished">设置文件名称</translation>
+    </message>
+</context>
+<context>
     <name>Transformer</name>
     <message>
         <location filename="transformer.ui" line="14"/>
@@ -539,6 +584,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="transformer.ui" line="236"/>
+        <source>Link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="transformer.ui" line="135"/>
         <source>mp3lame</source>
         <translation type="unfinished"></translation>
@@ -589,35 +639,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transformer.cpp" line="60"/>
         <source>Combine videos?</source>
-        <translation type="unfinished">合并视频吗？</translation>
+        <translation type="obsolete">合并视频吗？</translation>
     </message>
     <message>
-        <location filename="transformer.cpp" line="62"/>
         <source>Set out file name</source>
-        <translation type="unfinished">设置输出文件名</translation>
+        <translation type="obsolete">设置输出文件名</translation>
     </message>
     <message>
-        <location filename="transformer.cpp" line="72"/>
+        <location filename="transformer.cpp" line="64"/>
         <source>Choose save directory</source>
         <translation type="unfinished">选择保存文件夹</translation>
+    </message>
+    <message>
+        <location filename="transformer.cpp" line="75"/>
+        <source>Please select videos you want to link</source>
+        <translation type="unfinished">选择要合并的视频</translation>
     </message>
 </context>
 <context>
     <name>WebVideo</name>
     <message>
-        <location filename="webvideo.cpp" line="37"/>
+        <location filename="webvideo.cpp" line="40"/>
         <source>Prev</source>
         <translation type="unfinished">上页</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="38"/>
+        <location filename="webvideo.cpp" line="41"/>
         <source>Next</source>
         <translation type="unfinished">下页</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="33"/>
+        <location filename="webvideo.cpp" line="36"/>
         <source>Down</source>
         <translation type="unfinished">下载</translation>
     </message>
@@ -642,53 +695,53 @@
         <translation type="obsolete">不能下载文件：</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="86"/>
+        <location filename="webvideo.cpp" line="89"/>
         <source>Another file is parsing. Please wait.</source>
         <translation type="unfinished">其他任务正在进行中，请稍后。</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="106"/>
+        <location filename="webvideo.cpp" line="109"/>
         <source>Click Yes to see movies or No to see TV series</source>
         <translation type="unfinished">点“是”浏览电影，点“否”浏览电视剧</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="108"/>
+        <location filename="webvideo.cpp" line="111"/>
         <source>Choose a type:</source>
         <translation type="unfinished">选择资源类型：</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="102"/>
+        <location filename="webvideo.cpp" line="105"/>
         <source>Library is not supported</source>
         <translation type="unfinished">不支持资源库</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="145"/>
+        <location filename="webvideo.cpp" line="148"/>
         <source>Album is not supported.</source>
         <translation type="unfinished">该插件不支持专辑搜索。</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="35"/>
+        <location filename="webvideo.cpp" line="38"/>
         <source>Library</source>
         <translation type="unfinished">库</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="28"/>
+        <location filename="webvideo.cpp" line="31"/>
         <source>You have not install any plugins yet ~_~</source>
         <translation type="unfinished">您没有安装任何插件哦~_~</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="34"/>
+        <location filename="webvideo.cpp" line="37"/>
         <source>Album</source>
         <translation type="unfinished">专辑</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="39"/>
+        <location filename="webvideo.cpp" line="42"/>
         <source>Back</source>
         <translation type="unfinished">返回</translation>
     </message>
     <message>
-        <location filename="webvideo.cpp" line="29"/>
-        <location filename="webvideo.cpp" line="45"/>
+        <location filename="webvideo.cpp" line="32"/>
+        <location filename="webvideo.cpp" line="48"/>
         <source>Web videos</source>
         <translation type="unfinished">在线视频</translation>
     </message>

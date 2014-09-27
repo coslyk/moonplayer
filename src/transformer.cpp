@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QTextCodec>
 #include <iostream>
+#include "sortingdialog.h"
 
 TransformerItem::TransformerItem(QTreeWidget *view, const QString &file, const QString &outfile) :
     QTreeWidgetItem(view)
@@ -20,7 +21,7 @@ TransformerItem::TransformerItem(QTreeWidget *view, const QString &file, const Q
 TransformerItem::TransformerItem(QTreeWidget *view, const QStringList &files, const QString &outfile) :
     QTreeWidgetItem(view)
 {
-    setText(1, "(Combine) " + QFileInfo(outfile).fileName());
+    setText(1, "(Link) " + QFileInfo(outfile).fileName());
     this->files = files;
     this->outfile = outfile;
 }
@@ -33,8 +34,11 @@ Transformer::Transformer(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->addPushButton, SIGNAL(clicked()), this, SLOT(onAddButton()));
     connect(ui->delPushButton, SIGNAL(clicked()), this, SLOT(onDelButton()));
+    connect(ui->linkPushButton, SIGNAL(clicked()), this, SLOT(onLinkButton()));
     connect(ui->startPushButton, SIGNAL(clicked()), this, SLOT(onStartButton()));
+    connect(ui->treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(onListDoubleClicked(QTreeWidgetItem*)));
     process = new QProcess(this);
+    sortingDialog = new SortingDialog(this);
     connect(process, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(readOutput()));
@@ -57,20 +61,6 @@ void Transformer::onAddButton()
     QStringList files = QFileDialog::getOpenFileNames(this);
     if (files.isEmpty())
         return;
-    if (files.size() > 1) //combine
-    {
-        if (QMessageBox::Yes == QMessageBox::question(this, "Combine", tr("Combine videos?"), QMessageBox::Yes, QMessageBox::No))
-        {
-            QString outfile = QFileDialog::getSaveFileName(this, tr("Set out file name"));
-            if (outfile.isEmpty())
-                return;
-            if (!QFileInfo(outfile).fileName().contains('.'))
-                outfile += ".mp4";
-            new TransformerItem(ui->treeWidget, files, outfile);
-            return;
-        }
-    }
-    //transform
     QDir dir(QFileDialog::getExistingDirectory(this, tr("Choose save directory")));
     while (!files.isEmpty()) //transform
     {
@@ -78,6 +68,35 @@ void Transformer::onAddButton()
         QString outfile = QFileInfo(file).baseName() + "_out.mp4";
         new TransformerItem(ui->treeWidget, file, dir.filePath(outfile));
     }
+}
+
+void Transformer::onLinkButton()
+{
+    QStringList files = QFileDialog::getOpenFileNames(this, tr("Please select videos you want to link"));
+    if (files.isEmpty())
+        return;
+    // Sort files
+    sortingDialog->execDialog(files);
+    if (files.isEmpty())
+        return;
+
+    QString outfile = sortingDialog->saveTo();
+    new TransformerItem(ui->treeWidget, files, outfile);
+}
+
+void Transformer::onListDoubleClicked(QTreeWidgetItem *item)
+{
+    TransformerItem *it = static_cast<TransformerItem*>(item);
+    if (hasTask() || it->files.isEmpty()) // Transforming or it is a single-video task
+        return;
+    sortingDialog->execDialog(it->files, it->outfile);
+    if (it->files.isEmpty())
+    {
+        delete it;
+        return;
+    }
+    it->outfile = sortingDialog->saveTo();
+    it->setText(1, "(Link) " + QFileInfo(it->outfile).fileName());
 }
 
 void Transformer::onDelButton()
@@ -98,6 +117,7 @@ void Transformer::onStartButton()
     {
         ui->startPushButton->setEnabled(false);
         ui->addPushButton->setEnabled(false);
+        ui->linkPushButton->setEnabled(false);
         ui->tabWidget->setEnabled(false);
 
         //read audio settings
@@ -174,6 +194,7 @@ void Transformer::onFinished(int status)
     {
         ui->startPushButton->setEnabled(true);
         ui->addPushButton->setEnabled(true);
+        ui->linkPushButton->setEnabled(true);
         ui->tabWidget->setEnabled(true);
     }
 }

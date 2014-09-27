@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QTreeWidgetItem>
 class QProcess;
+class QTreeWidgetItem;
+class SortingDialog;
 
 namespace Ui {
 class Transformer;
@@ -30,6 +32,7 @@ public:
     
 private:
     Ui::Transformer *ui;
+    SortingDialog *sortingDialog;
     QTimer *timer;
     QProcess *process;
     QStringList args;
@@ -40,9 +43,11 @@ private:
 
 private slots:
     void onAddButton(void);
+    void onLinkButton(void);
     void onDelButton(void);
     void onStartButton(void);
     void onFinished(int status);
+    void onListDoubleClicked(QTreeWidgetItem *item);
     void readOutput(void);
 };
 

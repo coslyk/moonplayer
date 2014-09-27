@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     downloader.cpp \
     plugins.cpp \
     pyapi.cpp \
-    transformer.cpp
+    transformer.cpp \
+    sortingdialog.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -41,14 +42,16 @@ HEADERS  += player.h \
     downloader.h \
     plugins.h \
     pyapi.h \
-    transformer.h
+    transformer.h \
+    sortingdialog.h
 
 
 FORMS    += \
     player.ui \
     playlist.ui \
     settings.ui \
-    transformer.ui
+    transformer.ui \
+    sortingdialog.ui
 
 
 unix {
