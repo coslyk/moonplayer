@@ -223,6 +223,7 @@ void Player::setFullScreen()
 bool Player::eventFilter(QObject *obj, QEvent *e)
 {
     static QPoint windowPos, mousePos, dPos;
+    static bool ctrl_pressed = false;
 
     //Move window
     if (obj == ui->titleBar)
@@ -259,30 +260,59 @@ bool Player::eventFilter(QObject *obj, QEvent *e)
     }
 
     //key pressed
+    else if (e->type() == QEvent::KeyRelease)
+    {
+        QKeyEvent *ke = static_cast<QKeyEvent*>(e);
+        if (ke->key() == Qt::Key_Control)
+        {
+            ctrl_pressed = false;
+            return true;
+        }
+        return false;
+    }
     else if (e->type() == QEvent::KeyPress)
     {
-        if (mplayer->state == MPlayer::STOPPING)
-            return false;
         QKeyEvent *ke = static_cast<QKeyEvent*>(e);
         switch (ke->key())
         {
+        case Qt::Key_Control:
+            ctrl_pressed = true;
+            return true;
         case Qt::Key_S:
             mplayer->screenShot();
+            return true;
+        case Qt::Key_Return:
+            setFullScreen();
+            return true;
+        case Qt::Key_F3:
+            hidePlaylist();
             return true;
         case Qt::Key_Space:
             mplayer->changeState();
             return true;
+        case Qt::Key_R:
+            mplayer->speedSetToDefault();
+            return true;
         case Qt::Key_Left: 
-            ui->progressBar->setValue(ui->progressBar->value() - 1);
+            if (ctrl_pressed)
+                mplayer->speedDown();
+            else
+                ui->progressBar->setValue(ui->progressBar->value() - 1);
             return true;
+
         case Qt::Key_Right:
-            ui->progressBar->setValue(ui->progressBar->value() + 1);
+            if (ctrl_pressed)
+                mplayer->speedUp();
+            else
+                ui->progressBar->setValue(ui->progressBar->value() + 1);
             return true;
+
         case Qt::Key_Up:
             ui->volumeSlider->setValue(ui->volumeSlider->value() + 1);
             return true;
         case Qt::Key_Down:
             ui->volumeSlider->setValue(ui->volumeSlider->value() - 1);
+            return true;
         default:return false;
         }
     }

@@ -10,6 +10,7 @@
 #include <QMouseEvent>
 #include <QLabel>
 #include <QDir>
+#include <QKeySequence>
 #include <iostream>
 using namespace std;
 
@@ -52,13 +53,18 @@ MPlayer::MPlayer(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(updateTime()));
 
     //set menu
-    QMenu* ratio_menu = new QMenu(tr("Ratio"));
+    QMenu *ratio_menu = new QMenu(tr("Ratio"));
     ratio_menu->addAction("4:3", this, SLOT(setRatio_4_3()));
     ratio_menu->addAction("16:9", this, SLOT(setRatio_16_9()));
     ratio_menu->addAction("16:10", this, SLOT(setRatio_16_10()));
     ratio_menu->addAction(tr("Default"), this, SLOT(setRatio_0()));
 
-    QMenu* channel_menu = new QMenu(tr("Channel"));
+    QMenu *speed_menu = new QMenu(tr("Speed"));
+    speed_menu->addAction("Speed up", this, SLOT(speedUp()), QKeySequence("Ctrl+Right"));
+    speed_menu->addAction("Speed down", this, SLOT(speedDown()), QKeySequence("Ctrl+Left"));
+    speed_menu->addAction("Default", this, SLOT(speedSetToDefault()), QKeySequence("R"));
+
+    QMenu *channel_menu = new QMenu(tr("Channel"));
     leftChannelAction   = channel_menu->addAction(tr("Left"), this, SLOT(setChannelToLeft()));
     rightChannelAction  = channel_menu->addAction(tr("Right"), this, SLOT(setChannelToRight()));
     normalChannelAction = channel_menu->addAction(tr("Normal"), this, SLOT(setChannelToNormal()));
@@ -69,9 +75,10 @@ MPlayer::MPlayer(QWidget *parent) :
     channel = CHANNEL_NORMAL;
 
     menu = new QMenu(this);
-    screenShotAction = menu->addAction(tr("Screenshot (Shortcut:s)"), this, SLOT(screenShot()));
+    screenShotAction = menu->addAction(tr("Screenshot"), this, SLOT(screenShot()), QKeySequence("S"));
     menu->addSeparator();
     menu->addMenu(ratio_menu);
+    menu->addMenu(speed_menu);
     menu->addMenu(channel_menu);
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
@@ -244,6 +251,7 @@ void MPlayer::openFile(const QString& filename)
         args << filename;
     //set state
     state = TV_PLAYING; //If playing video, state will reset later in MPlayer::cb_start()
+    speed = 1.0;
 
     //start
     process->start("mplayer", args);
@@ -269,6 +277,8 @@ void MPlayer::cb_start(QString& msg)
 /* Change state between pausing and playing. */
 void MPlayer::changeState()
 {
+    if (state == STOPPING)
+        return;
     process->write("pause\n");
     switch (state)
     {
@@ -534,5 +544,33 @@ void MPlayer::screenShot()
     {
         writeToMplayer("screenshot 0\n");
         writeToMplayer("osd_show_text \"Screenshot has been saved.\" 3000 1\n");
+    }
+}
+
+// Set speed
+void MPlayer::speedUp()
+{
+    if (speed < 2.0 && state != STOPPING)
+    {
+        speed += 0.1;
+        writeToMplayer("speed_set " + QByteArray::number(speed) + '\n');
+    }
+}
+
+void MPlayer::speedDown()
+{
+    if (speed > 0.5 && state != STOPPING)
+    {
+        speed -= 0.1;
+        writeToMplayer("speed_set " + QByteArray::number(speed) + '\n');
+    }
+}
+
+void MPlayer::speedSetToDefault()
+{
+    if (state != STOPPING)
+    {
+        speed = 1;
+        writeToMplayer("speed_set 1\n");
     }
 }

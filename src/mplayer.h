@@ -42,6 +42,9 @@ public slots:
     void setVolume(int percentage);
     void openFile(const QString&);
     void screenShot(void);
+    void speedUp(void);
+    void speedDown(void);
+    void speedSetToDefault(void);
 
 protected:
     void resizeEvent(QResizeEvent *);
@@ -78,6 +81,7 @@ private:
     int length;
     int time_offset;
     int w, h;
+    float speed;
     bool is_waiting;
     bool stop_called;
     bool is_mplayer2;

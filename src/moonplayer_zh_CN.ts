@@ -51,39 +51,48 @@
 <context>
     <name>MPlayer</name>
     <message>
-        <location filename="mplayer.cpp" line="55"/>
+        <location filename="mplayer.cpp" line="56"/>
         <source>Ratio</source>
         <translation type="unfinished">宽高比</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="59"/>
+        <location filename="mplayer.cpp" line="60"/>
         <source>Default</source>
         <translation type="unfinished">默认</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="61"/>
+        <location filename="mplayer.cpp" line="62"/>
+        <source>Speed</source>
+        <translation type="unfinished">播放速度</translation>
+    </message>
+    <message>
+        <location filename="mplayer.cpp" line="67"/>
         <source>Channel</source>
         <translation type="unfinished">声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="62"/>
+        <location filename="mplayer.cpp" line="68"/>
         <source>Left</source>
         <translation type="unfinished">左声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="63"/>
+        <location filename="mplayer.cpp" line="69"/>
         <source>Right</source>
         <translation type="unfinished">右声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="64"/>
+        <location filename="mplayer.cpp" line="70"/>
         <source>Normal</source>
         <translation type="unfinished">立体声</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="72"/>
+        <location filename="mplayer.cpp" line="78"/>
+        <source>Screenshot</source>
+        <translation type="unfinished">截图</translation>
+    </message>
+    <message>
         <source>Screenshot (Shortcut:s)</source>
-        <translation type="unfinished">截图 (快捷键：s)</translation>
+        <translation type="obsolete">截图 (快捷键：s)</translation>
     </message>
 </context>
 <context>
@@ -586,7 +595,7 @@
     <message>
         <location filename="transformer.ui" line="236"/>
         <source>Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">视频合并</translation>
     </message>
     <message>
         <location filename="transformer.ui" line="135"/>
