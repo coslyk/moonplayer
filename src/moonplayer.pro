@@ -6,6 +6,7 @@
 
 QT       += core gui network xml
 unix: QT += dbus
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 
 TARGET = moonplayer
@@ -18,14 +19,14 @@ SOURCES += main.cpp\
     playlist.cpp \
     webvideo.cpp \
     skin.cpp \
-    settings.cpp \
     parser.cpp \
     httpget.cpp \
     downloader.cpp \
     plugins.cpp \
     pyapi.cpp \
     transformer.cpp \
-    sortingdialog.cpp
+    sortingdialog.cpp \
+    settingsdialog.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -36,22 +37,25 @@ HEADERS  += player.h \
     playlist.h \
     webvideo.h \
     skin.h \
-    settings.h \
     parser.h \
     httpget.h \
     downloader.h \
     plugins.h \
     pyapi.h \
     transformer.h \
-    sortingdialog.h
+    sortingdialog.h \
+    settings_player.h \
+    settings_video.h \
+    settings_network.h \
+    settingsdialog.h
 
 
 FORMS    += \
     player.ui \
     playlist.ui \
-    settings.ui \
     transformer.ui \
-    sortingdialog.ui
+    sortingdialog.ui \
+    settingsdialog.ui
 
 
 unix {

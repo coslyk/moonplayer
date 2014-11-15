@@ -1,8 +1,9 @@
 #include "pyapi.h"
-#include "settings.h"
+#include "settings_network.h"
 #include "webvideo.h"
 #include "downloader.h"
 #include "playlist.h"
+#include "mplayer.h"
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -246,6 +247,16 @@ static PyObject *play(PyObject *, PyObject *args)
     return Py_None;
 }
 
+static PyObject *play_directly(PyObject *, PyObject *args)
+{
+    const char *url = NULL;
+    if (!PyArg_ParseTuple(args, "s", &url))
+        return NULL;
+    mplayer->openFile(QString::fromUtf8(url));
+    Py_IncRef(Py_None);
+    return Py_None;
+}
+
 /*******************
  ** Define module **
  *******************/
@@ -253,12 +264,13 @@ static PyObject *play(PyObject *, PyObject *args)
 static PyMethodDef methods[] = {
     {"get_url",          get_url,    METH_VARARGS, "Get url"},
     {"warn",             warn,       METH_VARARGS, "Show warning message"},
-    {"question",       question,  METH_VARARGS, "Show a question dialog"},
-    {"show_list",       show_list, METH_VARARGS, "Show searching result on the list"},
-    {"show_album", show_album, METH_VARARGS, "Show album result on the list"},
+    {"question",         question,   METH_VARARGS, "Show a question dialog"},
+    {"show_list",        show_list,  METH_VARARGS, "Show searching result on the list"},
+    {"show_album",       show_album, METH_VARARGS, "Show album result on the list"},
     {"set_list_item_color", set_list_item_color, METH_VARARGS, "Set the color of list items"},
-    {"download",  download,  METH_VARARGS, "Download file"},
-    {"play",      play,      METH_VARARGS, "Play online"},
+    {"download",      download,      METH_VARARGS, "Download file"},
+    {"play",          play,          METH_VARARGS, "Play online"},
+    {"play_directly", play_directly, METH_VARARGS, "Play an url without adding it to playlist"},
     {NULL, NULL, 0, NULL}
 };
 

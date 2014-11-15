@@ -1,5 +1,6 @@
 #include "mplayer.h"
-#include "settings.h"
+#include "settings_video.h"
+#include "settings_network.h"
 #include <QProcess>
 #include <QColor>
 #include <QSize>
@@ -13,6 +14,8 @@
 #include <QKeySequence>
 #include <iostream>
 using namespace std;
+
+MPlayer *mplayer = NULL;
 
 MPlayer::MPlayer(QWidget *parent) :
     QWidget(parent)
@@ -60,9 +63,9 @@ MPlayer::MPlayer(QWidget *parent) :
     ratio_menu->addAction(tr("Default"), this, SLOT(setRatio_0()));
 
     QMenu *speed_menu = new QMenu(tr("Speed"));
-    speed_menu->addAction("Speed up", this, SLOT(speedUp()), QKeySequence("Ctrl+Right"));
-    speed_menu->addAction("Speed down", this, SLOT(speedDown()), QKeySequence("Ctrl+Left"));
-    speed_menu->addAction("Default", this, SLOT(speedSetToDefault()), QKeySequence("R"));
+    speed_menu->addAction(tr("Speed up"), this, SLOT(speedUp()), QKeySequence("Ctrl+Right"));
+    speed_menu->addAction(tr("Speed down"), this, SLOT(speedDown()), QKeySequence("Ctrl+Left"));
+    speed_menu->addAction(tr("Default"), this, SLOT(speedSetToDefault()), QKeySequence("R"));
 
     QMenu *channel_menu = new QMenu(tr("Channel"));
     leftChannelAction   = channel_menu->addAction(tr("Left"), this, SLOT(setChannelToLeft()));
@@ -98,6 +101,7 @@ MPlayer::MPlayer(QWidget *parent) :
     for (int i = 0; i < list.size(); i += 2)
         unfinished_time[list[i]] = list[i + 1].toInt();
 #endif
+    mplayer = this;
 }
 
 
@@ -251,6 +255,8 @@ void MPlayer::openFile(const QString& filename)
         args << filename;
     //set state
     state = TV_PLAYING; //If playing video, state will reset later in MPlayer::cb_start()
+    length = 0;
+    progress = 0;
     speed = 1.0;
 
     //start
@@ -260,7 +266,7 @@ void MPlayer::openFile(const QString& filename)
 void MPlayer::cb_start(QString& msg)
 {
     float l = msg.section('=', 1, 1).simplified().toFloat();
-    if (l != 0.0) //playing video, not TV
+    if (l != 0.0f) //playing video, not TV
     {
         state = VIDEO_PLAYING;
         timer->start(1000);
@@ -277,7 +283,7 @@ void MPlayer::cb_start(QString& msg)
 /* Change state between pausing and playing. */
 void MPlayer::changeState()
 {
-    if (state == STOPPING)
+    if (state == STOPPING || state == TV_PLAYING)
         return;
     process->write("pause\n");
     switch (state)
@@ -290,14 +296,6 @@ void MPlayer::changeState()
     case VIDEO_PAUSING:
         timer->start(1000);
         state = VIDEO_PLAYING;
-        emit played();
-        break;
-    case TV_PLAYING:
-        state = TV_PAUSING;
-        emit paused();
-        break;
-    case TV_PAUSING:
-        state = TV_PLAYING;
         emit played();
         break;
     default:break;
@@ -397,7 +395,7 @@ void MPlayer::readOutput()
 
 void MPlayer::writeToMplayer(const QByteArray &msg)
 {
-    if (!is_mplayer2 && (state == VIDEO_PAUSING || state == TV_PAUSING))
+    if (!is_mplayer2 && state == VIDEO_PAUSING)
         process->write("pausing_keep_force " + msg);
     else
         process->write(msg);

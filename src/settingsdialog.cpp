@@ -1,5 +1,8 @@
-#include "settings.h"
-#include "ui_settings.h"
+#include "settingsdialog.h"
+#include "settings_network.h"
+#include "settings_player.h"
+#include "settings_video.h"
+#include "ui_settingsdialog.h"
 #include <QDir>
 #include <QSettings>
 #include <QButtonGroup>
@@ -25,10 +28,12 @@ bool Settings::useSkin;
 bool Settings::rememberUnfinished;
 enum Settings::Quality Settings::quality;
 
+using namespace Settings;
+
 //Show settings dialog
-Settings::Settings(QWidget *parent) :
+SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Settings)
+    ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
@@ -44,7 +49,7 @@ Settings::Settings(QWidget *parent) :
 }
 
 //Load settings
-void Settings::loadSettings()
+void SettingsDialog::loadSettings()
 {
     ui->voComboBox->setCurrentIndex(ui->voComboBox->findText(vout));
     ui->skinComboBox->setCurrentIndex(currentSkin);
@@ -70,7 +75,7 @@ void Settings::loadSettings()
     }
 }
 
-void Settings::onDirButton()
+void SettingsDialog::onDirButton()
 {
     QString dir = QFileDialog::getExistingDirectory(this);
     if (!dir.isEmpty())
@@ -78,7 +83,7 @@ void Settings::onDirButton()
 }
 
 //Save settings
-void Settings::saveSettings()
+void SettingsDialog::saveSettings()
 {
     vout = ui->voComboBox->currentText();
     proxy = ui->proxyEdit->text().simplified();
@@ -124,13 +129,13 @@ void Settings::saveSettings()
 }
 
 
-Settings::~Settings()
+SettingsDialog::~SettingsDialog()
 {
     delete ui;
 }
 
 //Init settings
-void Settings::initSettings()
+void initSettings()
 {
     //open file
 #ifdef Q_OS_WIN

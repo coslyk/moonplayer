@@ -3,7 +3,8 @@
 #include "mplayer.h"
 #include "playlist.h"
 #include "webvideo.h"
-#include "settings.h"
+#include "settingsdialog.h"
+#include "settings_player.h"
 #include "downloader.h"
 #include "transformer.h"
 #include "skin.h"
@@ -285,7 +286,8 @@ bool Player::eventFilter(QObject *obj, QEvent *e)
             setFullScreen();
             return true;
         case Qt::Key_F3:
-            hidePlaylist();
+            if (!is_fullscreen)
+                hidePlaylist();
             return true;
         case Qt::Key_Space:
             mplayer->changeState();
@@ -355,10 +357,10 @@ void Player::onStopped()
 //open setting dialog
 void Player::onSetButton()
 {
-    static Settings* dialog = NULL;
+    static SettingsDialog *dialog = NULL;
     int oldSkin = Settings::useSkin ? Settings::currentSkin : -1;
     if (dialog == NULL)
-        dialog = new Settings(this);
+        dialog = new SettingsDialog(this);
     onNeedPause(true);
     dialog->exec();
 

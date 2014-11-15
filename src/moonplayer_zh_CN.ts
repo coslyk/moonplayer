@@ -51,42 +51,53 @@
 <context>
     <name>MPlayer</name>
     <message>
-        <location filename="mplayer.cpp" line="56"/>
+        <location filename="mplayer.cpp" line="59"/>
         <source>Ratio</source>
         <translation type="unfinished">宽高比</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="60"/>
+        <location filename="mplayer.cpp" line="63"/>
+        <location filename="mplayer.cpp" line="68"/>
         <source>Default</source>
         <translation type="unfinished">默认</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="62"/>
+        <location filename="mplayer.cpp" line="65"/>
         <source>Speed</source>
         <translation type="unfinished">播放速度</translation>
     </message>
     <message>
+        <location filename="mplayer.cpp" line="66"/>
+        <source>Speed up</source>
+        <translation type="unfinished">加速</translation>
+    </message>
+    <message>
         <location filename="mplayer.cpp" line="67"/>
+        <source>Speed down</source>
+        <translation type="unfinished">减速</translation>
+    </message>
+    <message>
+        <location filename="mplayer.cpp" line="70"/>
         <source>Channel</source>
         <translation type="unfinished">声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="68"/>
+        <location filename="mplayer.cpp" line="71"/>
         <source>Left</source>
         <translation type="unfinished">左声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="69"/>
+        <location filename="mplayer.cpp" line="72"/>
         <source>Right</source>
         <translation type="unfinished">右声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="70"/>
+        <location filename="mplayer.cpp" line="73"/>
         <source>Normal</source>
         <translation type="unfinished">立体声</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="78"/>
+        <location filename="mplayer.cpp" line="81"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
@@ -147,43 +158,43 @@
         <translation type="obsolete">缓冲中，请稍后...</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="74"/>
+        <location filename="player.cpp" line="75"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="81"/>
+        <location filename="player.cpp" line="82"/>
         <source>Player</source>
         <translation type="unfinished">播放器</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="82"/>
+        <location filename="player.cpp" line="83"/>
         <source>Online video</source>
         <oldsource>Search videos</oldsource>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="83"/>
+        <location filename="player.cpp" line="84"/>
         <source>Transform video</source>
         <translation type="unfinished">视频转码</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="84"/>
+        <location filename="player.cpp" line="85"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="86"/>
+        <location filename="player.cpp" line="87"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="142"/>
+        <location filename="player.cpp" line="143"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="153"/>
+        <location filename="player.cpp" line="154"/>
         <source>Some files are being transformed. Do you still want to close?</source>
         <translation type="unfinished">一些视频正在转码。确认关闭吗？</translation>
     </message>
@@ -273,14 +284,12 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="settings.ui" line="20"/>
         <source>Settings</source>
-        <translation type="unfinished">设置</translation>
+        <translation type="obsolete">设置</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="27"/>
         <source>Player</source>
-        <translation type="unfinished">播放器</translation>
+        <translation type="obsolete">播放器</translation>
     </message>
     <message>
         <source>Show playlist automatically</source>
@@ -291,188 +300,317 @@
         <translation type="obsolete">皮肤：</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="36"/>
         <source>Resize window automatically</source>
-        <translation type="unfinished">自动调整窗口大小</translation>
+        <translation type="obsolete">自动调整窗口大小</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="43"/>
         <source>Need screenshot filter (-vf-add screenshot)</source>
-        <translation type="unfinished">需要screenshot滤镜(-vf-add screenshot)</translation>
+        <translation type="obsolete">需要screenshot滤镜(-vf-add screenshot)</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="46"/>
         <source>Enable screenshot</source>
-        <translation type="unfinished">启用截图</translation>
+        <translation type="obsolete">启用截图</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="53"/>
         <source>Skin</source>
-        <translation type="unfinished">皮肤</translation>
+        <translation type="obsolete">皮肤</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="63"/>
         <source>Remember unfinished clips</source>
-        <translation type="unfinished">记住未播放完的片段</translation>
+        <translation type="obsolete">记住未播放完的片段</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="71"/>
         <source>Video</source>
-        <translation type="unfinished">视频</translation>
+        <translation type="obsolete">视频</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="79"/>
         <source>Video Output</source>
-        <translation type="unfinished">视频输出</translation>
+        <translation type="obsolete">视频输出</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="87"/>
-        <source>xv</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="settings.ui" line="92"/>
-        <source>vdpau</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="settings.ui" line="97"/>
-        <source>vaapi</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="settings.ui" line="102"/>
-        <source>directx</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="settings.ui" line="107"/>
-        <source>direct3d</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="settings.ui" line="112"/>
-        <source>gl</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="settings.ui" line="117"/>
-        <source>x11</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="settings.ui" line="131"/>
         <source>The default output in Linux. Cannot be used in Windows.</source>
-        <translation type="unfinished">Linux默认视频输出。Windows下不可用。</translation>
+        <translation type="obsolete">Linux默认视频输出。Windows下不可用。</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="145"/>
         <source>Nvidia hardware decoding in Linux.</source>
-        <translation type="unfinished">Linux 下的Nvidia显卡硬件解码。</translation>
+        <translation type="obsolete">Linux 下的Nvidia显卡硬件解码。</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="152"/>
         <source>Enable ffodivxvdpau</source>
-        <translation type="unfinished">启用ffodivxvdpau</translation>
+        <translation type="obsolete">启用ffodivxvdpau</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="163"/>
         <source>Enable Intel/Ati hardware decoding in Linux. Cannot be used in Windows.</source>
-        <translation type="unfinished">Linux下Intel/Ati硬件加速。Windows下不可用。</translation>
+        <translation type="obsolete">Linux下Intel/Ati硬件加速。Windows下不可用。</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="177"/>
         <source>Default output in Windows. Cannot be used in Linux.</source>
-        <translation type="unfinished">Windows默认视频输出。Linux下不可用。</translation>
+        <translation type="obsolete">Windows默认视频输出。Linux下不可用。</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="191"/>
         <source>Default output in Windows Vista and Windows 7. Cannot be used in Linux and Windows XP.</source>
-        <translation type="unfinished">Windows vista和Win7默认视频输出。Linux和WinXP下不可用。</translation>
+        <translation type="obsolete">Windows vista和Win7默认视频输出。Linux和WinXP下不可用。</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="205"/>
         <source>OpenGL Output in Linux. You can try it if xv does not work.</source>
-        <translation type="unfinished">Linux下的OpenGL视频输出。如果xv无法正常工作，您可以尝试。</translation>
+        <translation type="obsolete">Linux下的OpenGL视频输出。如果xv无法正常工作，您可以尝试。</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="219"/>
         <source>Output in Linux. You can try it if xv does not work.</source>
-        <translation type="unfinished">Linux下的视频输出。如果xv无法正常工作，您可以尝试。</translation>
+        <translation type="obsolete">Linux下的视频输出。如果xv无法正常工作，您可以尝试。</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="233"/>
         <source>Double buffer</source>
-        <translation type="unfinished">双缓冲</translation>
+        <translation type="obsolete">双缓冲</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="240"/>
         <source>Allow framedrop</source>
-        <translation type="unfinished">允许丢帧</translation>
+        <translation type="obsolete">允许丢帧</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="247"/>
         <source>Try fixing &quot;stop at last frame&quot; problem</source>
-        <translation type="unfinished">尝试修复“卡在最后一帧”问题</translation>
+        <translation type="obsolete">尝试修复“卡在最后一帧”问题</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="255"/>
         <source>Internet</source>
-        <translation type="unfinished">网络</translation>
+        <translation type="obsolete">网络</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="342"/>
         <source>Max tasks</source>
-        <translation type="unfinished">最大任务数</translation>
+        <translation type="obsolete">最大任务数</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="366"/>
         <source>Cache(KB):</source>
-        <translation type="unfinished">缓冲大小(KB):</translation>
+        <translation type="obsolete">缓冲大小(KB):</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="373"/>
         <source>Cache min:</source>
-        <translation type="unfinished">缓冲百分比:</translation>
+        <translation type="obsolete">缓冲百分比:</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="300"/>
         <source>Video quality:</source>
-        <translation type="unfinished">视频质量：</translation>
+        <translation type="obsolete">视频质量：</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="356"/>
         <source>Save to:</source>
-        <translation type="unfinished">保存至：</translation>
+        <translation type="obsolete">保存至：</translation>
     </message>
     <message>
         <source>Retry times</source>
         <translation type="obsolete">重试次数</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="263"/>
+        <source>Http proxy</source>
+        <translation type="obsolete">Http代理</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation type="obsolete">端口</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="obsolete">标清</translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation type="obsolete">高清</translation>
+    </message>
+    <message>
+        <source>Super</source>
+        <translation type="obsolete">超清</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsDialog</name>
+    <message>
+        <location filename="settingsdialog.ui" line="20"/>
+        <source>Settings</source>
+        <translation type="unfinished">设置</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="27"/>
+        <source>Player</source>
+        <translation type="unfinished">播放器</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="36"/>
+        <source>Resize window automatically</source>
+        <translation type="unfinished">自动调整窗口大小</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="43"/>
+        <source>Need screenshot filter (-vf-add screenshot)</source>
+        <translation type="unfinished">需要screenshot滤镜(-vf-add screenshot)</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="46"/>
+        <source>Enable screenshot</source>
+        <translation type="unfinished">启用截图</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="53"/>
+        <source>Skin</source>
+        <translation type="unfinished">皮肤</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="63"/>
+        <source>Remember unfinished clips</source>
+        <translation type="unfinished">记住未播放完的片段</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="71"/>
+        <source>Video</source>
+        <translation type="unfinished">视频</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="79"/>
+        <source>Video Output</source>
+        <translation type="unfinished">视频输出</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="87"/>
+        <source>xv</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="92"/>
+        <source>vdpau</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="97"/>
+        <source>vaapi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="102"/>
+        <source>directx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="107"/>
+        <source>direct3d</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="112"/>
+        <source>gl</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="117"/>
+        <source>x11</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="131"/>
+        <source>The default output in Linux. Cannot be used in Windows.</source>
+        <translation type="unfinished">Linux默认视频输出。Windows下不可用。</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="145"/>
+        <source>Nvidia hardware decoding in Linux.</source>
+        <translation type="unfinished">Linux 下的Nvidia显卡硬件解码。</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="152"/>
+        <source>Enable ffodivxvdpau</source>
+        <translation type="unfinished">启用ffodivxvdpau</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="163"/>
+        <source>Enable Intel/Ati hardware decoding in Linux. Cannot be used in Windows.</source>
+        <translation type="unfinished">Linux下Intel/Ati硬件加速。Windows下不可用。</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="177"/>
+        <source>Default output in Windows. Cannot be used in Linux.</source>
+        <translation type="unfinished">Windows默认视频输出。Linux下不可用。</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="191"/>
+        <source>Default output in Windows Vista and Windows 7. Cannot be used in Linux and Windows XP.</source>
+        <translation type="unfinished">Windows vista和Win7默认视频输出。Linux和WinXP下不可用。</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="205"/>
+        <source>OpenGL Output in Linux. You can try it if xv does not work.</source>
+        <translation type="unfinished">Linux下的OpenGL视频输出。如果xv无法正常工作，您可以尝试。</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="219"/>
+        <source>Output in Linux. You can try it if xv does not work.</source>
+        <translation type="unfinished">Linux下的视频输出。如果xv无法正常工作，您可以尝试。</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="233"/>
+        <source>Double buffer</source>
+        <translation type="unfinished">双缓冲</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="240"/>
+        <source>Allow framedrop</source>
+        <translation type="unfinished">允许丢帧</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="247"/>
+        <source>Try fixing &quot;stop at last frame&quot; problem</source>
+        <translation type="unfinished">尝试修复“卡在最后一帧”问题</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="255"/>
+        <source>Internet</source>
+        <translation type="unfinished">网络</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="263"/>
         <source>Http proxy</source>
         <translation type="unfinished">Http代理</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="273"/>
+        <location filename="settingsdialog.ui" line="273"/>
         <source>Port</source>
         <translation type="unfinished">端口</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="307"/>
+        <location filename="settingsdialog.ui" line="300"/>
+        <source>Video quality:</source>
+        <translation type="unfinished">视频质量：</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="307"/>
         <source>Normal</source>
         <translation type="unfinished">标清</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="314"/>
+        <location filename="settingsdialog.ui" line="314"/>
         <source>High</source>
         <translation type="unfinished">高清</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="321"/>
+        <location filename="settingsdialog.ui" line="321"/>
         <source>Super</source>
         <translation type="unfinished">超清</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="342"/>
+        <source>Max tasks</source>
+        <translation type="unfinished">最大任务数</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="356"/>
+        <source>Save to:</source>
+        <translation type="unfinished">保存至：</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="366"/>
+        <source>Cache(KB):</source>
+        <translation type="unfinished">缓冲大小(KB):</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="373"/>
+        <source>Cache min:</source>
+        <translation type="unfinished">缓冲百分比:</translation>
     </message>
 </context>
 <context>

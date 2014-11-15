@@ -2,7 +2,7 @@
 #include <QDir>
 #include <QHash>
 #include "pyapi.h"
-#include "settings.h"
+#include "settings_network.h"
 
 /************************
  ** Initialize plugins **
@@ -47,14 +47,20 @@ void initPlugins()
     }
 }
 
-/*******************
- *** Hosts table ***
- *******************/
+/**************************
+ *** Hosts & name table ***
+ **************************/
 static QHash<QString, Plugin*> host2plugin;
+static QHash<QString, Plugin*> name2plugin;
 
 Plugin *getPluginByHost(const QString &host)
 {
     return host2plugin[host];
+}
+
+Plugin *getPluginByName(const QString &name)
+{
+    return name2plugin[name];
 }
 
 
@@ -83,24 +89,8 @@ Plugin::Plugin(const QString &moduleName)
     searchAlbumFunc = PyObject_GetAttrString(module, "search_album");
     if (searchAlbumFunc == NULL)
         PyErr_Clear();
-
-    //get hosts
-    PyObject *hosts = PyObject_GetAttrString(module, "hosts");
-    if (hosts)
-    {
-        int size = PyTuple_Size(hosts);
-        if (size < 0)
-        {
-            PyErr_Print();
-            exit(EXIT_FAILURE);
-        }
-        for (int i = 0; i < size; i++)
-        {
-            const char *str = PyString_AsString(PyTuple_GetItem(hosts, i));
-            host2plugin[QString::fromUtf8(str)] = this;
-        }
-    }
-    else
+    parseMarkFunc = PyObject_GetAttrString(module, "parse_mark");
+    if (parseMarkFunc == NULL)
         PyErr_Clear();
 
     //get resources library
@@ -133,6 +123,28 @@ Plugin::Plugin(const QString &moduleName)
     }
     else
         PyErr_Clear();
+
+    //get hosts
+    PyObject *hosts = PyObject_GetAttrString(module, "hosts");
+    if (hosts)
+    {
+        int size = PyTuple_Size(hosts);
+        if (size < 0)
+        {
+            PyErr_Print();
+            exit(EXIT_FAILURE);
+        }
+        for (int i = 0; i < size; i++)
+        {
+            const char *str = PyString_AsString(PyTuple_GetItem(hosts, i));
+            host2plugin[QString::fromUtf8(str)] = this;
+        }
+    }
+    else
+        PyErr_Clear();
+
+    // add to name table
+    name2plugin[name] = this;
 }
 
 void Plugin::search(const QString &kw, int page)
@@ -146,12 +158,21 @@ void Plugin::searchAlbum(const QString &kw, int page)
     call_py_func_vsi(searchAlbumFunc, kw.toUtf8().constData(), page);
 }
 
-void Plugin::parse(const char *url,bool is_down)
+void Plugin::parse(const char *url, bool is_down)
 {
     int options = (Settings::quality == Settings::SUPER) ? OPT_QL_SUPER : (Settings::quality == Settings::HIGH) ? OPT_QL_HIGH : 0;
     if (is_down)
         options |= OPT_DOWNLOAD;
     call_py_func_vsi(parseFunc, url, options);
+}
+
+void Plugin::parse_mark(const char *mark)
+{
+    PyObject *ret = PyObject_CallFunction(parseMarkFunc, "s", mark);
+    if (ret == NULL)
+        PyErr_Print();
+    else
+        Py_DecRef(ret);
 }
 
 void Plugin::library(bool is_movie, const QString &type, int page)

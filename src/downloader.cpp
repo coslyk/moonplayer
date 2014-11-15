@@ -10,7 +10,7 @@
 #include <QDir>
 #include <QHash>
 #include "httpget.h"
-#include "settings.h"
+#include "settings_network.h"
 #include <iostream>
 
 Downloader *downloader = NULL;

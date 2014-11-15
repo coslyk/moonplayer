@@ -23,7 +23,7 @@ signals:
     void sizeChanged(QSize &size);
 
 public:
-    typedef enum {STOPPING, VIDEO_PLAYING, VIDEO_PAUSING, TV_PLAYING, TV_PAUSING} MPlayerState;
+    typedef enum {STOPPING, VIDEO_PLAYING, VIDEO_PAUSING, TV_PLAYING} MPlayerState;
     typedef enum {CHANNEL_NORMAL, CHANNEL_LEFT,CHANNEL_RIGHT} Channel;
 
     explicit MPlayer(QWidget *parent = 0);
@@ -95,5 +95,7 @@ private:
     void resizeLayer(void);
     void writeToMplayer(const QByteArray &msg);
 };
+
+extern MPlayer *mplayer;
 
 #endif // MPLAYER_H

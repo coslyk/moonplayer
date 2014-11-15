@@ -1,7 +1,8 @@
 #include <QApplication>
 #include "player.h"
 #include <QTranslator>
-#include "settings.h"
+#include "settingsdialog.h"
+#include "settings_player.h"
 #include "playlist.h"
 #include <QDir>
 #include <QIcon>
@@ -53,7 +54,7 @@ int main(int argc, char *argv[])
     Settings::path = QString(argv[0]).section('\\', 0, -2);
 #endif
     std::cout << "Initialize settings..." << std::endl;
-    Settings::initSettings();
+    initSettings();
 
     std::cout << "Initialize API for Python..." << std::endl;
     initAPI();
