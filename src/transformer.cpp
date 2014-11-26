@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <QTextCodec>
+#include <QShowEvent>
 #include <iostream>
 #include "sortingdialog.h"
 
@@ -42,7 +43,22 @@ Transformer::Transformer(QWidget *parent) :
     connect(process, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(readOutput()));
+
+#ifdef Q_OS_LINUX
+    // Check whether mencoder is installed
+    mencoder_installed = QDir("/usr/bin").exists("mencoder");
+#endif
 }
+
+#ifdef Q_OS_LINUX
+void Transformer::showEvent(QShowEvent *e)
+{
+    if (!mencoder_installed)
+        QMessageBox::warning(this, "Warning",
+                             tr("This function depends on mencoder, but mencoder is not installed in this computer."));
+    e->accept();
+}
+#endif
 
 Transformer::~Transformer()
 {

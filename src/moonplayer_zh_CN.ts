@@ -794,12 +794,17 @@
         <translation type="obsolete">设置输出文件名</translation>
     </message>
     <message>
-        <location filename="transformer.cpp" line="64"/>
+        <location filename="transformer.cpp" line="58"/>
+        <source>This function depends on mencoder, but mencoder is not installed in this computer.</source>
+        <translation type="unfinished">本功能需要mencoder支持，但您未安装mencoder。</translation>
+    </message>
+    <message>
+        <location filename="transformer.cpp" line="80"/>
         <source>Choose save directory</source>
         <translation type="unfinished">选择保存文件夹</translation>
     </message>
     <message>
-        <location filename="transformer.cpp" line="75"/>
+        <location filename="transformer.cpp" line="91"/>
         <source>Please select videos you want to link</source>
         <translation type="unfinished">选择要合并的视频</translation>
     </message>

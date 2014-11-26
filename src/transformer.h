@@ -6,6 +6,7 @@
 class QProcess;
 class QTreeWidgetItem;
 class SortingDialog;
+class QShowEvent;
 
 namespace Ui {
 class Transformer;
@@ -29,6 +30,11 @@ public:
     explicit Transformer(QWidget *parent = 0);
     bool hasTask(void);
     ~Transformer();
+
+#ifdef Q_OS_LINUX
+protected:
+    void showEvent(QShowEvent *e);
+#endif
     
 private:
     Ui::Transformer *ui;
@@ -39,6 +45,10 @@ private:
     TransformerItem *current;
     int current_rest;
     int prev_percentage;
+#ifdef Q_OS_LINUX
+    bool mencoder_installed;
+#endif
+
     void start(TransformerItem *item);
 
 private slots:

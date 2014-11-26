@@ -3,6 +3,9 @@
 #include <QHash>
 #include "pyapi.h"
 #include "settings_network.h"
+#ifdef Q_OS_WIN
+#include "settings_player.h"
+#endif
 
 /************************
  ** Initialize plugins **
