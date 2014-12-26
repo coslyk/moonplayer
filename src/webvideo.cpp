@@ -14,6 +14,7 @@
 #include <QUrl>
 #include "plugins.h"
 #include "pyapi.h"
+#include "utils.h"
 #include <iostream>
 
 WebVideo *webvideo = NULL;
@@ -35,7 +36,6 @@ WebVideo::WebVideo(QWidget *parent) :
 
     QPushButton *downButton = new QPushButton(tr("Down"));
     QPushButton *albumButton = new QPushButton(tr("Album"));
-    QPushButton *libButton = new QPushButton(tr("Library"));
     lineEdit = new QLineEdit;
     prevButton = new QPushButton(tr("Prev"));
     nextButton = new QPushButton(tr("Next"));
@@ -47,16 +47,15 @@ WebVideo::WebVideo(QWidget *parent) :
     QGridLayout *grid = new QGridLayout(page);
     addTab(page, tr("Web videos"));
     grid->addWidget(comboBox, 0, 0, 1, 1);
-    grid->addWidget(lineEdit, 0, 1, 1, 2);
-    grid->addWidget(albumButton, 0, 3, 1, 1);
-    grid->addWidget(libButton, 0, 4, 1, 1);
+    grid->addWidget(lineEdit, 0, 1, 1, 3);
+    grid->addWidget(albumButton, 0, 4, 1, 1);
     grid->addWidget(listWidget, 1, 0, 1, 5);
     grid->addWidget(downButton, 2, 0, 1, 1);
     grid->addWidget(prevButton, 2, 2, 1, 1);
     grid->addWidget(nextButton, 2, 3, 1, 1);
     grid->addWidget(backButton, 2, 4, 1, 1);
     grid->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding), 2, 1);
-    setMinimumSize(400, 300);
+    setMinimumSize(800, 450);
 
     //down search page and parse
     connect(nextButton, SIGNAL(clicked()), this, SLOT(nextSearchPage()));
@@ -64,7 +63,6 @@ WebVideo::WebVideo(QWidget *parent) :
     connect(backButton, SIGNAL(clicked()), this, SLOT(backSearchPage()));
     connect(lineEdit, SIGNAL(returnPressed()), this, SLOT(searchVideo()));
     connect(albumButton, SIGNAL(clicked()), this, SLOT(searchAlbum()));
-    connect(libButton, SIGNAL(clicked()), this, SLOT(library()));
 
     //Download video file
     connect(downButton, SIGNAL(clicked()), this, SLOT(onDownButton()));
@@ -89,34 +87,6 @@ void WebVideo::warnHavingTask()
     QMessageBox::warning(this, "warning", tr("Another file is parsing. Please wait."));
 }
 
-//Get resources library
-void WebVideo::library()
-{
-    int pv = comboBox->currentIndex();
-    if (geturl_obj->hasTask())
-    {
-        warnHavingTask();
-        return;
-    }
-    if (!n_plugins)
-        return;
-    if (!plugins[pv]->supportLibrary())
-    {
-        QMessageBox::warning(this, "Warning", tr("Library is not supported"));
-        return;
-    }
-    bool mv = (QMessageBox::Yes == 
-        QMessageBox::question(this, "dialog", tr("Click Yes to see movies or No to see TV series"), QMessageBox::Yes, QMessageBox::No));
-    bool ok;
-    QString type = QInputDialog::getItem(this, "dialog", tr("Choose a type:"), mv ? plugins[pv]->mvTypes : plugins[pv]->tvTypes, 0, false, &ok);
-    if (ok)
-    {
-        provider = pv;
-        this->type = mv ? TYPE_MOV : TYPE_TV;
-        keyword = type;
-        downSearchPage();
-    }
-}
 
 //Search videos
 void WebVideo::searchVideo()
@@ -170,8 +140,6 @@ void WebVideo::downSearchPage()
     // call plugin
     if (type == TYPE_ALBUM)
         plugins[provider]->searchAlbum(keyword, 1);
-    else if (type == TYPE_MOV || type == TYPE_TV)
-        plugins[provider]->library(type == TYPE_MOV, keyword, 1);
     else
         plugins[provider]->search(keyword, 1);
 }
@@ -191,9 +159,7 @@ void WebVideo::nextSearchPage()
     backButton->setEnabled(false);
     nextButton->setEnabled(true);
     //call plugin
-    if (type == TYPE_TV || type == TYPE_MOV)
-        plugins[provider]->library(type == TYPE_MOV, keyword, page_n);
-    else if (type == TYPE_ALBUM)
+    if (type == TYPE_ALBUM)
         plugins[provider]->searchAlbum(keyword, page_n);
     else
         plugins[provider]->search(keyword, page_n);
@@ -217,9 +183,7 @@ void WebVideo::prevSearchPage()
     backButton->setEnabled(false);
     nextButton->setEnabled(true);
     //call plugin
-    if (type == TYPE_TV || type == TYPE_MOV)
-        plugins[provider]->library(type == TYPE_MOV, keyword, page_n);
-    else if (type == TYPE_ALBUM)
+    if (type == TYPE_ALBUM)
         plugins[provider]->searchAlbum(keyword, page_n);
     else
         plugins[provider]->search(keyword, page_n);
@@ -244,9 +208,7 @@ PyObject* WebVideo::showList(PyObject *list)
     {
          if ((item = PyList_GetItem(list, i)) == NULL)
              return NULL;
-         if ((str = PyString_AsString(item)) == NULL)
-             return NULL;
-        listWidget->addItem(QString::fromUtf8(str));
+        listWidget->addItem(PyString_AsQString(item));
         if ((item = PyList_GetItem(list, i+1)) == NULL)
             return NULL;
         if ((str = PyString_AsString(item)) == NULL)

@@ -1,34 +1,18 @@
 #include "httpget.h"
+#include "accessmanager.h"
 #include <QNetworkAccessManager>
 #include <QApplication>
 #include <QNetworkReply>
-#include <QNetworkProxy>
 #include <QNetworkRequest>
 #include <QFile>
 #include <QDir>
 #include <QTimer>
 #include <iostream>
 
-QNetworkAccessManager* HttpGet::manager = 0;
-
-void HttpGet::setProxy(const QString &proxy, int port)
-{
-    if (manager == 0)
-        manager = new QNetworkAccessManager(qApp);
-    if (proxy.isEmpty())
-        manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
-    else
-        manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
-}
-
 //start download task
 HttpGet::HttpGet(const QUrl &url, const QString &filename, QObject *parent) :
     QObject(parent)
 {
-    //Create access manager
-    if (manager == 0)
-        manager = new QNetworkAccessManager(qApp);
-
     //open file
     last_finished = 0;
     prev_progress = 0;
@@ -55,7 +39,7 @@ void HttpGet::start()
     request.setRawHeader("User-Agent", "moonplayer");
     if (last_finished)
         request.setRawHeader("Range", "bytes=" + QByteArray::number(file->size()) + '-');
-    reply = manager->get(request);
+    reply = access_manager->get(request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
     connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onProgressChanged(qint64,qint64)));

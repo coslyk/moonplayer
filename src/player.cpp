@@ -3,6 +3,7 @@
 #include "mplayer.h"
 #include "playlist.h"
 #include "webvideo.h"
+#include "reslibrary.h"
 #include "settingsdialog.h"
 #include "settings_player.h"
 #include "downloader.h"
@@ -69,6 +70,8 @@ Player::Player(QWidget *parent) :
 
     //Add WebVideo
     webvideo = new WebVideo;
+    reslibrary = new ResLibrary;
+    webvideo->insertTab(0, reslibrary, tr("Resources"));
 
     //add downloader
     downloader = new Downloader;

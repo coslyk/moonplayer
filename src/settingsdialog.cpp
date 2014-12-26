@@ -3,6 +3,9 @@
 #include "settings_player.h"
 #include "settings_video.h"
 #include "ui_settingsdialog.h"
+#include "accessmanager.h"
+#include <QNetworkAccessManager>
+#include <QNetworkProxy>
 #include <QDir>
 #include <QSettings>
 #include <QButtonGroup>
@@ -126,6 +129,10 @@ void SettingsDialog::saveSettings()
     settings.setValue("Net/max_tasks", maxTasks);
     settings.setValue("Net/quality", (int) quality);
     settings.setValue("Net/download_dir", downloadDir);
+    if (proxy.isEmpty())
+        access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+    else
+        access_manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
 }
 
 
@@ -181,6 +188,12 @@ void initSettings()
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
     downloadDir = settings.value("Net/download_dir", QDir::homePath()).toString();
     quality = (Quality) settings.value("Net/quality", 0).toInt();
+
+    //init proxy
+    if (proxy.isEmpty())
+        access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+    else
+        access_manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
 
     //init skins
     QDir skinDir(path);

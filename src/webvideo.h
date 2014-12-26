@@ -35,7 +35,7 @@ private:
     QString keyword;
     int page_n;
     int provider;
-    enum {TYPE_VIDEO, TYPE_ALBUM, TYPE_TV, TYPE_MOV} type;
+    enum {TYPE_VIDEO, TYPE_ALBUM} type;
     void warnHavingTask(void);
     void startPlayOrDown(QListWidgetItem* item);
 
@@ -52,7 +52,6 @@ private slots:
     void backSearchPage(void);
     void searchVideo(void);
     void searchAlbum(void);
-    void library(void);
     void onDoubleClicked(QListWidgetItem *item);
     void onDownButton(void);
 };

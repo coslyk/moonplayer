@@ -6,13 +6,11 @@
 class QString;
 class QFile;
 class QNetworkReply;
-class QNetworkAccessManager;
 
 class HttpGet : public QObject
 {
     Q_OBJECT
 public:
-    static void setProxy(const QString &proxy, int port);
     explicit HttpGet(const QUrl &url, const QString &filename, QObject *parent = 0);
     inline QString &getFileName(void) {return name;}
     void pause(void);
@@ -32,7 +30,6 @@ private:
     int prev_progress;
     qint64 last_finished;
     bool is_paused;
-    static QNetworkAccessManager *manager;
     
 private slots:
     void onFinished(void);

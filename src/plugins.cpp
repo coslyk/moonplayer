@@ -96,36 +96,6 @@ Plugin::Plugin(const QString &moduleName)
     if (parseMarkFunc == NULL)
         PyErr_Clear();
 
-    //get resources library
-    libraryFunc = PyObject_GetAttrString(module, "library");
-    if (libraryFunc == NULL)
-        PyErr_Clear();
-
-    PyObject *types = PyObject_GetAttrString(module, "movie_types");
-    if (types)
-    {
-        for (int i = 0; i < PyList_Size(types); i++)
-        {
-            const char *str = PyString_AsString(PyList_GetItem(types, i));
-            mvTypes << QString::fromUtf8(str);
-        }
-        Py_DecRef(types);
-    }
-    else
-        PyErr_Clear();
-
-    types = PyObject_GetAttrString(module, "tv_types");
-    if (types)
-    {
-        for (int i = 0; i < PyList_Size(types); i++)
-        {
-            const char *str = PyString_AsString(PyList_GetItem(types, i));
-            tvTypes << QString::fromUtf8(str);
-        }
-        Py_DecRef(types);
-    }
-    else
-        PyErr_Clear();
 
     //get hosts
     PyObject *hosts = PyObject_GetAttrString(module, "hosts");
@@ -171,21 +141,10 @@ void Plugin::parse(const char *url, bool is_down)
 
 void Plugin::parse_mark(const char *mark)
 {
+    Q_ASSERT(parseMarkFunc);
     PyObject *ret = PyObject_CallFunction(parseMarkFunc, "s", mark);
     if (ret == NULL)
         PyErr_Print();
     else
         Py_DecRef(ret);
-}
-
-void Plugin::library(bool is_movie, const QString &type, int page)
-{
-    Q_ASSERT(libraryFunc);
-    PyObject *retVal = PyObject_CallFunction(libraryFunc, "isi", is_movie ? LIBTYPE_MOVIE : LIBTYPE_TV,
-                                             type.toUtf8().constData(),
-                                             page);
-    if (retVal)
-        Py_DecRef(retVal);
-    else
-        PyErr_Print();
 }

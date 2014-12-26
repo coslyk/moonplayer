@@ -69,11 +69,7 @@ def parse(url, options):
 def parse_cb(page, options):
     result = parse_flvcd_page(page, None)
     if options & moonplayer.OPT_DOWNLOAD:
-        try:
-            process_redirections(result)
-            moonplayer.download(result, result[0])
-        except:
-            moonplayer.warn('Network error')
+        moonplayer.download(result, result[0])
     else:
         moonplayer.play(result)
     
@@ -121,52 +117,3 @@ def parse_album_cb(content, data):
         moonplayer.get_url(url, parse_album_cb, (prefix, now_page+1, items))
     else:
         moonplayer.show_album(items)
-    
-## Resource library:
-tv_types = ['古装', '武侠', '警匪', '军事', '神话', '科幻', '悬疑', '历史',
-            '儿童', '农村', '都市', '家庭', '搞笑', '偶像', '言情', '时装', '优酷出品']
-movie_types = ['武侠', '警匪', '犯罪', '科幻', '战争', '恐怖', '惊悚', '纪录片',
-               '西部', '戏曲', '歌舞', '奇幻', '冒险', '悬疑', '历史', '动作',
-               '传记', '动画', '儿童', '喜剧', '爱情', '剧情', '运动', '短片', '优酷出品']
-def library(is_movie, tp, page):
-    if is_movie:
-        url = 'http://www.youku.com/v_olist/c_96_g_' + tp + '_fe_1_o_6_p_' + str(page) +'.html'
-    else:
-        url = 'http://www.youku.com/v_olist/c_97_g_' + tp + '_o_6_p_' + str(page) +'.html'
-    moonplayer.get_url(url, library_cb, None)
-    
-def library_cb(content, data):
-    links = list_links(content, 'http://www.youku.com/show_page/id_')
-    moonplayer.show_list(links)
-    
-    
-### Process redirection in Python
-# I don't know why it will raise HTTP 404 error if I directly send
-# original urls to moonplayer. Maybe it is a QtNetwork's bug?
-
-import urllib2
-class RedirectHandler(urllib2.HTTPRedirectHandler):
-    def http_error_301(self, req, fp, code, msg, headers):
-        pass
-    def http_error_302(self, req, fp, code, msg, headers):
-        pass
-
-cookieprocessor = urllib2.HTTPCookieProcessor()
-my_opener = urllib2.build_opener(RedirectHandler, cookieprocessor)
-    
-def get_redirected_url(src_url):
-    req = urllib2.Request(src_url, headers={'User-Agent': 'moonplayer'})
-    try:
-        response = my_opener.open(req, timeout=5)
-        return response.info()['Location']
-    except urllib2.HTTPError, e:
-        if e.code == 301 or e.code == 302:
-            return e.info()['Location']
-        raise e
-    
-def process_redirections(result):
-    for i in xrange(1, len(result), 2):
-        origin = result[i]
-        url = get_redirected_url(origin)
-        result[i] = url
-    return url

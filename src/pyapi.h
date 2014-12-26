@@ -8,7 +8,6 @@
 #include <QObject>
 #include <Python.h>
 
-class QNetworkAccessManager;
 class QNetworkReply;
 
 //////define get_url function for Python
@@ -20,7 +19,6 @@ public:
     void start(const char *url, PyObject *callback, PyObject *_data);
     inline bool hasTask(){return callbackFunc != NULL;}
 private:
-    QNetworkAccessManager *manager;
     PyObject *callbackFunc;
     PyObject *data;
     QNetworkReply *reply;

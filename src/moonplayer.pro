@@ -26,7 +26,12 @@ SOURCES += main.cpp\
     pyapi.cpp \
     transformer.cpp \
     sortingdialog.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    reslibrary.cpp \
+    resplugin.cpp \
+    mybuttongroup.cpp \
+    detailview.cpp \
+    utils.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -47,7 +52,13 @@ HEADERS  += player.h \
     settings_player.h \
     settings_video.h \
     settings_network.h \
-    settingsdialog.h
+    settingsdialog.h \
+    reslibrary.h \
+    resplugin.h \
+    accessmanager.h \
+    mybuttongroup.h \
+    detailview.h \
+    utils.h
 
 
 FORMS    += \
@@ -55,7 +66,9 @@ FORMS    += \
     playlist.ui \
     transformer.ui \
     sortingdialog.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    reslibrary.ui \
+    detailview.ui
 
 
 unix {

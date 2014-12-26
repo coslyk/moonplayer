@@ -24,7 +24,7 @@ public:
     inline bool hasTask(){return n_downloading != 0;}
     
 public slots:
-    void addTask(const QString &url, const QString &filename, bool in_group);
+    void addTask(const QByteArray &url, const QString &filename, bool in_group);
     
 private:
     QTreeWidget *treeWidget;

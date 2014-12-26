@@ -49,7 +49,7 @@ Downloader::Downloader(QWidget *parent) :
 }
 
 
-void Downloader::addTask(const QString &url, const QString &filename, bool in_group)
+void Downloader::addTask(const QByteArray &url, const QString &filename, bool in_group)
 {
     //rename if the same file is exist
     if (QFile::exists(filename))
@@ -58,8 +58,7 @@ void Downloader::addTask(const QString &url, const QString &filename, bool in_gr
             return;
     }
 
-    HttpGet::setProxy(Settings::proxy, Settings::port);
-    HttpGet *get = new HttpGet(url.simplified(), filename, this);
+    HttpGet *get = new HttpGet(QUrl::fromPercentEncoding(url.simplified()), filename, this);
     connect(get, SIGNAL(finished(HttpGet*,bool)), this, SLOT(onFinished(HttpGet*,bool)));
     connect(get, SIGNAL(paused(HttpGet*,int)), this, SLOT(onPaused(HttpGet*,int)));
     connect(get, SIGNAL(progressChanged(HttpGet*,int,bool)), this, SLOT(onProgressChanged(HttpGet*,int,bool)));

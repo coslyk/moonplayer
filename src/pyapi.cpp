@@ -1,9 +1,12 @@
 #include "pyapi.h"
 #include "settings_network.h"
+#include "accessmanager.h"
 #include "webvideo.h"
 #include "downloader.h"
 #include "playlist.h"
 #include "mplayer.h"
+#include "reslibrary.h"
+#include "detailview.h"
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -35,7 +38,6 @@ PyObject *exc_GetUrlError = NULL;
 
 GetUrl::GetUrl(QObject *parent) : QObject(parent)
 {
-    manager = new QNetworkAccessManager(qApp);
     reply = NULL;
     callbackFunc = NULL;
     data = NULL;
@@ -49,15 +51,10 @@ void GetUrl::start(const char *url, PyObject *callback, PyObject *_data)
     data = _data;
     Py_IncRef(callbackFunc);
     Py_IncRef(data);
-    //init network manager
-    if (Settings::proxy.isEmpty())
-        manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
-    else
-        manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, Settings::proxy, Settings::port));
     //start request
     QNetworkRequest request = QNetworkRequest(QString::fromUtf8(url));
     request.setRawHeader("User-Agent", "moonplayer");
-    reply = manager->get(request);
+    reply = access_manager->get(request);
     connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
     // Set moonplayer.final_url in Python
     PyObject *str = PyString_FromString(url);
@@ -79,7 +76,7 @@ void GetUrl::onFinished()
         //start request
         QNetworkRequest request = QNetworkRequest(QString::fromUtf8(final_url));
         request.setRawHeader("User-Agent", "moonplayer");
-        reply = manager->get(request);
+        reply = access_manager->get(request);
         connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
         return;
     }
@@ -208,8 +205,7 @@ static PyObject *download(PyObject *, PyObject *args)
             return NULL;
         if ((str = PyString_AsString(item)) == NULL)
             return NULL;
-        QString url = QString::fromUtf8(str);
-        downloader->addTask(url, dir.filePath(name), (bool) childDir);
+        downloader->addTask(str, dir.filePath(name), (bool) childDir);
     }
     QMessageBox::information(webvideo, "Message", "Add task successfully.");
     Py_IncRef(Py_None);
@@ -258,6 +254,52 @@ static PyObject *play_directly(PyObject *, PyObject *args)
 }
 
 /*******************
+ ** ResLibrary    **
+ *******************/
+static PyObject *res_show(PyObject *, PyObject *args)
+{
+    PyObject *list = NULL;
+    if (!PyArg_ParseTuple(args, "O", &list))
+        return NULL;
+    if (!PyList_Check(list))
+        return NULL;
+    res_library->clearItem();
+    int size = PyList_Size(list);
+    for (int i = 0; i < size; i++)
+    {
+        PyObject *dict = PyList_GetItem(list, i);
+        PyObject *name_obj, *pic_url_obj, *flag_obj;
+        const char *name, *pic_url, *flag;
+        if (NULL == (name_obj = PyDict_GetItemString(dict, "name")))
+            return NULL;
+        if (NULL == (flag_obj = PyDict_GetItemString(dict, "flag")))
+            return NULL;
+        if (NULL == (pic_url_obj = PyDict_GetItemString(dict, "pic_url")))
+            return NULL;
+        if (NULL == (name = PyString_AsString(name_obj)))
+            return NULL;
+        if (NULL == (flag = PyString_AsString(flag_obj)))
+            return NULL;
+        if (NULL == (pic_url = PyString_AsString(pic_url_obj)))
+            return NULL;
+        res_library->addItem(QString::fromUtf8(name), pic_url, flag);
+    }
+    Py_IncRef(Py_None);
+    return Py_None;
+}
+
+static PyObject *show_detail(PyObject *, PyObject *args)
+{
+    PyObject *dict = NULL;
+    if (!PyArg_ParseTuple(args, "O", &dict))
+        return NULL;
+    DetailView *detailview = new DetailView(res_library);
+    PyObject *retVal = detailview->loadDetail(dict);
+    detailview->show();
+    return retVal;
+}
+
+/*******************
  ** Define module **
  *******************/
 
@@ -271,6 +313,8 @@ static PyMethodDef methods[] = {
     {"download",      download,      METH_VARARGS, "Download file"},
     {"play",          play,          METH_VARARGS, "Play online"},
     {"play_directly", play_directly, METH_VARARGS, "Play an url without adding it to playlist"},
+    {"res_show",      res_show,      METH_VARARGS, "Show resources result"},
+    {"show_detail",   show_detail,   METH_VARARGS, "Show detail"},
     {NULL, NULL, 0, NULL}
 };
 

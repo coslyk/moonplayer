@@ -7,6 +7,7 @@ class MPlayer;
 class Playlist;
 class QCloseEvent;
 class WebVideo;
+class ResLibrary;
 class QHBoxLayout;
 class QMouseEvent;
 class Border;
@@ -38,6 +39,7 @@ private:
     Ui::Player *ui;
     MPlayer* mplayer;
     WebVideo* webvideo;
+    ResLibrary *reslibrary;
     Downloader *downloader;
     Transformer *transformer;
     //borders

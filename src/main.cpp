@@ -4,17 +4,21 @@
 #include "settingsdialog.h"
 #include "settings_player.h"
 #include "playlist.h"
+#include "accessmanager.h"
 #include <QDir>
 #include <QIcon>
 #include <QLocale>
 #include <QDebug>
 #include <QTextCodec>
+#include <QNetworkAccessManager>
 #include <Python.h>
 #include "pyapi.h"
 #include <iostream>
 #ifdef Q_OS_LINUX
 #include <QDBusInterface>
 #endif
+
+QNetworkAccessManager *access_manager = NULL;
 
 int main(int argc, char *argv[])
 {
@@ -50,6 +54,7 @@ int main(int argc, char *argv[])
 #endif
 
     //init
+    access_manager = new QNetworkAccessManager(&a);
 #ifdef Q_OS_WIN
     Settings::path = QString(argv[0]).section('\\', 0, -2);
 #endif
