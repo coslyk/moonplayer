@@ -217,9 +217,9 @@ static PyObject *play(PyObject *, PyObject *args)
     PyObject *list;
     if (!PyArg_ParseTuple(args, "O", &list))
         return NULL;
-    int size = PyList_Size(list);
-    if (size < 0)
+    if (!PyList_Check(list))
         return NULL;
+    int size = PyList_Size(list);
     PyObject *item;
     const char *str;
     for (int i = 0; i < size; i += 2)
@@ -293,9 +293,17 @@ static PyObject *show_detail(PyObject *, PyObject *args)
     PyObject *dict = NULL;
     if (!PyArg_ParseTuple(args, "O", &dict))
         return NULL;
-    DetailView *detailview = new DetailView(res_library);
+    DetailView *detailview;
+    if (webvideo->count() == 4) // DetailView page has been created
+        detailview = static_cast<DetailView*>(webvideo->widget(3));
+    else
+    {
+        detailview = new DetailView(res_library);
+        webvideo->addTab(detailview, "");
+    }
     PyObject *retVal = detailview->loadDetail(dict);
-    detailview->show();
+    webvideo->setCurrentWidget(detailview);
+    webvideo->setTabText(3, detailview->windowTitle());
     return retVal;
 }
 

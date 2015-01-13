@@ -13,7 +13,6 @@ DetailView::DetailView(QWidget *parent) :
     ui(new Ui::DetailView)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Window);
     setAttribute(Qt::WA_DeleteOnClose);
     connect(ui->playPushButton, SIGNAL(clicked()), this, SLOT(onPlay()));
     connect(ui->downloadPushButton, SIGNAL(clicked()), this, SLOT(onDownload()));
@@ -104,6 +103,8 @@ PyObject* DetailView::loadDetail(PyObject *dict)
         ui->summaryLabel->setText(PyString_AsQString(item));
 
     // Source
+    ui->sourceListWidget->clear();
+    urls.clear();
     item = PyDict_GetItemString(dict, "source");
     if (item)
     {
@@ -150,10 +151,7 @@ void DetailView::onPlay()
     QString host = QUrl(QString::fromUtf8(urls[current_row])).host();
     Plugin *plugin = getPluginByHost(host);
     if (plugin)
-    {
         plugin->parse(urls[current_row].constData(), false);
-        close();
-    }
     else
         QMessageBox::warning(this, "warning", tr("Cannot find plugin which can parse this source."));
 }
@@ -166,10 +164,7 @@ void DetailView::onDownload()
     QString host = QUrl(QString::fromUtf8(urls[current_row])).host();
     Plugin *plugin = getPluginByHost(host);
     if (plugin)
-    {
         plugin->parse(urls[current_row].constData(), true);
-        close();
-    }
     else
         QMessageBox::warning(this, "warning", tr("Cannot find plugin which can parse this source."));
 }

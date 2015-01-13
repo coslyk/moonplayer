@@ -8,22 +8,7 @@
 namespace Ui {
 class ResLibrary;
 }
-class QNetworkReply;
-
-//******************
-// ResListWidgetItem
-//*****************
-class ResListWidgetItem : public QListWidgetItem
-{
-public:
-    ResListWidgetItem(const QString &name, const QByteArray &pic_url, const QByteArray &flag);
-    inline QByteArray picUrl() {return m_picUurl;}
-    inline QByteArray flag() {return m_flag;}
-private:
-    QByteArray m_picUurl;
-    QByteArray m_flag;
-};
-
+class MyListWidget;
 
 //******************
 // ResLibrary
@@ -43,12 +28,7 @@ private:
     QString current_tag;
     QString current_country;
     QString current_key;
-
-    QList<ResListWidgetItem*> items_to_load_pic;
-    QList<QByteArray> urls_for_load_pic;
-    ResListWidgetItem *loading_item;
-    QNetworkReply *reply;
-    void loadNextPic(void);
+    MyListWidget *listWidget;
 
 private slots:
     void reSearch(void);
@@ -57,7 +37,6 @@ private slots:
     void onPageChanged(int newPage);
     void onPrevPage(void);
     void onNextPage(void);
-    void onLoadPicFinished(void);
 };
 
 extern ResLibrary *res_library;

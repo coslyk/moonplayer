@@ -63,6 +63,7 @@ private slots:
     void setChannelToLeft(void);
     void setChannelToRight(void);
     void setChannelToNormal(void);
+    void loadSub(void);
 
 private:
     QProcess* process; //mplayer process

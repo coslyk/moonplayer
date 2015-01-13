@@ -4,19 +4,9 @@
 #include "accessmanager.h"
 #include "mybuttongroup.h"
 #include "pyapi.h"
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
+#include "mylistwidget.h"
 #include <QMessageBox>
 #include <iostream>
-
-//ResListWidgetItem
-ResListWidgetItem::ResListWidgetItem(const QString &name, const QByteArray &pic_url, const QByteArray &flag) :
-    QListWidgetItem(name)
-{
-    m_picUurl = pic_url;
-    m_flag = flag;
-}
 
 
 //ResLibrary
@@ -33,6 +23,9 @@ ResLibrary::ResLibrary(QWidget *parent) :
         return;
     }
     ui->setupUi(this);
+    listWidget = new MyListWidget;
+    ui->gridLayout->addWidget(listWidget, 0, 1, 1, 4);
+
     for (int i = 0; i < n_resplugins; i++)
     {
         ResPlugin *plugin = resplugins[i];
@@ -48,15 +41,13 @@ ResLibrary::ResLibrary(QWidget *parent) :
     current_tag = resplugins[0]->tagsList[0];
     current_country = resplugins[0]->countriesList[0];
     current_page = 1;
-    loading_item = NULL;
-    reply = NULL;
     res_library = this;
 
     connect(ui->pageSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onPageChanged(int)));
     connect(ui->prevPushButton, SIGNAL(clicked()), this, SLOT(onPrevPage()));
     connect(ui->nextPushButton, SIGNAL(clicked()), this, SLOT(onNextPage()));
     connect(ui->keyLineEdit, SIGNAL(returnPressed()), this, SLOT(keySearch()));
-    connect(ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(onItemDoubleClicked(QListWidgetItem*)));
+    connect(listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(onItemDoubleClicked(QListWidgetItem*)));
 }
 
 void ResLibrary::reSearch()
@@ -100,7 +91,7 @@ void ResLibrary::onItemDoubleClicked(QListWidgetItem *item)
         QMessageBox::warning(this, "warning", tr("Another file is parsing. Please wait."));
         return;
     }
-    ResListWidgetItem *res_item = static_cast<ResListWidgetItem*>(item);
+    MyListWidgetItem *res_item = static_cast<MyListWidgetItem*>(item);
     resplugins[current_plugin]->loadItem(res_item->flag());
 }
 
@@ -138,51 +129,10 @@ void ResLibrary::onNextPage()
 
 void ResLibrary::addItem(const QString &name, const QByteArray &pic_url, const QByteArray &flag)
 {
-    ResListWidgetItem *item = new ResListWidgetItem(name, pic_url, flag);
-    items_to_load_pic << item;
-    if (loading_item == NULL)
-        loadNextPic();
-}
-
-void ResLibrary::loadNextPic()
-{
-    loading_item = items_to_load_pic.takeFirst();
-    QNetworkRequest request(QString::fromUtf8(loading_item->picUrl()));
-    request.setRawHeader("User-Agent", "moonplayer");
-    reply = access_manager->get(request);
-    connect(reply, SIGNAL(finished()), this, SLOT(onLoadPicFinished()));
-}
-
-void ResLibrary::onLoadPicFinished()
-{
-    if (loading_item)
-    {
-        QPixmap pic;
-        pic.loadFromData(reply->readAll());
-        if (pic.width() > 100)
-            pic = pic.scaledToWidth(100, Qt::SmoothTransformation);
-        loading_item->setIcon(QIcon(pic));
-        loading_item->setSizeHint(pic.size() + QSize(10, 20));
-        ui->listWidget->setIconSize(pic.size());
-        ui->listWidget->addItem(loading_item);
-    }
-    reply->deleteLater();
-    reply = NULL;
-    if (items_to_load_pic.size())
-        loadNextPic();
-    else
-        loading_item = NULL;
+    listWidget->addPicItem(name, pic_url, flag);
 }
 
 void ResLibrary::clearItem()
 {
-    loading_item = NULL;
-    QList<ResListWidgetItem*> items_to_clear = items_to_load_pic;
-    items_to_load_pic.clear();
-    ui->listWidget->clear();
-    while (!items_to_clear.isEmpty())
-    {
-        ResListWidgetItem *item = items_to_clear.takeFirst();
-        delete item;
-    }
+    listWidget->clearItem();
 }

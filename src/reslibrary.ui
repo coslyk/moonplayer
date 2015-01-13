@@ -85,25 +85,6 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="1" colspan="4">
-    <widget class="QListWidget" name="listWidget">
-     <property name="movement">
-      <enum>QListView::Static</enum>
-     </property>
-     <property name="isWrapping" stdset="0">
-      <bool>true</bool>
-     </property>
-     <property name="resizeMode">
-      <enum>QListView::Adjust</enum>
-     </property>
-     <property name="spacing">
-      <number>4</number>
-     </property>
-     <property name="viewMode">
-      <enum>QListView::IconMode</enum>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="1">
     <spacer name="horizontalSpacer">
      <property name="orientation">

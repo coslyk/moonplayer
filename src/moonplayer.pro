@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     resplugin.cpp \
     mybuttongroup.cpp \
     detailview.cpp \
-    utils.cpp
+    utils.cpp \
+    mylistwidget.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -58,7 +59,8 @@ HEADERS  += player.h \
     accessmanager.h \
     mybuttongroup.h \
     detailview.h \
-    utils.h
+    utils.h \
+    mylistwidget.h
 
 
 FORMS    += \

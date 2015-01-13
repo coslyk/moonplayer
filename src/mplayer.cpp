@@ -12,6 +12,7 @@
 #include <QLabel>
 #include <QDir>
 #include <QKeySequence>
+#include <QFileDialog>
 #include <iostream>
 using namespace std;
 
@@ -83,6 +84,7 @@ MPlayer::MPlayer(QWidget *parent) :
     menu->addMenu(ratio_menu);
     menu->addMenu(speed_menu);
     menu->addMenu(channel_menu);
+    //menu->addAction(tr("Load subtitles"), this, SLOT(loadSub())); //Unfinished function
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
             this, SLOT(showMenu(const QPoint&)));
@@ -543,6 +545,19 @@ void MPlayer::screenShot()
         writeToMplayer("screenshot 0\n");
         writeToMplayer("osd_show_text \"Screenshot has been saved.\" 3000 1\n");
     }
+}
+
+// Load subtitles
+void MPlayer::loadSub()
+{
+    if (state == STOPPING)
+        return;
+    if (state == TV_PLAYING || state == VIDEO_PLAYING) //pause first
+        changeState();
+    QString file = QFileDialog::getOpenFileName(this, "Select subtitles file");
+    changeState(); //continue playing
+    if (!file.isEmpty())
+        writeToMplayer("sub_load " + file.toLocal8Bit() + '\n');
 }
 
 // Set speed
