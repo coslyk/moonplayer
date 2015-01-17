@@ -12,6 +12,7 @@ tags = ['热门', '最新', '经典', '可播放', '豆瓣高分','冷门佳片'
         
 countries = ['全部']
 
+# Search movies
 def search(args):
     start = (args['page'] - 1) * 20
     if 'key' in args:
@@ -35,7 +36,7 @@ def search_cb(content, data):
             'flag': mv_id})
     moonplayer.res_show(result)
     
-## Load item
+## Load movies' detail
 def load_item(mv_id):
     url = 'http://api.douban.com/v2/movie/subject/' + mv_id
     moonplayer.get_url(url, load_item_cb, None)
@@ -46,7 +47,7 @@ def load_item_cb(page, data):
     player = [item[u'name'] for item in data[u'casts']]
     
     result = {'name': data[u'title'],
-              'id': data[u'id'],
+              'flag': data[u'id'],
               'alternate_name': data[u'aka'],
               'image': data[u'images'][u'large'],
               'director': director,
@@ -58,8 +59,27 @@ def load_item_cb(page, data):
     url = 'http://movie.douban.com/subject/' + str(data[u'id'])
     moonplayer.get_url(url, load_item_cb2, result)
     
-misc_re = re.compile(r'http://img3.douban.com/misc/mixed_static/.+?\.js')
+misc_re = re.compile(r'http://.+?/misc/mixed_static/\w+?\.js')
+date_re = re.compile(r'<span property="v:initialReleaseDate" content="(.+?)">')
+lang_re = re.compile(r'<span class="pl">语言:</span>\s*(.+?)<br/>')
+length_re = re.compile(r'<span property="v:runtime" content="(.+?)">')
 def load_item_cb2(page, result):
+    dates = []
+    match = date_re.search(page)
+    while match:
+        dates.append(match.group(1))
+        match = date_re.search(page, match.end(0))
+    if len(dates):
+        result['date'] = dates
+        
+    match = lang_re.search(page)
+    if match:
+        result['language'] = [match.group(1)]
+        
+    match = length_re.search(page)
+    if match:
+        result['length'] = match.group(1) + ' min'
+    
     match = misc_re.search(page)
     if match:
         url = match.group(0)
@@ -80,3 +100,4 @@ def load_item_cb3(page, result):
                 srcs.append(item[u'sample_link'])
         result['source'] = srcs
     moonplayer.show_detail(result)
+
