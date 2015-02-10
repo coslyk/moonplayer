@@ -1,8 +1,8 @@
 #ifndef RESPLUGIN_H
 #define RESPLUGIN_H
 
-#include <QStringList>
 #include <Python.h>
+#include <QStringList>
 
 class ResPlugin
 {

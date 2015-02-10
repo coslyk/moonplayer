@@ -52,55 +52,82 @@ PyObject* DetailView::loadDetail(PyObject *dict)
         QStringList list = PyList_AsQStringList(item);
         ui->directorLabel->setText(list.join(" / "));
     }
+    else
+        ui->directorLabel->setText(tr("Unknown"));
     item = PyDict_GetItemString(dict, "script_writer");
     if (item)
     {
         QStringList list = PyList_AsQStringList(item);
         ui->scriptwriterLabel->setText(list.join(" / "));
     }
+    else
+        ui->scriptwriterLabel->setText(tr("Unknown"));
+
     item = PyDict_GetItemString(dict, "player");
     if (item)
     {
         QStringList list = PyList_AsQStringList(item);
         ui->playerLabel->setText(list.join(" / "));
     }
+    else
+        ui->playerLabel->setText(tr("Unknown"));
+
     item = PyDict_GetItemString(dict, "type");
     if (item)
     {
         QStringList list = PyList_AsQStringList(item);
         ui->typeLabel->setText(list.join(" / "));
     }
+    else
+        ui->typeLabel->setText(tr("Unknown"));
+
     item = PyDict_GetItemString(dict, "nation");
     if (item)
     {
         QStringList list = PyList_AsQStringList(item);
         ui->nationLabel->setText(list.join(" / "));
     }
+    else
+        ui->nationLabel->setText(tr("Unknown"));
+
     item = PyDict_GetItemString(dict, "language");
     if (item)
     {
         QStringList list = PyList_AsQStringList(item);
         ui->langLabel->setText(list.join(" / "));
     }
+    else
+        ui->langLabel->setText(tr("Unknown"));
+
     item = PyDict_GetItemString(dict, "date");
     if (item)
     {
         QStringList list = PyList_AsQStringList(item);
         ui->dateLabel->setText(list.join(" / "));
     }
+    else
+        ui->dateLabel->setText(tr("Unknown"));
+
     item = PyDict_GetItemString(dict, "length");
     if (item)
         ui->lengthLabel->setText(PyString_AsQString(item));
+    else
+        ui->lengthLabel->setText(tr("Unknown"));
 
     item = PyDict_GetItemString(dict, "alternate_name");
     if (item)
     {
         QStringList list = PyList_AsQStringList(item);
-        ui->alternameLabel->setText(list.join(" / "));
+        ui->alternameLabel->setText(list.join(" / ").simplified());
     }
+    else
+        ui->alternameLabel->setText(tr("Unknown"));
+
     item = PyDict_GetItemString(dict, "summary");
     if (item)
         ui->summaryLabel->setText(PyString_AsQString(item));
+    else
+        ui->summaryLabel->setText(tr("Unknown"));
 
     // Source
     ui->sourceListWidget->clear();

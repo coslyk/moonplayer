@@ -55,7 +55,7 @@ WebVideo::WebVideo(QWidget *parent) :
     grid->addWidget(nextButton, 2, 3, 1, 1);
     grid->addWidget(backButton, 2, 4, 1, 1);
     grid->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding), 2, 1);
-    setMinimumSize(800, 450);
+    setMinimumSize(950, 500);
 
     //down search page and parse
     connect(nextButton, SIGNAL(clicked()), this, SLOT(nextSearchPage()));
@@ -217,6 +217,7 @@ PyObject* WebVideo::showList(PyObject *list)
     }
     show();
     activateWindow();
+    setCurrentIndex(1);
     Py_IncRef(Py_None);
     return Py_None;
 }
@@ -263,5 +264,9 @@ void WebVideo::onDownButton()
     int i = listWidget->currentRow();
     if (i == -1)
         return;
-    plugins[provider]->parse(result[i], true);
+    QByteArray url = result[i];
+    Plugin *plugin = getPluginByHost(QUrl(QString::fromUtf8(url)).host());
+    if (plugin == 0)
+        plugin = plugins[provider];
+    plugin->parse(result[i], true);
 }

@@ -1,11 +1,12 @@
 ﻿#!/usr/bin/python
 # -*- encoding: utf-8 -*-
 
-from moonplayer_utils import list_links, re2, parse_flvcd_page
+from moonplayer_utils import list_links, parse_flvcd_page
 import re
 import json
 import thread
 import moonplayer
+from res_youku_tv import load_item
 
 #hosts
 hosts = ('v.youku.com',)
@@ -50,8 +51,7 @@ def parse(url, options):
         return
     #movies or tv series
     elif url.startswith('http://www.youku.com/show_page/id_'):
-        url2 = url.replace('/show_page/', '/show_episode/')
-        moonplayer.get_url(url2, parse_series_cb, url)
+        load_item(url)
         return
     #single video
     match = id_re.match(url)
@@ -85,26 +85,7 @@ def parse_details_cb(content, data):
         links.append(url)
         match = detail_re.search(content, match.end(0))
     moonplayer.show_album(links)
-        
-## Parse TV series
-def parse_series_cb(content, mov_url):
-    links = []
-    match = re2.search(content)
-    if not match:
-        moonplayer.get_url(mov_url, parse_movie_cb, None) #movie
-        return
-    while match:
-        (name, url) = match.group(2, 1)
-        links.append(name)
-        links.append(url)
-        match = re2.search(content, match.end(0))
-    moonplayer.show_album(links)
     
-## Parse movies
-def parse_movie_cb(content, data):
-    links = list_links(content, 'http://v.youku.com/v_show/')
-    moonplayer.show_album(links)
-
 ## Parse albums
 def parse_album_cb(content, data):
     prefix = data[0]

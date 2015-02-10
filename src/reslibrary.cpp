@@ -6,6 +6,7 @@
 #include "pyapi.h"
 #include "mylistwidget.h"
 #include <QMessageBox>
+#include <QLabel>
 #include <iostream>
 
 
@@ -30,12 +31,22 @@ ResLibrary::ResLibrary(QWidget *parent) :
     {
         ResPlugin *plugin = resplugins[i];
         ui->pluginComboBox->addItem(plugin->getName());
+
+        QWidget *page = new QWidget;
+        ui->stackedWidget->addWidget(page);
+        QBoxLayout *layout = new QBoxLayout(QBoxLayout::TopToBottom);
+        layout->setContentsMargins(0, 11, 0, 11);
+        page->setLayout(layout);
+
+        layout->addWidget(new QLabel(tr("Tags:")));
         MyButtonGroup *buttonGroup = new MyButtonGroup(plugin->tagsList);
         connect(buttonGroup, SIGNAL(selectedChanged()), this, SLOT(reSearch()));
-        ui->tagStackedWidget->addWidget(buttonGroup);
+        layout->addWidget(buttonGroup);
+
+        layout->addWidget(new QLabel(tr("Countries:")));
         buttonGroup = new MyButtonGroup(plugin->countriesList);
         connect(buttonGroup, SIGNAL(selectedChanged()), this, SLOT(reSearch()));
-        ui->countryStackedWidget->addWidget(buttonGroup);
+        layout->addWidget(buttonGroup);
     }
     current_plugin = 0;
     current_tag = resplugins[0]->tagsList[0];
@@ -57,11 +68,10 @@ void ResLibrary::reSearch()
         QMessageBox::warning(this, "warning", tr("Another file is parsing. Please wait."));
         return;
     }
-    MyButtonGroup *tagsButtonGroup = static_cast<MyButtonGroup*>(ui->tagStackedWidget->currentWidget());
-    MyButtonGroup *countriesButtonGroup = static_cast<MyButtonGroup*>(ui->countryStackedWidget->currentWidget());
-    current_tag = tagsButtonGroup->selectedText();
-    current_country = countriesButtonGroup->selectedText();
-    current_plugin = ui->tagStackedWidget->currentIndex();
+    QList<MyButtonGroup*> groups = ui->stackedWidget->currentWidget()->findChildren<MyButtonGroup*>();
+    current_tag = groups[0]->selectedText();
+    current_country = groups[1]->selectedText();
+    current_plugin = ui->stackedWidget->currentIndex();
     current_key = QString();
     current_page = 1;
     ui->pageSpinBox->setValue(1);

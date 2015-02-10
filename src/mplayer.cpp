@@ -565,7 +565,7 @@ void MPlayer::speedUp()
 {
     if (speed < 2.0 && state != STOPPING)
     {
-        speed += 0.1;
+        speed += 0.1f;
         writeToMplayer("speed_set " + QByteArray::number(speed) + '\n');
     }
 }
@@ -574,7 +574,7 @@ void MPlayer::speedDown()
 {
     if (speed > 0.5 && state != STOPPING)
     {
-        speed -= 0.1;
+        speed -= 0.1f;
         writeToMplayer("speed_set " + QByteArray::number(speed) + '\n');
     }
 }

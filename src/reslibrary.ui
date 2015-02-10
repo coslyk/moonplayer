@@ -14,57 +14,16 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" rowspan="2">
+   <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QComboBox" name="pluginComboBox"/>
      </item>
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Tags:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QStackedWidget" name="tagStackedWidget">
+      <widget class="QStackedWidget" name="stackedWidget">
        <property name="maximumSize">
         <size>
-         <width>200</width>
-         <height>16777215</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Countries:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QStackedWidget" name="countryStackedWidget">
-       <property name="maximumSize">
-        <size>
-         <width>200</width>
-         <height>16777215</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Keyword:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="keyLineEdit">
-       <property name="maximumSize">
-        <size>
-         <width>200</width>
+         <width>220</width>
          <height>16777215</height>
         </size>
        </property>
@@ -82,6 +41,23 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Keyword:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="keyLineEdit">
+       <property name="maximumSize">
+        <size>
+         <width>220</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -132,23 +108,7 @@
   <connection>
    <sender>pluginComboBox</sender>
    <signal>currentIndexChanged(int)</signal>
-   <receiver>tagStackedWidget</receiver>
-   <slot>setCurrentIndex(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>48</x>
-     <y>23</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>48</x>
-     <y>120</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pluginComboBox</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>countryStackedWidget</receiver>
+   <receiver>stackedWidget</receiver>
    <slot>setCurrentIndex(int)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -157,7 +117,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>86</x>
-     <y>205</y>
+     <y>88</y>
     </hint>
    </hints>
   </connection>
