@@ -43,17 +43,17 @@ def load_item(mv_id):
     
 def load_item_cb(page, data):
     data = json.loads(page)
-    director = [item[u'name'] for item in data[u'directors']]
-    player = [item[u'name'] for item in data[u'casts']]
+    directors = [item[u'name'] for item in data[u'directors']]
+    players = [item[u'name'] for item in data[u'casts']]
     
     result = {'name': data[u'title'],
               'flag': data[u'id'],
-              'alternate_name': data[u'aka'],
+              'alt_names': data[u'aka'],
               'image': data[u'images'][u'large'],
-              'director': director,
-              'player': player,
-              'type': data[u'genres'],
-              'nation': data[u'countries'],
+              'directors': directors,
+              'players': players,
+              'types': data[u'genres'],
+              'nations': data[u'countries'],
               'rating': data[u'rating'][u'average'],
               'summary': data[u'summary']}
     url = 'http://movie.douban.com/subject/' + str(data[u'id'])
@@ -70,11 +70,11 @@ def load_item_cb2(page, result):
         dates.append(match.group(1))
         match = date_re.search(page, match.end(0))
     if len(dates):
-        result['date'] = dates
+        result['dates'] = dates
         
     match = lang_re.search(page)
     if match:
-        result['language'] = [match.group(1)]
+        result['languages'] = [match.group(1)]
         
     match = length_re.search(page)
     if match:

@@ -34,100 +34,54 @@ PyObject* DetailView::loadDetail(PyObject *dict)
 
     PyObject *item;
     QString name;
-    item = PyDict_GetItemString(dict, "name");
-    if (item)
+    //name
+    if (NULL != (item = PyDict_GetItemString(dict, "name")))
     {
         name = PyString_AsQString(item);
         setWindowTitle(name + tr(" - Detail page"));
     }
-    item = PyDict_GetItemString(dict, "rating");
-    if (item)
+
+    //rating
+    if (NULL != (item = PyDict_GetItemString(dict, "rating")))
         ui->nameLabel->setText(nameFmt.arg(name, QString::number(PyFloat_AsDouble(item))));
     else
         ui->nameLabel->setText(nameFmt.arg(name, tr("Unknown")));
 
-    item = PyDict_GetItemString(dict, "director");
-    if (item)
-    {
-        QStringList list = PyList_AsQStringList(item);
-        ui->directorLabel->setText(list.join(" / "));
-    }
-    else
-        ui->directorLabel->setText(tr("Unknown"));
-    item = PyDict_GetItemString(dict, "script_writer");
-    if (item)
-    {
-        QStringList list = PyList_AsQStringList(item);
-        ui->scriptwriterLabel->setText(list.join(" / "));
-    }
-    else
-        ui->scriptwriterLabel->setText(tr("Unknown"));
-
-    item = PyDict_GetItemString(dict, "player");
-    if (item)
-    {
-        QStringList list = PyList_AsQStringList(item);
-        ui->playerLabel->setText(list.join(" / "));
-    }
-    else
-        ui->playerLabel->setText(tr("Unknown"));
-
-    item = PyDict_GetItemString(dict, "type");
-    if (item)
-    {
-        QStringList list = PyList_AsQStringList(item);
-        ui->typeLabel->setText(list.join(" / "));
-    }
-    else
-        ui->typeLabel->setText(tr("Unknown"));
-
-    item = PyDict_GetItemString(dict, "nation");
-    if (item)
-    {
-        QStringList list = PyList_AsQStringList(item);
-        ui->nationLabel->setText(list.join(" / "));
-    }
-    else
-        ui->nationLabel->setText(tr("Unknown"));
-
-    item = PyDict_GetItemString(dict, "language");
-    if (item)
-    {
-        QStringList list = PyList_AsQStringList(item);
-        ui->langLabel->setText(list.join(" / "));
-    }
-    else
-        ui->langLabel->setText(tr("Unknown"));
-
-    item = PyDict_GetItemString(dict, "date");
-    if (item)
-    {
-        QStringList list = PyList_AsQStringList(item);
-        ui->dateLabel->setText(list.join(" / "));
-    }
-    else
-        ui->dateLabel->setText(tr("Unknown"));
-
-    item = PyDict_GetItemString(dict, "length");
-    if (item)
+    //length
+    if (NULL != (item = PyDict_GetItemString(dict, "length")))
         ui->lengthLabel->setText(PyString_AsQString(item));
     else
         ui->lengthLabel->setText(tr("Unknown"));
 
-    item = PyDict_GetItemString(dict, "alternate_name");
-    if (item)
-    {
-        QStringList list = PyList_AsQStringList(item);
-        ui->alternameLabel->setText(list.join(" / ").simplified());
-    }
-    else
-        ui->alternameLabel->setText(tr("Unknown"));
-
-    item = PyDict_GetItemString(dict, "summary");
-    if (item)
+    //summary
+    if (NULL != (item = PyDict_GetItemString(dict, "summary")))
         ui->summaryLabel->setText(PyString_AsQString(item));
     else
         ui->summaryLabel->setText(tr("Unknown"));
+
+    //others
+    struct Item {const char *item_name; QLabel *label;};
+    struct Item items[] = {
+        {"directors", ui->directorLabel},
+        {"script_writers", ui->scriptwriterLabel},
+        {"players", ui->playerLabel},
+        {"types", ui->typeLabel},
+        {"nations", ui->nationLabel},
+        {"languages", ui->langLabel},
+        {"dates", ui->dateLabel},
+        {"alt_names", ui->alternameLabel},
+        {NULL, NULL}
+    };
+    for (struct Item *i = items; i->item_name; i++) {
+        item = PyDict_GetItemString(dict, i->item_name);
+        if (item) {
+            QStringList list = PyList_AsQStringList(item);
+            i->label->setText(list.join(" / ").simplified());
+        }
+        else
+            i->label->setText(tr("Unknown"));
+    }
+
 
     // Source
     ui->sourceListWidget->clear();

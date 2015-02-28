@@ -22,7 +22,7 @@ def search(args):
         tag = ''
     if country == '全部':
         country = ''
-    url = 'http://www.youku.com/v_olist/c_97_g_%s_a_%s_1_d_2_pt_1_p_%i.html' % \
+    url = 'http://www.youku.com/v_olist/c_97_g_%s_a_%s_s_1_d_2_pt_1_p_%i.html' % \
            (tag, country, args['page'])
     moonplayer.get_url(url, search_cb, None)
 
@@ -68,10 +68,10 @@ def load_item_cb(page, url):
         result['image'] = match.group(1)
     match = date_re.search(page)
     if match:
-        result['date'] = [match.group(1)]
+        result['dates'] = [match.group(1)]
     match = alt_re.search(page)
     if match:
-        result['alternate_name'] = [match.group(1)]
+        result['alt_names'] = [match.group(1)]
     match = summ_re.search(page.split('Detail', 1)[-1])
     if match:
         result['summary'] = match.group(1)
