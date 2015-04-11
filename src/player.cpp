@@ -6,6 +6,7 @@
 #include "reslibrary.h"
 #include "settingsdialog.h"
 #include "settings_player.h"
+#include "settings_audio.h"
 #include "downloader.h"
 #include "transformer.h"
 #include "skin.h"
@@ -80,6 +81,9 @@ Player::Player(QWidget *parent) :
     //add transformer
     transformer = new Transformer;
 
+    //Settings Dialog
+    settingsDialog = new SettingsDialog(this);
+
     //Add menu
     menubar = new QMenuBar;
     menu = menubar->addMenu(tr("Player"));
@@ -102,6 +106,7 @@ Player::Player(QWidget *parent) :
     connect(ui->progressBar, SIGNAL(sliderPressed()), this, SLOT(onPBarPressed()));
     connect(ui->progressBar, SIGNAL(sliderReleased()), this, SLOT(onPBarReleased()));
     connect(ui->volumeSlider, SIGNAL(valueChanged(int)), mplayer, SLOT(setVolume(int)));
+    connect(ui->volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(onSaveVolume(int)));
     connect(ui->hideButton, SIGNAL(clicked()), this, SLOT(hidePlaylist()));
     connect(ui->netButton, SIGNAL(clicked()), webvideo, SLOT(show()));
     connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(close()));
@@ -128,6 +133,9 @@ Player::Player(QWidget *parent) :
         setSkin(Settings::skinList[Settings::currentSkin]);
     else
         setNoSkin();
+
+    //Set default volume
+    ui->volumeSlider->setValue(Settings::volume);
 
     no_play_next = false;
     is_fullscreen = false;
@@ -360,12 +368,9 @@ void Player::onStopped()
 //open setting dialog
 void Player::onSetButton()
 {
-    static SettingsDialog *dialog = NULL;
     int oldSkin = Settings::useSkin ? Settings::currentSkin : -1;
-    if (dialog == NULL)
-        dialog = new SettingsDialog(this);
     onNeedPause(true);
-    dialog->exec();
+    settingsDialog->exec();
 
     int newSkin = Settings::useSkin ? Settings::currentSkin : -1;
     if (oldSkin != newSkin)
@@ -476,6 +481,11 @@ void Player::onPBarReleased()
 void Player::onProgressChanged(int pos)
 {
     ui->progressBar->setValue(pos / MPlayer::UPDATE_FREQUENCY);
+}
+
+void Player::onSaveVolume(int volume)
+{
+    Settings::volume = volume;
 }
 
 

@@ -22,6 +22,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
      <widget class="QWidget" name="playerTab">
       <attribute name="title">
        <string>Player</string>
@@ -245,6 +248,36 @@
         <widget class="QCheckBox" name="fixCheckBox">
          <property name="text">
           <string>Try fixing &quot;stop at last frame&quot; problem</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Audio</string>
+      </attribute>
+      <layout class="QFormLayout" name="formLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Audio Output:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="aoComboBox">
+         <item>
+          <property name="text">
+           <string>auto</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QCheckBox" name="softvolCheckBox">
+         <property name="text">
+          <string>Use software sound mixer</string>
          </property>
         </widget>
        </item>

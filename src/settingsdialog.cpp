@@ -10,7 +10,9 @@
 #include <QSettings>
 #include <QButtonGroup>
 #include <QFileDialog>
+#include "settings_audio.h"
 
+QString Settings::aout;
 QString Settings::vout;
 QString Settings::path;
 QString Settings::proxy;
@@ -21,12 +23,14 @@ int Settings::port;
 int Settings::cacheSize;
 int Settings::cacheMin;
 int Settings::maxTasks;
+int Settings::volume;
 bool Settings::framedrop;
 bool Settings::doubleBuffer;
 bool Settings::fixLastFrame;
 bool Settings::ffodivxvdpau;
 bool Settings::autoResize;
 bool Settings::enableScreenshot;
+bool Settings::softvol;
 bool Settings::useSkin;
 bool Settings::rememberUnfinished;
 enum Settings::Quality Settings::quality;
@@ -48,6 +52,13 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     group->addButton(ui->highRadioButton, 1);
     group->addButton(ui->superRadioButton, 2);
     ui->skinComboBox->addItems(skinList);
+
+#ifdef Q_OS_LINUX
+    ui->aoComboBox->addItem("pulse");
+    ui->aoComboBox->addItem("alsa");
+    ui->aoComboBox->addItem("oss");
+#endif
+
     loadSettings();
 }
 
@@ -55,6 +66,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 void SettingsDialog::loadSettings()
 {
     ui->voComboBox->setCurrentIndex(ui->voComboBox->findText(vout));
+    ui->aoComboBox->setCurrentIndex(ui->aoComboBox->findText(aout));
     ui->skinComboBox->setCurrentIndex(currentSkin);
     ui->skinCheckBox->setChecked(useSkin);
     ui->proxyEdit->setText(proxy);
@@ -69,6 +81,7 @@ void SettingsDialog::loadSettings()
     ui->fixCheckBox->setChecked(fixLastFrame);
     ui->resizeCheckBox->setChecked(autoResize);
     ui->screenshotCheckBox->setChecked(enableScreenshot);
+    ui->softvolCheckBox->setChecked(softvol);
     ui->rememberCheckBox->setChecked(rememberUnfinished);
     switch (quality)
     {
@@ -99,6 +112,7 @@ void SettingsDialog::saveSettings()
     doubleBuffer = ui->doubleCheckBox->isChecked();
     ffodivxvdpau = ui->ffodivxvdpauCheckBox->isChecked();
     fixLastFrame = ui->fixCheckBox->isChecked();
+    softvol = ui->softvolCheckBox->isChecked();
     quality = (enum Quality) group->checkedId();
     currentSkin = ui->skinComboBox->currentIndex();
     useSkin = ui->skinCheckBox->isChecked();
@@ -106,6 +120,15 @@ void SettingsDialog::saveSettings()
     enableScreenshot = ui->screenshotCheckBox->isChecked();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
 
+    if (proxy.isEmpty())
+        access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+    else
+        access_manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
+}
+
+
+SettingsDialog::~SettingsDialog()
+{
     //open file
 #ifdef Q_OS_WIN
     QSettings settings("HKEY_CURRENT_USER\\Software\\moonplayer", QSettings::NativeFormat);
@@ -122,6 +145,9 @@ void SettingsDialog::saveSettings()
     settings.setValue("Video/double", doubleBuffer);
     settings.setValue("Video/fixlastframe", fixLastFrame);
     settings.setValue("Video/ffodivxvdpau", ffodivxvdpau);
+    settings.setValue("Audio/out", aout);
+    settings.setValue("Audio/softvol", softvol);
+    settings.setValue("Audio/volume", volume);
     settings.setValue("Net/proxy", proxy);
     settings.setValue("Net/port", port);
     settings.setValue("Net/cache_size", cacheSize);
@@ -129,15 +155,6 @@ void SettingsDialog::saveSettings()
     settings.setValue("Net/max_tasks", maxTasks);
     settings.setValue("Net/quality", (int) quality);
     settings.setValue("Net/download_dir", downloadDir);
-    if (proxy.isEmpty())
-        access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
-    else
-        access_manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
-}
-
-
-SettingsDialog::~SettingsDialog()
-{
     delete ui;
 }
 
@@ -176,6 +193,9 @@ void initSettings()
     doubleBuffer = settings.value("Video/double", true).toBool();
     fixLastFrame = settings.value("Video/fixlastframe", false).toBool();
     ffodivxvdpau = settings.value("Video/ffodivxvdpau", true).toBool();
+    aout = settings.value("Audio/out", "auto").toString();
+    softvol = settings.value("Audio/softvol", false).toBool();
+    volume = settings.value("Audio/volume", 10).toInt();
     currentSkin = settings.value("Player/current_skin", 0).toInt();
     useSkin = settings.value("Player/use_skin", true).toBool();
     autoResize = settings.value("Player/auto_resize", true).toBool();

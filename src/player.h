@@ -16,6 +16,7 @@ class QMenu;
 class QMenuBar;
 class Downloader;
 class Transformer;
+class SettingsDialog;
 
 namespace Ui {
 class Player;
@@ -42,6 +43,7 @@ private:
     ResLibrary *reslibrary;
     Downloader *downloader;
     Transformer *transformer;
+    SettingsDialog *settingsDialog;
     //borders
     Border* leftBorder;
     Border* rightBorder;
@@ -79,6 +81,7 @@ private slots:
     void onStopped(void);
     void onStopButton(void);
     void onSetButton(void);
+    void onSaveVolume(int volume);
     void openHomepage(void);
 
     void hidePlaylist(void);

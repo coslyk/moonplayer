@@ -60,7 +60,8 @@ HEADERS  += player.h \
     mybuttongroup.h \
     detailview.h \
     utils.h \
-    mylistwidget.h
+    mylistwidget.h \
+    settings_audio.h
 
 
 FORMS    += \

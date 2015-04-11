@@ -1,5 +1,6 @@
 #include "mplayer.h"
 #include "settings_video.h"
+#include "settings_audio.h"
 #include "settings_network.h"
 #include <QProcess>
 #include <QColor>
@@ -240,6 +241,12 @@ void MPlayer::openFile(const QString& filename)
     args << (Settings::doubleBuffer ? "-double" : "-nodouble");
     if (Settings::framedrop)
         args << "-framedrop";
+
+    // Set audio arguments
+    if (Settings::aout != "auto")
+        args << "-ao" << Settings::aout;
+    if (Settings::softvol)
+        args << "-softvol";
 
     // Start at the previous stopping time
     time_offset = -1;
