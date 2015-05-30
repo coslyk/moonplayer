@@ -33,7 +33,8 @@ def search_album(keyword, page):
     moonplayer.get_url(url, search_album_cb, None)
     
 def search_album_cb(content, data):
-    links = list_links(content, 'http://www.youku.com/playlist_show/')
+    links = list_links(content, '/search_playlistdetail?')
+    links += list_links(content, 'http://www.youku.com/playlist_show/')
     moonplayer.show_list(links)
     
 ## Parse videos or albums
@@ -41,8 +42,12 @@ id_re = re.compile(r'http://v.youku.com/v_show/id_(.+)\.html')
 def parse(url, options):
     #albums
     if url.startswith('http://www.youku.com/playlist_show/'):
-        prefix = url[0:-5]
+        prefix = url.split('.html')[0]
         moonplayer.get_url(url, parse_album_cb, (prefix, 1, []))
+        return
+    elif url.startswith('/search_playlistdetail?'):
+        prefix = url = 'http://www.soku.com' + url
+        moonplayer.get_url(url, parse_album2_cb, (prefix, 1, []))
         return
     #details
     elif url.startswith('/detail/show/'):
@@ -96,5 +101,18 @@ def parse_album_cb(content, data):
     if len(new_items) > 0:
         url = prefix + '_ascending_1_mode_pic_page_' + str(now_page+1) + '.html'
         moonplayer.get_url(url, parse_album_cb, (prefix, now_page+1, items))
+    else:
+        moonplayer.show_album(items)
+        
+def parse_album2_cb(content, data):
+    prefix = data[0]
+    now_page = data[1]
+    items = data[2]
+    new_items = list_links(content, 'http://v.youku.com/v_show/id_')
+    items += new_items
+    if len(new_items) > 0:
+        url = prefix + '&cp=' + str(now_page+1)
+        print len(new_items), url
+        moonplayer.get_url(url, parse_album2_cb, (prefix, now_page+1, items))
     else:
         moonplayer.show_album(items)
