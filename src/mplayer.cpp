@@ -80,11 +80,11 @@ MPlayer::MPlayer(QWidget *parent) :
     channel = CHANNEL_NORMAL;
 
     menu = new QMenu(this);
-    screenShotAction = menu->addAction(tr("Screenshot"), this, SLOT(screenShot()), QKeySequence("S"));
-    menu->addSeparator();
     menu->addMenu(ratio_menu);
     menu->addMenu(speed_menu);
     menu->addMenu(channel_menu);
+    menu->addSeparator();
+    screenShotAction = menu->addAction(tr("Screenshot"), this, SLOT(screenShot()), QKeySequence("S"));
     //menu->addAction(tr("Load subtitles"), this, SLOT(loadSub())); //Unfinished function
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
@@ -187,9 +187,9 @@ void MPlayer::openFile(const QString& filename)
     //show debug message label
     msgLabel->show();
     //start MPlayer if stopping
+    wait_to_play = filename;
     if (state != STOPPING)
     {
-        wait_to_play = filename;
         is_waiting = true;
         stop();
         return;
@@ -438,6 +438,26 @@ void MPlayer::cb_updateTime(QString& msg)
     progress = pos;
     if (progress % UPDATE_FREQUENCY == 0)
         emit timeChanged(progress);
+}
+
+/*Jump to a frame and pause*/
+void MPlayer::jumpTo(int pos)
+{
+    //Ignore if stopping or playing
+    if (state != VIDEO_PAUSING)
+        return;
+    //Ignore if the time is equal to the progress
+    if (pos == progress)
+        return;
+    //if running mplayer2, jump directly
+    if (is_mplayer2)
+        writeToMplayer(QString().sprintf("seek %d 2\n", pos + time_offset).toUtf8());
+    else
+    {
+        process->write("pause\n");
+        process->write(QString().sprintf("seek %d 2\n", pos + time_offset).toUtf8());
+        process->write("frame_step\n");
+    }
 }
 
 /*set progress*/

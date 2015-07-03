@@ -17,6 +17,7 @@ class QMenuBar;
 class Downloader;
 class Transformer;
 class SettingsDialog;
+class CutterBar;
 
 namespace Ui {
 class Player;
@@ -44,6 +45,7 @@ private:
     Downloader *downloader;
     Transformer *transformer;
     SettingsDialog *settingsDialog;
+    CutterBar *cutterbar;
     //borders
     Border* leftBorder;
     Border* rightBorder;
@@ -71,6 +73,7 @@ private slots:
     void setIconToPause(void);
     void setMaxNormal(void);
     void showMenu(void);
+    void showCutterbar(void);
     void onNeedPause(bool);
     void onLengthChanged(int);
     void onProgressChanged(int);

@@ -1,13 +1,19 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <QHash>
-#include <QObject>
-#include <QStringList>
+#include <QString>
+#include <Python.h>
 
+class Parser
+{
+public:
+    Parser(const QString &moduleName);
+    void parse(const char *url, bool is_down);
+    inline QString &getName(){return name;}
+protected:
+    PyObject *module;
+    PyObject *parseFunc;
+    QString name;
+};
 
-namespace Parser {
-//Read .xspf playlists
-void readXspf(const QByteArray& xmlpage, QStringList& result);
-}
 #endif // PARSER_H

@@ -11,12 +11,17 @@
 #include <iostream>
 #include "sortingdialog.h"
 
-TransformerItem::TransformerItem(QTreeWidget *view, const QString &file, const QString &outfile) :
+Transformer *transformer;
+
+TransformerItem::TransformerItem(QTreeWidget *view, const QString &file, const QString &outfile,
+                                 int startPos, int endPos) :
     QTreeWidgetItem(view)
 {
-    setText(1, "(Transform) " + QFileInfo(file).fileName());
+    setText(1, (startPos == -1 ? "(Transform) " : "(Cutting) ") + QFileInfo(file).fileName());
     this->file = file;
     this->outfile = outfile;
+    this->startPos = startPos;
+    this->endPos = endPos;
 }
 
 TransformerItem::TransformerItem(QTreeWidget *view, const QStringList &files, const QString &outfile) :
@@ -48,6 +53,7 @@ Transformer::Transformer(QWidget *parent) :
     // Check whether mencoder is installed
     mencoder_installed = QDir("/usr/bin").exists("mencoder");
 #endif
+    transformer = this;
 }
 
 #ifdef Q_OS_LINUX
@@ -84,6 +90,12 @@ void Transformer::onAddButton()
         QString outfile = QFileInfo(file).baseName() + "_out.mp4";
         new TransformerItem(ui->treeWidget, file, dir.filePath(outfile));
     }
+}
+
+void Transformer::addCuttingTask(const QString &filename, int startPos, int endPos) {
+    QDir dir(QFileDialog::getExistingDirectory(this, tr("Choose save directory")));
+    QString outfile = QFileInfo(filename).baseName() + "_clip.mp4";
+    new TransformerItem(ui->treeWidget, filename, dir.filePath(outfile), startPos, endPos);
 }
 
 void Transformer::onLinkButton()
@@ -187,6 +199,8 @@ void Transformer::start(TransformerItem *item)
     }
     else //transform
     {
+        if (item->startPos != -1)
+            a << "-ss" << QString::number(item->startPos) << "-endpos" << QString::number(item->endPos - item->startPos);
         a << item->file;
         current_rest = 0;
     }

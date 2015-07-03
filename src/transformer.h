@@ -15,11 +15,13 @@ class Transformer;
 class TransformerItem : public QTreeWidgetItem
 {
 public:
-    TransformerItem(QTreeWidget *view, const QString &file, const QString &outfile);
+    TransformerItem(QTreeWidget *view, const QString &file, const QString &outfile, int startPos = -1, int endPos = -1);
     TransformerItem(QTreeWidget *view, const QStringList &files, const QString &outfile);
     QStringList files;
     QString file;
     QString outfile;
+    int startPos;
+    int endPos;
 };
 
 class Transformer : public QWidget
@@ -29,6 +31,7 @@ class Transformer : public QWidget
 public:
     explicit Transformer(QWidget *parent = 0);
     bool hasTask(void);
+    void addCuttingTask(const QString &filename, int startPos, int endPos);
     ~Transformer();
 
 #ifdef Q_OS_LINUX
@@ -60,5 +63,7 @@ private slots:
     void onListDoubleClicked(QTreeWidgetItem *item);
     void readOutput(void);
 };
+
+extern Transformer *transformer;
 
 #endif // TRANSFORMER_H

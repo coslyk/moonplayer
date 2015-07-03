@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     mybuttongroup.cpp \
     detailview.cpp \
     utils.cpp \
-    mylistwidget.cpp
+    mylistwidget.cpp \
+    cutterbar.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -61,7 +62,8 @@ HEADERS  += player.h \
     detailview.h \
     utils.h \
     mylistwidget.h \
-    settings_audio.h
+    settings_audio.h \
+    cutterbar.h
 
 
 FORMS    += \
@@ -71,7 +73,8 @@ FORMS    += \
     sortingdialog.ui \
     settingsdialog.ui \
     reslibrary.ui \
-    detailview.ui
+    detailview.ui \
+    cutterbar.ui
 
 
 unix {

@@ -23,8 +23,8 @@
 #include <QListWidget>
 #include <QMessageBox>
 #include <iostream>
-
-static QString secToTime(int second);
+#include "utils.h"
+#include "cutterbar.h"
 
 Player::Player(QWidget *parent) :
     QWidget(parent),
@@ -68,6 +68,13 @@ Player::Player(QWidget *parent) :
     ui->playerLayout->insertWidget(0, leftBorder);
     ui->playerLayout->addWidget(rightBorder);
     ui->mainLayout->addWidget(bottomBorder);
+
+    //Add Cutterbar
+    cutterbar = new CutterBar;
+    int insertPos = ui->mainLayout->indexOf(ui->toolBar);
+    ui->mainLayout->insertWidget(insertPos, cutterbar);
+    cutterbar->hide();
+    mplayer->menu->addAction(tr("Cut video"), this, SLOT(showCutterbar()), QKeySequence("C"));
 
     //Add WebVideo
     webvideo = new WebVideo;
@@ -127,6 +134,10 @@ Player::Player(QWidget *parent) :
 
     connect(downloader, SIGNAL(newPlay(const QString&,const QString&)), playlist, SLOT(addFileAndPlay(const QString&,const QString&)));
     connect(downloader, SIGNAL(newFile(const QString&,const QString&)), playlist, SLOT(addFile(const QString&,const QString&)));
+
+    connect(cutterbar, SIGNAL(newFrame(int)), mplayer, SLOT(jumpTo(int)));
+    connect(cutterbar, SIGNAL(finished()), cutterbar, SLOT(hide()));
+    connect(cutterbar, SIGNAL(finished()), ui->toolBar, SLOT(show()));
 
     //Set skin
     if (Settings::useSkin)
@@ -293,6 +304,9 @@ bool Player::eventFilter(QObject *obj, QEvent *e)
         case Qt::Key_S:
             mplayer->screenShot();
             return true;
+        case Qt::Key_C:
+            showCutterbar();
+            return true;
         case Qt::Key_Return:
             setFullScreen();
             return true;
@@ -338,6 +352,26 @@ void Player::showMenu()
     QPoint pos;
     pos.setY(ui->menuButton->height());
     menu->exec(ui->menuButton->mapToGlobal(pos));
+}
+
+//Show Cutterbar
+void Player::showCutterbar()
+{
+    if (mplayer->state == MPlayer::STOPPING || cutterbar->isVisible())
+        return;
+    QString filename = mplayer->currentFile();
+    if (filename.startsWith("http://"))
+    {
+        QMessageBox::warning(this, "Error", tr("Only support cutting local videos!"));
+        return;
+    }
+    if (is_fullscreen)
+        setFullScreen();
+    if (mplayer->state == MPlayer::TV_PLAYING || mplayer->VIDEO_PLAYING)
+        mplayer->changeState();
+    ui->toolBar->hide();
+    cutterbar->init(filename, mplayer->getLength(), mplayer->getTime());
+    cutterbar->show();
 }
 
 //change between max / normal window
@@ -437,24 +471,12 @@ void Player::onSizeChanged(QSize &sz)
 }
 
 //ProgressBar
-static QString secToTime(int second)
-{
-    static QString format = "<span style=\" font-size:14pt; font-weight:600;color:#00ff00;\">%1:%2:%3</span>";
-    QString  hour = QString::number(second / 3600);
-    QString min = QString::number((second % 3600) / 60);
-    QString sec = QString::number(second % 60);
-    if (min.length() == 1)
-        min.prepend('0');
-    if (sec.length() == 1)
-        sec.prepend('0');
-    return format.arg(hour, min, sec);
-}
 
 void Player::onPBarPressed()
 {
     if (mplayer->state == MPlayer::STOPPING)
         return;
-    QString time = secToTime(ui->progressBar->value() * MPlayer::UPDATE_FREQUENCY);
+    QString time = secToTime(ui->progressBar->value() * MPlayer::UPDATE_FREQUENCY, true);
     timeShow->setText(time);
     timeShow->show();
     timeShow->move(mplayer->pos());
@@ -465,7 +487,7 @@ void Player::onPBarChanged(int pos)
     if (mplayer->state == MPlayer::STOPPING)
         return;
     if (timeShow->isVisible())  // slider pressed
-        timeShow->setText(secToTime(pos * MPlayer::UPDATE_FREQUENCY));
+        timeShow->setText(secToTime(pos * MPlayer::UPDATE_FREQUENCY, true));
     else  // move by keyboard
         mplayer->setProgress(pos * MPlayer::UPDATE_FREQUENCY);
 }

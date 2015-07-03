@@ -21,7 +21,7 @@ def list_links(page, start, keyword = ''):
         else:
             ok = start.match(url)
         if ok:
-            if keyword in title and not url in urls:
+            if keyword.lower() in title.lower() and not url in urls:
                 urls[url] = None
                 links.append(title)
                 links.append(url)
@@ -35,7 +35,7 @@ def list_links(page, start, keyword = ''):
         else:
             ok = start.match(url)
         if ok:
-            if keyword in title and not url in urls:
+            if keyword.lower() in title.lower() and not url in urls:
                 urls[url] = None
                 links.append(title)
                 links.append(url)

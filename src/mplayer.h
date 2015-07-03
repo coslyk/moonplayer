@@ -31,13 +31,16 @@ public:
     MPlayerState state;
     Channel channel;
     static const int UPDATE_FREQUENCY = 5; //Update the progress every 5s.
-    inline QWidget* getLayer(){return layer;}
-    inline int getTime(){return progress;}
-    inline QString currentFile(){return wait_to_play;}
+    QMenu* menu;
+    inline QWidget* getLayer() {return layer;}
+    inline int getTime() {return progress;}
+    inline int getLength() {return length;}
+    inline QString currentFile() {return wait_to_play;}
 
 public slots:
     void stop(void);
     void changeState(void);
+    void jumpTo(int pos);
     void setProgress(int pos);
     void setVolume(int percentage);
     void openFile(const QString&);
@@ -70,7 +73,6 @@ private:
     QWidget* layer;  //Window for video output
     QLabel* msgLabel;  //Show catching message
 
-    QMenu* menu;
     QAction* leftChannelAction;
     QAction* rightChannelAction;
     QAction* normalChannelAction;

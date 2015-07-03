@@ -47,7 +47,6 @@ private:
     QMenu *menu;
     QVector<QString> filelist;
     int last_index;
-    void startPlayingFile(const QString &file);
 };
 extern Playlist *playlist;
 

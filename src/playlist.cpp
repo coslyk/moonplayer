@@ -9,7 +9,7 @@
 #include <QFile>
 #include <QUrl>
 #include "skin.h"
-#include "parser.h"
+#include "utils.h"
 #include "plugins.h"
 #include "pyapi.h"
 #include <iostream>
@@ -134,7 +134,7 @@ void Playlist::addFileAndPlay(const QString& name, const QString& file)
     last_index = filelist.size();
     filelist.append(file);
     ui->listWidget->addItem(new QListWidgetItem(name));
-    startPlayingFile(file);
+    emit fileSelected(file);
 }
 
 // Add list
@@ -160,7 +160,7 @@ void Playlist::addList(const QString& filename)
         QStringList list;
         QByteArray page = file.readAll();
         file.close();
-        Parser::readXspf(page, list);
+        readXspf(page, list);
         while (!list.isEmpty())
         {
             QString name = list.takeFirst();
@@ -212,7 +212,7 @@ void Playlist::selectFile(QListWidgetItem *item)
 {
     int i = ui->listWidget->row(item);
     last_index = i;
-    startPlayingFile(filelist[i]);
+    emit fileSelected(filelist[i]);
 }
 
 //play the next video
@@ -222,20 +222,6 @@ void Playlist::playNext()
     if (last_index < filelist.size())
     {
         ui->listWidget->setCurrentRow(last_index);
-        startPlayingFile(filelist[last_index]);
+        emit fileSelected(filelist[last_index]);
     }
-}
-
-void Playlist::startPlayingFile(const QString &file)
-{
-    if (file.startsWith('#'))
-    {
-        QString plugin_name = file.section('#', 1, 1);
-        QString mark = file.section('#', 2);
-        Plugin *plugin = getPluginByName(plugin_name);
-        if (plugin)
-            plugin->parse_mark(mark.toUtf8().constData());
-    }
-    else
-        emit fileSelected(file);
 }

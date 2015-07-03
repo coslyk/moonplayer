@@ -70,20 +70,11 @@ Plugin *getPluginByName(const QString &name)
 /*********************
  *** Plugin object ***
  ********************/
-Plugin::Plugin(const QString &moduleName)
+Plugin::Plugin(const QString &moduleName) : Parser(moduleName)
 {
-    //load module
-    module = PyImport_ImportModule(moduleName.toUtf8().constData());
-    if (module == NULL)
-    {
-        PyErr_Print();
-        exit(-1);
-    }
-    name = moduleName.mid(7);
-    //get search() and parse()
+    //get search() function
     searchFunc = PyObject_GetAttrString(module, "search");
-    parseFunc = PyObject_GetAttrString(module, "parse");
-    if (searchFunc == NULL || parseFunc == NULL)
+    if (searchFunc == NULL)
     {
         PyErr_Print();
         exit(-1);
@@ -92,10 +83,6 @@ Plugin::Plugin(const QString &moduleName)
     searchAlbumFunc = PyObject_GetAttrString(module, "search_album");
     if (searchAlbumFunc == NULL)
         PyErr_Clear();
-    parseMarkFunc = PyObject_GetAttrString(module, "parse_mark");
-    if (parseMarkFunc == NULL)
-        PyErr_Clear();
-
 
     //get hosts
     PyObject *hosts = PyObject_GetAttrString(module, "hosts");
@@ -129,22 +116,4 @@ void Plugin::searchAlbum(const QString &kw, int page)
 {
     Q_ASSERT(searchAlbumFunc);
     call_py_func_vsi(searchAlbumFunc, kw.toUtf8().constData(), page);
-}
-
-void Plugin::parse(const char *url, bool is_down)
-{
-    int options = (Settings::quality == Settings::SUPER) ? OPT_QL_SUPER : (Settings::quality == Settings::HIGH) ? OPT_QL_HIGH : 0;
-    if (is_down)
-        options |= OPT_DOWNLOAD;
-    call_py_func_vsi(parseFunc, url, options);
-}
-
-void Plugin::parse_mark(const char *mark)
-{
-    Q_ASSERT(parseMarkFunc);
-    PyObject *ret = PyObject_CallFunction(parseMarkFunc, "s", mark);
-    if (ret == NULL)
-        PyErr_Print();
-    else
-        Py_DecRef(ret);
 }

@@ -2,6 +2,66 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="zh_CN" sourcelanguage="zh_CN">
 <context>
+    <name>CutterBar</name>
+    <message>
+        <location filename="cutterbar.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="cutterbar.ui" line="29"/>
+        <source>Start position:</source>
+        <translation type="unfinished">起始时间：</translation>
+    </message>
+    <message>
+        <location filename="cutterbar.ui" line="43"/>
+        <location filename="cutterbar.ui" line="71"/>
+        <source>00:00:00</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="cutterbar.ui" line="50"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <location filename="cutterbar.ui" line="57"/>
+        <source>End position:</source>
+        <translation type="unfinished">结束时间：</translation>
+    </message>
+    <message>
+        <location filename="cutterbar.ui" line="78"/>
+        <location filename="cutterbar.cpp" line="137"/>
+        <source>OK</source>
+        <translation type="unfinished">确定</translation>
+    </message>
+    <message>
+        <location filename="cutterbar.cpp" line="83"/>
+        <source>This function depends on mencoder, but mencoder is not installed in this computer.</source>
+        <translation type="unfinished">本功能需要mencoder支持，但您未安装mencoder。</translation>
+    </message>
+    <message>
+        <location filename="cutterbar.cpp" line="89"/>
+        <source>Time position is not valid.</source>
+        <translation type="unfinished">无效的时间。</translation>
+    </message>
+    <message>
+        <location filename="cutterbar.cpp" line="93"/>
+        <source>What do you want to do?</source>
+        <translation type="unfinished">您想做什么？</translation>
+    </message>
+    <message>
+        <location filename="cutterbar.cpp" line="94"/>
+        <source>Cut</source>
+        <translation type="unfinished">剪切</translation>
+    </message>
+    <message>
+        <location filename="cutterbar.cpp" line="95"/>
+        <source>Losslessly cut</source>
+        <translation type="unfinished">无损剪切</translation>
+    </message>
+</context>
+<context>
     <name>DetailView</name>
     <message>
         <location filename="detailview.ui" line="14"/>
@@ -209,7 +269,7 @@
         <translation type="unfinished">立体声</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="83"/>
+        <location filename="mplayer.cpp" line="87"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
@@ -274,50 +334,60 @@
         <translation type="obsolete">库</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="75"/>
+        <location filename="player.cpp" line="77"/>
+        <source>Cut video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="player.cpp" line="82"/>
         <source>Resources</source>
         <translation type="unfinished">影视资源</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="79"/>
+        <location filename="player.cpp" line="86"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="89"/>
+        <location filename="player.cpp" line="96"/>
         <source>Player</source>
         <translation type="unfinished">播放器</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="90"/>
+        <location filename="player.cpp" line="97"/>
         <source>Online video</source>
         <oldsource>Search videos</oldsource>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="91"/>
+        <location filename="player.cpp" line="98"/>
         <source>Transform video</source>
         <translation type="unfinished">视频转码</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="92"/>
+        <location filename="player.cpp" line="99"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="94"/>
+        <location filename="player.cpp" line="101"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="154"/>
+        <location filename="player.cpp" line="165"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="165"/>
+        <location filename="player.cpp" line="176"/>
         <source>Some files are being transformed. Do you still want to close?</source>
         <translation type="unfinished">一些视频正在转码。确认关闭吗？</translation>
+    </message>
+    <message>
+        <location filename="player.cpp" line="365"/>
+        <source>Only support cutting local videos!</source>
+        <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
     <message>
         <source>Menu</source>
@@ -976,17 +1046,18 @@
         <translation type="obsolete">设置输出文件名</translation>
     </message>
     <message>
-        <location filename="transformer.cpp" line="58"/>
+        <location filename="transformer.cpp" line="64"/>
         <source>This function depends on mencoder, but mencoder is not installed in this computer.</source>
         <translation type="unfinished">本功能需要mencoder支持，但您未安装mencoder。</translation>
     </message>
     <message>
-        <location filename="transformer.cpp" line="80"/>
+        <location filename="transformer.cpp" line="86"/>
+        <location filename="transformer.cpp" line="96"/>
         <source>Choose save directory</source>
         <translation type="unfinished">选择保存文件夹</translation>
     </message>
     <message>
-        <location filename="transformer.cpp" line="91"/>
+        <location filename="transformer.cpp" line="103"/>
         <source>Please select videos you want to link</source>
         <translation type="unfinished">选择要合并的视频</translation>
     </message>
