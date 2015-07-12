@@ -57,6 +57,7 @@ alt_re = re.compile(r'<label>别名:</label>\s*\n*\s*([^<]+?)\s*\n*\s*</li>')
 date_re = re.compile(r'<label>上映:</label>(.+?)</span>')
 name_re = re.compile(r'''<span class=['"]name['"]>(.+?)</span>''')
 summ_re = re.compile(r'''<span .*?style=['"]display:none;?['"].*?>([^}]+?)</span>''')
+summ2_re = re.compile(r'''<span>([^}]+?)</span>''')
 rating_re = re.compile(r'''<em class=['"]num['"]>(.+?)</em>''')
 def load_item_cb(page, url):
     result = {}
@@ -72,12 +73,20 @@ def load_item_cb(page, url):
     match = alt_re.search(page)
     if match:
         result['alt_names'] = [match.group(1)]
-    match = summ_re.search(page.split('Detail', 1)[-1])
+        
+    detail_div = page.split('<div class="detail">', 1)[-1].split('</div>')[0]
+    match = summ_re.search(detail_div)
     if match:
         result['summary'] = match.group(1)
+    else:
+        match = summ2_re.search(detail_div)
+        if match:
+            result['summary'] = match.group(1)
+    
     match = rating_re.search(page)
     if match:
         result['rating'] = float(match.group(1))
+    
     result['source'] = list_links(page, 'http://v.youku.com/v_show/id_')
     new_url = url.replace('/show_page/', '/show_episode/')
     moonplayer.get_url(new_url, load_item_cb2, result)

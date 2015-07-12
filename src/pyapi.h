@@ -9,6 +9,7 @@
 #include <Python.h>
 
 class QNetworkReply;
+class QTimer;
 
 //////define get_url function for Python
 class GetUrl : public QObject
@@ -22,8 +23,10 @@ private:
     PyObject *callbackFunc;
     PyObject *data;
     QNetworkReply *reply;
+    QTimer *timer;
 private slots:
     void onFinished(void);
+    void onTimeOut(void);
 };
 extern GetUrl *geturl_obj;
 extern PyObject *exc_GetUrlError;

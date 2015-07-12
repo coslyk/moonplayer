@@ -336,7 +336,7 @@
     <message>
         <location filename="player.cpp" line="77"/>
         <source>Cut video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">剪切视频</translation>
     </message>
     <message>
         <location filename="player.cpp" line="82"/>

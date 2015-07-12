@@ -15,6 +15,7 @@
 #include <QMessageBox>
 #include <QNetworkProxy>
 #include <QDir>
+#include <QTimer>
 
 /*****************************************
  ******** Some useful functions **********
@@ -41,6 +42,9 @@ GetUrl::GetUrl(QObject *parent) : QObject(parent)
     reply = NULL;
     callbackFunc = NULL;
     data = NULL;
+    timer = new QTimer(this);
+    timer->setSingleShot(true);
+    connect(timer, SIGNAL(timeout()), this, SLOT(onTimeOut()));
     exc_GetUrlError = PyErr_NewException("moonplayer.GetUrlError", NULL, NULL);
 }
 
@@ -56,14 +60,22 @@ void GetUrl::start(const char *url, PyObject *callback, PyObject *_data)
     request.setRawHeader("User-Agent", "moonplayer");
     reply = access_manager->get(request);
     connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
+    timer->start(10000);
     // Set moonplayer.final_url in Python
     PyObject *str = PyString_FromString(url);
     PyObject_SetAttrString(apiModule, "final_url", str);
     Py_DecRef(str);
 }
 
+void GetUrl::onTimeOut()
+{
+    Q_ASSERT(reply);
+    reply->abort();
+}
+
 void GetUrl::onFinished()
 {
+    timer->stop();
     //check redirection
     int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (status == 301 || status == 302)
@@ -80,13 +92,21 @@ void GetUrl::onFinished()
         connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
         return;
     }
-    QByteArray barray = reply->readAll();
     PyObject *callback = callbackFunc;
     PyObject *_data = data;
     callbackFunc = NULL;
     data = NULL;
+    QNetworkReply::NetworkError error = reply->error();
+    QByteArray barray = reply->readAll();
     reply->deleteLater();
     reply = 0;
+    if (error != QNetworkReply::NoError)
+    {
+        QMessageBox::warning(NULL, "Error", "Network Error");
+        Py_DecRef(_data);
+        Py_DecRef(callback);
+        return;
+    }
     PyObject *retVal = PyObject_CallFunction(callback, "sO", barray.constData(), _data);
     Py_DecRef(_data);
     Py_DecRef(callback);

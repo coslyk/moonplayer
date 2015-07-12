@@ -367,7 +367,7 @@ void Player::showCutterbar()
     }
     if (is_fullscreen)
         setFullScreen();
-    if (mplayer->state == MPlayer::TV_PLAYING || mplayer->VIDEO_PLAYING)
+    if (mplayer->state == MPlayer::TV_PLAYING || mplayer->state == MPlayer::VIDEO_PLAYING)
         mplayer->changeState();
     ui->toolBar->hide();
     cutterbar->init(filename, mplayer->getLength(), mplayer->getTime());

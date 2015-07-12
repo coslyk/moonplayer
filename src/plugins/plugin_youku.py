@@ -63,11 +63,12 @@ def parse(url, options):
     if not match:
         moonplayer.warn('Please input a valid youku url.')
         return
-    url = 'http://www.flvcd.com/parse.php?kw=' + url
+    url = 'http://www.flvcd.com/parse.php?go=1&kw=' + url
     if options & moonplayer.OPT_QL_SUPER:
         url += '&format=super'
     elif options & moonplayer.OPT_QL_HIGH:
         url += '&format=high'
+    print url
     moonplayer.get_url(url, parse_cb, options)
     
 ## Parse videos
