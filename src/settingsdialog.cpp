@@ -1,6 +1,7 @@
 #include "settingsdialog.h"
 #include "settings_network.h"
 #include "settings_player.h"
+#include "settings_plugins.h"
 #include "settings_video.h"
 #include "ui_settingsdialog.h"
 #include "accessmanager.h"
@@ -10,7 +11,9 @@
 #include <QSettings>
 #include <QButtonGroup>
 #include <QFileDialog>
+#include <QMessageBox>
 #include "settings_audio.h"
+#include "plugins.h"
 
 QString Settings::aout;
 QString Settings::vout;
@@ -33,6 +36,7 @@ bool Settings::enableScreenshot;
 bool Settings::softvol;
 bool Settings::useSkin;
 bool Settings::rememberUnfinished;
+bool Settings::autoCombine;
 enum Settings::Quality Settings::quality;
 
 using namespace Settings;
@@ -46,6 +50,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(this, SIGNAL(rejected()), this, SLOT(loadSettings()));
     connect(ui->dirButton, SIGNAL(clicked()), this, SLOT(onDirButton()));
+    connect(ui->viewPluginsButton, SIGNAL(clicked()), this, SLOT(showPluginsMsg()));
+    connect(ui->combineCheckBox, SIGNAL(toggled(bool)), this, SLOT(checkFFMPEG(bool)));
 
     group = new QButtonGroup(this);
     group->addButton(ui->normalRadioButton, 0);
@@ -83,6 +89,7 @@ void SettingsDialog::loadSettings()
     ui->screenshotCheckBox->setChecked(enableScreenshot);
     ui->softvolCheckBox->setChecked(softvol);
     ui->rememberCheckBox->setChecked(rememberUnfinished);
+    ui->combineCheckBox->setChecked(autoCombine);
     switch (quality)
     {
     case NORMAL: ui->normalRadioButton->setChecked(true);break;
@@ -119,6 +126,7 @@ void SettingsDialog::saveSettings()
     autoResize = ui->resizeCheckBox->isChecked();
     enableScreenshot = ui->screenshotCheckBox->isChecked();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
+    autoCombine = ui->combineCheckBox->isChecked();
 
     if (proxy.isEmpty())
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
@@ -153,8 +161,9 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Net/cache_size", cacheSize);
     settings.setValue("Net/cache_min", cacheMin);
     settings.setValue("Net/max_tasks", maxTasks);
-    settings.setValue("Net/quality", (int) quality);
     settings.setValue("Net/download_dir", downloadDir);
+    settings.setValue("Plugins/quality", (int) quality);
+    settings.setValue("Plugins/auto_combine", autoCombine);
     delete ui;
 }
 
@@ -207,7 +216,8 @@ void initSettings()
     cacheMin = settings.value("Net/cache_min", 50).toInt();
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
     downloadDir = settings.value("Net/download_dir", QDir::homePath()).toString();
-    quality = (Quality) settings.value("Net/quality", 0).toInt();
+    quality = (Quality) settings.value("Plugins/quality", (int) SUPER).toInt();
+    autoCombine = settings.value("Plugins/auto_combine", false).toBool();
 
     //init proxy
     if (proxy.isEmpty())
@@ -225,4 +235,25 @@ void initSettings()
 #endif
     if (currentSkin >= skinList.size())
         currentSkin = 0;
+}
+
+void SettingsDialog::showPluginsMsg()
+{
+    QMessageBox::information(this, "Plugins", plugins_msg);
+}
+
+void SettingsDialog::checkFFMPEG(bool toggled)
+{
+    if (toggled)
+    {
+        QDir dir = QDir::home();
+        dir.cd(".moonplayer");
+        if (!dir.exists("ffmpeg"))
+        {
+            QMessageBox::warning(this, "Error", tr("FFMPEG is not installed. Please download it from") +
+                                 "\n    http://johnvansickle.com/ffmpeg/\n" +
+                                tr("and place file \"ffmpeg\" into ~/.moonplayer/"));
+            ui->combineCheckBox->setChecked(false);
+        }
+    }
 }

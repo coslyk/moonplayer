@@ -19,7 +19,6 @@ SOURCES += main.cpp\
     playlist.cpp \
     webvideo.cpp \
     skin.cpp \
-    parser.cpp \
     httpget.cpp \
     downloader.cpp \
     plugins.cpp \
@@ -33,7 +32,8 @@ SOURCES += main.cpp\
     detailview.cpp \
     utils.cpp \
     mylistwidget.cpp \
-    cutterbar.cpp
+    cutterbar.cpp \
+    videocombiner.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -44,7 +44,6 @@ HEADERS  += player.h \
     playlist.h \
     webvideo.h \
     skin.h \
-    parser.h \
     httpget.h \
     downloader.h \
     plugins.h \
@@ -63,7 +62,9 @@ HEADERS  += player.h \
     utils.h \
     mylistwidget.h \
     settings_audio.h \
-    cutterbar.h
+    cutterbar.h \
+    settings_plugins.h \
+    videocombiner.h
 
 
 FORMS    += \

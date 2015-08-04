@@ -16,6 +16,7 @@
 #include <QCloseEvent>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QPalette>
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QDesktopServices>

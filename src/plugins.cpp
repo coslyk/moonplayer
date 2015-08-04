@@ -2,7 +2,7 @@
 #include <QDir>
 #include <QHash>
 #include "pyapi.h"
-#include "settings_network.h"
+#include "settings_plugins.h"
 #ifdef Q_OS_WIN
 #include "settings_player.h"
 #endif
@@ -12,6 +12,7 @@
  ************************/
 int n_plugins = 0;
 Plugin **plugins = NULL;
+QString plugins_msg;
 
 void initPlugins()
 {
@@ -31,13 +32,28 @@ void initPlugins()
     QDir pluginsDir = QDir(Settings::path);
     pluginsDir.cd("plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
+    foreach (QString item, list) {
+        if ((item.startsWith("plugin_") || item.startsWith("res_")) && item.endsWith(".py"))
+            plugins_msg += item + "\n";
+    }
 #else
+    plugins_msg = "System plugins:\n    ";
     QDir pluginsDir = QDir("/usr/share/moonplayer/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
+    foreach (QString item, list) {
+        if ((item.startsWith("plugin_") || item.startsWith("res_")) && item.endsWith(".py"))
+            plugins_msg += item + "\n    ";
+    }
+    plugins_msg += "\nPlugins installed by user:\n    ";
     pluginsDir = QDir::home();
     pluginsDir.cd(".moonplayer");
     pluginsDir.cd("plugins");
-    list += pluginsDir.entryList(QDir::Files, QDir::Name);
+    QStringList list_users = pluginsDir.entryList(QDir::Files, QDir::Name);
+    list += list_users;
+    foreach (QString item, list_users) {
+        if ((item.startsWith("plugin_") || item.startsWith("res_")) && item.endsWith(".py"))
+            plugins_msg += item + "\n    ";
+    }
 #endif
     while (!list.isEmpty())
     {
@@ -70,8 +86,25 @@ Plugin *getPluginByName(const QString &name)
 /*********************
  *** Plugin object ***
  ********************/
-Plugin::Plugin(const QString &moduleName) : Parser(moduleName)
+Plugin::Plugin(const QString &moduleName)
 {
+    //load module
+    module = PyImport_ImportModule(moduleName.toUtf8().constData());
+    if (module == NULL)
+    {
+        PyErr_Print();
+        exit(-1);
+    }
+    name = moduleName.section('_', 1);
+
+    // Get parse() function
+    parseFunc = PyObject_GetAttrString(module, "parse");
+    if (parseFunc == NULL)
+    {
+        PyErr_Print();
+        exit(-1);
+    }
+
     //get search() function
     searchFunc = PyObject_GetAttrString(module, "search");
     if (searchFunc == NULL)
@@ -105,6 +138,14 @@ Plugin::Plugin(const QString &moduleName) : Parser(moduleName)
 
     // add to name table
     name2plugin[name] = this;
+}
+
+void Plugin::parse(const char *url, bool is_down)
+{
+    int options = (Settings::quality == Settings::SUPER) ? OPT_QL_SUPER : (Settings::quality == Settings::HIGH) ? OPT_QL_HIGH : 0;
+    if (is_down)
+        options |= OPT_DOWNLOAD;
+    call_py_func_vsi(parseFunc, url, options);
 }
 
 void Plugin::search(const QString &kw, int page)

@@ -176,42 +176,42 @@
 <context>
     <name>Downloader</name>
     <message>
-        <location filename="downloader.cpp" line="24"/>
+        <location filename="downloader.cpp" line="33"/>
         <source>File name</source>
         <translation type="unfinished">文件名</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="24"/>
+        <location filename="downloader.cpp" line="33"/>
         <source>State</source>
         <translation type="unfinished">状态</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="30"/>
+        <location filename="downloader.cpp" line="39"/>
         <source>Play</source>
         <translation type="unfinished">播放</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="31"/>
+        <location filename="downloader.cpp" line="40"/>
         <source>Delete</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="32"/>
+        <location filename="downloader.cpp" line="41"/>
         <source>Pause</source>
         <translation type="unfinished">暂停</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="42"/>
+        <location filename="downloader.cpp" line="51"/>
         <source>Download Manager</source>
         <translation type="unfinished">下载管理器</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="57"/>
+        <location filename="downloader.cpp" line="66"/>
         <source> is existed. Download again?</source>
         <translation type="unfinished">已存在。重新下载吗？</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="159"/>
+        <location filename="downloader.cpp" line="181"/>
         <source>File is being downloaded. Still want to delete?</source>
         <translation type="unfinished">文件正在下载，仍要删除吗？</translation>
     </message>
@@ -334,58 +334,58 @@
         <translation type="obsolete">库</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="77"/>
+        <location filename="player.cpp" line="78"/>
         <source>Cut video</source>
         <translation type="unfinished">剪切视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="82"/>
+        <location filename="player.cpp" line="83"/>
         <source>Resources</source>
         <translation type="unfinished">影视资源</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="86"/>
+        <location filename="player.cpp" line="87"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="96"/>
+        <location filename="player.cpp" line="97"/>
         <source>Player</source>
         <translation type="unfinished">播放器</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="97"/>
+        <location filename="player.cpp" line="98"/>
         <source>Online video</source>
         <oldsource>Search videos</oldsource>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="98"/>
+        <location filename="player.cpp" line="99"/>
         <source>Transform video</source>
         <translation type="unfinished">视频转码</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="99"/>
+        <location filename="player.cpp" line="100"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="101"/>
+        <location filename="player.cpp" line="102"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="165"/>
+        <location filename="player.cpp" line="166"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="176"/>
+        <location filename="player.cpp" line="177"/>
         <source>Some files are being transformed. Do you still want to close?</source>
         <translation type="unfinished">一些视频正在转码。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="365"/>
+        <location filename="player.cpp" line="366"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
@@ -825,44 +825,69 @@
         <translation type="unfinished">端口</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="333"/>
+        <location filename="settingsdialog.ui" line="405"/>
+        <source>Plugins</source>
+        <translation type="unfinished">插件</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="411"/>
         <source>Video quality:</source>
         <translation type="unfinished">视频质量：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="340"/>
+        <location filename="settingsdialog.ui" line="418"/>
         <source>Normal</source>
         <translation type="unfinished">标清</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="347"/>
+        <location filename="settingsdialog.ui" line="425"/>
         <source>High</source>
         <translation type="unfinished">高清</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="354"/>
+        <location filename="settingsdialog.ui" line="432"/>
         <source>Super</source>
         <translation type="unfinished">超清</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="375"/>
+        <location filename="settingsdialog.ui" line="439"/>
+        <source>Combine video clips automatically after downloading</source>
+        <translation type="unfinished">下载后自动合并分段视频</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="459"/>
+        <source>View installed plugins</source>
+        <translation type="unfinished">查看已安装插件</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="343"/>
         <source>Max tasks</source>
         <translation type="unfinished">最大任务数</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="389"/>
+        <location filename="settingsdialog.ui" line="357"/>
         <source>Save to:</source>
         <translation type="unfinished">保存至：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="399"/>
+        <location filename="settingsdialog.ui" line="367"/>
         <source>Cache(KB):</source>
         <translation type="unfinished">缓冲大小(KB):</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="406"/>
+        <location filename="settingsdialog.ui" line="374"/>
         <source>Cache min:</source>
         <translation type="unfinished">缓冲百分比:</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.cpp" line="253"/>
+        <source>FFMPEG is not installed. Please download it from</source>
+        <translation type="unfinished">ffmpeg未安装。请从以下网址下载ffmpeg</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.cpp" line="255"/>
+        <source>and place file &quot;ffmpeg&quot; into ~/.moonplayer/</source>
+        <translation type="unfinished">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/</translation>
     </message>
 </context>
 <context>
@@ -1060,6 +1085,19 @@
         <location filename="transformer.cpp" line="103"/>
         <source>Please select videos you want to link</source>
         <translation type="unfinished">选择要合并的视频</translation>
+    </message>
+</context>
+<context>
+    <name>VideoCombiner</name>
+    <message>
+        <location filename="videocombiner.cpp" line="30"/>
+        <source>Finished combining:</source>
+        <translation type="unfinished">合并视频成功：</translation>
+    </message>
+    <message>
+        <location filename="videocombiner.cpp" line="32"/>
+        <source>Failed to combine:</source>
+        <translation type="unfinished">合并视频失败：</translation>
     </message>
 </context>
 <context>

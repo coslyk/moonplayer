@@ -8,7 +8,6 @@ extern QString proxy;
 extern QString downloadDir;
 extern int port;
 extern int maxTasks;
-extern enum Quality {NORMAL, HIGH, SUPER} quality;
 }
 
 #endif // SETTINGS_NETWORK_H

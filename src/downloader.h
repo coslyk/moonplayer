@@ -10,6 +10,7 @@ class QTreeWidget;
 class QPushButton;
 class QTreeWidgetItem;
 class HttpGet;
+class DownloaderGroup;
 
 class Downloader : public QWidget
 {
@@ -30,7 +31,7 @@ private:
     QTreeWidget *treeWidget;
     QHash<HttpGet*, QTreeWidgetItem*> get2item;
     QHash<QTreeWidgetItem*, HttpGet*> item2get;
-    QHash<QString, QTreeWidgetItem*> dir2group;
+    QHash<QString, DownloaderGroup*> dir2group;
     QLinkedList<HttpGet*> waitings;
     int n_downloading;
 

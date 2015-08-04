@@ -24,6 +24,8 @@ private slots:
     void loadSettings(void);
     void saveSettings(void);
     void onDirButton(void);
+    void showPluginsMsg(void);
+    void checkFFMPEG(bool toggled);
 };
 
 void initSettings(void);

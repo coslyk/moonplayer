@@ -11,7 +11,16 @@
 #include <QHash>
 #include "httpget.h"
 #include "settings_network.h"
+#include "settings_plugins.h"
+#include "videocombiner.h"
 #include <iostream>
+
+class DownloaderGroup : public QTreeWidgetItem {
+public:
+    int finished;
+    QDir dir;
+    DownloaderGroup(QTreeWidget *tree, const QStringList &labels) : QTreeWidgetItem(tree, labels) {}
+};
 
 Downloader *downloader = NULL;
 
@@ -69,16 +78,19 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
     QTreeWidgetItem *item;
     if (in_group)
     {
-        QTreeWidgetItem *group = dir2group[info.path()];
+        DownloaderGroup *group = dir2group[info.path()];
         if (group == NULL)
         {
             labels << info.path() << "";
-            group = new QTreeWidgetItem(treeWidget, labels);
+            group = new DownloaderGroup(treeWidget, labels);
+            group->finished = 0;
+            group->dir = QDir(info.path());
             dir2group[info.path()] = group;
             labels.clear();
         }
         labels << info.fileName() << "Wait";
         item = new QTreeWidgetItem(group, labels);
+        group->setText(1, QString().sprintf("%d / %d", group->finished, group->childCount()));
     }
     else
     {
@@ -103,7 +115,17 @@ void Downloader::onFinished(HttpGet *get, bool error)
     if (error)
         item->setText(1, "Error");
     else
+    {
         item->setText(1, "Finished");
+        if (item->parent())
+        {
+            DownloaderGroup *group = static_cast<DownloaderGroup*>(item->parent());
+            group->finished++;
+            group->setText(1, QString().sprintf("%d / %d", group->finished, group->childCount()));
+            if (Settings::autoCombine && group->finished == group->childCount())
+                new VideoCombiner(this, group->dir);
+        }
+    }
     get2item.remove(get);
     item2get[item] = NULL;
     n_downloading--;
@@ -120,7 +142,7 @@ void Downloader::onPlayButton()
     if (!item)
         return;
 
-    if (item->text(1).isEmpty()) //dir
+    if (item->childCount()) //dir
     {
         QTreeWidgetItem *child = item->child(0);
         QDir dir(item->text(0));
