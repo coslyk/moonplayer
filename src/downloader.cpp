@@ -67,7 +67,7 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
             return;
     }
 
-    HttpGet *get = new HttpGet(QUrl::fromPercentEncoding(url.simplified()), filename, this);
+    HttpGet *get = new HttpGet(QUrl::fromEncoded(url.simplified(), QUrl::StrictMode), filename, this);
     connect(get, SIGNAL(finished(HttpGet*,bool)), this, SLOT(onFinished(HttpGet*,bool)));
     connect(get, SIGNAL(paused(HttpGet*,int)), this, SLOT(onPaused(HttpGet*,int)));
     connect(get, SIGNAL(progressChanged(HttpGet*,int,bool)), this, SLOT(onProgressChanged(HttpGet*,int,bool)));
