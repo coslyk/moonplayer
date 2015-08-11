@@ -34,7 +34,6 @@ bool Settings::ffodivxvdpau;
 bool Settings::autoResize;
 bool Settings::enableScreenshot;
 bool Settings::softvol;
-bool Settings::useSkin;
 bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 enum Settings::Quality Settings::quality;
@@ -74,7 +73,6 @@ void SettingsDialog::loadSettings()
     ui->voComboBox->setCurrentIndex(ui->voComboBox->findText(vout));
     ui->aoComboBox->setCurrentIndex(ui->aoComboBox->findText(aout));
     ui->skinComboBox->setCurrentIndex(currentSkin);
-    ui->skinCheckBox->setChecked(useSkin);
     ui->proxyEdit->setText(proxy);
     ui->portEdit->setText(QString::number(port));
     ui->cacheSpinBox->setValue(cacheSize);
@@ -122,7 +120,6 @@ void SettingsDialog::saveSettings()
     softvol = ui->softvolCheckBox->isChecked();
     quality = (enum Quality) group->checkedId();
     currentSkin = ui->skinComboBox->currentIndex();
-    useSkin = ui->skinCheckBox->isChecked();
     autoResize = ui->resizeCheckBox->isChecked();
     enableScreenshot = ui->screenshotCheckBox->isChecked();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
@@ -144,7 +141,6 @@ SettingsDialog::~SettingsDialog()
     QSettings settings(QDir::homePath() + "/.config/moonplayer.ini", QSettings::IniFormat);
 #endif
     settings.setValue("Player/current_skin", currentSkin);
-    settings.setValue("Player/use_skin", useSkin);
     settings.setValue("Player/auto_resize", autoResize);
     settings.setValue("Player/screenshot", enableScreenshot);
     settings.setValue("Player/remember_unfinished", rememberUnfinished);
@@ -206,7 +202,6 @@ void initSettings()
     softvol = settings.value("Audio/softvol", false).toBool();
     volume = settings.value("Audio/volume", 10).toInt();
     currentSkin = settings.value("Player/current_skin", 0).toInt();
-    useSkin = settings.value("Player/use_skin", true).toBool();
     autoResize = settings.value("Player/auto_resize", true).toBool();
     enableScreenshot = settings.value("Player/screenshot", true).toBool();
     rememberUnfinished = settings.value("Player/remember_unfinished", true).toBool();

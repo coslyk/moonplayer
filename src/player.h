@@ -56,17 +56,12 @@ private:
     QMenu* menu;
     QMenuBar* menubar;
 
-    QIcon play_icon;
-    QIcon pause_icon;
-    QSize play_icon_size;
-
     bool no_play_next;
     bool is_fullscreen;
     bool toolbar_visible;
     int toolbar_pos_y;
 
     void setSkin(const QString& skin_name);
-    void setNoSkin(void);
 
 private slots:
     void setIconToPlay(void);

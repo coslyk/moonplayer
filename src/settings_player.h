@@ -8,7 +8,6 @@ namespace Settings
 extern QString path;
 extern int currentSkin;
 extern QStringList skinList;
-extern bool useSkin;
 extern bool autoResize;
 }
 

@@ -17,7 +17,16 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -75,7 +84,16 @@
      <property name="spacing">
       <number>0</number>
      </property>
-     <property name="margin">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
       <number>0</number>
      </property>
     </layout>
@@ -83,6 +101,15 @@
    <item>
     <widget class="QWidget" name="toolBar" native="true">
      <layout class="QVBoxLayout" name="toolBarLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>4</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QSlider" name="progressBar">
         <property name="orientation">
@@ -112,7 +139,7 @@
          <widget class="QPushButton" name="playButton"/>
         </item>
         <item>
-         <widget class="QLabel" name="volumePic"/>
+         <widget class="QPushButton" name="pauseButton"/>
         </item>
         <item>
          <widget class="QSlider" name="volumeSlider">
@@ -150,13 +177,6 @@
          <widget class="QPushButton" name="netButton">
           <property name="toolTip">
            <string>Online videos</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="hideButton">
-          <property name="toolTip">
-           <string>Show/hide playlist</string>
           </property>
          </widget>
         </item>

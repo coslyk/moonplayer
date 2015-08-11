@@ -80,7 +80,7 @@ FORMS    += \
 
 unix {
     #skin
-    default_skin.files += skins/default/*.png
+    default_skin.files += skins/default
     default_skin.path = /usr/share/moonplayer/skins/default
     #translation
     trans.files += moonplayer_*.qm

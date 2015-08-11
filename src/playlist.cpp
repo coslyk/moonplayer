@@ -54,36 +54,6 @@ Playlist::~Playlist()
     delete ui;
 }
 
-void Playlist::setSkin(const QDir &dir)
-{
-    Skin::setButton(ui->addButton, dir.filePath("add.png"), dir.filePath("add_over.png"));
-    Skin::setButton(ui->delButton, dir.filePath("del.png"), dir.filePath("del_over.png"));
-    Skin::setButton(ui->clearButton, dir.filePath("clear.png"), dir.filePath("clear_over.png"));
-    Skin::setListView(ui->listWidget, dir.filePath("playlist_bg2.png"),
-                      dir.filePath("listitem_selected.png"),
-                      dir.filePath("listitem_inactive.png"),
-                      dir.filePath("playlist_scrollbar.png"),
-                      dir.filePath("playlist_scrollbg.png"),
-                      dir.filePath("playlist_hscrollbar.png"),
-                      dir.filePath("playlist_hscrollbg.png"));
-
-    QPixmap img(dir.filePath("playlist_bg.png"));
-    setAutoFillBackground(true);
-    QPalette pal;
-    pal.setBrush(backgroundRole(), QBrush(img));
-    setPalette(pal);
-}
-
-void Playlist::setNoSkin()
-{
-    QSize size(18, 18);
-    Skin::setButton(ui->addButton, QIcon::fromTheme("list-add"), size);
-    Skin::setButton(ui->delButton, QIcon::fromTheme("list-remove"), size);
-    Skin::setButton(ui->clearButton, QIcon::fromTheme("edit-clear"), size);
-    ui->listWidget->setStyleSheet(0);
-    setAutoFillBackground(false);
-}
-
 void Playlist::showMenu()
 {
     QPoint pos;

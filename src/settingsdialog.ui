@@ -47,13 +47,6 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="skinCheckBox">
-         <property name="text">
-          <string>Skin</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="1">
         <widget class="QComboBox" name="skinComboBox"/>
        </item>
@@ -61,6 +54,13 @@
         <widget class="QCheckBox" name="rememberCheckBox">
          <property name="text">
           <string>Remember unfinished clips</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="skinLabel">
+         <property name="text">
+          <string>Skin</string>
          </property>
         </widget>
        </item>
