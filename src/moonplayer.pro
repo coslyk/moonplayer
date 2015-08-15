@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     utils.cpp \
     mylistwidget.cpp \
     cutterbar.cpp \
-    videocombiner.cpp
+    videocombiner.cpp \
+    searcher.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -64,7 +65,8 @@ HEADERS  += player.h \
     settings_audio.h \
     cutterbar.h \
     settings_plugins.h \
-    videocombiner.h
+    videocombiner.h \
+    searcher.h
 
 
 FORMS    += \
@@ -80,8 +82,8 @@ FORMS    += \
 
 unix {
     #skin
-    default_skin.files += skins/default
-    default_skin.path = /usr/share/moonplayer/skins
+    default_skin.files += skins
+    default_skin.path = /usr/share/moonplayer
     #translation
     trans.files += moonplayer_*.qm
     trans.path = /usr/share/moonplayer
@@ -92,8 +94,8 @@ unix {
     execute.files += moonplayer
     execute.path = /usr/bin
     #plugins
-    plugin.files += plugins/*.py plugins/*.pyc
-    plugin.path = /usr/share/moonplayer/plugins
+    plugin.files += plugins
+    plugin.path = /usr/share/moonplayer
     #menu
     menu.files += moonplayer.desktop
     menu.path = /usr/share/applications

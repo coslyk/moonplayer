@@ -23,7 +23,6 @@ signals:
 public:
     explicit WebVideo(QWidget *parent = 0);
     PyObject* showList(PyObject *list);
-    PyObject* showAlbum(PyObject *list);
     void setListItemColor(int n, const QColor &color);
     QListWidget *listWidget;
 
@@ -35,23 +34,19 @@ private:
     QString keyword;
     int page_n;
     int provider;
-    enum {TYPE_VIDEO, TYPE_ALBUM} type;
     void warnHavingTask(void);
     void startPlayOrDown(QListWidgetItem* item);
 
     QComboBox *comboBox;
     QPushButton *prevButton;
     QPushButton *nextButton;
-    QPushButton *backButton;
     QLineEdit *lineEdit;
 
 private slots:
     void downSearchPage(void);
     void nextSearchPage(void);
     void prevSearchPage(void);
-    void backSearchPage(void);
     void searchVideo(void);
-    void searchAlbum(void);
     void onDoubleClicked(QListWidgetItem *item);
     void onDownButton(void);
 };

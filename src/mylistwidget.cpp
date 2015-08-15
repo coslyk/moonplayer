@@ -53,7 +53,8 @@ void MyListWidget::onLoadPicFinished()
             pic = pic.scaledToWidth(100, Qt::SmoothTransformation);
         loading_item->setIcon(QIcon(pic));
         loading_item->setSizeHint(pic.size() + QSize(10, 20));
-        setIconSize(pic.size());
+        if (count() == 0) // First item
+            setIconSize(pic.size());
         addItem(loading_item);
     }
     reply->deleteLater();

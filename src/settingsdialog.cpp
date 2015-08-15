@@ -241,8 +241,12 @@ void SettingsDialog::checkFFMPEG(bool toggled)
 {
     if (toggled)
     {
+#ifdef Q_OS_LINUX
         QDir dir = QDir::home();
         dir.cd(".moonplayer");
+#else
+        QDir dir(Settings::path);
+#endif
         if (!dir.exists("ffmpeg"))
         {
             QMessageBox::warning(this, "Error", tr("FFMPEG is not installed. Please download it from") +

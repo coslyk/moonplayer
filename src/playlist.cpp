@@ -169,7 +169,7 @@ void Playlist::addUrl(const QString &url)
             QMessageBox::warning(this, "warning", tr("Another file is parsing. Please wait."));
             return;
         }
-        bool down = (QMessageBox::question(this, plugin->getName(), tr("Download?"),
+        bool down = (QMessageBox::question(this, "Question", tr("Download?"),
                               QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes);
         plugin->parse(url.toUtf8().constData(), down);
     }

@@ -134,7 +134,7 @@ void DetailView::onPlay()
     if (plugin)
         plugin->parse(urls[current_row].constData(), false);
     else
-        QMessageBox::warning(this, "warning", tr("Cannot find plugin which can parse this source."));
+        flvcd_parser->parse(urls[current_row].constData(), false);
 }
 
 void DetailView::onDownload()
@@ -147,5 +147,5 @@ void DetailView::onDownload()
     if (plugin)
         plugin->parse(urls[current_row].constData(), true);
     else
-        QMessageBox::warning(this, "warning", tr("Cannot find plugin which can parse this source."));
+        flvcd_parser->parse(urls[current_row].constData(), true);
 }

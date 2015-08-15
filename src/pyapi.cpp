@@ -180,14 +180,6 @@ static PyObject *show_list(PyObject *, PyObject *args)
     return webvideo->showList(list);
 }
 
-static PyObject *show_album(PyObject *, PyObject *args)
-{
-    PyObject *list;
-    if (!PyArg_ParseTuple(args, "O", &list))
-        return NULL;
-    return webvideo->showAlbum(list);
-}
-
 static PyObject *download(PyObject *, PyObject *args)
 {
     //read args
@@ -292,7 +284,7 @@ static PyObject *res_show(PyObject *, PyObject *args)
         const char *name, *pic_url, *flag;
         if (NULL == (name_obj = PyDict_GetItemString(dict, "name")))
             return NULL;
-        if (NULL == (flag_obj = PyDict_GetItemString(dict, "flag")))
+        if (NULL == (flag_obj = PyDict_GetItemString(dict, "url")))
             return NULL;
         if (NULL == (pic_url_obj = PyDict_GetItemString(dict, "pic_url")))
             return NULL;
@@ -336,7 +328,6 @@ static PyMethodDef methods[] = {
     {"warn",             warn,       METH_VARARGS, "Show warning message"},
     {"question",         question,   METH_VARARGS, "Show a question dialog"},
     {"show_list",        show_list,  METH_VARARGS, "Show searching result on the list"},
-    {"show_album",       show_album, METH_VARARGS, "Show album result on the list"},
     {"set_list_item_color", set_list_item_color, METH_VARARGS, "Set the color of list items"},
     {"download",      download,      METH_VARARGS, "Download file"},
     {"play",          play,          METH_VARARGS, "Play online"},

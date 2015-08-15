@@ -1,0 +1,212 @@
+/*menuButton*/
+QPushButton#menuButton {
+    border-image:url(menu.png);
+}
+QPushButton:hover:!pressed#menuButton {
+    border-image:url(menu_over.png);
+} #menuButton
+QPushButton:hover:pressed#menuButton {
+    border-image:url(menu.png);
+}
+
+/*minButton*/
+QPushButton#minButton {
+    border-image:url(min.png);
+}
+QPushButton:hover:!pressed#minButton {
+    border-image:url(min_over.png);
+}
+QPushButton:hover:pressed#minButton {
+    border-image:url(min.png);
+}
+
+/*maxButton*/
+QPushButton#maxButton {
+    border-image:url(max.png);
+}
+QPushButton:hover:!pressed#maxButton {
+    border-image:url(max_over.png);
+}
+QPushButton:hover:pressed#maxButton {
+    border-image:url(max.png);
+}
+
+/*closeButton*/
+QPushButton#closeButton {
+    border-image:url(close.png);
+}
+QPushButton:hover:!pressed#closeButton {
+    border-image:url(close_over.png);
+}
+QPushButton:hover:pressed#closeButton {
+    border-image:url(close.png);
+}
+
+/*titleBar*/
+QWidget#titleBar {
+    border-image:url(top.png);
+}
+
+/*toolBar*/
+QWidget#toolBar {
+    border-image:url(bottom.png);
+}
+
+/*progressBar and volumeSlider*/
+QSlider::groove:horizontal {
+    height: 5px;
+    margin: 0px 0px;
+    left: 12px; right: 12px;
+    border-image:url(slider-bg.png);
+}
+QSlider::handle:horizontal {
+    border: 1px solid #5c5c5c;
+    border-image:url(slider.png);
+    width: 9px;
+    margin: -2px -2px -2px -2px;
+}
+
+/*stopButton*/
+QPushButton#stopButton {
+    border-image:url(stop.png);
+}
+
+/*playButton*/
+QPushButton#playButton {
+    border-image:url(play.png);
+}
+
+/*pauseButton*/
+QPushButton#pauseButton {
+    border-image:url(pause.png);
+}
+
+/*netButton*/
+QPushButton#netButton {
+    border-image:url(net.png);
+}
+QPushButton:hover:!pressed#netButton {
+    border-image:url(net_over.png);
+}
+QPushButton:hover:pressed#netButton {
+    border-image:url(net.png);
+}
+
+/*hideButton*/
+QPushButton#hideButton {
+    border-image:url(playlist.png);
+}
+QPushButton:hover:!pressed#hideButton {
+    border-image:url(playlist_over.png);
+}
+QPushButton:hover:pressed#hideButton {
+    border-image:url(playlist.png);
+}
+
+/*topLeftBorder*/
+QWidget#topLeftBorder {
+    border-image:url(topleft_border.png);
+}
+/*topRightBorder*/
+QWidget#topRightBorder {
+    border-image:url(topright_border.png);
+}
+/*leftBorder*/
+QWidget#leftBorder {
+    border-image:url(left_border.png);
+}
+/*RightBorder*/
+QWidget#rightBorder {
+    border-image:url(right_border.png);
+}
+/*bottomBorder*/
+QWidget#bottomBorder {
+    border-image:url(bottom_border.png);
+}
+
+/*playlistBar*/
+QWidget#playlistBar {
+    border-image:url(playlist_bg.png);
+}
+
+/*addButton*/
+QPushButton#addButton {
+    border-image:url(add.png);
+}
+QPushButton:hover:!pressed#addButton {
+    border-image:url(add_over.png);
+}
+QPushButton:hover:pressed#addButton {
+    border-image:url(add.png);
+}
+
+/*delButton*/
+QPushButton#delButton {
+    border-image:url(del.png);
+}
+QPushButton:hover:!pressed#delButton {
+    border-image:url(del_over.png);
+}
+QPushButton:hover:pressed#delButton {
+    border-image:url(del.png);
+}
+
+/*clearButton*/
+QPushButton#clearButton {
+    border-image:url(clear.png);
+}
+QPushButton:hover:!pressed#clearButton {
+    border-image:url(clear_over.png);
+}
+QPushButton:hover:pressed#clearButton {
+    border-image:url(clear.png);
+}
+
+/*listWidget*/
+QListView {
+    alternate-background-color: white;
+    border-image: url(playlist_bg2.png);
+}
+QListView::item:selected:active {border-image:url(listitem_selected);}
+QListView::item:selected:!active{border-image:url(listitem_inactive);}
+QListView::item:hover {border: none;}
+QScrollBar::handle:vertical {
+    min-height: 20px;
+    margin: 0px;
+    border-radius: 3px;
+    border-image: url(playlist_scrollbar.png);
+}
+QScrollBar:vertical {
+    border-image: url(playlist_scrollbg.png);
+    width: 11px;
+    margin: 0px;
+}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    border-image: url(playlist_scrollbg.png);
+    height: 0px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    border-image: url(playlist_scrollbg.png);
+}
+QScrollBar::handle:horizontal {
+    min-width: 20px;
+    margin: 0px;
+    border-radius: 3px;
+    border-image: url(playlist_hscrollbar.png);
+}
+QScrollBar:horizontal {
+    border-image: url(playlist_hscrollbg.png);
+    height: 11px;
+    margin: 0px;
+}
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    border-image: url(playlist_hscrollbg.png);
+    width: 0px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    border-image: url(playlist_hscrollbg.png);
+};

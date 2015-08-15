@@ -13,6 +13,7 @@
 #include <QLabel>
 #include <QUrl>
 #include "plugins.h"
+#include "searcher.h"
 #include "pyapi.h"
 #include "utils.h"
 #include <iostream>
@@ -27,7 +28,8 @@ WebVideo::WebVideo(QWidget *parent) :
     setObjectName("WebVideo");
 
     initPlugins();
-    if (n_plugins == 0)
+    initSearchers();
+    if (n_plugins == 0 || n_searchers == 0)
     {
         QLabel *label = new QLabel(tr("You have not install any plugins yet ~_~"));
         addTab(label, tr("Web videos"));
@@ -35,34 +37,30 @@ WebVideo::WebVideo(QWidget *parent) :
     }
 
     QPushButton *downButton = new QPushButton(tr("Down"));
-    QPushButton *albumButton = new QPushButton(tr("Album"));
+    QPushButton *searchButton = new QPushButton(tr("Search"));
     lineEdit = new QLineEdit;
     prevButton = new QPushButton(tr("Prev"));
     nextButton = new QPushButton(tr("Next"));
-    backButton = new QPushButton(tr("Back"));
-    backButton->setEnabled(false);
     listWidget = new QListWidget;
     comboBox = new QComboBox;
     QWidget *page = new QWidget;
     QGridLayout *grid = new QGridLayout(page);
     addTab(page, tr("Web videos"));
     grid->addWidget(comboBox, 0, 0, 1, 1);
-    grid->addWidget(lineEdit, 0, 1, 1, 3);
-    grid->addWidget(albumButton, 0, 4, 1, 1);
-    grid->addWidget(listWidget, 1, 0, 1, 5);
+    grid->addWidget(lineEdit, 0, 1, 1, 2);
+    grid->addWidget(searchButton, 0, 3, 1, 1);
+    grid->addWidget(listWidget, 1, 0, 1, 4);
     grid->addWidget(downButton, 2, 0, 1, 1);
     grid->addWidget(prevButton, 2, 2, 1, 1);
     grid->addWidget(nextButton, 2, 3, 1, 1);
-    grid->addWidget(backButton, 2, 4, 1, 1);
     grid->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding), 2, 1);
     setMinimumSize(950, 500);
 
     //down search page and parse
     connect(nextButton, SIGNAL(clicked()), this, SLOT(nextSearchPage()));
     connect(prevButton, SIGNAL(clicked()), this, SLOT(prevSearchPage()));
-    connect(backButton, SIGNAL(clicked()), this, SLOT(backSearchPage()));
     connect(lineEdit, SIGNAL(returnPressed()), this, SLOT(searchVideo()));
-    connect(albumButton, SIGNAL(clicked()), this, SLOT(searchAlbum()));
+    connect(searchButton, SIGNAL(clicked()), this, SLOT(searchVideo()));
 
     //Download video file
     connect(downButton, SIGNAL(clicked()), this, SLOT(onDownButton()));
@@ -70,8 +68,8 @@ WebVideo::WebVideo(QWidget *parent) :
 
     //plugins support
     provider = 0;
-    for (int i = 0; i < n_plugins; i++)
-        comboBox->addItem(plugins[i]->getName());
+    for (int i = 0; i < n_searchers; i++)
+        comboBox->addItem(searchers[i]->getName());
 }
 
 void WebVideo::showEvent(QShowEvent *event)
@@ -100,29 +98,6 @@ void WebVideo::searchVideo()
     if (key.isEmpty())
         return;
     provider = comboBox->currentIndex();
-    type = TYPE_VIDEO;
-    keyword = key;
-    downSearchPage();
-}
-
-void WebVideo::searchAlbum()
-{
-    if (geturl_obj->hasTask())
-    {
-        warnHavingTask();
-        return;
-    }
-    int pv = comboBox->currentIndex();
-    if (!plugins[pv]->supportAlbum())
-    {
-        QMessageBox::warning(this, "Warning", tr("Album is not supported."));
-        return;
-    }
-    QString key = lineEdit->text().simplified();
-    if (key.isEmpty())
-        return;
-    provider = pv;
-    type = TYPE_ALBUM;
     keyword = key;
     downSearchPage();
 }
@@ -130,18 +105,14 @@ void WebVideo::searchAlbum()
 void WebVideo::downSearchPage()
 {
     // no plugins, return
-    if (geturl_obj->hasTask() || keyword.isEmpty() || !n_plugins)
+    if (geturl_obj->hasTask() || keyword.isEmpty() || !n_searchers)
         return;
     // set ui
     page_n = 1;
     prevButton->setEnabled(false);
-    backButton->setEnabled(false);
     nextButton->setEnabled(true);
     // call plugin
-    if (type == TYPE_ALBUM)
-        plugins[provider]->searchAlbum(keyword, 1);
-    else
-        plugins[provider]->search(keyword, 1);
+    searchers[provider]->search(keyword, 1);
 }
 
 void WebVideo::nextSearchPage()
@@ -156,13 +127,9 @@ void WebVideo::nextSearchPage()
     // set ui
     page_n++;
     prevButton->setEnabled(true);
-    backButton->setEnabled(false);
     nextButton->setEnabled(true);
     //call plugin
-    if (type == TYPE_ALBUM)
-        plugins[provider]->searchAlbum(keyword, page_n);
-    else
-        plugins[provider]->search(keyword, page_n);
+    searchers[provider]->search(keyword, page_n);
 }
 
 void WebVideo::prevSearchPage()
@@ -180,19 +147,9 @@ void WebVideo::prevSearchPage()
         prevButton->setEnabled(false);
     else
         prevButton->setEnabled(true);
-    backButton->setEnabled(false);
     nextButton->setEnabled(true);
     //call plugin
-    if (type == TYPE_ALBUM)
-        plugins[provider]->searchAlbum(keyword, page_n);
-    else
-        plugins[provider]->search(keyword, page_n);
-}
-
-void WebVideo::backSearchPage()
-{
-    page_n++;
-    prevSearchPage();
+    searchers[provider]->search(keyword, page_n);
 }
 
 PyObject* WebVideo::showList(PyObject *list)
@@ -222,14 +179,6 @@ PyObject* WebVideo::showList(PyObject *list)
     return Py_None;
 }
 
-PyObject* WebVideo::showAlbum(PyObject *list)
-{
-    nextButton->setEnabled(false);
-    prevButton->setEnabled(false);
-    backButton->setEnabled(true);
-    return showList(list);
-}
-
 void WebVideo::setListItemColor(int n, const QColor &color)
 {
     QListWidgetItem *item = listWidget->item(n);
@@ -248,9 +197,10 @@ void WebVideo::onDoubleClicked(QListWidgetItem *item)
     int i = listWidget->row(item);
     QByteArray url = result[i];
     Plugin *plugin = getPluginByHost(QUrl(QString::fromUtf8(url)).host());
-    if (plugin == 0)
-        plugin = plugins[provider];
-    plugin->parse(url.constData(), false);
+    if (plugin)
+        plugin->parse(url.constData(), false);
+    else
+        flvcd_parser->parse(url.constData(), false);
 }
 
 
@@ -267,6 +217,7 @@ void WebVideo::onDownButton()
     QByteArray url = result[i];
     Plugin *plugin = getPluginByHost(QUrl(QString::fromUtf8(url)).host());
     if (plugin == 0)
-        plugin = plugins[provider];
-    plugin->parse(result[i], true);
+        plugin->parse(url.constData(), true);
+    else
+        flvcd_parser->parse(url.constData(), false);
 }

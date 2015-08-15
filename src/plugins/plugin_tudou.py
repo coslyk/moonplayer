@@ -11,34 +11,9 @@ except ImportError:
 #hosts
 hosts = ('www.tudou.com',)
 
-#search videos
-def search(keyword, page):
-    url = 'http://www.soku.com/t/nisearch/' + keyword + \
-        '/searchType_item_cid__time__sort_score_display_album_high_0_page_' + str(page)
-    moonplayer.get_url(url, search_cb, None)
-    
-def search_cb(content, data):
-    links = list_links(content, 'http://www.tudou.com/programs/view/')
-    moonplayer.show_list(links)
-    
-#search albums
-def search_album(keyword, page):
-    url = 'http://www.soku.com/t/npsearch/' + keyword + \
-        '/_cid_0_time__sort_score_display_album_page_' + str(page)
-    moonplayer.get_url(url, search_album_cb, keyword)
-    
-def search_album_cb(page, keyword):
-    page = convert_to_utf8(page)
-    links = list_links(page, 'http://www.tudou.com/playlist/id/', keyword)
-    moonplayer.show_list(links)
-
-#parse videos and albums
+#parse videos
 def parse(url, options):
-    if url.startswith('http://www.tudou.com/playlist/id/'):  #album
-        url = 'http://www.tudou.com/plcover/coverPage/getIndexItems.html?page=1&pageSize=512&lid=' + url.split('/')[-2]
-        moonplayer.get_url(url, parse_album_cb, None)
-        
-    elif url.startswith('http://www.tudou.com/listplay/') or url.startswith('http://www.tudou.com/programs/view/'):  #single video
+    if url.startswith('http://www.tudou.com/listplay/') or url.startswith('http://www.tudou.com/programs/view/'):  #single video
         parser.feed(url, options)
         
     else:  #wrong url
@@ -101,14 +76,4 @@ class Parser(object):
         else:
             moonplayer.play(self.result)
 parser = Parser()
-            
-#parse albums
-album_re = re.compile(r'"title":"([^"]+)"[^}]+"code":"([^"]+)"')
-def parse_album_cb(content, prefix):
-    items = []
-    match = album_re.search(content)
-    while match:
-        items.append(match.group(1)) #name
-        items.append('http://www.tudou.com/programs/view/' + match.group(2)) #url
-        match = album_re.search(content, match.end(0))
-    moonplayer.show_album(items)
+

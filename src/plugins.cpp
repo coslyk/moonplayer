@@ -12,6 +12,7 @@
  ************************/
 int n_plugins = 0;
 Plugin **plugins = NULL;
+Plugin *flvcd_parser = NULL;
 QString plugins_msg;
 
 void initPlugins()
@@ -41,7 +42,8 @@ void initPlugins()
     QDir pluginsDir = QDir("/usr/share/moonplayer/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
     foreach (QString item, list) {
-        if ((item.startsWith("plugin_") || item.startsWith("res_")) && item.endsWith(".py"))
+        if ((item.startsWith("plugin_") || item.startsWith("res_") || item.startsWith("searcher_")) &&
+                item.endsWith(".py"))
             plugins_msg += item + "\n    ";
     }
     plugins_msg += "\nPlugins installed by user:\n    ";
@@ -51,7 +53,8 @@ void initPlugins()
     QStringList list_users = pluginsDir.entryList(QDir::Files, QDir::Name);
     list += list_users;
     foreach (QString item, list_users) {
-        if ((item.startsWith("plugin_") || item.startsWith("res_")) && item.endsWith(".py"))
+        if ((item.startsWith("plugin_") || item.startsWith("res_") || item.startsWith("searcher_")) &&
+                item.endsWith(".py"))
             plugins_msg += item + "\n    ";
     }
 #endif
@@ -64,24 +67,18 @@ void initPlugins()
             n_plugins++;
         }
     }
+    flvcd_parser = new Plugin("flvcd_parser");
 }
 
 /**************************
  *** Hosts & name table ***
  **************************/
 static QHash<QString, Plugin*> host2plugin;
-static QHash<QString, Plugin*> name2plugin;
 
 Plugin *getPluginByHost(const QString &host)
 {
     return host2plugin[host];
 }
-
-Plugin *getPluginByName(const QString &name)
-{
-    return name2plugin[name];
-}
-
 
 /*********************
  *** Plugin object ***
@@ -95,7 +92,6 @@ Plugin::Plugin(const QString &moduleName)
         PyErr_Print();
         exit(-1);
     }
-    name = moduleName.section('_', 1);
 
     // Get parse() function
     parseFunc = PyObject_GetAttrString(module, "parse");
@@ -104,18 +100,6 @@ Plugin::Plugin(const QString &moduleName)
         PyErr_Print();
         exit(-1);
     }
-
-    //get search() function
-    searchFunc = PyObject_GetAttrString(module, "search");
-    if (searchFunc == NULL)
-    {
-        PyErr_Print();
-        exit(-1);
-    }
-
-    searchAlbumFunc = PyObject_GetAttrString(module, "search_album");
-    if (searchAlbumFunc == NULL)
-        PyErr_Clear();
 
     //get hosts
     PyObject *hosts = PyObject_GetAttrString(module, "hosts");
@@ -135,9 +119,6 @@ Plugin::Plugin(const QString &moduleName)
     }
     else
         PyErr_Clear();
-
-    // add to name table
-    name2plugin[name] = this;
 }
 
 void Plugin::parse(const char *url, bool is_down)
@@ -146,15 +127,4 @@ void Plugin::parse(const char *url, bool is_down)
     if (is_down)
         options |= OPT_DOWNLOAD;
     call_py_func_vsi(parseFunc, url, options);
-}
-
-void Plugin::search(const QString &kw, int page)
-{
-    call_py_func_vsi(searchFunc, kw.toUtf8().constData(), page);
-}
-
-void Plugin::searchAlbum(const QString &kw, int page)
-{
-    Q_ASSERT(searchAlbumFunc);
-    call_py_func_vsi(searchAlbumFunc, kw.toUtf8().constData(), page);
 }

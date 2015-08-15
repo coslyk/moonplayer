@@ -47,7 +47,19 @@ ResPlugin::ResPlugin(const QString &pluginName)
         PyErr_Print();
         exit(-1);
     }
-    name = pluginName.mid(4);
+
+    //get name
+    PyObject *_name = PyObject_GetAttrString(module, "res_name");
+    if (_name)
+    {
+        name = PyString_AsQString(_name);
+        Py_DecRef(_name);
+    }
+    else
+    {
+        PyErr_Clear();
+        name = pluginName.mid(4);
+    }
 
     //get search() and load_item()
     searchFunc = PyObject_GetAttrString(module, "search");

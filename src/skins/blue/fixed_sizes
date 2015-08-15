@@ -1,0 +1,12 @@
+menuButton, 25, 22;
+maxButton, 29, 21;
+minButton, 28, 21;
+closeButton, 34, 21;
+stopButton, 54, 30;
+playButton, 54, 30;
+pauseButton, 54, 30;
+netButton, 19, 18;
+hideButton, 19, 20;
+addButton, 26, 24;
+delButton, 26, 24;
+clearButton, 26, 24;

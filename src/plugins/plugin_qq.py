@@ -10,19 +10,6 @@ except ImportError:
     import xml.etree.ElementTree
 
 hosts = ('v.qq.com',)
-
-def search(keyword, page):
-    keyword = keyword.replace(' ', '%20')
-    url = 'http://s.video.qq.com/search?comment=0&plat=2&otype=xml&query=%s&cur=%d&num=20&start=0&end=0' % (keyword, page - 1)
-    moonplayer.get_url(url, search_cb, None)
-    
-def search_cb(content, data):
-    root = ET.fromstring(content)
-    result = []
-    for item in root.iter('list'):
-        result.append(item.find('title').text)
-        result.append(item.find('AW').text)
-    moonplayer.show_list(result)
     
 ## Parse videos 
 def parse(url, options):
