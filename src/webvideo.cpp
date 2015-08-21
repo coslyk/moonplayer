@@ -36,6 +36,7 @@ WebVideo::WebVideo(QWidget *parent) :
         return;
     }
 
+    QPushButton *playButton = new QPushButton(tr("Play"));
     QPushButton *downButton = new QPushButton(tr("Down"));
     QPushButton *searchButton = new QPushButton(tr("Search"));
     lineEdit = new QLineEdit;
@@ -47,13 +48,14 @@ WebVideo::WebVideo(QWidget *parent) :
     QGridLayout *grid = new QGridLayout(page);
     addTab(page, tr("Web videos"));
     grid->addWidget(comboBox, 0, 0, 1, 1);
-    grid->addWidget(lineEdit, 0, 1, 1, 2);
-    grid->addWidget(searchButton, 0, 3, 1, 1);
-    grid->addWidget(listWidget, 1, 0, 1, 4);
-    grid->addWidget(downButton, 2, 0, 1, 1);
-    grid->addWidget(prevButton, 2, 2, 1, 1);
-    grid->addWidget(nextButton, 2, 3, 1, 1);
-    grid->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding), 2, 1);
+    grid->addWidget(lineEdit, 0, 1, 1, 3);
+    grid->addWidget(searchButton, 0, 4, 1, 1);
+    grid->addWidget(listWidget, 1, 0, 1, 5);
+    grid->addWidget(playButton, 2, 0, 1, 1);
+    grid->addWidget(downButton, 2, 1, 1, 1);
+    grid->addWidget(prevButton, 2, 3, 1, 1);
+    grid->addWidget(nextButton, 2, 4, 1, 1);
+    grid->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding), 2, 2);
     setMinimumSize(950, 500);
 
     //down search page and parse
@@ -63,6 +65,7 @@ WebVideo::WebVideo(QWidget *parent) :
     connect(searchButton, SIGNAL(clicked()), this, SLOT(searchVideo()));
 
     //Download video file
+    connect(playButton, SIGNAL(clicked()), this, SLOT(onPlayButton()));
     connect(downButton, SIGNAL(clicked()), this, SLOT(onDownButton()));
     connect(listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(onDoubleClicked(QListWidgetItem*)));
 
@@ -203,6 +206,12 @@ void WebVideo::onDoubleClicked(QListWidgetItem *item)
         flvcd_parser->parse(url.constData(), false);
 }
 
+void WebVideo::onPlayButton()
+{
+    QListWidgetItem *item = listWidget->currentItem();
+    if (item)
+        onDoubleClicked(item);
+}
 
 void WebVideo::onDownButton()
 {

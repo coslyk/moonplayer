@@ -48,6 +48,7 @@ private slots:
     void prevSearchPage(void);
     void searchVideo(void);
     void onDoubleClicked(QListWidgetItem *item);
+    void onPlayButton(void);
     void onDownButton(void);
 };
 extern WebVideo *webvideo;

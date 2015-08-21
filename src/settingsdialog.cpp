@@ -36,6 +36,7 @@ bool Settings::enableScreenshot;
 bool Settings::softvol;
 bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
+bool Settings::autoCloseWindow;
 enum Settings::Quality Settings::quality;
 
 using namespace Settings;
@@ -88,6 +89,7 @@ void SettingsDialog::loadSettings()
     ui->softvolCheckBox->setChecked(softvol);
     ui->rememberCheckBox->setChecked(rememberUnfinished);
     ui->combineCheckBox->setChecked(autoCombine);
+    ui->autoCloseWindowCheckBox->setChecked(autoCloseWindow);
     switch (quality)
     {
     case NORMAL: ui->normalRadioButton->setChecked(true);break;
@@ -124,6 +126,7 @@ void SettingsDialog::saveSettings()
     enableScreenshot = ui->screenshotCheckBox->isChecked();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
     autoCombine = ui->combineCheckBox->isChecked();
+    autoCloseWindow = ui->autoCloseWindowCheckBox->isChecked();
 
     if (proxy.isEmpty())
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
@@ -160,6 +163,7 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Net/download_dir", downloadDir);
     settings.setValue("Plugins/quality", (int) quality);
     settings.setValue("Plugins/auto_combine", autoCombine);
+    settings.setValue("Plugins/auto_close_window", autoCloseWindow);
     delete ui;
 }
 
@@ -213,6 +217,7 @@ void initSettings()
     downloadDir = settings.value("Net/download_dir", QDir::homePath()).toString();
     quality = (Quality) settings.value("Plugins/quality", (int) SUPER).toInt();
     autoCombine = settings.value("Plugins/auto_combine", false).toBool();
+    autoCloseWindow = settings.value("Plugins/auto_close_window", true).toBool();
 
     //init proxy
     if (proxy.isEmpty())

@@ -88,6 +88,7 @@ Player::Player(QWidget *parent) :
     webvideo = new WebVideo;
     reslibrary = new ResLibrary;
     webvideo->insertTab(0, reslibrary, tr("Resources"));
+    webvideo->setCurrentIndex(0);
 
     //add downloader
     downloader = new Downloader;

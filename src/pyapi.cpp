@@ -1,5 +1,6 @@
 #include "pyapi.h"
 #include "settings_network.h"
+#include "settings_plugins.h"
 #include "accessmanager.h"
 #include "webvideo.h"
 #include "downloader.h"
@@ -251,16 +252,8 @@ static PyObject *play(PyObject *, PyObject *args)
         else
             playlist->addFile(name, url);
     }
-    Py_IncRef(Py_None);
-    return Py_None;
-}
-
-static PyObject *play_directly(PyObject *, PyObject *args)
-{
-    const char *url = NULL;
-    if (!PyArg_ParseTuple(args, "s", &url))
-        return NULL;
-    mplayer->openFile(QString::fromUtf8(url));
+    if (Settings::autoCloseWindow)
+        webvideo->close();
     Py_IncRef(Py_None);
     return Py_None;
 }
@@ -331,7 +324,6 @@ static PyMethodDef methods[] = {
     {"set_list_item_color", set_list_item_color, METH_VARARGS, "Set the color of list items"},
     {"download",      download,      METH_VARARGS, "Download file"},
     {"play",          play,          METH_VARARGS, "Play online"},
-    {"play_directly", play_directly, METH_VARARGS, "Play an url without adding it to playlist"},
     {"res_show",      res_show,      METH_VARARGS, "Show resources result"},
     {"show_detail",   show_detail,   METH_VARARGS, "Show detail"},
     {NULL, NULL, 0, NULL}

@@ -162,6 +162,13 @@ void Playlist::onNetItem()
 void Playlist::addUrl(const QString &url)
 {
     Plugin *plugin = getPluginByHost(QUrl(url).host());
+    if (plugin == NULL)
+    {
+        QString s = url.section('?', 0, 0);
+        if (s.endsWith(".html") || s.endsWith(".htm"))
+            plugin = flvcd_parser;
+    }
+
     if (plugin)
     {
         if (geturl_obj->hasTask())

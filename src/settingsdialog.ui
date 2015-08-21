@@ -22,6 +22,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>4</number>
+     </property>
      <widget class="QWidget" name="playerTab">
       <attribute name="title">
        <string>Player</string>
@@ -437,7 +440,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -450,10 +453,17 @@
          </property>
         </spacer>
        </item>
-       <item row="3" column="0" colspan="2">
+       <item row="4" column="0" colspan="2">
         <widget class="QPushButton" name="viewPluginsButton">
          <property name="text">
           <string>View installed plugins</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="4">
+        <widget class="QCheckBox" name="autoCloseWindowCheckBox">
+         <property name="text">
+          <string>Close &quot;Online videos&quot; window after playing</string>
          </property>
         </widget>
        </item>

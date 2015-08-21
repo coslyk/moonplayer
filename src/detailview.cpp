@@ -15,6 +15,7 @@ DetailView::DetailView(QWidget *parent) :
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     connect(ui->playPushButton, SIGNAL(clicked()), this, SLOT(onPlay()));
+    connect(ui->sourceListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(onPlay()));
     connect(ui->downloadPushButton, SIGNAL(clicked()), this, SLOT(onDownload()));
 }
 
