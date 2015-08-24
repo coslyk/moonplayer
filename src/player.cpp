@@ -10,6 +10,8 @@
 #include "downloader.h"
 #include "transformer.h"
 #include "skin.h"
+#include "utils.h"
+#include "cutterbar.h"
 #include <QDir>
 #include <QMenu>
 #include <QMenuBar>
@@ -26,8 +28,9 @@
 #include <QCoreApplication>
 #include <QLabel>
 #include <iostream>
-#include "utils.h"
-#include "cutterbar.h"
+#ifdef Q_OS_WIN
+#include <direct.h>
+#endif
 
 Player::Player(QWidget *parent) :
     QWidget(parent),

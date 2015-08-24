@@ -1,6 +1,9 @@
 #include "searcher.h"
 #include "utils.h"
 #include <QDir>
+#ifdef Q_OS_WIN
+#include "settings_player.h"
+#endif
 
 /************************
  ** Initialize plugins **
