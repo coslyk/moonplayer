@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
-    <height>266</height>
+    <width>438</width>
+    <height>313</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -22,9 +22,6 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
-     <property name="currentIndex">
-      <number>4</number>
-     </property>
      <widget class="QWidget" name="playerTab">
       <attribute name="title">
        <string>Player</string>
@@ -464,6 +461,101 @@
         <widget class="QCheckBox" name="autoCloseWindowCheckBox">
          <property name="text">
           <string>Close &quot;Online videos&quot; window after playing</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="danmakuTab">
+      <attribute name="title">
+       <string>Danmaku</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Alpha:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QDoubleSpinBox" name="alphaDoubleSpinBox">
+         <property name="maximum">
+          <double>1.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Font size:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QSpinBox" name="fontSizeSpinBox">
+         <property name="toolTip">
+          <string>0 means auto</string>
+         </property>
+         <property name="maximum">
+          <number>60</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="4">
+        <widget class="QPushButton" name="fontPushButton"/>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Duration of scrolling comment display:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QSpinBox" name="dmSpinBox">
+         <property name="toolTip">
+          <string>0 means auto</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Duration of still comment display:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="4">
+        <widget class="QSpinBox" name="dsSpinBox">
+         <property name="value">
+          <number>6</number>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>91</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Font:</string>
          </property>
         </widget>
        </item>

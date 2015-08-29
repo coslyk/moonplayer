@@ -4,9 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml
+QT       += core gui network xml widgets
 unix: QT += dbus
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 
 TARGET = moonplayer
@@ -34,7 +33,8 @@ SOURCES += main.cpp\
     mylistwidget.cpp \
     cutterbar.cpp \
     videocombiner.cpp \
-    searcher.cpp
+    searcher.cpp \
+    danmakuloader.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -66,7 +66,9 @@ HEADERS  += player.h \
     cutterbar.h \
     settings_plugins.h \
     videocombiner.h \
-    searcher.h
+    searcher.h \
+    danmakuloader.h \
+    settings_danmaku.h
 
 
 FORMS    += \
@@ -87,6 +89,9 @@ unix {
     #translation
     trans.files += moonplayer_*.qm
     trans.path = /usr/share/moonplayer
+    #danmaku
+    danmaku.files += danmaku2ass.py
+    danmaku.path = /usr/share/moonplayer
     #icon
     icon.files += moonplayer.png
     icon.path = /usr/share/icons

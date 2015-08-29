@@ -8,6 +8,7 @@ class QMenu;
 class QProcess;
 class QResizeEvent;
 class QLabel;
+class DanmakuLoader;
 
 class MPlayer : public QWidget
 {
@@ -43,7 +44,7 @@ public slots:
     void jumpTo(int pos);
     void setProgress(int pos);
     void setVolume(int percentage);
-    void openFile(const QString&);
+    void openFile(const QString &file, const QString &danmaku);
     void screenShot(void);
     void speedUp(void);
     void speedDown(void);
@@ -66,12 +67,13 @@ private slots:
     void setChannelToLeft(void);
     void setChannelToRight(void);
     void setChannelToNormal(void);
-    void loadSub(void);
+    void loadAss(const QString &assFile);
 
 private:
     QProcess* process; //mplayer process
     QWidget* layer;  //Window for video output
     QLabel* msgLabel;  //Show catching message
+    DanmakuLoader* danmakuLoader;
 
     QAction* leftChannelAction;
     QAction* rightChannelAction;
@@ -90,6 +92,7 @@ private:
     bool is_mplayer2;
     QString wait_to_play;
     QString playing_file;
+    QString danmaku_url;
     QHash<QString, int> unfinished_time;
 
     void cb_start(QString& msg);

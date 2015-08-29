@@ -62,6 +62,14 @@
     </message>
 </context>
 <context>
+    <name>DanmakuLoader</name>
+    <message>
+        <location filename="danmakuloader.cpp" line="48"/>
+        <source>Cannot parse danmaku!</source>
+        <translation type="unfinished">无法解析弹幕！</translation>
+    </message>
+</context>
+<context>
     <name>DetailView</name>
     <message>
         <location filename="detailview.ui" line="14"/>
@@ -221,53 +229,53 @@
 <context>
     <name>MPlayer</name>
     <message>
-        <location filename="mplayer.cpp" line="61"/>
+        <location filename="mplayer.cpp" line="66"/>
         <source>Ratio</source>
         <translation type="unfinished">宽高比</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="65"/>
         <location filename="mplayer.cpp" line="70"/>
+        <location filename="mplayer.cpp" line="75"/>
         <source>Default</source>
         <translation type="unfinished">默认</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="67"/>
+        <location filename="mplayer.cpp" line="72"/>
         <source>Speed</source>
         <translation type="unfinished">播放速度</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="68"/>
+        <location filename="mplayer.cpp" line="73"/>
         <source>Speed up</source>
         <translation type="unfinished">加速</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="69"/>
+        <location filename="mplayer.cpp" line="74"/>
         <source>Speed down</source>
         <translation type="unfinished">减速</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="72"/>
+        <location filename="mplayer.cpp" line="77"/>
         <source>Channel</source>
         <translation type="unfinished">声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="73"/>
+        <location filename="mplayer.cpp" line="78"/>
         <source>Left</source>
         <translation type="unfinished">左声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="74"/>
+        <location filename="mplayer.cpp" line="79"/>
         <source>Right</source>
         <translation type="unfinished">右声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="75"/>
+        <location filename="mplayer.cpp" line="80"/>
         <source>Normal</source>
         <translation type="unfinished">立体声</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="87"/>
+        <location filename="mplayer.cpp" line="92"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
@@ -331,64 +339,64 @@
         <translation type="obsolete">库</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="85"/>
+        <location filename="player.cpp" line="88"/>
         <source>Cut video</source>
         <translation type="unfinished">剪切视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="90"/>
+        <location filename="player.cpp" line="93"/>
         <source>Resources</source>
         <translation type="unfinished">影视资源</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="95"/>
+        <location filename="player.cpp" line="98"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="105"/>
+        <location filename="player.cpp" line="108"/>
         <source>Player</source>
         <translation type="unfinished">播放器</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="106"/>
+        <location filename="player.cpp" line="109"/>
         <source>Online video</source>
         <oldsource>Search videos</oldsource>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="107"/>
+        <location filename="player.cpp" line="110"/>
         <source>Transform video</source>
         <translation type="unfinished">视频转码</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="108"/>
+        <location filename="player.cpp" line="111"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="110"/>
+        <location filename="player.cpp" line="113"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="171"/>
+        <location filename="player.cpp" line="174"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="182"/>
+        <location filename="player.cpp" line="185"/>
         <source>Some files are being transformed. Do you still want to close?</source>
         <translation type="unfinished">一些视频正在转码。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="379"/>
+        <location filename="player.cpp" line="382"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="539"/>
-        <location filename="player.cpp" line="545"/>
+        <location filename="player.cpp" line="542"/>
+        <location filename="player.cpp" line="548"/>
         <source>Failed to read skin!</source>
         <translation type="unfinished">加载皮肤失败！</translation>
     </message>
@@ -424,22 +432,22 @@
         <translation type="obsolete">清空</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="34"/>
+        <location filename="playlist.cpp" line="43"/>
         <source>Add file</source>
         <translation type="unfinished">添加文件</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="35"/>
+        <location filename="playlist.cpp" line="44"/>
         <source>Add url</source>
         <translation type="unfinished">添加/解析网址</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="36"/>
+        <location filename="playlist.cpp" line="45"/>
         <source>Add playlist</source>
         <translation type="unfinished">添加播放列表</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="176"/>
+        <location filename="playlist.cpp" line="181"/>
         <source>Another file is parsing. Please wait.</source>
         <translation type="unfinished">其他任务正在进行中，请稍后。</translation>
     </message>
@@ -448,12 +456,12 @@
         <translation type="obsolete">其他文件正在解析中。</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="156"/>
+        <location filename="playlist.cpp" line="161"/>
         <source>Enter url</source>
         <translation type="unfinished">输入网址</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="156"/>
+        <location filename="playlist.cpp" line="161"/>
         <source>Please enter url</source>
         <translation type="unfinished">请输入网址</translation>
     </message>
@@ -462,7 +470,7 @@
         <translation type="obsolete">请输入视频名称。</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="179"/>
+        <location filename="playlist.cpp" line="184"/>
         <source>Download?</source>
         <translation type="unfinished">下载吗？</translation>
     </message>
@@ -864,8 +872,45 @@
     </message>
     <message>
         <location filename="settingsdialog.ui" line="463"/>
-        <source>Close window after playing</source>
+        <source>Close &quot;Online videos&quot; window after playing</source>
+        <oldsource>Close window after playing</oldsource>
         <translation type="unfinished">播放后自动关闭“在线视频”窗口</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="471"/>
+        <source>Danmaku</source>
+        <translation type="unfinished">弹幕</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="477"/>
+        <source>Alpha:</source>
+        <translation type="unfinished">透明度：</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="497"/>
+        <source>Font size:</source>
+        <translation type="unfinished">字体大小：</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="504"/>
+        <location filename="settingsdialog.ui" line="524"/>
+        <source>0 means auto</source>
+        <translation type="unfinished">0表示自动</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="517"/>
+        <source>Duration of scrolling comment display:</source>
+        <translation type="unfinished">滚动弹幕持续时间：</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="531"/>
+        <source>Duration of still comment display:</source>
+        <translation type="unfinished">静止弹幕持续时间：</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="558"/>
+        <source>Font:</source>
+        <translation type="unfinished">字体：</translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="340"/>
@@ -888,12 +933,12 @@
         <translation type="unfinished">缓冲百分比:</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="257"/>
+        <location filename="settingsdialog.cpp" line="301"/>
         <source>FFMPEG is not installed. Please download it from</source>
         <translation type="unfinished">ffmpeg未安装。请从以下网址下载ffmpeg</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="259"/>
+        <location filename="settingsdialog.cpp" line="303"/>
         <source>and place file &quot;ffmpeg&quot; into ~/.moonplayer/</source>
         <translation type="unfinished">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/</translation>
     </message>

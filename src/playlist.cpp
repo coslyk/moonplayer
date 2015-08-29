@@ -19,6 +19,15 @@
 #include <QDBusError>
 #endif
 
+class ItemForPlaylist : public QListWidgetItem
+{
+public:
+    QString uri;
+    QString danmaku;
+    ItemForPlaylist(const QString &name, const QString &uri, const QString &danmaku) :
+        QListWidgetItem(name), uri(uri), danmaku(danmaku) {}
+};
+
 Playlist *playlist = NULL;
 
 Playlist::Playlist(QWidget *parent) :
@@ -67,14 +76,12 @@ void Playlist::onDelButton()
     QListWidgetItem* item = ui->listWidget->currentItem();
     if (item == 0)
         return;
-    filelist.remove(ui->listWidget->row(item));
     delete item;
 }
 
 void Playlist::clearList()
 {
     ui->listWidget->clear();
-    filelist.clear();
 }
 
 // Add
@@ -93,18 +100,16 @@ void Playlist::onAddItem()
     emit needPause(false);
 }
 
-void Playlist::addFile(const QString& name, const QString& file)
+void Playlist::addFile(const QString& name, const QString& file, const QString &danmaku)
 {
-    filelist.append(file);
-    ui->listWidget->addItem(new QListWidgetItem(name));
+    ui->listWidget->addItem(new ItemForPlaylist(name, file, danmaku));
 }
 
-void Playlist::addFileAndPlay(const QString& name, const QString& file)
+void Playlist::addFileAndPlay(const QString& name, const QString& file, const QString &danmaku)
 {
-    last_index = filelist.size();
-    filelist.append(file);
-    ui->listWidget->addItem(new QListWidgetItem(name));
-    emit fileSelected(file);
+    last_index = ui->listWidget->count();
+    ui->listWidget->addItem(new ItemForPlaylist(name, file, danmaku));
+    emit fileSelected(file, danmaku);
 }
 
 // Add list
@@ -187,18 +192,19 @@ void Playlist::addUrl(const QString &url)
 //called when a file is selected
 void Playlist::selectFile(QListWidgetItem *item)
 {
-    int i = ui->listWidget->row(item);
-    last_index = i;
-    emit fileSelected(filelist[i]);
+    last_index = ui->listWidget->row(item);
+    ItemForPlaylist *i = static_cast<ItemForPlaylist*>(item);
+    emit fileSelected(i->uri, i->danmaku);
 }
 
 //play the next video
 void Playlist::playNext()
 {
     last_index++;
-    if (last_index < filelist.size())
+    if (last_index < ui->listWidget->count())
     {
         ui->listWidget->setCurrentRow(last_index);
-        emit fileSelected(filelist[last_index]);
+        ItemForPlaylist *item = static_cast<ItemForPlaylist*>(ui->listWidget->item(last_index));
+        emit fileSelected(item->uri, item->danmaku);
     }
 }

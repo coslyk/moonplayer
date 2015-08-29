@@ -2,6 +2,7 @@
 #include "settings_video.h"
 #include "settings_audio.h"
 #include "settings_network.h"
+#include "danmakuloader.h"
 #include <QProcess>
 #include <QColor>
 #include <QSize>
@@ -38,6 +39,10 @@ MPlayer::MPlayer(QWidget *parent) :
     msgLabel->move(0, 0);
     msgLabel->resize(400, 15);
     msgLabel->hide();
+
+    //Create danmaku loader
+    danmakuLoader = new DanmakuLoader(this);
+    connect(danmakuLoader, &DanmakuLoader::finished, this, &MPlayer::loadAss);
 
     //Set state
     state = STOPPING;
@@ -85,10 +90,9 @@ MPlayer::MPlayer(QWidget *parent) :
     menu->addMenu(channel_menu);
     menu->addSeparator();
     screenShotAction = menu->addAction(tr("Screenshot"), this, SLOT(screenShot()), QKeySequence("S"));
-    //menu->addAction(tr("Load subtitles"), this, SLOT(loadSub())); //Unfinished function
     setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
-            this, SLOT(showMenu(const QPoint&)));
+    connect(this, &MPlayer::customContextMenuRequested, this, &MPlayer::showMenu);
+    connect(danmakuLoader, &DanmakuLoader::finished, this, &MPlayer::loadAss);
 
 #ifdef Q_OS_LINUX
     // read unfinished_time
@@ -180,7 +184,7 @@ void MPlayer::mouseDoubleClickEvent(QMouseEvent* e)
 /* Open a new video file. MPlayer::openFile sends a message to get length
  * and the result will be read in MPlayer::cb_start.
  */
-void MPlayer::openFile(const QString& filename)
+void MPlayer::openFile(const QString &filename, const QString &danmaku)
 {
     static QString proxyUrl = "http_proxy://%1:%2/%3";
 
@@ -188,6 +192,7 @@ void MPlayer::openFile(const QString& filename)
     msgLabel->show();
     //start MPlayer if stopping
     wait_to_play = filename;
+    danmaku_url = danmaku;
     if (state != STOPPING)
     {
         is_waiting = true;
@@ -203,6 +208,7 @@ void MPlayer::openFile(const QString& filename)
     QStringList args;
     args << "-quiet";
     args << "-slave";
+    args << "-ass";
     args << "-vo" << Settings::vout;
 #ifdef Q_OS_LINUX
     if (Settings::vout == "vdpau")
@@ -356,7 +362,7 @@ void MPlayer::onFinished(int)
 void MPlayer::playWaiting()
 {
     is_waiting = false;
-    openFile(wait_to_play);
+    openFile(wait_to_play, danmaku_url);
 }
 
 void MPlayer::setVolume(int vol)
@@ -516,6 +522,9 @@ void MPlayer::cb_ratioChanged(QString& msg)
     h = size.takeFirst().toInt();
     QSize sz(w, h);
     emit sizeChanged(sz);
+    // Load danmaku
+    if (!danmaku_url.isEmpty())
+        danmakuLoader->load(danmaku_url, w, h);
 }
 
 //Show right-button menu
@@ -575,16 +584,12 @@ void MPlayer::screenShot()
 }
 
 // Load subtitles
-void MPlayer::loadSub()
+void MPlayer::loadAss(const QString &assFile)
 {
     if (state == STOPPING)
         return;
-    if (state == TV_PLAYING || state == VIDEO_PLAYING) //pause first
-        changeState();
-    QString file = QFileDialog::getOpenFileName(this, "Select subtitles file");
-    changeState(); //continue playing
-    if (!file.isEmpty())
-        writeToMplayer("sub_load " + file.toLocal8Bit() + '\n');
+    writeToMplayer("sub_load " + assFile.toUtf8() + '\n');
+    writeToMplayer("sub_select 1\n");
 }
 
 // Set speed

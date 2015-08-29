@@ -3,6 +3,7 @@
 #include "settings_player.h"
 #include "settings_plugins.h"
 #include "settings_video.h"
+#include "settings_danmaku.h"
 #include "ui_settingsdialog.h"
 #include "accessmanager.h"
 #include <QNetworkAccessManager>
@@ -11,6 +12,7 @@
 #include <QSettings>
 #include <QButtonGroup>
 #include <QFileDialog>
+#include <QFontDialog>
 #include <QMessageBox>
 #include "settings_audio.h"
 #include "plugins.h"
@@ -20,6 +22,7 @@ QString Settings::vout;
 QString Settings::path;
 QString Settings::proxy;
 QString Settings::downloadDir;
+QString Settings::danmakuFont;
 QStringList Settings::skinList;
 int Settings::currentSkin;
 int Settings::port;
@@ -27,6 +30,9 @@ int Settings::cacheSize;
 int Settings::cacheMin;
 int Settings::maxTasks;
 int Settings::volume;
+int Settings::danmakuSize;
+int Settings::durationScrolling;
+int Settings::durationStill;
 bool Settings::framedrop;
 bool Settings::doubleBuffer;
 bool Settings::fixLastFrame;
@@ -37,6 +43,7 @@ bool Settings::softvol;
 bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 bool Settings::autoCloseWindow;
+double Settings::danmakuAlpha;
 enum Settings::Quality Settings::quality;
 
 using namespace Settings;
@@ -50,6 +57,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(this, SIGNAL(rejected()), this, SLOT(loadSettings()));
     connect(ui->dirButton, SIGNAL(clicked()), this, SLOT(onDirButton()));
+    connect(ui->fontPushButton, &QPushButton::clicked, this, &SettingsDialog::onFontButton);
     connect(ui->viewPluginsButton, SIGNAL(clicked()), this, SLOT(showPluginsMsg()));
     connect(ui->combineCheckBox, SIGNAL(toggled(bool)), this, SLOT(checkFFMPEG(bool)));
 
@@ -90,6 +98,13 @@ void SettingsDialog::loadSettings()
     ui->rememberCheckBox->setChecked(rememberUnfinished);
     ui->combineCheckBox->setChecked(autoCombine);
     ui->autoCloseWindowCheckBox->setChecked(autoCloseWindow);
+
+    ui->alphaDoubleSpinBox->setValue(danmakuAlpha);
+    ui->fontPushButton->setText(danmakuFont);
+    ui->fontSizeSpinBox->setValue(danmakuSize);
+    ui->dmSpinBox->setValue(durationScrolling);
+    ui->dsSpinBox->setValue(durationStill);
+
     switch (quality)
     {
     case NORMAL: ui->normalRadioButton->setChecked(true);break;
@@ -103,6 +118,19 @@ void SettingsDialog::onDirButton()
     QString dir = QFileDialog::getExistingDirectory(this);
     if (!dir.isEmpty())
         ui->dirButton->setText(dir);
+}
+
+void SettingsDialog::onFontButton()
+{
+    if (ui->fontPushButton->text().isEmpty())
+    {
+        bool ok;
+        QFont font = QFontDialog::getFont(&ok, this);
+        if (ok)
+            ui->fontPushButton->setText(font.key().section(',', 0, 0));
+    }
+    else
+        ui->fontPushButton->setText("");
 }
 
 //Save settings
@@ -127,6 +155,12 @@ void SettingsDialog::saveSettings()
     rememberUnfinished = ui->rememberCheckBox->isChecked();
     autoCombine = ui->combineCheckBox->isChecked();
     autoCloseWindow = ui->autoCloseWindowCheckBox->isChecked();
+
+    danmakuAlpha = ui->alphaDoubleSpinBox->value();
+    danmakuFont = ui->fontPushButton->text();
+    danmakuSize = ui->fontSizeSpinBox->value();
+    durationScrolling = ui->dmSpinBox->value();
+    durationStill = ui->dsSpinBox->value();
 
     if (proxy.isEmpty())
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
@@ -164,6 +198,11 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Plugins/quality", (int) quality);
     settings.setValue("Plugins/auto_combine", autoCombine);
     settings.setValue("Plugins/auto_close_window", autoCloseWindow);
+    settings.setValue("Danmaku/alpha", danmakuAlpha);
+    settings.setValue("Danmaku/font", danmakuFont);
+    settings.setValue("Danmaku/size", danmakuSize);
+    settings.setValue("Danmaku/dm", durationScrolling);
+    settings.setValue("Danmaku/ds", durationStill);
     delete ui;
 }
 
@@ -218,6 +257,11 @@ void initSettings()
     quality = (Quality) settings.value("Plugins/quality", (int) SUPER).toInt();
     autoCombine = settings.value("Plugins/auto_combine", false).toBool();
     autoCloseWindow = settings.value("Plugins/auto_close_window", true).toBool();
+    danmakuAlpha = settings.value("Danmaku/alpha", 0.9).toDouble();
+    danmakuFont = settings.value("Danmaku/font", "").toString();
+    danmakuSize = settings.value("Danmaku/size", 0).toInt();
+    durationScrolling = settings.value("Danmaku/dm", 0).toInt();
+    durationStill = settings.value("Danmaku/ds", 6).toInt();
 
     //init proxy
     if (proxy.isEmpty())

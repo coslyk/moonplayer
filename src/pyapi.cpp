@@ -162,17 +162,6 @@ static PyObject *question(PyObject *, PyObject *args)
 /************************
  ** WebVideo functions **
  ************************/
-static PyObject *set_list_item_color(PyObject *, PyObject *args)
-{
-    int n;
-    const char *color;
-    if (!PyArg_ParseTuple(args, "is", &n, &color))
-        return NULL;
-    webvideo->setListItemColor(n, QColor(color));
-    Py_IncRef(Py_None);
-    return Py_None;
-}
-
 static PyObject *show_list(PyObject *, PyObject *args)
 {
     PyObject *list;
@@ -209,10 +198,10 @@ static PyObject *download(PyObject *, PyObject *args)
     const char *str;
     for (int i = 0; i < size; i += 2)
     {
-         if ((item = PyList_GetItem(list, i)) == NULL)
-             return NULL;
-         if ((str = PyString_AsString(item)) == NULL)
-             return NULL;
+        if ((item = PyList_GetItem(list, i)) == NULL)
+            return NULL;
+        if ((str = PyString_AsString(item)) == NULL)
+            return NULL;
         QString name = QString::fromUtf8(str);
         if ((item = PyList_GetItem(list, i+1)) == NULL)
             return NULL;
@@ -237,10 +226,10 @@ static PyObject *play(PyObject *, PyObject *args)
     const char *str;
     for (int i = 0; i < size; i += 2)
     {
-         if ((item = PyList_GetItem(list, i)) == NULL)
-             return NULL;
-         if ((str = PyString_AsString(item)) == NULL)
-             return NULL;
+        if ((item = PyList_GetItem(list, i)) == NULL)
+            return NULL;
+        if ((str = PyString_AsString(item)) == NULL)
+            return NULL;
         QString name = QString::fromUtf8(str);
         if ((item = PyList_GetItem(list, i+1)) == NULL)
             return NULL;
@@ -251,6 +240,47 @@ static PyObject *play(PyObject *, PyObject *args)
             playlist->addFileAndPlay(name, url);
         else
             playlist->addFile(name, url);
+    }
+    if (Settings::autoCloseWindow)
+        webvideo->close();
+    Py_IncRef(Py_None);
+    return Py_None;
+}
+
+static PyObject *play_with_danmaku(PyObject *, PyObject *args)
+{
+    PyObject *list;
+    if (!PyArg_ParseTuple(args, "O", &list))
+        return NULL;
+    if (!PyList_Check(list))
+        return NULL;
+    int size = PyList_Size(list);
+    PyObject *item;
+    const char *str;
+    for (int i = 0; i < size; i += 3)
+    {
+        if ((item = PyList_GetItem(list, i)) == NULL)
+            return NULL;
+        if ((str = PyString_AsString(item)) == NULL)
+            return NULL;
+        QString name = QString::fromUtf8(str);
+
+        if ((item = PyList_GetItem(list, i+1)) == NULL)
+            return NULL;
+        if ((str = PyString_AsString(item)) == NULL)
+            return NULL;
+        QString url = QString::fromUtf8(str);
+
+        if ((item = PyList_GetItem(list, i+2)) == NULL)
+            return NULL;
+        if ((str = PyString_AsString(item)) == NULL)
+            return NULL;
+        QString danmaku = QString::fromUtf8(str);
+
+        if (i == 0)
+            playlist->addFileAndPlay(name, url, danmaku);
+        else
+            playlist->addFile(name, url, danmaku);
     }
     if (Settings::autoCloseWindow)
         webvideo->close();
@@ -317,15 +347,15 @@ static PyObject *show_detail(PyObject *, PyObject *args)
  *******************/
 
 static PyMethodDef methods[] = {
-    {"get_url",          get_url,    METH_VARARGS, "Get url"},
-    {"warn",             warn,       METH_VARARGS, "Show warning message"},
-    {"question",         question,   METH_VARARGS, "Show a question dialog"},
-    {"show_list",        show_list,  METH_VARARGS, "Show searching result on the list"},
-    {"set_list_item_color", set_list_item_color, METH_VARARGS, "Set the color of list items"},
-    {"download",      download,      METH_VARARGS, "Download file"},
-    {"play",          play,          METH_VARARGS, "Play online"},
-    {"res_show",      res_show,      METH_VARARGS, "Show resources result"},
-    {"show_detail",   show_detail,   METH_VARARGS, "Show detail"},
+    {"get_url",           get_url,           METH_VARARGS, "Get url"},
+    {"warn",              warn,              METH_VARARGS, "Show warning message"},
+    {"question",          question,          METH_VARARGS, "Show a question dialog"},
+    {"show_list",         show_list,         METH_VARARGS, "Show searching result on the list"},
+    {"download",          download,          METH_VARARGS, "Download file"},
+    {"play",              play,              METH_VARARGS, "Play online"},
+    {"play_with_danmaku", play_with_danmaku, METH_VARARGS, "Play online with danmaku"},
+    {"res_show",          res_show,          METH_VARARGS, "Show resources result"},
+    {"show_detail",       show_detail,       METH_VARARGS, "Show detail"},
     {NULL, NULL, 0, NULL}
 };
 

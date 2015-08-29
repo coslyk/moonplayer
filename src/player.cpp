@@ -141,7 +141,7 @@ Player::Player(QWidget *parent) :
     connect(mplayer, SIGNAL(fullScreen()), this, SLOT(setFullScreen()));
     connect(mplayer, SIGNAL(sizeChanged(QSize&)), this, SLOT(onSizeChanged(QSize&)));
 
-    connect(playlist, SIGNAL(fileSelected(const QString&)), mplayer, SLOT(openFile(const QString&)));
+    connect(playlist, &Playlist::fileSelected, mplayer, &MPlayer::openFile);
     connect(playlist, SIGNAL(needPause(bool)), this, SLOT(onNeedPause(bool)));
 
     connect(downloader, SIGNAL(newPlay(const QString&,const QString&)), playlist, SLOT(addFileAndPlay(const QString&,const QString&)));

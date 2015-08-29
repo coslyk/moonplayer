@@ -2,7 +2,6 @@
 #define PLAYLIST_H
 
 #include <QWidget>
-#include <QVector>
 class QListWidgetItem;
 class QMenu;
 class VideoParser;
@@ -22,13 +21,13 @@ public:
     ~Playlist();
 
 public slots:
-    void addFile(const QString& name, const QString& file);
-    void addFileAndPlay(const QString& name, const QString& file);
+    void addFile(const QString& name, const QString& file, const QString &danmaku = QString());
+    void addFileAndPlay(const QString& name, const QString& file, const QString &danmaku = QString());
     void addList(const QString& filename);
     void addUrl(const QString& url);
 
 signals:
-    void fileSelected(const QString&);
+    void fileSelected(const QString &file, const QString &danmaku);
     void needPause(bool);
 
 private slots:
@@ -43,7 +42,6 @@ private slots:
 private:
     Ui::Playlist *ui;
     QMenu *menu;
-    QVector<QString> filelist;
     int last_index;
 };
 extern Playlist *playlist;
