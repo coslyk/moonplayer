@@ -104,7 +104,7 @@ unix {
     #menu
     menu.files += moonplayer.desktop
     menu.path = /usr/share/applications
-    INSTALLS += default_skin execute trans icon menu plugin
+    INSTALLS += default_skin execute trans icon menu plugin danmaku
 }
 
 RC_FILE = icon.rc

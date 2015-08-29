@@ -29,7 +29,7 @@ void DanmakuLoader::load(const QString &xmlFile, int width, int height)
     if (reply) //another task is running
     {
         reply->abort();
-        QTimer::singleShot(0, this, &DanmakuLoader::reload); //after event loop
+        QTimer::singleShot(0, this, SLOT(reload())); //after event loop
         return;
     }
     QNetworkRequest request(xmlFile);
