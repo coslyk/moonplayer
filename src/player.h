@@ -59,6 +59,8 @@ private:
     bool no_play_next;
     bool is_fullscreen;
     bool toolbar_visible;
+    bool mouse_in_toolbar;
+    bool progressbar_pressed;
     int toolbar_pos_y;
 
     void setSkin(const QString& skin_name);

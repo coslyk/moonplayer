@@ -159,6 +159,9 @@ Player::Player(QWidget *parent) :
 
     no_play_next = false;
     is_fullscreen = false;
+    toolbar_visible = true;
+    mouse_in_toolbar = false;
+    progressbar_pressed = false;
 }
 
 Player::~Player()
@@ -264,13 +267,16 @@ bool Player::eventFilter(QObject *obj, QEvent *e)
     // Hide or show progressbar, toolbar and playlist
     else if (e->type() == QEvent::Enter && obj == ui->toolBar)
     {
+        mouse_in_toolbar = true;
         ui->progressBar->show();
         return true;
     }
 
     else if (e->type() == QEvent::Leave && obj == ui->toolBar)
     {
-        ui->progressBar->hide();
+        mouse_in_toolbar = false;
+        if (!progressbar_pressed)
+            ui->progressBar->hide();
         if (is_fullscreen)
         {
             ui->toolBar->hide();
@@ -490,6 +496,7 @@ void Player::onSizeChanged(QSize &sz)
 
 void Player::onPBarPressed()
 {
+    progressbar_pressed = true;
     if (mplayer->state == MPlayer::STOPPING)
         return;
     QString time = secToTime(ui->progressBar->value() * MPlayer::UPDATE_FREQUENCY, true);
@@ -510,6 +517,9 @@ void Player::onPBarChanged(int pos)
 
 void Player::onPBarReleased()
 {
+    progressbar_pressed = false;
+    if (!mouse_in_toolbar)
+        ui->progressBar->hide();
     if (mplayer->state == MPlayer::STOPPING)
         return;
     timeShow->hide();

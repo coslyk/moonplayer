@@ -290,17 +290,20 @@ void SettingsDialog::checkFFMPEG(bool toggled)
 {
     if (toggled)
     {
-#ifdef Q_OS_LINUX
+#ifdef Q_OS_WIN
+        QDir dir(Settings::path);
+#else
+        if (QDir("/usr/share/moonplayer").exists("ffmpeg"))
+            return;
         QDir dir = QDir::home();
         dir.cd(".moonplayer");
-#else
-        QDir dir(Settings::path);
+
 #endif
         if (!dir.exists("ffmpeg"))
         {
             QMessageBox::warning(this, "Error", tr("FFMPEG is not installed. Please download it from") +
                                  "\n    http://johnvansickle.com/ffmpeg/\n" +
-                                tr("and place file \"ffmpeg\" into ~/.moonplayer/"));
+                                tr("and place file \"ffmpeg\" into ~/.moonplayer/ or /usr/share/moonplayer/"));
             ui->combineCheckBox->setChecked(false);
         }
     }

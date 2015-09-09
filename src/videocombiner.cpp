@@ -21,7 +21,15 @@ VideoCombiner::VideoCombiner(QObject *parent, const QDir &dir) :
     args << "-f" << "concat" << "-i" << "filelist.txt" << "-c" << "copy" << save_as;
     setWorkingDirectory(dir.absolutePath());
     connect(this, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
-    start(QDir::homePath() + "/.moonplayer/ffmpeg", args, QProcess::ReadOnly);
+
+#ifdef Q_OS_WIN
+    start("ffmpeg.exe", args, QProcess::ReadOnly);
+#else
+    if (QDir("/usr/share/moonplayer").exists("ffmpeg"))
+        start("/usr/share/moonplayer/ffmpeg", args, QProcess::ReadOnly);
+    else
+        start(QDir::homePath() + "/.moonplayer/ffmpeg", args, QProcess::ReadOnly);
+#endif
 }
 
 void VideoCombiner::onFinished(int status)
