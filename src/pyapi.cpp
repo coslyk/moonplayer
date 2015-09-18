@@ -8,6 +8,7 @@
 #include "mplayer.h"
 #include "reslibrary.h"
 #include "detailview.h"
+#include "danmakudelaygetter.h"
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -217,70 +218,42 @@ static PyObject *download(PyObject *, PyObject *args)
 static PyObject *play(PyObject *, PyObject *args)
 {
     PyObject *list;
-    if (!PyArg_ParseTuple(args, "O", &list))
+    const char *danmaku_url = NULL;
+    if (!PyArg_ParseTuple(args, "O|s", &list, &danmaku_url))
         return NULL;
     if (!PyList_Check(list))
         return NULL;
+
     int size = PyList_Size(list);
     PyObject *item;
     const char *str;
+    QStringList names;
+    QStringList urls;
     for (int i = 0; i < size; i += 2)
     {
         if ((item = PyList_GetItem(list, i)) == NULL)
             return NULL;
         if ((str = PyString_AsString(item)) == NULL)
             return NULL;
-        QString name = QString::fromUtf8(str);
+        names << QString::fromUtf8(str);
         if ((item = PyList_GetItem(list, i+1)) == NULL)
             return NULL;
         if ((str = PyString_AsString(item)) == NULL)
             return NULL;
-        QString url = QString::fromUtf8(str);
-        if (i == 0)
-            playlist->addFileAndPlay(name, url);
-        else
-            playlist->addFile(name, url);
+        urls << QString::fromUtf8(str);
     }
-    if (Settings::autoCloseWindow)
-        webvideo->close();
-    Py_IncRef(Py_None);
-    return Py_None;
-}
 
-static PyObject *play_with_danmaku(PyObject *, PyObject *args)
-{
-    PyObject *list;
-    if (!PyArg_ParseTuple(args, "O", &list))
-        return NULL;
-    if (!PyList_Check(list))
-        return NULL;
-    int size = PyList_Size(list);
-    PyObject *item;
-    const char *str;
-    for (int i = 0; i < size; i += 3)
+    if (danmaku_url && size > 2) //video clips with danmaku
     {
-        if ((item = PyList_GetItem(list, i)) == NULL)
-            return NULL;
-        if ((str = PyString_AsString(item)) == NULL)
-            return NULL;
-        QString name = QString::fromUtf8(str);
-
-        if ((item = PyList_GetItem(list, i+1)) == NULL)
-            return NULL;
-        if ((str = PyString_AsString(item)) == NULL)
-            return NULL;
-        QString url = QString::fromUtf8(str);
-
-        if ((item = PyList_GetItem(list, i+2)) == NULL)
-            return NULL;
-        if ((str = PyString_AsString(item)) == NULL)
-            return NULL;
-        QString danmaku = QString::fromUtf8(str);
-
-        if (i == 0)
-            playlist->addFileAndPlay(name, url, danmaku);
-        else
-            playlist->addFile(name, url, danmaku);
+        DanmakuDelayGetter *get = new DanmakuDelayGetter(names, urls, danmaku_url);
+        QObject::connect(get, &DanmakuDelayGetter::newPlay, playlist, &Playlist::addFileAndPlay);
+        QObject::connect(get, &DanmakuDelayGetter::newFile, playlist, &Playlist::addFile);
+    }
+    else
+    {
+        playlist->addFileAndPlay(names.takeFirst(), urls.takeFirst(), danmaku_url); //first clip, maybe has danmaku
+        while (!names.isEmpty())
+            playlist->addFile(names.takeFirst(), urls.takeFirst());
     }
     if (Settings::autoCloseWindow)
         webvideo->close();
@@ -347,15 +320,14 @@ static PyObject *show_detail(PyObject *, PyObject *args)
  *******************/
 
 static PyMethodDef methods[] = {
-    {"get_url",           get_url,           METH_VARARGS, "Get url"},
-    {"warn",              warn,              METH_VARARGS, "Show warning message"},
-    {"question",          question,          METH_VARARGS, "Show a question dialog"},
-    {"show_list",         show_list,         METH_VARARGS, "Show searching result on the list"},
-    {"download",          download,          METH_VARARGS, "Download file"},
-    {"play",              play,              METH_VARARGS, "Play online"},
-    {"play_with_danmaku", play_with_danmaku, METH_VARARGS, "Play online with danmaku"},
-    {"res_show",          res_show,          METH_VARARGS, "Show resources result"},
-    {"show_detail",       show_detail,       METH_VARARGS, "Show detail"},
+    {"get_url",     get_url,     METH_VARARGS, "Get url"},
+    {"warn",        warn,        METH_VARARGS, "Show warning message"},
+    {"question",    question,    METH_VARARGS, "Show a question dialog"},
+    {"show_list",   show_list,   METH_VARARGS, "Show searching result on the list"},
+    {"download",    download,    METH_VARARGS, "Download file"},
+    {"play",        play,        METH_VARARGS, "Play online"},
+    {"res_show",    res_show,    METH_VARARGS, "Show resources result"},
+    {"show_detail", show_detail, METH_VARARGS, "Show detail"},
     {NULL, NULL, 0, NULL}
 };
 

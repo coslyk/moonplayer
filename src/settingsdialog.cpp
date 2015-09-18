@@ -71,6 +71,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->aoComboBox->addItem("pulse");
     ui->aoComboBox->addItem("alsa");
     ui->aoComboBox->addItem("oss");
+#else
+	ui->danmakuTab->setEnabled(false);
 #endif
 
     loadSettings();

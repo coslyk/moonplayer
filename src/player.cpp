@@ -14,7 +14,6 @@
 #include "cutterbar.h"
 #include <QDir>
 #include <QMenu>
-#include <QMenuBar>
 #include <QCloseEvent>
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -104,14 +103,12 @@ Player::Player(QWidget *parent) :
     settingsDialog = new SettingsDialog(this);
 
     //Add menu
-    menubar = new QMenuBar;
-    menu = menubar->addMenu(tr("Player"));
+    menu = new QMenu(tr("Player"), this);
     menu->addAction(tr("Online video"), webvideo, SLOT(show()));
     menu->addAction(tr("Transform video"), transformer, SLOT(show()));
     menu->addAction(tr("Settings"), this, SLOT(onSetButton()));
     menu->addSeparator();
     menu->addAction(tr("Homepage"), this, SLOT(openHomepage()));
-    ui->mainLayout->insertWidget(0, menubar);
 
     //Add time show
     timeShow = new QLabel(mplayer);
@@ -538,6 +535,7 @@ void Player::onSaveVolume(int volume)
 
 void Player::setSkin(const QString& skin_name)
 {
+    QString currentDir = QDir::currentPath();
     QDir dir = QDir(Settings::path);
     dir.cd("skins");
 #ifdef Q_OS_WIN
@@ -584,14 +582,5 @@ void Player::setSkin(const QString& skin_name)
         }
     }
 
-    //titlebar and borders
     setWindowFlags(Qt::FramelessWindowHint); //hide borders
-    ui->titleBar->show();
-    menubar->hide();
-
-    bottomBorder->show();
-    leftBorder->show();
-    rightBorder->show();
-    topLeftBorder->show();
-    topRightBorder->show();
 }

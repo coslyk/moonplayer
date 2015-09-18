@@ -13,7 +13,6 @@ class QMouseEvent;
 class Border;
 class QLabel;
 class QMenu;
-class QMenuBar;
 class Downloader;
 class Transformer;
 class SettingsDialog;
@@ -54,7 +53,6 @@ private:
     Border* topRightBorder;
     QLabel* timeShow;
     QMenu* menu;
-    QMenuBar* menubar;
 
     bool no_play_next;
     bool is_fullscreen;

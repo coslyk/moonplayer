@@ -2,7 +2,6 @@
 #include "settings_video.h"
 #include "settings_audio.h"
 #include "settings_network.h"
-#include "danmakuloader.h"
 #include <QProcess>
 #include <QColor>
 #include <QSize>
@@ -16,6 +15,9 @@
 #include <QKeySequence>
 #include <QFileDialog>
 #include <iostream>
+#ifdef Q_OS_LINUX
+#include "danmakuloader.h"
+#endif
 using namespace std;
 
 MPlayer *mplayer = NULL;
@@ -39,10 +41,6 @@ MPlayer::MPlayer(QWidget *parent) :
     msgLabel->move(0, 0);
     msgLabel->resize(400, 15);
     msgLabel->hide();
-
-    //Create danmaku loader
-    danmakuLoader = new DanmakuLoader(this);
-    connect(danmakuLoader, &DanmakuLoader::finished, this, &MPlayer::loadAss);
 
     //Set state
     state = STOPPING;
@@ -92,9 +90,13 @@ MPlayer::MPlayer(QWidget *parent) :
     screenShotAction = menu->addAction(tr("Screenshot"), this, SLOT(screenShot()), QKeySequence("S"));
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &MPlayer::customContextMenuRequested, this, &MPlayer::showMenu);
-    connect(danmakuLoader, &DanmakuLoader::finished, this, &MPlayer::loadAss);
 
 #ifdef Q_OS_LINUX
+	//Create danmaku loader
+	danmakuLoader = new DanmakuLoader(this);
+	connect(danmakuLoader, &DanmakuLoader::finished, this, &MPlayer::loadAss);
+    connect(danmakuLoader, &DanmakuLoader::finished, this, &MPlayer::loadAss);
+
     // read unfinished_time
     QString filename = QDir::homePath() +"/.moonplayer/unfinished.txt";
     QFile file(filename);
@@ -112,6 +114,7 @@ MPlayer::MPlayer(QWidget *parent) :
 }
 
 
+// Save unfinished time
 MPlayer::~MPlayer()
 {
 #ifdef Q_OS_LINUX
@@ -192,7 +195,9 @@ void MPlayer::openFile(const QString &filename, const QString &danmaku)
     msgLabel->show();
     //start MPlayer if stopping
     wait_to_play = filename;
-    danmaku_url = danmaku;
+    //Get danmaku url
+    this->danmaku = danmaku;
+
     if (state != STOPPING)
     {
         is_waiting = true;
@@ -278,7 +283,7 @@ void MPlayer::openFile(const QString &filename, const QString &danmaku)
     process->start("mplayer", args);
 }
 
-void MPlayer::cb_start(QString& msg)
+void MPlayer::cb_start(const QString &msg)
 {
     float l = msg.section('=', 1, 1).simplified().toFloat();
     if (l != 0.0f) //playing video, not TV
@@ -362,7 +367,7 @@ void MPlayer::onFinished(int)
 void MPlayer::playWaiting()
 {
     is_waiting = false;
-    openFile(wait_to_play, danmaku_url);
+    openFile(wait_to_play, danmaku);
 }
 
 void MPlayer::setVolume(int vol)
@@ -395,6 +400,9 @@ void MPlayer::readOutput()
         else if (message.startsWith("ANS_TIME_POSITION="))
             cb_updateTime(message);
 
+        else if (message.startsWith("SUB: Added subtitle file"))
+            cb_subLoaded(message);
+
         // Windows version is based on Mplayer(not Mplayer2) since v0.22
 #ifdef Q_OS_LINUX
         else if (message.toLower().startsWith("mplayer2"))
@@ -426,7 +434,7 @@ void MPlayer::updateTime()
 }
 
 
-void MPlayer::cb_updateTime(QString& msg)
+void MPlayer::cb_updateTime(const QString &msg)
 {
     int pos = msg.section('=', 1, 1).section('.', 0, 0).toInt();
     //fix mplayer's error
@@ -515,17 +523,26 @@ void MPlayer::setRatio_0()
     writeToMplayer("switch_ratio 0\n");
 }
 
-void MPlayer::cb_ratioChanged(QString& msg)
+void MPlayer::cb_ratioChanged(const QString &msg)
 {
     QStringList size = msg.section(' ', 4, 4).split('x');
     w = size.takeFirst().toInt();
     h = size.takeFirst().toInt();
     QSize sz(w, h);
     emit sizeChanged(sz);
+
+#ifdef Q_OS_LINUX
     // Load danmaku
-    if (!danmaku_url.isEmpty())
-        danmakuLoader->load(danmaku_url, w, h);
+    if (!danmaku.isEmpty())
+    {
+        if (danmaku.contains(" http://"))
+            danmakuLoader->load(danmaku.section(' ', 1), w, h); //danmaku has delay
+        else
+            danmakuLoader->load(danmaku, w, h);
+    }
+#endif
 }
+
 
 //Show right-button menu
 void MPlayer::showMenu(const QPoint&)
@@ -589,15 +606,23 @@ void MPlayer::loadAss(const QString &assFile)
     if (state == STOPPING)
         return;
     writeToMplayer("sub_load " + assFile.toUtf8() + '\n');
-    writeToMplayer("sub_select 1\n");
 }
+
+void MPlayer::cb_subLoaded(const QString &msg)
+{
+    QString number = msg.section('(', 1).section(')', 0, 0);
+    writeToMplayer("sub_select " + number.toUtf8() + '\n');
+    if (danmaku.contains(" http://")) //danmaku has delay
+        writeToMplayer("sub_delay " + danmaku.section(' ', 0, 0).toUtf8() + " 1\n");
+}
+
 
 // Set speed
 void MPlayer::speedUp()
 {
     if (speed < 2.0 && state != STOPPING)
     {
-        speed += 0.1f;
+        speed += 0.1;
         writeToMplayer("speed_set " + QByteArray::number(speed) + '\n');
     }
 }
@@ -606,7 +631,7 @@ void MPlayer::speedDown()
 {
     if (speed > 0.5 && state != STOPPING)
     {
-        speed -= 0.1f;
+        speed -= 0.1;
         writeToMplayer("speed_set " + QByteArray::number(speed) + '\n');
     }
 }

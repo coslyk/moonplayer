@@ -22,20 +22,23 @@ def parse_cb(page, data):
     result = parse_flvcd_page(page, None)
     if len(result) == 0:
         moonplayer.warn('Cannot parse this video:\n' + url)
+        
     elif options & moonplayer.OPT_DOWNLOAD:
-        moonplayer.download(result, result[0])
-    elif len(result) > 2:
-        moonplayer.warn('暂不支持分段视频的弹幕！')
-        moonplayer.play(result)
+        if len(result) == 2: # single clip
+            moonplayer.download(result)
+        else:
+            moonplayer.download(result, result[0])
+            
     else:
         moonplayer.get_url(url, parse_danmaku_cb, result)
+        
         
 cid_re = re.compile(r'cid=(\d+)')
 def parse_danmaku_cb(page, result):
     match = cid_re.search(page)
     if match:
-        result.append('http://comment.bilibili.com/%s.xml' % match.group(1))
-        moonplayer.play_with_danmaku(result)
+        danmaku = 'http://comment.bilibili.com/%s.xml' % match.group(1)
+        moonplayer.play(result, danmaku)
     else:
         moonplayer.warn('无法获取弹幕！')
         moonplayer.play(result)

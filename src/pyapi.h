@@ -39,7 +39,5 @@ void call_py_func_vsi(PyObject *func, const char *first, int second);
 #define OPT_QL_HIGH  (1)
 #define OPT_QL_SUPER (1 << 1)
 #define OPT_DOWNLOAD  (1 << 2)
-#define LIBTYPE_TV 0
-#define LIBTYPE_MOVIE 1
 
 #endif // PYAPI_H

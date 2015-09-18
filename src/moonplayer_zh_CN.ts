@@ -229,53 +229,53 @@
 <context>
     <name>MPlayer</name>
     <message>
-        <location filename="mplayer.cpp" line="66"/>
+        <location filename="mplayer.cpp" line="64"/>
         <source>Ratio</source>
         <translation type="unfinished">宽高比</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="70"/>
-        <location filename="mplayer.cpp" line="75"/>
+        <location filename="mplayer.cpp" line="68"/>
+        <location filename="mplayer.cpp" line="73"/>
         <source>Default</source>
         <translation type="unfinished">默认</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="72"/>
+        <location filename="mplayer.cpp" line="70"/>
         <source>Speed</source>
         <translation type="unfinished">播放速度</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="73"/>
+        <location filename="mplayer.cpp" line="71"/>
         <source>Speed up</source>
         <translation type="unfinished">加速</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="74"/>
+        <location filename="mplayer.cpp" line="72"/>
         <source>Speed down</source>
         <translation type="unfinished">减速</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="77"/>
+        <location filename="mplayer.cpp" line="75"/>
         <source>Channel</source>
         <translation type="unfinished">声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="78"/>
+        <location filename="mplayer.cpp" line="76"/>
         <source>Left</source>
         <translation type="unfinished">左声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="79"/>
+        <location filename="mplayer.cpp" line="77"/>
         <source>Right</source>
         <translation type="unfinished">右声道</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="80"/>
+        <location filename="mplayer.cpp" line="78"/>
         <source>Normal</source>
         <translation type="unfinished">立体声</translation>
     </message>
     <message>
-        <location filename="mplayer.cpp" line="92"/>
+        <location filename="mplayer.cpp" line="90"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
@@ -339,43 +339,43 @@
         <translation type="obsolete">库</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="88"/>
+        <location filename="player.cpp" line="87"/>
         <source>Cut video</source>
         <translation type="unfinished">剪切视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="93"/>
+        <location filename="player.cpp" line="92"/>
         <source>Resources</source>
         <translation type="unfinished">影视资源</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="98"/>
+        <location filename="player.cpp" line="97"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="108"/>
+        <location filename="player.cpp" line="106"/>
         <source>Player</source>
         <translation type="unfinished">播放器</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="109"/>
+        <location filename="player.cpp" line="107"/>
         <source>Online video</source>
         <oldsource>Search videos</oldsource>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="110"/>
+        <location filename="player.cpp" line="108"/>
         <source>Transform video</source>
         <translation type="unfinished">视频转码</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="111"/>
+        <location filename="player.cpp" line="109"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="113"/>
+        <location filename="player.cpp" line="111"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
@@ -390,13 +390,13 @@
         <translation type="unfinished">一些视频正在转码。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="382"/>
+        <location filename="player.cpp" line="385"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="542"/>
-        <location filename="player.cpp" line="548"/>
+        <location filename="player.cpp" line="550"/>
+        <location filename="player.cpp" line="556"/>
         <source>Failed to read skin!</source>
         <translation type="unfinished">加载皮肤失败！</translation>
     </message>
@@ -933,14 +933,18 @@
         <translation type="unfinished">缓冲百分比:</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="301"/>
+        <location filename="settingsdialog.cpp" line="306"/>
         <source>FFMPEG is not installed. Please download it from</source>
         <translation type="unfinished">ffmpeg未安装。请从以下网址下载ffmpeg</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="303"/>
+        <location filename="settingsdialog.cpp" line="308"/>
+        <source>and place file &quot;ffmpeg&quot; into ~/.moonplayer/ or /usr/share/moonplayer/</source>
+        <translation type="unfinished">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/或/usr/share/moonplayer/</translation>
+    </message>
+    <message>
         <source>and place file &quot;ffmpeg&quot; into ~/.moonplayer/</source>
-        <translation type="unfinished">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/</translation>
+        <translation type="obsolete">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/</translation>
     </message>
 </context>
 <context>
@@ -1143,12 +1147,12 @@
 <context>
     <name>VideoCombiner</name>
     <message>
-        <location filename="videocombiner.cpp" line="30"/>
+        <location filename="videocombiner.cpp" line="38"/>
         <source>Finished combining:</source>
         <translation type="unfinished">合并视频成功：</translation>
     </message>
     <message>
-        <location filename="videocombiner.cpp" line="32"/>
+        <location filename="videocombiner.cpp" line="40"/>
         <source>Failed to combine:</source>
         <translation type="unfinished">合并视频失败：</translation>
     </message>

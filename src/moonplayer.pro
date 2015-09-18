@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     cutterbar.cpp \
     videocombiner.cpp \
     searcher.cpp \
-    danmakuloader.cpp
+    danmakudelaygetter.cpp
+unix: SOURCES += danmakuloader.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -67,8 +68,9 @@ HEADERS  += player.h \
     settings_plugins.h \
     videocombiner.h \
     searcher.h \
-    danmakuloader.h \
-    settings_danmaku.h
+    settings_danmaku.h \
+    danmakudelaygetter.h
+unix: HEADERS += danmakuloader.h
 
 
 FORMS    += \

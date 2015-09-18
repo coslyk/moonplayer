@@ -8,7 +8,9 @@ class QMenu;
 class QProcess;
 class QResizeEvent;
 class QLabel;
+#ifdef Q_OS_LINUX
 class DanmakuLoader;
+#endif
 
 class MPlayer : public QWidget
 {
@@ -44,7 +46,7 @@ public slots:
     void jumpTo(int pos);
     void setProgress(int pos);
     void setVolume(int percentage);
-    void openFile(const QString &file, const QString &danmaku);
+    void openFile(const QString &file, const QString &danmaku = QString());
     void screenShot(void);
     void speedUp(void);
     void speedDown(void);
@@ -73,7 +75,6 @@ private:
     QProcess* process; //mplayer process
     QWidget* layer;  //Window for video output
     QLabel* msgLabel;  //Show catching message
-    DanmakuLoader* danmakuLoader;
 
     QAction* leftChannelAction;
     QAction* rightChannelAction;
@@ -86,18 +87,23 @@ private:
     int length;
     int time_offset;
     int w, h;
-    float speed;
+    double speed;
     bool is_waiting;
     bool stop_called;
     bool is_mplayer2;
     QString wait_to_play;
     QString playing_file;
-    QString danmaku_url;
+    QString danmaku;
     QHash<QString, int> unfinished_time;
 
-    void cb_start(QString& msg);
-    void cb_ratioChanged(QString& msg);
-    void cb_updateTime(QString& msg);
+#ifdef Q_OS_LINUX
+	DanmakuLoader* danmakuLoader;
+#endif
+
+    void cb_start(const QString &msg);
+    void cb_ratioChanged(const QString &msg);
+    void cb_subLoaded(const QString &msg);
+    void cb_updateTime(const QString &msg);
     void resizeLayer(void);
     void writeToMplayer(const QByteArray &msg);
 };
