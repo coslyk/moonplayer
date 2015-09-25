@@ -94,7 +94,6 @@ MPlayer::MPlayer(QWidget *parent) :
 #ifdef Q_OS_LINUX
 	//Create danmaku loader
 	danmakuLoader = new DanmakuLoader(this);
-	connect(danmakuLoader, &DanmakuLoader::finished, this, &MPlayer::loadAss);
     connect(danmakuLoader, &DanmakuLoader::finished, this, &MPlayer::loadAss);
 
     // read unfinished_time

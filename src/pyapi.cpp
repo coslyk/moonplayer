@@ -8,7 +8,6 @@
 #include "mplayer.h"
 #include "reslibrary.h"
 #include "detailview.h"
-#include "danmakudelaygetter.h"
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -18,6 +17,9 @@
 #include <QNetworkProxy>
 #include <QDir>
 #include <QTimer>
+#ifdef Q_OS_LINUX
+#include "danmakudelaygetter.h"
+#endif
 
 /*****************************************
  ******** Some useful functions **********
@@ -243,6 +245,7 @@ static PyObject *play(PyObject *, PyObject *args)
         urls << QString::fromUtf8(str);
     }
 
+#ifdef Q_OS_LINUX
     if (danmaku_url && size > 2) //video clips with danmaku
     {
         DanmakuDelayGetter *get = new DanmakuDelayGetter(names, urls, danmaku_url);
@@ -255,6 +258,12 @@ static PyObject *play(PyObject *, PyObject *args)
         while (!names.isEmpty())
             playlist->addFile(names.takeFirst(), urls.takeFirst());
     }
+#else
+	playlist->addFileAndPlay(names.takeFirst(), urls.takeFirst()); //first clip
+	while (!names.isEmpty())
+		playlist->addFile(names.takeFirst(), urls.takeFirst());
+#endif
+
     if (Settings::autoCloseWindow)
         webvideo->close();
     Py_IncRef(Py_None);

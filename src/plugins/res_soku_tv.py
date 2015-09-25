@@ -31,27 +31,18 @@ def search(args):
     moonplayer.get_url(url, search_cb, None)
 
 
-pic_re = re.compile(r'<img\s[^>]*src="(http://g\d\.ykimg\.com.+?)"')
-rest_re = re.compile(r'<a\s[^>]*href="(/detail/show/.+?)"[^>]+title="(.+?)".+?<img\s[^>]*src="(.+?)"')
+pic_re = re.compile(r'<img\s[^>]*src="(http://g\d\.ykimg\.com/\w+?)"')
 def search_by_key_cb(content, data):
+    content = content.replace('\n', '')
     result = []
-    items = content.split('<div class="detail">')
-    for item in items:
-        item = item.split('</div><!--detail end-->')[0].replace('\n', '')
-        name_url = list_links(item, '/detail/show/')
-        if len(name_url):
-            name = name_url[0]
-            url = name_url[1]
-            match = pic_re.search(item)
-            if match:
-                pic = match.group(1)
-                result.append({'name': name, 'url': url, 'pic_url': pic})
-    rest = items[-1].split('</div><!--item end-->', 1)[1].replace('\n', '')
-    match = rest_re.search(rest)
+    pics = []
+    items = list_links(content, '/detail/show')
+    match = pic_re.search(content)
     while match:
-        (url, name, pic) = match.group(1, 2, 3)
-        result.append({'name': name, 'url': url, 'pic_url': pic})
-        match = rest_re.search(rest, match.end(0))
+        pics.append(match.group(1))
+        match = pic_re.search(content, match.end(0))
+    for i in xrange(0, len(items), 2):
+        result.append({'name': items[i], 'url': items[i+1], 'pic_url': pics[i/2]})
     moonplayer.res_show(result)
 
 pic2_re = re.compile(r'<img original="(http://g\d.ykimg.com/.+?)"\s[^>]*alt="(.+?)"')

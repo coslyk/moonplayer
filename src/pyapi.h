@@ -5,8 +5,8 @@
  ** API for python **
  ********************/
 
-#include <QObject>
 #include <Python.h>
+#include <QObject>
 
 class QNetworkReply;
 class QTimer;

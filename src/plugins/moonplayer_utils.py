@@ -7,8 +7,8 @@ import re
 ## page and return a result-list
 ###############################
 
-re1 = re.compile(r'<a\s[^>]*title="([^"]+)"[^>]*href="([^"]+)"')
-re2 = re.compile(r'<a\s[^>]*href="([^"]+)"[^>]*title="([^"]+)"')
+re1 = re.compile(r'''<a\s[^>]*title=['"]([^'"]+)['"][^>]*href=['"]([^'"]+)['"]''')
+re2 = re.compile(r'''<a\s[^>]*href=['"]([^'"]+)['"][^>]*title=['"]([^'"]+)['"]''')
 
 def list_links(page, start, keyword = ''):
     links = []
