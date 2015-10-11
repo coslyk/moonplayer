@@ -281,7 +281,6 @@ void MPlayer::openFile(const QString &filename, const QString &danmaku)
     length = 0;
     progress = 0;
     speed = 1.0;
-    switchDanmakuAction->setEnabled(false);
 
     //start
     process->start("mplayer", args);
