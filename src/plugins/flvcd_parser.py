@@ -28,7 +28,6 @@ def parse_cb(page, data):
             url += '&go=1'
             moonplayer.get_url(url, parse_cb, data)
             return
-        moonplayer.warn('解析为粤语版失败！')
     result = parse_flvcd_page(page, None)
     if len(result) == 0:
         moonplayer.warn('Cannot parse this video:\n' + url)

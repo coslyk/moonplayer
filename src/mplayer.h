@@ -69,6 +69,7 @@ private slots:
     void setChannelToLeft(void);
     void setChannelToRight(void);
     void setChannelToNormal(void);
+    void switchDanmaku(void);
     void loadAss(const QString &assFile);
 
 private:
@@ -80,6 +81,7 @@ private:
     QAction* rightChannelAction;
     QAction* normalChannelAction;
     QAction* screenShotAction;
+    QAction* switchDanmakuAction;
 
     QTimer* timer;
     int volume;
@@ -102,7 +104,6 @@ private:
 
     void cb_start(const QString &msg);
     void cb_ratioChanged(const QString &msg);
-    void cb_subLoaded(const QString &msg);
     void cb_updateTime(const QString &msg);
     void resizeLayer(void);
     void writeToMplayer(const QByteArray &msg);

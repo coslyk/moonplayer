@@ -86,6 +86,10 @@ MPlayer::MPlayer(QWidget *parent) :
     menu->addMenu(ratio_menu);
     menu->addMenu(speed_menu);
     menu->addMenu(channel_menu);
+
+    switchDanmakuAction = menu->addAction(tr("Danmaku"), this, SLOT(switchDanmaku()));
+    switchDanmakuAction->setCheckable(true);
+    switchDanmakuAction->setChecked(true);
     menu->addSeparator();
     screenShotAction = menu->addAction(tr("Screenshot"), this, SLOT(screenShot()), QKeySequence("S"));
     setContextMenuPolicy(Qt::CustomContextMenu);
@@ -277,6 +281,7 @@ void MPlayer::openFile(const QString &filename, const QString &danmaku)
     length = 0;
     progress = 0;
     speed = 1.0;
+    switchDanmakuAction->setEnabled(false);
 
     //start
     process->start("mplayer", args);
@@ -400,7 +405,7 @@ void MPlayer::readOutput()
             cb_updateTime(message);
 
         else if (message.startsWith("SUB: Added subtitle file"))
-            cb_subLoaded(message);
+            switchDanmaku();
 
         // Windows version is based on Mplayer(not Mplayer2) since v0.22
 #ifdef Q_OS_LINUX
@@ -599,7 +604,7 @@ void MPlayer::screenShot()
     }
 }
 
-// Load subtitles
+// Load danmaku
 void MPlayer::loadAss(const QString &assFile)
 {
     if (state == STOPPING)
@@ -607,12 +612,18 @@ void MPlayer::loadAss(const QString &assFile)
     writeToMplayer("sub_load " + assFile.toUtf8() + '\n');
 }
 
-void MPlayer::cb_subLoaded(const QString &msg)
+void MPlayer::switchDanmaku()
 {
-    QString number = msg.section('(', 1).section(')', 0, 0);
-    writeToMplayer("sub_select " + number.toUtf8() + '\n');
-    if (danmaku.contains(" http://")) //danmaku has delay
-        writeToMplayer("sub_delay " + danmaku.section(' ', 0, 0).toUtf8() + " 1\n");
+    if (state == STOPPING || danmaku.isEmpty())
+        return;
+    if (switchDanmakuAction->isChecked()) //open danmaku
+    {
+        writeToMplayer("sub_select 1\n");
+        if (danmaku.contains(" http://")) //danmaku has delay
+            writeToMplayer("sub_delay " + danmaku.section(' ', 0, 0).toUtf8() + " 1\n");
+    }
+    else //close danmaku
+        writeToMplayer("sub_select -1\n");
 }
 
 

@@ -174,10 +174,6 @@
         <source> - Detail page</source>
         <translation type="unfinished"> - 详情页</translation>
     </message>
-    <message>
-        <source>Cannot find plugin which can parse this source.</source>
-        <translation type="obsolete">无法找到合适的插件来解析这个播放源。</translation>
-    </message>
 </context>
 <context>
     <name>Downloader</name>
@@ -220,10 +216,6 @@
         <location filename="downloader.cpp" line="181"/>
         <source>File is being downloaded. Still want to delete?</source>
         <translation type="unfinished">文件正在下载，仍要删除吗？</translation>
-    </message>
-    <message>
-        <source>File is downloading.</source>
-        <translation type="obsolete">文件正在下载中。</translation>
     </message>
 </context>
 <context>
@@ -276,12 +268,13 @@
     </message>
     <message>
         <location filename="mplayer.cpp" line="90"/>
-        <source>Screenshot</source>
-        <translation type="unfinished">截图</translation>
+        <source>Danmaku</source>
+        <translation type="unfinished">弹幕</translation>
     </message>
     <message>
-        <source>Screenshot (Shortcut:s)</source>
-        <translation type="obsolete">截图 (快捷键：s)</translation>
+        <location filename="mplayer.cpp" line="94"/>
+        <source>Screenshot</source>
+        <translation type="unfinished">截图</translation>
     </message>
 </context>
 <context>
@@ -301,42 +294,6 @@
         <location filename="player.ui" line="179"/>
         <source>Online videos</source>
         <translation type="unfinished">在线视频</translation>
-    </message>
-    <message>
-        <source>Show/hide playlist</source>
-        <translation type="obsolete">显示/影藏播放列表</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Player&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">播放器</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;View web videos&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">浏览网络视频</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Download manager&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">下载管理器</translation>
-    </message>
-    <message>
-        <source>player</source>
-        <translation type="obsolete">播放器</translation>
-    </message>
-    <message>
-        <source>internet</source>
-        <translation type="obsolete">网络</translation>
-    </message>
-    <message>
-        <source>Volume</source>
-        <translation type="obsolete">音量</translation>
-    </message>
-    <message>
-        <source>Catching, Please wait...</source>
-        <translation type="obsolete">缓冲中，请稍后...</translation>
-    </message>
-    <message>
-        <source>Library</source>
-        <translation type="obsolete">库</translation>
     </message>
     <message>
         <location filename="player.cpp" line="87"/>
@@ -400,37 +357,9 @@
         <source>Failed to read skin!</source>
         <translation type="unfinished">加载皮肤失败！</translation>
     </message>
-    <message>
-        <source>Menu</source>
-        <translation type="obsolete">菜单</translation>
-    </message>
-    <message>
-        <source>Search albums</source>
-        <translation type="obsolete">搜索专辑</translation>
-    </message>
-    <message>
-        <source>Parse URL</source>
-        <translation type="obsolete">解析网址</translation>
-    </message>
 </context>
 <context>
     <name>Playlist</name>
-    <message>
-        <source>Add</source>
-        <translation type="obsolete">添加</translation>
-    </message>
-    <message>
-        <source>Net</source>
-        <translation type="obsolete">网络</translation>
-    </message>
-    <message>
-        <source>Del</source>
-        <translation type="obsolete">删除</translation>
-    </message>
-    <message>
-        <source>Clear</source>
-        <translation type="obsolete">清空</translation>
-    </message>
     <message>
         <location filename="playlist.cpp" line="43"/>
         <source>Add file</source>
@@ -452,10 +381,6 @@
         <translation type="unfinished">其他任务正在进行中，请稍后。</translation>
     </message>
     <message>
-        <source>Other files is parsing.</source>
-        <translation type="obsolete">其他文件正在解析中。</translation>
-    </message>
-    <message>
         <location filename="playlist.cpp" line="161"/>
         <source>Enter url</source>
         <translation type="unfinished">输入网址</translation>
@@ -466,21 +391,9 @@
         <translation type="unfinished">请输入网址</translation>
     </message>
     <message>
-        <source>Please enter a name.</source>
-        <translation type="obsolete">请输入视频名称。</translation>
-    </message>
-    <message>
         <location filename="playlist.cpp" line="184"/>
         <source>Download?</source>
         <translation type="unfinished">下载吗？</translation>
-    </message>
-    <message>
-        <source>Press Yes to download, or No to play online.</source>
-        <translation type="obsolete">按“是”下载，或“否”在线播放。</translation>
-    </message>
-    <message>
-        <source>Files have added to downloading queue successfully.Please enter Webvideo page to see details</source>
-        <translation type="obsolete">已开始下载。请进入“网络视频”页查看详情</translation>
     </message>
 </context>
 <context>
@@ -522,145 +435,6 @@
         <location filename="reslibrary.cpp" line="113"/>
         <source>Another file is parsing. Please wait.</source>
         <translation type="unfinished">其他任务正在进行中，请稍后。</translation>
-    </message>
-</context>
-<context>
-    <name>Settings</name>
-    <message>
-        <source>Settings</source>
-        <translation type="obsolete">设置</translation>
-    </message>
-    <message>
-        <source>Player</source>
-        <translation type="obsolete">播放器</translation>
-    </message>
-    <message>
-        <source>Show playlist automatically</source>
-        <translation type="obsolete">自动显示播放列表</translation>
-    </message>
-    <message>
-        <source>Skin:</source>
-        <translation type="obsolete">皮肤：</translation>
-    </message>
-    <message>
-        <source>Resize window automatically</source>
-        <translation type="obsolete">自动调整窗口大小</translation>
-    </message>
-    <message>
-        <source>Need screenshot filter (-vf-add screenshot)</source>
-        <translation type="obsolete">需要screenshot滤镜(-vf-add screenshot)</translation>
-    </message>
-    <message>
-        <source>Enable screenshot</source>
-        <translation type="obsolete">启用截图</translation>
-    </message>
-    <message>
-        <source>Skin</source>
-        <translation type="obsolete">皮肤</translation>
-    </message>
-    <message>
-        <source>Remember unfinished clips</source>
-        <translation type="obsolete">记住未播放完的片段</translation>
-    </message>
-    <message>
-        <source>Video</source>
-        <translation type="obsolete">视频</translation>
-    </message>
-    <message>
-        <source>Video Output</source>
-        <translation type="obsolete">视频输出</translation>
-    </message>
-    <message>
-        <source>The default output in Linux. Cannot be used in Windows.</source>
-        <translation type="obsolete">Linux默认视频输出。Windows下不可用。</translation>
-    </message>
-    <message>
-        <source>Nvidia hardware decoding in Linux.</source>
-        <translation type="obsolete">Linux 下的Nvidia显卡硬件解码。</translation>
-    </message>
-    <message>
-        <source>Enable ffodivxvdpau</source>
-        <translation type="obsolete">启用ffodivxvdpau</translation>
-    </message>
-    <message>
-        <source>Enable Intel/Ati hardware decoding in Linux. Cannot be used in Windows.</source>
-        <translation type="obsolete">Linux下Intel/Ati硬件加速。Windows下不可用。</translation>
-    </message>
-    <message>
-        <source>Default output in Windows. Cannot be used in Linux.</source>
-        <translation type="obsolete">Windows默认视频输出。Linux下不可用。</translation>
-    </message>
-    <message>
-        <source>Default output in Windows Vista and Windows 7. Cannot be used in Linux and Windows XP.</source>
-        <translation type="obsolete">Windows vista和Win7默认视频输出。Linux和WinXP下不可用。</translation>
-    </message>
-    <message>
-        <source>OpenGL Output in Linux. You can try it if xv does not work.</source>
-        <translation type="obsolete">Linux下的OpenGL视频输出。如果xv无法正常工作，您可以尝试。</translation>
-    </message>
-    <message>
-        <source>Output in Linux. You can try it if xv does not work.</source>
-        <translation type="obsolete">Linux下的视频输出。如果xv无法正常工作，您可以尝试。</translation>
-    </message>
-    <message>
-        <source>Double buffer</source>
-        <translation type="obsolete">双缓冲</translation>
-    </message>
-    <message>
-        <source>Allow framedrop</source>
-        <translation type="obsolete">允许丢帧</translation>
-    </message>
-    <message>
-        <source>Try fixing &quot;stop at last frame&quot; problem</source>
-        <translation type="obsolete">尝试修复“卡在最后一帧”问题</translation>
-    </message>
-    <message>
-        <source>Internet</source>
-        <translation type="obsolete">网络</translation>
-    </message>
-    <message>
-        <source>Max tasks</source>
-        <translation type="obsolete">最大任务数</translation>
-    </message>
-    <message>
-        <source>Cache(KB):</source>
-        <translation type="obsolete">缓冲大小(KB):</translation>
-    </message>
-    <message>
-        <source>Cache min:</source>
-        <translation type="obsolete">缓冲百分比:</translation>
-    </message>
-    <message>
-        <source>Video quality:</source>
-        <translation type="obsolete">视频质量：</translation>
-    </message>
-    <message>
-        <source>Save to:</source>
-        <translation type="obsolete">保存至：</translation>
-    </message>
-    <message>
-        <source>Retry times</source>
-        <translation type="obsolete">重试次数</translation>
-    </message>
-    <message>
-        <source>Http proxy</source>
-        <translation type="obsolete">Http代理</translation>
-    </message>
-    <message>
-        <source>Port</source>
-        <translation type="obsolete">端口</translation>
-    </message>
-    <message>
-        <source>Normal</source>
-        <translation type="obsolete">标清</translation>
-    </message>
-    <message>
-        <source>High</source>
-        <translation type="obsolete">高清</translation>
-    </message>
-    <message>
-        <source>Super</source>
-        <translation type="obsolete">超清</translation>
     </message>
 </context>
 <context>
@@ -942,10 +716,6 @@
         <source>and place file &quot;ffmpeg&quot; into ~/.moonplayer/ or /usr/share/moonplayer/</source>
         <translation type="unfinished">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/或/usr/share/moonplayer/</translation>
     </message>
-    <message>
-        <source>and place file &quot;ffmpeg&quot; into ~/.moonplayer/</source>
-        <translation type="obsolete">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/</translation>
-    </message>
 </context>
 <context>
     <name>SortingDialog</name>
@@ -1120,14 +890,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Combine videos?</source>
-        <translation type="obsolete">合并视频吗？</translation>
-    </message>
-    <message>
-        <source>Set out file name</source>
-        <translation type="obsolete">设置输出文件名</translation>
-    </message>
-    <message>
         <location filename="transformer.cpp" line="64"/>
         <source>This function depends on mencoder, but mencoder is not installed in this computer.</source>
         <translation type="unfinished">本功能需要mencoder支持，但您未安装mencoder。</translation>
@@ -1185,49 +947,9 @@
         <translation type="unfinished">下载</translation>
     </message>
     <message>
-        <source>Warning</source>
-        <translation type="obsolete">警告</translation>
-    </message>
-    <message>
-        <source>Other file is parsing, please wait.</source>
-        <translation type="obsolete">其他文件正在解析中，请稍后。</translation>
-    </message>
-    <message>
-        <source>Downloading: </source>
-        <translation type="obsolete">正在下载：</translation>
-    </message>
-    <message>
-        <source>file(s) waiting</source>
-        <translation type="obsolete">个文件等待中</translation>
-    </message>
-    <message>
-        <source>Cannot download file: </source>
-        <translation type="obsolete">不能下载文件：</translation>
-    </message>
-    <message>
         <location filename="webvideo.cpp" line="88"/>
         <source>Another file is parsing. Please wait.</source>
         <translation type="unfinished">其他任务正在进行中，请稍后。</translation>
-    </message>
-    <message>
-        <source>Click Yes to see movies or No to see TV series</source>
-        <translation type="obsolete">点“是”浏览电影，点“否”浏览电视剧</translation>
-    </message>
-    <message>
-        <source>Choose a type:</source>
-        <translation type="obsolete">选择资源类型：</translation>
-    </message>
-    <message>
-        <source>Library is not supported</source>
-        <translation type="obsolete">不支持资源库</translation>
-    </message>
-    <message>
-        <source>Album is not supported.</source>
-        <translation type="obsolete">该插件不支持专辑搜索。</translation>
-    </message>
-    <message>
-        <source>Library</source>
-        <translation type="obsolete">库</translation>
     </message>
     <message>
         <location filename="webvideo.cpp" line="34"/>
@@ -1235,26 +957,10 @@
         <translation type="unfinished">您没有安装任何插件哦~_~</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="obsolete">专辑</translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation type="obsolete">返回</translation>
-    </message>
-    <message>
         <location filename="webvideo.cpp" line="35"/>
         <location filename="webvideo.cpp" line="49"/>
         <source>Web videos</source>
         <translation type="unfinished">在线视频</translation>
-    </message>
-    <message>
-        <source>Please input an url</source>
-        <translation type="obsolete">请输入网址</translation>
-    </message>
-    <message>
-        <source>Play online?</source>
-        <translation type="obsolete">在线播放吗？</translation>
     </message>
 </context>
 </TS>
