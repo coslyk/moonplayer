@@ -213,7 +213,7 @@
         <translation type="unfinished">已存在。重新下载吗？</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="181"/>
+        <location filename="downloader.cpp" line="190"/>
         <source>File is being downloaded. Still want to delete?</source>
         <translation type="unfinished">文件正在下载，仍要删除吗？</translation>
     </message>
@@ -333,27 +333,32 @@
     </message>
     <message>
         <location filename="player.cpp" line="111"/>
+        <source>Ext. for browser</source>
+        <translation type="unfinished">浏览器扩展</translation>
+    </message>
+    <message>
+        <location filename="player.cpp" line="112"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="174"/>
+        <location filename="player.cpp" line="175"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="185"/>
+        <location filename="player.cpp" line="186"/>
         <source>Some files are being transformed. Do you still want to close?</source>
         <translation type="unfinished">一些视频正在转码。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="385"/>
+        <location filename="player.cpp" line="386"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="550"/>
-        <location filename="player.cpp" line="556"/>
+        <location filename="player.cpp" line="558"/>
+        <location filename="player.cpp" line="564"/>
         <source>Failed to read skin!</source>
         <translation type="unfinished">加载皮肤失败！</translation>
     </message>

@@ -42,7 +42,7 @@ void DanmakuLoader::onXmlDownloaded()
 {
     if (reply->error() == QNetworkReply::NoError)
     {
-        QFile file("/tmp/moonplayer_danmaku.xml");
+        QFile file("/tmp/moonplayer_danmaku");
         if (!file.open(QFile::WriteOnly))
         {
             QMessageBox::warning(NULL, "Error", tr("Cannot parse danmaku!"));
@@ -89,7 +89,7 @@ void DanmakuLoader::onXmlDownloaded()
         // Alpha
         args << "-a" << QString::number(Settings::danmakuAlpha);
 
-        args << "/tmp/moonplayer_danmaku.xml";
+        args << "/tmp/moonplayer_danmaku";
         process->start("python3", args);
         process->waitForStarted(-1);
         process->write(reply->readAll());

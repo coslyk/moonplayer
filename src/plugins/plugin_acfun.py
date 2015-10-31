@@ -17,27 +17,33 @@ def parse(url, options):
     moonplayer.get_url(url, parse_cb, (options, origin_url))
     
 def parse_cb(page, data):
-    options = data[0]
-    url = data[1]
+    (options, url) = data
     result = parse_flvcd_page(page, None)
     if len(result) == 0:
-        moonplayer.warn('Cannot parse this video:\n' + url)
-        
-    elif options & moonplayer.OPT_DOWNLOAD:
-        if len(result) == 2: # single clip
-            moonplayer.download(result)
-        else:
-            moonplayer.download(result, result[0])
-    
+        moonplayer.warn("Cannot parse acfun's video!")
+    elif options & moonplayer.OPT_DOWNLOAD and len(result) > 2:
+        moonplayer.download(result, result[0])
     else:
-        moonplayer.get_url(url, parse_danmaku_cb, result)
+        moonplayer.get_url(url, parse_danmaku_cb, (options, result))
         
 cid_re = re.compile(r'''data-vid=['"](\d+)['"]''')
-def parse_danmaku_cb(page, result):
+name_re = re.compile(r'''data-title=['"](.+?)['"]''')
+def parse_danmaku_cb(page, data):
+    (options, result) = data
+    match = name_re.search(page)
+    if match:
+        result[0] = match.group(1) + ".flv"
+        
     match = cid_re.search(page)
     if match:
         danmaku = 'http://danmu.aixifan.com/V2/' + match.group(1)
-        moonplayer.play(result, danmaku)
+        if options & moonplayer.OPT_DOWNLOAD:
+            moonplayer.download_with_danmaku(result, danmaku)
+        else:
+            moonplayer.play(result, danmaku)
     else:
         moonplayer.warn('无法获取弹幕！')
-        moonplayer.play(result)
+        if options & moonplayer.OPT_DOWNLOAD:
+            moonplayer.download(result)
+        else:
+            moonplayer.play(result)

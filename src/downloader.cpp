@@ -58,7 +58,7 @@ Downloader::Downloader(QWidget *parent) :
 }
 
 
-void Downloader::addTask(const QByteArray &url, const QString &filename, bool in_group)
+void Downloader::addTask(const QByteArray &url, const QString &filename, bool in_group, const QByteArray &danmaku)
 {
     //rename if the same file is exist
     if (QFile::exists(filename))
@@ -96,6 +96,15 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
     {
         labels << filename  << "Wait";
         item = new QTreeWidgetItem(treeWidget, labels);
+#ifdef Q_OS_LINUX
+        //save danmaku's url
+        QFile file(filename + ".danmaku");
+        if (file.open(QFile::WriteOnly))
+        {
+            file.write(danmaku);
+            file.close();
+        }
+#endif
     }
     get2item[get] = item;
     item2get[item] = get;

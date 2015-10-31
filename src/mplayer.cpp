@@ -200,6 +200,16 @@ void MPlayer::openFile(const QString &filename, const QString &danmaku)
     wait_to_play = filename;
     //Get danmaku url
     this->danmaku = danmaku;
+    if (danmaku.isEmpty() && !filename.startsWith("http://"))
+    {
+        //get danmaku's url of local videos
+        QFile file(filename + ".danmaku");
+        if (file.open(QFile::ReadOnly))
+        {
+            this->danmaku = QString::fromUtf8(file.readAll());
+            file.close();
+        }
+    }
 
     if (state != STOPPING)
     {

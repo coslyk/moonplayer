@@ -217,6 +217,41 @@ static PyObject *download(PyObject *, PyObject *args)
     return Py_None;
 }
 
+static PyObject *download_with_danmaku(PyObject *, PyObject *args)
+{
+    //read args
+    PyObject *list;
+    const char *danmaku = NULL;
+    int ok;
+    ok = PyArg_ParseTuple(args, "Os", &list, &danmaku);
+    if (!ok)
+        return NULL;
+    int size = PyList_Size(list);
+    if (size < 0)
+        return NULL;
+    QDir dir(Settings::downloadDir);
+
+    //add task
+    PyObject *item;
+    const char *str;
+    for (int i = 0; i < size; i += 2)
+    {
+        if ((item = PyList_GetItem(list, i)) == NULL)
+            return NULL;
+        if ((str = PyString_AsString(item)) == NULL)
+            return NULL;
+        QString name = QString::fromUtf8(str);
+        if ((item = PyList_GetItem(list, i+1)) == NULL)
+            return NULL;
+        if ((str = PyString_AsString(item)) == NULL)
+            return NULL;
+        downloader->addTask(str, dir.filePath(name), false, i==0 ? danmaku : NULL);
+    }
+    QMessageBox::information(webvideo, "Message", "Add task successfully.");
+    Py_IncRef(Py_None);
+    return Py_None;
+}
+
 static PyObject *play(PyObject *, PyObject *args)
 {
     PyObject *list;
@@ -337,6 +372,7 @@ static PyMethodDef methods[] = {
     {"play",        play,        METH_VARARGS, "Play online"},
     {"res_show",    res_show,    METH_VARARGS, "Show resources result"},
     {"show_detail", show_detail, METH_VARARGS, "Show detail"},
+    {"download_with_danmaku", download_with_danmaku, METH_VARARGS, "Download file with danmaku"},
     {NULL, NULL, 0, NULL}
 };
 

@@ -108,6 +108,7 @@ Player::Player(QWidget *parent) :
     menu->addAction(tr("Transform video"), transformer, SLOT(show()));
     menu->addAction(tr("Settings"), this, SLOT(onSetButton()));
     menu->addSeparator();
+    menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
     menu->addAction(tr("Homepage"), this, SLOT(openHomepage()));
 
     //Add time show
@@ -439,6 +440,13 @@ void Player::onSetButton()
 void Player::openHomepage()
 {
     static QUrl url("https://github.com/coslyk/moonplayer");
+    QDesktopServices::openUrl(url);
+}
+
+//open extension page
+void Player::openExtPage()
+{
+    static QUrl url("https://github.com/coslyk/moonplayer/wiki/BroswerExtensionZH");
     QDesktopServices::openUrl(url);
 }
 
