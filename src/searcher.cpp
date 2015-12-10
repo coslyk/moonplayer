@@ -1,5 +1,6 @@
 #include "searcher.h"
 #include "utils.h"
+#include "pyapi.h"
 #include <QDir>
 #ifdef Q_OS_WIN
 #include "settings_player.h"
@@ -48,7 +49,7 @@ Searcher::Searcher(const QString &moduleName)
     module = PyImport_ImportModule(moduleName.toUtf8().constData());
     if (module == NULL)
     {
-        PyErr_Print();
+        show_pyerr();
         exit(-1);
     }
 
@@ -56,7 +57,7 @@ Searcher::Searcher(const QString &moduleName)
     PyObject *_name = PyObject_GetAttrString(module, "searcher_name");
     if (_name == NULL)
     {
-        PyErr_Print();
+        show_pyerr();
         exit(EXIT_FAILURE);
     }
     name = PyString_AsQString(_name);
@@ -67,7 +68,7 @@ Searcher::Searcher(const QString &moduleName)
     searchFunc = PyObject_GetAttrString(module, "search");
     if (searchFunc == NULL)
     {
-        PyErr_Print();
+        show_pyerr();
         exit(-1);
     }
 }
@@ -78,5 +79,5 @@ void Searcher::search(const QString &kw, int page)
     if (result)
         Py_DecRef(result);
     else
-        PyErr_Print();
+        show_pyerr();
 }

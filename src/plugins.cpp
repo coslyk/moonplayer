@@ -89,7 +89,7 @@ Plugin::Plugin(const QString &moduleName)
     module = PyImport_ImportModule(moduleName.toUtf8().constData());
     if (module == NULL)
     {
-        PyErr_Print();
+        show_pyerr();
         exit(-1);
     }
 
@@ -97,7 +97,7 @@ Plugin::Plugin(const QString &moduleName)
     parseFunc = PyObject_GetAttrString(module, "parse");
     if (parseFunc == NULL)
     {
-        PyErr_Print();
+        show_pyerr();
         exit(-1);
     }
 
@@ -108,7 +108,7 @@ Plugin::Plugin(const QString &moduleName)
         int size = PyTuple_Size(hosts);
         if (size < 0)
         {
-            PyErr_Print();
+            show_pyerr();
             exit(EXIT_FAILURE);
         }
         for (int i = 0; i < size; i++)

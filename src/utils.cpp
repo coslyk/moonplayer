@@ -1,6 +1,11 @@
 #include "utils.h"
+#include "accessmanager.h"
 #include <QDomDocument>
 #include <QDomElement>
+#include <QList>
+#include <QNetworkAccessManager>
+#include <QNetworkCookie>
+#include <QNetworkCookieJar>
 
 QString PyString_AsQString(PyObject *pystr)
 {
@@ -65,5 +70,14 @@ void readXspf(const QByteArray &xmlpage, QStringList &result)
         result << title;
         result << location;
         elem = elem.nextSiblingElement("track"); //next <track>
+    }
+}
+
+//unfinished function
+void saveCookies(const QUrl &url)
+{
+    QList<QNetworkCookie> cookies = access_manager->cookieJar()->cookiesForUrl(url);
+    foreach (QNetworkCookie cookie, cookies) {
+        qDebug("%s", cookie.toRawForm().constData());
     }
 }

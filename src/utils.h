@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QUrl>
 #include <Python.h>
 
 //Convert python's string(include unicode) to QString
@@ -13,5 +14,8 @@ QString secToTime(int second, bool use_format = false);
 
 //Read .xspf playlists
 void readXspf(const QByteArray& xmlpage, QStringList& result);
+
+//Save cookies to disk
+void saveCookies(const QUrl &url);
 
 #endif // MP_UTILS_H

@@ -2,6 +2,7 @@
 #include "settings_video.h"
 #include "settings_audio.h"
 #include "settings_network.h"
+//#include "utils.h"
 #include <QProcess>
 #include <QColor>
 #include <QSize>
@@ -245,6 +246,7 @@ void MPlayer::openFile(const QString &filename, const QString &danmaku)
         args << "-user-agent" << "moonplayer";
         args << "-cache" << QString::number(Settings::cacheSize);
         args << "-cache-min" << QString::number(Settings::cacheMin);
+        //saveCookies(filename);
     }
 
     //set channels

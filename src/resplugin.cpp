@@ -1,6 +1,7 @@
 #include "resplugin.h"
 #include <QDir>
 #include "utils.h"
+#include "pyapi.h"
 #ifdef Q_OS_WIN
 #include "settings_player.h"
 #endif
@@ -44,7 +45,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     module = PyImport_ImportModule(pluginName.toUtf8().constData());
     if (module == NULL)
     {
-        PyErr_Print();
+        show_pyerr();
         exit(-1);
     }
 
@@ -66,7 +67,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     loadItemFunc = PyObject_GetAttrString(module, "load_item");
     if (searchFunc == NULL || loadItemFunc == NULL)
     {
-        PyErr_Print();
+        show_pyerr();
         exit(-1);
     }
 
@@ -74,7 +75,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     PyObject *tags = PyObject_GetAttrString(module, "tags");
     if (tags == NULL)
     {
-        PyErr_Print();
+        show_pyerr();
         exit(-1);
     }
     tagsList = PyList_AsQStringList(tags);
@@ -84,7 +85,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     PyObject *countries = PyObject_GetAttrString(module, "countries");
     if (countries == NULL)
     {
-        PyErr_Print();
+        show_pyerr();
         exit(-1);
     }
     countriesList = PyList_AsQStringList(countries);
@@ -101,7 +102,7 @@ void ResPlugin::search(const QString &tag, const QString &country, int page)
     if (retVal)
         Py_DecRef(retVal);
     else
-        PyErr_Print();
+        show_pyerr();
 }
 
 void ResPlugin::searchByKey(const QString &key, int page)
@@ -113,7 +114,7 @@ void ResPlugin::searchByKey(const QString &key, int page)
     if (retVal)
         Py_DecRef(retVal);
     else
-        PyErr_Print();
+        show_pyerr();
 }
 
 void ResPlugin::loadItem(const QByteArray &flag)
@@ -122,5 +123,5 @@ void ResPlugin::loadItem(const QByteArray &flag)
     if (retVal)
         Py_DecRef(retVal);
     else
-        PyErr_Print();
+        show_pyerr();
 }

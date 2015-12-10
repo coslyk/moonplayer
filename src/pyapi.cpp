@@ -8,6 +8,7 @@
 #include "mplayer.h"
 #include "reslibrary.h"
 #include "detailview.h"
+#include "utils.h"
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -24,14 +25,52 @@
 /*****************************************
  ******** Some useful functions **********
  ****************************************/
-#define RETURN_IF_ERROR(retval)  if ((retval) == NULL){PyErr_Print(); return;}
-#define EXIT_IF_ERROR(retval)    if ((retval) == NULL){PyErr_Print(); exit(-1);}
+#define RETURN_IF_ERROR(retval)  if ((retval) == NULL){show_pyerr(); return;}
+#define EXIT_IF_ERROR(retval)    if ((retval) == NULL){show_pyerr(); exit(-1);}
 
 void call_py_func_vsi(PyObject *func, const char *first, int second)
 {
     PyObject *ret = PyObject_CallFunction(func, "si", first, second);
     RETURN_IF_ERROR(ret)
     Py_DecRef(ret);
+}
+
+void show_pyerr()
+{
+#ifdef Q_OS_WIN
+	PyObject *type, *value, *traceback;
+	PyErr_Fetch(&type, &value, &traceback);
+	QString msg;
+	if (traceback)
+	{
+		PyObject *line_number = PyObject_GetAttrString(traceback, "tb_lineno");
+		msg = "In Line " + QString::number(PyInt_AsLong(line_number)) + ":\n";
+		Py_DecRef(line_number);
+		Py_DecRef(traceback);
+	}
+	if (type)
+	{
+		PyObject *strobj = PyObject_Str(type);
+		msg += PyString_AsQString(strobj) + '\n';
+		Py_DecRef(strobj);
+		Py_DecRef(type);
+	}
+	if (value)
+	{
+		if (PyString_Check(value))
+			msg += PyString_AsQString(value);
+		else
+		{
+			PyObject *strobj = PyObject_Str(value);
+			msg += PyString_AsQString(strobj);
+			Py_DecRef(strobj);
+		}
+		Py_DecRef(value);
+	}
+	QMessageBox::warning(NULL, "Python Error", msg);
+#else
+	PyErr_Print();
+#endif
 }
 
 /******************************************
@@ -52,7 +91,7 @@ GetUrl::GetUrl(QObject *parent) : QObject(parent)
     exc_GetUrlError = PyErr_NewException("moonplayer.GetUrlError", NULL, NULL);
 }
 
-void GetUrl::start(const char *url, PyObject *callback, PyObject *_data)
+void GetUrl::start(const char *url, PyObject *callback, PyObject *_data, const char *referer)
 {
     //save callback function
     callbackFunc = callback;
@@ -62,6 +101,8 @@ void GetUrl::start(const char *url, PyObject *callback, PyObject *_data)
     //start request
     QNetworkRequest request = QNetworkRequest(QString::fromUtf8(url));
     request.setRawHeader("User-Agent", "moonplayer");
+    if (referer)
+        request.setRawHeader("Referer", referer);
     reply = access_manager->get(request);
     connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
     timer->start(10000);
@@ -121,15 +162,15 @@ void GetUrl::onFinished()
 static PyObject *get_url(PyObject *, PyObject *args)
 {
     PyObject *callback, *data;
-    const char *url;
-    if (!PyArg_ParseTuple(args, "sOO", &url, &callback, &data))
+    const char *url, *referer = NULL;
+    if (!PyArg_ParseTuple(args, "sOO|s", &url, &callback, &data, &referer))
         return NULL;
     if (geturl_obj->hasTask())
     {
         PyErr_SetString(exc_GetUrlError, "Another task is running.");
         return NULL;
     }
-    geturl_obj->start(url, callback, data);
+    geturl_obj->start(url, callback, data, referer);
     Py_IncRef(Py_None);
     return Py_None;
 }

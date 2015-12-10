@@ -17,7 +17,7 @@ class GetUrl : public QObject
     Q_OBJECT
 public:
     explicit GetUrl(QObject *parent = 0);
-    void start(const char *url, PyObject *callback, PyObject *_data);
+    void start(const char *url, PyObject *callback, PyObject *_data, const char *referer);
     inline bool hasTask(){return callbackFunc != NULL;}
 private:
     PyObject *callbackFunc;
@@ -35,6 +35,7 @@ extern PyObject *exc_GetUrlError;
 extern PyObject *apiModule;
 void initAPI(void);
 void call_py_func_vsi(PyObject *func, const char *first, int second);
+void show_pyerr(void);
 
 #define OPT_QL_HIGH  (1)
 #define OPT_QL_SUPER (1 << 1)

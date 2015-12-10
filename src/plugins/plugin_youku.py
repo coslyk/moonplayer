@@ -17,7 +17,7 @@ QL_NORMAL = 0
 def parse(url, options):
     vid = url.split('id_')[1].split('.html')[0]
     url = 'http://play.youku.com/play/get.json?vid=%s&ct=12' % vid
-    moonplayer.get_url(url, parse_cb, options)
+    moonplayer.get_url(url, parse_cb, options, 'http://static.youku.com')
     
 def parse_cb(page, options):
     # Check errors
@@ -27,7 +27,7 @@ def parse_cb(page, options):
         moonplayer.warn('Video not found!')
         return
     if 'error' in data:
-        moonplayer.warn('Error: ' + data['error']['note'])
+        moonplayer.warn('Error: ' + data['error']['note'].encode('utf-8'))
         return
     
     # Get title, ep, ip, vid
@@ -57,7 +57,7 @@ def parse_cb(page, options):
             if audiolang['vid'] != vid:
                 if moonplayer.question('是否切换至：' + audiolang['lang'].encode('utf-8')):
                     url = 'http://play.youku.com/play/get.json?vid=%s&ct=12' % audiolang['vid']
-                    moonplayer.get_url(url, parse_cb, options)
+                    moonplayer.get_url(url, parse_cb, options, 'http://static.youku.com')
                     return
             else:
                 lang = audiolang['langcode']
@@ -100,7 +100,6 @@ def parse_cb(page, options):
             'ymovie': 1,
             'xfsize': segs[i]['size']}
         url += urlencode(param)
-        print url
         result.append(name)
         result.append(url)
         
