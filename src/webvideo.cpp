@@ -225,7 +225,7 @@ void WebVideo::onDownButton()
         return;
     QByteArray url = result[i];
     Plugin *plugin = getPluginByHost(QUrl(QString::fromUtf8(url)).host());
-    if (plugin == 0)
+    if (plugin)
         plugin->parse(url.constData(), true);
     else
         flvcd_parser->parse(url.constData(), false);
