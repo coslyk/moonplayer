@@ -16,6 +16,7 @@
 #include <QMessageBox>
 #include "settings_audio.h"
 #include "plugins.h"
+#include "utils.h"
 
 QString Settings::aout;
 QString Settings::vout;
@@ -290,23 +291,11 @@ void SettingsDialog::showPluginsMsg()
 
 void SettingsDialog::checkFFMPEG(bool toggled)
 {
-    if (toggled)
+    if (toggled && getFFmpegFile().isEmpty())
     {
-#ifdef Q_OS_WIN
-        QDir dir(Settings::path);
-#else
-        if (QDir("/usr/share/moonplayer").exists("ffmpeg"))
-            return;
-        QDir dir = QDir::home();
-        dir.cd(".moonplayer");
-
-#endif
-        if (!dir.exists("ffmpeg"))
-        {
-            QMessageBox::warning(this, "Error", tr("FFMPEG is not installed. Please download it from") +
-                                 "\n    http://johnvansickle.com/ffmpeg/\n" +
-                                tr("and place file \"ffmpeg\" into ~/.moonplayer/ or /usr/share/moonplayer/"));
-            ui->combineCheckBox->setChecked(false);
-        }
+        QMessageBox::warning(this, "Error", tr("FFMPEG is not installed. Please download it from") +
+                             "\n    http://johnvansickle.com/ffmpeg/\n" +
+                            tr("and place file \"ffmpeg\" into ~/.moonplayer/ or /usr/share/moonplayer/"));
+        ui->combineCheckBox->setChecked(false);
     }
 }

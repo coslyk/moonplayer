@@ -1,5 +1,6 @@
 #include "utils.h"
 #include "accessmanager.h"
+#include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QList>
@@ -71,6 +72,35 @@ void readXspf(const QByteArray &xmlpage, QStringList &result)
         result << location;
         elem = elem.nextSiblingElement("track"); //next <track>
     }
+}
+
+//get ffmpeg's file name
+QString getFFmpegFile()
+{
+    static QString filename;
+    if (filename.isNull())
+    {
+#if defined(Q_OS_WIN)
+        QDir dir(Settings::path);
+        if (dir.exists("ffmpeg.exe"))
+            dir.filePath("ffmpeg.exe");
+        else
+            filename = "";
+
+#elif defined(Q_OS_LINUX)
+        QDir dir = QDir::home();
+        dir.cd(".moonplayer");
+        if (dir.exists("ffmpeg"))
+            filename = dir.filePath("ffmpeg");
+        else if (QDir("/usr/share/moonplayer").exists("ffmpeg"))
+            filename = "/usr/share/moonplayer/ffmpeg";
+        else
+            filename = "";
+#else
+#error ERROR: Unsupport system!
+#endif
+    }
+    return filename;
 }
 
 //unfinished function

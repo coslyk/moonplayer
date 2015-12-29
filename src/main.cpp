@@ -24,6 +24,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    QDir currentDir = QDir::current();
+
     //check whether another MoonPlayer instance is running
 #ifdef Q_OS_LINUX
     std::cout << "Checking another instance..." << std::endl;
@@ -36,13 +38,26 @@ int main(int argc, char *argv[])
             qDebug("Another instance is running. Quit.\n");
             return EXIT_FAILURE;
         }
-        QString f = QString::fromUtf8(argv[1]);
-        if (f.startsWith("http://"))
-            iface.call("addUrl", f);
-        else if (f.endsWith(".m3u") || f.endsWith("m3u8") || f.endsWith(".xspf")) //playlist
-            iface.call("addList", f);
-        else
-            iface.call("addFileAndPlay", f.section('/', -1), f);
+        for (int i = 1; i < argc; i++)
+        {
+            QString f = QString::fromUtf8(argv[i]);
+            //online resource
+            if (f.startsWith("http://"))
+                iface.call("addUrl", f);
+            //playlist
+            else if (f.endsWith(".m3u") || f.endsWith("m3u8") || f.endsWith(".xspf")) //playlist
+                iface.call("addList", f);
+            //local videos
+            else
+            {
+                if (!f.contains('/'))    //not an absolute path
+                    f = currentDir.filePath(f);
+                if (i == 1)   //first video
+                    iface.call("addFileAndPlay", f.section('/', -1), f);
+                else
+                    iface.call("addFile", f.section('/', -1), f);
+            }
+        }
         return EXIT_SUCCESS;
     }
     QDBusConnection conn = QDBusConnection::sessionBus();
@@ -74,17 +89,24 @@ int main(int argc, char *argv[])
     Player w;
     w.show();
 
-    if (argc > 1)
+    for (int i = 1; i < argc; i++)
     {
         std::cout << "Loading file..." << std::endl;
         QTextCodec* codec = QTextCodec::codecForLocale();
-        QString file = codec->toUnicode(argv[1]);
+        QString file = codec->toUnicode(argv[i]);
         if (file.startsWith("http://"))
             w.playlist->addUrl(file);
         else if (file.endsWith(".m3u") || file.endsWith("m3u8") || file.endsWith(".xspf")) //playlist
             w.playlist->addList(file);
         else
-            w.playlist->addFileAndPlay(file.section('/', -1), file);
+        {
+            if (!file.contains('/'))    //not an absolute path
+                file = currentDir.filePath(file);
+            if (i == 1) //first video
+                w.playlist->addFileAndPlay(file.section('/', -1), file);
+            else
+                w.playlist->addFile(file.section('/', -1), file);
+        }
     }
     a.exec();
     Py_Finalize();

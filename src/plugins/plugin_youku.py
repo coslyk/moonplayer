@@ -104,7 +104,7 @@ def parse_cb(page, options):
         result.append(url)
         
     if options & moonplayer.OPT_DOWNLOAD:
-        moonplayer.download(result, title)
+        moonplayer.download(result, title + '.' + st)
     else:
         moonplayer.play(result)
     
