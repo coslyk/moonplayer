@@ -17,7 +17,7 @@ VideoCombiner::VideoCombiner(QObject *parent, const QDir &dir) :
         file.write(QString("file '%1'\n").arg(filename).toUtf8());
     file.close();
     // Run FFMPEG
-    save_as = save_as = dir.absolutePath().section('.', 0, -2) + "(combine)." + dir.absolutePath().section('.', -1);
+    save_as = dir.absolutePath().section('.', 0, -2) + "(combine)." + dir.absolutePath().section('.', -1);
     QStringList args;
     args << "-f" << "concat" << "-i" << "filelist.txt" << "-c" << "copy" << save_as;
     setWorkingDirectory(dir.absolutePath());

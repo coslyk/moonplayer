@@ -1,5 +1,6 @@
 #include "utils.h"
 #include "accessmanager.h"
+#include <QFile>
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
@@ -7,6 +8,9 @@
 #include <QNetworkAccessManager>
 #include <QNetworkCookie>
 #include <QNetworkCookieJar>
+#ifdef Q_OS_WIN
+#include "settings_player.h"
+#endif
 
 QString PyString_AsQString(PyObject *pystr)
 {
@@ -103,11 +107,36 @@ QString getFFmpegFile()
     return filename;
 }
 
-//unfinished function
-void saveCookies(const QUrl &url)
+//save cookies to disk
+bool saveCookies(const QUrl &url, const QString &filename)
 {
     QList<QNetworkCookie> cookies = access_manager->cookieJar()->cookiesForUrl(url);
+    QByteArray content;
+
     foreach (QNetworkCookie cookie, cookies) {
-        qDebug("%s", cookie.toRawForm().constData());
+        // convert to mozilla's format
+        QString row = cookie.toRawForm();
+        QString name = row.section('=', 0, 0);
+        QString value = row.section('=', 1).section(';', 0, 0);
+        QString domain, path;
+        if (row.contains("domain"))
+            domain = row.section("domain=", 1).section(';', 0, 0);
+        if (row.contains("path"))
+            path = row.section("path=", 1).section(';', 0, 0);
+        content += QString("%1\tTRUE\t%2\tFALSE\t\t%3\t%4\n").arg(domain, path, name, value).toUtf8();
+    }
+    if (content.isEmpty())  //no cookies needed
+        return false;
+    else
+    {
+        QFile file(filename);
+        if (!file.open(QFile::WriteOnly | QFile::Text))
+            return false;
+        file.write("# Netscape HTTP Cookie File\n"
+           "# http://curl.haxx.se/rfc/cookie_spec.html\n"
+           "# This is a generated file!  Do not edit.\n\n");
+        file.write(content);
+        file.close();
+        return true;
     }
 }

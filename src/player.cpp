@@ -543,7 +543,6 @@ void Player::onSaveVolume(int volume)
 
 void Player::setSkin(const QString& skin_name)
 {
-    QString currentDir = QDir::currentPath();
     QDir dir = QDir(Settings::path);
     dir.cd("skins");
 #ifdef Q_OS_WIN

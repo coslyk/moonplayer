@@ -16,7 +16,7 @@ QString secToTime(int second, bool use_format = false);
 void readXspf(const QByteArray& xmlpage, QStringList& result);
 
 //Save cookies to disk
-void saveCookies(const QUrl &url);
+bool saveCookies(const QUrl &url, const QString &filename);
 
 //Get FFmpeg's file name
 QString getFFmpegFile(void);

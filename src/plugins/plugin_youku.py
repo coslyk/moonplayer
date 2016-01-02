@@ -15,6 +15,10 @@ QL_HIGH   = 1
 QL_NORMAL = 0
 
 def parse(url, options):
+    moonplayer.get_url(url, parse_1, (url, options)) # get essential cookies
+
+def parse_1(content, data):
+    url, options = data
     vid = url.split('id_')[1].split('.html')[0]
     url = 'http://play.youku.com/play/get.json?vid=%s&ct=12' % vid
     moonplayer.get_url(url, parse_cb, options, 'http://static.youku.com')
