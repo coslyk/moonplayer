@@ -2,7 +2,7 @@
 #define SETTINGS_PLUGINS_H
 
 namespace Settings {
-extern enum Quality {NORMAL, HIGH, SUPER} quality;
+extern enum Quality {NORMAL, HIGH, SUPER, _1080P} quality;
 extern bool autoCombine;
 extern bool autoCloseWindow;
 }

@@ -402,13 +402,6 @@
        <string>Plugins</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Video quality:</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="1">
         <widget class="QRadioButton" name="normalRadioButton">
          <property name="text">
@@ -416,10 +409,10 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QRadioButton" name="highRadioButton">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>High</string>
+          <string>Video quality:</string>
          </property>
         </widget>
        </item>
@@ -430,10 +423,10 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="4">
-        <widget class="QCheckBox" name="combineCheckBox">
+       <item row="0" column="2">
+        <widget class="QRadioButton" name="highRadioButton">
          <property name="text">
-          <string>Combine video clips automatically after downloading</string>
+          <string>High</string>
          </property>
         </widget>
        </item>
@@ -457,7 +450,21 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="4">
+       <item row="0" column="4">
+        <widget class="QRadioButton" name="_1080pRadioButton">
+         <property name="text">
+          <string>1080P</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="5">
+        <widget class="QCheckBox" name="combineCheckBox">
+         <property name="text">
+          <string>Combine video clips automatically after downloading</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="5">
         <widget class="QCheckBox" name="autoCloseWindowCheckBox">
          <property name="text">
           <string>Close &quot;Online videos&quot; window after playing</string>

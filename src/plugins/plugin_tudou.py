@@ -3,6 +3,7 @@
 from moonplayer_utils import list_links, convert_to_utf8
 import re
 import moonplayer
+import plugin_youku
 try:
     import xml.etree.cElementTree as ET
 except ImportError:
@@ -13,7 +14,9 @@ hosts = ('www.tudou.com',)
 
 #parse videos
 def parse(url, options):
-    if url.startswith('http://www.tudou.com/listplay/') or url.startswith('http://www.tudou.com/programs/view/'):  #single video
+    if url.startswith('http://www.tudou.com/listplay/') or \
+    url.startswith('http://www.tudou.com/programs/view/') or \
+    url.startswith('http://www.tudou.com/albumplay/'):  #single video
         parser.feed(url, options)
         
     else:  #wrong url
@@ -22,7 +25,7 @@ def parse(url, options):
 #parse videos
 iid_re = re.compile(r'"pt":(\d+)[^}]+"k":(\d+)')
 name_re = re.compile(r'kw:\s*[\'"]([^\'"]+)')
-
+vcode_re = re.compile(r'vcode:\s*[\'"]([^\'"]+)')
 class Parser(object):
     def feed(self, url, options):
         moonplayer.get_url(url, self.parse_cb, options)
@@ -36,18 +39,30 @@ class Parser(object):
             return
         self.name = name_match.group(1)
         
+        if options & moonplayer.OPT_QL_1080P:
+            i = 6
         if options & moonplayer.OPT_QL_SUPER:
             i = 5
         elif options & moonplayer.OPT_QL_HIGH:
             i = 3
         else:
             i = 2
-        vlist = [None] * 6
+        vlist = [None] * 7
         iid_match = iid_re.search(page)
+        vcode_match = vcode_re.search(page)
+        
+        # Link to youku
+        if vcode_match and not iid_match:
+            url = 'http://v.youku.com/v_show/id_%s.html' % vcode_match.group(1)
+            plugin_youku.parse(url, options)
+            return
+            
         while iid_match:
             (pt, k) = iid_match.group(1, 2)
             pt = int(pt)
-            if pt < 6:
+            if pt == 99: # Real quality
+                pt = 6
+            if pt <= 6:
                 if vlist[pt] == None:
                     vlist[pt] = []
                 vlist[pt].append(k)
@@ -72,7 +87,10 @@ class Parser(object):
             url = 'http://v2.tudou.com/f?id=' + self.keys[i]
             moonplayer.get_url(url, self.parse_keys, options)
         elif options & moonplayer.OPT_DOWNLOAD:
-            moonplayer.download(self.result, self.name + '.f4v')
+            if len(self.result) == 2:
+                moonplayer.download(self.result)
+            else:
+                moonplayer.download(self.result, self.name + '.f4v')
         else:
             moonplayer.play(self.result)
 parser = Parser()

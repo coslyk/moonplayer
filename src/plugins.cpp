@@ -123,7 +123,14 @@ Plugin::Plugin(const QString &moduleName)
 
 void Plugin::parse(const char *url, bool is_down)
 {
-    int options = (Settings::quality == Settings::SUPER) ? OPT_QL_SUPER : (Settings::quality == Settings::HIGH) ? OPT_QL_HIGH : 0;
+    int options = 0;
+	switch (Settings::quality)
+	{
+	case Settings::_1080P:options |= OPT_QL_1080P;
+	case Settings::SUPER: options |= OPT_QL_SUPER;
+	case Settings::HIGH:  options |= OPT_QL_HIGH;
+	default: break;
+	}
     if (is_down)
         options |= OPT_DOWNLOAD;
     call_py_func_vsi(parseFunc, url, options);

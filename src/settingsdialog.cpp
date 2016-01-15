@@ -66,6 +66,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     group->addButton(ui->normalRadioButton, 0);
     group->addButton(ui->highRadioButton, 1);
     group->addButton(ui->superRadioButton, 2);
+	group->addButton(ui->_1080pRadioButton, 3);
     ui->skinComboBox->addItems(skinList);
 
 #ifdef Q_OS_LINUX
@@ -112,7 +113,8 @@ void SettingsDialog::loadSettings()
     {
     case NORMAL: ui->normalRadioButton->setChecked(true);break;
     case HIGH:   ui->highRadioButton->setChecked(true);  break;
-    default:     ui->superRadioButton->setChecked(true); break;
+    case SUPER:  ui->superRadioButton->setChecked(true); break;
+	default:     ui->_1080pRadioButton->setChecked(true);break;
     }
 }
 

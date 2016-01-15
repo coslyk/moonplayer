@@ -70,19 +70,18 @@ def parse_cb(page, options):
     streams = streamlangs[lang]
         
     # Select video quality
+    if options & moonplayer.OPT_QL_1080P and streams[QL_1080P]:
+        stream = streams[QL_1080P]
+        st = 'flv'
     if options & moonplayer.OPT_QL_SUPER and streams[QL_SUPER]:
         stream = streams[QL_SUPER]
         st = 'flv'
-    elif options & (moonplayer.OPT_QL_SUPER|moonplayer.OPT_QL_HIGH) and streams[QL_HIGH]:
+    elif options & moonplayer.OPT_QL_HIGH and streams[QL_HIGH]:
         stream = streams[QL_HIGH]
         st = 'mp4'
     else:
         stream = streams[QL_NORMAL]
         st = 'flv'
-    if options & moonplayer.OPT_DOWNLOAD and streams[QL_1080P]:
-        if moonplayer.question('下载1080P版本吗？'):
-            stream = streams[QL_1080P]
-            st = 'flv'
             
     # Parse
     sid, token = trans_e('becaf9be', base64.b64decode(ep)).split('_')
@@ -108,7 +107,10 @@ def parse_cb(page, options):
         result.append(url)
         
     if options & moonplayer.OPT_DOWNLOAD:
-        moonplayer.download(result, title + '.' + st)
+        if len(result) == 2:
+            moonplayer.download(result)
+        else:
+            moonplayer.download(result, title + '.' + st)
     else:
         moonplayer.play(result)
     

@@ -433,6 +433,7 @@ void initAPI()
     apiModule = Py_InitModule("moonplayer", methods);
     PyModule_AddIntConstant(apiModule, "OPT_QL_HIGH",  OPT_QL_HIGH);
     PyModule_AddIntConstant(apiModule, "OPT_QL_SUPER", OPT_QL_SUPER);
+	PyModule_AddIntConstant(apiModule, "OPT_QL_1080P", OPT_QL_1080P);
     PyModule_AddIntConstant(apiModule, "OPT_DOWNLOAD",  OPT_DOWNLOAD);
     PyModule_AddStringConstant(apiModule, "final_url", "");
     Py_IncRef(exc_GetUrlError);

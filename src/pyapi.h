@@ -37,8 +37,9 @@ void initAPI(void);
 void call_py_func_vsi(PyObject *func, const char *first, int second);
 void show_pyerr(void);
 
-#define OPT_QL_HIGH  (1)
-#define OPT_QL_SUPER (1 << 1)
-#define OPT_DOWNLOAD  (1 << 2)
+#define OPT_QL_HIGH  0x01
+#define OPT_QL_SUPER 0x02
+#define OPT_QL_1080P 0x04
+#define OPT_DOWNLOAD 0x08
 
 #endif // PYAPI_H

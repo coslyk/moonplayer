@@ -8,7 +8,9 @@ from moonplayer_utils import list_links, parse_flvcd_page
 def parse(url, options):
     origin_url = url
     url = 'http://www.flvcd.com/parse.php?go=1&kw=' + origin_url
-    if options & moonplayer.OPT_QL_SUPER:
+    if options & moonplayer.OPT_QL_1080P:
+        url += '&format=real'
+    elif options & moonplayer.OPT_QL_SUPER:
         url += '&format=super'
     elif options & moonplayer.OPT_QL_HIGH:
         url += '&format=high'
