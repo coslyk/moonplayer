@@ -197,15 +197,6 @@ void Player::closeEvent(QCloseEvent* e)
     e->accept();
 }
 
-//Hide playlist
-void Player::hidePlaylist()
-{
-    if (playlist->isHidden())
-        playlist->show();
-    else
-        playlist->hide();
-}
-
 void Player::setFullScreen()
 {
     if (is_fullscreen)
@@ -330,10 +321,6 @@ bool Player::eventFilter(QObject *obj, QEvent *e)
             return true;
         case Qt::Key_Return:
             setFullScreen();
-            return true;
-        case Qt::Key_F3:
-            if (!is_fullscreen)
-                hidePlaylist();
             return true;
         case Qt::Key_Space:
             mplayer->changeState();

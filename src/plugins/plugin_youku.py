@@ -5,7 +5,8 @@ import moonplayer
 import json
 import time
 import base64
-from urllib import urlencode
+from urllib import urlencode, unquote
+import urllib2
 
 hosts = ('v.youku.com',)
 
@@ -21,9 +22,10 @@ def parse_1(content, data):
     url, options = data
     vid = url.split('id_')[1].split('.html')[0]
     url = 'http://play.youku.com/play/get.json?vid=%s&ct=12' % vid
-    moonplayer.get_url(url, parse_cb, options, 'http://static.youku.com')
+    moonplayer.get_url(url, parse_cb, (options, None, None), 'http://static.youku.com')
     
-def parse_cb(page, options):
+def parse_cb(page, data):
+    options, fallback_sid, fallback_token = data
     # Check errors
     try:
         data = json.loads(page)['data']
@@ -61,7 +63,7 @@ def parse_cb(page, options):
             if audiolang['vid'] != vid:
                 if moonplayer.question('是否切换至：' + audiolang['lang'].encode('utf-8')):
                     url = 'http://play.youku.com/play/get.json?vid=%s&ct=12' % audiolang['vid']
-                    moonplayer.get_url(url, parse_cb, options, 'http://static.youku.com')
+                    moonplayer.get_url(url, parse_cb, (options, None, None), 'http://static.youku.com')
                     return
             else:
                 lang = audiolang['langcode']
@@ -84,7 +86,11 @@ def parse_cb(page, options):
         st = 'flv'
             
     # Parse
-    sid, token = trans_e('becaf9be', base64.b64decode(ep)).split('_')
+    if fallback_sid:
+        sid = fallback_sid
+        token = fallback_token
+    else:
+        sid, token = trans_e('becaf9be', base64.b64decode(ep)).split('_')
     segs = stream['segs']
     result = []
     for i in xrange(len(segs)):
@@ -99,13 +105,27 @@ def parse_cb(page, options):
             'ev': 1,
             'oip': ip,
             'token': token,
-            'ep': generate_ep(sid, fileid, token),
+            'ep': unquote(generate_ep(sid, fileid, token)),
             'ymovie': 1,
             'xfsize': segs[i]['size']}
         url += urlencode(param)
         result.append(name)
         result.append(url)
         
+    # Check whether the parsed url is suit for your location.
+    if fallback_sid == None:
+        print 'Checking'
+        try:
+            url = result[1].replace('ymovie=', 'yxon=')
+            req = urllib2.Request(url)
+            req.add_header('User-Agnet', 'moonplayer')
+            response = urllib2.urlopen(req, timeout=5)
+        except urllib2.HTTPError, e:
+            # Use fallback meta
+            url = 'http://play.youku.com/play/get.json?vid=%s&ct=10' % vid
+            moonplayer.get_url(url, parse_cb, (options, sid, token), 'http://static.youku.com')
+            return
+    
     if options & moonplayer.OPT_DOWNLOAD:
         if len(result) == 2:
             moonplayer.download(result)
@@ -124,12 +144,12 @@ def compat_ord(c):
 def trans_e(s1, s2):
     ls = list(range(256))
     t = 0
-    for i in range(256):
+    for i in xrange(256):
         t = (t + ls[i] + compat_ord(s1[i % len(s1)])) % 256
         ls[i], ls[t] = ls[t], ls[i]
     s = bytearray()
     x, y = 0, 0
-    for i in range(len(s2)):
+    for i in xrange(len(s2)):
         y = (y + 1) % 256
         x = (x + ls[y]) % 256
         ls[x], ls[y] = ls[y], ls[x]

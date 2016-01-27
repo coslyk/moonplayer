@@ -170,7 +170,7 @@ void Playlist::addUrl(const QString &url)
     if (plugin == NULL)
     {
         QString s = url.section('?', 0, 0);
-        if (s.endsWith(".html") || s.endsWith(".htm"))
+		if (s.endsWith(".html") || s.endsWith(".htm") || s.endsWith(".shtml"))
             plugin = flvcd_parser;
     }
 

@@ -82,8 +82,6 @@ private slots:
     void onSaveVolume(int volume);
     void openExtPage(void);
     void openHomepage(void);
-
-    void hidePlaylist(void);
     void setFullScreen(void);
 };
 
