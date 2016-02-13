@@ -67,7 +67,7 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
             return;
     }
 
-    HttpGet *get = new HttpGet(QUrl::fromEncoded(url.simplified(), QUrl::StrictMode), filename, this);
+    HttpGet *get = new HttpGet(QString::fromUtf8(url.simplified()), filename, this);
     connect(get, SIGNAL(finished(HttpGet*,bool)), this, SLOT(onFinished(HttpGet*,bool)));
     connect(get, SIGNAL(paused(HttpGet*,int)), this, SLOT(onPaused(HttpGet*,int)));
     connect(get, SIGNAL(progressChanged(HttpGet*,int,bool)), this, SLOT(onProgressChanged(HttpGet*,int,bool)));
@@ -98,11 +98,14 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
         item = new QTreeWidgetItem(treeWidget, labels);
 #ifdef Q_OS_LINUX
         //save danmaku's url
-        QFile file(filename + ".danmaku");
-        if (file.open(QFile::WriteOnly))
+        if (!danmaku.isEmpty())
         {
-            file.write(danmaku);
-            file.close();
+            QFile file(filename + ".danmaku");
+            if (file.open(QFile::WriteOnly))
+            {
+                file.write(danmaku);
+                file.close();
+            }
         }
 #endif
     }

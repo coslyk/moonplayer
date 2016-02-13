@@ -7,6 +7,7 @@ import time
 import base64
 from urllib import urlencode, unquote
 import urllib2
+import flvcd_parser
 
 hosts = ('v.youku.com',)
 
@@ -30,10 +31,10 @@ def parse_cb(page, data):
     try:
         data = json.loads(page)['data']
     except:
-        moonplayer.warn('Video not found!')
+        moonplayer.warn('[Youku] Video not found!')
         return
     if 'error' in data:
-        moonplayer.warn('Error: ' + data['error']['note'].encode('utf-8'))
+        moonplayer.warn('[Youku] Error: ' + data['error']['note'].encode('utf-8'))
         return
     
     # Get title, ep, ip, vid
@@ -43,19 +44,19 @@ def parse_cb(page, data):
     ip = data['security']['ip']
     
     # Sort streams' info
-    streamlangs = {}
+    streams_table = {}
     for stream in data['stream']:
         lang = stream['audio_lang']
-        if not lang in streamlangs:
-            streamlangs[lang] = [None] * 4
+        if not lang in streams_table:
+            streams_table[lang] = [None] * 4
         if stream['stream_type'] in ('flv', 'flvhd'):
-            streamlangs[lang][QL_NORMAL] = stream
+            streams_table[lang][QL_NORMAL] = stream
         elif stream['stream_type'] in ('mp4', 'mp4hd'):
-            streamlangs[lang][QL_HIGH] = stream
+            streams_table[lang][QL_HIGH] = stream
         elif stream['stream_type'] in ('hd2', 'mp4hd2'):
-            streamlangs[lang][QL_SUPER] = stream
+            streams_table[lang][QL_SUPER] = stream
         elif stream['stream_type'] in ('hd3', 'mp4hd3'):
-            streamlangs[lang][QL_1080P] = stream
+            streams_table[lang][QL_1080P] = stream
             
     # Select video's language
     try:
@@ -68,8 +69,8 @@ def parse_cb(page, data):
             else:
                 lang = audiolang['langcode']
     except KeyError:
-        lang = streamlangs.keys()[0]
-    streams = streamlangs[lang]
+        lang = streams_table.keys()[0]
+    streams = streams_table[lang]
         
     # Select video quality
     if options & moonplayer.OPT_QL_1080P and streams[QL_1080P]:
@@ -113,18 +114,20 @@ def parse_cb(page, data):
         result.append(url)
         
     # Check whether the parsed url is suit for your location.
-    if fallback_sid == None:
-        print 'Checking'
-        try:
-            url = result[1].replace('ymovie=', 'yxon=')
-            req = urllib2.Request(url)
-            req.add_header('User-Agnet', 'moonplayer')
-            response = urllib2.urlopen(req, timeout=5)
-        except urllib2.HTTPError, e:
-            # Use fallback meta
+    try:
+        url = result[1].replace('ymovie=', 'yxon=')
+        req = urllib2.Request(url)
+        req.add_header('User-Agnet', 'moonplayer')
+        response = urllib2.urlopen(req, timeout=5)
+    except urllib2.HTTPError:
+        # Fails first time, use fallback meta
+        if fallback_sid != None:
             url = 'http://play.youku.com/play/get.json?vid=%s&ct=10' % vid
             moonplayer.get_url(url, parse_cb, (options, sid, token), 'http://static.youku.com')
-            return
+        # Fails second time, try flvcd.com parser
+        else:
+            flvcd_parser.parse('http://v.youku.com/v_show/%s.html' % vid, options)
+        return
     
     if options & moonplayer.OPT_DOWNLOAD:
         if len(result) == 2:
