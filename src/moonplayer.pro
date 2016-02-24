@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     mylistwidget.cpp \
     cutterbar.cpp \
     videocombiner.cpp \
-    searcher.cpp
+    searcher.cpp \
+    yougetbridge.cpp
 unix: SOURCES += danmakuloader.cpp \
     danmakudelaygetter.cpp
 
@@ -68,7 +69,8 @@ HEADERS  += player.h \
     settings_plugins.h \
     videocombiner.h \
     searcher.h \
-    settings_danmaku.h
+    settings_danmaku.h \
+    yougetbridge.h
 unix: HEADERS += danmakuloader.h \
     danmakudelaygetter.h
 

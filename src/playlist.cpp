@@ -8,10 +8,12 @@
 #include <QMenu>
 #include <QFile>
 #include <QUrl>
+#include "settings_plugins.h"
 #include "skin.h"
 #include "utils.h"
 #include "plugins.h"
 #include "pyapi.h"
+#include "yougetbridge.h"
 #include <iostream>
 #ifdef Q_OS_LINUX
 #include <QDBusConnection>
@@ -166,6 +168,15 @@ void Playlist::onNetItem()
 
 void Playlist::addUrl(const QString &url)
 {
+    if (Settings::useYouGet)
+    {
+        qDebug("[Debug] Use you-get.");
+        bool down = (QMessageBox::question(this, "Question", tr("Download?"),
+                              QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes);
+        you_get_bridge.parse(url, down);
+        return;
+    }
+
     Plugin *plugin = getPluginByHost(QUrl(url).host());
     if (plugin == NULL)
     {

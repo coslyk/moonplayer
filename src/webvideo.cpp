@@ -14,8 +14,10 @@
 #include <QUrl>
 #include "plugins.h"
 #include "searcher.h"
+#include "settings_plugins.h"
 #include "pyapi.h"
 #include "utils.h"
+#include "yougetbridge.h"
 #include <iostream>
 
 WebVideo *webvideo = NULL;
@@ -199,6 +201,14 @@ void WebVideo::onDoubleClicked(QListWidgetItem *item)
     }
     int i = listWidget->row(item);
     QByteArray url = result[i];
+
+    if (Settings::useYouGet)
+    {
+        qDebug("[Debug] Use you-get.");
+        you_get_bridge.parse(QString::fromUtf8(url), false);
+        return;
+    }
+
     Plugin *plugin = getPluginByHost(QUrl(QString::fromUtf8(url)).host());
     if (plugin)
         plugin->parse(url.constData(), false);
@@ -224,6 +234,14 @@ void WebVideo::onDownButton()
     if (i == -1)
         return;
     QByteArray url = result[i];
+
+    if (Settings::useYouGet)
+    {
+        qDebug("[Debug] Use you-get.");
+        you_get_bridge.parse(QString::fromUtf8(url), true);
+        return;
+    }
+
     Plugin *plugin = getPluginByHost(QUrl(QString::fromUtf8(url)).host());
     if (plugin)
         plugin->parse(url.constData(), true);

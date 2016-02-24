@@ -44,6 +44,7 @@ bool Settings::softvol;
 bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 bool Settings::autoCloseWindow;
+bool Settings::useYouGet;
 double Settings::danmakuAlpha;
 enum Settings::Quality Settings::quality;
 
@@ -102,6 +103,7 @@ void SettingsDialog::loadSettings()
     ui->rememberCheckBox->setChecked(rememberUnfinished);
     ui->combineCheckBox->setChecked(autoCombine);
     ui->autoCloseWindowCheckBox->setChecked(autoCloseWindow);
+    ui->yougetCheckBox->setChecked(useYouGet);
 
     ui->alphaDoubleSpinBox->setValue(danmakuAlpha);
     ui->fontPushButton->setText(danmakuFont);
@@ -160,6 +162,7 @@ void SettingsDialog::saveSettings()
     rememberUnfinished = ui->rememberCheckBox->isChecked();
     autoCombine = ui->combineCheckBox->isChecked();
     autoCloseWindow = ui->autoCloseWindowCheckBox->isChecked();
+    useYouGet = ui->yougetCheckBox->isChecked();
 
     danmakuAlpha = ui->alphaDoubleSpinBox->value();
     danmakuFont = ui->fontPushButton->text();
@@ -203,6 +206,7 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Plugins/quality", (int) quality);
     settings.setValue("Plugins/auto_combine", autoCombine);
     settings.setValue("Plugins/auto_close_window", autoCloseWindow);
+    settings.setValue("Plugins/use_youget", useYouGet);
     settings.setValue("Danmaku/alpha", danmakuAlpha);
     settings.setValue("Danmaku/font", danmakuFont);
     settings.setValue("Danmaku/size", danmakuSize);
@@ -262,6 +266,7 @@ void initSettings()
     quality = (Quality) settings.value("Plugins/quality", (int) SUPER).toInt();
     autoCombine = settings.value("Plugins/auto_combine", false).toBool();
     autoCloseWindow = settings.value("Plugins/auto_close_window", true).toBool();
+    useYouGet = settings.value("Plugins/use_youget", false).toBool();
     danmakuAlpha = settings.value("Danmaku/alpha", 0.9).toDouble();
     danmakuFont = settings.value("Danmaku/font", "").toString();
     danmakuSize = settings.value("Danmaku/size", 0).toInt();
