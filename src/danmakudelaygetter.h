@@ -18,6 +18,7 @@ signals:
     void newFile(const QString &name, const QString &url, const QString &danmakuUrl);
 private:
     void start(void);
+    static bool dummy_mode;
     QProcess *process;
     QStringList names;
     QStringList urls;

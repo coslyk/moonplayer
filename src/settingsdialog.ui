@@ -117,6 +117,11 @@
              <string>x11</string>
             </property>
            </item>
+           <item>
+            <property name="text">
+             <string>caca</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>
@@ -220,6 +225,17 @@
              </property>
              <property name="wordWrap">
               <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_8">
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLabel" name="cacaLabel">
+             <property name="text">
+              <string>Try it and you will know what it is!</string>
              </property>
             </widget>
            </item>

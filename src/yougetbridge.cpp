@@ -29,6 +29,8 @@ void YouGetBridge::parse(const QString &url, bool download)
     }
     this->download = download;
     QStringList args;
+    if (!Settings::proxy.isEmpty())
+        args << "--http-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
     args << "--json" << url;
     process->start("you-get", args, QProcess::ReadOnly);
 }

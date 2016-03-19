@@ -352,7 +352,10 @@ void MPlayer::stop()
         process->write("stop\n");
     process->waitForFinished(2000);
     if (process->state() == QProcess::Running)
+    {
         process->kill();
+        process->waitForFinished(2000);
+    }
 }
 
 void MPlayer::onFinished(int)
