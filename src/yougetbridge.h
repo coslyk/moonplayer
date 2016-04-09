@@ -9,10 +9,11 @@ class YouGetBridge : public QObject
     Q_OBJECT
 public:
     explicit YouGetBridge(QObject *parent = 0);
-    void parse(const QString &url, bool download);
+    void parse(const QString &url, bool download, const QString &danmaku = QString());
 
 private:
     QProcess *process;
+    QString danmaku;
     bool download;
 
 private slots:

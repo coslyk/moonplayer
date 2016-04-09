@@ -20,6 +20,7 @@
 #include <QTimer>
 #ifdef Q_OS_LINUX
 #include "danmakudelaygetter.h"
+#include "yougetbridge.h"
 #endif
 
 /*****************************************
@@ -346,6 +347,22 @@ static PyObject *play(PyObject *, PyObject *args)
     return Py_None;
 }
 
+
+static PyObject *use_fallback_parser(PyObject *, PyObject *args)
+{
+#ifdef Q_OS_LINUX
+    const char *url, *danmaku_url = NULL;
+    int download;
+    if (!PyArg_ParseTuple(args, "si|s", &url, &download, &danmaku_url))
+        return NULL;
+    you_get_bridge.parse(url, download, danmaku_url);
+#else
+    QMessageBox::warning(this, "Error", "Error: Parse failed!");
+#endif
+    Py_IncRef(Py_None);
+    return Py_None;
+}
+
 /*******************
  ** ResLibrary    **
  *******************/
@@ -413,6 +430,7 @@ static PyMethodDef methods[] = {
     {"play",        play,        METH_VARARGS, "Play online"},
     {"res_show",    res_show,    METH_VARARGS, "Show resources result"},
     {"show_detail", show_detail, METH_VARARGS, "Show detail"},
+    {"use_fallback_parser",   use_fallback_parser,   METH_VARARGS, "Use fallback parser"},
     {"download_with_danmaku", download_with_danmaku, METH_VARARGS, "Download file with danmaku"},
     {NULL, NULL, 0, NULL}
 };

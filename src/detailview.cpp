@@ -3,7 +3,6 @@
 #include "utils.h"
 #include "accessmanager.h"
 #include "plugins.h"
-#include "settings_plugins.h"
 #include "yougetbridge.h"
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -133,13 +132,6 @@ void DetailView::onPlay()
     if (current_row < 0)
         return;
 
-    if (Settings::useYouGet)
-    {
-        qDebug("[Debug] Use you-get.");
-        you_get_bridge.parse(QString::fromUtf8(urls[current_row]), false);
-        return;
-    }
-
     QString host = QUrl(QString::fromUtf8(urls[current_row])).host();
     Plugin *plugin = getPluginByHost(host);
     if (plugin)
@@ -153,12 +145,6 @@ void DetailView::onDownload()
     int current_row = ui->sourceListWidget->currentRow();
     if (current_row < 0)
         return;
-
-    if (Settings::useYouGet)
-    {
-        you_get_bridge.parse(QString::fromUtf8(urls[current_row]), true);
-        return;
-    }
 
     QString host = QUrl(QString::fromUtf8(urls[current_row])).host();
     Plugin *plugin = getPluginByHost(host);

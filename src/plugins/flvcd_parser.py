@@ -32,8 +32,11 @@ def parse_cb(page, data):
             return
     result = parse_flvcd_page(page, None)
     if len(result) == 0:
-        moonplayer.warn('Cannot parse this video:\n' + url)
+        moonplayer.use_fallback_parser(url, options & moonplayer.OPT_DOWNLOAD)
     elif options & moonplayer.OPT_DOWNLOAD:
-        moonplayer.download(result, result[0])
+        if len(result) == 2:
+            moonplayer.download(result)
+        else:
+            moonplayer.download(result, result[0])
     else:
         moonplayer.play(result)
