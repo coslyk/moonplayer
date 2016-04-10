@@ -3,7 +3,7 @@
 from moonplayer_utils import list_links, convert_to_utf8
 import re
 import moonplayer
-import plugin_youku
+import flvcd_parser
 try:
     import xml.etree.cElementTree as ET
 except ImportError:
@@ -54,7 +54,7 @@ class Parser(object):
         # Link to youku
         if vcode_match and not iid_match:
             url = 'http://v.youku.com/v_show/id_%s.html' % vcode_match.group(1)
-            plugin_youku.parse(url, options)
+            flvcd_parser.parse(url, options)
             return
             
         while iid_match:
