@@ -12,10 +12,7 @@ class DanmakuDelayGetter : public QObject
 {
     Q_OBJECT
 public:
-    DanmakuDelayGetter(QStringList &names, QStringList &urls, const QString &danmakuUrl, QObject *parent = 0);
-signals:
-    void newPlay(const QString &name, const QString &url, const QString &danmakuUrl);
-    void newFile(const QString &name, const QString &url, const QString &danmakuUrl);
+    DanmakuDelayGetter(QStringList &names, QStringList &urls, const QString &danmakuUrl, bool download, QObject *parent = 0);
 private:
     void start(void);
     static bool dummy_mode;
@@ -24,6 +21,7 @@ private:
     QStringList urls;
     QString danmakuUrl;
     double delay;
+    bool download;
 private slots:
     void onFinished(void);
 };

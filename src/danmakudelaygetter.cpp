@@ -1,11 +1,13 @@
 #include "danmakudelaygetter.h"
+#include "downloader.h"
+#include "playlist.h"
 #include <QProcess>
 
 bool DanmakuDelayGetter::dummy_mode = true;
 
 DanmakuDelayGetter::DanmakuDelayGetter(QStringList &names, QStringList &urls,
-                                       const QString &danmakuUrl, QObject *parent) :
-    QObject(parent), names(names), urls(urls), danmakuUrl(danmakuUrl)
+                                       const QString &danmakuUrl, bool download, QObject *parent) :
+    QObject(parent), names(names), urls(urls), danmakuUrl(danmakuUrl), download(download)
 {
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)), this, SLOT(onFinished()));
@@ -36,16 +38,31 @@ void DanmakuDelayGetter::onFinished()
     }
 
     double length = output.section("ID_LENGTH=", 1).section('\n', 0, 0).toDouble();
-
     if (delay < 0.5) // first video clip
-        emit newPlay(names.takeFirst(), urls.takeFirst(), danmakuUrl);
+    {
+        if (download)
+            downloader->addTask(urls.takeFirst().toUtf8(), names.takeFirst(), true, danmakuUrl.toUtf8());
+        else
+            playlist->addFileAndPlay(names.takeFirst(), urls.takeFirst(), danmakuUrl);
+    }
     else
-        emit newFile(names.takeFirst(), urls.takeFirst(), QString::number(delay) + ' ' + danmakuUrl);
+    {
+        if (download)
+            downloader->addTask(urls.takeFirst().toUtf8(), names.takeFirst(), true,
+                                QByteArray::number(delay) + ' ' + danmakuUrl.toUtf8());
+        else
+            playlist->addFile(names.takeFirst(), urls.takeFirst(), QString::number(delay) + ' ' + danmakuUrl);
+    }
 
     delay += length;
-
     if (names.count() == 1) // the last clip
-        emit newFile(names.takeFirst(), urls.takeFirst(), QString::number(delay) + ' ' + danmakuUrl);
+    {
+        if (download)
+            downloader->addTask(urls.takeFirst().toUtf8(), names.takeFirst(), true,
+                                QByteArray::number(delay) + ' ' + danmakuUrl.toUtf8());
+        else
+            playlist->addFile(names.takeFirst(), urls.takeFirst(), QString::number(delay) + ' ' + danmakuUrl);
+    }
 
     if (names.isEmpty())
         deleteLater();

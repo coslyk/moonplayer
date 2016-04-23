@@ -58,17 +58,17 @@ void YouGetBridge::onFinished()
                     QJsonArray json_urls = item["src"].toArray();
                     QStringList names, urls;
 
+                    // Make file list
                     for (int i = 0; i < json_urls.size(); i++)
                     {
                         names << QString("%1_%2.%3").arg(title, QString::number(i), container);
                         urls << json_urls[i].toString();
                     }
 
-                    if (!danmaku.isEmpty() && !download && urls.size() > 1)
-                        new DanmakuDelayGetter(names, urls, danmaku);
-
-                    else if (download)
+                    // Download
+                    if (download)
                     {
+                        // Build file path list
                         QDir dir = QDir(Settings::downloadDir);
                         QString dirname = title + '.' + container;
                         if (urls.size() > 1)
@@ -79,19 +79,37 @@ void YouGetBridge::onFinished()
                                 dir.cd(dirname);
                             }
                         }
-                        for (int i = 0; i < urls.size(); i++)
-                            downloader->addTask(urls[i].toUtf8(), dir.filePath(names[i]), urls.size() > 1);
+                        for (int i = 0; i < names.size(); i++)
+                            names[i] = dir.filePath(names[i]);
+
+                        // Download more than 1 video clips with danmaku
+                        if (!danmaku.isEmpty() && urls.size() > 1)
+                            new DanmakuDelayGetter(names, urls, danmaku, true);
+                        // Download without danmaku or only 1 clip with danmaku
+                        else
+                        {
+                            for (int i = 0; i < urls.size(); i++)
+                                downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1, danmaku.toUtf8());
+                        }
                         QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
                     }
+
+                    // Play
                     else
                     {
-                        playlist->addFileAndPlay(names[0], urls[0], danmaku);
-                        for (int i = 1; i < urls.size(); i++)
-                            playlist->addFile(names[i], urls[i]);
+                        // Play more than 1 clips with danmaku
+                        if (!danmaku.isEmpty() && urls.size() > 1)
+                            new DanmakuDelayGetter(names, urls, danmaku, false);
+                        // Play clips without danmaku or only 1 clip with danmaku
+                        else
+                        {
+                            playlist->addFileAndPlay(names[0], urls[0], danmaku);
+                            for (int i = 1; i < urls.size(); i++)
+                                playlist->addFile(names[i], urls[i]);
+                        }
                         if (Settings::autoCloseWindow)
                             webvideo->close();
                     }
-
                     return;
                 }
             }

@@ -34,7 +34,7 @@ def parse_danmaku_cb(page, data):
             if len(result) == 2:
                 moonplayer.download_with_danmaku(result, danmaku)
             else:
-                moonplayer.download(result, result[0])
+                moonplayer.download_with_danmaku(result, danmaku, result[0])
         else:
             moonplayer.play(result, danmaku)
     else:

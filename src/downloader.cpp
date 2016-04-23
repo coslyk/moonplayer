@@ -96,21 +96,22 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
     {
         labels << filename  << "Wait";
         item = new QTreeWidgetItem(treeWidget, labels);
-#ifdef Q_OS_LINUX
-        //save danmaku's url
-        if (!danmaku.isEmpty())
-        {
-            QFile file(filename + ".danmaku");
-            if (file.open(QFile::WriteOnly))
-            {
-                file.write(danmaku);
-                file.close();
-            }
-        }
-#endif
     }
     get2item[get] = item;
     item2get[item] = get;
+
+#ifdef Q_OS_LINUX
+    //save danmaku's url
+    if (!danmaku.isEmpty())
+    {
+        QFile file(filename + ".danmaku");
+        if (file.open(QFile::WriteOnly))
+        {
+            file.write(danmaku);
+            file.close();
+        }
+    }
+#endif
 
     //Start downloading
     if (n_downloading < Settings::maxTasks) {

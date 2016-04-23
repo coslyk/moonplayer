@@ -263,32 +263,56 @@ static PyObject *download_with_danmaku(PyObject *, PyObject *args)
 {
     //read args
     PyObject *list;
-    const char *danmaku = NULL;
+    const char *danmaku = NULL, *childDir = NULL;
     int ok;
-    ok = PyArg_ParseTuple(args, "Os", &list, &danmaku);
+    ok = PyArg_ParseTuple(args, "Os|s", &list, &danmaku, &childDir);
     if (!ok)
         return NULL;
     int size = PyList_Size(list);
     if (size < 0)
         return NULL;
+
+    //set save dir
     QDir dir(Settings::downloadDir);
+    if (childDir)
+    {
+        QString child = QString::fromUtf8(childDir);
+        if (!dir.cd(child))
+        {
+            dir.mkdir(child);
+            dir.cd(child);
+        }
+    }
 
     //add task
     PyObject *item;
     const char *str;
+    QStringList names;
+    QStringList urls;
     for (int i = 0; i < size; i += 2)
     {
         if ((item = PyList_GetItem(list, i)) == NULL)
             return NULL;
         if ((str = PyString_AsString(item)) == NULL)
             return NULL;
-        QString name = QString::fromUtf8(str);
+        names << dir.filePath(QString::fromUtf8(str));
         if ((item = PyList_GetItem(list, i+1)) == NULL)
             return NULL;
         if ((str = PyString_AsString(item)) == NULL)
             return NULL;
-        downloader->addTask(str, dir.filePath(name), false, i==0 ? danmaku : NULL);
+        urls << QString::fromUtf8(str);
     }
+
+#ifdef Q_OS_LINUX
+    if (size > 2) //video clips with danmaku
+        new DanmakuDelayGetter(names, urls, danmaku, true);
+    else //only 1 clip with danmaku
+        downloader->addTask(urls.takeFirst().toUtf8(), names.takeFirst(), (bool) childDir, danmaku);
+#else
+    while (!names.isEmpty())
+        downloader->addTask(urls.takeFirst().toUtf8(), names.takeFirst(), (bool) childDir);
+#endif
+
     QMessageBox::information(webvideo, "Message", "Add task successfully.");
     Py_IncRef(Py_None);
     return Py_None;
@@ -324,11 +348,7 @@ static PyObject *play(PyObject *, PyObject *args)
 
 #ifdef Q_OS_LINUX
     if (danmaku_url && size > 2) //video clips with danmaku
-    {
-        DanmakuDelayGetter *get = new DanmakuDelayGetter(names, urls, danmaku_url);
-        QObject::connect(get, &DanmakuDelayGetter::newPlay, playlist, &Playlist::addFileAndPlay);
-        QObject::connect(get, &DanmakuDelayGetter::newFile, playlist, &Playlist::addFile);
-    }
+        new DanmakuDelayGetter(names, urls, danmaku_url, false);
     else
     {
         playlist->addFileAndPlay(names.takeFirst(), urls.takeFirst(), danmaku_url); //first clip, maybe has danmaku

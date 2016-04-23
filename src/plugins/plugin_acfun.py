@@ -43,7 +43,7 @@ def parse_danmaku_cb(page, data):
                 result[0] = name
                 moonplayer.download_with_danmaku(result, danmaku)
             else:
-                moonplayer.download(result, name)
+                moonplayer.download_with_danmaku(result, danmaku, name)
         else:
             moonplayer.play(result, danmaku)
     else:
