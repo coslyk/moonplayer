@@ -37,6 +37,7 @@ Player::Player(QWidget *parent) :
 {
     std::cout << "Initialize player..." << std::endl;
     ui->setupUi(this);
+    resize(size() * Settings::uiScale);
 
     //Add MPlayer frame
     mplayer = new MPlayer;
@@ -54,6 +55,7 @@ Player::Player(QWidget *parent) :
 
     //Add Playlist
     playlist = new Playlist;
+    playlist->setMaximumWidth(playlist->maximumWidth() * Settings::uiScale);
     ui->playerLayout->addWidget(playlist);
     playlist->installEventFilter(this);
 
@@ -88,6 +90,7 @@ Player::Player(QWidget *parent) :
 
     //Add WebVideo
     webvideo = new WebVideo;
+    webvideo->setMinimumSize(webvideo->minimumSize() * Settings::uiScale);
     reslibrary = new ResLibrary;
     webvideo->insertTab(0, reslibrary, tr("Resources"));
     webvideo->setCurrentIndex(0);
@@ -98,6 +101,7 @@ Player::Player(QWidget *parent) :
 
     //add transformer
     transformer = new Transformer;
+    transformer->resize(transformer->size() * Settings::uiScale);
 
     //Settings Dialog
     settingsDialog = new SettingsDialog(this);
@@ -154,6 +158,7 @@ Player::Player(QWidget *parent) :
 
     //Set default volume
     ui->volumeSlider->setValue(Settings::volume);
+    ui->volumeSlider->setFixedWidth(100 * Settings::uiScale);
 
     no_play_next = false;
     is_fullscreen = false;
@@ -476,7 +481,7 @@ void Player::onSizeChanged(QSize &sz)
         return;
     if (!Settings::autoResize)
         return;
-    QSize newsize = QSize(sz.width() + 8, height() - mplayer->height() + sz.height());
+    QSize newsize = QSize(sz.width() + 8 * Settings::uiScale, height() - mplayer->height() + sz.height());
     QRect available = QApplication::desktop()->availableGeometry();
     if (newsize.width() > available.width() || newsize.height() > available.height())
         setGeometry(available);
@@ -538,7 +543,8 @@ void Player::setSkin(const QString& skin_name)
     if (!dir.cd(skin_name))
         dir = QDir(QDir::homePath() + "/.moonplayer/skins/" + skin_name);
 #endif
-    // Load skin.qml
+
+    // Load skin.qss, skin_normal.qss or skin_hidpi.qss
     if (chdir(dir.absolutePath().toUtf8().constData()))
     {
         QMessageBox::warning(this, "Error", tr("Failed to read skin!"));
@@ -552,6 +558,20 @@ void Player::setSkin(const QString& skin_name)
     }
     QString qss = QString::fromUtf8(qssFile.readAll());
     qssFile.close();
+    if (Settings::uiScale > 1.2 && dir.exists("skin_hidpi.qss"))
+    {
+        QFile f("skin_hidpi.qss");
+        f.open(QFile::ReadOnly | QFile::Text);
+        qss += QString::fromUtf8(f.readAll());
+        f.close();
+    }
+    else if (dir.exists("skin_normal.qss"))
+    {
+        QFile f("skin_normal.qss");
+        f.open(QFile::ReadOnly | QFile::Text);
+        qss += QString::fromUtf8(f.readAll());
+        f.close();
+    }
     setStyleSheet(qss);
 
     // Set fixed sizes
@@ -568,9 +588,9 @@ void Player::setSkin(const QString& skin_name)
             {
                 int w = properties[1].toInt(), h = properties[2].toInt();
                 if (w)
-                    widget->setFixedWidth(w);
+                    widget->setFixedWidth(w * Settings::uiScale);
                 if (h)
-                    widget->setFixedHeight(h);
+                    widget->setFixedHeight(h * Settings::uiScale);
                 widget->setFocusPolicy(Qt::NoFocus);
             }
         }

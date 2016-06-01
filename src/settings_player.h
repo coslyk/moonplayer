@@ -9,6 +9,7 @@ extern QString path;
 extern int currentSkin;
 extern QStringList skinList;
 extern bool autoResize;
+extern double uiScale;
 }
 
 #endif // SETTINGS_PLAYER_H

@@ -8,6 +8,7 @@
 #include "accessmanager.h"
 #include <QNetworkAccessManager>
 #include <QNetworkProxy>
+#include <QDesktopWidget>
 #include <QDir>
 #include <QSettings>
 #include <QButtonGroup>
@@ -45,6 +46,7 @@ bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 bool Settings::autoCloseWindow;
 double Settings::danmakuAlpha;
+double Settings::uiScale;
 enum Settings::Quality Settings::quality;
 
 using namespace Settings;
@@ -68,6 +70,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     group->addButton(ui->superRadioButton, 2);
 	group->addButton(ui->_1080pRadioButton, 3);
     ui->skinComboBox->addItems(skinList);
+
+    setMinimumSize(minimumSize() * uiScale);
 
 #ifdef Q_OS_LINUX
     ui->aoComboBox->addItem("pulse");
@@ -267,6 +271,7 @@ void initSettings()
     danmakuSize = settings.value("Danmaku/size", 0).toInt();
     durationScrolling = settings.value("Danmaku/dm", 0).toInt();
     durationStill = settings.value("Danmaku/ds", 6).toInt();
+    uiScale = qApp->desktop()->logicalDpiX() / 96.0;
 
     //init proxy
     if (proxy.isEmpty())

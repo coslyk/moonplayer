@@ -143,12 +143,6 @@
         </item>
         <item>
          <widget class="QSlider" name="volumeSlider">
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>16777215</height>
-           </size>
-          </property>
           <property name="maximum">
            <number>10</number>
           </property>

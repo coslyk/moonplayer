@@ -73,26 +73,6 @@ QWidget#toolBar {
     border-image:url(player/bottom.png);
 }
 
-/*progressBar and volumeSlider*/
-QSlider::groove:horizontal {
-    height: 2px;
-    margin: 0px 0px;
-    left: 12px; right: 12px;
-    border: 1px solid #999999;
-}
-QSlider::handle:horizontal {
-    border: 1px solid #5c5c5c;
-    border-image:url(player/slider.png);
-    width: 9px;
-    margin: -4px -4px -4px -4px;
-}
-QSlider::sub-page:horizontal{
-    background-image:url(player/slider_left.png)
-}
-QSlider::add-page:horizontal{
-    background-image:url(player/slider_right.png)
-}
-
 /*stopButton*/
 QPushButton#stopButton {
     border-image:url(player/stop.png);

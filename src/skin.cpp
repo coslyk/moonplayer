@@ -1,4 +1,5 @@
 #include "skin.h"
+#include "settings_player.h"
 #include <QWidget>
 #include <QMouseEvent>
 
@@ -9,9 +10,9 @@ Border::Border(QWidget *topwin, BorderType t) :
     type = t;
     topwindow = topwin;
     if (type == BOTTOM)
-        setFixedHeight(4);
+        setFixedHeight(4 * Settings::uiScale);
     else
-        setFixedWidth(4);
+        setFixedWidth(4 * Settings::uiScale);
 }
 
 void Border::enterEvent(QEvent *)

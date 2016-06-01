@@ -4,6 +4,7 @@
 #include "accessmanager.h"
 #include "mybuttongroup.h"
 #include "pyapi.h"
+#include "settings_player.h"
 #include "mylistwidget.h"
 #include <QMessageBox>
 #include <QLabel>
@@ -26,6 +27,8 @@ ResLibrary::ResLibrary(QWidget *parent) :
     ui->setupUi(this);
     listWidget = new MyListWidget;
     ui->gridLayout->addWidget(listWidget, 0, 1, 1, 4);
+    ui->keyLineEdit->setFixedWidth(220 * Settings::uiScale);
+    ui->stackedWidget->setFixedWidth(220 * Settings::uiScale);
 
     for (int i = 0; i < n_resplugins; i++)
     {

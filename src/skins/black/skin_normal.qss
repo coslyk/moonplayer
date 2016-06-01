@@ -1,0 +1,19 @@
+/*progressBar and volumeSlider*/
+QSlider::groove:horizontal {
+    height: 1px;
+    margin: 0px 0px;
+    left: 12px; right: 12px;
+    border: 2px solid #999999;
+}
+QSlider::handle:horizontal {
+    border: 2px solid #5c5c5c;
+    border-image:url(player/slider.png);
+    width: 9px;
+    margin: -6px -6px -6px -6px;
+}
+QSlider::sub-page:horizontal{
+    background-image:url(player/slider_left.png)
+}
+QSlider::add-page:horizontal{
+    background-image:url(player/slider_right.png)
+}

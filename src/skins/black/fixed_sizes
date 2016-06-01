@@ -9,4 +9,4 @@ netButton, 19, 18;
 addButton, 27, 27;
 delButton, 27, 27;
 clearButton, 27, 27;
-progressBar, 0, 6;
+progressBar, 0, 10;

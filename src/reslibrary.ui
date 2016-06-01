@@ -20,14 +20,7 @@
       <widget class="QComboBox" name="pluginComboBox"/>
      </item>
      <item>
-      <widget class="QStackedWidget" name="stackedWidget">
-       <property name="maximumSize">
-        <size>
-         <width>220</width>
-         <height>16777215</height>
-        </size>
-       </property>
-      </widget>
+      <widget class="QStackedWidget" name="stackedWidget"/>
      </item>
      <item>
       <spacer name="verticalSpacer">
@@ -50,14 +43,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="keyLineEdit">
-       <property name="maximumSize">
-        <size>
-         <width>220</width>
-         <height>16777215</height>
-        </size>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="keyLineEdit"/>
      </item>
     </layout>
    </item>
