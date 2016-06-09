@@ -25,9 +25,6 @@ CutterBar::CutterBar(QWidget *parent) :
 
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
-
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateState()));
 }
 
 CutterBar::~CutterBar()
@@ -77,65 +74,37 @@ void CutterBar::onSliderReleased()
 
 void CutterBar::startTask()
 {
-#ifdef Q_OS_LINUX
-    if (!QDir("/usr/bin").exists("mencoder")) {
-        QMessageBox::warning(this, "Error",
-                             tr("This function depends on mencoder, but mencoder is not installed in this computer."));
+    QString ffmpeg = getFFmpegFile();
+    // Check whether ffmpeg is installed
+    if (ffmpeg.isEmpty())
+    {
+        QMessageBox::warning(this, "Error", tr("FFMPEG is not installed. Please download it from") +
+                             "\n    http://johnvansickle.com/ffmpeg/\n" +
+                            tr("and place file \"ffmpeg\" into ~/.moonplayer/ or /usr/share/moonplayer/"));
         return;
     }
-#endif
+
     if (startPos >= endPos)
     {
         QMessageBox::warning(this, "Error", tr("Time position is not valid."));
         return;
     }
 
-    int operation = QMessageBox::information(this, "Choose", tr("What do you want to do?"),
-                                             tr("Cut"),
-                                             tr("Losslessly cut"));
-    switch (operation)
-    {
-    case 0:
-        transformer->addCuttingTask(filename, startPos, endPos);
-        transformer->show();
-        emit finished();
-        break;
-    case 1:
-    {
-        QString new_name = QString("%1_clip.%2").arg(filename.section('.', 0, -2), filename.section('.', -1));
-        QStringList args;
-        args << "-oac" << "copy" << "-ovc" << "copy" <<
-                "-ss" << QString::number(startPos) << "-endpos" << QString::number(endPos - startPos) <<
-                filename << "-o" << new_name;
-        ui->okButton->setEnabled(false);
-        ui->cancelButton->setEnabled(false);
-        process->start("mencoder", args, QProcess::ReadOnly);
-        timer->start(1000);
-        break;
-    }
-    default: break;
-    }
-}
-
-void CutterBar::updateState()
-{
-    QByteArray msg = process->readAllStandardOutput();
-    int i = msg.lastIndexOf("%)");
-    if (i >= 0)
-    {
-        int percentage = msg.mid(i - 2, 2).toInt();
-        QString s = QString::number(percentage) + '%';
-        ui->okButton->setText(s);
-    }
+    QString new_name = QString("%1_clip.%2").arg(filename.section('.', 0, -2), filename.section('.', -1));
+    QStringList args;
+    args << "-y" << "-ss" << secToTime(startPos) << "-i" << filename <<
+            "-acodec" << "copy" << "-vcodec" << "copy" << "-t" << secToTime(endPos - startPos) << new_name;
+    ui->okButton->setEnabled(false);
+    ui->cancelButton->setEnabled(false);
+    process->start(ffmpeg, args, QProcess::ReadOnly);
 }
 
 void CutterBar::onFinished(int status)
 {
-    timer->stop();
     if (status)
-        QMessageBox::critical(this, "Mencoder ERROR", QTextCodec::codecForLocale()->toUnicode(process->readAllStandardError()));
-    ui->okButton->setText(tr("OK"));
+        QMessageBox::critical(this, "FFMPEG ERROR", QTextCodec::codecForLocale()->toUnicode(process->readAllStandardError()));
     ui->okButton->setEnabled(true);
     ui->cancelButton->setEnabled(true);
+    QMessageBox::information(this, "Finished", tr("Finished"));
     emit finished();
 }

@@ -30,7 +30,6 @@ private:
     int endPos;
     bool slider_pressed;
     QProcess *process;
-    QTimer *timer;
 
 private slots:
     void onStartSliderChanged(void);
@@ -38,7 +37,6 @@ private slots:
     void onSliderPressed(void);
     void onSliderReleased(void);
     void startTask(void);
-    void updateState(void);
     void onFinished(int status);
 };
 

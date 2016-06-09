@@ -222,7 +222,6 @@ void MPlayer::openFile(const QString &filename, const QString &danmaku)
     playing_file = filename;
     //Set time to 0 and cache state
     emit timeChanged(0);
-    is_mplayer2 = false;
 
     QStringList args;
     args << "-quiet";
@@ -423,12 +422,6 @@ void MPlayer::readOutput()
         else if (message.startsWith("SUB: Added subtitle file"))
             switchDanmaku();
 
-        // Windows version is based on Mplayer(not Mplayer2) since v0.22
-#ifdef Q_OS_LINUX
-        else if (message.toLower().startsWith("mplayer2"))
-            is_mplayer2 = true;
-#endif
-
         else if (msgLabel->isVisible())
         {
             msgLabel->setText(format.arg(message));
@@ -438,7 +431,7 @@ void MPlayer::readOutput()
 
 void MPlayer::writeToMplayer(const QByteArray &msg)
 {
-    if (!is_mplayer2 && state == VIDEO_PAUSING)
+    if (state == VIDEO_PAUSING)
         process->write("pausing_keep_force " + msg);
     else
         process->write(msg);
@@ -483,15 +476,9 @@ void MPlayer::jumpTo(int pos)
     //Ignore if the time is equal to the progress
     if (pos == progress)
         return;
-    //if running mplayer2, jump directly
-    if (is_mplayer2)
-        writeToMplayer(QString().sprintf("seek %d 2\n", pos + time_offset).toUtf8());
-    else
-    {
-        process->write("pause\n");
-        process->write(QString().sprintf("seek %d 2\n", pos + time_offset).toUtf8());
-        process->write("frame_step\n");
-    }
+    process->write("pause\n");
+    process->write(QString().sprintf("seek %d 2\n", pos + time_offset).toUtf8());
+    process->write("frame_step\n");
 }
 
 /*set progress*/
