@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QUrl>
 #include "skin.h"
+#include "settings_player.h"
 #include "utils.h"
 #include "plugins.h"
 #include "pyapi.h"
@@ -62,6 +63,21 @@ Playlist::Playlist(QWidget *parent) :
 Playlist::~Playlist()
 {
     delete ui;
+}
+
+void Playlist::initClassicUI()
+{
+    QSize size = QSize(24, 24) * Settings::uiScale;
+    ui->addButton->setIcon(QIcon::fromTheme("list-add"));
+    ui->addButton->setIconSize(size);
+    ui->addButton->setFlat(true);
+    ui->delButton->setIcon(QIcon::fromTheme("list-remove"));
+    ui->delButton->setIconSize(size);
+    ui->delButton->setFlat(true);
+    ui->clearButton->setIcon(QIcon::fromTheme("user-trash"));
+    ui->clearButton->setIconSize(size);
+    ui->clearButton->setFlat(true);
+    ui->verticalLayout->setContentsMargins(0, 0, -1, 0);
 }
 
 void Playlist::showMenu()

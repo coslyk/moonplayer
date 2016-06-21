@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "accessmanager.h"
 #include "plugins.h"
+#include "settings_player.h"
 #include "yougetbridge.h"
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -118,8 +119,8 @@ void DetailView::onImageLoaded()
 {
     QPixmap pic;
     pic.loadFromData(reply->readAll());
-    if (pic.height() > 300)
-        pic = pic.scaledToHeight(300, Qt::SmoothTransformation);
+    if (pic.height() > 300 * Settings::uiScale)
+        pic = pic.scaledToHeight(300 * Settings::uiScale, Qt::SmoothTransformation);
     reply->deleteLater();
     reply = NULL;
     ui->picLabel->setPixmap(pic);

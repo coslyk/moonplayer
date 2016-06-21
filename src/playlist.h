@@ -17,6 +17,7 @@ class Playlist : public QWidget
     
 public:
     explicit Playlist(QWidget *parent = 0);
+    void initClassicUI(void);
     void playNext(void);
     ~Playlist();
 
@@ -25,6 +26,10 @@ public slots:
     void addFileAndPlay(const QString& name, const QString& file, const QString &danmaku = QString());
     void addList(const QString& filename);
     void addUrl(const QString& url);
+    void onAddItem(void);
+    void onNetItem(void);
+    void onDelButton(void);
+    void onListItem(void);
 
 signals:
     void fileSelected(const QString &file, const QString &danmaku);
@@ -32,10 +37,6 @@ signals:
 
 private slots:
     void selectFile(QListWidgetItem* item);
-    void onAddItem(void);
-    void onNetItem(void);
-    void onDelButton(void);
-    void onListItem(void);
     void clearList(void);
     void showMenu(void);
     

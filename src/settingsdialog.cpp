@@ -40,6 +40,7 @@ bool Settings::doubleBuffer;
 bool Settings::fixLastFrame;
 bool Settings::ffodivxvdpau;
 bool Settings::autoResize;
+bool Settings::disableSkin;
 bool Settings::enableScreenshot;
 bool Settings::softvol;
 bool Settings::rememberUnfinished;
@@ -101,6 +102,7 @@ void SettingsDialog::loadSettings()
     ui->ffodivxvdpauCheckBox->setChecked(ffodivxvdpau);
     ui->fixCheckBox->setChecked(fixLastFrame);
     ui->resizeCheckBox->setChecked(autoResize);
+    ui->disableSkinCheckBox->setChecked(disableSkin);
     ui->screenshotCheckBox->setChecked(enableScreenshot);
     ui->softvolCheckBox->setChecked(softvol);
     ui->rememberCheckBox->setChecked(rememberUnfinished);
@@ -160,6 +162,7 @@ void SettingsDialog::saveSettings()
     quality = (enum Quality) group->checkedId();
     currentSkin = ui->skinComboBox->currentIndex();
     autoResize = ui->resizeCheckBox->isChecked();
+    disableSkin = ui->disableSkinCheckBox->isChecked();
     enableScreenshot = ui->screenshotCheckBox->isChecked();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
     autoCombine = ui->combineCheckBox->isChecked();
@@ -188,6 +191,7 @@ SettingsDialog::~SettingsDialog()
 #endif
     settings.setValue("Player/current_skin", currentSkin);
     settings.setValue("Player/auto_resize", autoResize);
+    settings.setValue("Player/disable_skin", disableSkin);
     settings.setValue("Player/screenshot", enableScreenshot);
     settings.setValue("Player/remember_unfinished", rememberUnfinished);
     settings.setValue("Video/out", vout);
@@ -255,6 +259,7 @@ void initSettings()
     volume = settings.value("Audio/volume", 10).toInt();
     currentSkin = settings.value("Player/current_skin", 0).toInt();
     autoResize = settings.value("Player/auto_resize", true).toBool();
+    disableSkin = settings.value("Player/disable_skin", false).toBool();
     enableScreenshot = settings.value("Player/screenshot", true).toBool();
     rememberUnfinished = settings.value("Player/remember_unfinished", true).toBool();
     proxy = settings.value("Net/proxy").toString();

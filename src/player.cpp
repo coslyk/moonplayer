@@ -161,10 +161,7 @@ Player::Player(QWidget *parent) :
     ui->volumeSlider->setFixedWidth(100 * Settings::uiScale);
 
     no_play_next = false;
-    is_fullscreen = false;
-    toolbar_visible = true;
     mouse_in_toolbar = false;
-    progressbar_pressed = false;
 }
 
 Player::~Player()
@@ -204,10 +201,9 @@ void Player::closeEvent(QCloseEvent* e)
 
 void Player::setFullScreen()
 {
-    if (is_fullscreen)
+    if (isFullScreen())
     {
         showNormal();
-        is_fullscreen = false;
 
         //show hidden widgets
         ui->titleBar->show();
@@ -219,10 +215,9 @@ void Player::setFullScreen()
         ui->toolBar->show();
         ui->netButton->setEnabled(true);
     }
-    else
+    else if (!cutterbar->isVisible()) // Forbidden fullscreen when cutting video
     {
         showFullScreen();
-        is_fullscreen = true;
         //hide other widgets
         ui->titleBar->hide();
         ui->toolBar->hide();
@@ -232,7 +227,6 @@ void Player::setFullScreen()
         rightBorder->hide();
         bottomBorder->hide();
         //set auto-hide toolbar
-        toolbar_visible = false;
         toolbar_pos_y = QApplication::desktop()->height() - ui->toolBar->height() / 2;
     }
 }
@@ -269,12 +263,11 @@ bool Player::eventFilter(QObject *obj, QEvent *e)
     else if (e->type() == QEvent::Leave && obj == ui->toolBar)
     {
         mouse_in_toolbar = false;
-        if (!progressbar_pressed)
-            ui->progressBar->hide();
-        if (is_fullscreen)
+        if (!ui->progressBar->isSliderDown())
         {
-            ui->toolBar->hide();
-            toolbar_visible = false;
+            ui->progressBar->hide();
+            if (isFullScreen())
+                ui->toolBar->hide();
         }
         return true;
     }
@@ -288,12 +281,9 @@ bool Player::eventFilter(QObject *obj, QEvent *e)
     else if (e->type() == QEvent::MouseMove)
     {
         QMouseEvent* me = static_cast<QMouseEvent*>(e);
-        if (is_fullscreen && me->y() > toolbar_pos_y && !toolbar_visible) //mouse enters toolbar
-        {
+        if (isFullScreen() && me->y() > toolbar_pos_y && !ui->toolBar->isVisible()) //mouse enters toolbar
             ui->toolBar->show();
-            toolbar_visible = true;
-        }
-        else if (!is_fullscreen && me->x() > width() - 100)
+        else if (!isFullScreen() && me->x() > width() - 100)
             playlist->show();
         return true;
     }
@@ -370,7 +360,7 @@ void Player::showMenu()
 //Show Cutterbar
 void Player::showCutterbar()
 {
-    if (mplayer->state == MPlayer::STOPPING || cutterbar->isVisible())
+    if (mplayer->state == MPlayer::STOPPING || mplayer->state == MPlayer::TV_PLAYING || cutterbar->isVisible())
         return;
     QString filename = mplayer->currentFile();
     if (filename.startsWith("http://"))
@@ -378,9 +368,9 @@ void Player::showCutterbar()
         QMessageBox::warning(this, "Error", tr("Only support cutting local videos!"));
         return;
     }
-    if (is_fullscreen)
+    if (isFullScreen()) // Exit fullscreen
         setFullScreen();
-    if (mplayer->state == MPlayer::TV_PLAYING || mplayer->state == MPlayer::VIDEO_PLAYING)
+    if (mplayer->state == MPlayer::VIDEO_PLAYING) //pause
         mplayer->changeState();
     ui->toolBar->hide();
     cutterbar->init(filename, mplayer->getLength(), mplayer->getTime());
@@ -477,7 +467,7 @@ void Player::onLengthChanged(int len)
 
 void Player::onSizeChanged(QSize &sz)
 {
-    if (is_fullscreen)
+    if (isFullScreen() || isMaximized())
         return;
     if (!Settings::autoResize)
         return;
@@ -493,7 +483,6 @@ void Player::onSizeChanged(QSize &sz)
 
 void Player::onPBarPressed()
 {
-    progressbar_pressed = true;
     if (mplayer->state == MPlayer::STOPPING)
         return;
     QString time = secToTime(ui->progressBar->value() * MPlayer::UPDATE_FREQUENCY, true);
@@ -514,9 +503,12 @@ void Player::onPBarChanged(int pos)
 
 void Player::onPBarReleased()
 {
-    progressbar_pressed = false;
     if (!mouse_in_toolbar)
+    {
         ui->progressBar->hide();
+        if (isFullScreen())
+            ui->toolBar->hide();
+    }
     if (mplayer->state == MPlayer::STOPPING)
         return;
     timeShow->hide();

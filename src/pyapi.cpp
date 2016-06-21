@@ -377,7 +377,7 @@ static PyObject *use_fallback_parser(PyObject *, PyObject *args)
         return NULL;
     you_get_bridge.parse(url, download, danmaku_url);
 #else
-    QMessageBox::warning(this, "Error", "Error: Parse failed!");
+    QMessageBox::warning(NULL, "Error", "Error: Parse failed!");
 #endif
     Py_IncRef(Py_None);
     return Py_None;

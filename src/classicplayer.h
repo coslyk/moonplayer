@@ -1,0 +1,57 @@
+#ifndef CLASSICPLAYER_H
+#define CLASSICPLAYER_H
+
+#include <QMainWindow>
+class CutterBar;
+class Downloader;
+class MPlayer;
+class Playlist;
+class SettingsDialog;
+class Transformer;
+class WebVideo;
+
+namespace Ui {
+class ClassicPlayer;
+}
+
+class ClassicPlayer : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit ClassicPlayer(QWidget *parent = 0);
+    ~ClassicPlayer();
+
+protected:
+    void closeEvent(QCloseEvent *e);
+    bool eventFilter(QObject *, QEvent *);
+
+private:
+    Ui::ClassicPlayer *ui;
+    CutterBar *cutterbar;
+    Downloader *downloader;
+    MPlayer *mplayer;
+    Playlist *playlist;
+    SettingsDialog *settingsDialog;
+    Transformer *transformer;
+    WebVideo *webvideo;
+    bool no_play_next;
+    int toolbar_pos_y;
+
+private slots:
+    void onLengthChanged(int length);
+    void onProgressChanged(int);
+    void onPBarChanged(int);
+    void onPBarPressed(void);
+    void onPBarReleased(void);
+    void onSizeChanged(QSize &sz);
+    void onStopButton(void);
+    void onStopped(void);
+    void saveVolume(int volume);
+    void setFullScreen(void);
+    void showCutterbar(void);
+    void openHomepage(void);
+    void openExtPage(void);
+};
+
+#endif // CLASSICPLAYER_H

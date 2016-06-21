@@ -34,9 +34,10 @@ SOURCES += main.cpp\
     cutterbar.cpp \
     videocombiner.cpp \
     searcher.cpp \
-    yougetbridge.cpp
+    classicplayer.cpp
 unix: SOURCES += danmakuloader.cpp \
-    danmakudelaygetter.cpp
+    danmakudelaygetter.cpp \
+    yougetbridge.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -70,9 +71,10 @@ HEADERS  += player.h \
     videocombiner.h \
     searcher.h \
     settings_danmaku.h \
-    yougetbridge.h
+    classicplayer.h
 unix: HEADERS += danmakuloader.h \
-    danmakudelaygetter.h
+    danmakudelaygetter.h \
+    yougetbridge.h
 
 
 FORMS    += \
@@ -83,7 +85,8 @@ FORMS    += \
     settingsdialog.ui \
     reslibrary.ui \
     detailview.ui \
-    cutterbar.ui
+    cutterbar.ui \
+    classicplayer.ui
 
 
 unix {

@@ -1,6 +1,7 @@
 #include <QApplication>
 #include "player.h"
 #include <QTranslator>
+#include "classicplayer.h"
 #include "settingsdialog.h"
 #include "settings_player.h"
 #include "playlist.h"
@@ -86,8 +87,18 @@ int main(int argc, char *argv[])
     translator.load(path.filePath("moonplayer_" + QLocale::system().name()));
     a.installTranslator(&translator);
 
-    Player w;
-    w.show();
+    ClassicPlayer *classic_player = NULL;
+    Player *player = NULL;
+    if (Settings::disableSkin)
+    {
+        classic_player = new ClassicPlayer;
+        classic_player->show();
+    }
+    else
+    {
+        player = new Player;
+        player->show();
+    }
 
     for (int i = 1; i < argc; i++)
     {
@@ -95,20 +106,24 @@ int main(int argc, char *argv[])
         QTextCodec* codec = QTextCodec::codecForLocale();
         QString file = codec->toUnicode(argv[i]);
         if (file.startsWith("http://"))
-            w.playlist->addUrl(file);
+            playlist->addUrl(file);
         else if (file.endsWith(".m3u") || file.endsWith("m3u8") || file.endsWith(".xspf")) //playlist
-            w.playlist->addList(file);
+            playlist->addList(file);
         else
         {
             if (!file.contains('/'))    //not an absolute path
                 file = currentDir.filePath(file);
             if (i == 1) //first video
-                w.playlist->addFileAndPlay(file.section('/', -1), file);
+                playlist->addFileAndPlay(file.section('/', -1), file);
             else
-                w.playlist->addFile(file.section('/', -1), file);
+                playlist->addFile(file.section('/', -1), file);
         }
     }
     a.exec();
     Py_Finalize();
+    if (classic_player)
+        delete classic_player;
+    else
+        delete player;
     return 0;
 }
