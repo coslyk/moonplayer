@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QIcon>
-class MPlayer;
+class PlayerCore;
 class Playlist;
 class QCloseEvent;
 class WebVideo;
@@ -38,7 +38,7 @@ protected:
 
 private:
     Ui::Player *ui;
-    MPlayer* mplayer;
+    PlayerCore* player_core;
     WebVideo* webvideo;
     ResLibrary *reslibrary;
     Downloader *downloader;
@@ -72,7 +72,7 @@ private slots:
     void onPBarChanged(int);
     void onPBarPressed(void);
     void onPBarReleased(void);
-    void onSizeChanged(QSize &size);
+    void onSizeChanged(const QSize &size);
     void onStopped(void);
     void onStopButton(void);
     void onSetButton(void);

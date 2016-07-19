@@ -12,19 +12,18 @@
 #include <QApplication>
 #include <QLabel>
 #include <QUrl>
-#include "plugins.h"
+#include "plugin.h"
 #include "searcher.h"
 #include "pyapi.h"
 #include "utils.h"
 #include "yougetbridge.h"
-#include <iostream>
 
 WebVideo *webvideo = NULL;
 
 WebVideo::WebVideo(QWidget *parent) :
     QTabWidget(parent)
 {
-    std::cout << "Initialize webview..." << std::endl;
+    printf("Initialize webview...\n");
     webvideo = this;
     setObjectName("WebVideo");
 
@@ -32,6 +31,7 @@ WebVideo::WebVideo(QWidget *parent) :
     initSearchers();
     if (n_plugins == 0 || n_searchers == 0)
     {
+        qDebug("%i %i", n_plugins, n_searchers);
         QLabel *label = new QLabel(tr("You have not install any plugins yet ~_~"));
         addTab(label, tr("Web videos"));
         return;

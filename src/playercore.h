@@ -11,34 +11,37 @@ class QLabel;
 #ifdef Q_OS_LINUX
 class DanmakuLoader;
 #endif
+#ifdef Q_OS_MAC
+#include <QMediaPlayer>
+#include <QVideoWidget>
+#endif
 
-class MPlayer : public QWidget
+#ifdef Q_OS_MAC
+class PlayerCore : public QVideoWidget
+#else
+class PlayerCore : public QWidget
+#endif
 {
     Q_OBJECT
 
 signals:
+    void cutVideo(void);
     void played(void);
     void paused(void);
     void stopped(void);
     void fullScreen(void);
     void timeChanged(int pos);
     void lengthChanged(int len);
-    void sizeChanged(QSize &size);
+    void sizeChanged(const QSize &size);
 
 public:
-    typedef enum {STOPPING, VIDEO_PLAYING, VIDEO_PAUSING, TV_PLAYING} MPlayerState;
+    typedef enum {STOPPING, VIDEO_PLAYING, VIDEO_PAUSING, TV_PLAYING} State;
     typedef enum {CHANNEL_NORMAL, CHANNEL_LEFT,CHANNEL_RIGHT} Channel;
 
-    explicit MPlayer(QWidget *parent = 0);
-    ~MPlayer();
-    MPlayerState state;
+    explicit PlayerCore(QWidget *parent = 0);
+    ~PlayerCore();
+    State state;
     Channel channel;
-    static const int UPDATE_FREQUENCY = 5; //Update the progress every 5s.
-    QMenu* menu;
-    inline QWidget* getLayer() {return layer;}
-    inline int getTime() {return progress;}
-    inline int getLength() {return length;}
-    inline QString currentFile() {return wait_to_play;}
 
 public slots:
     void stop(void);
@@ -53,8 +56,17 @@ public slots:
     void speedSetToDefault(void);
 
 protected:
-    void resizeEvent(QResizeEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);
+
+#ifndef Q_OS_MAC
+public:
+    inline QWidget *getLayer() {return layer;}
+    inline int getTime() {return progress;}
+    inline int getLength() {return length;}
+    inline QString currentFile() {return wait_to_play;}
+
+protected:
+    void resizeEvent(QResizeEvent *);
 
 private slots:
     void onFinished(int);
@@ -73,9 +85,11 @@ private slots:
     void loadAss(const QString &assFile);
 
 private:
-    QProcess* process; //mplayer process
+    QProcess* process; //player_core process
     QWidget* layer;  //Window for video output
+    QMenu* menu;
     QLabel* msgLabel;  //Show catching message
+    DanmakuLoader* danmakuLoader;
 
     QAction* leftChannelAction;
     QAction* rightChannelAction;
@@ -97,17 +111,34 @@ private:
     QString danmaku;
     QHash<QString, int> unfinished_time;
 
-#ifdef Q_OS_LINUX
-	DanmakuLoader* danmakuLoader;
-#endif
-
     void cb_start(const QString &msg);
     void cb_ratioChanged(const QString &msg);
     void cb_updateTime(const QString &msg);
     void resizeLayer(void);
     void writeToMplayer(const QByteArray &msg);
+
+#else
+public:
+    inline int getTime() {return mediaPlayer->position() / 1000;}
+    inline int getLength() {return mediaPlayer->duration() / 1000;}
+    inline QString currentFile() {return currentVideo;}
+    inline QWidget *getLayer() {return NULL;}
+
+private:
+    QMediaPlayer *mediaPlayer;
+    QString currentVideo;
+    QSize currentRelution;
+    int currentPos;
+    bool switchingVideo;
+
+private slots:
+    void onDurationChanged(qint64 duration);
+    void onMetaDataChanged(const QString &key, const QVariant &value);
+    void onPositionChanged(qint64 position);
+    void onStateChanged(QMediaPlayer::State state);
+#endif
 };
 
-extern MPlayer *mplayer;
+extern PlayerCore *player_core;
 
 #endif // MPLAYER_H

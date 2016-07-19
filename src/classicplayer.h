@@ -4,7 +4,7 @@
 #include <QMainWindow>
 class CutterBar;
 class Downloader;
-class MPlayer;
+class PlayerCore;
 class Playlist;
 class SettingsDialog;
 class Transformer;
@@ -30,7 +30,7 @@ private:
     Ui::ClassicPlayer *ui;
     CutterBar *cutterbar;
     Downloader *downloader;
-    MPlayer *mplayer;
+    PlayerCore *player_core;
     Playlist *playlist;
     SettingsDialog *settingsDialog;
     Transformer *transformer;
@@ -44,7 +44,7 @@ private slots:
     void onPBarChanged(int);
     void onPBarPressed(void);
     void onPBarReleased(void);
-    void onSizeChanged(QSize &sz);
+    void onSizeChanged(const QSize &sz);
     void onStopButton(void);
     void onStopped(void);
     void saveVolume(int volume);

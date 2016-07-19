@@ -5,7 +5,7 @@
 #include "webvideo.h"
 #include "downloader.h"
 #include "playlist.h"
-#include "mplayer.h"
+#include "playercore.h"
 #include "reslibrary.h"
 #include "detailview.h"
 #include "utils.h"

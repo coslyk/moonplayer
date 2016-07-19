@@ -11,10 +11,9 @@
 #include "skin.h"
 #include "settings_player.h"
 #include "utils.h"
-#include "plugins.h"
+#include "plugin.h"
 #include "pyapi.h"
 #include "yougetbridge.h"
-#include <iostream>
 #ifdef Q_OS_LINUX
 #include <QDBusConnection>
 #include <QDebug>
@@ -36,7 +35,7 @@ Playlist::Playlist(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Playlist)
 {
-    std::cout << "Initialize playlist..." << std::endl;
+    printf("Initialize playlist...\n");
     ui->setupUi(this);
     connect(ui->delButton, SIGNAL(clicked()), this, SLOT(onDelButton()));
     connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clearList()));

@@ -2,7 +2,7 @@
 #include "ui_detailview.h"
 #include "utils.h"
 #include "accessmanager.h"
-#include "plugins.h"
+#include "plugin.h"
 #include "settings_player.h"
 #include "yougetbridge.h"
 #include <QNetworkAccessManager>

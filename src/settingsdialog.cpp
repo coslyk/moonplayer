@@ -16,7 +16,7 @@
 #include <QFontDialog>
 #include <QMessageBox>
 #include "settings_audio.h"
-#include "plugins.h"
+#include "plugin.h"
 #include "utils.h"
 
 QString Settings::aout;
@@ -184,10 +184,14 @@ void SettingsDialog::saveSettings()
 SettingsDialog::~SettingsDialog()
 {
     //open file
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN)
     QSettings settings("HKEY_CURRENT_USER\\Software\\moonplayer", QSettings::NativeFormat);
-#else
+#elif defined(Q_OS_LINUX)
     QSettings settings(QDir::homePath() + "/.config/moonplayer.ini", QSettings::IniFormat);
+#elif defined(Q_OS_MAC)
+    QSettings settings(QDir::homePath() + "/Library/Application Support/MoonPlayer/config.ini", QSettings::IniFormat);
+#else
+#error ERROR: Unsupport system!
 #endif
     settings.setValue("Player/current_skin", currentSkin);
     settings.setValue("Player/auto_resize", autoResize);
@@ -223,9 +227,9 @@ SettingsDialog::~SettingsDialog()
 void initSettings()
 {
     //open file
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN)
     QSettings settings("HKEY_CURRENT_USER\\Software\\moonplayer", QSettings::NativeFormat);
-#else
+#elif defined(Q_OS_LINUX)
     QDir dir = QDir::home();
     if (!dir.cd(".moonplayer"))
     {
@@ -236,19 +240,26 @@ void initSettings()
         dir.mkdir("plugins");
     if (!dir.exists("skins"))
         dir.mkdir("skins");
-
     QSettings settings(QDir::homePath() + "/.config/moonplayer.ini", QSettings::IniFormat);
+#elif defined(Q_OS_MAC)
+    QSettings settings(QDir::homePath() + "/Library/Application Support/MoonPlayer/config.ini", QSettings::IniFormat);
+#else
+#error ERROR: Unsupport system!
 #endif
 
     //read settings
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN)
     if (QSysInfo::WindowsVersion >= QSysInfo::WV_VISTA)
         vout = settings.value("Video/out", "direct3d").toString();
     else
         vout = settings.value("Video/out", "directx").toString();
 #else
     vout = settings.value("Video/out", "xv").toString();
+#endif
+#ifdef Q_OS_LINUX
     path = "/usr/share/moonplayer";
+#else
+    path = QCoreApplication::applicationDirPath().replace("/MacOS", "/Resources");
 #endif
     framedrop = settings.value("Video/framedrop", true).toBool();
     doubleBuffer = settings.value("Video/double", true).toBool();
@@ -276,7 +287,11 @@ void initSettings()
     danmakuSize = settings.value("Danmaku/size", 0).toInt();
     durationScrolling = settings.value("Danmaku/dm", 0).toInt();
     durationStill = settings.value("Danmaku/ds", 6).toInt();
+#ifdef Q_OS_MAC
+    uiScale = 1.0;
+#else
     uiScale = qApp->desktop()->logicalDpiX() / 96.0;
+#endif
 
     //init proxy
     if (proxy.isEmpty())

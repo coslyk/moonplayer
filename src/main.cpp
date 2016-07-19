@@ -1,5 +1,4 @@
 #include <QApplication>
-#include "player.h"
 #include <QTranslator>
 #include "classicplayer.h"
 #include "settingsdialog.h"
@@ -14,7 +13,7 @@
 #include <QNetworkAccessManager>
 #include <Python.h>
 #include "pyapi.h"
-#include <iostream>
+#include "player.h"
 #ifdef Q_OS_LINUX
 #include <QDBusInterface>
 #endif
@@ -29,7 +28,7 @@ int main(int argc, char *argv[])
 
     //check whether another MoonPlayer instance is running
 #ifdef Q_OS_LINUX
-    std::cout << "Checking another instance..." << std::endl;
+    printf("Checking another instance...\n");
 
     QDBusInterface iface("com.moonsoft.MoonPlayer", "/");
     if (iface.isValid())
@@ -71,17 +70,14 @@ int main(int argc, char *argv[])
 
     //init
     access_manager = new QNetworkAccessManager(&a);
-#ifdef Q_OS_WIN
-    Settings::path = QString(argv[0]).section('\\', 0, -2);
-#endif
-    std::cout << "Initialize settings..." << std::endl;
+    printf("Initialize settings...\n");
     initSettings();
 
-    std::cout << "Initialize API for Python..." << std::endl;
+    printf("Initialize API for Python...\n");
     initAPI();
 
     //translate moonplayer
-    std::cout << "Initialize language support..." << std::endl;
+    printf("Initialize language support...\n");
     QTranslator translator;
     QDir path(Settings::path);
     translator.load(path.filePath("moonplayer_" + QLocale::system().name()));
@@ -102,7 +98,6 @@ int main(int argc, char *argv[])
 
     for (int i = 1; i < argc; i++)
     {
-        std::cout << "Loading file..." << std::endl;
         QTextCodec* codec = QTextCodec::codecForLocale();
         QString file = codec->toUnicode(argv[i]);
         if (file.startsWith("http://"))

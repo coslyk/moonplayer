@@ -1,4 +1,4 @@
-#include "mplayer.h"
+#include "playercore.h"
 #include "settings_video.h"
 #include "settings_audio.h"
 #include "settings_network.h"
@@ -21,9 +21,11 @@
 #endif
 using namespace std;
 
-MPlayer *mplayer = NULL;
+#define UPDATE_FREQUENCY 5
 
-MPlayer::MPlayer(QWidget *parent) :
+PlayerCore *player_core = NULL;
+
+PlayerCore::PlayerCore(QWidget *parent) :
     QWidget(parent)
 {
     std::cout << "Initialize mplayer backend..." << std::endl;
@@ -93,13 +95,14 @@ MPlayer::MPlayer(QWidget *parent) :
     switchDanmakuAction->setChecked(true);
     menu->addSeparator();
     screenShotAction = menu->addAction(tr("Screenshot"), this, SLOT(screenShot()), QKeySequence("S"));
+    menu->addAction(tr("Cut video"), this, SIGNAL(cutVideo()), QKeySequence("C"));
     setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, &MPlayer::customContextMenuRequested, this, &MPlayer::showMenu);
+    connect(this, &PlayerCore::customContextMenuRequested, this, &PlayerCore::showMenu);
 
 #ifdef Q_OS_LINUX
 	//Create danmaku loader
 	danmakuLoader = new DanmakuLoader(this);
-    connect(danmakuLoader, &DanmakuLoader::finished, this, &MPlayer::loadAss);
+    connect(danmakuLoader, &DanmakuLoader::finished, this, &PlayerCore::loadAss);
 
     // read unfinished_time
     QString filename = QDir::homePath() +"/.moonplayer/unfinished.txt";
@@ -114,12 +117,12 @@ MPlayer::MPlayer(QWidget *parent) :
     for (int i = 0; i < list.size(); i += 2)
         unfinished_time[list[i]] = list[i + 1].toInt();
 #endif
-    mplayer = this;
+    player_core = this;
 }
 
 
 // Save unfinished time
-MPlayer::~MPlayer()
+PlayerCore::~PlayerCore()
 {
 #ifdef Q_OS_LINUX
     if (!unfinished_time.isEmpty() && Settings::rememberUnfinished)
@@ -154,13 +157,13 @@ MPlayer::~MPlayer()
 }
 
 //resize layer when window size changes
-void MPlayer::resizeEvent(QResizeEvent *)
+void PlayerCore::resizeEvent(QResizeEvent *)
 {
     if (state != STOPPING)
         resizeLayer();
 }
 
-void MPlayer::resizeLayer()
+void PlayerCore::resizeLayer()
 {
     int pos_x, pos_y, size_width, size_height;
     int win_width = width();
@@ -182,22 +185,22 @@ void MPlayer::resizeLayer()
 }
 
 /*Set mplayer to fullscreen*/
-void MPlayer::mouseDoubleClickEvent(QMouseEvent* e)
+void PlayerCore::mouseDoubleClickEvent(QMouseEvent* e)
 {
     if (e->buttons() == Qt::LeftButton)
         emit fullScreen();
 }
 
-/* Open a new video file. MPlayer::openFile sends a message to get length
- * and the result will be read in MPlayer::cb_start.
+/* Open a new video file. PlayerCore::openFile sends a message to get length
+ * and the result will be read in PlayerCore::cb_start.
  */
-void MPlayer::openFile(const QString &filename, const QString &danmaku)
+void PlayerCore::openFile(const QString &filename, const QString &danmaku)
 {
     static QString proxyUrl = "http_proxy://%1:%2/%3";
 
     //show debug message label
     msgLabel->show();
-    //start MPlayer if stopping
+    //start PlayerCore if stopping
     wait_to_play = filename;
     //Get danmaku url
     this->danmaku = danmaku;
@@ -240,7 +243,7 @@ void MPlayer::openFile(const QString &filename, const QString &danmaku)
 #endif
     args << "-volume" << QString::number(volume);
     args << "-wid" << QString::number((unsigned long) layer->winId());
-    if (filename.startsWith("http://"))
+    if (filename.startsWith("http://") || filename.startsWith("https://"))
     {
         args << "-user-agent" << "moonplayer";
         args << "-cache" << QString::number(Settings::cacheSize);
@@ -290,7 +293,7 @@ void MPlayer::openFile(const QString &filename, const QString &danmaku)
     else
         args << filename;
     //set state
-    state = TV_PLAYING; //If playing video, state will reset later in MPlayer::cb_start()
+    state = TV_PLAYING; //If playing video, state will reset later in PlayerCore::cb_start()
     length = 0;
     progress = 0;
     speed = 1.0;
@@ -299,7 +302,7 @@ void MPlayer::openFile(const QString &filename, const QString &danmaku)
     process->start("mplayer", args);
 }
 
-void MPlayer::cb_start(const QString &msg)
+void PlayerCore::cb_start(const QString &msg)
 {
     float l = msg.section('=', 1, 1).simplified().toFloat();
     if (l != 0.0f) //playing video, not TV
@@ -317,7 +320,7 @@ void MPlayer::cb_start(const QString &msg)
 
 
 /* Change state between pausing and playing. */
-void MPlayer::changeState()
+void PlayerCore::changeState()
 {
     if (state == STOPPING || state == TV_PLAYING)
         return;
@@ -339,12 +342,12 @@ void MPlayer::changeState()
 }
 
 
-/* MPlayer::stop sends a message to quit mplayer. When the mplayer
+/* PlayerCore::stop sends a message to quit mplayer. When the mplayer
  * receive the message or the video is at the end, it will automatically
  * exit and emit Finished() signal. Then something will be done
- * in MPlayer::onFinished.
+ * in PlayerCore::onFinished.
  */
-void MPlayer::stop()
+void PlayerCore::stop()
 {
     stop_called = true;
     if (state != STOPPING)
@@ -357,7 +360,7 @@ void MPlayer::stop()
     }
 }
 
-void MPlayer::onFinished(int)
+void PlayerCore::onFinished(int)
 {
     state = STOPPING;
     timer->stop();
@@ -383,13 +386,13 @@ void MPlayer::onFinished(int)
         emit stopped();
 }
 
-void MPlayer::playWaiting()
+void PlayerCore::playWaiting()
 {
     is_waiting = false;
     openFile(wait_to_play, danmaku);
 }
 
-void MPlayer::setVolume(int vol)
+void PlayerCore::setVolume(int vol)
 {
     char msg[16];
     volume = vol * 10;
@@ -400,7 +403,7 @@ void MPlayer::setVolume(int vol)
     writeToMplayer(msg);
 }
 
-void MPlayer::readOutput()
+void PlayerCore::readOutput()
 {
     while (process->canReadLine())
     {
@@ -429,7 +432,7 @@ void MPlayer::readOutput()
     }
 }
 
-void MPlayer::writeToMplayer(const QByteArray &msg)
+void PlayerCore::writeToMplayer(const QByteArray &msg)
 {
     if (state == VIDEO_PAUSING)
         process->write("pausing_keep_force " + msg);
@@ -437,17 +440,17 @@ void MPlayer::writeToMplayer(const QByteArray &msg)
         process->write(msg);
 }
 
-/*Update time every 1s. MPlayer::updateTime() will send a
+/*Update time every 1s. PlayerCore::updateTime() will send a
  * message to get position and the result will be read in
- * MPlayer::cb_changeState.
+ * PlayerCore::cb_changeState.
  */
-void MPlayer::updateTime()
+void PlayerCore::updateTime()
 {
     writeToMplayer("get_time_pos\n");
 }
 
 
-void MPlayer::cb_updateTime(const QString &msg)
+void PlayerCore::cb_updateTime(const QString &msg)
 {
     int pos = msg.section('=', 1, 1).section('.', 0, 0).toInt();
     //fix mplayer's error
@@ -468,7 +471,7 @@ void MPlayer::cb_updateTime(const QString &msg)
 }
 
 /*Jump to a frame and pause*/
-void MPlayer::jumpTo(int pos)
+void PlayerCore::jumpTo(int pos)
 {
     //Ignore if stopping or playing
     if (state != VIDEO_PAUSING)
@@ -482,7 +485,7 @@ void MPlayer::jumpTo(int pos)
 }
 
 /*set progress*/
-void MPlayer::setProgress(int pos)
+void PlayerCore::setProgress(int pos)
 {
     //Ignore if stopping or playing tv
     if (state != VIDEO_PLAYING && state != VIDEO_PAUSING)
@@ -500,7 +503,7 @@ void MPlayer::setProgress(int pos)
 }
 
 //set video's ratio
-void MPlayer::setRatio_16_9()
+void PlayerCore::setRatio_16_9()
 {
     static QByteArray msg = "switch_ratio " + QByteArray::number(16.0 / 9.0) + '\n';
     if (state == STOPPING)
@@ -508,14 +511,14 @@ void MPlayer::setRatio_16_9()
     writeToMplayer(msg);
 }
 
-void MPlayer::setRatio_16_10()
+void PlayerCore::setRatio_16_10()
 {
     if (state == STOPPING)
         return;
     writeToMplayer("switch_ratio 1.6\n");
 }
 
-void MPlayer::setRatio_4_3()
+void PlayerCore::setRatio_4_3()
 {
     static QByteArray msg = "switch_ratio " + QByteArray::number(4.0 / 3.0) + '\n';
     if (state == STOPPING)
@@ -523,14 +526,14 @@ void MPlayer::setRatio_4_3()
     writeToMplayer(msg);
 }
 
-void MPlayer::setRatio_0()
+void PlayerCore::setRatio_0()
 {
     if (state == STOPPING)
         return;
     writeToMplayer("switch_ratio 0\n");
 }
 
-void MPlayer::cb_ratioChanged(const QString &msg)
+void PlayerCore::cb_ratioChanged(const QString &msg)
 {
     QStringList size = msg.section(' ', 4, 4).split('x');
     w = size.takeFirst().toInt();
@@ -552,13 +555,13 @@ void MPlayer::cb_ratioChanged(const QString &msg)
 
 
 //Show right-button menu
-void MPlayer::showMenu(const QPoint&)
+void PlayerCore::showMenu(const QPoint&)
 {
     menu->exec(QCursor::pos());
 }
 
 //Set channel
-void MPlayer::setChannelToLeft()
+void PlayerCore::setChannelToLeft()
 {
     leftChannelAction->setChecked(true);
     rightChannelAction->setChecked(false);
@@ -571,7 +574,7 @@ void MPlayer::setChannelToLeft()
     }
 }
 
-void MPlayer::setChannelToRight()
+void PlayerCore::setChannelToRight()
 {
     leftChannelAction->setChecked(false);
     rightChannelAction->setChecked(true);
@@ -584,7 +587,7 @@ void MPlayer::setChannelToRight()
     }
 }
 
-void MPlayer::setChannelToNormal()
+void PlayerCore::setChannelToNormal()
 {
     leftChannelAction->setChecked(false);
     rightChannelAction->setChecked(false);
@@ -598,7 +601,7 @@ void MPlayer::setChannelToNormal()
 }
 
 // Screenshot
-void MPlayer::screenShot()
+void PlayerCore::screenShot()
 {
     if (state != STOPPING && screenShotAction->isEnabled())
     {
@@ -608,14 +611,14 @@ void MPlayer::screenShot()
 }
 
 // Load danmaku
-void MPlayer::loadAss(const QString &assFile)
+void PlayerCore::loadAss(const QString &assFile)
 {
     if (state == STOPPING)
         return;
     writeToMplayer("sub_load " + assFile.toUtf8() + '\n');
 }
 
-void MPlayer::switchDanmaku()
+void PlayerCore::switchDanmaku()
 {
     if (state == STOPPING || danmaku.isEmpty())
         return;
@@ -631,7 +634,7 @@ void MPlayer::switchDanmaku()
 
 
 // Set speed
-void MPlayer::speedUp()
+void PlayerCore::speedUp()
 {
     if (speed < 2.0 && state != STOPPING)
     {
@@ -640,7 +643,7 @@ void MPlayer::speedUp()
     }
 }
 
-void MPlayer::speedDown()
+void PlayerCore::speedDown()
 {
     if (speed > 0.5 && state != STOPPING)
     {
@@ -649,7 +652,7 @@ void MPlayer::speedDown()
     }
 }
 
-void MPlayer::speedSetToDefault()
+void PlayerCore::speedSetToDefault()
 {
     if (state != STOPPING)
     {

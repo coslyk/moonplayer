@@ -22,14 +22,14 @@ void DanmakuDelayGetter::start()
         args << "-nosound" << "-vc" << "dummy" << "-vo" << "null" << "-identify" << urls.first();
     else
         args << "-nosound" << "-vc" << "black" << "-vo" << "null" << "-endpos" << "0:01" << "-identify" << urls.first();
-    process->start("mplayer", args);
+    process->start("player_core", args);
 }
 
 void DanmakuDelayGetter::onFinished()
 {
     QString output = QString::fromUtf8(process->readAllStandardOutput());
 
-    // If mplayer has no "dummy" video codec, use "black" instead
+    // If player_core has no "dummy" video codec, use "black" instead
     if (dummy_mode && !output.contains("ID_LENGTH="))
     {
         dummy_mode = false;

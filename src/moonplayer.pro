@@ -4,23 +4,22 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml widgets
-unix: QT += dbus
+QT             += core gui network xml widgets
+unix:!macx: QT += dbus
+macx: QT       += multimedia multimediawidgets
 
-
-TARGET = moonplayer
+macx:  TARGET = MoonPlayer
+!macx: TARGET = moonplayer
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        player.cpp \
-    mplayer.cpp \
+    player.cpp \
     playlist.cpp \
     webvideo.cpp \
     skin.cpp \
     httpget.cpp \
     downloader.cpp \
-    plugins.cpp \
     pyapi.cpp \
     transformer.cpp \
     sortingdialog.cpp \
@@ -34,8 +33,11 @@ SOURCES += main.cpp\
     cutterbar.cpp \
     videocombiner.cpp \
     searcher.cpp \
-    classicplayer.cpp
-unix: SOURCES += danmakuloader.cpp \
+    classicplayer.cpp \
+    plugin.cpp
+!macx: SOURCES += playercore.cpp
+macx: SOURCES += playercore_mac.cpp
+unix:!macx:  SOURCES += danmakuloader.cpp \
     danmakudelaygetter.cpp \
     yougetbridge.cpp
 
@@ -43,14 +45,12 @@ unix: SOURCES += danmakuloader.cpp \
 TRANSLATIONS += moonplayer_zh_CN.ts
 
 
-HEADERS  += player.h \
-    mplayer.h \
+HEADERS  += player.h\
     playlist.h \
     webvideo.h \
     skin.h \
     httpget.h \
     downloader.h \
-    plugins.h \
     pyapi.h \
     transformer.h \
     sortingdialog.h \
@@ -71,8 +71,10 @@ HEADERS  += player.h \
     videocombiner.h \
     searcher.h \
     settings_danmaku.h \
-    classicplayer.h
-unix: HEADERS += danmakuloader.h \
+    classicplayer.h \
+    playercore.h \
+    plugin.h
+unix:!macx: HEADERS += danmakuloader.h \
     danmakudelaygetter.h \
     yougetbridge.h
 
@@ -89,7 +91,7 @@ FORMS    += \
     classicplayer.ui
 
 
-unix {
+unix:!macx {
     #skin
     default_skin.files += skins
     default_skin.path = /usr/share/moonplayer
@@ -114,10 +116,21 @@ unix {
     INSTALLS += default_skin execute trans icon menu plugin danmaku
 }
 
-RC_FILE = icon.rc
+macx {
+    RESFILES.files = moonplayer_zh_CN.qm skins plugins
+    RESFILES.path = Contents/Resources
+    QMAKE_BUNDLE_DATA += RESFILES
+    QMAKE_INFO_PLIST = Info.plist
+    ICON = moonplayer.icns
+}
 
-unix: CONFIG += link_pkgconfig
-unix: PKGCONFIG += python2
+win32: RC_FILE = icon.rc
+
+unix:!macx: CONFIG += link_pkgconfig
+unix:!macx: PKGCONFIG += python2
+
+macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/Headers
+macx: LIBS += -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config -lpython2.7 -ldl -framework CoreFoundation
 
 win32: INCLUDEPATH += C:\\Python27\\include
 win32: LIBS += C:\\Python27\\libs\\python27.lib

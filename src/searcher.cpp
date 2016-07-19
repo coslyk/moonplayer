@@ -2,7 +2,7 @@
 #include "utils.h"
 #include "pyapi.h"
 #include <QDir>
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
 #include "settings_player.h"
 #endif
 
@@ -17,17 +17,19 @@ void initSearchers()
     //load plugins
     static Searcher *array[128];
     searchers = array;
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
     QDir pluginsDir = QDir(Settings::path);
     pluginsDir.cd("plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-#else
+#elif defined(Q_OS_LINUX)
     QDir pluginsDir = QDir("/usr/share/moonplayer/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
     pluginsDir = QDir::home();
     pluginsDir.cd(".moonplayer");
     pluginsDir.cd("plugins");
     list += pluginsDir.entryList(QDir::Files, QDir::Name);
+#else
+#error ERROR: Unsupported system!
 #endif
     while (!list.isEmpty())
     {

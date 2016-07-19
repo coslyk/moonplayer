@@ -100,6 +100,8 @@ QString getFFmpegFile()
             filename = "/usr/share/moonplayer/ffmpeg";
         else
             filename = "";
+#elif defined(Q_OS_MAC)
+        filename = "";
 #else
 #error ERROR: Unsupport system!
 #endif

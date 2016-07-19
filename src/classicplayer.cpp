@@ -2,7 +2,7 @@
 #include "ui_classicplayer.h"
 #include "cutterbar.h"
 #include "downloader.h"
-#include "mplayer.h"
+#include "playercore.h"
 #include "playlist.h"
 #include "reslibrary.h"
 #include "settingsdialog.h"
@@ -11,7 +11,6 @@
 #include "transformer.h"
 #include "utils.h"
 #include "webvideo.h"
-#include <iostream>
 #include <QDesktopServices>
 #include <QDesktopWidget>
 #include <QMessageBox>
@@ -21,21 +20,24 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ClassicPlayer)
 {
-    std::cout << "Initialize player..." << std::endl;
+    printf("Initialize player...\n");
     ui->setupUi(this);
     resize(size() * Settings::uiScale);
     QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton, ui->volumeButton, ui->netButton};
     for (int i = 0; i < 5; i++)
         buttons[i]->setIconSize(QSize(24, 24) * Settings::uiScale);
 
-    // Add mplayer frame
-    mplayer = new MPlayer;
-    ui->playerLayout->addWidget(mplayer, 1);
+    // Add player_core frame
+    player_core = new PlayerCore;
+    ui->playerLayout->addWidget(player_core, 1);
     // Enable autohiding playlist
-    mplayer->installEventFilter(this);
-    mplayer->setMouseTracking(true);
-    mplayer->getLayer()->installEventFilter(this);
-    mplayer->getLayer()->setMouseTracking(true);
+    player_core->installEventFilter(this);
+    player_core->setMouseTracking(true);
+    if (player_core->getLayer())
+    {
+        player_core->getLayer()->installEventFilter(this);
+        player_core->getLayer()->setMouseTracking(true);
+    }
 
     // Add playlist
     playlist = new Playlist;
@@ -52,7 +54,6 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     cutterbar = new CutterBar;
     ui->mainLayout->addWidget(cutterbar);
     cutterbar->hide();
-    mplayer->menu->addAction(tr("Cut video"), this, SLOT(showCutterbar()), QKeySequence("C"));
 
     // Add WebVideo
     webvideo = new WebVideo;
@@ -81,27 +82,28 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     connect(ui->actionBrowser_extension, &QAction::triggered, this,           &ClassicPlayer::openExtPage);
     connect(ui->actionHomepage,          &QAction::triggered, this,           &ClassicPlayer::openHomepage);
 
-    connect(mplayer, &MPlayer::paused,  ui->playButton,  &QPushButton::show);
-    connect(mplayer, &MPlayer::paused,  ui->pauseButton, &QPushButton::hide);
-    connect(mplayer, &MPlayer::played,  ui->playButton,  &QPushButton::hide);
-    connect(mplayer, &MPlayer::played,  ui->pauseButton, &QPushButton::show);
-    connect(mplayer, &MPlayer::stopped,       this, &ClassicPlayer::onStopped);
-    connect(mplayer, &MPlayer::sizeChanged,   this, &ClassicPlayer::onSizeChanged);
-    connect(mplayer, &MPlayer::lengthChanged, this, &ClassicPlayer::onLengthChanged);
-    connect(mplayer, &MPlayer::timeChanged,   this, &ClassicPlayer::onProgressChanged);
-    connect(mplayer, &MPlayer::fullScreen,    this, &ClassicPlayer::setFullScreen);
+    connect(player_core, &PlayerCore::paused,  ui->playButton,  &QPushButton::show);
+    connect(player_core, &PlayerCore::paused,  ui->pauseButton, &QPushButton::hide);
+    connect(player_core, &PlayerCore::played,  ui->playButton,  &QPushButton::hide);
+    connect(player_core, &PlayerCore::played,  ui->pauseButton, &QPushButton::show);
+    connect(player_core, &PlayerCore::stopped,       this, &ClassicPlayer::onStopped);
+    connect(player_core, &PlayerCore::sizeChanged,   this, &ClassicPlayer::onSizeChanged);
+    connect(player_core, &PlayerCore::lengthChanged, this, &ClassicPlayer::onLengthChanged);
+    connect(player_core, &PlayerCore::timeChanged,   this, &ClassicPlayer::onProgressChanged);
+    connect(player_core, &PlayerCore::fullScreen,    this, &ClassicPlayer::setFullScreen);
+    connect(player_core, &PlayerCore::cutVideo,      this, &ClassicPlayer::showCutterbar);
 
-    connect(ui->playButton,   &QPushButton::clicked,    mplayer,  &MPlayer::changeState);
-    connect(ui->pauseButton,  &QPushButton::clicked,    mplayer,  &MPlayer::changeState);
+    connect(ui->playButton,   &QPushButton::clicked,    player_core,  &PlayerCore::changeState);
+    connect(ui->pauseButton,  &QPushButton::clicked,    player_core,  &PlayerCore::changeState);
     connect(ui->stopButton,   &QPushButton::clicked,    this,     &ClassicPlayer::onStopButton);
     connect(ui->progressBar,  &QSlider::sliderPressed,  this,     &ClassicPlayer::onPBarPressed);
     connect(ui->progressBar,  &QSlider::valueChanged,   this,     &ClassicPlayer::onPBarChanged);
     connect(ui->progressBar,  &QSlider::sliderReleased, this,     &ClassicPlayer::onPBarReleased);
-    connect(ui->volumeSlider, &QSlider::valueChanged,   mplayer,  &MPlayer::setVolume);
+    connect(ui->volumeSlider, &QSlider::valueChanged,   player_core,  &PlayerCore::setVolume);
     connect(ui->volumeSlider, &QSlider::valueChanged,   this,     &ClassicPlayer::saveVolume);
     connect(ui->netButton,    &QPushButton::clicked,    webvideo, &WebVideo::show);
 
-    connect(cutterbar, &CutterBar::newFrame, mplayer,     &MPlayer::jumpTo);
+    connect(cutterbar, &CutterBar::newFrame, player_core,     &PlayerCore::jumpTo);
     connect(cutterbar, &CutterBar::finished, cutterbar,   &CutterBar::hide);
     connect(cutterbar, &CutterBar::finished, ui->toolbar, &QWidget::show);
 
@@ -110,7 +112,7 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     connect(downloader, SIGNAL(newFile(const QString&,const QString&)),
             playlist, SLOT(addFile(const QString&,const QString&)));
 
-    connect(playlist, &Playlist::fileSelected, mplayer, &MPlayer::openFile);
+    connect(playlist, &Playlist::fileSelected, player_core, &PlayerCore::openFile);
 
     ui->volumeSlider->setValue(Settings::volume);
     no_play_next = false;
@@ -145,7 +147,7 @@ void ClassicPlayer::closeEvent(QCloseEvent *e)
             return;
         }
     }
-    mplayer->stop();
+    player_core->stop();
     webvideo->close();
     transformer->close();
     e->accept();
@@ -156,7 +158,7 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
     static bool ctrl_pressed = false;
 
     // Hide/show playlist and toolbar
-    if (e->type() == QEvent::Enter && obj == mplayer && isFullScreen())
+    if (e->type() == QEvent::Enter && obj == player_core && isFullScreen())
     {
         ui->toolbar->hide();
         ui->statusBar->hide();
@@ -200,30 +202,30 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
             ctrl_pressed = true;
             return true;
         case Qt::Key_S:
-            mplayer->screenShot();
+            player_core->screenShot();
             return true;
         case Qt::Key_C:
             showCutterbar();
             return true;
         case Qt::Key_Space:
-            mplayer->changeState();
+            player_core->changeState();
             return true;
         case Qt::Key_Return:
             setFullScreen();
             return true;
         case Qt::Key_R:
-            mplayer->speedSetToDefault();
+            player_core->speedSetToDefault();
             return true;
         case Qt::Key_Left:
             if (ctrl_pressed)
-                mplayer->speedDown();
+                player_core->speedDown();
             else
                 ui->progressBar->setValue(ui->progressBar->value() - 1);
             return true;
 
         case Qt::Key_Right:
             if (ctrl_pressed)
-                mplayer->speedUp();
+                player_core->speedUp();
             else
                 ui->progressBar->setValue(ui->progressBar->value() + 1);
             return true;
@@ -262,13 +264,13 @@ void ClassicPlayer::setFullScreen()
     }
 }
 
-void ClassicPlayer::onSizeChanged(QSize &sz)
+void ClassicPlayer::onSizeChanged(const QSize &sz)
 {
     if (isFullScreen() || isMaximized())
         return;
     if (!Settings::autoResize)
         return;
-    QSize newsize(sz.width(), height() - mplayer->height() + sz.height());
+    QSize newsize(sz.width(), height() - player_core->height() + sz.height());
     QRect available = QApplication::desktop()->availableGeometry();
     if (newsize.width() > available.width() || newsize.height() > available.height())
         setGeometry(available);
@@ -284,7 +286,7 @@ void ClassicPlayer::onLengthChanged(int len)
     else //playing video
     {
         ui->progressBar->setEnabled(true);
-        ui->progressBar->setMaximum(len / MPlayer::UPDATE_FREQUENCY);
+        ui->progressBar->setMaximum(len);
     }
     activateWindow();
     raise();
@@ -292,33 +294,33 @@ void ClassicPlayer::onLengthChanged(int len)
 
 void ClassicPlayer::onPBarPressed()
 {
-    if (mplayer->state == MPlayer::STOPPING)
+    if (player_core->state == PlayerCore::STOPPING)
         return;
-    QString time = secToTime(ui->progressBar->value() * MPlayer::UPDATE_FREQUENCY);
+    QString time = secToTime(ui->progressBar->value());
     ui->statusBar->showMessage(time);
 }
 
 void ClassicPlayer::onPBarChanged(int pos)
 {
-    if (mplayer->state == MPlayer::STOPPING)
+    if (player_core->state == PlayerCore::STOPPING)
         return;
     if (ui->progressBar->isSliderDown())
-        ui->statusBar->showMessage(secToTime(ui->progressBar->value() * MPlayer::UPDATE_FREQUENCY));
+        ui->statusBar->showMessage(secToTime(ui->progressBar->value()));
     else
-        mplayer->setProgress(pos * MPlayer::UPDATE_FREQUENCY);
+        player_core->setProgress(pos);
 }
 
 void ClassicPlayer::onPBarReleased()
 {
-    if (mplayer->state == MPlayer::STOPPING)
+    if (player_core->state == PlayerCore::STOPPING)
         return;
-    mplayer->setProgress(ui->progressBar->value() * MPlayer::UPDATE_FREQUENCY);
+    player_core->setProgress(ui->progressBar->value());
     ui->statusBar->clearMessage();
 }
 
 void ClassicPlayer::onProgressChanged(int pos)
 {
-    ui->progressBar->setValue(pos / MPlayer::UPDATE_FREQUENCY);
+    ui->progressBar->setValue(pos);
 }
 
 // Save volume
@@ -331,7 +333,7 @@ void ClassicPlayer::saveVolume(int volume)
 void ClassicPlayer::onStopButton()
 {
     no_play_next = true;
-    mplayer->stop();
+    player_core->stop();
 }
 
 void ClassicPlayer::onStopped()
@@ -349,9 +351,9 @@ void ClassicPlayer::onStopped()
 // Cut video
 void ClassicPlayer::showCutterbar()
 {
-    if (mplayer->state == MPlayer::STOPPING || mplayer->state == MPlayer::TV_PLAYING || cutterbar->isVisible())
+    if (player_core->state == PlayerCore::STOPPING || player_core->state == PlayerCore::TV_PLAYING || cutterbar->isVisible())
         return;
-    QString filename = mplayer->currentFile();
+    QString filename = player_core->currentFile();
     if (filename.startsWith("http://"))
     {
         QMessageBox::warning(this, "Error", tr("Only support cutting local videos!"));
@@ -359,10 +361,10 @@ void ClassicPlayer::showCutterbar()
     }
     if (isFullScreen()) //Exit fullscreen
         setFullScreen();
-    if (mplayer->state == MPlayer::VIDEO_PLAYING) //pause
-        mplayer->changeState();
+    if (player_core->state == PlayerCore::VIDEO_PLAYING) //pause
+        player_core->changeState();
     ui->toolbar->hide();
-    cutterbar->init(filename, mplayer->getLength(), mplayer->getTime());
+    cutterbar->init(filename, player_core->getLength(), player_core->getTime());
     cutterbar->show();
 }
 

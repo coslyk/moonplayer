@@ -8,8 +8,6 @@
 #include "mylistwidget.h"
 #include <QMessageBox>
 #include <QLabel>
-#include <iostream>
-
 
 //ResLibrary
 ResLibrary *res_library = NULL;
@@ -17,7 +15,7 @@ ResLibrary *res_library = NULL;
 ResLibrary::ResLibrary(QWidget *parent) :
     QWidget(parent), ui(new Ui::ResLibrary)
 {
-    std::cout << "Initialize ResLibrary..." << std::endl;
+    printf("Initialize ResLibrary...\n");
     initResPlugins();
     if (n_resplugins == 0)
     {
