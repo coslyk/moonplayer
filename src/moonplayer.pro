@@ -6,7 +6,6 @@
 
 QT             += core gui network xml widgets
 unix:!macx: QT += dbus
-macx: QT       += multimedia multimediawidgets
 
 macx:  TARGET = MoonPlayer
 !macx: TARGET = moonplayer
@@ -36,8 +35,8 @@ SOURCES += main.cpp\
     classicplayer.cpp \
     plugin.cpp
 !macx: SOURCES += playercore.cpp
-macx: SOURCES += playercore_mac.cpp
-unix:!macx:  SOURCES += danmakuloader.cpp \
+macx: SOURCES += playercore_vlc.cpp
+unix: SOURCES += danmakuloader.cpp \
     danmakudelaygetter.cpp \
     yougetbridge.cpp
 
@@ -74,7 +73,7 @@ HEADERS  += player.h\
     classicplayer.h \
     playercore.h \
     plugin.h
-unix:!macx: HEADERS += danmakuloader.h \
+unix: HEADERS += danmakuloader.h \
     danmakudelaygetter.h \
     yougetbridge.h
 
@@ -117,9 +116,11 @@ unix:!macx {
 }
 
 macx {
+    VLCFILES.files = /Applications/VLC.app/Contents/MacOS/lib /Applications/VLC.app/Contents/MacOS/plugins
+    VLCFILES.path = Contents/MacOS
     RESFILES.files = moonplayer_zh_CN.qm skins plugins
     RESFILES.path = Contents/Resources
-    QMAKE_BUNDLE_DATA += RESFILES
+    QMAKE_BUNDLE_DATA += RESFILES VLCFILES
     QMAKE_INFO_PLIST = Info.plist
     ICON = moonplayer.icns
 }
@@ -129,8 +130,11 @@ win32: RC_FILE = icon.rc
 unix:!macx: CONFIG += link_pkgconfig
 unix:!macx: PKGCONFIG += python2
 
-macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/Headers
-macx: LIBS += -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config -lpython2.7 -ldl -framework CoreFoundation
+macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/Headers \
+    /Applications/VLC.app/Contents/MacOS/include
+macx: LIBS += -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config \
+    -lpython2.7 -ldl -framework CoreFoundation \
+    -L/Applications/VLC.app/Contents/MacOS/lib -lvlc -lvlccore
 
 win32: INCLUDEPATH += C:\\Python27\\include
 win32: LIBS += C:\\Python27\\libs\\python27.lib

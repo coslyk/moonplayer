@@ -18,7 +18,7 @@
 #include <QNetworkProxy>
 #include <QDir>
 #include <QTimer>
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
 #include "danmakudelaygetter.h"
 #include "yougetbridge.h"
 #endif
@@ -370,7 +370,7 @@ static PyObject *play(PyObject *, PyObject *args)
 
 static PyObject *use_fallback_parser(PyObject *, PyObject *args)
 {
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
     const char *url, *danmaku_url = NULL;
     int download;
     if (!PyArg_ParseTuple(args, "si|s", &url, &download, &danmaku_url))

@@ -138,7 +138,11 @@ Player::Player(QWidget *parent) :
 
     connect(player_core, SIGNAL(played()), this, SLOT(setIconToPause()));
     connect(player_core, SIGNAL(paused()), this, SLOT(setIconToPlay()));
+#ifdef Q_OS_MAC
+    connect(player_core, SIGNAL(stopped()), this, SLOT(onStopped()), Qt::QueuedConnection);
+#else
     connect(player_core, SIGNAL(stopped()), this, SLOT(onStopped()));
+#endif
     connect(player_core, SIGNAL(timeChanged(int)), this, SLOT(onProgressChanged(int)));
     connect(player_core, SIGNAL(lengthChanged(int)), this, SLOT(onLengthChanged(int)));
     connect(player_core, SIGNAL(fullScreen()), this, SLOT(setFullScreen()));
@@ -329,14 +333,14 @@ bool Player::eventFilter(QObject *obj, QEvent *e)
             if (ctrl_pressed)
                 player_core->speedDown();
             else
-                ui->progressBar->setValue(ui->progressBar->value() - 1);
+                ui->progressBar->setValue(ui->progressBar->value() - 5);
             return true;
 
         case Qt::Key_Right:
             if (ctrl_pressed)
                 player_core->speedUp();
             else
-                ui->progressBar->setValue(ui->progressBar->value() + 1);
+                ui->progressBar->setValue(ui->progressBar->value() + 5);
             return true;
 
         case Qt::Key_Up:

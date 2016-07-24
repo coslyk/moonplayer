@@ -5,6 +5,7 @@
 #include "settings_network.h"
 #include "settings_plugins.h"
 #include "webvideo.h"
+#include <QApplication>
 #include <QDir>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -19,6 +20,14 @@ YouGetBridge::YouGetBridge(QObject *parent) : QObject(parent)
 {
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)),this, SLOT(onFinished()));
+#ifdef Q_OS_MAC
+    QDir dir("/Library/Frameworks/Python.framework/Versions");
+    dir.cd(dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)[0]);
+    programFile = dir.absolutePath() + "/bin/you-get";
+    QStringList envs = QProcess::systemEnvironment();
+    envs << "LC_CTYPE=en_US.UTF-8";
+    process->setEnvironment(envs);
+#endif
 }
 
 void YouGetBridge::parse(const QString &url, bool download, const QString &danmaku)
@@ -35,7 +44,21 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &danma
     if (!Settings::proxy.isEmpty())
         args << "--http-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
     args << "--json" << url;
+#ifdef Q_OS_MAC
+    if (!QFile::exists(programFile))
+    {
+        QMessageBox::warning(NULL, "Error",
+                             "Cannot parse, because you-get is not installed.\n\n"
+                             "Please:\n\n"
+                             "1. Download and install python3 from python.org (If python3 is not installed)\n\n"
+                             "2. Run the following command on Terminal:\n\n"
+                             "    pip3 install you-get");
+        return;
+    }
+    process->start(programFile, args, QProcess::ReadOnly);
+#else
     process->start("you-get", args, QProcess::ReadOnly);
+#endif
 }
 
 void YouGetBridge::onFinished()

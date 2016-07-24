@@ -86,7 +86,11 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     connect(player_core, &PlayerCore::paused,  ui->pauseButton, &QPushButton::hide);
     connect(player_core, &PlayerCore::played,  ui->playButton,  &QPushButton::hide);
     connect(player_core, &PlayerCore::played,  ui->pauseButton, &QPushButton::show);
+#ifdef Q_OS_MAC
+    connect(player_core, &PlayerCore::stopped, this, &ClassicPlayer::onStopped, Qt::QueuedConnection);
+#else
     connect(player_core, &PlayerCore::stopped,       this, &ClassicPlayer::onStopped);
+#endif
     connect(player_core, &PlayerCore::sizeChanged,   this, &ClassicPlayer::onSizeChanged);
     connect(player_core, &PlayerCore::lengthChanged, this, &ClassicPlayer::onLengthChanged);
     connect(player_core, &PlayerCore::timeChanged,   this, &ClassicPlayer::onProgressChanged);
@@ -220,14 +224,14 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
             if (ctrl_pressed)
                 player_core->speedDown();
             else
-                ui->progressBar->setValue(ui->progressBar->value() - 1);
+                ui->progressBar->setValue(ui->progressBar->value() - 5);
             return true;
 
         case Qt::Key_Right:
             if (ctrl_pressed)
                 player_core->speedUp();
             else
-                ui->progressBar->setValue(ui->progressBar->value() + 1);
+                ui->progressBar->setValue(ui->progressBar->value() + 5);
             return true;
 
         case Qt::Key_Up:

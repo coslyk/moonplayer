@@ -15,6 +15,9 @@ private:
     QProcess *process;
     QString danmaku;
     bool download;
+#ifdef Q_OS_MAC
+    QString programFile;
+#endif
 
 private slots:
     void onFinished(void);

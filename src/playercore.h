@@ -12,15 +12,10 @@ class QLabel;
 class DanmakuLoader;
 #endif
 #ifdef Q_OS_MAC
-#include <QMediaPlayer>
-#include <QVideoWidget>
+#include <vlc/vlc.h>
 #endif
 
-#ifdef Q_OS_MAC
-class PlayerCore : public QVideoWidget
-#else
 class PlayerCore : public QWidget
-#endif
 {
     Q_OBJECT
 
@@ -48,7 +43,7 @@ public slots:
     void changeState(void);
     void jumpTo(int pos);
     void setProgress(int pos);
-    void setVolume(int percentage);
+    void setVolume(int volume);
     void openFile(const QString &file, const QString &danmaku = QString());
     void screenShot(void);
     void speedUp(void);
@@ -118,24 +113,39 @@ private:
     void writeToMplayer(const QByteArray &msg);
 
 #else
+
 public:
-    inline int getTime() {return mediaPlayer->position() / 1000;}
-    inline int getLength() {return mediaPlayer->duration() / 1000;}
-    inline QString currentFile() {return currentVideo;}
+    inline int getTime() {return libvlc_media_player_get_position(vlcPlayer);}
+    inline int getLength() {return libvlc_media_player_get_length(vlcPlayer);}
+    inline QString currentFile() {return file;}
     inline QWidget *getLayer() {return NULL;}
 
+signals:
+    void playNext(const QString &file, const QString &danmaku);
+    void stopNeeded(void);
+
+protected:
+    void closeEvent(QCloseEvent *event);
+
 private:
-    QMediaPlayer *mediaPlayer;
-    QString currentVideo;
-    QSize currentRelution;
-    int currentPos;
-    bool switchingVideo;
+    QString file;
+    QString danmaku;
+    QTimer *timer;
+    libvlc_event_manager_t *eventManager;
+    libvlc_instance_t *vlcInstance;
+    libvlc_media_player_t *vlcPlayer;
+    libvlc_media_t *vlcMedia;
+    bool next_waited;
+
+    static void onPaused(const libvlc_event_t *, PlayerCore *c);
+    static void onPlayed(const libvlc_event_t *, PlayerCore *c);
+    static void onStopped(const libvlc_event_t *, PlayerCore *c);
+    static void onEndReached(const libvlc_event_t *, PlayerCore *c);
+    static void onLengthChanged(const libvlc_event_t *, PlayerCore *c);
+    static void onSizeChanged(const libvlc_event_t *, PlayerCore *c);
 
 private slots:
-    void onDurationChanged(qint64 duration);
-    void onMetaDataChanged(const QString &key, const QVariant &value);
-    void onPositionChanged(qint64 position);
-    void onStateChanged(QMediaPlayer::State state);
+    void updateProgress(void);
 #endif
 };
 
