@@ -77,7 +77,7 @@ void ResLibrary::reSearch()
     current_page = 1;
     ui->pageSpinBox->setValue(1);
     ui->prevPushButton->setEnabled(false);
-    resplugins[current_plugin]->search(current_tag, current_country, 1);
+    resplugins[current_plugin]->explore(current_tag, current_country, 1);
 }
 
 void ResLibrary::keySearch()
@@ -92,7 +92,7 @@ void ResLibrary::keySearch()
     current_page = 1;
     ui->pageSpinBox->setValue(1);
     ui->prevPushButton->setEnabled(false);
-    resplugins[current_plugin]->searchByKey(current_key, 1);
+    resplugins[current_plugin]->search(current_key, 1);
 }
 
 void ResLibrary::onItemDoubleClicked(QListWidgetItem *item)
@@ -122,9 +122,9 @@ void ResLibrary::onPageChanged(int newPage)
         else
             ui->prevPushButton->setEnabled(true);
         if (current_key.isEmpty())
-            resplugins[current_plugin]->search(current_tag, current_country, newPage);
+            resplugins[current_plugin]->explore(current_tag, current_country, newPage);
         else
-            resplugins[current_plugin]->searchByKey(current_key, newPage);
+            resplugins[current_plugin]->search(current_key, newPage);
     }
 }
 

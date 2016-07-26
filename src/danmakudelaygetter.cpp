@@ -22,7 +22,7 @@ void DanmakuDelayGetter::start()
         args << "-nosound" << "-vc" << "dummy" << "-vo" << "null" << "-identify" << urls.first();
     else
         args << "-nosound" << "-vc" << "black" << "-vo" << "null" << "-endpos" << "0:01" << "-identify" << urls.first();
-    process->start("player_core", args);
+    process->start("mplayer", args);
 }
 
 void DanmakuDelayGetter::onFinished()

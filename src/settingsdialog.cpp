@@ -37,6 +37,7 @@ int Settings::durationScrolling;
 int Settings::durationStill;
 bool Settings::framedrop;
 bool Settings::doubleBuffer;
+bool Settings::fixDanmakuNotShown;
 bool Settings::fixLastFrame;
 bool Settings::ffodivxvdpau;
 bool Settings::autoResize;
@@ -114,6 +115,7 @@ void SettingsDialog::loadSettings()
     ui->fontSizeSpinBox->setValue(danmakuSize);
     ui->dmSpinBox->setValue(durationScrolling);
     ui->dsSpinBox->setValue(durationStill);
+    ui->fixDanmakuShownCheckBox->setChecked(fixDanmakuNotShown);
 
     switch (quality)
     {
@@ -173,6 +175,7 @@ void SettingsDialog::saveSettings()
     danmakuSize = ui->fontSizeSpinBox->value();
     durationScrolling = ui->dmSpinBox->value();
     durationStill = ui->dsSpinBox->value();
+    fixDanmakuNotShown = ui->fixDanmakuShownCheckBox->isChecked();
 
     if (proxy.isEmpty())
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
@@ -220,6 +223,7 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Danmaku/size", danmakuSize);
     settings.setValue("Danmaku/dm", durationScrolling);
     settings.setValue("Danmaku/ds", durationStill);
+    settings.setValue("Danmaku/fix_not_shown", fixDanmakuNotShown);
     delete ui;
 }
 
@@ -287,6 +291,7 @@ void initSettings()
     danmakuSize = settings.value("Danmaku/size", 0).toInt();
     durationScrolling = settings.value("Danmaku/dm", 0).toInt();
     durationStill = settings.value("Danmaku/ds", 6).toInt();
+    fixDanmakuNotShown = settings.value("Danmaku/fix_not_shown", false).toBool();
 #ifdef Q_OS_MAC
     uiScale = 1.0;
 #else

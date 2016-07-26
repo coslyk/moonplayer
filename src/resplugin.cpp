@@ -66,11 +66,12 @@ ResPlugin::ResPlugin(const QString &pluginName)
 
     //get search() and load_item()
     searchFunc = PyObject_GetAttrString(module, "search");
+    exploreFunc = PyObject_GetAttrString(module, "explore");
     loadItemFunc = PyObject_GetAttrString(module, "load_item");
-    if (searchFunc == NULL || loadItemFunc == NULL)
+    if (searchFunc == NULL || loadItemFunc == NULL || exploreFunc == NULL)
     {
         show_pyerr();
-        exit(-1);
+        exit(EXIT_FAILURE);
     }
 
     //get tags
@@ -78,7 +79,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     if (tags == NULL)
     {
         show_pyerr();
-        exit(-1);
+        exit(EXIT_FAILURE);
     }
     tagsList = PyList_AsQStringList(tags);
     Py_DecRef(tags);
@@ -88,31 +89,27 @@ ResPlugin::ResPlugin(const QString &pluginName)
     if (countries == NULL)
     {
         show_pyerr();
-        exit(-1);
+        exit(EXIT_FAILURE);
     }
     countriesList = PyList_AsQStringList(countries);
     Py_DecRef(countries);
 }
 
-void ResPlugin::search(const QString &tag, const QString &country, int page)
+void ResPlugin::explore(const QString &tag, const QString &country, int page)
 {
-    PyObject *dict = PyDict_New();
-    PyDict_SetItemString(dict, "tag", PyString_FromString(tag.toUtf8().constData()));
-    PyDict_SetItemString(dict, "country", PyString_FromString(country.toUtf8().constData()));
-    PyDict_SetItemString(dict, "page", PyInt_FromLong(page));
-    PyObject *retVal = PyObject_CallFunction(searchFunc, "O", dict);
+    PyObject *retVal = PyObject_CallFunction(exploreFunc, "ssi",
+                                             tag.toUtf8().constData(),
+                                             country.toUtf8().constData(),
+                                             page);
     if (retVal)
         Py_DecRef(retVal);
     else
         show_pyerr();
 }
 
-void ResPlugin::searchByKey(const QString &key, int page)
+void ResPlugin::search(const QString &key, int page)
 {
-    PyObject *dict = PyDict_New();
-    PyDict_SetItemString(dict, "key", PyString_FromString(key.toUtf8().constData()));
-    PyDict_SetItemString(dict, "page", PyInt_FromLong(page));
-    PyObject *retVal = PyObject_CallFunction(searchFunc, "O", dict);
+    PyObject *retVal = PyObject_CallFunction(searchFunc, "si", key.toUtf8().constData(), page);
     if (retVal)
         Py_DecRef(retVal);
     else

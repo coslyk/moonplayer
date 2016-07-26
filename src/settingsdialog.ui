@@ -541,17 +541,17 @@
        <item row="1" column="1" colspan="4">
         <widget class="QPushButton" name="fontPushButton"/>
        </item>
-       <item row="2" column="0" colspan="3">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Duration of scrolling comment display:</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="4">
         <widget class="QSpinBox" name="dmSpinBox">
          <property name="toolTip">
           <string>0 means auto</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Duration of scrolling comment display:</string>
          </property>
         </widget>
        </item>
@@ -569,7 +569,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="2">
+       <item row="5" column="2">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -586,6 +586,13 @@
         <widget class="QLabel" name="label_10">
          <property name="text">
           <string>Font:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="5">
+        <widget class="QCheckBox" name="fixDanmakuShownCheckBox">
+         <property name="text">
+          <string>Fix: Cannot show danmaku in some video clips</string>
          </property>
         </widget>
        </item>

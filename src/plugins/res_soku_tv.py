@@ -17,22 +17,20 @@ countries_table = {'全部': 0,    '大陆': 1001, '韩国': 1003, '香港': 100
                    '泰国': 1007, '台湾': 1008, '美国': 1009, '其他': 1111}
 countries = ['全部', '大陆', '韩国', '香港', '泰国', '台湾', '美国', '其他']
 
-def search(args):
-    if 'key' in args:
-        url = 'http://www.soku.com/v?keyword=' + args['key']
-        moonplayer.get_url(url, search_by_key_cb, None)
-        return
-    tag = args['tag']
+def explore(tag, country, page):
     tag_id = tags_table[tag]
-    country = args['country']
     country_id = countries_table[country]
     url = 'http://www.soku.com/channel/teleplaylist_0_%i_%i_1_%i.html' % \
-           (tag_id, country_id, args['page'])
+           (tag_id, country_id, page)
+    moonplayer.get_url(url, explore_cb, None)
+    
+def search(key, page):
+    url = 'http://www.soku.com/v?keyword=' + key
     moonplayer.get_url(url, search_cb, None)
 
 
 pic_re = re.compile(r'<img\s[^>]*src="(http://g\d\.ykimg\.com/\w+?)"')
-def search_by_key_cb(content, data):
+def search_cb(content, data):
     content = content.replace('\n', '')
     result = []
     pics = []
@@ -46,7 +44,7 @@ def search_by_key_cb(content, data):
     moonplayer.res_show(result)
 
 pic2_re = re.compile(r'<img original="(http://g\d.ykimg.com/.+?)"\s[^>]*alt="(.+?)"')
-def search_cb(page, data):
+def explore_cb(page, data):
     name2pic = {}
     result = []
     # Read all pic urls

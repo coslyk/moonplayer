@@ -4,7 +4,7 @@
 import moonplayer
 import re
 from moonplayer_utils import list_links
-from res_soku_tv import search_cb, search_by_key_cb, load_item
+from res_soku_tv import search_cb, explore_cb, load_item
 
 res_name = '电影 - 全网'
 
@@ -18,15 +18,13 @@ countries_table = {'全部': 0,    '香港': 2004, '美国': 2002, '大陆': 200
                    '韩国': 2007, '台湾': 2006, '日本': 2008, '其他': 2111}
 countries = ['全部', '香港', '美国', '大陆', '韩国', '台湾', '日本', '其他']
 
-def search(args):
-    if 'key' in args:
-        url = 'http://www.soku.com/v?keyword=' + args['key']
-        moonplayer.get_url(url, search_by_key_cb, None)
-        return
-    tag = args['tag']
+def explore(tag, country, page):
     tag_id = tags_table[tag]
-    country = args['country']
     country_id = countries_table[country]
     url = 'http://www.soku.com/channel/movielist_0_%i_%i_1_%i.html' % \
-           (tag_id, country_id, args['page'])
+           (tag_id, country_id, page)
+    moonplayer.get_url(url, explore_cb, None)
+
+def search(key, page):
+    url = 'http://www.soku.com/v?keyword=' + key
     moonplayer.get_url(url, search_cb, None)

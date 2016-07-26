@@ -1,6 +1,7 @@
 #include "playercore.h"
 #include "settings_video.h"
 #include "settings_audio.h"
+#include "settings_danmaku.h"
 #include "settings_network.h"
 #include "utils.h"
 #include <QProcess>
@@ -626,7 +627,12 @@ void PlayerCore::switchDanmaku()
     {
         writeToMplayer("sub_select 1\n");
         if (danmaku.contains(" http://")) //danmaku has delay
-            writeToMplayer("sub_delay " + danmaku.section(' ', 0, 0).toUtf8() + " 1\n");
+        {
+            if (Settings::fixDanmakuNotShown)
+                writeToMplayer("sub_delay -" + danmaku.section(' ', 0, 0).toUtf8() + " 1\n");
+            else
+                writeToMplayer("sub_delay " + danmaku.section(' ', 0, 0).toUtf8() + " 1\n");
+        }
     }
     else //close danmaku
         writeToMplayer("sub_select -1\n");

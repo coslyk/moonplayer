@@ -84,7 +84,9 @@ private:
     QWidget* layer;  //Window for video output
     QMenu* menu;
     QLabel* msgLabel;  //Show catching message
+#ifdef Q_OS_LINUX
     DanmakuLoader* danmakuLoader;
+#endif
 
     QAction* leftChannelAction;
     QAction* rightChannelAction;
@@ -115,7 +117,7 @@ private:
 #else
 
 public:
-    inline int getTime() {return libvlc_media_player_get_position(vlcPlayer);}
+    inline int getTime() {return libvlc_media_player_get_time(vlcPlayer) / 1000;}
     inline int getLength() {return libvlc_media_player_get_length(vlcPlayer);}
     inline QString currentFile() {return file;}
     inline QWidget *getLayer() {return NULL;}

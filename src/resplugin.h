@@ -8,8 +8,8 @@ class ResPlugin
 {
 public:
     ResPlugin(const QString &pluginName);
-    void search(const QString &tag, const QString &country, int page);
-    void searchByKey(const QString &key, int page);
+    void explore(const QString &tag, const QString &country, int page);
+    void search(const QString &key, int page);
     void loadItem(const QByteArray &flag);
     inline QString &getName(){return name;}
 
@@ -20,6 +20,7 @@ private:
     QString name;
     PyObject *module;
     PyObject *searchFunc;
+    PyObject *exploreFunc;
     PyObject *loadItemFunc;
 };
 extern ResPlugin **resplugins;

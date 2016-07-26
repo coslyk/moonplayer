@@ -9,6 +9,7 @@ extern QString danmakuFont;
 extern int danmakuSize;
 extern int durationScrolling;
 extern int durationStill;
+extern bool fixDanmakuNotShown;
 }
 
 #endif // SETTINGS_DANMAKU

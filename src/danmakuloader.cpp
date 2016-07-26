@@ -1,6 +1,8 @@
 #include "danmakuloader.h"
 #include "accessmanager.h"
 #include "settings_danmaku.h"
+#include "settings_player.h"
+#include <QDir>
 #include <QProcess>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -42,19 +44,8 @@ void DanmakuLoader::onXmlDownloaded()
 {
     if (reply->error() == QNetworkReply::NoError)
     {
-        QFile file("/tmp/moonplayer_danmaku");
-        if (!file.open(QFile::WriteOnly))
-        {
-            QMessageBox::warning(NULL, "Error", tr("Cannot parse danmaku!"));
-            reply->deleteLater();
-            reply = NULL;
-            return;
-        }
-        file.write(reply->readAll());
-        file.close();
-
         QStringList args;
-        args << "/usr/share/moonplayer/danmaku2ass.py" << "-o" << "/tmp/moonplayer_danmaku.ass";
+        args << QDir(Settings::path).filePath("danmaku2ass.py") << "-o" << QDir::temp().filePath("moonplayer_danmaku.ass");
         args << "-s" << QString().sprintf("%dx%d", width, height);  //Ratio
 
         // Font
@@ -89,10 +80,11 @@ void DanmakuLoader::onXmlDownloaded()
         // Alpha
         args << "-a" << QString::number(Settings::danmakuAlpha);
 
-        args << "/tmp/moonplayer_danmaku";
+        args << "/dev/stdin";
         process->start("python3", args);
         process->waitForStarted(-1);
         process->write(reply->readAll());
+        process->closeWriteChannel();
     }
     reply->deleteLater();
     reply = NULL;
@@ -101,5 +93,5 @@ void DanmakuLoader::onXmlDownloaded()
 void DanmakuLoader::onProcessFinished()
 {
     qDebug("%s", process->readAllStandardError().constData());
-    emit finished("/tmp/moonplayer_danmaku.ass");
+    emit finished(QDir::temp().filePath("moonplayer_danmaku.ass"));
 }
