@@ -10,6 +10,9 @@
     <height>412</height>
    </rect>
   </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
    <string>Moon Player</string>
   </property>
@@ -31,7 +34,11 @@
      <number>0</number>
     </property>
     <item>
-     <layout class="QHBoxLayout" name="playerLayout"/>
+     <layout class="QHBoxLayout" name="playerLayout">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+     </layout>
     </item>
     <item>
      <widget class="QWidget" name="toolbar" native="true">
@@ -130,7 +137,8 @@
           <enum>Qt::NoFocus</enum>
          </property>
          <property name="icon">
-          <iconset theme="applications-internet"/>
+          <iconset theme="applications-internet">
+           <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="flat">
           <bool>true</bool>

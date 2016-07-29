@@ -34,6 +34,8 @@ public:
 
 protected:
     void closeEvent(QCloseEvent* e);
+    void dragEnterEvent(QDragEnterEvent *e);
+    void dropEvent(QDropEvent *e);
     bool eventFilter(QObject *, QEvent *);
 
 private:

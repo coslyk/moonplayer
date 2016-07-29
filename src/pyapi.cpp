@@ -442,14 +442,15 @@ static PyObject *show_detail(PyObject *, PyObject *args)
  *******************/
 
 static PyMethodDef methods[] = {
-    {"get_url",     get_url,     METH_VARARGS, "Get url"},
-    {"warn",        warn,        METH_VARARGS, "Show warning message"},
-    {"question",    question,    METH_VARARGS, "Show a question dialog"},
-    {"show_list",   show_list,   METH_VARARGS, "Show searching result on the list"},
-    {"download",    download,    METH_VARARGS, "Download file"},
-    {"play",        play,        METH_VARARGS, "Play online"},
-    {"res_show",    res_show,    METH_VARARGS, "Show resources result"},
-    {"show_detail", show_detail, METH_VARARGS, "Show detail"},
+    {"download_page", get_url,     METH_VARARGS, "Download page"},
+    {"get_url",       get_url,     METH_VARARGS, "Download page (Obsolete method)"},
+    {"warn",          warn,        METH_VARARGS, "Show warning message"},
+    {"question",      question,    METH_VARARGS, "Show a question dialog"},
+    {"show_list",     show_list,   METH_VARARGS, "Show searching result on the list"},
+    {"download",      download,    METH_VARARGS, "Download file"},
+    {"play",          play,        METH_VARARGS, "Play online"},
+    {"res_show",      res_show,    METH_VARARGS, "Show resources result"},
+    {"show_detail",   show_detail, METH_VARARGS, "Show detail"},
     {"use_fallback_parser",   use_fallback_parser,   METH_VARARGS, "Use fallback parser"},
     {"download_with_danmaku", download_with_danmaku, METH_VARARGS, "Download file with danmaku"},
     {NULL, NULL, 0, NULL}

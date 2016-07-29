@@ -13,7 +13,9 @@
 #include "webvideo.h"
 #include <QDesktopServices>
 #include <QDesktopWidget>
+#include <QFileInfo>
 #include <QMessageBox>
+#include <QMimeData>
 #include <QMouseEvent>
 
 ClassicPlayer::ClassicPlayer(QWidget *parent) :
@@ -244,6 +246,34 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
         }
     }
     return false;
+}
+
+void ClassicPlayer::dragEnterEvent(QDragEnterEvent *e)
+{
+    if (e->mimeData()->hasUrls())
+        e->acceptProposedAction();
+}
+
+void ClassicPlayer::dropEvent(QDropEvent *e)
+{
+    QList<QUrl> urls = e->mimeData()->urls();
+    bool first = true;
+    foreach (QUrl url, urls) {
+        if (url.isLocalFile())
+        {
+            QString file = url.toLocalFile();
+            if (first)
+            {
+                playlist->addFileAndPlay(QFileInfo(file).fileName(), file);
+                first = false;
+            }
+            else
+                playlist->addFile(QFileInfo(file).fileName(), file);
+        }
+        else if (!url.scheme().isEmpty())
+            playlist->addUrl(url.toString());
+    }
+    e->accept();
 }
 
 // Full screen

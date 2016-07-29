@@ -12,6 +12,7 @@
 #include "skin.h"
 #include "utils.h"
 #include "cutterbar.h"
+#include <QDebug>
 #include <QDir>
 #include <QMenu>
 #include <QCloseEvent>
@@ -24,6 +25,7 @@
 #include <QUrl>
 #include <QListWidget>
 #include <QMessageBox>
+#include <QMimeData>
 #include <QCoreApplication>
 #include <QLabel>
 #ifdef Q_OS_WIN
@@ -202,6 +204,34 @@ void Player::closeEvent(QCloseEvent* e)
     player_core->stop();
     webvideo->close();
     transformer->close();
+    e->accept();
+}
+
+void Player::dragEnterEvent(QDragEnterEvent *e)
+{
+    if (e->mimeData()->hasUrls())
+        e->acceptProposedAction();
+}
+
+void Player::dropEvent(QDropEvent *e)
+{
+    QList<QUrl> urls = e->mimeData()->urls();
+    bool first = true;
+    foreach (QUrl url, urls) {
+        if (url.isLocalFile())
+        {
+            QString file = url.toLocalFile();
+            if (first)
+            {
+                playlist->addFileAndPlay(QFileInfo(file).fileName(), file);
+                first = false;
+            }
+            else
+                playlist->addFile(QFileInfo(file).fileName(), file);
+        }
+        else if (!url.scheme().isEmpty())
+            playlist->addUrl(url.toString());
+    }
     e->accept();
 }
 
