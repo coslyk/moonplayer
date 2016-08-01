@@ -83,6 +83,7 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     connect(ui->actionSettings,          &QAction::triggered, settingsDialog, &SettingsDialog::exec);
     connect(ui->actionBrowser_extension, &QAction::triggered, this,           &ClassicPlayer::openExtPage);
     connect(ui->actionHomepage,          &QAction::triggered, this,           &ClassicPlayer::openHomepage);
+    connect(ui->actionContribute,        &QAction::triggered, this,           &ClassicPlayer::openContributePage);
 
     connect(player_core, &PlayerCore::paused,  ui->playButton,  &QPushButton::show);
     connect(player_core, &PlayerCore::paused,  ui->pauseButton, &QPushButton::hide);
@@ -412,6 +413,13 @@ void ClassicPlayer::openHomepage()
 //open extension page
 void ClassicPlayer::openExtPage()
 {
-    static QUrl url("https://github.com/coslyk/moonplayer/wiki/BroswerExtensionZH");
+    static QUrl url("https://github.com/coslyk/moonplayer/wiki/BroswerExtension");
+    QDesktopServices::openUrl(url);
+}
+
+//open contribute page
+void ClassicPlayer::openContributePage()
+{
+    static QUrl url("https://github.com/coslyk/moonplayer/wiki/Contribute");
     QDesktopServices::openUrl(url);
 }

@@ -23,8 +23,8 @@ def explore(tag, country, page):
     country_id = countries_table[country]
     url = 'http://www.soku.com/channel/movielist_0_%i_%i_1_%i.html' % \
            (tag_id, country_id, page)
-    moonplayer.get_url(url, explore_cb, None)
+    moonplayer.download_page(url, explore_cb, None)
 
 def search(key, page):
     url = 'http://www.soku.com/v?keyword=' + key
-    moonplayer.get_url(url, search_cb, None)
+    moonplayer.download_page(url, search_cb, None)

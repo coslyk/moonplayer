@@ -116,7 +116,9 @@ Player::Player(QWidget *parent) :
     menu->addAction(tr("Settings"), this, SLOT(onSetButton()));
     menu->addSeparator();
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
-    menu->addAction(tr("Homepage"), this, SLOT(openHomepage()));
+    QMenu *aboutMenu = menu->addMenu(tr("About"));
+    aboutMenu->addAction(tr("Contribute"), this, SLOT(openContributePage()));
+    aboutMenu->addAction(tr("Homepage"), this, SLOT(openHomepage()));
 
     //Add time show
     timeShow = new QLabel(player_core);
@@ -464,7 +466,14 @@ void Player::openHomepage()
 //open extension page
 void Player::openExtPage()
 {
-    static QUrl url("https://github.com/coslyk/moonplayer/wiki/BroswerExtensionZH");
+    static QUrl url("https://github.com/coslyk/moonplayer/wiki/BroswerExtension");
+    QDesktopServices::openUrl(url);
+}
+
+//open contribute page
+void Player::openContributePage()
+{
+    static QUrl url("https://github.com/coslyk/moonplayer/wiki/Contribute");
     QDesktopServices::openUrl(url);
 }
 

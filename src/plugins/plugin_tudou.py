@@ -28,7 +28,7 @@ name_re = re.compile(r'kw:\s*[\'"]([^\'"]+)')
 vcode_re = re.compile(r'vcode:\s*[\'"]([^\'"]+)')
 class Parser(object):
     def feed(self, url, options):
-        moonplayer.get_url(url, self.parse_cb, options)
+        moonplayer.download_page(url, self.parse_cb, options)
         
     def parse_cb(self, page, options):
         #page = content.decode('GBK').encode('UTF-8')
@@ -72,7 +72,7 @@ class Parser(object):
                 self.keys = vlist[i]
                 self.result = []
                 url = 'http://v2.tudou.com/f?id=' + self.keys[0]
-                moonplayer.get_url(url, self.parse_keys, options)
+                moonplayer.download_page(url, self.parse_keys, options)
                 return
             i -= 1
         moonplayer.warn('Fail!')
@@ -85,7 +85,7 @@ class Parser(object):
         i += 1
         if i < len(self.keys):
             url = 'http://v2.tudou.com/f?id=' + self.keys[i]
-            moonplayer.get_url(url, self.parse_keys, options)
+            moonplayer.download_page(url, self.parse_keys, options)
         elif options & moonplayer.OPT_DOWNLOAD:
             if len(self.result) == 2:
                 moonplayer.download(self.result)

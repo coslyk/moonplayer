@@ -79,6 +79,7 @@ private slots:
     void onStopButton(void);
     void onSetButton(void);
     void onSaveVolume(int volume);
+    void openContributePage(void);
     void openExtPage(void);
     void openHomepage(void);
     void setFullScreen(void);

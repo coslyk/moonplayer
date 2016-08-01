@@ -14,12 +14,12 @@ def parse(url, options):
         url += '&format=super'
     elif options & moonplayer.OPT_QL_HIGH:
         url += '&format=high'
-    moonplayer.get_url(url, parse_cb, (options, origin_url))
+    moonplayer.download_page(url, parse_cb, (options, origin_url))
     
 def parse_cb(page, data):
     options, url = data
     result = parse_flvcd_page(page, None)
-    moonplayer.get_url(url, parse_danmaku_cb, (options, result, url))
+    moonplayer.download_page(url, parse_danmaku_cb, (options, result, url))
     
         
 cid_re = re.compile(r'''data-vid=['"](\d+)['"]''')

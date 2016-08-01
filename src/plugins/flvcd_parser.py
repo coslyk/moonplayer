@@ -14,7 +14,7 @@ def parse(url, options):
         url += '&format=super'
     elif options & moonplayer.OPT_QL_HIGH:
         url += '&format=high'
-    moonplayer.get_url(url, parse_cb, (options, origin_url))
+    moonplayer.download_page(url, parse_cb, (options, origin_url))
     
 ## Parse videos
 cantonese_re = re.compile(r'''<a [^>]*href=['"](.+?_lang=1.*?)['"]''')
@@ -28,7 +28,7 @@ def parse_cb(page, data):
             if not url.startswith('http://'):
                 url = 'http://www.flvcd.com/' + url
             url += '&go=1'
-            moonplayer.get_url(url, parse_cb, data)
+            moonplayer.download_page(url, parse_cb, data)
             return
     result = parse_flvcd_page(page, None)
     if len(result) == 0:

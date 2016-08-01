@@ -181,6 +181,7 @@
      <string>About(&amp;A)</string>
     </property>
     <addaction name="actionBrowser_extension"/>
+    <addaction name="actionContribute"/>
     <addaction name="actionHomepage"/>
    </widget>
    <addaction name="menuOpen"/>
@@ -318,6 +319,11 @@
   <action name="actionHomepage">
    <property name="text">
     <string>Homepage</string>
+   </property>
+  </action>
+  <action name="actionContribute">
+   <property name="text">
+    <string>Contribute</string>
    </property>
   </action>
  </widget>

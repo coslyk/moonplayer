@@ -8,7 +8,7 @@ searcher_name = '全网搜索'
 
 def search(keyword, page):
     url = 'http://www.soku.com/v?keyword=%s&type=0&ext=2&noqc=&curpage=%i' % (keyword, page)
-    moonplayer.get_url(url, search_cb, None)
+    moonplayer.download_page(url, search_cb, None)
     
 def search_cb(content, data):
     result = list_links(content, 'http://www.soku.com/u?url=')

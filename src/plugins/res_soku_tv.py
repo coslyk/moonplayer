@@ -22,11 +22,11 @@ def explore(tag, country, page):
     country_id = countries_table[country]
     url = 'http://www.soku.com/channel/teleplaylist_0_%i_%i_1_%i.html' % \
            (tag_id, country_id, page)
-    moonplayer.get_url(url, explore_cb, None)
+    moonplayer.download_page(url, explore_cb, None)
     
 def search(key, page):
     url = 'http://www.soku.com/v?keyword=' + key
-    moonplayer.get_url(url, search_cb, None)
+    moonplayer.download_page(url, search_cb, None)
 
 
 pic_re = re.compile(r'<img\s[^>]*src="(http://g\d\.ykimg\.com/\w+?)"')
@@ -70,7 +70,7 @@ def explore_cb(page, data):
 
 def load_item(url):
     url = 'http://www.soku.com' + url
-    moonplayer.get_url(url, load_item_cb, url)
+    moonplayer.download_page(url, load_item_cb, url)
     
 alt_re = re.compile(r'<label>别名:</label><span>(.+?)</span>')
 date_re = re.compile(r'<label>上映时间:</label><span>(.+?)</span>')
