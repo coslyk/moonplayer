@@ -43,9 +43,6 @@
     <item>
      <widget class="QWidget" name="toolbar" native="true">
       <layout class="QHBoxLayout" name="toolbarLayout" stretch="0,0,0,1,0,0,0">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
        <property name="topMargin">
         <number>4</number>
        </property>
@@ -156,7 +153,7 @@
      <x>0</x>
      <y>0</y>
      <width>706</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOpen">

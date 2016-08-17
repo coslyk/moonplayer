@@ -8,9 +8,7 @@ class QMenu;
 class QProcess;
 class QResizeEvent;
 class QLabel;
-#ifdef Q_OS_LINUX
 class DanmakuLoader;
-#endif
 #ifdef Q_OS_MAC
 #include <vlc/vlc.h>
 #endif

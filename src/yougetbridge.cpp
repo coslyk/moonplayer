@@ -1,5 +1,4 @@
 #include "yougetbridge.h"
-#include "danmakudelaygetter.h"
 #include "downloader.h"
 #include "playlist.h"
 #include "settings_network.h"
@@ -13,6 +12,12 @@
 #include <QJsonParseError>
 #include <QMessageBox>
 #include <QProcess>
+#ifdef Q_OS_LINUX
+#include "danmakudelaygetter.h"
+#endif
+#ifdef Q_OS_MAC
+#include "settings_player.h"
+#endif
 
 YouGetBridge you_get_bridge;
 
@@ -21,9 +26,6 @@ YouGetBridge::YouGetBridge(QObject *parent) : QObject(parent)
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)),this, SLOT(onFinished()));
 #ifdef Q_OS_MAC
-    QDir dir("/Library/Frameworks/Python.framework/Versions");
-    dir.cd(dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)[0]);
-    programFile = dir.absolutePath() + "/bin/you-get";
     QStringList envs = QProcess::systemEnvironment();
     envs << "LC_CTYPE=en_US.UTF-8";
     process->setEnvironment(envs);
@@ -41,22 +43,22 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &danma
     this->download = download;
     this->danmaku = danmaku;
     QStringList args;
+
+#ifdef Q_OS_MAC
+    QString sh_command;
+    if (!Settings::proxy.isEmpty())
+        sh_command = QString("you-get --http-proxy '%1:%2' --json '%3'").arg(
+                    Settings::proxy,
+                    QString::number(Settings::port),
+                    url);
+    else
+        sh_command = QString("you-get --json '%1'").arg(url);
+    args << "--login" << "-c" << sh_command;
+    process->start("bash", args, QProcess::ReadOnly);
+#else
     if (!Settings::proxy.isEmpty())
         args << "--http-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
     args << "--json" << url;
-#ifdef Q_OS_MAC
-    if (!QFile::exists(programFile))
-    {
-        QMessageBox::warning(NULL, "Error",
-                             "Cannot parse, because you-get is not installed.\n\n"
-                             "Please:\n\n"
-                             "1. Download and install python3 from python.org (If python3 is not installed)\n\n"
-                             "2. Run the following command on Terminal:\n\n"
-                             "    pip3 install you-get");
-        return;
-    }
-    process->start(programFile, args, QProcess::ReadOnly);
-#else
     process->start("you-get", args, QProcess::ReadOnly);
 #endif
 }
@@ -105,6 +107,7 @@ void YouGetBridge::onFinished()
                         for (int i = 0; i < names.size(); i++)
                             names[i] = dir.filePath(names[i]);
 
+#ifdef Q_OS_LINUX
                         // Download more than 1 video clips with danmaku
                         if (!danmaku.isEmpty() && urls.size() > 1)
                             new DanmakuDelayGetter(names, urls, danmaku, true);
@@ -114,12 +117,17 @@ void YouGetBridge::onFinished()
                             for (int i = 0; i < urls.size(); i++)
                                 downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1, danmaku.toUtf8());
                         }
+#else
+                        for (int i = 0; i < urls.size(); i++)
+                            downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1);
+#endif
                         QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
                     }
 
                     // Play
                     else
                     {
+#ifdef Q_OS_LINUX
                         // Play more than 1 clips with danmaku
                         if (!danmaku.isEmpty() && urls.size() > 1)
                             new DanmakuDelayGetter(names, urls, danmaku, false);
@@ -130,6 +138,11 @@ void YouGetBridge::onFinished()
                             for (int i = 1; i < urls.size(); i++)
                                 playlist->addFile(names[i], urls[i]);
                         }
+#else
+                        playlist->addFileAndPlay(names[0], urls[0]);
+                        for (int i = 1; i < urls.size(); i++)
+                            playlist->addFile(names[i], urls[i]);
+#endif
                         if (Settings::autoCloseWindow)
                             webvideo->close();
                     }
@@ -138,5 +151,19 @@ void YouGetBridge::onFinished()
             }
         }
     }
-    QMessageBox::warning(NULL, "Error", " Parse failed!\n" + QString::fromUtf8(process->readAllStandardError()));
+
+    // Parse failed
+#ifdef Q_OS_MAC
+    if (QMessageBox::warning(NULL, "Error",
+                         "Parse failed!\n" + QString::fromUtf8(process->readAllStandardError()),
+                         tr("Cancel"),
+                         tr("Upgrade Parser")))
+    {
+        QByteArray shFile = Settings::path.toUtf8() + "/upgrade-you-get.sh";
+        system("chmod +x " + shFile);
+        system("open -a Terminal.app " + shFile);
+    }
+#else
+    QMessageBox::warning(NULL, "Error", "Parse failed!\n" + QString::fromUtf8(process->readAllStandardError()));
+#endif
 }

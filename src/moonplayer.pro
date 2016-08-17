@@ -36,9 +36,9 @@ SOURCES += main.cpp\
     plugin.cpp
 !macx: SOURCES += playercore.cpp
 macx: SOURCES += playercore_vlc.cpp
-unix: SOURCES += danmakuloader.cpp \
-    danmakudelaygetter.cpp \
-    yougetbridge.cpp
+unix:!macx: SOURCES += danmakuloader.cpp \
+    danmakudelaygetter.cpp
+unix: SOURCES += yougetbridge.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -73,9 +73,9 @@ HEADERS  += player.h\
     classicplayer.h \
     playercore.h \
     plugin.h
-unix: HEADERS += danmakuloader.h \
-    danmakudelaygetter.h \
-    yougetbridge.h
+unix:!macx: HEADERS += danmakuloader.h \
+    danmakudelaygetter.h
+unix: HEADERS += yougetbridge.h
 
 
 FORMS    += \
@@ -89,7 +89,7 @@ FORMS    += \
     cutterbar.ui \
     classicplayer.ui
 
-
+# Installation on Linux
 unix:!macx {
     #skin
     default_skin.files += skins
@@ -115,18 +115,21 @@ unix:!macx {
     INSTALLS += default_skin execute trans icon menu plugin danmaku
 }
 
+# Build bundle for Mac OS X
 macx {
     VLCFILES.files = /Applications/VLC.app/Contents/MacOS/lib /Applications/VLC.app/Contents/MacOS/plugins
     VLCFILES.path = Contents/MacOS
-    RESFILES.files = moonplayer_zh_CN.qm skins plugins
+    RESFILES.files = moonplayer_zh_CN.qm upgrade-you-get.sh skins plugins icons
     RESFILES.path = Contents/Resources
     QMAKE_BUNDLE_DATA += RESFILES VLCFILES
     QMAKE_INFO_PLIST = Info.plist
     ICON = moonplayer.icns
 }
 
+# Windows icon
 win32: RC_FILE = icon.rc
 
+# Libraries
 unix:!macx: CONFIG += link_pkgconfig
 unix:!macx: PKGCONFIG += python2
 

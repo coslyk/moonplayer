@@ -356,7 +356,7 @@ static PyObject *play(PyObject *, PyObject *args)
             playlist->addFile(names.takeFirst(), urls.takeFirst());
     }
 #else
-	playlist->addFileAndPlay(names.takeFirst(), urls.takeFirst()); //first clip
+    playlist->addFileAndPlay(names.takeFirst(), urls.takeFirst(), danmaku_url); //first clip
 	while (!names.isEmpty())
 		playlist->addFile(names.takeFirst(), urls.takeFirst());
 #endif

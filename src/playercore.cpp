@@ -3,7 +3,6 @@
 #include "settings_audio.h"
 #include "settings_danmaku.h"
 #include "settings_network.h"
-#include "settings_player.h"
 #include "utils.h"
 #include <QProcess>
 #include <QColor>
@@ -44,7 +43,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     //Create catch message
     msgLabel = new QLabel(layer);
     msgLabel->move(0, 0);
-    msgLabel->resize(QSize(400, 15) * Settings::uiScale);
+    msgLabel->resize(QSize(400, 30));
     msgLabel->hide();
 
     //Set state

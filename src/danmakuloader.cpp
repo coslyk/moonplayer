@@ -81,7 +81,11 @@ void DanmakuLoader::onXmlDownloaded()
         args << "-a" << QString::number(Settings::danmakuAlpha);
 
         args << "/dev/stdin";
+#ifdef Q_OS_MAC
+        process->start("/usr/local/bin/python3", args);
+#else
         process->start("python3", args);
+#endif
         process->waitForStarted(-1);
         process->write(reply->readAll());
         process->closeWriteChannel();

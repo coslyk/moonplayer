@@ -9,7 +9,8 @@ PlayerCore *player_core = NULL;
 PlayerCore::PlayerCore(QWidget *parent) :
     QWidget(parent), state(STOPPING), channel(CHANNEL_NORMAL)
 {
-    const char *vlc_args[] = {"--http-user-agent=moonplayer"
+    const char *vlc_args[] = {
+        "--http-user-agent=moonplayer"
     };
     setenv("VLC_PLUGIN_PATH", (QCoreApplication::applicationDirPath() + "/plugins").toUtf8().constData(), 1);
 

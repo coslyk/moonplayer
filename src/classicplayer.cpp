@@ -25,9 +25,22 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     printf("Initialize player...\n");
     ui->setupUi(this);
     resize(size() * Settings::uiScale);
+    // Set icons
+#ifdef Q_OS_MAC
+    ui->pauseButton->setIcon(QIcon(Settings::path + "/icons/pause.png"));
+    ui->playButton->setIcon(QIcon(Settings::path + "/icons/play.png"));
+    ui->stopButton->setIcon(QIcon(Settings::path + "/icons/stop.png"));
+    ui->pauseButton->setIconSize(QSize(16, 16));
+    ui->playButton->setIconSize(QSize(16, 16));
+    ui->stopButton->setIconSize(QSize(16, 16));
+    ui->pauseButton->setFixedSize(QSize(32, 32));
+    ui->playButton->setFixedSize(QSize(32, 32));
+    ui->stopButton->setFixedSize(QSize(32, 32));
+#else
     QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton, ui->volumeButton, ui->netButton};
     for (int i = 0; i < 5; i++)
         buttons[i]->setIconSize(QSize(24, 24) * Settings::uiScale);
+#endif
 
     // Add player_core frame
     player_core = new PlayerCore;
@@ -283,16 +296,20 @@ void ClassicPlayer::setFullScreen()
     if (isFullScreen()) // Exit fullscreen
     {
         showNormal();
-        ui->toolbar->show();
+#ifndef Q_OS_MAC
         ui->menubar->show();
+#endif
+        ui->toolbar->show();
         ui->statusBar->show();
         ui->netButton->setEnabled(true);
     }
     else if (!cutterbar->isVisible()) // Forbidden fullscreen when cutting video
     {
         showFullScreen();
-        ui->toolbar->hide();
+#ifndef Q_OS_MAC
         ui->menubar->hide();
+#endif
+        ui->toolbar->hide();
         ui->statusBar->hide();
         ui->netButton->setEnabled(false);
         toolbar_pos_y = QApplication::desktop()->height() - ui->toolbar->height() / 2;
