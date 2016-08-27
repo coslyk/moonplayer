@@ -66,6 +66,7 @@ Playlist::~Playlist()
 
 void Playlist::initClassicUI()
 {
+    /*
     QSize size = QSize(24, 24) * Settings::uiScale;
     ui->addButton->setIcon(QIcon::fromTheme("list-add"));
     ui->addButton->setIconSize(size);
@@ -75,7 +76,10 @@ void Playlist::initClassicUI()
     ui->delButton->setFlat(true);
     ui->clearButton->setIcon(QIcon::fromTheme("user-trash"));
     ui->clearButton->setIconSize(size);
-    ui->clearButton->setFlat(true);
+    ui->clearButton->setFlat(true);*/
+    ui->addButton->setText(" + ");
+    ui->delButton->setText(" - ");
+    ui->clearButton->setText(" C ");
     ui->verticalLayout->setContentsMargins(0, 0, -1, 0);
 }
 

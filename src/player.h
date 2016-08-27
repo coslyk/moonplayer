@@ -82,6 +82,7 @@ private slots:
     void openContributePage(void);
     void openExtPage(void);
     void openHomepage(void);
+    void openPluginsPage(void);
     void setFullScreen(void);
 };
 

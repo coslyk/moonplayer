@@ -54,6 +54,7 @@ private slots:
     void showCutterbar(void);
     void openHomepage(void);
     void openExtPage(void);
+    void openPluginsPage(void);
     void openContributePage(void);
 };
 

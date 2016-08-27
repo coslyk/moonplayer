@@ -79,6 +79,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->aoComboBox->addItem("pulse");
     ui->aoComboBox->addItem("alsa");
     ui->aoComboBox->addItem("oss");
+#else
+    ui->tabWidget->removeTab(5);
 #endif
 
     loadSettings();

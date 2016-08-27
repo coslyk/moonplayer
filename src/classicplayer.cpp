@@ -27,15 +27,22 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     resize(size() * Settings::uiScale);
     // Set icons
 #ifdef Q_OS_MAC
+    setWindowFlags(windowFlags() ^ Qt::WindowFullscreenButtonHint);
+    ui->netButton->setIcon(QIcon(Settings::path + "/icons/net.png"));
     ui->pauseButton->setIcon(QIcon(Settings::path + "/icons/pause.png"));
     ui->playButton->setIcon(QIcon(Settings::path + "/icons/play.png"));
     ui->stopButton->setIcon(QIcon(Settings::path + "/icons/stop.png"));
+    ui->volumeButton->setIcon(QIcon(Settings::path + "/icons/volume.png"));
+    ui->netButton->setIconSize(QSize(16, 16));
     ui->pauseButton->setIconSize(QSize(16, 16));
     ui->playButton->setIconSize(QSize(16, 16));
     ui->stopButton->setIconSize(QSize(16, 16));
+    ui->volumeButton->setIconSize(QSize(16, 16));
+    ui->netButton->setFixedSize(QSize(32, 32));
     ui->pauseButton->setFixedSize(QSize(32, 32));
     ui->playButton->setFixedSize(QSize(32, 32));
     ui->stopButton->setFixedSize(QSize(32, 32));
+    ui->volumeButton->setFixedSize(QSize(32, 32));
 #else
     QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton, ui->volumeButton, ui->netButton};
     for (int i = 0; i < 5; i++)
@@ -97,6 +104,7 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     connect(ui->actionBrowser_extension, &QAction::triggered, this,           &ClassicPlayer::openExtPage);
     connect(ui->actionHomepage,          &QAction::triggered, this,           &ClassicPlayer::openHomepage);
     connect(ui->actionContribute,        &QAction::triggered, this,           &ClassicPlayer::openContributePage);
+    connect(ui->actionPlugins,           &QAction::triggered, this,           &ClassicPlayer::openPluginsPage);
 
     connect(player_core, &PlayerCore::paused,  ui->playButton,  &QPushButton::show);
     connect(player_core, &PlayerCore::paused,  ui->pauseButton, &QPushButton::hide);
@@ -192,7 +200,7 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
     else if (e->type() == QEvent::MouseMove)
     {
         QMouseEvent* me = static_cast<QMouseEvent*>(e);
-        if (isFullScreen() && me->y() > toolbar_pos_y && !ui->toolbar->isVisible()) //mouse enters toolbar
+        if (isFullScreen() && me->globalY() > toolbar_pos_y && !ui->toolbar->isVisible()) //mouse enters toolbar
         {
             ui->toolbar->show();
             ui->statusBar->show();
@@ -312,7 +320,7 @@ void ClassicPlayer::setFullScreen()
         ui->toolbar->hide();
         ui->statusBar->hide();
         ui->netButton->setEnabled(false);
-        toolbar_pos_y = QApplication::desktop()->height() - ui->toolbar->height() / 2;
+        toolbar_pos_y = QApplication::desktop()->screenGeometry(this).height() - ui->toolbar->height();
     }
 }
 
@@ -438,5 +446,12 @@ void ClassicPlayer::openExtPage()
 void ClassicPlayer::openContributePage()
 {
     static QUrl url("https://github.com/coslyk/moonplayer/wiki/Contribute");
+    QDesktopServices::openUrl(url);
+}
+
+//open plugins page
+void ClassicPlayer::openPluginsPage()
+{
+    static QUrl url("https://github.com/coslyk/moonplayer-plugins");
     QDesktopServices::openUrl(url);
 }

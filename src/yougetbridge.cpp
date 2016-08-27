@@ -6,6 +6,7 @@
 #include "webvideo.h"
 #include <QApplication>
 #include <QDir>
+#include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -47,18 +48,18 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &danma
 #ifdef Q_OS_MAC
     QString sh_command;
     if (!Settings::proxy.isEmpty())
-        sh_command = QString("you-get --http-proxy '%1:%2' --json '%3'").arg(
+        sh_command = QString("you-get  -t 10 --http-proxy '%1:%2' --json '%3'").arg(
                     Settings::proxy,
                     QString::number(Settings::port),
                     url);
     else
-        sh_command = QString("you-get --json '%1'").arg(url);
+        sh_command = QString("you-get -t 10 --json '%1'").arg(url);
     args << "--login" << "-c" << sh_command;
     process->start("bash", args, QProcess::ReadOnly);
 #else
     if (!Settings::proxy.isEmpty())
         args << "--http-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
-    args << "--json" << url;
+    args << "-t" << "10" << "--json" << url;
     process->start("you-get", args, QProcess::ReadOnly);
 #endif
 }
@@ -160,7 +161,8 @@ void YouGetBridge::onFinished()
                          tr("Upgrade Parser")))
     {
         QByteArray shFile = Settings::path.toUtf8() + "/upgrade-you-get.sh";
-        system("chmod +x " + shFile);
+        if ((QFile::permissions(shFile) & QFile::ExeOther) == 0)
+            system("chmod +x " + shFile);
         system("open -a Terminal.app " + shFile);
     }
 #else

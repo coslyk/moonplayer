@@ -177,6 +177,7 @@
     <property name="title">
      <string>About(&amp;A)</string>
     </property>
+    <addaction name="actionPlugins"/>
     <addaction name="actionBrowser_extension"/>
     <addaction name="actionContribute"/>
     <addaction name="actionHomepage"/>
@@ -321,6 +322,11 @@
   <action name="actionContribute">
    <property name="text">
     <string>Contribute</string>
+   </property>
+  </action>
+  <action name="actionPlugins">
+   <property name="text">
+    <string>Plugins</string>
    </property>
   </action>
  </widget>

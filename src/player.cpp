@@ -115,6 +115,7 @@ Player::Player(QWidget *parent) :
     menu->addAction(tr("Transform video"), transformer, SLOT(show()));
     menu->addAction(tr("Settings"), this, SLOT(onSetButton()));
     menu->addSeparator();
+    menu->addAction(tr("Plugins"), this, SLOT(openPluginsPage()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
     QMenu *aboutMenu = menu->addMenu(tr("About"));
     aboutMenu->addAction(tr("Contribute"), this, SLOT(openContributePage()));
@@ -265,7 +266,7 @@ void Player::setFullScreen()
         rightBorder->hide();
         bottomBorder->hide();
         //set auto-hide toolbar
-        toolbar_pos_y = QApplication::desktop()->height() - ui->toolBar->height() / 2;
+        toolbar_pos_y = QApplication::desktop()->screenGeometry(this).height() - ui->toolBar->height() / 2;
     }
 }
 
@@ -474,6 +475,13 @@ void Player::openExtPage()
 void Player::openContributePage()
 {
     static QUrl url("https://github.com/coslyk/moonplayer/wiki/Contribute");
+    QDesktopServices::openUrl(url);
+}
+
+//open plugins page
+void Player::openPluginsPage()
+{
+    static QUrl url("https://github.com/coslyk/moonplayer-plugins");
     QDesktopServices::openUrl(url);
 }
 
