@@ -1,11 +1,13 @@
 debug
 release
+ipch
 moonplayer.sdf
 moonplayer.sln
 moonplayer.suo
 moonplayer.v12.suo
 moonplayer.vcxproj
 moonplayer.vcxproj.*
+moonplayer.pro.user
 moonplayer.pro.user*
 ui_*.h
 vc90.idb

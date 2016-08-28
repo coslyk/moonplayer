@@ -228,10 +228,7 @@ void PlayerCore::openFile(const QString &filename, const QString &danmaku)
     emit timeChanged(0);
 
     QStringList args;
-    args << "-quiet";
-    args << "-slave";
-    args << "-ass";
-    args << "-vo" << Settings::vout;
+    args << "-quiet" << "-slave" << "-identify" << "-ass" << "-vo" << Settings::vout;
 #ifdef Q_OS_LINUX
     if (Settings::vout == "vdpau")
     {
@@ -411,13 +408,10 @@ void PlayerCore::readOutput()
         QString message = process->readLine();
         QString format = "<span style=\"color:#ff0000;\">%1</span>";
 
-        if (message.startsWith("Starting playback")) //Read file done
-            writeToMplayer("get_time_length\n");
-
-        else if (message.startsWith("VO:"))
+        if (message.startsWith("VO:"))
             cb_ratioChanged(message);
 
-        else if (message.startsWith("ANS_LENGTH="))
+        else if (message.startsWith("ID_LENGTH="))
             cb_start(message);
 
         else if (message.startsWith("ANS_TIME_POSITION="))
