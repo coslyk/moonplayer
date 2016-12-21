@@ -1,7 +1,11 @@
 #!/bin/bash
 
 which python3 > /dev/null || {
-    echo -e "\033[31m Python3 is not installed. Please download it from python.org. \033[0m"
+    echo -e "\033[31m *********** Error *********** \033[0m"
+    echo -e "\033[31m Python3 is not installed. Please download it from \033[0m"
+    echo -e "\033[31m https://www.python.org/downloads/mac-osx/ \033[0m"
+    echo -e "\033[31m and then install it. \033[0m"
+    echo -e "\033[31m ************ End ************ \033[0m"
     exit 0
 }
 

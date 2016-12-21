@@ -7,6 +7,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QFile>
+#include <QInputDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -33,7 +34,8 @@ YouGetBridge::YouGetBridge(QObject *parent) : QObject(parent)
 #endif
 }
 
-void YouGetBridge::parse(const QString &url, bool download, const QString &danmaku)
+
+void YouGetBridge::parse(const QString &url, bool download, const QString &danmaku, const QString &format)
 {
     if (process->state() == QProcess::Running)
     {
@@ -41,28 +43,32 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &danma
         return;
     }
     qDebug("Use you-get.");
+    this->url = url;
     this->download = download;
     this->danmaku = danmaku;
+    this->format = format;
     QStringList args;
 
 #ifdef Q_OS_MAC
-    QString sh_command;
+    QString sh_command = "you-get";
     if (!Settings::proxy.isEmpty())
-        sh_command = QString("you-get  -t 10 --http-proxy '%1:%2' --json '%3'").arg(
-                    Settings::proxy,
-                    QString::number(Settings::port),
-                    url);
-    else
-        sh_command = QString("you-get -t 10 --json '%1'").arg(url);
+        sh_command += QString(" --http-proxy '%1:%2'").arg(Settings::proxy,
+                                                           QString::number(Settings::port));
+    if (!format.isEmpty())
+        sh_command += " --format=" + format;
+    sh_command += " -t 10 --json " + url;
     args << "--login" << "-c" << sh_command;
     process->start("bash", args, QProcess::ReadOnly);
 #else
     if (!Settings::proxy.isEmpty())
         args << "--http-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
+    if (!format.isEmpty())
+        args << "--format=" + format;
     args << "-t" << "10" << "--json" << url;
     process->start("you-get", args, QProcess::ReadOnly);
 #endif
 }
+
 
 void YouGetBridge::onFinished()
 {
@@ -74,81 +80,120 @@ void YouGetBridge::onFinished()
         {
             QString title = obj["title"].toString();
             QJsonObject streams = obj["streams"].toObject();
+            QJsonObject selectedItem;
             QJsonObject::const_iterator i;
-            for (i = streams.constBegin(); i != streams.constEnd(); i++)
+
+            // Select video quality
+            if (format.isEmpty()) // quality has not been selected
             {
-                QJsonObject item = i.value().toObject();
-                if (item.contains("src"))
+                QStringList items;
+                for (i = streams.constBegin(); i != streams.constEnd(); i++)
                 {
-                    QString container = item["container"].toString();
-                    QJsonArray json_urls = item["src"].toArray();
-                    QStringList names, urls;
-
-                    // Make file list
-                    for (int i = 0; i < json_urls.size(); i++)
+                    QString profile = i.value().toObject()["video_profile"].toString();
+                    items << QString("%1 (%2)").arg(i.key(), profile);
+                }
+                bool ok;
+                QString selected = QInputDialog::getItem(NULL,
+                                                         "Select",
+                                                         tr("Please select a video quality"),
+                                                         items, 0, false, &ok);
+                if (ok && !selected.isEmpty())
+                {
+                    selected = selected.section(' ', 0, 0);
+                    if (streams[selected].toObject().contains("src"))
+                        selectedItem = streams[selected].toObject();
+                    else // get the video source of selected quality
                     {
-                        names << QString("%1_%2.%3").arg(title, QString::number(i), container);
-                        urls << json_urls[i].toString();
+                        parse(url, download, danmaku, selected);
+                        return;
                     }
-
-                    // Download
-                    if (download)
+                }
+                else
+                    return;
+            }
+            else // quality has been selected
+            {
+                for (i = streams.constBegin(); i != streams.constEnd(); i++)
+                {
+                    if (i.value().toObject().contains("src"))
                     {
-                        // Build file path list
-                        QDir dir = QDir(Settings::downloadDir);
-                        QString dirname = title + '.' + container;
-                        if (urls.size() > 1)
+                        selectedItem = i.value().toObject();
+                        break;
+                    }
+                }
+            }
+
+            // Start playing or downloading
+            if (!selectedItem.isEmpty())
+            {
+                QString container = selectedItem["container"].toString();
+                QJsonArray json_urls = selectedItem["src"].toArray();
+                QStringList names, urls;
+
+                // Make file list
+                for (int i = 0; i < json_urls.size(); i++)
+                {
+                    names << QString("%1_%2.%3").arg(title, QString::number(i), container);
+                    urls << json_urls[i].toString();
+                }
+
+                // Download
+                if (download)
+                {
+                     // Build file path list
+                     QDir dir = QDir(Settings::downloadDir);
+                     QString dirname = title + '.' + container;
+                    if (urls.size() > 1)
+                    {
+                        if (!dir.cd(dirname))
                         {
-                            if (!dir.cd(dirname))
-                            {
-                                dir.mkdir(dirname);
-                                dir.cd(dirname);
-                            }
+                            dir.mkdir(dirname);
+                            dir.cd(dirname);
                         }
-                        for (int i = 0; i < names.size(); i++)
-                            names[i] = dir.filePath(names[i]);
+                    }
+                    for (int i = 0; i < names.size(); i++)
+                         names[i] = dir.filePath(names[i]);
 
 #ifdef Q_OS_LINUX
-                        // Download more than 1 video clips with danmaku
-                        if (!danmaku.isEmpty() && urls.size() > 1)
-                            new DanmakuDelayGetter(names, urls, danmaku, true);
-                        // Download without danmaku or only 1 clip with danmaku
-                        else
-                        {
-                            for (int i = 0; i < urls.size(); i++)
-                                downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1, danmaku.toUtf8());
-                        }
-#else
+                    // Download more than 1 video clips with danmaku
+                    if (!danmaku.isEmpty() && urls.size() > 1)
+                        new DanmakuDelayGetter(names, urls, danmaku, true);
+                    // Download without danmaku or only 1 clip with danmaku
+                     else
+                    {
                         for (int i = 0; i < urls.size(); i++)
-                            downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1);
-#endif
-                        QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
+                             downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1, danmaku.toUtf8());
                     }
+#else
+                    for (int i = 0; i < urls.size(); i++)
+                        downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1);
+#endif
+                    QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
+                }
 
-                    // Play
+                // Play
+                else
+                {
+#ifdef Q_OS_LINUX
+                    // Play more than 1 clips with danmaku
+                    if (!danmaku.isEmpty() && urls.size() > 1)
+                        new DanmakuDelayGetter(names, urls, danmaku, false);
+                    // Play clips without danmaku or only 1 clip with danmaku
                     else
                     {
-#ifdef Q_OS_LINUX
-                        // Play more than 1 clips with danmaku
-                        if (!danmaku.isEmpty() && urls.size() > 1)
-                            new DanmakuDelayGetter(names, urls, danmaku, false);
-                        // Play clips without danmaku or only 1 clip with danmaku
-                        else
-                        {
-                            playlist->addFileAndPlay(names[0], urls[0], danmaku);
-                            for (int i = 1; i < urls.size(); i++)
-                                playlist->addFile(names[i], urls[i]);
-                        }
-#else
-                        playlist->addFileAndPlay(names[0], urls[0]);
+                        playlist->addFileAndPlay(names[0], urls[0], danmaku);
                         for (int i = 1; i < urls.size(); i++)
                             playlist->addFile(names[i], urls[i]);
-#endif
-                        if (Settings::autoCloseWindow)
-                            webvideo->close();
                     }
-                    return;
-                }
+#else
+                    playlist->addFileAndPlay(names[0], urls[0]);
+                    for (int i = 1; i < urls.size(); i++)
+                         playlist->addFile(names[i], urls[i]);
+#endif
+                    if (Settings::autoCloseWindow)
+                         webvideo->close();
+                 }
+                 return;
             }
         }
     }

@@ -18,7 +18,6 @@ protected:
     void mouseMoveEvent(QMouseEvent *);
 private:
     BorderType type;
-    bool mouseDown;
     QWidget* topwindow;
     QPoint oldPos;
 };
