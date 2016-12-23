@@ -4,7 +4,7 @@ moonplayer
 ==========
 Video player that can play online videos from youku, tudou etc.
 
-Latest version: v0.66 (2016.08.28)
+Latest version: v0.67 (2016.12.23)
 
 
 Install

@@ -19,57 +19,57 @@
         <translation type="unfinished">工具(&amp;T)</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="178"/>
+        <location filename="classicplayer.ui" line="177"/>
         <source>About(&amp;A)</source>
         <translation type="unfinished">关于(&amp;A)</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="284"/>
+        <location filename="classicplayer.ui" line="283"/>
         <source>Add file(s)</source>
         <translation type="unfinished">添加文件</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="289"/>
+        <location filename="classicplayer.ui" line="288"/>
         <source>Add url</source>
         <translation type="unfinished">添加/解析网址</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="294"/>
+        <location filename="classicplayer.ui" line="293"/>
         <source>Add playlist</source>
         <translation type="unfinished">添加播放列表</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="299"/>
+        <location filename="classicplayer.ui" line="298"/>
         <source>Online videos</source>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="304"/>
+        <location filename="classicplayer.ui" line="303"/>
         <source>Transcoder</source>
         <translation type="unfinished">视频转码</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="309"/>
+        <location filename="classicplayer.ui" line="308"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="314"/>
+        <location filename="classicplayer.ui" line="313"/>
         <source>Browser extension</source>
         <translation type="unfinished">浏览器扩展</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="319"/>
+        <location filename="classicplayer.ui" line="318"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="324"/>
+        <location filename="classicplayer.ui" line="323"/>
         <source>Contribute</source>
         <translation type="unfinished">贡献</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="329"/>
+        <location filename="classicplayer.ui" line="328"/>
         <source>Plugins</source>
         <translation type="unfinished">插件</translation>
     </message>
@@ -78,27 +78,26 @@
         <translation type="obsolete">剪切视频</translation>
     </message>
     <message>
-        <location filename="classicplayer.cpp" line="84"/>
+        <location filename="classicplayer.cpp" line="83"/>
         <source>Resources</source>
         <translation type="unfinished">影视资源</translation>
     </message>
     <message>
-        <location filename="classicplayer.cpp" line="89"/>
+        <location filename="classicplayer.cpp" line="88"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="classicplayer.cpp" line="159"/>
+        <location filename="classicplayer.cpp" line="153"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="classicplayer.cpp" line="170"/>
         <source>Some files are being transformed. Do you still want to close?</source>
-        <translation type="unfinished">一些视频正在转码。确认关闭吗？</translation>
+        <translation type="obsolete">一些视频正在转码。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="classicplayer.cpp" line="419"/>
+        <location filename="classicplayer.cpp" line="402"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
@@ -352,79 +351,77 @@
         <translation type="obsolete">剪切视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="98"/>
+        <location filename="player.cpp" line="97"/>
         <source>Resources</source>
         <translation type="unfinished">影视资源</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="103"/>
+        <location filename="player.cpp" line="102"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="113"/>
+        <location filename="player.cpp" line="108"/>
         <source>Player</source>
         <translation type="unfinished">播放器</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="114"/>
+        <location filename="player.cpp" line="109"/>
         <source>Online video</source>
         <oldsource>Search videos</oldsource>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="115"/>
         <source>Transform video</source>
-        <translation type="unfinished">视频转码</translation>
+        <translation type="obsolete">视频转码</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="116"/>
+        <location filename="player.cpp" line="110"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="118"/>
+        <location filename="player.cpp" line="112"/>
         <source>Plugins</source>
         <translation type="unfinished">插件</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="119"/>
+        <location filename="player.cpp" line="113"/>
         <source>Ext. for browser</source>
         <translation type="unfinished">浏览器扩展</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="120"/>
+        <location filename="player.cpp" line="114"/>
         <source>About</source>
         <translation type="unfinished">关于</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="121"/>
+        <location filename="player.cpp" line="115"/>
         <source>Contribute</source>
         <translation type="unfinished">贡献</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="122"/>
+        <location filename="player.cpp" line="116"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="188"/>
+        <location filename="player.cpp" line="182"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="199"/>
         <source>Some files are being transformed. Do you still want to close?</source>
-        <translation type="unfinished">一些视频正在转码。确认关闭吗？</translation>
+        <translation type="obsolete">一些视频正在转码。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="407"/>
+        <location filename="player.cpp" line="389"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="597"/>
-        <location filename="player.cpp" line="603"/>
+        <location filename="player.cpp" line="579"/>
+        <location filename="player.cpp" line="585"/>
         <source>Failed to read skin!</source>
         <translation type="unfinished">加载皮肤失败！</translation>
     </message>
@@ -511,22 +508,22 @@
         <translation type="unfinished">添加播放列表</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="201"/>
+        <location filename="playlist.cpp" line="203"/>
         <source>Another file is parsing. Please wait.</source>
         <translation type="unfinished">其他任务正在进行中，请稍后。</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="181"/>
+        <location filename="playlist.cpp" line="183"/>
         <source>Enter url</source>
         <translation type="unfinished">输入网址</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="181"/>
+        <location filename="playlist.cpp" line="183"/>
         <source>Please enter url</source>
         <translation type="unfinished">请输入网址</translation>
     </message>
     <message>
-        <location filename="playlist.cpp" line="204"/>
+        <location filename="playlist.cpp" line="206"/>
         <source>Download?</source>
         <translation type="unfinished">下载吗？</translation>
     </message>
@@ -880,190 +877,123 @@
 <context>
     <name>SortingDialog</name>
     <message>
-        <location filename="sortingdialog.ui" line="14"/>
         <source>Sort files</source>
-        <translation type="unfinished">文件排序</translation>
+        <translation type="obsolete">文件排序</translation>
     </message>
     <message>
-        <location filename="sortingdialog.ui" line="20"/>
-        <location filename="sortingdialog.cpp" line="34"/>
-        <location filename="sortingdialog.cpp" line="83"/>
         <source>Save to:</source>
-        <translation type="unfinished">保存至：</translation>
+        <translation type="obsolete">保存至：</translation>
     </message>
     <message>
-        <location filename="sortingdialog.ui" line="27"/>
         <source>Change</source>
-        <translation type="unfinished">更改</translation>
+        <translation type="obsolete">更改</translation>
     </message>
     <message>
-        <location filename="sortingdialog.ui" line="37"/>
         <source>Add</source>
-        <translation type="unfinished">添加</translation>
+        <translation type="obsolete">添加</translation>
     </message>
     <message>
-        <location filename="sortingdialog.ui" line="44"/>
         <source>Delete</source>
-        <translation type="unfinished">删除</translation>
+        <translation type="obsolete">删除</translation>
     </message>
     <message>
-        <location filename="sortingdialog.ui" line="51"/>
         <source>Move up</source>
-        <translation type="unfinished">上移</translation>
+        <translation type="obsolete">上移</translation>
     </message>
     <message>
-        <location filename="sortingdialog.ui" line="58"/>
         <source>Move down</source>
-        <translation type="unfinished">下移</translation>
+        <translation type="obsolete">下移</translation>
     </message>
     <message>
-        <location filename="sortingdialog.cpp" line="77"/>
         <source>Set file name</source>
-        <translation type="unfinished">设置文件名称</translation>
+        <translation type="obsolete">设置文件名称</translation>
     </message>
 </context>
 <context>
     <name>Transformer</name>
     <message>
-        <location filename="transformer.ui" line="14"/>
         <source>Video transformer</source>
-        <translation type="unfinished">视频转码/合并工具</translation>
+        <translation type="obsolete">视频转码/合并工具</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="21"/>
         <source>Progress</source>
-        <translation type="unfinished">进度</translation>
+        <translation type="obsolete">进度</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="26"/>
         <source>Name</source>
-        <translation type="unfinished">文件名</translation>
+        <translation type="obsolete">文件名</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="47"/>
         <source>Add</source>
-        <translation type="unfinished">添加</translation>
+        <translation type="obsolete">添加</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="54"/>
         <source>Delete</source>
-        <translation type="unfinished">删除</translation>
+        <translation type="obsolete">删除</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="61"/>
         <source>Start</source>
-        <translation type="unfinished">开始</translation>
+        <translation type="obsolete">开始</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="75"/>
         <source>Settings</source>
-        <translation type="unfinished">设置</translation>
+        <translation type="obsolete">设置</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="81"/>
         <source>Video codec:</source>
-        <translation type="unfinished">视频编码：</translation>
+        <translation type="obsolete">视频编码：</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="88"/>
         <source>Audio codec:</source>
-        <translation type="unfinished">音频编码：</translation>
+        <translation type="obsolete">音频编码：</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="95"/>
         <source>Width:</source>
-        <translation type="unfinished">宽度：</translation>
+        <translation type="obsolete">宽度：</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="103"/>
-        <source>mpeg4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="transformer.ui" line="108"/>
-        <source>xvid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="transformer.ui" line="113"/>
-        <source>divx</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="transformer.ui" line="140"/>
-        <source>ac3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="transformer.ui" line="236"/>
         <source>Link</source>
-        <translation type="unfinished">视频合并</translation>
+        <translation type="obsolete">视频合并</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="135"/>
-        <source>mp3lame</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="transformer.ui" line="145"/>
-        <source>faac</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="transformer.ui" line="153"/>
         <source>Height:</source>
-        <translation type="unfinished">高度：</translation>
+        <translation type="obsolete">高度：</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="160"/>
         <source>Quality:</source>
-        <translation type="unfinished">视频质量：</translation>
+        <translation type="obsolete">视频质量：</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="167"/>
         <source>1 - 31. 1 means best.</source>
-        <translation type="unfinished">1 - 31，1表示最好。</translation>
+        <translation type="obsolete">1 - 31，1表示最好。</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="183"/>
         <source>-3 means auto.</source>
-        <translation type="unfinished">-3表示自动设置宽度。</translation>
+        <translation type="obsolete">-3表示自动设置宽度。</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="199"/>
         <source>Audio rate:</source>
-        <translation type="unfinished">音频采样率：</translation>
+        <translation type="obsolete">音频采样率：</translation>
     </message>
     <message>
-        <location filename="transformer.ui" line="207"/>
-        <source>22050</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="transformer.ui" line="212"/>
-        <source>32000</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="transformer.ui" line="217"/>
-        <source>44100</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="transformer.cpp" line="64"/>
         <source>This function depends on mencoder, but mencoder is not installed in this computer.</source>
-        <translation type="unfinished">本功能需要mencoder支持，但您未安装mencoder。</translation>
+        <translation type="obsolete">本功能需要mencoder支持，但您未安装mencoder。</translation>
     </message>
     <message>
-        <location filename="transformer.cpp" line="86"/>
-        <location filename="transformer.cpp" line="96"/>
         <source>Choose save directory</source>
-        <translation type="unfinished">选择保存文件夹</translation>
+        <translation type="obsolete">选择保存文件夹</translation>
     </message>
     <message>
-        <location filename="transformer.cpp" line="103"/>
         <source>Please select videos you want to link</source>
-        <translation type="unfinished">选择要合并的视频</translation>
+        <translation type="obsolete">选择要合并的视频</translation>
+    </message>
+</context>
+<context>
+    <name>UpdateChecker</name>
+    <message>
+        <location filename="updatechecker.cpp" line="33"/>
+        <source>New version is available.</source>
+        <translation type="unfinished">有新版本可用。</translation>
     </message>
 </context>
 <context>
@@ -1126,22 +1056,27 @@
 <context>
     <name>YouGetBridge</name>
     <message>
-        <location filename="yougetbridge.cpp" line="40"/>
+        <location filename="yougetbridge.cpp" line="42"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="125"/>
+        <location filename="yougetbridge.cpp" line="98"/>
+        <source>Please select a video quality</source>
+        <translation type="unfinished">请选择清晰度</translation>
+    </message>
+    <message>
+        <location filename="yougetbridge.cpp" line="171"/>
         <source>Add download task successfully!</source>
         <translation type="unfinished">添加下载任务成功！</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="160"/>
+        <location filename="yougetbridge.cpp" line="205"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="161"/>
+        <location filename="yougetbridge.cpp" line="206"/>
         <source>Upgrade Parser</source>
         <translation type="unfinished">更新解析程序</translation>
     </message>

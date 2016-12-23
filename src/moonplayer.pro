@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     videocombiner.cpp \
     searcher.cpp \
     classicplayer.cpp \
-    plugin.cpp
+    plugin.cpp \
+    updatechecker.cpp
 !macx: SOURCES += playercore.cpp
 macx: SOURCES += playercore_vlc.cpp
 unix:!macx: SOURCES += danmakuloader.cpp \
@@ -68,7 +69,8 @@ HEADERS  += player.h\
     settings_danmaku.h \
     classicplayer.h \
     playercore.h \
-    plugin.h
+    plugin.h \
+    updatechecker.h
 unix:!macx: HEADERS += danmakuloader.h \
     danmakudelaygetter.h
 unix: HEADERS += yougetbridge.h
@@ -89,7 +91,7 @@ unix:!macx {
     default_skin.files += skins
     default_skin.path = /usr/share/moonplayer
     #translation
-    trans.files += moonplayer_*.qm
+    trans.files += moonplayer_*.qm Version
     trans.path = /usr/share/moonplayer
     #danmaku
     danmaku.files += danmaku2ass.py
@@ -113,7 +115,7 @@ unix:!macx {
 macx {
     VLCFILES.files = /Applications/VLC.app/Contents/MacOS/lib /Applications/VLC.app/Contents/MacOS/plugins
     VLCFILES.path = Contents/MacOS
-    RESFILES.files = moonplayer_zh_CN.qm upgrade-you-get.sh skins plugins icons
+    RESFILES.files = moonplayer_zh_CN.qm upgrade-you-get.sh skins plugins icons Version
     RESFILES.path = Contents/Resources
     QMAKE_BUNDLE_DATA += RESFILES VLCFILES
     QMAKE_INFO_PLIST = Info.plist

@@ -5,6 +5,7 @@
 #include "settings_player.h"
 #include "playlist.h"
 #include "accessmanager.h"
+#include "updatechecker.h"
 #include <QDir>
 #include <QIcon>
 #include <QLocale>
@@ -114,6 +115,11 @@ int main(int argc, char *argv[])
                 playlist->addFile(file.section('/', -1), file);
         }
     }
+
+    // Check new version
+    UpdateChecker checker;
+    checker.check();
+
     a.exec();
     Py_Finalize();
     if (classic_player)
