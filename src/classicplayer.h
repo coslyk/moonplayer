@@ -7,7 +7,6 @@ class Downloader;
 class PlayerCore;
 class Playlist;
 class SettingsDialog;
-class Transformer;
 class WebVideo;
 
 namespace Ui {
@@ -35,7 +34,6 @@ private:
     PlayerCore *player_core;
     Playlist *playlist;
     SettingsDialog *settingsDialog;
-    Transformer *transformer;
     WebVideo *webvideo;
     bool no_play_next;
     int toolbar_pos_y;

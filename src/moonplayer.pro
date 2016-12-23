@@ -20,8 +20,6 @@ SOURCES += main.cpp\
     httpget.cpp \
     downloader.cpp \
     pyapi.cpp \
-    transformer.cpp \
-    sortingdialog.cpp \
     settingsdialog.cpp \
     reslibrary.cpp \
     resplugin.cpp \
@@ -51,8 +49,6 @@ HEADERS  += player.h\
     httpget.h \
     downloader.h \
     pyapi.h \
-    transformer.h \
-    sortingdialog.h \
     settings_player.h \
     settings_video.h \
     settings_network.h \
@@ -81,8 +77,6 @@ unix: HEADERS += yougetbridge.h
 FORMS    += \
     player.ui \
     playlist.ui \
-    transformer.ui \
-    sortingdialog.ui \
     settingsdialog.ui \
     reslibrary.ui \
     detailview.ui \

@@ -8,7 +8,6 @@
 #include "settings_player.h"
 #include "settings_audio.h"
 #include "downloader.h"
-#include "transformer.h"
 #include "skin.h"
 #include "utils.h"
 #include "cutterbar.h"
@@ -102,17 +101,12 @@ Player::Player(QWidget *parent) :
     downloader = new Downloader;
     webvideo->addTab(downloader, tr("Downloader"));
 
-    //add transformer
-    transformer = new Transformer;
-    transformer->resize(transformer->size() * Settings::uiScale);
-
     //Settings Dialog
     settingsDialog = new SettingsDialog(this);
 
     //Add menu
     menu = new QMenu(tr("Player"), this);
     menu->addAction(tr("Online video"), webvideo, SLOT(show()));
-    menu->addAction(tr("Transform video"), transformer, SLOT(show()));
     menu->addAction(tr("Settings"), this, SLOT(onSetButton()));
     menu->addSeparator();
     menu->addAction(tr("Plugins"), this, SLOT(openPluginsPage()));
@@ -193,20 +187,8 @@ void Player::closeEvent(QCloseEvent* e)
             return;
         }
     }
-    if (transformer->hasTask())
-    {
-        bool ignore = (QMessageBox::question(this, "question",
-                                         tr("Some files are being transformed. Do you still want to close?"),
-                                         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No);
-        if (ignore)
-        {
-            e->ignore();
-            return;
-        }
-    }
     player_core->stop();
     webvideo->close();
-    transformer->close();
     e->accept();
 }
 

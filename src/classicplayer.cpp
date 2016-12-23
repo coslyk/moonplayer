@@ -8,7 +8,6 @@
 #include "settingsdialog.h"
 #include "settings_audio.h"
 #include "settings_player.h"
-#include "transformer.h"
 #include "utils.h"
 #include "webvideo.h"
 #include <QDesktopServices>
@@ -88,10 +87,6 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     downloader = new Downloader;
     webvideo->addTab(downloader, tr("Downloader"));
 
-    // Add transformer
-    transformer = new Transformer;
-    transformer->resize(transformer->size() * Settings::uiScale);
-
     // Settings
     settingsDialog = new SettingsDialog(this);
 
@@ -99,7 +94,6 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     connect(ui->actionAdd_url,           &QAction::triggered, playlist,       &Playlist::onNetItem);
     connect(ui->actionAdd_playlist,      &QAction::triggered, playlist,       &Playlist::onListItem);
     connect(ui->actionOnline_videos,     &QAction::triggered, webvideo,       &WebVideo::show);
-    connect(ui->actionTranscoder,        &QAction::triggered, transformer,    &Transformer::show);
     connect(ui->actionSettings,          &QAction::triggered, settingsDialog, &SettingsDialog::exec);
     connect(ui->actionBrowser_extension, &QAction::triggered, this,           &ClassicPlayer::openExtPage);
     connect(ui->actionHomepage,          &QAction::triggered, this,           &ClassicPlayer::openHomepage);
@@ -164,20 +158,9 @@ void ClassicPlayer::closeEvent(QCloseEvent *e)
             return;
         }
     }
-    if (transformer->hasTask())
-    {
-        bool ignore = (QMessageBox::question(this, "question",
-                                         tr("Some files are being transformed. Do you still want to close?"),
-                                         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No);
-        if (ignore)
-        {
-            e->ignore();
-            return;
-        }
-    }
+
     player_core->stop();
     webvideo->close();
-    transformer->close();
     e->accept();
 }
 

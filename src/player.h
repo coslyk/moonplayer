@@ -14,7 +14,6 @@ class Border;
 class QLabel;
 class QMenu;
 class Downloader;
-class Transformer;
 class SettingsDialog;
 class CutterBar;
 
@@ -44,7 +43,6 @@ private:
     WebVideo* webvideo;
     ResLibrary *reslibrary;
     Downloader *downloader;
-    Transformer *transformer;
     SettingsDialog *settingsDialog;
     CutterBar *cutterbar;
     //borders

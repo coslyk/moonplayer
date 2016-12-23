@@ -169,7 +169,6 @@
      <string>Tools(&amp;T)</string>
     </property>
     <addaction name="actionOnline_videos"/>
-    <addaction name="actionTranscoder"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
    </widget>
