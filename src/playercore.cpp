@@ -234,9 +234,9 @@ void PlayerCore::openFile(const QString &filename, const QString &danmaku)
     {
         args << "-vc";
         if (Settings::ffodivxvdpau)
-            args << "ffmpeg12vdpau,ffwmv3vdpau,ffvc1vdpau,ffh264vdpau,ffodivxvdpau,";
+            args << "ffh264vdpau,ffmpeg12vdpau,ffwmv3vdpau,ffvc1vdpau,ffodivxvdpau,";
         else
-            args << "ffmpeg12vdpau,ffwmv3vdpau,ffvc1vdpau,ffh264vdpau,";
+            args << "ffh264vdpau,ffmpeg12vdpau,ffwmv3vdpau,ffvc1vdpau,";
     }
 #endif
     args << "-volume" << QString::number(volume);
@@ -258,7 +258,7 @@ void PlayerCore::openFile(const QString &filename, const QString &danmaku)
         args << "-af" << "channels=2:2:1:0:1:1";
 
     //set video arguments
-    if (Settings::enableScreenshot)
+    if (Settings::enableScreenshot && Settings::vout != "vdpau")
     {
         args << "-vf-add" << "screenshot";
         screenShotAction->setEnabled(true);

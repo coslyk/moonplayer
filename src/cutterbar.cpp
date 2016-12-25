@@ -1,7 +1,6 @@
 #include "cutterbar.h"
 #include "ui_cutterbar.h"
 #include "utils.h"
-#include "transformer.h"
 #include <QDir>
 #include <QMessageBox>
 #include <QProcess>
