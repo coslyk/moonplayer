@@ -5,6 +5,7 @@
 #include "settings_video.h"
 #include "settings_danmaku.h"
 #include "ui_settingsdialog.h"
+#include "videoqualities.h"
 #include "accessmanager.h"
 #include <QNetworkAccessManager>
 #include <QNetworkProxy>
@@ -14,6 +15,7 @@
 #include <QButtonGroup>
 #include <QFileDialog>
 #include <QFontDialog>
+#include <QInputDialog>
 #include <QMessageBox>
 #include "settings_audio.h"
 #include "plugin.h"
@@ -65,6 +67,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(ui->fontPushButton, &QPushButton::clicked, this, &SettingsDialog::onFontButton);
     connect(ui->viewPluginsButton, SIGNAL(clicked()), this, SLOT(showPluginsMsg()));
     connect(ui->combineCheckBox, SIGNAL(toggled(bool)), this, SLOT(checkFFMPEG(bool)));
+    connect(ui->qualitiesButton, &QPushButton::clicked, this, &SettingsDialog::manageQualities);
 
     group = new QButtonGroup(this);
     group->addButton(ui->normalRadioButton, 0);
@@ -329,5 +332,25 @@ void SettingsDialog::checkFFMPEG(bool toggled)
                              "\n    http://johnvansickle.com/ffmpeg/\n" +
                             tr("and place file \"ffmpeg\" into ~/.moonplayer/ or /usr/share/moonplayer/"));
         ui->combineCheckBox->setChecked(false);
+    }
+}
+
+void SettingsDialog::manageQualities()
+{
+    QStringList list;
+    QHash<QString, QString>::const_iterator i;
+    for (i = qualities.constBegin(); i != qualities.constEnd(); i++)
+        list << QString("%1 (%2)").arg(i.key(), i.value());
+    bool ok;
+    QString selected = QInputDialog::getItem(this, "Moon Player",
+                                             tr("There are quality settings you have saved. Choose one you want to delete."),
+                                             list,
+                                             0,
+                                             false,
+                                             &ok);
+    if (ok && !selected.isEmpty())
+    {
+        selected = selected.section(' ', 0, 0);
+        qualities.remove(selected);
     }
 }

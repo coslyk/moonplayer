@@ -32,7 +32,9 @@ SOURCES += main.cpp\
     searcher.cpp \
     classicplayer.cpp \
     plugin.cpp \
-    updatechecker.cpp
+    updatechecker.cpp \
+    selectiondialog.cpp \
+    videoqualities.cpp
 !macx: SOURCES += playercore.cpp
 macx: SOURCES += playercore_vlc.cpp
 unix:!macx: SOURCES += danmakuloader.cpp \
@@ -70,7 +72,9 @@ HEADERS  += player.h\
     classicplayer.h \
     playercore.h \
     plugin.h \
-    updatechecker.h
+    updatechecker.h \
+    selectiondialog.h \
+    videoqualities.h
 unix:!macx: HEADERS += danmakuloader.h \
     danmakudelaygetter.h
 unix: HEADERS += yougetbridge.h
@@ -83,7 +87,8 @@ FORMS    += \
     reslibrary.ui \
     detailview.ui \
     cutterbar.ui \
-    classicplayer.ui
+    classicplayer.ui \
+    selectiondialog.ui
 
 # Installation on Linux
 unix:!macx {

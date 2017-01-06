@@ -27,6 +27,7 @@ private slots:
     void onFontButton(void);
     void showPluginsMsg(void);
     void checkFFMPEG(bool toggled);
+    void manageQualities(void);
 };
 
 void initSettings(void);

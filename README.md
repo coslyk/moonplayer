@@ -4,7 +4,7 @@ moonplayer
 ==========
 Video player that can play online videos from youku, tudou etc.
 
-Latest version: v0.68 (2016.12.25)
+Latest version: v0.69 (2017.01.06)
 
 
 Install
@@ -21,7 +21,7 @@ dnf install moonplayer
 ```
  (Thanks 1dot75cm for building package)
 
-Windows: <http://pan.baidu.com/s/1gptym>
+Windows & macOS: <http://pan.baidu.com/s/1gptym>
 
 Feature
 ====

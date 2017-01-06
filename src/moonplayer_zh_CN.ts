@@ -74,10 +74,6 @@
         <translation type="unfinished">插件</translation>
     </message>
     <message>
-        <source>Cut video</source>
-        <translation type="obsolete">剪切视频</translation>
-    </message>
-    <message>
         <location filename="classicplayer.cpp" line="83"/>
         <source>Resources</source>
         <translation type="unfinished">影视资源</translation>
@@ -91,10 +87,6 @@
         <location filename="classicplayer.cpp" line="153"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
-    </message>
-    <message>
-        <source>Some files are being transformed. Do you still want to close?</source>
-        <translation type="obsolete">一些视频正在转码。确认关闭吗？</translation>
     </message>
     <message>
         <location filename="classicplayer.cpp" line="402"/>
@@ -136,10 +128,6 @@
         <translation type="unfinished">确定</translation>
     </message>
     <message>
-        <source>This function depends on mencoder, but mencoder is not installed in this computer.</source>
-        <translation type="obsolete">本功能需要mencoder支持，但您未安装mencoder。</translation>
-    </message>
-    <message>
         <location filename="cutterbar.cpp" line="80"/>
         <source>FFMPEG is not installed. Please download it from</source>
         <translation type="unfinished">ffmpeg未安装。请从以下网址下载ffmpeg</translation>
@@ -158,25 +146,6 @@
         <location filename="cutterbar.cpp" line="107"/>
         <source>Finished</source>
         <translation type="unfinished">完成</translation>
-    </message>
-    <message>
-        <source>What do you want to do?</source>
-        <translation type="obsolete">您想做什么？</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation type="obsolete">剪切</translation>
-    </message>
-    <message>
-        <source>Losslessly cut</source>
-        <translation type="obsolete">无损剪切</translation>
-    </message>
-</context>
-<context>
-    <name>DanmakuLoader</name>
-    <message>
-        <source>Cannot parse danmaku!</source>
-        <translation type="obsolete">无法解析弹幕！</translation>
     </message>
 </context>
 <context>
@@ -347,10 +316,6 @@
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <source>Cut video</source>
-        <translation type="obsolete">剪切视频</translation>
-    </message>
-    <message>
         <location filename="player.cpp" line="97"/>
         <source>Resources</source>
         <translation type="unfinished">影视资源</translation>
@@ -370,10 +335,6 @@
         <source>Online video</source>
         <oldsource>Search videos</oldsource>
         <translation type="unfinished">在线视频</translation>
-    </message>
-    <message>
-        <source>Transform video</source>
-        <translation type="obsolete">视频转码</translation>
     </message>
     <message>
         <location filename="player.cpp" line="110"/>
@@ -409,10 +370,6 @@
         <location filename="player.cpp" line="182"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
-    </message>
-    <message>
-        <source>Some files are being transformed. Do you still want to close?</source>
-        <translation type="obsolete">一些视频正在转码。确认关闭吗？</translation>
     </message>
     <message>
         <location filename="player.cpp" line="389"/>
@@ -570,6 +527,24 @@
     </message>
 </context>
 <context>
+    <name>SelectionDialog</name>
+    <message>
+        <location filename="selectiondialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="selectiondialog.ui" line="20"/>
+        <source>Please select a video quality:</source>
+        <translation type="unfinished">请选择视频质量：</translation>
+    </message>
+    <message>
+        <location filename="selectiondialog.ui" line="30"/>
+        <source>Remember my selection for this website</source>
+        <translation type="unfinished">记住我对该网站的选择</translation>
+    </message>
+</context>
+<context>
     <name>SettingsDialog</name>
     <message>
         <location filename="settingsdialog.ui" line="20"/>
@@ -662,17 +637,9 @@
         <translation type="unfinished">Linux默认视频输出。Windows下不可用。</translation>
     </message>
     <message>
-        <source>Nvidia hardware decoding in Linux.</source>
-        <translation type="obsolete">Linux 下的Nvidia显卡硬件解码。</translation>
-    </message>
-    <message>
         <location filename="settingsdialog.ui" line="159"/>
         <source>Enable ffodivxvdpau</source>
         <translation type="unfinished">启用ffodivxvdpau</translation>
-    </message>
-    <message>
-        <source>Enable Intel/Ati hardware decoding in Linux. Cannot be used in Windows.</source>
-        <translation type="obsolete">Linux下Intel/Ati硬件加速。Windows下不可用。</translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="170"/>
@@ -755,37 +722,32 @@
         <translation type="unfinished">插件</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="419"/>
-        <source>Video quality:</source>
-        <translation type="unfinished">视频质量：</translation>
-    </message>
-    <message>
-        <location filename="settingsdialog.ui" line="576"/>
+        <location filename="settingsdialog.ui" line="590"/>
         <source>Fix: Cannot show danmaku in some video clips</source>
         <translation type="unfinished">修复：部分视频片段无法显示弹幕</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="412"/>
+        <location filename="settingsdialog.ui" line="433"/>
         <source>Normal</source>
         <translation type="unfinished">标清</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="433"/>
+        <location filename="settingsdialog.ui" line="447"/>
         <source>High</source>
         <translation type="unfinished">高清</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="426"/>
+        <location filename="settingsdialog.ui" line="419"/>
         <source>Super</source>
         <translation type="unfinished">超清</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="467"/>
+        <location filename="settingsdialog.ui" line="474"/>
         <source>Combine video clips automatically after downloading</source>
         <translation type="unfinished">下载后自动合并分段视频</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="453"/>
+        <location filename="settingsdialog.ui" line="467"/>
         <source>View installed plugins</source>
         <translation type="unfinished">查看已安装插件</translation>
     </message>
@@ -795,49 +757,59 @@
         <translation type="unfinished">Linux 下的Nvidia显卡硬件解码。（会禁用截图功能）</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="460"/>
+        <location filename="settingsdialog.ui" line="440"/>
         <source>1080P</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="474"/>
+        <location filename="settingsdialog.ui" line="426"/>
         <source>Close &quot;Online videos&quot; window after playing</source>
         <oldsource>Close window after playing</oldsource>
         <translation type="unfinished">播放后自动关闭“在线视频”窗口</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="482"/>
+        <location filename="settingsdialog.ui" line="412"/>
+        <source>Default quality:</source>
+        <translation type="unfinished">默认视频质量：</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="481"/>
+        <source>Manage special qualities</source>
+        <translation type="unfinished">管理特定网站的视频质量</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="496"/>
         <source>Danmaku</source>
         <translation type="unfinished">弹幕</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="488"/>
+        <location filename="settingsdialog.ui" line="502"/>
         <source>Alpha:</source>
         <translation type="unfinished">透明度：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="508"/>
+        <location filename="settingsdialog.ui" line="522"/>
         <source>Font size:</source>
         <translation type="unfinished">字体大小：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="515"/>
-        <location filename="settingsdialog.ui" line="528"/>
+        <location filename="settingsdialog.ui" line="529"/>
+        <location filename="settingsdialog.ui" line="542"/>
         <source>0 means auto</source>
         <translation type="unfinished">0表示自动</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="535"/>
+        <location filename="settingsdialog.ui" line="549"/>
         <source>Duration of scrolling comment display:</source>
         <translation type="unfinished">滚动弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="542"/>
+        <location filename="settingsdialog.ui" line="556"/>
         <source>Duration of still comment display:</source>
         <translation type="unfinished">静止弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="569"/>
+        <location filename="settingsdialog.ui" line="583"/>
         <source>Font:</source>
         <translation type="unfinished">字体：</translation>
     </message>
@@ -862,128 +834,19 @@
         <translation type="unfinished">缓冲百分比:</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="328"/>
+        <location filename="settingsdialog.cpp" line="331"/>
         <source>FFMPEG is not installed. Please download it from</source>
         <translation type="unfinished">ffmpeg未安装。请从以下网址下载ffmpeg</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="330"/>
+        <location filename="settingsdialog.cpp" line="333"/>
         <source>and place file &quot;ffmpeg&quot; into ~/.moonplayer/ or /usr/share/moonplayer/</source>
         <translation type="unfinished">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/或/usr/share/moonplayer/</translation>
     </message>
-</context>
-<context>
-    <name>SortingDialog</name>
     <message>
-        <source>Sort files</source>
-        <translation type="obsolete">文件排序</translation>
-    </message>
-    <message>
-        <source>Save to:</source>
-        <translation type="obsolete">保存至：</translation>
-    </message>
-    <message>
-        <source>Change</source>
-        <translation type="obsolete">更改</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="obsolete">添加</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="obsolete">删除</translation>
-    </message>
-    <message>
-        <source>Move up</source>
-        <translation type="obsolete">上移</translation>
-    </message>
-    <message>
-        <source>Move down</source>
-        <translation type="obsolete">下移</translation>
-    </message>
-    <message>
-        <source>Set file name</source>
-        <translation type="obsolete">设置文件名称</translation>
-    </message>
-</context>
-<context>
-    <name>Transformer</name>
-    <message>
-        <source>Video transformer</source>
-        <translation type="obsolete">视频转码/合并工具</translation>
-    </message>
-    <message>
-        <source>Progress</source>
-        <translation type="obsolete">进度</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="obsolete">文件名</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="obsolete">添加</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="obsolete">删除</translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation type="obsolete">开始</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="obsolete">设置</translation>
-    </message>
-    <message>
-        <source>Video codec:</source>
-        <translation type="obsolete">视频编码：</translation>
-    </message>
-    <message>
-        <source>Audio codec:</source>
-        <translation type="obsolete">音频编码：</translation>
-    </message>
-    <message>
-        <source>Width:</source>
-        <translation type="obsolete">宽度：</translation>
-    </message>
-    <message>
-        <source>Link</source>
-        <translation type="obsolete">视频合并</translation>
-    </message>
-    <message>
-        <source>Height:</source>
-        <translation type="obsolete">高度：</translation>
-    </message>
-    <message>
-        <source>Quality:</source>
-        <translation type="obsolete">视频质量：</translation>
-    </message>
-    <message>
-        <source>1 - 31. 1 means best.</source>
-        <translation type="obsolete">1 - 31，1表示最好。</translation>
-    </message>
-    <message>
-        <source>-3 means auto.</source>
-        <translation type="obsolete">-3表示自动设置宽度。</translation>
-    </message>
-    <message>
-        <source>Audio rate:</source>
-        <translation type="obsolete">音频采样率：</translation>
-    </message>
-    <message>
-        <source>This function depends on mencoder, but mencoder is not installed in this computer.</source>
-        <translation type="obsolete">本功能需要mencoder支持，但您未安装mencoder。</translation>
-    </message>
-    <message>
-        <source>Choose save directory</source>
-        <translation type="obsolete">选择保存文件夹</translation>
-    </message>
-    <message>
-        <source>Please select videos you want to link</source>
-        <translation type="obsolete">选择要合并的视频</translation>
+        <location filename="settingsdialog.cpp" line="346"/>
+        <source>There are quality settings you have saved. Choose one you want to delete.</source>
+        <translation type="unfinished">下面是已经保存的视频质量设置。请选择您要删除的项。</translation>
     </message>
 </context>
 <context>
@@ -1054,27 +917,22 @@
 <context>
     <name>YouGetBridge</name>
     <message>
-        <location filename="yougetbridge.cpp" line="42"/>
+        <location filename="yougetbridge.cpp" line="55"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="98"/>
-        <source>Please select a video quality</source>
-        <translation type="unfinished">请选择清晰度</translation>
-    </message>
-    <message>
-        <location filename="yougetbridge.cpp" line="171"/>
+        <location filename="yougetbridge.cpp" line="192"/>
         <source>Add download task successfully!</source>
         <translation type="unfinished">添加下载任务成功！</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="205"/>
+        <location filename="yougetbridge.cpp" line="226"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="206"/>
+        <location filename="yougetbridge.cpp" line="227"/>
         <source>Upgrade Parser</source>
         <translation type="unfinished">更新解析程序</translation>
     </message>

@@ -5,6 +5,9 @@ import moonplayer
 import re
 from moonplayer_utils import list_links, parse_flvcd_page
 
+# Let MoonPlayer detect video pages with no .html/.htm-ending urls
+hosts = ('weibo.com', 'www.youtube.com')
+
 def parse(url, options):
     origin_url = url
     url = 'http://www.flvcd.com/parse.php?go=1&kw=' + origin_url

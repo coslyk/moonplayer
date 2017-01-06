@@ -3,16 +3,19 @@
 
 #include <QObject>
 class QProcess;
+class SelectionDialog;
 
 class YouGetBridge : public QObject
 {
     Q_OBJECT
 public:
     explicit YouGetBridge(QObject *parent = 0);
+    ~YouGetBridge();
     void parse(const QString &url, bool download, const QString &danmaku = QString(),
                const QString &format = QString());
 
 private:
+    SelectionDialog *selectionDialog;
     QProcess *process;
     QString url;
     QString danmaku;
