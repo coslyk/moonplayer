@@ -14,11 +14,6 @@
 #include "plugin.h"
 #include "pyapi.h"
 #include "yougetbridge.h"
-#ifdef Q_OS_LINUX
-#include <QDBusConnection>
-#include <QDebug>
-#include <QDBusError>
-#endif
 
 class ItemForPlaylist : public QListWidgetItem
 {
@@ -48,15 +43,6 @@ Playlist::Playlist(QWidget *parent) :
     connect(ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(selectFile(QListWidgetItem*)));
 
     playlist = this;
-
-#ifdef Q_OS_LINUX
-    QDBusConnection conn = QDBusConnection::sessionBus();
-    if (!conn.registerObject("/", this, QDBusConnection::ExportAllSlots))
-    {
-        qDebug() << conn.lastError().message();
-        exit(EXIT_FAILURE);
-    }
-#endif
 }
 
 Playlist::~Playlist()

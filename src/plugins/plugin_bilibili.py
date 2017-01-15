@@ -5,7 +5,7 @@ import moonplayer
 import re
 from moonplayer_utils import list_links, parse_flvcd_page
 
-hosts = ('www.bilibili.com',)
+hosts = ('www.bilibili.com', 'bangumi.bilibili.com')
 
 def parse(url, options):
     origin_url = url

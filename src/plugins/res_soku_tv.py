@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from moonplayer_utils import list_links
+from HTMLParser import HTMLParser
 import moonplayer
 import re
-from moonplayer_utils import list_links
+import json
 
 res_name = '电视剧 - 全网'
 
@@ -17,6 +19,69 @@ countries_table = {'全部': 0,    '大陆': 1001, '韩国': 1003, '香港': 100
                    '泰国': 1007, '台湾': 1008, '美国': 1009, '其他': 1111}
 countries = ['全部', '大陆', '韩国', '香港', '泰国', '台湾', '美国', '其他']
 
+### Search ### 
+def search(key, page):
+    url = 'http://www.soku.com/v?keyword=' + key
+    moonplayer.download_page(url, search_cb, None)
+
+def search_cb(content, data):
+    parser = SearchResultParser()
+    parser.feed(content.decode('UTF-8'))
+    moonplayer.res_show(parser.result)
+    
+
+class SearchResultParser(HTMLParser):
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.s_poster = False
+        self.result = []
+        self.div_etage = 0
+        
+    def handle_starttag(self, tag, attrs):
+        attrs = {k:v for (k, v) in attrs}
+        # Enter an item
+        if tag == 'div' and 'class' in attrs and attrs['class'] == 's_poster':
+            self.s_poster = True
+            self.result.append({'name': '', 'url': '', 'pic_url': ''})
+            self.div_etage += 1
+            
+        elif self.s_poster and tag == 'div':
+            self.div_etage += 1
+            
+        # Link
+        elif self.s_poster and tag == 'a' and self.result[-1]['url'] == '':
+            url = attrs['href']
+            if 'youku.com' in url or url.startswith('/detail/show/'):
+                self.result[-1]['url'] = attrs['href']
+                if '_log_title' in attrs:
+                    self.result[-1]['name'] = attrs['_log_title']
+                else:
+                    self.result[-1]['name'] = attrs['title']
+                    
+        # Preview image
+        elif self.s_poster and tag == 'img' and 'ykimg.com' in attrs['src']:
+            if self.result[-1]['pic_url'] == '':
+                self.result[-1]['pic_url'] = attrs['src']
+                
+        # Replace original url with detail page's
+        elif tag == 'a' and attrs['href'].startswith('http://www.youku.com/show_page/'):
+            if '_log_title' in attrs:
+                name = attrs['_log_title']
+            else:
+                name = attrs['title']
+            if name == self.result[-1]['name']:
+                self.result[-1]['url'] = attrs['href']
+            
+    def handle_endtag(self, tag):
+        if self.s_poster and tag == 'div':
+            self.div_etage -= 1
+            if self.div_etage == 0:
+                self.s_poster = False
+                if self.result[-1]['pic_url'] == '':
+                    del self.result[-1]
+            
+
+### Explore ###
 def explore(tag, country, page):
     tag_id = tags_table[tag]
     country_id = countries_table[country]
@@ -24,25 +89,8 @@ def explore(tag, country, page):
            (tag_id, country_id, page)
     moonplayer.download_page(url, explore_cb, None)
     
-def search(key, page):
-    url = 'http://www.soku.com/v?keyword=' + key
-    moonplayer.download_page(url, search_cb, None)
-
-
-pic_re = re.compile(r'<img\s[^>]*src="(http://g\d\.ykimg\.com/\w+?)"')
-def search_cb(content, data):
-    content = content.replace('\n', '')
-    result = []
-    pics = []
-    items = list_links(content, '/detail/show')
-    match = pic_re.search(content)
-    while match:
-        pics.append(match.group(1))
-        match = pic_re.search(content, match.end(0))
-    for i in xrange(0, len(items), 2):
-        result.append({'name': items[i], 'url': items[i+1], 'pic_url': pics[i/2]})
-    moonplayer.res_show(result)
-
+    
+pic_re = re.compile(r'<img src="(.+?)" alt="(.+)">')
 pic2_re = re.compile(r'<img original="(http://g\d.ykimg.com/.+?)"\s[^>]*alt="(.+?)"')
 def explore_cb(page, data):
     name2pic = {}
@@ -67,10 +115,13 @@ def explore_cb(page, data):
     moonplayer.res_show(result)
     
 
-
+### Load item ###
 def load_item(url):
-    url = 'http://www.soku.com' + url
-    moonplayer.download_page(url, load_item_cb, url)
+    if url.startswith('http://'):
+        moonplayer.download_page(url, load_youku_item_cb, None)
+    else:
+        url = 'http://www.soku.com' + url
+        moonplayer.download_page(url, load_item_cb, url)
     
 alt_re = re.compile(r'<label>别名:</label><span>(.+?)</span>')
 date_re = re.compile(r'<label>上映时间:</label><span>(.+?)</span>')
@@ -123,3 +174,51 @@ def load_item_cb(page, url):
             match = url2_re.search(page, match.end(0))
     result['source'] = srcs
     moonplayer.show_detail(result)
+    
+    
+# Parse Youku's detail page
+yk_showid_re = re.compile(r'''showid:['"](\d+)['"]''')
+yk_img_name_re = re.compile(r'''<img src=['"](.+?ykimg.+?)['"] alt=['"](.+?)['"]''')
+yk_summary_re = re.compile(r'''<span class=['"]intro-more hide['"]>([^>]+)</span>''')
+yk_rating_re = re.compile(r'''<span class=['"]star-num['"]>(.+?)</span>''')
+def load_youku_item_cb(page, data):
+    result = {}
+    match = yk_img_name_re.search(page)
+    if match:
+        image, name = match.group(1, 2)
+        result['image'] = image
+        result['name'] = name
+    match = yk_summary_re.search(page)
+    if match:
+        result['summary'] = match.group(1)
+    match = yk_rating_re.search(page)
+    if match:
+        result['rating'] = float(match.group(1))
+    match = yk_showid_re.search(page)
+    if match:
+        iid = match.group(1)
+        result['iid'] = iid
+        list_url = 'http://list.youku.com/show/module?tab=showInfo&id=' + iid
+        moonplayer.download_page(list_url, load_youku_item_cb2, result)
+    else:
+        moonplayer.warn('[Youku-Detail] Cannot get the show_id!')
+        
+yk_li_re = re.compile(r'''<li \s*?data-id=['"](reload_.+?)['"].*?>(.+?)</li>''')
+yk_item_re = re.compile(r'''<a [^>]*?href=['"](//v\.youku\.com.+?)['"][^>]*?>([^<]+?)</a>''')
+def load_youku_item_cb2(page, result):
+    srcs = []
+    page = json.loads(page)['html']
+    match = yk_item_re.search(page)
+    while match:
+        srcs.append(match.group(2))
+        srcs.append('http:' + match.group(1))
+        match = yk_item_re.search(page, match.end(0))
+    # Child lists
+    match = yk_li_re.search(page)
+    while match:
+        srcs.append(match.group(2))
+        srcs.append('http://list.youku.com/show/episode?id=%s&stage=%s' % (result['iid'], match.group(1)))
+        match = yk_li_re.search(page, match.end(0))
+    result['source'] = srcs
+    moonplayer.show_detail(result)
+        

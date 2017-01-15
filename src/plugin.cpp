@@ -18,6 +18,8 @@ QString plugins_msg;
 void initPlugins()
 {
     PyRun_SimpleString("import sys");
+    PyRun_SimpleString("reload(sys)");
+    PyRun_SimpleString("sys.setdefaultencoding('utf8')");
 #if defined(Q_OS_WIN)
     PyRun_SimpleString("sys.path.append('plugins')");
 #elif defined(Q_OS_LINUX)

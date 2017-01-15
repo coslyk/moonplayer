@@ -63,7 +63,7 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &danma
     QStringList args;
 
 #ifdef Q_OS_MAC
-    QString sh_command = "you-get";
+    QString sh_command = QDir::homePath() + "/Library/Application\\ Support/MoonPlayer/you-get/you-get";
     if (!Settings::proxy.isEmpty())
         sh_command += QString(" --http-proxy '%1:%2'").arg(Settings::proxy,
                                                            QString::number(Settings::port));

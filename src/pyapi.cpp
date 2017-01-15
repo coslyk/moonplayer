@@ -399,20 +399,21 @@ static PyObject *res_show(PyObject *, PyObject *args)
     {
         PyObject *dict = PyList_GetItem(list, i);
         PyObject *name_obj, *pic_url_obj, *flag_obj;
-        const char *name, *pic_url, *flag;
+        QString name;
+        const char *pic_url, *flag;
         if (NULL == (name_obj = PyDict_GetItemString(dict, "name")))
             return NULL;
         if (NULL == (flag_obj = PyDict_GetItemString(dict, "url")))
             return NULL;
         if (NULL == (pic_url_obj = PyDict_GetItemString(dict, "pic_url")))
             return NULL;
-        if (NULL == (name = PyString_AsString(name_obj)))
+        if ((name = PyString_AsQString(name_obj)).isNull())
             return NULL;
         if (NULL == (flag = PyString_AsString(flag_obj)))
             return NULL;
         if (NULL == (pic_url = PyString_AsString(pic_url_obj)))
             return NULL;
-        res_library->addItem(QString::fromUtf8(name), pic_url, flag);
+        res_library->addItem(name, pic_url, flag);
     }
     Py_IncRef(Py_None);
     return Py_None;

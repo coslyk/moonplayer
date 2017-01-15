@@ -5,7 +5,6 @@
 #-------------------------------------------------
 
 QT             += core gui network xml widgets
-unix:!macx: QT += dbus
 
 macx:  TARGET = MoonPlayer
 !macx: TARGET = moonplayer
@@ -35,7 +34,9 @@ SOURCES += main.cpp\
     updatechecker.cpp \
     selectiondialog.cpp \
     videoqualities.cpp
-!macx: SOURCES += playercore.cpp
+!macx: SOURCES += playercore.cpp \
+    localserver.cpp \
+    localsocket.cpp
 macx: SOURCES += playercore_vlc.cpp
 unix:!macx: SOURCES += danmakuloader.cpp \
     danmakudelaygetter.cpp
@@ -75,9 +76,12 @@ HEADERS  += player.h\
     updatechecker.h \
     selectiondialog.h \
     videoqualities.h
+
 unix:!macx: HEADERS += danmakuloader.h \
     danmakudelaygetter.h
 unix: HEADERS += yougetbridge.h
+!macx: HEADERS += localserver.h \
+    localsocket.h
 
 
 FORMS    += \

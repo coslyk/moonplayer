@@ -15,58 +15,88 @@
 #include <Python.h>
 #include "pyapi.h"
 #include "player.h"
-#ifdef Q_OS_LINUX
-#include <QDBusInterface>
-#endif
+
 
 QNetworkAccessManager *access_manager = NULL;
 
+
+#ifdef Q_OS_MAC
+#include <QFileOpenEvent>
+class MyApplication : public QApplication
+{
+public:
+    MyApplication(int &argc, char **argv)
+        : QApplication(argc, argv)
+    {
+    }
+    bool event(QEvent *event)
+    {
+        if (event->type() == QEvent::FileOpen) {
+            QFileOpenEvent *openEvent = static_cast<QFileOpenEvent *>(event);
+            QString file = openEvent->file();
+            if (file.isEmpty()) //url
+                playlist->addUrl(openEvent->url().toString());
+            else if (file.endsWith(".m3u") || file.endsWith(".m3u8") || file.endsWith(".xspf"))
+                playlist->addList(file);
+            else
+                playlist->addFileAndPlay(file.section('/', -1), file);
+        }
+        return QApplication::event(event);
+    }
+};
+#else
+#include "localserver.h"
+#include "localsocket.h"
+#endif
+
+
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-
     QDir currentDir = QDir::current();
 
-    //check whether another MoonPlayer instance is running
-#ifdef Q_OS_LINUX
-    printf("Checking another instance...\n");
+#ifdef Q_OS_MAC
+    MyApplication a(argc, argv);
+#else
+    QApplication a(argc, argv);
 
-    QDBusInterface iface("com.moonsoft.MoonPlayer", "/");
-    if (iface.isValid())
+    //check whether another MoonPlayer instance is running
+    LocalSocket socket;
+    if (socket.state() == LocalSocket::ConnectedState) //Is already running
     {
         if (argc == 1)
         {
             qDebug("Another instance is running. Quit.\n");
             return EXIT_FAILURE;
         }
+
         for (int i = 1; i < argc; i++)
         {
-            QString f = QString::fromUtf8(argv[i]);
+            QByteArray f = argv[i];
             //online resource
             if (f.startsWith("http://"))
-                iface.call("addUrl", f);
+                socket.addUrl(f);
+
             //playlist
-            else if (f.endsWith(".m3u") || f.endsWith("m3u8") || f.endsWith(".xspf")) //playlist
-                iface.call("addList", f);
+            else if (f.endsWith(".m3u") || f.endsWith("m3u8") || f.endsWith(".xspf"))
+                socket.addList(f);
+
             //local videos
             else
             {
-                if (!f.contains('/'))    //not an absolute path
-                    f = currentDir.filePath(f);
+                if (!QDir::isAbsolutePath(f))
+                    f = currentDir.filePath(QTextCodec::codecForLocale()->toUnicode(f)).toLocal8Bit();
+
                 if (i == 1)   //first video
-                    iface.call("addFileAndPlay", f.section('/', -1), f);
+                    socket.addFileAndPlay(f);
                 else
-                    iface.call("addFile", f.section('/', -1), f);
+                    socket.addFile(f);
             }
         }
         return EXIT_SUCCESS;
     }
-    QDBusConnection conn = QDBusConnection::sessionBus();
-    if (!conn.registerService("com.moonsoft.MoonPlayer"))
-    {
-        qDebug() << conn.lastError().message();
-        return EXIT_FAILURE;
-    }
+
+    // This is the first instance, create server
+    LocalServer server;
 #endif
 
     //init
@@ -107,7 +137,7 @@ int main(int argc, char *argv[])
             playlist->addList(file);
         else
         {
-            if (!file.contains('/'))    //not an absolute path
+            if (!QDir::isAbsolutePath(file))    //not an absolute path
                 file = currentDir.filePath(file);
             if (i == 1) //first video
                 playlist->addFileAndPlay(file.section('/', -1), file);
