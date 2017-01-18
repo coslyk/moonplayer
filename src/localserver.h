@@ -13,8 +13,7 @@ public:
 
 private slots:
     void onNewConnection(void);
-    void onReadyRead(void);
-    void onDisconnected(void);
+    void readData(void);
 
 private:
     QLocalSocket *client;

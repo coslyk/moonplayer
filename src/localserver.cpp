@@ -24,11 +24,10 @@ LocalServer::~LocalServer()
 void LocalServer::onNewConnection()
 {
     client = nextPendingConnection();
-    connect(client, &QLocalSocket::readyRead, this, &LocalServer::onReadyRead);
-    connect(client, &QLocalSocket::disconnected, this, &LocalServer::onDisconnected);
+    connect(client, &QLocalSocket::readChannelFinished, this, &LocalServer::readData);
 }
 
-void LocalServer::onReadyRead()
+void LocalServer::readData()
 {
     QTextCodec *codec = QTextCodec::codecForLocale();
 
@@ -49,10 +48,7 @@ void LocalServer::onReadyRead()
         else if (data.startsWith("addFile "))
             playlist->addFile(data.section('/', -1), data.section(' ', 1));
     }
-}
 
-void LocalServer::onDisconnected()
-{
     client->close();
     client->deleteLater();
     client = NULL;

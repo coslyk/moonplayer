@@ -198,7 +198,7 @@ def load_youku_item_cb(page, data):
     if match:
         iid = match.group(1)
         result['iid'] = iid
-        list_url = 'http://list.youku.com/show/module?tab=showInfo&id=' + iid
+        list_url = 'http://list.youku.com/show/module?tab=showInfo&callback=excited&id=' + iid
         moonplayer.download_page(list_url, load_youku_item_cb2, result)
     else:
         moonplayer.warn('[Youku-Detail] Cannot get the show_id!')
@@ -207,6 +207,7 @@ yk_li_re = re.compile(r'''<li \s*?data-id=['"](reload_.+?)['"].*?>(.+?)</li>''')
 yk_item_re = re.compile(r'''<a [^>]*?href=['"](//v\.youku\.com.+?)['"][^>]*?>([^<]+?)</a>''')
 def load_youku_item_cb2(page, result):
     srcs = []
+    page = page.split('(', 1)[-1][0:-2] # Remove callback function
     page = json.loads(page)['html']
     match = yk_item_re.search(page)
     while match:
@@ -217,7 +218,7 @@ def load_youku_item_cb2(page, result):
     match = yk_li_re.search(page)
     while match:
         srcs.append(match.group(2))
-        srcs.append('http://list.youku.com/show/episode?id=%s&stage=%s' % (result['iid'], match.group(1)))
+        srcs.append('http://list.youku.com/show/episode?callback=excited&id=%s&stage=%s' % (result['iid'], match.group(1)))
         match = yk_li_re.search(page, match.end(0))
     result['source'] = srcs
     moonplayer.show_detail(result)

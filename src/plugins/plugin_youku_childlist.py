@@ -13,6 +13,7 @@ def parse(url, options):
 yk_item_re = re.compile(r'''<a [^>]*?href=['"](//v\.youku\.com.+?)['"][^>]*?>([^<]+?)</a>''')
 def parse_cb(page, data):
     srcs = []
+    page = page.split('(', 1)[-1][0:-2] # Remove callback function
     page = json.loads(page)['html']
     match = yk_item_re.search(page)
     while match:
