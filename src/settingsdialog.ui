@@ -464,7 +464,7 @@
        <item row="7" column="0" colspan="2">
         <widget class="QPushButton" name="viewPluginsButton">
          <property name="text">
-          <string>View installed plugins</string>
+          <string>Open plugins folder</string>
          </property>
         </widget>
        </item>

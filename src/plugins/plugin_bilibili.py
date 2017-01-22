@@ -1,4 +1,4 @@
-﻿#!/usr/bin/python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 import moonplayer
@@ -19,13 +19,21 @@ def parse(url, options):
 def parse_cb(page, data):
     (options, url) = data
     result = parse_flvcd_page(page, None)
-    moonplayer.download_page(url, parse_danmaku_cb, (options, result, url))
+    if 'play#' in url:
+        post_data = 'episode_id=' + url.split('#')[-1]
+        api_url = 'http://bangumi.bilibili.com/web_api/get_source'
+        moonplayer.post_content(api_url, post_data, parse_danmaku_cb, (options, result, url))
+    else:
+        moonplayer.download_page(url, parse_danmaku_cb, (options, result, url))
         
         
 cid_re = re.compile(r'cid=(\d+)')
+cid_re2 = re.compile(r'"cid":(\d+)')
 def parse_danmaku_cb(page, data):
     options, result, url = data
     match = cid_re.search(page)
+    if match == None:
+        match = cid_re2.search(page)
     if match:
         danmaku = 'http://comment.bilibili.com/%s.xml' % match.group(1)
         if len(result) == 0:

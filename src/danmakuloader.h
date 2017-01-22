@@ -10,7 +10,9 @@ class DanmakuLoader : public QObject
     Q_OBJECT
 public:
     explicit DanmakuLoader(QObject *parent = 0);
-    void load(const QString &xmlFile, int width, int height);
+
+public slots:
+    void load(const QString &srcFile, int width, int height, double delay = 0);
 
 signals:
     void finished(const QString &assFile);
@@ -26,6 +28,7 @@ private:
     QString xmlFile;
     int width;
     int height;
+    double delay;
 };
 
 #endif // DANMAKULOADER_H

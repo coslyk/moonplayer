@@ -35,7 +35,14 @@ public:
             QFileOpenEvent *openEvent = static_cast<QFileOpenEvent *>(event);
             QString file = openEvent->file();
             if (file.isEmpty()) //url
-                playlist->addUrl(openEvent->url().toString());
+            {
+                QUrl url = openEvent->url();
+                if (url.scheme() == "moonplayer")
+                    url.setScheme("http");
+                else if (url.scheme() == "moonplayers")
+                    url.setScheme("https");
+                playlist->addUrl(url.toString());
+            }
             else if (file.endsWith(".m3u") || file.endsWith(".m3u8") || file.endsWith(".xspf"))
                 playlist->addList(file);
             else

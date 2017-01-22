@@ -100,7 +100,7 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
     get2item[get] = item;
     item2get[item] = get;
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
     //save danmaku's url
     if (!danmaku.isEmpty())
     {

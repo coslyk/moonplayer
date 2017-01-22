@@ -16,7 +16,6 @@ private:
 extern Plugin **plugins;
 extern int n_plugins;
 extern Plugin *flvcd_parser;
-extern QString plugins_msg;
 void initPlugins(void);
 Plugin *getPluginByHost(const QString &host);
 

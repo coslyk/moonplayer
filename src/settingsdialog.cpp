@@ -9,6 +9,7 @@
 #include "accessmanager.h"
 #include <QNetworkAccessManager>
 #include <QNetworkProxy>
+#include <QDesktopServices>
 #include <QDesktopWidget>
 #include <QDir>
 #include <QSettings>
@@ -24,6 +25,7 @@
 QString Settings::aout;
 QString Settings::vout;
 QString Settings::path;
+QString Settings::userPath;
 QString Settings::proxy;
 QString Settings::downloadDir;
 QString Settings::danmakuFont;
@@ -82,8 +84,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->aoComboBox->addItem("pulse");
     ui->aoComboBox->addItem("alsa");
     ui->aoComboBox->addItem("oss");
-#else
-    ui->tabWidget->removeTab(5);
 #endif
 
     loadSettings();
@@ -248,8 +248,22 @@ void initSettings()
     if (!dir.exists("skins"))
         dir.mkdir("skins");
     QSettings settings(QDir::homePath() + "/.config/moonplayer.ini", QSettings::IniFormat);
+
 #elif defined(Q_OS_MAC)
-    QSettings settings(QDir::homePath() + "/Library/Application Support/MoonPlayer/config.ini", QSettings::IniFormat);
+    QDir dir = QDir::home();
+    dir.cd("Library");
+    dir.cd("Application Support");
+    if (!dir.cd("MoonPlayer"))
+    {
+        dir.mkdir("MoonPlayer");
+        dir.cd("MoonPlayer");
+    }
+    if (!dir.exists("plugins"))
+        dir.mkdir("plugins");
+    if (!dir.exists("skins"))
+        dir.mkdir("skins");
+    QSettings settings(dir.filePath("config.ini"), QSettings::IniFormat);
+
 #else
 #error ERROR: Unsupport system!
 #endif
@@ -263,11 +277,20 @@ void initSettings()
 #else
     vout = settings.value("Video/out", "xv").toString();
 #endif
-#ifdef Q_OS_LINUX
+
+    //set path
+#if defined(Q_OS_LINUX)
     path = "/usr/share/moonplayer";
-#else
+    userPath = QDir::homePath() + "/.moonplayer";
+#elif defined(Q_OS_MAC)
     path = QCoreApplication::applicationDirPath().replace("/MacOS", "/Resources");
+    userPath = QDir::homePath() + "/Library/Application Support/MoonPlayer";
+#elif defined(Q_OS_WIN)
+    path = QCoreApplication::applicationDirPath();
+#else
+#error ERROR: Unsupported system!
 #endif
+
     framedrop = settings.value("Video/framedrop", true).toBool();
     doubleBuffer = settings.value("Video/double", true).toBool();
     fixLastFrame = settings.value("Video/fixlastframe", false).toBool();
@@ -321,7 +344,7 @@ void initSettings()
 
 void SettingsDialog::showPluginsMsg()
 {
-    QMessageBox::information(this, "Plugins", plugins_msg);
+    QDesktopServices::openUrl("file://" + userPath + "/plugins");
 }
 
 void SettingsDialog::checkFFMPEG(bool toggled)

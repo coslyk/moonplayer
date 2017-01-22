@@ -16,6 +16,7 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QThread>
 
 ClassicPlayer::ClassicPlayer(QWidget *parent) :
     QMainWindow(parent),
@@ -46,6 +47,7 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton, ui->volumeButton, ui->netButton};
     for (int i = 0; i < 5; i++)
         buttons[i]->setIconSize(QSize(24, 24) * Settings::uiScale);
+    ui->statusBar->palette().setColor(QPalette::WindowText, Qt::white);
 #endif
 
     // Add player_core frame
@@ -159,7 +161,9 @@ void ClassicPlayer::closeEvent(QCloseEvent *e)
         }
     }
 
+    no_play_next = true;
     player_core->stop();
+    QThread::msleep(500);
     webvideo->close();
     e->accept();
 }
@@ -217,6 +221,9 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
             return true;
         case Qt::Key_C:
             showCutterbar();
+            return true;
+        case Qt::Key_D:
+            player_core->switchDanmaku();
             return true;
         case Qt::Key_Space:
             player_core->changeState();
@@ -363,7 +370,8 @@ void ClassicPlayer::onPBarReleased()
 
 void ClassicPlayer::onProgressChanged(int pos)
 {
-    ui->progressBar->setValue(pos);
+    if (!ui->progressBar->isSliderDown())
+        ui->progressBar->setValue(pos);
 }
 
 // Save volume

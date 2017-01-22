@@ -6,6 +6,7 @@
 namespace Settings
 {
 extern QString path;
+extern QString userPath;
 extern int currentSkin;
 extern QStringList skinList;
 extern bool autoResize;

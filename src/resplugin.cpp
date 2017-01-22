@@ -2,9 +2,7 @@
 #include <QDir>
 #include "utils.h"
 #include "pyapi.h"
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
 #include "settings_player.h"
-#endif
 
 /************************
  ** Initialize plugins **
@@ -16,20 +14,14 @@ void initResPlugins()
 {
     static ResPlugin *array[128];
     resplugins = array;
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    QDir pluginsDir = QDir(Settings::path);
-    pluginsDir.cd("plugins");
+
+    QDir pluginsDir(Settings::path + "/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-#elif defined(Q_OS_LINUX)
-    QDir pluginsDir = QDir("/usr/share/moonplayer/plugins");
-    QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-    pluginsDir = QDir::home();
-    pluginsDir.cd(".moonplayer");
-    pluginsDir.cd("plugins");
+#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
+    pluginsDir = QDir(Settings::userPath + "/plugins");
     list += pluginsDir.entryList(QDir::Files, QDir::Name);
-#else
-#error ERROR: Unsupported system!
 #endif
+
     while (!list.isEmpty())
     {
         QString filename = list.takeFirst();

@@ -25,6 +25,7 @@
 #include <QListWidget>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QThread>
 #include <QCoreApplication>
 #include <QLabel>
 #ifdef Q_OS_WIN
@@ -187,7 +188,9 @@ void Player::closeEvent(QCloseEvent* e)
             return;
         }
     }
+    no_play_next = true;
     player_core->stop();
+    QThread::msleep(500);
     webvideo->close();
     e->accept();
 }
@@ -334,6 +337,9 @@ bool Player::eventFilter(QObject *obj, QEvent *e)
             return true;
         case Qt::Key_C:
             showCutterbar();
+            return true;
+        case Qt::Key_D:
+            player_core->switchDanmaku();
             return true;
         case Qt::Key_Return:
             setFullScreen();
@@ -552,7 +558,8 @@ void Player::onPBarReleased()
 
 void Player::onProgressChanged(int pos)
 {
-    ui->progressBar->setValue(pos);
+    if (!ui->progressBar->isSliderDown())
+        ui->progressBar->setValue(pos);
 }
 
 void Player::onSaveVolume(int volume)

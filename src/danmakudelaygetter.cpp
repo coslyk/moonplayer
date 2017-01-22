@@ -29,7 +29,7 @@ void DanmakuDelayGetter::onFinished()
 {
     QString output = QString::fromUtf8(process->readAllStandardOutput());
 
-    // If player_core has no "dummy" video codec, use "black" instead
+    // If mplayer has no "dummy" video codec, use "black" instead
     if (dummy_mode && !output.contains("ID_LENGTH="))
     {
         dummy_mode = false;

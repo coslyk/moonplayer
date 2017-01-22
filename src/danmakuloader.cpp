@@ -23,11 +23,12 @@ void DanmakuLoader::reload()
     load(xmlFile, width, height);
 }
 
-void DanmakuLoader::load(const QString &xmlFile, int width, int height)
+void DanmakuLoader::load(const QString &xmlFile, int width, int height, double delay)
 {
     this->xmlFile = xmlFile;
     this->width = width;
     this->height = height;
+    this->delay = delay;
     if (reply) //another task is running
     {
         reply->abort();
@@ -51,6 +52,11 @@ void DanmakuLoader::onXmlDownloaded()
         // Font
         if (!Settings::danmakuFont.isEmpty())
             args << "-fn" << Settings::danmakuFont;
+#ifdef Q_OS_MAC
+        else
+            args << "-fn" << "PingFang SC";
+#endif
+
         if (Settings::danmakuSize)
             args << "-fs" << QString::number(Settings::danmakuSize);
         else
@@ -79,6 +85,10 @@ void DanmakuLoader::onXmlDownloaded()
 
         // Alpha
         args << "-a" << QString::number(Settings::danmakuAlpha);
+
+        // Delay
+        if (delay > 0.5)
+            args << "--start-pos" << QString::number(delay);
 
         args << "/dev/stdin";
 #ifdef Q_OS_MAC

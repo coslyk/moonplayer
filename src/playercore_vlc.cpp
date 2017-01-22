@@ -1,8 +1,13 @@
 #include "playercore.h"
 #include <QCoreApplication>
+#include <QFile>
 #include <QFileDialog>
+#include <QMenu>
+#include <QMessageBox>
 #include <QMouseEvent>
 #include <QTimer>
+#include "danmakudelaygetter.h"
+#include "danmakuloader.h"
 
 PlayerCore *player_core = NULL;
 
@@ -13,6 +18,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
         "--http-user-agent=moonplayer"
     };
     setenv("VLC_PLUGIN_PATH", (QCoreApplication::applicationDirPath() + "/plugins").toUtf8().constData(), 1);
+    setenv("LC_CTYPE", "en_US.UTF-8", 1);
 
     // Set color and focus policy
     setPalette(QPalette(QColor(0, 0, 0)));
@@ -23,17 +29,12 @@ PlayerCore::PlayerCore(QWidget *parent) :
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &PlayerCore::updateProgress);
 
-    // Fix libvlc's bug:
-    // It freezes when calling a libvlc's API function in a libvlc-callback function
-    connect(this, &PlayerCore::playNext, this, &PlayerCore::openFile, Qt::QueuedConnection);
-    connect(this, &PlayerCore::stopNeeded, this, &PlayerCore::stop, Qt::QueuedConnection);
-    next_waited = false;
-
     // Create VLC Player instance
     vlcInstance = libvlc_new(sizeof(vlc_args) / sizeof(char*), vlc_args);
     vlcPlayer = libvlc_media_player_new(vlcInstance);
     libvlc_media_player_set_nsobject(vlcPlayer, (void*) winId());
     vlcMedia = NULL;
+    DanmakuDelayGetter::setVlcInstance(vlcInstance);
 
     eventManager = libvlc_media_player_event_manager(vlcPlayer);
     libvlc_event_attach(eventManager, libvlc_MediaPlayerStopped, (libvlc_callback_t) onStopped, this);
@@ -43,18 +44,26 @@ PlayerCore::PlayerCore(QWidget *parent) :
     libvlc_event_attach(eventManager, libvlc_MediaPlayerEndReached, (libvlc_callback_t) onEndReached, this);
     libvlc_event_attach(eventManager, libvlc_MediaPlayerVout, (libvlc_callback_t) onSizeChanged, this);
 
-    player_core = this;
-}
+    // Create danmaku loader
+    danmakuLoader = new DanmakuLoader(this);
+    connect(danmakuLoader, &DanmakuLoader::finished, this, &PlayerCore::loadAss);
 
-void PlayerCore::closeEvent(QCloseEvent *event)
-{
-    if (state != STOPPING)
-    {
-        timer->stop();
-        libvlc_event_detach(eventManager, libvlc_MediaPlayerStopped, (libvlc_callback_t) onStopped, this);
-        libvlc_media_player_stop(vlcPlayer);
-    }
-    event->accept();
+    // Add menu
+    menu = new QMenu(this);
+    menu->addAction(tr("Danmaku"), this, SLOT(switchDanmaku()), QKeySequence("D"));
+    menu->addSeparator();
+    menu->addAction(tr("Screenshot"), this, SLOT(screenShot()), QKeySequence("S"));
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, &PlayerCore::customContextMenuRequested, this, &PlayerCore::showMenu);
+
+    // Fix libvlc's bug:
+    // It freezes when calling a libvlc's API function in a libvlc-callback function
+    connect(this, &PlayerCore::playNext, this, &PlayerCore::openFile, Qt::QueuedConnection);
+    connect(this, &PlayerCore::stopNeeded, this, &PlayerCore::stop, Qt::QueuedConnection);
+    connect(this, &PlayerCore::danmakuNeeded, danmakuLoader, &DanmakuLoader::load, Qt::QueuedConnection);
+    next_waited = false;
+
+    player_core = this;
 }
 
 PlayerCore::~PlayerCore()
@@ -73,6 +82,17 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
 {
     this->file = file;
     this->danmaku = danmaku;
+    if (danmaku.isEmpty() && !file.startsWith("http://"))
+    {
+        //get danmaku's url of local videos
+        QFile f(file + ".danmaku");
+        if (f.open(QFile::ReadOnly))
+        {
+            this->danmaku = QString::fromUtf8(f.readAll());
+            f.close();
+        }
+    }
+
     if (state != STOPPING)
     {
         next_waited = true;
@@ -83,6 +103,9 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
         vlcMedia = libvlc_media_new_location(vlcInstance, file.toUtf8().constData());
     else
         vlcMedia = libvlc_media_new_path(vlcInstance, file.toUtf8().constData());
+
+    libvlc_media_add_option(vlcMedia, ":avcodec-hw=vda");
+
     libvlc_media_player_set_media(vlcPlayer, vlcMedia);
     libvlc_media_player_play(vlcPlayer);
     timer->start(1000);
@@ -99,6 +122,44 @@ void PlayerCore::onSizeChanged(const libvlc_event_t *, PlayerCore *c)
     int width = libvlc_video_get_width(c->vlcPlayer);
     int height = libvlc_video_get_height(c->vlcPlayer);
     emit c->sizeChanged(QSize(width, height));
+
+    // Load danmaku
+    if (!c->danmaku.isEmpty())
+    {
+        if (c->danmaku.contains(" http")) //danmaku has delay
+        {
+            double delay = c->danmaku.section(' ', 0, 0).toDouble();
+            emit c->danmakuNeeded(c->danmaku.section(' ', 1), width, height, delay);
+        }
+        else
+            emit c->danmakuNeeded(c->danmaku, width, height, 0);
+    }
+}
+
+void PlayerCore::loadAss(const QString &file)
+{
+    if (!QFile::exists(QDir::homePath() + "/Library/Caches/fontconfig/CACHEDIR.TAG"))
+        QMessageBox::information(this, "moonplayer",
+                                 tr("When you first time playing danmaku, the program will "
+                                    "pause for about 1 minute to make the font cache. "
+                                    "Please wait it patiently."));
+
+    libvlc_media_player_add_slave(vlcPlayer, libvlc_media_slave_type_subtitle,
+                                  ("file://" + file.toUtf8()).constData(), true);
+}
+
+void PlayerCore::switchDanmaku()
+{
+    if (state == STOPPING || danmaku.isEmpty())
+        return;
+    int count = libvlc_video_get_spu_count(vlcPlayer);
+    if (count) // Danmaku is loaded
+    {
+        if (libvlc_video_get_spu(vlcPlayer) == -1) // Danmaku is disabled
+            libvlc_video_set_spu(vlcPlayer, count);
+        else                                       // Danmaku is enabled
+            libvlc_video_set_spu(vlcPlayer, -1);
+    }
 }
 
 void PlayerCore::stop()
@@ -193,9 +254,15 @@ void PlayerCore::screenShot()
         return;
     if (state == VIDEO_PLAYING)
         changeState();
-    QString filename = QFileDialog::getSaveFileName(this, "Save snapshot", QDir::homePath());
-    if (!filename.isEmpty())
-        libvlc_video_take_snapshot(vlcPlayer, 0, filename.toUtf8().constData(), 0, 0);
+    QString dirname = QFileDialog::getExistingDirectory(this, "Screen shot", QDir::homePath());
+    if (!dirname.isEmpty())
+        libvlc_video_take_snapshot(vlcPlayer, 0, dirname.toUtf8().constData(), 0, 0);
+}
+
+//Show right-button menu
+void PlayerCore::showMenu(const QPoint&)
+{
+    menu->exec(QCursor::pos());
 }
 
 void PlayerCore::speedDown()

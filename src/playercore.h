@@ -47,6 +47,7 @@ public slots:
     void speedUp(void);
     void speedDown(void);
     void speedSetToDefault(void);
+    void switchDanmaku(void);
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *);
@@ -74,7 +75,6 @@ private slots:
     void setChannelToLeft(void);
     void setChannelToRight(void);
     void setChannelToNormal(void);
-    void switchDanmaku(void);
     void loadAss(const QString &assFile);
 
 private:
@@ -123,11 +123,11 @@ public:
 signals:
     void playNext(const QString &file, const QString &danmaku);
     void stopNeeded(void);
-
-protected:
-    void closeEvent(QCloseEvent *event);
+    void danmakuNeeded(const QString &srcFile, int width, int height, double delay);
 
 private:
+    DanmakuLoader *danmakuLoader;
+    QMenu *menu;
     QString file;
     QString danmaku;
     QTimer *timer;
@@ -146,6 +146,8 @@ private:
 
 private slots:
     void updateProgress(void);
+    void loadAss(const QString &file);
+    void showMenu(const QPoint&);
 #endif
 };
 

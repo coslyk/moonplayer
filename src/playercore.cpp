@@ -91,7 +91,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     menu->addMenu(speed_menu);
     menu->addMenu(channel_menu);
 
-    switchDanmakuAction = menu->addAction(tr("Danmaku"), this, SLOT(switchDanmaku()));
+    switchDanmakuAction = menu->addAction(tr("Danmaku"), this, SLOT(switchDanmaku()), QKeySequence("D"));
     switchDanmakuAction->setCheckable(true);
     switchDanmakuAction->setChecked(true);
     menu->addSeparator();

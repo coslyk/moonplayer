@@ -17,7 +17,8 @@ class GetUrl : public QObject
     Q_OBJECT
 public:
     explicit GetUrl(QObject *parent = 0);
-    void start(const char *url, PyObject *callback, PyObject *_data, const char *referer);
+    void start(const char *url, PyObject *callback, PyObject *_data,
+               const QByteArray &referer, const QByteArray &postData);
     inline bool hasTask(){return callbackFunc != NULL;}
 private:
     PyObject *callbackFunc;

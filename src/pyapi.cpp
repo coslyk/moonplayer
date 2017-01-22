@@ -74,9 +74,9 @@ void show_pyerr()
 #endif
 }
 
-/******************************************
- ** Define get_url() function for python **
- *****************************************/
+/************************************************
+ ** Define download_page() function for python **
+ ************************************************/
 
 GetUrl *geturl_obj = NULL;
 PyObject *exc_GetUrlError = NULL;
@@ -92,7 +92,8 @@ GetUrl::GetUrl(QObject *parent) : QObject(parent)
     exc_GetUrlError = PyErr_NewException("moonplayer.GetUrlError", NULL, NULL);
 }
 
-void GetUrl::start(const char *url, PyObject *callback, PyObject *_data, const char *referer)
+void GetUrl::start(const char *url, PyObject *callback, PyObject *_data,
+                   const QByteArray &referer, const QByteArray &postData)
 {
     //save callback function
     callbackFunc = callback;
@@ -101,10 +102,16 @@ void GetUrl::start(const char *url, PyObject *callback, PyObject *_data, const c
     Py_IncRef(data);
     //start request
     QNetworkRequest request = QNetworkRequest(QString::fromUtf8(url));
-    request.setRawHeader("User-Agent", "moonplayer");
-    if (referer)
+    request.setHeader(QNetworkRequest::UserAgentHeader, "moonplayer");
+    if (!referer.isEmpty())
         request.setRawHeader("Referer", referer);
-    reply = access_manager->get(request);
+    if (postData.isEmpty())
+        reply = access_manager->get(request);
+    else
+    {
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+        reply = access_manager->post(request, postData);
+    }
     connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
     timer->start(10000);
     // Set moonplayer.final_url in Python
@@ -171,11 +178,26 @@ static PyObject *get_url(PyObject *, PyObject *args)
         PyErr_SetString(exc_GetUrlError, "Another task is running.");
         return NULL;
     }
-    geturl_obj->start(url, callback, data, referer);
+    geturl_obj->start(url, callback, data, referer, NULL);
     Py_IncRef(Py_None);
     return Py_None;
 }
 
+static PyObject *post_content(PyObject *, PyObject *args)
+{
+    PyObject *callback, *data;
+    const char *url, *post, *referer = NULL;
+    if (!PyArg_ParseTuple(args, "ssOO|s", &url, &post, &callback, &data, &referer))
+        return NULL;
+    if (geturl_obj->hasTask())
+    {
+        PyErr_SetString(exc_GetUrlError, "Another task is running.");
+        return NULL;
+    }
+    geturl_obj->start(url, callback, data, referer, post);
+    Py_IncRef(Py_None);
+    return Py_None;
+}
 
 /********************
  * Dialog functions *
@@ -303,7 +325,7 @@ static PyObject *download_with_danmaku(PyObject *, PyObject *args)
         urls << QString::fromUtf8(str);
     }
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
     if (size > 2) //video clips with danmaku
         new DanmakuDelayGetter(names, urls, danmaku, true);
     else //only 1 clip with danmaku
@@ -346,7 +368,7 @@ static PyObject *play(PyObject *, PyObject *args)
         urls << QString::fromUtf8(str);
     }
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
     if (danmaku_url && size > 2) //video clips with danmaku
         new DanmakuDelayGetter(names, urls, danmaku_url, false);
     else
@@ -443,15 +465,16 @@ static PyObject *show_detail(PyObject *, PyObject *args)
  *******************/
 
 static PyMethodDef methods[] = {
-    {"download_page", get_url,     METH_VARARGS, "Download page"},
-    {"get_url",       get_url,     METH_VARARGS, "Download page (Obsolete method)"},
-    {"warn",          warn,        METH_VARARGS, "Show warning message"},
-    {"question",      question,    METH_VARARGS, "Show a question dialog"},
-    {"show_list",     show_list,   METH_VARARGS, "Show searching result on the list"},
-    {"download",      download,    METH_VARARGS, "Download file"},
-    {"play",          play,        METH_VARARGS, "Play online"},
-    {"res_show",      res_show,    METH_VARARGS, "Show resources result"},
-    {"show_detail",   show_detail, METH_VARARGS, "Show detail"},
+    {"download_page", get_url,      METH_VARARGS, "Send a HTTP-GET request"},
+    {"get_url",       get_url,      METH_VARARGS, "Send a HTTP-GET request (Obsolete method)"},
+    {"post_content",  post_content, METH_VARARGS, "Send a HTTP-POST request"},
+    {"warn",          warn,         METH_VARARGS, "Show warning message"},
+    {"question",      question,     METH_VARARGS, "Show a question dialog"},
+    {"show_list",     show_list,    METH_VARARGS, "Show searching result on the list"},
+    {"download",      download,     METH_VARARGS, "Download file"},
+    {"play",          play,         METH_VARARGS, "Play online"},
+    {"res_show",      res_show,     METH_VARARGS, "Show resources result"},
+    {"show_detail",   show_detail,  METH_VARARGS, "Show detail"},
     {"use_fallback_parser",   use_fallback_parser,   METH_VARARGS, "Use fallback parser"},
     {"download_with_danmaku", download_with_danmaku, METH_VARARGS, "Download file with danmaku"},
     {NULL, NULL, 0, NULL}

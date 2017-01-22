@@ -37,10 +37,11 @@ SOURCES += main.cpp\
 !macx: SOURCES += playercore.cpp \
     localserver.cpp \
     localsocket.cpp
-macx: SOURCES += playercore_vlc.cpp
-unix:!macx: SOURCES += danmakuloader.cpp \
-    danmakudelaygetter.cpp
-unix: SOURCES += yougetbridge.cpp
+macx: SOURCES += playercore_vlc.cpp \
+    danmakudelaygetter_vlc.cpp
+unix:!macx: SOURCES += danmakudelaygetter.cpp
+unix: SOURCES += yougetbridge.cpp \
+    danmakuloader.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -77,9 +78,9 @@ HEADERS  += player.h\
     selectiondialog.h \
     videoqualities.h
 
-unix:!macx: HEADERS += danmakuloader.h \
+unix: HEADERS += yougetbridge.h \
+    danmakuloader.h \
     danmakudelaygetter.h
-unix: HEADERS += yougetbridge.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 
@@ -124,7 +125,7 @@ unix:!macx {
 macx {
     VLCFILES.files = /Applications/VLC.app/Contents/MacOS/lib /Applications/VLC.app/Contents/MacOS/plugins
     VLCFILES.path = Contents/MacOS
-    RESFILES.files = moonplayer_zh_CN.qm upgrade-you-get.sh skins plugins icons Version
+    RESFILES.files = moonplayer_zh_CN.qm upgrade-you-get.sh danmaku2ass.py skins plugins icons Version
     RESFILES.path = Contents/Resources
     QMAKE_BUNDLE_DATA += RESFILES VLCFILES
     QMAKE_INFO_PLIST = Info.plist

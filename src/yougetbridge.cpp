@@ -17,9 +17,7 @@
 #include <QMessageBox>
 #include <QProcess>
 #include <QUrl>
-#ifdef Q_OS_LINUX
 #include "danmakudelaygetter.h"
-#endif
 #ifdef Q_OS_MAC
 #include "settings_player.h"
 #endif
@@ -175,7 +173,6 @@ void YouGetBridge::onFinished()
                     for (int i = 0; i < names.size(); i++)
                          names[i] = dir.filePath(names[i]);
 
-#ifdef Q_OS_LINUX
                     // Download more than 1 video clips with danmaku
                     if (!danmaku.isEmpty() && urls.size() > 1)
                         new DanmakuDelayGetter(names, urls, danmaku, true);
@@ -185,17 +182,13 @@ void YouGetBridge::onFinished()
                         for (int i = 0; i < urls.size(); i++)
                              downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1, danmaku.toUtf8());
                     }
-#else
-                    for (int i = 0; i < urls.size(); i++)
-                        downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1);
-#endif
+
                     QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
                 }
 
                 // Play
                 else
                 {
-#ifdef Q_OS_LINUX
                     // Play more than 1 clips with danmaku
                     if (!danmaku.isEmpty() && urls.size() > 1)
                         new DanmakuDelayGetter(names, urls, danmaku, false);
@@ -206,11 +199,7 @@ void YouGetBridge::onFinished()
                         for (int i = 1; i < urls.size(); i++)
                             playlist->addFile(names[i], urls[i]);
                     }
-#else
-                    playlist->addFileAndPlay(names[0], urls[0]);
-                    for (int i = 1; i < urls.size(); i++)
-                         playlist->addFile(names[i], urls[i]);
-#endif
+
                     if (Settings::autoCloseWindow)
                          webvideo->close();
                  }

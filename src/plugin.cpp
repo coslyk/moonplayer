@@ -3,9 +3,7 @@
 #include <QHash>
 #include "pyapi.h"
 #include "settings_plugins.h"
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
 #include "settings_player.h"
-#endif
 
 /************************
  ** Initialize plugins **
@@ -13,56 +11,27 @@
 int n_plugins = 0;
 Plugin **plugins = NULL;
 Plugin *flvcd_parser = NULL;
-QString plugins_msg;
 
 void initPlugins()
 {
     PyRun_SimpleString("import sys");
     PyRun_SimpleString("reload(sys)");
     PyRun_SimpleString("sys.setdefaultencoding('utf8')");
-#if defined(Q_OS_WIN)
-    PyRun_SimpleString("sys.path.append('plugins')");
-#elif defined(Q_OS_LINUX)
-    PyRun_SimpleString("import os");
-    PyRun_SimpleString("sys.path.insert(0, '/usr/share/moonplayer/plugins')");
-    PyRun_SimpleString("sys.path.append(os.environ['HOME'] + '/.moonplayer/plugins')");
-#elif defined(Q_OS_MAC)
     PyRun_SimpleString(QString("sys.path.insert(0, '%1/plugins')").arg(Settings::path).toUtf8().constData());
+#if defined(Q_OS_MAC) || defined(Q_OS_LINUX)
+    PyRun_SimpleString(QString("sys.path.append('%1/plugins')").arg(Settings::userPath).toUtf8().constData());
 #endif
 
     //load plugins
     static Plugin *array[128];
     plugins = array;
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    QDir pluginsDir = QDir(Settings::path);
-    pluginsDir.cd("plugins");
+    QDir pluginsDir(Settings::path + "/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-    foreach (QString item, list) {
-        if ((item.startsWith("plugin_") || item.startsWith("res_") || item.startsWith("searcher_")) &&
-                item.endsWith(".py"))
-            plugins_msg += item + "\n";
-    }
-#elif defined(Q_OS_LINUX)
-    plugins_msg = "System plugins:\n    ";
-    QDir pluginsDir = QDir("/usr/share/moonplayer/plugins");
-    QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-    foreach (QString item, list) {
-        if ((item.startsWith("plugin_") || item.startsWith("res_") || item.startsWith("searcher_")) &&
-                item.endsWith(".py"))
-            plugins_msg += item + "\n    ";
-    }
-    plugins_msg += "\nPlugins installed by user:\n    ";
-    pluginsDir = QDir(QDir::homePath() + "/.moonplayer/plugins");
-    QStringList list_users = pluginsDir.entryList(QDir::Files, QDir::Name);
-    list += list_users;
-    foreach (QString item, list_users) {
-        if ((item.startsWith("plugin_") || item.startsWith("res_") || item.startsWith("searcher_")) &&
-                item.endsWith(".py"))
-            plugins_msg += item + "\n    ";
-    }
-#else
-#error ERROR: Unsupported system!
+#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
+    pluginsDir = QDir(Settings::userPath + "/plugins");
+    list += pluginsDir.entryList(QDir::Files, QDir::Name);
 #endif
+
     while (!list.isEmpty())
     {
         QString filename = list.takeFirst();
