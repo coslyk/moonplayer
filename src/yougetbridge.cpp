@@ -67,7 +67,7 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &danma
                                                            QString::number(Settings::port));
     if (!format.isEmpty())
         sh_command += " --format=" + format;
-    sh_command += " -t 10 --json " + url;
+    sh_command += QString(" -t 10 --json '%1'").arg(url);
     args << "--login" << "-c" << sh_command;
     process->start("bash", args, QProcess::ReadOnly);
 #else
@@ -159,9 +159,9 @@ void YouGetBridge::onFinished()
                 // Download
                 if (download)
                 {
-                     // Build file path list
-                     QDir dir = QDir(Settings::downloadDir);
-                     QString dirname = title + '.' + container;
+                    // Build file path list
+                    QDir dir = QDir(Settings::downloadDir);
+                    QString dirname = title + '.' + container;
                     if (urls.size() > 1)
                     {
                         if (!dir.cd(dirname))
@@ -211,9 +211,10 @@ void YouGetBridge::onFinished()
     // Parse failed
 #ifdef Q_OS_MAC
     if (QMessageBox::warning(NULL, "Error",
-                         "Parse failed!\n" + QString::fromUtf8(process->readAllStandardError()),
-                         tr("Cancel"),
-                         tr("Upgrade Parser")))
+                             "Parse failed!\nURL:" + url + "\n" +
+                             QString::fromUtf8(process->readAllStandardError()),
+                             tr("Cancel"),
+                             tr("Upgrade Parser")))
     {
         QByteArray shFile = Settings::path.toUtf8() + "/upgrade-you-get.sh";
         if ((QFile::permissions(shFile) & QFile::ExeOther) == 0)

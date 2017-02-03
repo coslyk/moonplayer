@@ -47,7 +47,9 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton, ui->volumeButton, ui->netButton};
     for (int i = 0; i < 5; i++)
         buttons[i]->setIconSize(QSize(24, 24) * Settings::uiScale);
-    ui->statusBar->palette().setColor(QPalette::WindowText, Qt::white);
+    QPalette pal = ui->statusBar->palette();
+    pal.setColor(QPalette::WindowText, Qt::white);
+    ui->statusBar->setPalette(pal);
 #endif
 
     // Add player_core frame

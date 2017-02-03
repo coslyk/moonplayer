@@ -90,7 +90,6 @@ private:
     QAction* rightChannelAction;
     QAction* normalChannelAction;
     QAction* screenShotAction;
-    QAction* switchDanmakuAction;
 
     QTimer* timer;
     int volume;
@@ -101,6 +100,7 @@ private:
     double speed;
     bool is_waiting;
     bool stop_called;
+    bool show_danmaku;
     QString wait_to_play;
     QString playing_file;
     QString danmaku;

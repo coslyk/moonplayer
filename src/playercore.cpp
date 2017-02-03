@@ -91,9 +91,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     menu->addMenu(speed_menu);
     menu->addMenu(channel_menu);
 
-    switchDanmakuAction = menu->addAction(tr("Danmaku"), this, SLOT(switchDanmaku()), QKeySequence("D"));
-    switchDanmakuAction->setCheckable(true);
-    switchDanmakuAction->setChecked(true);
+    menu->addAction(tr("Danmaku"), this, SLOT(switchDanmaku()), QKeySequence("D"));
     menu->addSeparator();
     screenShotAction = menu->addAction(tr("Screenshot"), this, SLOT(screenShot()), QKeySequence("S"));
     menu->addAction(tr("Cut video"), this, SIGNAL(cutVideo()), QKeySequence("C"));
@@ -291,10 +289,11 @@ void PlayerCore::openFile(const QString &filename, const QString &danmaku)
     else
         args << filename;
     //set state
-    state = TV_PLAYING; //If playing video, state will reset later in PlayerCore::cb_start()
+    state = TV_PLAYING; //If playing video, state will be reset later in PlayerCore::cb_start()
     length = 0;
     progress = 0;
     speed = 1.0;
+    show_danmaku = false;
 
     //start
     process->start("mplayer", args);
@@ -617,8 +616,14 @@ void PlayerCore::switchDanmaku()
 {
     if (state == STOPPING || danmaku.isEmpty())
         return;
-    if (switchDanmakuAction->isChecked()) //open danmaku
+    if (show_danmaku) // Danmaku is enabled
     {
+        show_danmaku = false;
+        writeToMplayer("sub_select -1\n");
+    }
+    else              // Danmaku is disabled
+    {
+        show_danmaku = true;
         writeToMplayer("sub_select 1\n");
         if (danmaku.contains(" http://")) //danmaku has delay
         {
@@ -628,8 +633,6 @@ void PlayerCore::switchDanmaku()
                 writeToMplayer("sub_delay " + danmaku.section(' ', 0, 0).toUtf8() + " 1\n");
         }
     }
-    else //close danmaku
-        writeToMplayer("sub_select -1\n");
 }
 
 
