@@ -9,7 +9,7 @@ LocalServer::LocalServer(QObject *parent) : QLocalServer(parent)
 
     // His birthday 1926.08.17
     // +1s
-
+    QLocalServer::removeServer("MoonPlayer_0817");
     if (listen("MoonPlayer_0817"))
         connect(this, &LocalServer::newConnection, this, &LocalServer::onNewConnection);
     else

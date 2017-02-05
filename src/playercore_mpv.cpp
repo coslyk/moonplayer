@@ -70,7 +70,11 @@ PlayerCore::PlayerCore(QWidget *parent) :
 #endif
 
     // listen mpv event
-    mpv_observe_property(mpv, 0, "playback-time", MPV_FORMAT_DOUBLE);
+    mpv_observe_property(mpv, 0, "duration",         MPV_FORMAT_DOUBLE);
+    mpv_observe_property(mpv, 0, "width",            MPV_FORMAT_INT64);
+    mpv_observe_property(mpv, 0, "height",           MPV_FORMAT_INT64);
+    mpv_observe_property(mpv, 0, "playback-time",    MPV_FORMAT_DOUBLE);
+    mpv_observe_property(mpv, 0, "paused-for-cache", MPV_FORMAT_FLAG);
     mpv_set_wakeup_callback(mpv, postEvent, this);
 
     // initialize mpv
@@ -139,7 +143,7 @@ PlayerCore::~PlayerCore()
     player_core = NULL;
     if (mpv)
     {
-        mpv_terminate_destroy(mpv);
+        mpv_detach_destroy(mpv);
         mpv = NULL;
     }
 
@@ -190,17 +194,28 @@ bool PlayerCore::event(QEvent *e)
 
         switch (event->event_id)
         {
-        case MPV_EVENT_FILE_LOADED:
-            msgLabel->hide();
-            double len;
-            mpv_get_property(mpv, "width",    MPV_FORMAT_INT64,  &videoWidth);
-            mpv_get_property(mpv, "height",   MPV_FORMAT_INT64,  &videoHeight);
-            mpv_get_property(mpv, "duration", MPV_FORMAT_DOUBLE, &len);
-            length = len;
-            emit lengthChanged(length);
-            emit sizeChanged(QSize(videoWidth, videoHeight));
-            loadDanmaku();
+        case MPV_EVENT_START_FILE:
+            videoWidth = videoHeight = 0;
+            if (openfile_called)
+                openfile_called = false;
+            else // mpv opens file itself
+            {
+                char *filename = mpv_get_property_string(mpv, "filename");
+                char *path = mpv_get_property_string(mpv, "path");
+                file = QString::fromUtf8(path);
+                danmaku.clear();
+                emit newFile(QString::fromUtf8(filename), file);
+                mpv_free(filename);
+                mpv_free(path);
+            }
+            break;
 
+        case MPV_EVENT_FILE_LOADED:
+        {
+            msgLabel->hide();
+            int f = 0;
+            mpv_set_property_async(mpv, 2, "pause", MPV_FORMAT_FLAG, &f);
+        }
         case MPV_EVENT_UNPAUSE:
             state = VIDEO_PLAYING;
             emit played();
@@ -244,6 +259,41 @@ bool PlayerCore::event(QEvent *e)
                 {
                     time = newTime;
                     emit timeChanged(time);
+                }
+            }
+            else if (propName == "duration")
+            {
+                length = *(double*) prop->data;
+                emit lengthChanged(length);
+                if (unfinished_time.contains(file))
+                    setProgress(unfinished_time[file]);
+            }
+            else if (propName == "width")
+            {
+                videoWidth = *(int64_t*) prop->data;
+                if (videoWidth && videoHeight)
+                {
+                    emit sizeChanged(QSize(videoWidth, videoHeight));
+                    loadDanmaku();
+                }
+            }
+            else if (propName == "height")
+            {
+                videoHeight = *(int64_t*) prop->data;
+                if (videoWidth && videoHeight)
+                {
+                    emit sizeChanged(QSize(videoWidth, videoHeight));
+                    loadDanmaku();
+                }
+            }
+            else if (propName == "paused-for-cache")
+            {
+                if (prop->format == MPV_FORMAT_FLAG)
+                {
+                    if ((bool)*(unsigned*)prop->data && state == VIDEO_PLAYING)
+                        showText("Loading cache...");
+                    else
+                        showText("");
                 }
             }
             break;
@@ -292,15 +342,10 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
     speed = 1.0;
     danmaku_visible = true;
 
-    int start = unfinished_time.contains(file) ? unfinished_time[file] : 0;
-    mpv_set_option_string(mpv, "start", QByteArray::number(start).constData());
-
+    openfile_called = true;
     QByteArray tmp = file.toUtf8();
     const char *args[] = {"loadfile", tmp.constData(), NULL};
     handleMpvError(mpv_command(mpv, args));
-
-    int f = 0;
-    mpv_set_property_async(mpv, 2, "pause", MPV_FORMAT_FLAG, &f);
 }
 
 void PlayerCore::changeState()

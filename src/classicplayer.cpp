@@ -130,6 +130,8 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
             playlist, SLOT(addFileAndPlay(const QString&,const QString&)));
     connect(downloader, SIGNAL(newFile(const QString&,const QString&)),
             playlist, SLOT(addFile(const QString&,const QString&)));
+    connect(player_core, SIGNAL(newFile(const QString&,const QString&)),
+            playlist, SLOT(addFile(const QString&,const QString&)));
 
     connect(playlist, &Playlist::fileSelected, player_core, &PlayerCore::openFile);
 

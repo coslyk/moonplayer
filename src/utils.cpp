@@ -1,5 +1,6 @@
 #include "utils.h"
 #include "accessmanager.h"
+#include <QCoreApplication>
 #include <QFile>
 #include <QDir>
 #include <QDomDocument>

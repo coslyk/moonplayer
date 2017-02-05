@@ -113,7 +113,7 @@ unix:!macx {
 macx {
     RESFILES.files = moonplayer_zh_CN.qm upgrade-you-get.sh danmaku2ass skins plugins icons Version
     RESFILES.path = Contents/Resources
-    QMAKE_BUNDLE_DATA += RESFILES VLCFILES
+    QMAKE_BUNDLE_DATA += RESFILES
     QMAKE_INFO_PLIST = Info.plist
     ICON = moonplayer.icns
 }

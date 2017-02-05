@@ -139,6 +139,8 @@ Player::Player(QWidget *parent) :
     connect(player_core, SIGNAL(fullScreen()), this, SLOT(setFullScreen()));
     connect(player_core, SIGNAL(sizeChanged(const QSize&)), this, SLOT(onSizeChanged(const QSize&)));
     connect(player_core, SIGNAL(cutVideo()), this, SLOT(showCutterbar()));
+    connect(player_core, SIGNAL(newFile(const QString&,const QString&)),
+            playlist, SLOT(addFile(const QString&,const QString&)));
 
     connect(playlist, &Playlist::fileSelected, player_core, &PlayerCore::openFile);
     connect(playlist, SIGNAL(needPause(bool)), this, SLOT(onNeedPause(bool)));

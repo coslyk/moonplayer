@@ -21,6 +21,7 @@ signals:
     void paused(void);
     void stopped(void);
     void fullScreen(void);
+    void newFile(const QString &name, const QString &path);
     void timeChanged(int pos);
     void lengthChanged(int len);
     void sizeChanged(const QSize &size);
@@ -66,6 +67,7 @@ private:
     double speed;
     bool no_emit_stopped;
     bool danmaku_visible;
+    bool openfile_called;
 
     void loadDanmaku(void);
     void handleMpvError(int code);
