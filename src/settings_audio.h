@@ -5,7 +5,6 @@
 
 namespace Settings {
 extern QString aout;
-extern bool softvol;
 extern int volume;
 }
 

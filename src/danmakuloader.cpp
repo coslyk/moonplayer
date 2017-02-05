@@ -46,7 +46,7 @@ void DanmakuLoader::onXmlDownloaded()
     if (reply->error() == QNetworkReply::NoError)
     {
         QStringList args;
-        args << QDir(Settings::path).filePath("danmaku2ass.py") << "-o" << QDir::temp().filePath("moonplayer_danmaku.ass");
+        args << QDir(Settings::path).filePath("danmaku2ass") << "-o" << QDir::temp().filePath("moonplayer_danmaku.ass");
         args << "-s" << QString().sprintf("%dx%d", width, height);  //Ratio
 
         // Font

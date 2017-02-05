@@ -16,7 +16,6 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QMouseEvent>
-#include <QThread>
 
 ClassicPlayer::ClassicPlayer(QWidget *parent) :
     QMainWindow(parent),
@@ -47,9 +46,6 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton, ui->volumeButton, ui->netButton};
     for (int i = 0; i < 5; i++)
         buttons[i]->setIconSize(QSize(24, 24) * Settings::uiScale);
-    QPalette pal = ui->statusBar->palette();
-    pal.setColor(QPalette::WindowText, Qt::white);
-    ui->statusBar->setPalette(pal);
 #endif
 
     // Add player_core frame
@@ -58,11 +54,12 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     // Enable autohiding playlist
     player_core->installEventFilter(this);
     player_core->setMouseTracking(true);
+    /*
     if (player_core->getLayer())
     {
         player_core->getLayer()->installEventFilter(this);
         player_core->getLayer()->setMouseTracking(true);
-    }
+    }*/
 
     // Add playlist
     playlist = new Playlist;
@@ -108,11 +105,7 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     connect(player_core, &PlayerCore::paused,  ui->pauseButton, &QPushButton::hide);
     connect(player_core, &PlayerCore::played,  ui->playButton,  &QPushButton::hide);
     connect(player_core, &PlayerCore::played,  ui->pauseButton, &QPushButton::show);
-#ifdef Q_OS_MAC
-    connect(player_core, &PlayerCore::stopped, this, &ClassicPlayer::onStopped, Qt::QueuedConnection);
-#else
     connect(player_core, &PlayerCore::stopped,       this, &ClassicPlayer::onStopped);
-#endif
     connect(player_core, &PlayerCore::sizeChanged,   this, &ClassicPlayer::onSizeChanged);
     connect(player_core, &PlayerCore::lengthChanged, this, &ClassicPlayer::onLengthChanged);
     connect(player_core, &PlayerCore::timeChanged,   this, &ClassicPlayer::onProgressChanged);
@@ -165,7 +158,6 @@ void ClassicPlayer::closeEvent(QCloseEvent *e)
 
     no_play_next = true;
     player_core->stop();
-    QThread::msleep(500);
     webvideo->close();
     e->accept();
 }
@@ -178,7 +170,6 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
     if (e->type() == QEvent::Enter && obj == player_core && isFullScreen())
     {
         ui->toolbar->hide();
-        ui->statusBar->hide();
         return true;
     }
     if (e->type() == QEvent::Leave && obj == playlist)
@@ -192,7 +183,6 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
         if (isFullScreen() && me->globalY() > toolbar_pos_y && !ui->toolbar->isVisible()) //mouse enters toolbar
         {
             ui->toolbar->show();
-            ui->statusBar->show();
         }
         else if (!isFullScreen() && me->x() > width() - 100)
             playlist->show();
@@ -300,7 +290,6 @@ void ClassicPlayer::setFullScreen()
         ui->menubar->show();
 #endif
         ui->toolbar->show();
-        ui->statusBar->show();
         ui->netButton->setEnabled(true);
     }
     else if (!cutterbar->isVisible()) // Forbidden fullscreen when cutting video
@@ -310,7 +299,6 @@ void ClassicPlayer::setFullScreen()
         ui->menubar->hide();
 #endif
         ui->toolbar->hide();
-        ui->statusBar->hide();
         ui->netButton->setEnabled(false);
         toolbar_pos_y = QApplication::desktop()->screenGeometry(this).height() - ui->toolbar->height();
     }
@@ -349,7 +337,7 @@ void ClassicPlayer::onPBarPressed()
     if (player_core->state == PlayerCore::STOPPING)
         return;
     QString time = secToTime(ui->progressBar->value());
-    ui->statusBar->showMessage(time);
+    player_core->showText(time.toUtf8());
 }
 
 void ClassicPlayer::onPBarChanged(int pos)
@@ -357,7 +345,7 @@ void ClassicPlayer::onPBarChanged(int pos)
     if (player_core->state == PlayerCore::STOPPING)
         return;
     if (ui->progressBar->isSliderDown())
-        ui->statusBar->showMessage(secToTime(ui->progressBar->value()));
+        player_core->showText(secToTime(ui->progressBar->value()).toUtf8());
     else
         player_core->setProgress(pos);
 }
@@ -367,12 +355,11 @@ void ClassicPlayer::onPBarReleased()
     if (player_core->state == PlayerCore::STOPPING)
         return;
     player_core->setProgress(ui->progressBar->value());
-    ui->statusBar->clearMessage();
 }
 
 void ClassicPlayer::onProgressChanged(int pos)
 {
-    if (!ui->progressBar->isSliderDown())
+    if (!ui->progressBar->isSliderDown() && pos % 4 == 0) // Make slider easier to drag
         ui->progressBar->setValue(pos);
 }
 

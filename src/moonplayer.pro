@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT             += core gui network xml widgets
+QT += core gui network xml widgets
 
 macx:  TARGET = MoonPlayer
 !macx: TARGET = moonplayer
@@ -33,13 +33,11 @@ SOURCES += main.cpp\
     plugin.cpp \
     updatechecker.cpp \
     selectiondialog.cpp \
-    videoqualities.cpp
-!macx: SOURCES += playercore.cpp \
-    localserver.cpp \
+    videoqualities.cpp \
+    playercore_mpv.cpp \
+    danmakudelaygetter_mpv.cpp
+!macx: SOURCES += localserver.cpp \
     localsocket.cpp
-macx: SOURCES += playercore_vlc.cpp \
-    danmakudelaygetter_vlc.cpp
-unix:!macx: SOURCES += danmakudelaygetter.cpp
 unix: SOURCES += yougetbridge.cpp \
     danmakuloader.cpp
 
@@ -97,35 +95,23 @@ FORMS    += \
 
 # Installation on Linux
 unix:!macx {
-    #skin
-    default_skin.files += skins
-    default_skin.path = /usr/share/moonplayer
-    #translation
-    trans.files += moonplayer_*.qm Version
-    trans.path = /usr/share/moonplayer
-    #danmaku
-    danmaku.files += danmaku2ass.py
-    danmaku.path = /usr/share/moonplayer
+    usr_share.files += skins plugins moonplayer_*.qm Version danmaku2ass
+    usr_share.path = /usr/share/moonplayer
     #icon
     icon.files += moonplayer.png
     icon.path = /usr/share/icons
     #bin
     execute.files += moonplayer
     execute.path = /usr/bin
-    #plugins
-    plugin.files += plugins
-    plugin.path = /usr/share/moonplayer
     #menu
     menu.files += moonplayer.desktop
     menu.path = /usr/share/applications
-    INSTALLS += default_skin execute trans icon menu plugin danmaku
+    INSTALLS += usr_share icon execute menu
 }
 
 # Build bundle for Mac OS X
 macx {
-    VLCFILES.files = /Applications/VLC.app/Contents/MacOS/lib /Applications/VLC.app/Contents/MacOS/plugins
-    VLCFILES.path = Contents/MacOS
-    RESFILES.files = moonplayer_zh_CN.qm upgrade-you-get.sh danmaku2ass.py skins plugins icons Version
+    RESFILES.files = moonplayer_zh_CN.qm upgrade-you-get.sh danmaku2ass skins plugins icons Version
     RESFILES.path = Contents/Resources
     QMAKE_BUNDLE_DATA += RESFILES VLCFILES
     QMAKE_INFO_PLIST = Info.plist
@@ -137,13 +123,13 @@ win32: RC_FILE = icon.rc
 
 # Libraries
 unix:!macx: CONFIG += link_pkgconfig
-unix:!macx: PKGCONFIG += python2
+unix:!macx: PKGCONFIG += python2 mpv
 
 macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/Headers \
-    /Applications/VLC.app/Contents/MacOS/include
+    /usr/local/include
 macx: LIBS += -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config \
     -lpython2.7 -ldl -framework CoreFoundation \
-    -L/Applications/VLC.app/Contents/MacOS/lib -lvlc -lvlccore
+    -L /usr/local/lib -lmpv
 
 win32: INCLUDEPATH += C:\\Python27\\include
 win32: LIBS += C:\\Python27\\libs\\python27.lib

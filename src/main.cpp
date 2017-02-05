@@ -6,6 +6,7 @@
 #include "playlist.h"
 #include "accessmanager.h"
 #include "updatechecker.h"
+#include <locale.h>
 #include <QDir>
 #include <QIcon>
 #include <QLocale>
@@ -105,6 +106,8 @@ int main(int argc, char *argv[])
     // This is the first instance, create server
     LocalServer server;
 #endif
+    //for mpv
+    setlocale(LC_NUMERIC, "C");
 
     //init
     access_manager = new QNetworkAccessManager(&a);

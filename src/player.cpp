@@ -25,7 +25,6 @@
 #include <QListWidget>
 #include <QMessageBox>
 #include <QMimeData>
-#include <QThread>
 #include <QCoreApplication>
 #include <QLabel>
 #ifdef Q_OS_WIN
@@ -47,11 +46,12 @@ Player::Player(QWidget *parent) :
     //enable autohiding toolbar
     player_core->installEventFilter(this);
     player_core->setMouseTracking(true);
+    /*
     if (player_core->getLayer())
     {
         player_core->getLayer()->installEventFilter(this);
         player_core->getLayer()->setMouseTracking(true);
-    }
+    }*/
     ui->toolBar->installEventFilter(this);
 
     //move window
@@ -116,11 +116,6 @@ Player::Player(QWidget *parent) :
     aboutMenu->addAction(tr("Contribute"), this, SLOT(openContributePage()));
     aboutMenu->addAction(tr("Homepage"), this, SLOT(openHomepage()));
 
-    //Add time show
-    timeShow = new QLabel(player_core);
-    timeShow->move(0, 0);
-    timeShow->hide();
-
     //Connect
     connect(ui->playButton, SIGNAL(clicked()), player_core, SLOT(changeState()));
     connect(ui->pauseButton, SIGNAL(clicked()), player_core, SLOT(changeState()));
@@ -138,11 +133,7 @@ Player::Player(QWidget *parent) :
 
     connect(player_core, SIGNAL(played()), this, SLOT(setIconToPause()));
     connect(player_core, SIGNAL(paused()), this, SLOT(setIconToPlay()));
-#ifdef Q_OS_MAC
-    connect(player_core, SIGNAL(stopped()), this, SLOT(onStopped()), Qt::QueuedConnection);
-#else
     connect(player_core, SIGNAL(stopped()), this, SLOT(onStopped()));
-#endif
     connect(player_core, SIGNAL(timeChanged(int)), this, SLOT(onProgressChanged(int)));
     connect(player_core, SIGNAL(lengthChanged(int)), this, SLOT(onLengthChanged(int)));
     connect(player_core, SIGNAL(fullScreen()), this, SLOT(setFullScreen()));
@@ -190,7 +181,6 @@ void Player::closeEvent(QCloseEvent* e)
     }
     no_play_next = true;
     player_core->stop();
-    QThread::msleep(500);
     webvideo->close();
     e->accept();
 }
@@ -526,18 +516,16 @@ void Player::onPBarPressed()
 {
     if (player_core->state == PlayerCore::STOPPING)
         return;
-    QString time = secToTime(ui->progressBar->value(), true);
-    timeShow->setText(time);
-    timeShow->show();
-    timeShow->move(player_core->pos());
+    QString time = secToTime(ui->progressBar->value());
+    player_core->showText(time.toUtf8());
 }
 
 void Player::onPBarChanged(int pos)
 {
     if (player_core->state == PlayerCore::STOPPING)
         return;
-    if (timeShow->isVisible())  // slider pressed
-        timeShow->setText(secToTime(pos, true));
+    if (ui->progressBar->isSliderDown())  // slider pressed
+        player_core->showText(secToTime(pos).toUtf8());
     else  // move by keyboard
         player_core->setProgress(pos);
 }
@@ -552,13 +540,12 @@ void Player::onPBarReleased()
     }
     if (player_core->state == PlayerCore::STOPPING)
         return;
-    timeShow->hide();
     player_core->setProgress(ui->progressBar->value());
 }
 
 void Player::onProgressChanged(int pos)
 {
-    if (!ui->progressBar->isSliderDown())
+    if (!ui->progressBar->isSliderDown() && pos % 4 == 0) // make slider easier to drag
         ui->progressBar->setValue(pos);
 }
 

@@ -51,7 +51,6 @@ private:
     Border* bottomBorder;
     Border* topLeftBorder;
     Border* topRightBorder;
-    QLabel* timeShow;
     QMenu* menu;
 
     bool no_play_next;

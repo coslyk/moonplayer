@@ -33,21 +33,13 @@ QStringList Settings::skinList;
 int Settings::currentSkin;
 int Settings::port;
 int Settings::cacheSize;
-int Settings::cacheMin;
 int Settings::maxTasks;
 int Settings::volume;
 int Settings::danmakuSize;
 int Settings::durationScrolling;
 int Settings::durationStill;
-bool Settings::framedrop;
-bool Settings::doubleBuffer;
-bool Settings::fixDanmakuNotShown;
-bool Settings::fixLastFrame;
-bool Settings::ffodivxvdpau;
 bool Settings::autoResize;
 bool Settings::disableSkin;
-bool Settings::enableScreenshot;
-bool Settings::softvol;
 bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 bool Settings::autoCloseWindow;
@@ -98,17 +90,10 @@ void SettingsDialog::loadSettings()
     ui->proxyEdit->setText(proxy);
     ui->portEdit->setText(QString::number(port));
     ui->cacheSpinBox->setValue(cacheSize);
-    ui->cacheMinSpinBox->setValue(cacheMin);
     ui->maxTaskSpinBox->setValue(maxTasks);
     ui->dirButton->setText(downloadDir);
-    ui->dropCheckBox->setChecked(framedrop);
-    ui->doubleCheckBox->setChecked(doubleBuffer);
-    ui->ffodivxvdpauCheckBox->setChecked(ffodivxvdpau);
-    ui->fixCheckBox->setChecked(fixLastFrame);
     ui->resizeCheckBox->setChecked(autoResize);
     ui->disableSkinCheckBox->setChecked(disableSkin);
-    ui->screenshotCheckBox->setChecked(enableScreenshot);
-    ui->softvolCheckBox->setChecked(softvol);
     ui->rememberCheckBox->setChecked(rememberUnfinished);
     ui->combineCheckBox->setChecked(autoCombine);
     ui->autoCloseWindowCheckBox->setChecked(autoCloseWindow);
@@ -118,7 +103,6 @@ void SettingsDialog::loadSettings()
     ui->fontSizeSpinBox->setValue(danmakuSize);
     ui->dmSpinBox->setValue(durationScrolling);
     ui->dsSpinBox->setValue(durationStill);
-    ui->fixDanmakuShownCheckBox->setChecked(fixDanmakuNotShown);
 
     switch (quality)
     {
@@ -156,19 +140,12 @@ void SettingsDialog::saveSettings()
     proxy = ui->proxyEdit->text().simplified();
     port = ui->portEdit->text().toInt();
     cacheSize = ui->cacheSpinBox->value();
-    cacheMin = ui->cacheMinSpinBox->value();
     maxTasks = ui->maxTaskSpinBox->value();
     downloadDir = ui->dirButton->text();
-    framedrop = ui->dropCheckBox->isChecked();
-    doubleBuffer = ui->doubleCheckBox->isChecked();
-    ffodivxvdpau = ui->ffodivxvdpauCheckBox->isChecked();
-    fixLastFrame = ui->fixCheckBox->isChecked();
-    softvol = ui->softvolCheckBox->isChecked();
     quality = (enum Quality) group->checkedId();
     currentSkin = ui->skinComboBox->currentIndex();
     autoResize = ui->resizeCheckBox->isChecked();
     disableSkin = ui->disableSkinCheckBox->isChecked();
-    enableScreenshot = ui->screenshotCheckBox->isChecked();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
     autoCombine = ui->combineCheckBox->isChecked();
     autoCloseWindow = ui->autoCloseWindowCheckBox->isChecked();
@@ -178,7 +155,6 @@ void SettingsDialog::saveSettings()
     danmakuSize = ui->fontSizeSpinBox->value();
     durationScrolling = ui->dmSpinBox->value();
     durationStill = ui->dsSpinBox->value();
-    fixDanmakuNotShown = ui->fixDanmakuShownCheckBox->isChecked();
 
     if (proxy.isEmpty())
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
@@ -190,32 +166,18 @@ void SettingsDialog::saveSettings()
 SettingsDialog::~SettingsDialog()
 {
     //open file
-#if defined(Q_OS_WIN)
-    QSettings settings("HKEY_CURRENT_USER\\Software\\moonplayer", QSettings::NativeFormat);
-#elif defined(Q_OS_LINUX)
-    QSettings settings(QDir::homePath() + "/.config/moonplayer.ini", QSettings::IniFormat);
-#elif defined(Q_OS_MAC)
-    QSettings settings(QDir::homePath() + "/Library/Application Support/MoonPlayer/config.ini", QSettings::IniFormat);
-#else
-#error ERROR: Unsupport system!
-#endif
+    QSettings settings("moonsoft", "moonplayer");
+
     settings.setValue("Player/current_skin", currentSkin);
     settings.setValue("Player/auto_resize", autoResize);
     settings.setValue("Player/disable_skin", disableSkin);
-    settings.setValue("Player/screenshot", enableScreenshot);
     settings.setValue("Player/remember_unfinished", rememberUnfinished);
     settings.setValue("Video/out", vout);
-    settings.setValue("Video/framedrop", framedrop);
-    settings.setValue("Video/double", doubleBuffer);
-    settings.setValue("Video/fixlastframe", fixLastFrame);
-    settings.setValue("Video/ffodivxvdpau", ffodivxvdpau);
     settings.setValue("Audio/out", aout);
-    settings.setValue("Audio/softvol", softvol);
     settings.setValue("Audio/volume", volume);
     settings.setValue("Net/proxy", proxy);
     settings.setValue("Net/port", port);
     settings.setValue("Net/cache_size", cacheSize);
-    settings.setValue("Net/cache_min", cacheMin);
     settings.setValue("Net/max_tasks", maxTasks);
     settings.setValue("Net/download_dir", downloadDir);
     settings.setValue("Plugins/quality", (int) quality);
@@ -226,17 +188,13 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Danmaku/size", danmakuSize);
     settings.setValue("Danmaku/dm", durationScrolling);
     settings.setValue("Danmaku/ds", durationStill);
-    settings.setValue("Danmaku/fix_not_shown", fixDanmakuNotShown);
     delete ui;
 }
 
 //Init settings
 void initSettings()
 {
-    //open file
-#if defined(Q_OS_WIN)
-    QSettings settings("HKEY_CURRENT_USER\\Software\\moonplayer", QSettings::NativeFormat);
-#elif defined(Q_OS_LINUX)
+#if defined(Q_OS_LINUX)
     QDir dir = QDir::home();
     if (!dir.cd(".moonplayer"))
     {
@@ -247,7 +205,6 @@ void initSettings()
         dir.mkdir("plugins");
     if (!dir.exists("skins"))
         dir.mkdir("skins");
-    QSettings settings(QDir::homePath() + "/.config/moonplayer.ini", QSettings::IniFormat);
 
 #elif defined(Q_OS_MAC)
     QDir dir = QDir::home();
@@ -262,11 +219,9 @@ void initSettings()
         dir.mkdir("plugins");
     if (!dir.exists("skins"))
         dir.mkdir("skins");
-    QSettings settings(dir.filePath("config.ini"), QSettings::IniFormat);
-
-#else
-#error ERROR: Unsupport system!
 #endif
+
+    QSettings settings("moonsoft", "moonplayer");
 
     //read settings
 #if defined(Q_OS_WIN)
@@ -274,8 +229,10 @@ void initSettings()
         vout = settings.value("Video/out", "direct3d").toString();
     else
         vout = settings.value("Video/out", "directx").toString();
-#else
+#elif defined(Q_OS_LINUX)
     vout = settings.value("Video/out", "xv").toString();
+#elif defined(Q_OS_MAC)
+    vout = settings.value("Video/out", "opengl").toString();
 #endif
 
     //set path
@@ -291,22 +248,15 @@ void initSettings()
 #error ERROR: Unsupported system!
 #endif
 
-    framedrop = settings.value("Video/framedrop", true).toBool();
-    doubleBuffer = settings.value("Video/double", true).toBool();
-    fixLastFrame = settings.value("Video/fixlastframe", false).toBool();
-    ffodivxvdpau = settings.value("Video/ffodivxvdpau", true).toBool();
     aout = settings.value("Audio/out", "auto").toString();
-    softvol = settings.value("Audio/softvol", false).toBool();
     volume = settings.value("Audio/volume", 10).toInt();
     currentSkin = settings.value("Player/current_skin", 0).toInt();
     autoResize = settings.value("Player/auto_resize", true).toBool();
     disableSkin = settings.value("Player/disable_skin", false).toBool();
-    enableScreenshot = settings.value("Player/screenshot", true).toBool();
     rememberUnfinished = settings.value("Player/remember_unfinished", true).toBool();
     proxy = settings.value("Net/proxy").toString();
     port = settings.value("Net/port").toInt();
     cacheSize = settings.value("Net/cache_size", 4096).toInt();
-    cacheMin = settings.value("Net/cache_min", 50).toInt();
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
     downloadDir = settings.value("Net/download_dir", QDir::homePath()).toString();
     quality = (Quality) settings.value("Plugins/quality", (int) SUPER).toInt();
@@ -317,7 +267,6 @@ void initSettings()
     danmakuSize = settings.value("Danmaku/size", 0).toInt();
     durationScrolling = settings.value("Danmaku/dm", 0).toInt();
     durationStill = settings.value("Danmaku/ds", 6).toInt();
-    fixDanmakuNotShown = settings.value("Danmaku/fix_not_shown", false).toBool();
 #ifdef Q_OS_MAC
     uiScale = 1.0;
 #else

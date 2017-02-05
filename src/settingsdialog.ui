@@ -30,6 +30,23 @@
        <property name="fieldGrowthPolicy">
         <enum>QFormLayout::ExpandingFieldsGrow</enum>
        </property>
+       <item row="2" column="0">
+        <widget class="QLabel" name="skinLabel">
+         <property name="text">
+          <string>Skin</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="skinComboBox"/>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QCheckBox" name="disableSkinCheckBox">
+         <property name="text">
+          <string>Disable skin (Need restart)</string>
+         </property>
+        </widget>
+       </item>
        <item row="5" column="0" colspan="2">
         <widget class="QCheckBox" name="resizeCheckBox">
          <property name="text">
@@ -38,36 +55,9 @@
         </widget>
        </item>
        <item row="6" column="0" colspan="2">
-        <widget class="QCheckBox" name="screenshotCheckBox">
-         <property name="toolTip">
-          <string>Need screenshot filter (-vf-add screenshot)</string>
-         </property>
-         <property name="text">
-          <string>Enable screenshot</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="skinComboBox"/>
-       </item>
-       <item row="7" column="0" colspan="2">
         <widget class="QCheckBox" name="rememberCheckBox">
          <property name="text">
           <string>Remember unfinished clips</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="skinLabel">
-         <property name="text">
-          <string>Skin</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QCheckBox" name="disableSkinCheckBox">
-         <property name="text">
-          <string>Disable skin (Need restart)</string>
          </property>
         </widget>
        </item>
@@ -96,6 +86,11 @@
            </item>
            <item>
             <property name="text">
+             <string>vaapi</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
              <string>vdpau</string>
             </property>
            </item>
@@ -111,17 +106,7 @@
            </item>
            <item>
             <property name="text">
-             <string>gl</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>x11</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>caca</string>
+             <string>opengl</string>
             </property>
            </item>
           </widget>
@@ -135,10 +120,21 @@
            <item>
             <widget class="QLabel" name="xvLabel">
              <property name="text">
-              <string>The default output in Linux. Cannot be used in Windows.</string>
+              <string>Default output on Linux.</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_2">
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QLabel" name="vaLabel">
+             <property name="text">
+              <string>Intel hardware decoding on Linux.</string>
              </property>
             </widget>
            </item>
@@ -149,14 +145,7 @@
            <item>
             <widget class="QLabel" name="vdpauLabel">
              <property name="text">
-              <string>Nvidia hardware decoding in Linux. (Screenshot will be disabled)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="ffodivxvdpauCheckBox">
-             <property name="text">
-              <string>Enable ffodivxvdpau</string>
+              <string>Nvidia hardware decoding on Linux.</string>
              </property>
             </widget>
            </item>
@@ -167,7 +156,7 @@
            <item>
             <widget class="QLabel" name="dxLabel">
              <property name="text">
-              <string>Default output in Windows. Cannot be used in Linux.</string>
+              <string>Default output on Windows XP.</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
@@ -181,7 +170,7 @@
            <item>
             <widget class="QLabel" name="d3Label">
              <property name="text">
-              <string>Default output in Windows Vista and Windows 7. Cannot be used in Linux and Windows XP.</string>
+              <string>Default output on Windows 7, 8, 10.</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
@@ -195,7 +184,7 @@
            <item>
             <widget class="QLabel" name="glLabel">
              <property name="text">
-              <string>OpenGL Output in Linux. You can try it if xv does not work.</string>
+              <string>Default output on macOS.</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
@@ -204,52 +193,6 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_6">
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QLabel" name="x11Label">
-             <property name="text">
-              <string>Output in Linux. You can try it if xv does not work.</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="page_8">
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <item>
-            <widget class="QLabel" name="cacaLabel">
-             <property name="text">
-              <string>Try it and you will know what it is!</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="doubleCheckBox">
-         <property name="text">
-          <string>Double buffer</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="dropCheckBox">
-         <property name="text">
-          <string>Allow framedrop</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="fixCheckBox">
-         <property name="text">
-          <string>Try fixing &quot;stop at last frame&quot; problem</string>
-         </property>
         </widget>
        </item>
       </layout>
@@ -273,13 +216,6 @@
            <string>auto</string>
           </property>
          </item>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QCheckBox" name="softvolCheckBox">
-         <property name="text">
-          <string>Use software sound mixer</string>
-         </property>
         </widget>
        </item>
       </layout>
@@ -362,6 +298,13 @@
          <item row="1" column="1">
           <widget class="QPushButton" name="dirButton"/>
          </item>
+         <item row="2" column="0" colspan="2">
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
          <item row="3" column="0">
           <widget class="QLabel" name="label_4">
            <property name="text">
@@ -369,31 +312,10 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>Cache min:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QSpinBox" name="cacheMinSpinBox">
-           <property name="maximum">
-            <number>100</number>
-           </property>
-          </widget>
-         </item>
          <item row="3" column="1">
           <widget class="QSpinBox" name="cacheSpinBox">
            <property name="maximum">
             <number>20480</number>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0" colspan="2">
-          <widget class="Line" name="line">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -564,7 +486,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
+       <item row="4" column="2">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -581,13 +503,6 @@
         <widget class="QLabel" name="label_10">
          <property name="text">
           <string>Font:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="5">
-        <widget class="QCheckBox" name="fixDanmakuShownCheckBox">
-         <property name="text">
-          <string>Fix: Cannot show danmaku in some video clips</string>
          </property>
         </widget>
        </item>
