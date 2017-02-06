@@ -169,7 +169,7 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
     static bool ctrl_pressed = false;
 
     // Hide/show playlist and toolbar
-    if (e->type() == QEvent::Enter && obj == player_core && isFullScreen())
+    if (e->type() == QEvent::Leave && obj == ui->toolbar && isFullScreen())
     {
         ui->toolbar->hide();
         return true;
@@ -302,7 +302,7 @@ void ClassicPlayer::setFullScreen()
 #endif
         ui->toolbar->hide();
         ui->netButton->setEnabled(false);
-        toolbar_pos_y = QApplication::desktop()->screenGeometry(this).height() - ui->toolbar->height();
+        toolbar_pos_y = QApplication::desktop()->screenGeometry(this).height() - ui->toolbar->height() / 2;
     }
 }
 
@@ -313,8 +313,9 @@ void ClassicPlayer::onSizeChanged(const QSize &sz)
     if (!Settings::autoResize)
         return;
     QSize newsize(sz.width(), height() - player_core->height() + sz.height());
-    QRect available = QApplication::desktop()->availableGeometry();
-    if (newsize.width() > available.width() || newsize.height() > available.height())
+    QSize frameNewSize = frameSize() - size() + newsize;
+    QRect available = QApplication::desktop()->availableGeometry(this);
+    if (frameNewSize.width() > available.width() || frameNewSize.height() > available.height())
         setGeometry(available);
     else
         resize(newsize);
