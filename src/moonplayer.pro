@@ -111,9 +111,11 @@ unix:!macx {
 
 # Build bundle for Mac OS X
 macx {
+    FFMPEG.files = /usr/local/opt/ffmpeg/bin/ffmpeg
+    FFMPEG.path = Contents/MacOS
     RESFILES.files = moonplayer_zh_CN.qm upgrade-you-get.sh danmaku2ass skins plugins icons Version
     RESFILES.path = Contents/Resources
-    QMAKE_BUNDLE_DATA += RESFILES
+    QMAKE_BUNDLE_DATA += RESFILES FFMPEG
     QMAKE_INFO_PLIST = Info.plist
     ICON = moonplayer.icns
 }

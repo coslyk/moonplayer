@@ -88,7 +88,7 @@ QString getFFmpegFile()
 #if defined(Q_OS_WIN)
         QDir dir(Settings::path);
         if (dir.exists("ffmpeg.exe"))
-            dir.filePath("ffmpeg.exe");
+            filename = dir.filePath("ffmpeg.exe");
         else
             filename = "";
 
@@ -102,7 +102,7 @@ QString getFFmpegFile()
         else
             filename = "";
 #elif defined(Q_OS_MAC)
-        filename = "";
+        filename = QCoreApplication::applicationDirPath() + "/ffmpeg";
 #else
 #error ERROR: Unsupport system!
 #endif
