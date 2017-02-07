@@ -337,7 +337,11 @@ void ClassicPlayer::onSizeChanged(const QSize &sz)
     QSize frameNewSize = frameSize() - size() + newsize;
     QRect available = QApplication::desktop()->availableGeometry(this);
     if (frameNewSize.width() > available.width() || frameNewSize.height() > available.height())
-        setWindowState(windowState() | Qt::WindowMaximized);
+    {
+        newsize = available.size() + size() - frameSize();
+        available.setSize(newsize);
+        setGeometry(available);
+    }
     else
         resize(newsize);
 }
