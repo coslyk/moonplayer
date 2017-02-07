@@ -20,6 +20,7 @@ signals:
     void played(void);
     void paused(void);
     void stopped(void);
+    void idle(void);
     void fullScreen(void);
     void newFile(const QString &name, const QString &path);
     void timeChanged(int pos);

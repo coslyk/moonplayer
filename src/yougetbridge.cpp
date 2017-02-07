@@ -53,7 +53,6 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &danma
         QMessageBox::warning(NULL, "Error", tr("Another file is being parsed."));
         return;
     }
-    qDebug("Use you-get.");
     this->url = url;
     this->download = download;
     this->danmaku = danmaku;

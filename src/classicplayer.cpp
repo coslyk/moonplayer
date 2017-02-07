@@ -22,6 +22,11 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     ui(new Ui::ClassicPlayer)
 {
     printf("Initialize player...\n");
+
+    quit_requested = false;
+    next_file_requested = false;
+    no_play_next = false;
+
     ui->setupUi(this);
     resize(size() * Settings::uiScale);
     // Set icons
@@ -54,12 +59,6 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     // Enable autohiding playlist
     player_core->installEventFilter(this);
     player_core->setMouseTracking(true);
-    /*
-    if (player_core->getLayer())
-    {
-        player_core->getLayer()->installEventFilter(this);
-        player_core->getLayer()->setMouseTracking(true);
-    }*/
 
     // Add playlist
     playlist = new Playlist;
@@ -106,6 +105,7 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     connect(player_core, &PlayerCore::played,  ui->playButton,  &QPushButton::hide);
     connect(player_core, &PlayerCore::played,  ui->pauseButton, &QPushButton::show);
     connect(player_core, &PlayerCore::stopped,       this, &ClassicPlayer::onStopped);
+    connect(player_core, &PlayerCore::idle,         this, &ClassicPlayer::onIdle);
     connect(player_core, &PlayerCore::sizeChanged,   this, &ClassicPlayer::onSizeChanged);
     connect(player_core, &PlayerCore::lengthChanged, this, &ClassicPlayer::onLengthChanged);
     connect(player_core, &PlayerCore::timeChanged,   this, &ClassicPlayer::onProgressChanged);
@@ -136,7 +136,6 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     connect(playlist, &Playlist::fileSelected, player_core, &PlayerCore::openFile);
 
     ui->volumeSlider->setValue(Settings::volume);
-    no_play_next = false;
 }
 
 ClassicPlayer::~ClassicPlayer()
@@ -158,10 +157,32 @@ void ClassicPlayer::closeEvent(QCloseEvent *e)
         }
     }
 
-    no_play_next = true;
-    player_core->stop();
     webvideo->close();
-    e->accept();
+    no_play_next = true;
+
+    // It's not safe to quit until mpv is in idle state
+    if (player_core->state != PlayerCore::STOPPING)
+    {
+        player_core->stop();
+        quit_requested = true;
+        e->ignore();
+    }
+    else
+        e->accept();
+}
+
+void ClassicPlayer::onIdle()
+{
+    if (quit_requested)
+    {
+        quit_requested = false;
+        close();
+    }
+    else if (next_file_requested)
+    {
+        next_file_requested = false;
+        playlist->playNext();
+    }
 }
 
 bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
@@ -316,7 +337,7 @@ void ClassicPlayer::onSizeChanged(const QSize &sz)
     QSize frameNewSize = frameSize() - size() + newsize;
     QRect available = QApplication::desktop()->availableGeometry(this);
     if (frameNewSize.width() > available.width() || frameNewSize.height() > available.height())
-        setGeometry(available);
+        setWindowState(windowState() | Qt::WindowMaximized);
     else
         resize(newsize);
 }
@@ -388,7 +409,7 @@ void ClassicPlayer::onStopped()
         ui->pauseButton->hide();
     }
     else
-        playlist->playNext();
+        next_file_requested = true;
 }
 
 // Cut video

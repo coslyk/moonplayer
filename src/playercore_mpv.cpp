@@ -143,7 +143,7 @@ PlayerCore::~PlayerCore()
     player_core = NULL;
     if (mpv)
     {
-        mpv_detach_destroy(mpv);
+        mpv_terminate_destroy(mpv);
         mpv = NULL;
     }
 
@@ -196,6 +196,8 @@ bool PlayerCore::event(QEvent *e)
         {
         case MPV_EVENT_START_FILE:
             videoWidth = videoHeight = 0;
+            time = 0;
+            emit timeChanged(time);
             if (openfile_called)
                 openfile_called = false;
             else // mpv opens file itself
@@ -214,7 +216,7 @@ bool PlayerCore::event(QEvent *e)
         {
             msgLabel->hide();
             int f = 0;
-            mpv_set_property_async(mpv, 2, "pause", MPV_FORMAT_FLAG, &f);
+            handleMpvError(mpv_set_property_async(mpv, 2, "pause", MPV_FORMAT_FLAG, &f));
         }
         case MPV_EVENT_UNPAUSE:
             state = VIDEO_PLAYING;
@@ -230,15 +232,21 @@ bool PlayerCore::event(QEvent *e)
         {
             mpv_event_end_file *ef = static_cast<mpv_event_end_file*>(event->data);
             handleMpvError(ef->error);
-            if (no_emit_stopped)
+            if (no_emit_stopped)  // switch to new file when playing
                 no_emit_stopped = false;
             else
             {
+                if (time > length - 5)
+                    unfinished_time.remove(file);
                 state = STOPPING;
                 emit stopped();
             }
             break;
         }
+        case MPV_EVENT_IDLE:
+            emit idle();
+            break;
+
         case MPV_EVENT_LOG_MESSAGE:
         {
             mpv_event_log_message *msg = static_cast<mpv_event_log_message*>(event->data);
@@ -321,8 +329,10 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
     if (state != STOPPING)
     {
         no_emit_stopped = true;
-        if (time < length - 2 && Settings::rememberUnfinished)
+        if (time <= length - 5 && Settings::rememberUnfinished)
             unfinished_time[this->file] = time;
+        else if (time > length - 5)
+            unfinished_time.remove(file);
     }
 
     this->file = file;
@@ -345,9 +355,10 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
     openfile_called = true;
     QByteArray tmp = file.toUtf8();
     const char *args[] = {"loadfile", tmp.constData(), NULL};
-    handleMpvError(mpv_command(mpv, args));
+    handleMpvError(mpv_command_async(mpv, 2, args));
 }
 
+// switch between play and pause
 void PlayerCore::changeState()
 {
     int f;
@@ -355,11 +366,11 @@ void PlayerCore::changeState()
     {
     case VIDEO_PAUSING:
         f = 0;
-        mpv_set_property_async(mpv, 2, "pause", MPV_FORMAT_FLAG, &f);
+        handleMpvError(mpv_set_property_async(mpv, 2, "pause", MPV_FORMAT_FLAG, &f));
         break;
     case VIDEO_PLAYING:
         f = 1;
-        mpv_set_property_async(mpv, 2, "pause", MPV_FORMAT_FLAG, &f);
+        handleMpvError(mpv_set_property_async(mpv, 2, "pause", MPV_FORMAT_FLAG, &f));
         break;
     default: break;
     }
@@ -370,7 +381,7 @@ void PlayerCore::stop()
     if (state == STOPPING)
         return;
     const char *args[] = {"stop", NULL};
-    mpv_command(mpv, args);
+    handleMpvError(mpv_command_async(mpv, 0, args));
     if (time < length - 2 && Settings::rememberUnfinished)
         unfinished_time[file] = time;
 }
@@ -426,11 +437,11 @@ void PlayerCore::loadAss(const QString &assFile)
         return;
     QByteArray tmp = assFile.toUtf8();
     const char *args[] = {"sub-add", tmp.constData(), "select", NULL};
-    mpv_command_async(mpv, 2, args);
+    handleMpvError(mpv_command_async(mpv, 2, args));
     if (danmaku.contains(" http")) // has delay
     {
         double delay = - danmaku.section(' ', 0, 0).toDouble();
-        mpv_set_property_async(mpv, 2, "sub-delay", MPV_FORMAT_DOUBLE, &delay);
+        handleMpvError(mpv_set_property_async(mpv, 2, "sub-delay", MPV_FORMAT_DOUBLE, &delay));
     }
 }
 
@@ -439,7 +450,7 @@ void PlayerCore::switchDanmaku()
     if (state == STOPPING || danmaku.isEmpty())
         return;
     danmaku_visible = !danmaku_visible;
-    mpv_set_property(mpv, "sub-visibility", MPV_FORMAT_FLAG, &danmaku_visible);
+    handleMpvError(mpv_set_property_async(mpv, 0, "sub-visibility", MPV_FORMAT_FLAG, &danmaku_visible));
 }
 
 void PlayerCore::screenShot()

@@ -36,6 +36,12 @@ Player::Player(QWidget *parent) :
     ui(new Ui::Player)
 {
     printf("Initialize player...\n");
+
+    no_play_next = false;
+    mouse_in_toolbar = false;
+    quit_requested = false;
+    next_file_requested = false;
+
     ui->setupUi(this);
     resize(size() * Settings::uiScale);
 
@@ -46,12 +52,6 @@ Player::Player(QWidget *parent) :
     //enable autohiding toolbar
     player_core->installEventFilter(this);
     player_core->setMouseTracking(true);
-    /*
-    if (player_core->getLayer())
-    {
-        player_core->getLayer()->installEventFilter(this);
-        player_core->getLayer()->setMouseTracking(true);
-    }*/
     ui->toolBar->installEventFilter(this);
 
     //move window
@@ -134,6 +134,7 @@ Player::Player(QWidget *parent) :
     connect(player_core, SIGNAL(played()), this, SLOT(setIconToPause()));
     connect(player_core, SIGNAL(paused()), this, SLOT(setIconToPlay()));
     connect(player_core, SIGNAL(stopped()), this, SLOT(onStopped()));
+    connect(player_core, SIGNAL(idle()), this, SLOT(onIdle()));
     connect(player_core, SIGNAL(timeChanged(int)), this, SLOT(onProgressChanged(int)));
     connect(player_core, SIGNAL(lengthChanged(int)), this, SLOT(onLengthChanged(int)));
     connect(player_core, SIGNAL(fullScreen()), this, SLOT(setFullScreen()));
@@ -158,9 +159,6 @@ Player::Player(QWidget *parent) :
     //Set default volume
     ui->volumeSlider->setValue(Settings::volume);
     ui->volumeSlider->setFixedWidth(100 * Settings::uiScale);
-
-    no_play_next = false;
-    mouse_in_toolbar = false;
 }
 
 Player::~Player()
@@ -181,10 +179,32 @@ void Player::closeEvent(QCloseEvent* e)
             return;
         }
     }
-    no_play_next = true;
-    player_core->stop();
     webvideo->close();
-    e->accept();
+    no_play_next = true;
+
+    // It's not safe to quit until mpv is in idle state
+    if (player_core->state != PlayerCore::STOPPING)
+    {
+        player_core->stop();
+        quit_requested = true;
+        e->ignore();
+    }
+    else
+        e->accept();
+}
+
+void Player::onIdle()
+{
+    if (quit_requested)
+    {
+        quit_requested = false;
+        close();
+    }
+    else if (next_file_requested)
+    {
+        next_file_requested = false;
+        playlist->playNext();
+    }
 }
 
 void Player::dragEnterEvent(QDragEnterEvent *e)
@@ -418,7 +438,7 @@ void Player::onStopped()
     if (no_play_next)
         no_play_next = false;
     else
-        playlist->playNext();
+        next_file_requested = true; // play next file after mpv idles
 }
 
 //open setting dialog

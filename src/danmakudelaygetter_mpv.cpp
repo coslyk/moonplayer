@@ -23,6 +23,7 @@ DanmakuDelayGetter::DanmakuDelayGetter(QStringList &names, QStringList &urls,
     mpv_set_option(mpv, "no-video", MPV_FORMAT_NONE, NULL);
     mpv_set_option(mpv, "pause", MPV_FORMAT_NONE, NULL);
     mpv_set_option_string(mpv, "ao", "null");
+    mpv_observe_property(mpv, 0, "duration", MPV_FORMAT_DOUBLE);
     mpv_set_wakeup_callback(mpv, postEvent, this);
     if (mpv_initialize(mpv) < 0)
     {
@@ -93,13 +94,21 @@ bool DanmakuDelayGetter::event(QEvent *e)
 
         switch (event->event_id)
         {
-        case MPV_EVENT_FILE_LOADED:
+        case MPV_EVENT_PROPERTY_CHANGE:
         {
-            double len;
-            mpv_get_property(mpv, "duration", MPV_FORMAT_DOUBLE, &len);
-            delay += len;
-            start();
-            break;
+            mpv_event_property *prop = (mpv_event_property*) event->data;
+            if (prop->data == NULL)
+                break;
+            if (QByteArray(prop->name) == "duration")
+            {
+                double len = *(double*) prop->data;
+                if (len > 0.5)
+                {
+                    delay += len;
+                    start();
+                }
+                break;
+            }
         }
         default: break;
         }
