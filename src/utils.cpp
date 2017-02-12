@@ -93,14 +93,7 @@ QString getFFmpegFile()
             filename = "";
 
 #elif defined(Q_OS_LINUX)
-        QDir dir = QDir::home();
-        dir.cd(".moonplayer");
-        if (dir.exists("ffmpeg"))
-            filename = dir.filePath("ffmpeg");
-        else if (QDir("/usr/share/moonplayer").exists("ffmpeg"))
-            filename = "/usr/share/moonplayer/ffmpeg";
-        else
-            filename = "";
+        filename = "ffmpeg";
 #elif defined(Q_OS_MAC)
         filename = QCoreApplication::applicationDirPath() + "/ffmpeg";
 #else

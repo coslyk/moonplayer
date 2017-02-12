@@ -10,6 +10,7 @@ class VideoCombiner : public QProcess
 public:
     explicit VideoCombiner(QObject *parent = 0, const QDir &dir = QDir());
 private:
+    QDir dir;
     QString save_as;
 private slots:
     void onFinished(int status);

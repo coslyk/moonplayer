@@ -60,7 +60,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(ui->dirButton, SIGNAL(clicked()), this, SLOT(onDirButton()));
     connect(ui->fontPushButton, &QPushButton::clicked, this, &SettingsDialog::onFontButton);
     connect(ui->viewPluginsButton, SIGNAL(clicked()), this, SLOT(showPluginsMsg()));
-    connect(ui->combineCheckBox, SIGNAL(toggled(bool)), this, SLOT(checkFFMPEG(bool)));
     connect(ui->qualitiesButton, &QPushButton::clicked, this, &SettingsDialog::manageQualities);
 
     group = new QButtonGroup(this);
@@ -294,17 +293,6 @@ void initSettings()
 void SettingsDialog::showPluginsMsg()
 {
     QDesktopServices::openUrl("file://" + userPath + "/plugins");
-}
-
-void SettingsDialog::checkFFMPEG(bool toggled)
-{
-    if (toggled && getFFmpegFile().isEmpty())
-    {
-        QMessageBox::warning(this, "Error", tr("FFMPEG is not installed. Please download it from") +
-                             "\n    http://johnvansickle.com/ffmpeg/\n" +
-                            tr("and place file \"ffmpeg\" into ~/.moonplayer/ or /usr/share/moonplayer/"));
-        ui->combineCheckBox->setChecked(false);
-    }
 }
 
 void SettingsDialog::manageQualities()
