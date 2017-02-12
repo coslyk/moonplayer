@@ -77,7 +77,6 @@ void DanmakuDelayGetter::start()
     {
         const char *args[] = {"stop", NULL};
         mpv_command_async(mpv, 2, args);
-        deleteLater();
     }
 }
 
@@ -107,9 +106,13 @@ bool DanmakuDelayGetter::event(QEvent *e)
                     delay += len;
                     start();
                 }
-                break;
             }
+            break;
         }
+        case MPV_EVENT_IDLE:
+            if (urls.isEmpty()) // Finished
+                deleteLater();
+            break;
         default: break;
         }
     }
