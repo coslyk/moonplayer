@@ -7,17 +7,11 @@ import moonplayer
 import re
 import json
 
-res_name = '电视剧 - 全网'
+res_name = '电视剧 - 优酷'
 
-tags_table = {'全部': 0,    '古装': 1007, '警匪': 1009, '搞笑': 1010,
-              '悬疑': 1011, '神话': 1012, '偶像': 1001, '历史': 1005,
-              '言情': 1002, '家庭': 1013, '科幻': 1014, '其他': 1111}
-tags = ['全部', '古装', '警匪', '搞笑', '悬疑', '神话', '偶像', '历史',
-        '言情', '家庭', '科幻', '其他']
-
-countries_table = {'全部': 0,    '大陆': 1001, '韩国': 1003, '香港': 1006,
-                   '泰国': 1007, '台湾': 1008, '美国': 1009, '其他': 1111}
-countries = ['全部', '大陆', '韩国', '香港', '泰国', '台湾', '美国', '其他']
+tags = ['', '古装', '武侠', '警匪', '军事', '神话', '科幻', '悬疑', '历史', '儿童',
+        '农村', '都市', '家庭', '搞笑', '偶像', '言情', '时装', '优酷出品']
+countries = ['', '大陆', '香港', '台湾', '韩国', '日本', '美国', '英国', '泰国', '新加坡']
 
 ### Search ### 
 def search(key, page):
@@ -83,29 +77,26 @@ class SearchResultParser(HTMLParser):
 
 ### Explore ###
 def explore(tag, country, page):
-    tag_id = tags_table[tag]
-    country_id = countries_table[country]
-    url = 'http://www.soku.com/channel/teleplaylist_0_%i_%i_1_%i.html' % \
-           (tag_id, country_id, page)
+    url = 'http://list.youku.com/category/show/c_97_g_%s_a_%s_s_1_d_2_p_%i.html' % (tag, country, page)
     moonplayer.download_page(url, explore_cb, None)
     
     
-pic_re = re.compile(r'<img src="(.+?)" alt="(.+)">')
-pic2_re = re.compile(r'<img original="(http://g\d.ykimg.com/.+?)"\s[^>]*alt="(.+?)"')
+pic_re = re.compile(r'''<img[^>]*? src="(.+?ykimg.+?)" alt="(.+?)"''')
 def explore_cb(page, data):
+    page = page.split('大家都在看')[0]
     name2pic = {}
     result = []
     # Read all pic urls
-    match = pic2_re.search(page)
+    match = pic_re.search(page)
     while match:
-        (url, name) = match.group(1, 2)
+        url, name = match.group(1, 2)
         name2pic[name] = url
-        match = pic2_re.search(page, match.end(0))
+        match = pic_re.search(page, match.end(0))
     # Read links, bind them with relative pic urls
-    links = list_links(page, '/detail/show/')
+    links = list_links(page, '//v.youku.com/v_show')
     for i in xrange(0, len(links), 2):
         name = links[i]
-        url = links[i+1]
+        url = 'http:' + links[i+1]
         try:
             result.append({'name': name,
                            'url': url,
@@ -117,7 +108,9 @@ def explore_cb(page, data):
 
 ### Load item ###
 def load_item(url):
-    if url.startswith('http://'):
+    if url.startswith('http://v.youku.com/v_show/'):
+        moonplayer.download_page(url, load_youku_item_url_cb, None)
+    elif url.startswith('http://'):
         moonplayer.download_page(url, load_youku_item_cb, None)
     else:
         url = 'http://www.soku.com' + url
@@ -177,6 +170,18 @@ def load_item_cb(page, url):
     
     
 # Parse Youku's detail page
+yk_item_url_re = re.compile(r'''<a [^>]*?href="([^"]+?list\.youku\.com/show/id_[^"]+?)"[^>]*?>节目简介''')
+def load_youku_item_url_cb(page, data):
+    match = yk_item_url_re.search(page)
+    if match:
+        url = match.group(1)
+        if url.startswith('//'):
+            url = 'http:' + url
+        moonplayer.download_page(url, load_youku_item_cb, None)
+    else:
+        moonplayer.warn('Parse failed!')
+
+
 yk_showid_re = re.compile(r'''showid:['"](\d+)['"]''')
 yk_img_name_re = re.compile(r'''<img src=['"](.+?ykimg.+?)['"] alt=['"](.+?)['"]''')
 yk_summary_re = re.compile(r'''<span class=['"]intro-more hide['"]>([^>]+)</span>''')
