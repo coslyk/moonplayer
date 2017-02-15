@@ -24,7 +24,6 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     printf("Initialize player...\n");
 
     quit_requested = false;
-    next_file_requested = false;
     no_play_next = false;
 
     ui->setupUi(this);
@@ -105,7 +104,6 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     connect(player_core, &PlayerCore::played,  ui->playButton,  &QPushButton::hide);
     connect(player_core, &PlayerCore::played,  ui->pauseButton, &QPushButton::show);
     connect(player_core, &PlayerCore::stopped,       this, &ClassicPlayer::onStopped);
-    connect(player_core, &PlayerCore::idle,         this, &ClassicPlayer::onIdle);
     connect(player_core, &PlayerCore::sizeChanged,   this, &ClassicPlayer::onSizeChanged);
     connect(player_core, &PlayerCore::lengthChanged, this, &ClassicPlayer::onLengthChanged);
     connect(player_core, &PlayerCore::timeChanged,   this, &ClassicPlayer::onProgressChanged);
@@ -160,7 +158,7 @@ void ClassicPlayer::closeEvent(QCloseEvent *e)
     webvideo->close();
     no_play_next = true;
 
-    // It's not safe to quit until mpv is in idle state
+    // It's not safe to quit until mpv is stopped
     if (player_core->state != PlayerCore::STOPPING)
     {
         player_core->stop();
@@ -169,20 +167,6 @@ void ClassicPlayer::closeEvent(QCloseEvent *e)
     }
     else
         e->accept();
-}
-
-void ClassicPlayer::onIdle()
-{
-    if (quit_requested)
-    {
-        quit_requested = false;
-        close();
-    }
-    else if (next_file_requested)
-    {
-        next_file_requested = false;
-        playlist->playNext();
-    }
 }
 
 bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
@@ -406,14 +390,19 @@ void ClassicPlayer::onStopButton()
 
 void ClassicPlayer::onStopped()
 {
-    if (no_play_next)
+    if (quit_requested)
+    {
+        quit_requested = false;
+        close();
+    }
+    else if (no_play_next)
     {
         no_play_next = false;
         ui->playButton->show();
         ui->pauseButton->hide();
     }
     else
-        next_file_requested = true;
+        playlist->playNext();
 }
 
 // Cut video

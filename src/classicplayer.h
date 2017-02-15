@@ -37,7 +37,6 @@ private:
     WebVideo *webvideo;
     bool no_play_next;
     bool quit_requested;
-    bool next_file_requested;
     int toolbar_pos_y;
 
 private slots:
@@ -49,7 +48,6 @@ private slots:
     void onSizeChanged(const QSize &sz);
     void onStopButton(void);
     void onStopped(void);
-    void onIdle(void);
     void saveVolume(int volume);
     void setFullScreen(void);
     void showCutterbar(void);

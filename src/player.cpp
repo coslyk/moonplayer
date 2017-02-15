@@ -40,7 +40,6 @@ Player::Player(QWidget *parent) :
     no_play_next = false;
     mouse_in_toolbar = false;
     quit_requested = false;
-    next_file_requested = false;
 
     ui->setupUi(this);
     resize(size() * Settings::uiScale);
@@ -191,20 +190,6 @@ void Player::closeEvent(QCloseEvent* e)
     }
     else
         e->accept();
-}
-
-void Player::onIdle()
-{
-    if (quit_requested)
-    {
-        quit_requested = false;
-        close();
-    }
-    else if (next_file_requested)
-    {
-        next_file_requested = false;
-        playlist->playNext();
-    }
 }
 
 void Player::dragEnterEvent(QDragEnterEvent *e)
@@ -434,11 +419,18 @@ void Player::onStopButton()
 
 void Player::onStopped()
 {
-    setIconToPlay();
-    if (no_play_next)
+    if (quit_requested)
+    {
+        quit_requested = false;
+        close();
+    }
+    else if (no_play_next)
+    {
         no_play_next = false;
+        setIconToPlay();
+    }
     else
-        next_file_requested = true; // play next file after mpv idles
+        playlist->playNext();
 }
 
 //open setting dialog

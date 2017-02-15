@@ -32,6 +32,7 @@ MyButtonGroup::MyButtonGroup(QStringList list, QWidget *parent) :
             selectedButton = button;
     }
     selectedButton->setDown(true);
+    setFixedHeight((selectedButton->sizeHint().height() + 4) * layout->rowCount());
 }
 
 void MyButtonGroup::onNewSelected(MyButton *newButton)

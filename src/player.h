@@ -56,7 +56,6 @@ private:
     bool no_play_next;
     bool mouse_in_toolbar;
     bool quit_requested;
-    bool next_file_requested;
     int toolbar_pos_y;
 
     void setSkin(const QString& skin_name);
@@ -77,7 +76,6 @@ private slots:
     void onStopped(void);
     void onStopButton(void);
     void onSetButton(void);
-    void onIdle(void);
     void onSaveVolume(int volume);
     void openContributePage(void);
     void openExtPage(void);

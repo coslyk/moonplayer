@@ -20,7 +20,6 @@ signals:
     void played(void);
     void paused(void);
     void stopped(void);
-    void idle(void);
     void fullScreen(void);
     void newFile(const QString &name, const QString &path);
     void timeChanged(int pos);
@@ -67,6 +66,7 @@ private:
     int64_t videoHeight;
     double speed;
     bool no_emit_stopped;
+    bool emit_stopped_when_idle;
     bool danmaku_visible;
     bool openfile_called;
 

@@ -49,6 +49,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     mpv_set_option_string(mpv, "softvol", "yes");         // mpv handles the volume
     mpv_set_option_string(mpv, "input-cursor", "no");     // We handle cursor
     mpv_set_option_string(mpv, "cursor-autohide", "no");
+    mpv_set_option_string(mpv, "osc", "no");
     mpv_set_option_string(mpv, "ytdl", "no");             // We handle video url parsing
     mpv_set_option_string(mpv, "user-agent", "moonplayer");
     mpv_set_option_string(mpv, "cache", QByteArray::number(Settings::cacheSize).constData());
@@ -75,6 +76,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     mpv_observe_property(mpv, 0, "height",           MPV_FORMAT_INT64);
     mpv_observe_property(mpv, 0, "playback-time",    MPV_FORMAT_DOUBLE);
     mpv_observe_property(mpv, 0, "paused-for-cache", MPV_FORMAT_FLAG);
+    mpv_observe_property(mpv, 0, "core-idle",        MPV_FORMAT_FLAG);
     mpv_set_wakeup_callback(mpv, postEvent, this);
 
     // initialize mpv
@@ -120,6 +122,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     // set state
     state = STOPPING;
     no_emit_stopped = false;
+    emit_stopped_when_idle = false;
 
     // read unfinished_time
     QString filename = QDir(Settings::userPath).filePath("unfinished.txt");
@@ -239,12 +242,16 @@ bool PlayerCore::event(QEvent *e)
                 if (time > length - 5)
                     unfinished_time.remove(file);
                 state = STOPPING;
-                emit stopped();
+                emit_stopped_when_idle = true;
             }
             break;
         }
         case MPV_EVENT_IDLE:
-            emit idle();
+            if (emit_stopped_when_idle)
+            {
+                emit_stopped_when_idle = false;
+                emit stopped();
+            }
             break;
 
         case MPV_EVENT_LOG_MESSAGE:
@@ -298,8 +305,18 @@ bool PlayerCore::event(QEvent *e)
             {
                 if (prop->format == MPV_FORMAT_FLAG)
                 {
-                    if ((bool)*(unsigned*)prop->data && state == VIDEO_PLAYING)
-                        showText("Loading cache...");
+                    if ((bool)*(unsigned*)prop->data && state != STOPPING)
+                        showText("Network is slow...");
+                    else
+                        showText("");
+                }
+            }
+            else if (propName == "core-idle")
+            {
+                if(prop->format == MPV_FORMAT_FLAG)
+                {
+                    if( *(unsigned*)prop->data && state == VIDEO_PLAYING)
+                        showText("Buffering...");
                     else
                         showText("");
                 }

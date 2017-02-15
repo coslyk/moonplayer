@@ -53,7 +53,7 @@ def parse_flvcd_page(content, suffix):
     #get name
     match = name_re.search(page)
     if not match:
-        return
+        return ret
     name = match.group(1)
     #get urls
     count = 0

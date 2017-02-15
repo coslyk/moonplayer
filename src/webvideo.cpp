@@ -57,7 +57,7 @@ WebVideo::WebVideo(QWidget *parent) :
     grid->addWidget(prevButton, 2, 3, 1, 1);
     grid->addWidget(nextButton, 2, 4, 1, 1);
     grid->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding), 2, 2);
-    setMinimumSize(950, 550);
+    setMinimumSize(950, 650);
 
     //down search page and parse
     connect(nextButton, SIGNAL(clicked()), this, SLOT(nextSearchPage()));

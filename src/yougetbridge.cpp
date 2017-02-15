@@ -221,6 +221,6 @@ void YouGetBridge::onFinished()
         system("open -a Terminal.app " + shFile);
     }
 #else
-    QMessageBox::warning(NULL, "Error", "Parse failed!\n" + QString::fromUtf8(process->readAllStandardError()));
+    QMessageBox::warning(NULL, "Error", "Parse failed!\nURL:" + url + '\n' + QString::fromUtf8(process->readAllStandardError()));
 #endif
 }
