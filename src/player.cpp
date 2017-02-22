@@ -133,7 +133,6 @@ Player::Player(QWidget *parent) :
     connect(player_core, SIGNAL(played()), this, SLOT(setIconToPause()));
     connect(player_core, SIGNAL(paused()), this, SLOT(setIconToPlay()));
     connect(player_core, SIGNAL(stopped()), this, SLOT(onStopped()));
-    connect(player_core, SIGNAL(idle()), this, SLOT(onIdle()));
     connect(player_core, SIGNAL(timeChanged(int)), this, SLOT(onProgressChanged(int)));
     connect(player_core, SIGNAL(lengthChanged(int)), this, SLOT(onLengthChanged(int)));
     connect(player_core, SIGNAL(fullScreen()), this, SLOT(setFullScreen()));
@@ -181,7 +180,7 @@ void Player::closeEvent(QCloseEvent* e)
     webvideo->close();
     no_play_next = true;
 
-    // It's not safe to quit until mpv is in idle state
+    // It's not safe to quit until mpv is stopped
     if (player_core->state != PlayerCore::STOPPING)
     {
         player_core->stop();
