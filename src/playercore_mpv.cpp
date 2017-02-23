@@ -4,15 +4,16 @@
 #include "settings_network.h"
 #include "settings_player.h"
 #include "settings_video.h"
+#include "accessmanager.h"
 #include <stdio.h>
 #include <mpv/client.h>
-#include <QChildEvent>
 #include <QCoreApplication>
 #include <QDir>
 #include <QEvent>
 #include <QHash>
 #include <QLabel>
 #include <QMenu>
+#include <QMessageBox>
 #include <QMouseEvent>
 
 static void postEvent(void *ptr)
@@ -365,6 +366,14 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
         }
     }
 
+    // set referer
+    if (file.startsWith("http:") || file.startsWith("https:"))
+    {
+        QByteArray host = QUrl(file).host().toUtf8();
+        if (referer_table.contains(host))
+            handleMpvError(mpv_set_option_string(mpv, "referrer", referer_table[host].constData()));
+    }
+
     msgLabel->show();
     speed = 1.0;
     danmaku_visible = true;
@@ -543,7 +552,8 @@ void PlayerCore::handleMpvError(int code)
 {
     if(code >= 0)
         return;
-    qDebug("%s", mpv_error_string(code));
+    QMessageBox::warning(this, "MPV Error", "Error while playing file:\n" + file +
+                         "\n\nMPV Error: " + mpv_error_string(code));
 }
 
 // show text

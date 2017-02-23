@@ -17,10 +17,6 @@
 #include "pyapi.h"
 #include "player.h"
 
-
-QNetworkAccessManager *access_manager = NULL;
-
-
 #ifdef Q_OS_MAC
 #include <QFileOpenEvent>
 class MyApplication : public QApplication

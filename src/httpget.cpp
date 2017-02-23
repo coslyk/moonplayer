@@ -39,6 +39,8 @@ void HttpGet::start()
     request.setRawHeader("User-Agent", "moonplayer");
     if (last_finished)
         request.setRawHeader("Range", "bytes=" + QByteArray::number(file->size()) + '-');
+    if (referer_table.contains(url.host().toUtf8()))
+        request.setRawHeader("Referer", referer_table[url.host().toUtf8()]);
     reply = access_manager->get(request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
     connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));

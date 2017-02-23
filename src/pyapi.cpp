@@ -199,6 +199,16 @@ static PyObject *post_content(PyObject *, PyObject *args)
     return Py_None;
 }
 
+static PyObject *bind_referer(PyObject *, PyObject *args)
+{
+    const char *host, *url;
+    if (!PyArg_ParseTuple(args, "ss", &host, &url))
+        return NULL;
+    referer_table[host] = url;
+    return Py_None;
+}
+
+
 /********************
  * Dialog functions *
  ********************/
@@ -405,6 +415,7 @@ static PyObject *use_fallback_parser(PyObject *, PyObject *args)
     return Py_None;
 }
 
+
 /*******************
  ** ResLibrary    **
  *******************/
@@ -465,16 +476,17 @@ static PyObject *show_detail(PyObject *, PyObject *args)
  *******************/
 
 static PyMethodDef methods[] = {
-    {"download_page", get_url,      METH_VARARGS, "Send a HTTP-GET request"},
-    {"get_url",       get_url,      METH_VARARGS, "Send a HTTP-GET request (Obsolete method)"},
-    {"post_content",  post_content, METH_VARARGS, "Send a HTTP-POST request"},
-    {"warn",          warn,         METH_VARARGS, "Show warning message"},
-    {"question",      question,     METH_VARARGS, "Show a question dialog"},
-    {"show_list",     show_list,    METH_VARARGS, "Show searching result on the list"},
-    {"download",      download,     METH_VARARGS, "Download file"},
-    {"play",          play,         METH_VARARGS, "Play online"},
-    {"res_show",      res_show,     METH_VARARGS, "Show resources result"},
-    {"show_detail",   show_detail,  METH_VARARGS, "Show detail"},
+    {"download_page",    get_url,          METH_VARARGS, "Send a HTTP-GET request"},
+    {"get_url",          get_url,          METH_VARARGS, "Send a HTTP-GET request (Obsolete method)"},
+    {"post_content",     post_content,     METH_VARARGS, "Send a HTTP-POST request"},
+    {"bind_referer",     bind_referer,     METH_VARARGS, "Bind a host with referer"},
+    {"warn",             warn,             METH_VARARGS, "Show warning message"},
+    {"question",         question,         METH_VARARGS, "Show a question dialog"},
+    {"show_list",        show_list,        METH_VARARGS, "Show searching result on the list"},
+    {"download",         download,         METH_VARARGS, "Download file"},
+    {"play",             play,             METH_VARARGS, "Play online"},
+    {"res_show",         res_show,         METH_VARARGS, "Show resources result"},
+    {"show_detail",      show_detail,      METH_VARARGS, "Show detail"},
     {"use_fallback_parser",   use_fallback_parser,   METH_VARARGS, "Use fallback parser"},
     {"download_with_danmaku", download_with_danmaku, METH_VARARGS, "Download file with danmaku"},
     {NULL, NULL, 0, NULL}

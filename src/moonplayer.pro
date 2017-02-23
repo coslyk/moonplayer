@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     selectiondialog.cpp \
     videoqualities.cpp \
     playercore_mpv.cpp \
-    danmakudelaygetter_mpv.cpp
+    danmakudelaygetter_mpv.cpp \
+    accessmanager.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 unix: SOURCES += yougetbridge.cpp \
