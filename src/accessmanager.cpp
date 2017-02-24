@@ -1,4 +1,5 @@
 #include "accessmanager.h"
 
 QNetworkAccessManager *access_manager = 0;
-QHash<QByteArray,QByteArray> referer_table;
+QHash<QString,QByteArray> referer_table;
+QStringList unseekable_hosts;

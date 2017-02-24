@@ -123,7 +123,9 @@ PlayerCore::PlayerCore(QWidget *parent) :
     // set state
     state = STOPPING;
     no_emit_stopped = false;
+    reload_when_idle = false;
     emit_stopped_when_idle = false;
+    unseekable_forced = false;
 
     // read unfinished_time
     QString filename = QDir(Settings::userPath).filePath("unfinished.txt");
@@ -191,7 +193,9 @@ bool PlayerCore::event(QEvent *e)
     while (mpv)
     {
         mpv_event *event = mpv_wait_event(mpv, 0);
-        if (event == NULL || event->event_id == MPV_EVENT_NONE)
+        if (event == NULL)
+            break;
+        if (event->event_id == MPV_EVENT_NONE)
             break;
 
         handleMpvError(event->error);
@@ -235,7 +239,17 @@ bool PlayerCore::event(QEvent *e)
         case MPV_EVENT_END_FILE:
         {
             mpv_event_end_file *ef = static_cast<mpv_event_end_file*>(event->data);
-            handleMpvError(ef->error);
+            if (ef->error == MPV_ERROR_LOADING_FAILED)
+            {
+                reload_when_idle = (bool) QMessageBox::question(this, "MPV Error",
+                                      tr("Fails to load: ") + file,
+                                      tr("Skip"),
+                                      tr("Try again"));
+                if (reload_when_idle)
+                    break;
+            }
+            else
+                handleMpvError(ef->error);
             if (no_emit_stopped)  // switch to new file when playing
                 no_emit_stopped = false;
             else
@@ -248,7 +262,12 @@ bool PlayerCore::event(QEvent *e)
             break;
         }
         case MPV_EVENT_IDLE:
-            if (emit_stopped_when_idle)
+            if (reload_when_idle)
+            {
+                reload_when_idle = false;
+                openFile(file, danmaku);
+            }
+            else if (emit_stopped_when_idle)
             {
                 emit_stopped_when_idle = false;
                 emit stopped();
@@ -281,7 +300,7 @@ bool PlayerCore::event(QEvent *e)
             {
                 length = *(double*) prop->data;
                 emit lengthChanged(length);
-                if (unfinished_time.contains(file))
+                if (unfinished_time.contains(file) && !unseekable_forced)
                     setProgress(unfinished_time[file]);
             }
             else if (propName == "width")
@@ -366,12 +385,37 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
         }
     }
 
-    // set referer
+    // set referer and seekability
     if (file.startsWith("http:") || file.startsWith("https:"))
     {
-        QByteArray host = QUrl(file).host().toUtf8();
+        QString host = QUrl(file).host();
         if (referer_table.contains(host))
             handleMpvError(mpv_set_option_string(mpv, "referrer", referer_table[host].constData()));
+        else
+            handleMpvError(mpv_set_option_string(mpv, "referrer", ""));
+
+        /* Some websites does not allow "Range" option in http request header.
+         * To hack these websites, we force ffmpeg/libav to set the stream unseekable.
+         * Then we make the video seekable again by enabling seeking in cache.
+         */
+        if (unseekable_hosts.contains(host))
+        {
+            handleMpvError(mpv_set_option_string(mpv, "stream-lavf-o", "seekable=0"));
+            handleMpvError(mpv_set_option_string(mpv, "force-seekable", "yes"));
+            unseekable_forced = true;
+        }
+        else
+        {
+            handleMpvError(mpv_set_option_string(mpv, "stream-lavf-o", ""));
+            handleMpvError(mpv_set_option_string(mpv, "force-seekable", "no"));
+            unseekable_forced = false;
+        }
+    }
+    else
+    {
+        handleMpvError(mpv_set_option_string(mpv, "stream-lavf-o", ""));
+        handleMpvError(mpv_set_option_string(mpv, "force-seekable", "no"));
+        unseekable_forced = false;
     }
 
     msgLabel->show();

@@ -204,10 +204,20 @@ static PyObject *bind_referer(PyObject *, PyObject *args)
     const char *host, *url;
     if (!PyArg_ParseTuple(args, "ss", &host, &url))
         return NULL;
-    referer_table[host] = url;
+    referer_table[QString::fromUtf8(host)] = url;
     return Py_None;
 }
 
+static PyObject *force_unseekable(PyObject *, PyObject *args)
+{
+    const char *s;
+    if (!PyArg_ParseTuple(args, "s", &s))
+        return NULL;
+    QString host = QString::fromUtf8(s);
+    if (!unseekable_hosts.contains(host))
+        unseekable_hosts.append(host);
+    return Py_None;
+}
 
 /********************
  * Dialog functions *
@@ -480,6 +490,7 @@ static PyMethodDef methods[] = {
     {"get_url",          get_url,          METH_VARARGS, "Send a HTTP-GET request (Obsolete method)"},
     {"post_content",     post_content,     METH_VARARGS, "Send a HTTP-POST request"},
     {"bind_referer",     bind_referer,     METH_VARARGS, "Bind a host with referer"},
+    {"force_unseekable", force_unseekable, METH_VARARGS, "Force stream with specific host to be unseekable"},
     {"warn",             warn,             METH_VARARGS, "Show warning message"},
     {"question",         question,         METH_VARARGS, "Show a question dialog"},
     {"show_list",        show_list,        METH_VARARGS, "Show searching result on the list"},

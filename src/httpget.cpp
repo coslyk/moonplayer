@@ -39,8 +39,8 @@ void HttpGet::start()
     request.setRawHeader("User-Agent", "moonplayer");
     if (last_finished)
         request.setRawHeader("Range", "bytes=" + QByteArray::number(file->size()) + '-');
-    if (referer_table.contains(url.host().toUtf8()))
-        request.setRawHeader("Referer", referer_table[url.host().toUtf8()]);
+    if (referer_table.contains(url.host()))
+        request.setRawHeader("Referer", referer_table[url.host()]);
     reply = access_manager->get(request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
     connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
@@ -69,7 +69,14 @@ void HttpGet::onFinished()
         QNetworkReply::NetworkError reason = reply->error();
         if (reason != QNetworkReply::OperationCanceledError)
             qDebug("Http status code: %d\n%s\n", status, reply->errorString().toUtf8().constData());
-        last_finished = file->size();
+        if (reason == QNetworkReply::ContentOperationNotPermittedError)
+        {
+            // Remote server reject "Range" in http header
+            last_finished = 0;
+            file->seek(0);
+        }
+        else
+            last_finished = file->size();
         reply->deleteLater();
         reply = 0;
         is_paused = true;

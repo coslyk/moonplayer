@@ -5,6 +5,7 @@
 
 class QNetworkAccessManager;
 extern QNetworkAccessManager *access_manager;
-extern QHash<QByteArray,QByteArray> referer_table;
+extern QStringList unseekable_hosts;
+extern QHash<QString,QByteArray> referer_table;
 
 #endif // NETWORKMANAGER_H

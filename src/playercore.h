@@ -66,9 +66,11 @@ private:
     int64_t videoHeight;
     double speed;
     bool no_emit_stopped;
+    bool reload_when_idle;
     bool emit_stopped_when_idle;
     bool danmaku_visible;
     bool openfile_called;
+    bool unseekable_forced;
 
     void loadDanmaku(void);
     void handleMpvError(int code);

@@ -24,72 +24,72 @@
         <translation type="unfinished">关于(&amp;A)</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="256"/>
+        <location filename="classicplayer.ui" line="190"/>
         <source>Add file(s)</source>
         <translation type="unfinished">添加文件</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="261"/>
+        <location filename="classicplayer.ui" line="195"/>
         <source>Add url</source>
         <translation type="unfinished">添加/解析网址</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="266"/>
+        <location filename="classicplayer.ui" line="200"/>
         <source>Add playlist</source>
         <translation type="unfinished">添加播放列表</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="271"/>
+        <location filename="classicplayer.ui" line="205"/>
         <source>Online videos</source>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="276"/>
+        <location filename="classicplayer.ui" line="210"/>
         <source>Transcoder</source>
         <translation type="unfinished">视频转码</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="281"/>
+        <location filename="classicplayer.ui" line="215"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="286"/>
+        <location filename="classicplayer.ui" line="220"/>
         <source>Browser extension</source>
         <translation type="unfinished">浏览器扩展</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="291"/>
+        <location filename="classicplayer.ui" line="225"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="296"/>
+        <location filename="classicplayer.ui" line="230"/>
         <source>Contribute</source>
         <translation type="unfinished">贡献</translation>
     </message>
     <message>
-        <location filename="classicplayer.ui" line="301"/>
+        <location filename="classicplayer.ui" line="235"/>
         <source>Plugins</source>
         <translation type="unfinished">插件</translation>
     </message>
     <message>
-        <location filename="classicplayer.cpp" line="87"/>
+        <location filename="classicplayer.cpp" line="82"/>
         <source>Resources</source>
         <translation type="unfinished">影视资源</translation>
     </message>
     <message>
-        <location filename="classicplayer.cpp" line="92"/>
+        <location filename="classicplayer.cpp" line="87"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="classicplayer.cpp" line="153"/>
+        <location filename="classicplayer.cpp" line="149"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="classicplayer.cpp" line="407"/>
+        <location filename="classicplayer.cpp" line="416"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
@@ -316,69 +316,69 @@
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="98"/>
+        <location filename="player.cpp" line="97"/>
         <source>Resources</source>
         <translation type="unfinished">影视资源</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="103"/>
+        <location filename="player.cpp" line="102"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="109"/>
+        <location filename="player.cpp" line="108"/>
         <source>Player</source>
         <translation type="unfinished">播放器</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="110"/>
+        <location filename="player.cpp" line="109"/>
         <source>Online video</source>
         <oldsource>Search videos</oldsource>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="111"/>
+        <location filename="player.cpp" line="110"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="113"/>
+        <location filename="player.cpp" line="112"/>
         <source>Plugins</source>
         <translation type="unfinished">插件</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="114"/>
+        <location filename="player.cpp" line="113"/>
         <source>Ext. for browser</source>
         <translation type="unfinished">浏览器扩展</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="115"/>
+        <location filename="player.cpp" line="114"/>
         <source>About</source>
         <translation type="unfinished">关于</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="116"/>
+        <location filename="player.cpp" line="115"/>
         <source>Contribute</source>
         <translation type="unfinished">贡献</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="117"/>
+        <location filename="player.cpp" line="116"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="179"/>
+        <location filename="player.cpp" line="172"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="390"/>
+        <location filename="player.cpp" line="391"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="581"/>
-        <location filename="player.cpp" line="587"/>
+        <location filename="player.cpp" line="586"/>
+        <location filename="player.cpp" line="592"/>
         <source>Failed to read skin!</source>
         <translation type="unfinished">加载皮肤失败！</translation>
     </message>
@@ -386,45 +386,60 @@
 <context>
     <name>PlayerCore</name>
     <message>
-        <location filename="playercore_mpv.cpp" line="91"/>
+        <location filename="playercore_mpv.cpp" line="97"/>
         <source>Ratio</source>
         <translation type="unfinished">宽高比</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="95"/>
-        <location filename="playercore_mpv.cpp" line="100"/>
+        <location filename="playercore_mpv.cpp" line="101"/>
+        <location filename="playercore_mpv.cpp" line="106"/>
         <source>Default</source>
         <translation type="unfinished">默认</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="97"/>
+        <location filename="playercore_mpv.cpp" line="103"/>
         <source>Speed</source>
         <translation type="unfinished">播放速度</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="98"/>
+        <location filename="playercore_mpv.cpp" line="104"/>
         <source>Speed up</source>
         <translation type="unfinished">加速</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="99"/>
+        <location filename="playercore_mpv.cpp" line="105"/>
         <source>Speed down</source>
         <translation type="unfinished">减速</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="106"/>
+        <location filename="playercore_mpv.cpp" line="112"/>
         <source>Danmaku</source>
         <translation type="unfinished">弹幕</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="108"/>
+        <location filename="playercore_mpv.cpp" line="114"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="109"/>
+        <location filename="playercore_mpv.cpp" line="115"/>
         <source>Cut video</source>
         <translation type="unfinished">剪切视频</translation>
+    </message>
+    <message>
+        <location filename="playercore_mpv.cpp" line="245"/>
+        <source>Fails to load: </source>
+        <translation type="unfinished">加载失败：</translation>
+    </message>
+    <message>
+        <location filename="playercore_mpv.cpp" line="246"/>
+        <source>Skip</source>
+        <translation type="unfinished">跳过</translation>
+    </message>
+    <message>
+        <location filename="playercore_mpv.cpp" line="247"/>
+        <source>Try again</source>
+        <translation type="unfinished">重试</translation>
     </message>
 </context>
 <context>
@@ -764,17 +779,15 @@
         <translation type="unfinished">缓冲大小(KB):</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="303"/>
         <source>FFMPEG is not installed. Please download it from</source>
-        <translation type="unfinished">ffmpeg未安装。请从以下网址下载ffmpeg</translation>
+        <translation type="obsolete">ffmpeg未安装。请从以下网址下载ffmpeg</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="305"/>
         <source>and place file &quot;ffmpeg&quot; into ~/.moonplayer/ or /usr/share/moonplayer/</source>
-        <translation type="unfinished">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/或/usr/share/moonplayer/</translation>
+        <translation type="obsolete">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/或/usr/share/moonplayer/</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="318"/>
+        <location filename="settingsdialog.cpp" line="306"/>
         <source>There are quality settings you have saved. Choose one you want to delete.</source>
         <translation type="unfinished">下面是已经保存的视频质量设置。请选择您要删除的项。</translation>
     </message>
@@ -790,12 +803,12 @@
 <context>
     <name>VideoCombiner</name>
     <message>
-        <location filename="videocombiner.cpp" line="31"/>
+        <location filename="videocombiner.cpp" line="36"/>
         <source>Finished combining:</source>
         <translation type="unfinished">合并视频成功：</translation>
     </message>
     <message>
-        <location filename="videocombiner.cpp" line="34"/>
+        <location filename="videocombiner.cpp" line="46"/>
         <source>Failed to combine:</source>
         <translation type="unfinished">合并视频失败：</translation>
     </message>
@@ -852,17 +865,17 @@
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="186"/>
+        <location filename="yougetbridge.cpp" line="185"/>
         <source>Add download task successfully!</source>
         <translation type="unfinished">添加下载任务成功！</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="216"/>
+        <location filename="yougetbridge.cpp" line="215"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="217"/>
+        <location filename="yougetbridge.cpp" line="216"/>
         <source>Upgrade Parser</source>
         <translation type="unfinished">更新解析程序</translation>
     </message>

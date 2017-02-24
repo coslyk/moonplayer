@@ -8,6 +8,9 @@ from moonplayer_utils import list_links, parse_flvcd_page
 # Let MoonPlayer detect video pages with no .html/.htm-ending urls
 hosts = ('weibo.com', 'www.youtube.com')
 
+# sohu does not allow seeking, or http 403 error will be raised
+moonplayer.force_unseekable('data.vod.itc.cn')
+
 def parse(url, options):
     origin_url = url
     url = 'http://www.flvcd.com/parse.php?go=1&kw=' + origin_url
