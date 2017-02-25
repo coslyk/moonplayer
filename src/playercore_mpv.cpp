@@ -57,6 +57,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     mpv_set_option_string(mpv, "screenshot-directory", QDir::homePath().toUtf8().constData());
     mpv_set_option_string(mpv, "reset-on-next-file", "speed,video-aspect,sub-file,sub-delay,sub-visibility");
     mpv_set_option_string(mpv, "vo", Settings::vout.toUtf8().constData());
+    mpv_request_log_messages(mpv, "info");
 
     if (Settings::aout != "auto")
         mpv_set_option_string(mpv, "ao", Settings::aout.toUtf8().constData());
@@ -246,7 +247,10 @@ bool PlayerCore::event(QEvent *e)
                                       tr("Skip"),
                                       tr("Try again"));
                 if (reload_when_idle)
+                {
+                    state = STOPPING;
                     break;
+                }
             }
             else
                 handleMpvError(ef->error);
@@ -279,6 +283,8 @@ bool PlayerCore::event(QEvent *e)
             mpv_event_log_message *msg = static_cast<mpv_event_log_message*>(event->data);
             if (msg && msgLabel->isVisible())
                 msgLabel->setText(QString::fromUtf8(msg->text));
+            if (msg->log_level < MPV_LOG_LEVEL_INFO)
+                fprintf(stderr, "[%s] %s", msg->prefix, msg->text);
             break;
         }
         case MPV_EVENT_PROPERTY_CHANGE:
