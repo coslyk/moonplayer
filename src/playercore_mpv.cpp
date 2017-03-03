@@ -280,9 +280,10 @@ bool PlayerCore::event(QEvent *e)
 
         case MPV_EVENT_LOG_MESSAGE:
         {
+            static QString format = "<span style=\" color:#00ff00;\">%1</span>";
             mpv_event_log_message *msg = static_cast<mpv_event_log_message*>(event->data);
             if (msg && msgLabel->isVisible())
-                msgLabel->setText(QString::fromUtf8(msg->text));
+                msgLabel->setText(format.arg(QString::fromUtf8(msg->text)));
             if (msg->log_level < MPV_LOG_LEVEL_INFO)
                 fprintf(stderr, "[%s] %s", msg->prefix, msg->text);
             break;
