@@ -22,6 +22,7 @@ public:
     ~ClassicPlayer();
 
 protected:
+    void changeEvent(QEvent *e);
     void closeEvent(QCloseEvent *e);
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);

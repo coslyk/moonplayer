@@ -31,7 +31,6 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     resize(size() * Settings::uiScale);
     // Set icons
 #ifdef Q_OS_MAC
-    setWindowFlags(windowFlags() ^ Qt::WindowFullscreenButtonHint);
     ui->netButton->setIcon(QIcon(Settings::path + "/icons/net.png"));
     ui->pauseButton->setIcon(QIcon(Settings::path + "/icons/pause.png"));
     ui->playButton->setIcon(QIcon(Settings::path + "/icons/play.png"));
@@ -211,6 +210,8 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
     return false;
 }
 
+
+// Keyboard shortcuts
 void ClassicPlayer::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key())
@@ -268,6 +269,8 @@ void ClassicPlayer::keyReleaseEvent(QKeyEvent *e)
     e->accept();
 }
 
+
+// Drag & drop files
 void ClassicPlayer::dragEnterEvent(QDragEnterEvent *e)
 {
     if (e->mimeData()->hasUrls())
@@ -300,23 +303,32 @@ void ClassicPlayer::dropEvent(QDropEvent *e)
 void ClassicPlayer::setFullScreen()
 {
     if (isFullScreen()) // Exit fullscreen
-    {
         showNormal();
-#ifndef Q_OS_MAC
-        ui->menubar->show();
-#endif
-        ui->toolbar->show();
-        ui->netButton->setEnabled(true);
-    }
     else if (!cutterbar->isVisible()) // Forbidden fullscreen when cutting video
-    {
         showFullScreen();
+}
+
+void ClassicPlayer::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::WindowStateChange)
+    {
+        if (isFullScreen())
+        {
 #ifndef Q_OS_MAC
-        ui->menubar->hide();
+            ui->menubar->hide();
 #endif
-        ui->toolbar->hide();
-        ui->netButton->setEnabled(false);
-        toolbar_pos_y = QApplication::desktop()->screenGeometry(this).height() - ui->toolbar->height() / 2;
+            ui->toolbar->hide();
+            ui->netButton->setEnabled(false);
+            toolbar_pos_y = QApplication::desktop()->screenGeometry(this).height() - ui->toolbar->height() / 2;
+        }
+        else
+        {
+#ifndef Q_OS_MAC
+            ui->menubar->show();
+#endif
+            ui->toolbar->show();
+            ui->netButton->setEnabled(true);
+        }
     }
 }
 
