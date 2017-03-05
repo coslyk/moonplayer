@@ -25,6 +25,7 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
 
     quit_requested = false;
     no_play_next = false;
+    ctrl_pressed = false;
 
     ui->setupUi(this);
     resize(size() * Settings::uiScale);
@@ -171,8 +172,6 @@ void ClassicPlayer::closeEvent(QCloseEvent *e)
 
 bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
 {
-    static bool ctrl_pressed = false;
-
     // Hide/show playlist and toolbar
     if (e->type() == QEvent::Leave && obj == ui->toolbar && isFullScreen())
     {
@@ -200,63 +199,73 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
     else if (e->type() == QEvent::KeyRelease)
     {
         QKeyEvent *ke = static_cast<QKeyEvent*>(e);
-        if (ke->key() == Qt::Key_Control)
-        {
-            ctrl_pressed = false;
-            return true;
-        }
-        return false;
+        keyReleaseEvent(ke);
+        return true;
     }
     else if (e->type() == QEvent::KeyPress)
     {
         QKeyEvent *ke = static_cast<QKeyEvent*>(e);
-        switch (ke->key())
-        {
-        case Qt::Key_Control:
-            ctrl_pressed = true;
-            return true;
-        case Qt::Key_S:
-            player_core->screenShot();
-            return true;
-        case Qt::Key_C:
-            showCutterbar();
-            return true;
-        case Qt::Key_D:
-            player_core->switchDanmaku();
-            return true;
-        case Qt::Key_Space:
-            player_core->changeState();
-            return true;
-        case Qt::Key_Return:
-            setFullScreen();
-            return true;
-        case Qt::Key_R:
-            player_core->speedSetToDefault();
-            return true;
-        case Qt::Key_Left:
-            if (ctrl_pressed)
-                player_core->speedDown();
-            else
-                ui->progressBar->setValue(ui->progressBar->value() - 5);
-            return true;
-
-        case Qt::Key_Right:
-            if (ctrl_pressed)
-                player_core->speedUp();
-            else
-                ui->progressBar->setValue(ui->progressBar->value() + 5);
-            return true;
-
-        case Qt::Key_Up:
-            ui->volumeSlider->setValue(ui->volumeSlider->value() + 1);
-            return true;
-        case Qt::Key_Down:
-            ui->volumeSlider->setValue(ui->volumeSlider->value() - 1);
-            return true;
-        default:return false;
-        }
+        keyPressEvent(ke);
+        return true;
     }
     return false;
+}
+
+void ClassicPlayer::keyPressEvent(QKeyEvent *e)
+{
+    switch (e->key())
+    {
+    case Qt::Key_Control:
+        ctrl_pressed = true;
+        break;
+    case Qt::Key_S:
+        player_core->screenShot();
+        break;
+    case Qt::Key_C:
+        showCutterbar();
+        break;
+    case Qt::Key_D:
+        player_core->switchDanmaku();
+        break;
+    case Qt::Key_Space:
+        player_core->changeState();
+        break;
+    case Qt::Key_Return:
+        setFullScreen();
+        break;
+    case Qt::Key_R:
+        player_core->speedSetToDefault();
+        break;
+    case Qt::Key_Left:
+        if (ctrl_pressed)
+            player_core->speedDown();
+        else
+            ui->progressBar->setValue(ui->progressBar->value() - 5);
+        break;
+
+    case Qt::Key_Right:
+        if (ctrl_pressed)
+            player_core->speedUp();
+        else
+            ui->progressBar->setValue(ui->progressBar->value() + 5);
+        break;
+
+    case Qt::Key_Up:
+        ui->volumeSlider->setValue(ui->volumeSlider->value() + 1);
+        break;
+    case Qt::Key_Down:
+        ui->volumeSlider->setValue(ui->volumeSlider->value() - 1);
+        break;
+    default: break;
+    }
+    e->accept();
+}
+
+void ClassicPlayer::keyReleaseEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Control)
+        ctrl_pressed = false;
+    e->accept();
 }
 
 void ClassicPlayer::dragEnterEvent(QDragEnterEvent *e)

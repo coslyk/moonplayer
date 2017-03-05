@@ -26,6 +26,8 @@ protected:
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);
     bool eventFilter(QObject *, QEvent *);
+    void keyPressEvent(QKeyEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
 
 private:
     Ui::ClassicPlayer *ui;
@@ -37,6 +39,7 @@ private:
     WebVideo *webvideo;
     bool no_play_next;
     bool quit_requested;
+    bool ctrl_pressed;
     int toolbar_pos_y;
 
 private slots:
