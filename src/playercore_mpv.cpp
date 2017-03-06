@@ -358,8 +358,9 @@ bool PlayerCore::event(QEvent *e)
 
 void PlayerCore::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    if (e->buttons() == Qt::LeftButton)
+    if (e->buttons() == Qt::LeftButton && geometry().contains(e->pos(), true))
         emit fullScreen();
+    e->accept();
 }
 
 void PlayerCore::showMenu(const QPoint&)

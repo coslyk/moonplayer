@@ -175,14 +175,16 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
     if (e->type() == QEvent::Leave && obj == ui->toolbar && isFullScreen())
     {
         ui->toolbar->hide();
+        e->accept();
         return true;
     }
     if (e->type() == QEvent::Leave && obj == playlist)
     {
         playlist->hide();
+        e->accept();
         return true;
     }
-    else if (e->type() == QEvent::MouseMove)
+    else if (e->type() == QEvent::MouseMove && obj == player_core)
     {
         QMouseEvent* me = static_cast<QMouseEvent*>(e);
         if (isFullScreen() && me->globalY() > toolbar_pos_y && !ui->toolbar->isVisible()) //mouse enters toolbar
@@ -191,6 +193,7 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
         }
         else if (!isFullScreen() && me->x() > width() - 100)
             playlist->show();
+        me->accept();
         return true;
     }
 
@@ -330,6 +333,7 @@ void ClassicPlayer::changeEvent(QEvent *e)
             ui->netButton->setEnabled(true);
         }
     }
+    e->accept();
 }
 
 void ClassicPlayer::onSizeChanged(const QSize &sz)
