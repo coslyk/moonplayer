@@ -358,7 +358,11 @@ bool PlayerCore::event(QEvent *e)
 
 void PlayerCore::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    if (e->buttons() == Qt::LeftButton && geometry().contains(e->pos(), true))
+    /* On macOS, this event will be emitted without double-click when mouse
+     * is moved to screen edge.
+     * Is it a Qt's bug?
+     */
+    if (e->buttons() == Qt::LeftButton && QRect(0, 0, width(), height()).contains(e->pos(), true))
         emit fullScreen();
     e->accept();
 }
