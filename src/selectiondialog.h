@@ -13,9 +13,8 @@ class SelectionDialog : public QDialog
 
 public:
     explicit SelectionDialog(QWidget *parent = 0);
-    void setList(const QStringList &list);
-    bool remember(void);
-    QString selectedItem(void);
+    QString showDialog(const QStringList &list, const QString &label, const QString &checkboxText = QString());
+    bool isChecked(void);
     ~SelectionDialog();
 
 private:

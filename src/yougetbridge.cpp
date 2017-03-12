@@ -86,6 +86,31 @@ void YouGetBridge::onFinished()
     QJsonObject obj = QJsonDocument::fromJson(process->readAllStandardOutput(), &json_error).object();
     if (json_error.error == QJsonParseError::NoError)
     {
+        if (obj.contains("audiolang")) // select languages
+        {
+            QJsonArray langs = obj["audiolang"].toArray();
+            QStringList langs_list;
+            QHash<QString,QString> lang2url;
+            QString selected;
+            for (int i = 0; i < langs.size(); i++)
+            {
+                QString name = langs[i].toObject()["lang"].toString();
+                langs_list << name;
+                lang2url[name] = langs[i].toObject()["url"].toString();
+            }
+            if (langs_list.size() > 1)
+                selected = selectionDialog->showDialog(langs_list, tr("Please select a language:"));
+            if (!selected.isEmpty())
+            {
+                QString new_url = lang2url[selected];
+                if (!url.startsWith(new_url))
+                {
+                    parse(new_url, download, danmaku);
+                    return;
+                }
+            }
+        }
+
         if (obj.contains("streams"))
         {
             QString title = obj["title"].toString();
@@ -109,15 +134,14 @@ void YouGetBridge::onFinished()
                         items << QString("%1 (%2)").arg(i.key(), profile);
                     }
 
-                    selectionDialog->setList(items);
-                    int state = selectionDialog->exec();
-                    selected = selectionDialog->selectedItem();
-
-                    if (state == QDialog::Rejected || selected.isEmpty())
+                    selected = selectionDialog->showDialog(items,
+                                                           tr("Please select a video quality:"),
+                                                           tr("Remember my selection for this website"));
+                    if (selected.isEmpty())
                         return;
                     selected = selected.section(' ', 0, 0);
 
-                    if (selectionDialog->remember()) // Save selection
+                    if (selectionDialog->isChecked()) // Save selection
                         qualities[QUrl(url).host()] = selected;
                 }
 

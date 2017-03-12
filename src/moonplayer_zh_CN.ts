@@ -89,7 +89,7 @@
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="classicplayer.cpp" line="416"/>
+        <location filename="classicplayer.cpp" line="441"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
@@ -386,58 +386,58 @@
 <context>
     <name>PlayerCore</name>
     <message>
-        <location filename="playercore_mpv.cpp" line="97"/>
+        <location filename="playercore_mpv.cpp" line="98"/>
         <source>Ratio</source>
         <translation type="unfinished">宽高比</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="101"/>
-        <location filename="playercore_mpv.cpp" line="106"/>
+        <location filename="playercore_mpv.cpp" line="102"/>
+        <location filename="playercore_mpv.cpp" line="107"/>
         <source>Default</source>
         <translation type="unfinished">默认</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="103"/>
+        <location filename="playercore_mpv.cpp" line="104"/>
         <source>Speed</source>
         <translation type="unfinished">播放速度</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="104"/>
+        <location filename="playercore_mpv.cpp" line="105"/>
         <source>Speed up</source>
         <translation type="unfinished">加速</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="105"/>
+        <location filename="playercore_mpv.cpp" line="106"/>
         <source>Speed down</source>
         <translation type="unfinished">减速</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="112"/>
+        <location filename="playercore_mpv.cpp" line="113"/>
         <source>Danmaku</source>
         <translation type="unfinished">弹幕</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="114"/>
+        <location filename="playercore_mpv.cpp" line="115"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="115"/>
+        <location filename="playercore_mpv.cpp" line="116"/>
         <source>Cut video</source>
         <translation type="unfinished">剪切视频</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="245"/>
+        <location filename="playercore_mpv.cpp" line="246"/>
         <source>Fails to load: </source>
         <translation type="unfinished">加载失败：</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="246"/>
+        <location filename="playercore_mpv.cpp" line="247"/>
         <source>Skip</source>
         <translation type="unfinished">跳过</translation>
     </message>
     <message>
-        <location filename="playercore_mpv.cpp" line="247"/>
+        <location filename="playercore_mpv.cpp" line="248"/>
         <source>Try again</source>
         <translation type="unfinished">重试</translation>
     </message>
@@ -534,14 +534,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="selectiondialog.ui" line="20"/>
         <source>Please select a video quality:</source>
-        <translation type="unfinished">请选择视频质量：</translation>
+        <translation type="obsolete">请选择视频质量：</translation>
     </message>
     <message>
-        <location filename="selectiondialog.ui" line="30"/>
         <source>Remember my selection for this website</source>
-        <translation type="unfinished">记住我对该网站的选择</translation>
+        <translation type="obsolete">记住我对该网站的选择</translation>
     </message>
 </context>
 <context>
@@ -865,17 +863,32 @@
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="185"/>
+        <location filename="yougetbridge.cpp" line="102"/>
+        <source>Please select a language:</source>
+        <translation type="unfinished">请选择语言：</translation>
+    </message>
+    <message>
+        <location filename="yougetbridge.cpp" line="138"/>
+        <source>Please select a video quality:</source>
+        <translation type="unfinished">请选择视频质量：</translation>
+    </message>
+    <message>
+        <location filename="yougetbridge.cpp" line="139"/>
+        <source>Remember my selection for this website</source>
+        <translation type="unfinished">记住我对该网站的选择</translation>
+    </message>
+    <message>
+        <location filename="yougetbridge.cpp" line="209"/>
         <source>Add download task successfully!</source>
         <translation type="unfinished">添加下载任务成功！</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="215"/>
+        <location filename="yougetbridge.cpp" line="239"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="216"/>
+        <location filename="yougetbridge.cpp" line="240"/>
         <source>Upgrade Parser</source>
         <translation type="unfinished">更新解析程序</translation>
     </message>

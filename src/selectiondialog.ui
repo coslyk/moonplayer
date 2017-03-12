@@ -15,21 +15,13 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Please select a video quality:</string>
-     </property>
-    </widget>
+    <widget class="QLabel" name="label"/>
    </item>
    <item>
     <widget class="QListWidget" name="listWidget"/>
    </item>
    <item>
-    <widget class="QCheckBox" name="rememberCheckBox">
-     <property name="text">
-      <string>Remember my selection for this website</string>
-     </property>
-    </widget>
+    <widget class="QCheckBox" name="checkBox"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
