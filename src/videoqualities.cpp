@@ -1,21 +1,13 @@
 #include "videoqualities.h"
 #include <QDir>
 #include <QFile>
+#include "settings_player.h"
 
 QHash<QString, QString> qualities;
 
 void loadQualities()
 {
-#if defined(Q_OS_LINUX)
-    QFile file(QDir::homePath() + "/.moonplayer/qualities");
-#elif defined(Q_OS_MAC)
-    QFile file(QDir::homePath() + "/Library/Application Support/MoonPlayer/qualities");
-#elif defined(Q_OS_WIN)
-	QFile file(QDir::homePath() + "\\AppData\\Local\\MoonPlayer\\qualities");
-#else
-#error ERROR: Unsupported system!
-#endif
-
+    QFile file(Settings::userPath + "/qualities");
     if (file.open(QFile::ReadOnly | QFile::Text))
     {
         QStringList list = QString(file.readAll()).split('\n');
@@ -34,16 +26,7 @@ void loadQualities()
 
 void saveQualities()
 {
-#if defined(Q_OS_LINUX)
-    QFile file(QDir::homePath() + "/.moonplayer/qualities");
-#elif defined(Q_OS_MAC)
-    QFile file(QDir::homePath() + "/Library/Application Support/MoonPlayer/qualities");
-#elif defined(Q_OS_WIN)
-	QFile file(QDir::homePath() + "\\AppData\\Local\\MoonPlayer\\qualities");
-#else
-#error ERROR: Unsupported system!
-#endif
-
+    QFile file(Settings::userPath + "/qualities");
     if (file.open(QFile::WriteOnly | QFile::Text))
     {
         QHash<QString, QString>::const_iterator i;

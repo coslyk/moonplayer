@@ -9,7 +9,6 @@
 #include <locale.h>
 #include <QDir>
 #include <QIcon>
-#include <QLibraryInfo>
 #include <QLocale>
 #include <QDebug>
 #include <QTextCodec>
