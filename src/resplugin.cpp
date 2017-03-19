@@ -17,10 +17,8 @@ void initResPlugins()
 
     QDir pluginsDir(Settings::path + "/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
     pluginsDir = QDir(Settings::userPath + "/plugins");
     list += pluginsDir.entryList(QDir::Files, QDir::Name);
-#endif
 
     while (!list.isEmpty())
     {

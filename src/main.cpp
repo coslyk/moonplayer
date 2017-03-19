@@ -9,6 +9,7 @@
 #include <locale.h>
 #include <QDir>
 #include <QIcon>
+#include <QLibraryInfo>
 #include <QLocale>
 #include <QDebug>
 #include <QTextCodec>
@@ -115,10 +116,17 @@ int main(int argc, char *argv[])
 
     //translate moonplayer
     printf("Initialize language support...\n");
-    QTranslator translator;
     QDir path(Settings::path);
-    translator.load(path.filePath("moonplayer_" + QLocale::system().name()));
-    a.installTranslator(&translator);
+#ifdef Q_OS_MAC
+    path.cd("translations");
+    //translate application menu
+    QTranslator qtTranslator;
+    if (qtTranslator.load(path.filePath("qt_" + QLocale::system().name())))
+        a.installTranslator(&qtTranslator);
+#endif
+    QTranslator translator;
+    if (translator.load(path.filePath("moonplayer_" + QLocale::system().name())))
+        a.installTranslator(&translator);
 
     ClassicPlayer *classic_player = NULL;
     Player *player = NULL;

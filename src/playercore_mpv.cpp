@@ -70,6 +70,12 @@ PlayerCore::PlayerCore(QWidget *parent) :
         mpv_set_option_string(mpv, "hwdec", "vdpau");
 #elif defined(Q_OS_MAC)
     mpv_set_option_string(mpv, "hwdec", "videotoolbox");
+#elif defined(Q_OS_WIN)
+	if (Settings::vout == "opengl")
+	{
+		mpv_set_option_string(mpv, "opengl-backend", "angle");
+		mpv_set_option_string(mpv, "hwdec", "d3d11va");
+	}
 #endif
 
     // listen mpv event

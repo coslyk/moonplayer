@@ -10,6 +10,8 @@ void loadQualities()
     QFile file(QDir::homePath() + "/.moonplayer/qualities");
 #elif defined(Q_OS_MAC)
     QFile file(QDir::homePath() + "/Library/Application Support/MoonPlayer/qualities");
+#elif defined(Q_OS_WIN)
+	QFile file(QDir::homePath() + "\\AppData\\Local\\MoonPlayer\\qualities");
 #else
 #error ERROR: Unsupported system!
 #endif
@@ -36,6 +38,8 @@ void saveQualities()
     QFile file(QDir::homePath() + "/.moonplayer/qualities");
 #elif defined(Q_OS_MAC)
     QFile file(QDir::homePath() + "/Library/Application Support/MoonPlayer/qualities");
+#elif defined(Q_OS_WIN)
+	QFile file(QDir::homePath() + "\\AppData\\Local\\MoonPlayer\\qualities");
 #else
 #error ERROR: Unsupported system!
 #endif

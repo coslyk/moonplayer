@@ -218,16 +218,26 @@ void initSettings()
         dir.mkdir("plugins");
     if (!dir.exists("skins"))
         dir.mkdir("skins");
+#elif defined(Q_OS_WIN)
+	QDir dir = QDir::home();
+	dir.cd("AppData");
+	dir.cd("Local");
+	if (!dir.cd("MoonPlayer"))
+	{
+		dir.mkdir("MoonPlayer");
+		dir.cd("MoonPlayer");
+	}
+	if (!dir.exists("plugins"))
+		dir.mkdir("plugins");
+	if (!dir.exists("skins"))
+		dir.mkdir("skins");
 #endif
 
     QSettings settings("moonsoft", "moonplayer");
 
     //read settings
 #if defined(Q_OS_WIN)
-    if (QSysInfo::WindowsVersion >= QSysInfo::WV_VISTA)
-        vout = settings.value("Video/out", "direct3d").toString();
-    else
-        vout = settings.value("Video/out", "directx").toString();
+    vout = settings.value("Video/out", "direct3d").toString();
 #elif defined(Q_OS_LINUX)
     vout = settings.value("Video/out", "xv").toString();
 #elif defined(Q_OS_MAC)
@@ -243,6 +253,7 @@ void initSettings()
     userPath = QDir::homePath() + "/Library/Application Support/MoonPlayer";
 #elif defined(Q_OS_WIN)
     path = QCoreApplication::applicationDirPath();
+	userPath = QDir::homePath() + "/AppData/Local/MoonPlayer";
 #else
 #error ERROR: Unsupported system!
 #endif
@@ -282,17 +293,19 @@ void initSettings()
     QDir skinDir(path);
     skinDir.cd("skins");
     skinList = skinDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-#ifdef Q_OS_LINUX
     dir.cd("skins");
     skinList.append(dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
-#endif
     if (currentSkin >= skinList.size())
         currentSkin = 0;
 }
 
 void SettingsDialog::showPluginsMsg()
 {
-    QDesktopServices::openUrl("file://" + userPath + "/plugins");
+#ifdef Q_OS_WIN
+    QDesktopServices::openUrl("file:///" + userPath + "/plugins");
+#else
+	QDesktopServices::openUrl("file://" + userPath + "/plugins");
+#endif
 }
 
 void SettingsDialog::manageQualities()

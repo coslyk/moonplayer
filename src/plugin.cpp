@@ -18,19 +18,15 @@ void initPlugins()
     PyRun_SimpleString("reload(sys)");
     PyRun_SimpleString("sys.setdefaultencoding('utf8')");
     PyRun_SimpleString(QString("sys.path.insert(0, '%1/plugins')").arg(Settings::path).toUtf8().constData());
-#if defined(Q_OS_MAC) || defined(Q_OS_LINUX)
     PyRun_SimpleString(QString("sys.path.append('%1/plugins')").arg(Settings::userPath).toUtf8().constData());
-#endif
 
     //load plugins
     static Plugin *array[128];
     plugins = array;
     QDir pluginsDir(Settings::path + "/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
     pluginsDir = QDir(Settings::userPath + "/plugins");
     list += pluginsDir.entryList(QDir::Files, QDir::Name);
-#endif
 
     while (!list.isEmpty())
     {

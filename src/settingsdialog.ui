@@ -96,11 +96,6 @@
            </item>
            <item>
             <property name="text">
-             <string>directx</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
              <string>direct3d</string>
             </property>
            </item>
@@ -146,20 +141,6 @@
             <widget class="QLabel" name="vdpauLabel">
              <property name="text">
               <string>Nvidia hardware decoding on Linux.</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="page_3">
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QLabel" name="dxLabel">
-             <property name="text">
-              <string>Default output on Windows XP.</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
              </property>
             </widget>
            </item>

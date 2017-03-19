@@ -36,11 +36,11 @@ SOURCES += main.cpp\
     videoqualities.cpp \
     playercore_mpv.cpp \
     danmakudelaygetter_mpv.cpp \
+    danmakuloader.cpp \
     accessmanager.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
-unix: SOURCES += yougetbridge.cpp \
-    danmakuloader.cpp
+unix: SOURCES += yougetbridge.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -75,11 +75,11 @@ HEADERS  += player.h\
     plugin.h \
     updatechecker.h \
     selectiondialog.h \
-    videoqualities.h
+    videoqualities.h \
+    danmakudelaygetter.h \
+    danmakuloader.h
 
-unix: HEADERS += yougetbridge.h \
-    danmakuloader.h \
-    danmakudelaygetter.h
+unix: HEADERS += yougetbridge.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 
@@ -114,9 +114,11 @@ unix:!macx {
 macx {
     FFMPEG.files = /usr/local/opt/ffmpeg/bin/ffmpeg
     FFMPEG.path = Contents/MacOS
-    RESFILES.files = moonplayer_zh_CN.qm upgrade-you-get.sh danmaku2ass skins plugins icons Version
+    RESFILES.files = upgrade-you-get.sh danmaku2ass skins plugins icons Version
     RESFILES.path = Contents/Resources
-    QMAKE_BUNDLE_DATA += RESFILES FFMPEG
+    TRANS_FILES.files = moonplayer_zh_CN.qm /usr/local/opt/qt5/translations/qt_zh_CN.qm
+    TRANS_FILES.path = Contents/Resources/translations
+    QMAKE_BUNDLE_DATA += RESFILES FFMPEG TRANS_FILES
     QMAKE_INFO_PLIST = Info.plist
     ICON = moonplayer.icns
 }
@@ -136,3 +138,5 @@ macx: LIBS += -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/pyt
 
 win32: INCLUDEPATH += C:\\Python27\\include
 win32: LIBS += C:\\Python27\\libs\\python27.lib
+win32: INCLUDEPATH += D:\\Develop\\libmpv\\include
+win32: LIBS += D:\\Develop\\libmpv\\64\\mpv.lib

@@ -89,6 +89,8 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     // Settings
     settingsDialog = new SettingsDialog(this);
 
+    ui->actionSettings->setMenuRole(QAction::PreferencesRole);
+
     connect(ui->actionAdd_file_s,        &QAction::triggered, playlist,       &Playlist::onAddItem);
     connect(ui->actionAdd_url,           &QAction::triggered, playlist,       &Playlist::onNetItem);
     connect(ui->actionAdd_playlist,      &QAction::triggered, playlist,       &Playlist::onListItem);
