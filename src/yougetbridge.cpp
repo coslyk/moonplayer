@@ -238,13 +238,19 @@ void YouGetBridge::onFinished()
                              QString::fromUtf8(process->readAllStandardError()),
                              tr("Cancel"),
                              tr("Upgrade Parser")))
-    {
-        QByteArray shFile = Settings::path.toUtf8() + "/upgrade-you-get.sh";
-        if ((QFile::permissions(shFile) & QFile::ExeOther) == 0)
-            system("chmod +x " + shFile);
-        system("open -a Terminal.app " + shFile);
-    }
+        updateYouGet();
 #else
-    QMessageBox::warning(NULL, "Error", "Parse failed!\nURL:" + url + '\n' + QString::fromUtf8(process->readAllStandardError()));
+    QMessageBox::warning(NULL, "Error", "Parse failed!\nURL:" + url + '\n' +
+                         QString::fromUtf8(process->readAllStandardError()));
 #endif
 }
+
+#ifdef Q_OS_MAC
+void YouGetBridge::updateYouGet()
+{
+    QByteArray shFile = Settings::path.toUtf8() + "/upgrade-you-get.sh";
+    if ((QFile::permissions(shFile) & QFile::ExeOther) == 0)
+        system("chmod +x " + shFile);
+    system("open -a Terminal.app '" + shFile + '\'');
+}
+#endif

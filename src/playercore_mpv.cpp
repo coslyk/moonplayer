@@ -137,7 +137,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     // read unfinished_time
     QString filename = QDir(Settings::userPath).filePath("unfinished.txt");
     QFile file(filename);
-    if (file.open(QFile::ReadOnly))
+    if (file.open(QFile::ReadOnly | QFile::Text))
     {
         QByteArray data = file.readAll();
         file.close();
@@ -177,7 +177,7 @@ PlayerCore::~PlayerCore()
             return;
         QString filename = QDir(Settings::userPath).filePath("unfinished.txt");
         QFile file(filename);
-        if (!file.open(QFile::WriteOnly))
+        if (!file.open(QFile::WriteOnly | QFile::Text))
             return;
         file.write(data);
         file.close();

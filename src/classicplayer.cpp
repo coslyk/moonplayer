@@ -16,6 +16,9 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QMouseEvent>
+#ifdef Q_OS_MAC
+#include "yougetbridge.h"
+#endif
 
 ClassicPlayer::ClassicPlayer(QWidget *parent) :
     QMainWindow(parent),
@@ -30,22 +33,22 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     ui->setupUi(this);
     resize(size() * Settings::uiScale);
     // Set icons
-#ifdef Q_OS_MAC
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     ui->netButton->setIcon(QIcon(Settings::path + "/icons/net.png"));
     ui->pauseButton->setIcon(QIcon(Settings::path + "/icons/pause.png"));
     ui->playButton->setIcon(QIcon(Settings::path + "/icons/play.png"));
     ui->stopButton->setIcon(QIcon(Settings::path + "/icons/stop.png"));
     ui->volumeButton->setIcon(QIcon(Settings::path + "/icons/volume.png"));
-    ui->netButton->setIconSize(QSize(16, 16));
-    ui->pauseButton->setIconSize(QSize(16, 16));
-    ui->playButton->setIconSize(QSize(16, 16));
-    ui->stopButton->setIconSize(QSize(16, 16));
-    ui->volumeButton->setIconSize(QSize(16, 16));
-    ui->netButton->setFixedSize(QSize(32, 32));
-    ui->pauseButton->setFixedSize(QSize(32, 32));
-    ui->playButton->setFixedSize(QSize(32, 32));
-    ui->stopButton->setFixedSize(QSize(32, 32));
-    ui->volumeButton->setFixedSize(QSize(32, 32));
+    ui->netButton->setIconSize(QSize(16, 16) * Settings::uiScale);
+    ui->pauseButton->setIconSize(QSize(16, 16) * Settings::uiScale);
+    ui->playButton->setIconSize(QSize(16, 16) * Settings::uiScale);
+    ui->stopButton->setIconSize(QSize(16, 16) * Settings::uiScale);
+    ui->volumeButton->setIconSize(QSize(16, 16) * Settings::uiScale);
+    ui->netButton->setFixedSize(QSize(32, 32) * Settings::uiScale);
+    ui->pauseButton->setFixedSize(QSize(32, 32) * Settings::uiScale);
+    ui->playButton->setFixedSize(QSize(32, 32) * Settings::uiScale);
+    ui->stopButton->setFixedSize(QSize(32, 32) * Settings::uiScale);
+    ui->volumeButton->setFixedSize(QSize(32, 32) * Settings::uiScale);
 #else
     QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton, ui->volumeButton, ui->netButton};
     for (int i = 0; i < 5; i++)
@@ -89,7 +92,10 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     // Settings
     settingsDialog = new SettingsDialog(this);
 
+#ifdef Q_OS_MAC
     ui->actionSettings->setMenuRole(QAction::PreferencesRole);
+    ui->menuTools_T->addAction(tr("Update you-get"), &you_get_bridge, &YouGetBridge::updateYouGet);
+#endif
 
     connect(ui->actionAdd_file_s,        &QAction::triggered, playlist,       &Playlist::onAddItem);
     connect(ui->actionAdd_url,           &QAction::triggered, playlist,       &Playlist::onNetItem);

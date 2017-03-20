@@ -102,6 +102,13 @@ int main(int argc, char *argv[])
     // This is the first instance, create server
     LocalServer server;
 #endif
+
+    // optimize font
+#ifdef Q_OS_WIN
+    if (QLocale::system().country() == QLocale::China)
+        QApplication::setFont(QFont("Microsoft Yahei", 9));
+#endif
+
     //for mpv
     setlocale(LC_NUMERIC, "C");
 
