@@ -17,6 +17,7 @@
 #include <QJsonParseError>
 #include <QMessageBox>
 #include <QProcess>
+#include <QTextCodec>
 #include <QUrl>
 #include "danmakudelaygetter.h"
 #ifdef Q_OS_MAC
@@ -83,7 +84,13 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &danma
 void YouGetBridge::onFinished()
 {
     QJsonParseError json_error;
-    QJsonObject obj = QJsonDocument::fromJson(process->readAllStandardOutput(), &json_error).object();
+    QByteArray output = process->readAllStandardOutput();
+#ifdef  Q_OS_WIN
+    QTextCodec *codec = QTextCodec::codecForLocale();
+    output = codec->toUnicode(output).toUtf8();
+#endif //  Q_OS_WIN
+
+    QJsonObject obj = QJsonDocument::fromJson(output, &json_error).object();
     if (json_error.error == QJsonParseError::NoError)
     {
         if (obj.contains("audiolang")) // select languages
@@ -245,8 +252,9 @@ void YouGetBridge::onError()
                              tr("Upgrade Parser")))
         updateYouGet();
 #else
+    QTextCodec *codec = QTextCodec::codecForLocale();
     QMessageBox::warning(NULL, "Error", "Parse failed!\nURL:" + url + '\n' +
-                         QString::fromUtf8(process->readAllStandardError()));
+                         codec->toUnicode(process->readAllStandardError()));
 #endif
 }
 
