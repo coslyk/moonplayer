@@ -133,22 +133,22 @@
         <translation type="unfinished">确定</translation>
     </message>
     <message>
-        <location filename="cutterbar.cpp" line="80"/>
+        <location filename="cutterbar.cpp" line="81"/>
         <source>FFMPEG is not installed. Please download it from</source>
         <translation type="unfinished">ffmpeg未安装。请从以下网址下载ffmpeg</translation>
     </message>
     <message>
-        <location filename="cutterbar.cpp" line="82"/>
+        <location filename="cutterbar.cpp" line="83"/>
         <source>and place file &quot;ffmpeg&quot; into ~/.moonplayer/ or /usr/share/moonplayer/</source>
         <translation type="unfinished">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/或/usr/share/moonplayer/</translation>
     </message>
     <message>
-        <location filename="cutterbar.cpp" line="88"/>
+        <location filename="cutterbar.cpp" line="89"/>
         <source>Time position is not valid.</source>
         <translation type="unfinished">无效的时间。</translation>
     </message>
     <message>
-        <location filename="cutterbar.cpp" line="107"/>
+        <location filename="cutterbar.cpp" line="108"/>
         <source>Finished</source>
         <translation type="unfinished">完成</translation>
     </message>
@@ -321,69 +321,74 @@
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="97"/>
+        <location filename="player.cpp" line="100"/>
         <source>Resources</source>
         <translation type="unfinished">影视资源</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="102"/>
+        <location filename="player.cpp" line="105"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="108"/>
+        <location filename="player.cpp" line="111"/>
         <source>Player</source>
         <translation type="unfinished">播放器</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="109"/>
+        <location filename="player.cpp" line="112"/>
         <source>Online video</source>
         <oldsource>Search videos</oldsource>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="110"/>
+        <location filename="player.cpp" line="113"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="112"/>
+        <location filename="player.cpp" line="115"/>
+        <source>Update you-get</source>
+        <translation type="unfinished">更新you-get</translation>
+    </message>
+    <message>
+        <location filename="player.cpp" line="116"/>
         <source>Plugins</source>
         <translation type="unfinished">插件</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="113"/>
+        <location filename="player.cpp" line="117"/>
         <source>Ext. for browser</source>
         <translation type="unfinished">浏览器扩展</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="114"/>
+        <location filename="player.cpp" line="118"/>
         <source>About</source>
         <translation type="unfinished">关于</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="115"/>
+        <location filename="player.cpp" line="119"/>
         <source>Contribute</source>
         <translation type="unfinished">贡献</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="116"/>
+        <location filename="player.cpp" line="120"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="172"/>
+        <location filename="player.cpp" line="176"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="391"/>
+        <location filename="player.cpp" line="395"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
     <message>
-        <location filename="player.cpp" line="586"/>
-        <location filename="player.cpp" line="592"/>
+        <location filename="player.cpp" line="590"/>
+        <location filename="player.cpp" line="596"/>
         <source>Failed to read skin!</source>
         <translation type="unfinished">加载皮肤失败！</translation>
     </message>
@@ -785,7 +790,7 @@
         <translation type="obsolete">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/或/usr/share/moonplayer/</translation>
     </message>
     <message>
-        <location filename="settingsdialog.cpp" line="319"/>
+        <location filename="settingsdialog.cpp" line="271"/>
         <source>There are quality settings you have saved. Choose one you want to delete.</source>
         <translation type="unfinished">下面是已经保存的视频质量设置。请选择您要删除的项。</translation>
     </message>
@@ -858,37 +863,37 @@
 <context>
     <name>YouGetBridge</name>
     <message>
-        <location filename="yougetbridge.cpp" line="53"/>
+        <location filename="yougetbridge.cpp" line="66"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="102"/>
+        <location filename="yougetbridge.cpp" line="109"/>
         <source>Please select a language:</source>
         <translation type="unfinished">请选择语言：</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="138"/>
+        <location filename="yougetbridge.cpp" line="145"/>
         <source>Please select a video quality:</source>
         <translation type="unfinished">请选择视频质量：</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="139"/>
+        <location filename="yougetbridge.cpp" line="146"/>
         <source>Remember my selection for this website</source>
         <translation type="unfinished">记住我对该网站的选择</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="209"/>
+        <location filename="yougetbridge.cpp" line="216"/>
         <source>Add download task successfully!</source>
         <translation type="unfinished">添加下载任务成功！</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="239"/>
+        <location filename="yougetbridge.cpp" line="251"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="240"/>
+        <location filename="yougetbridge.cpp" line="252"/>
         <source>Upgrade Parser</source>
         <translation type="unfinished">更新解析程序</translation>
     </message>
