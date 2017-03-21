@@ -38,10 +38,10 @@ SOURCES += main.cpp\
     danmakudelaygetter_mpv.cpp \
     danmakuloader.cpp \
     accessmanager.cpp \
-    platforms.cpp
+    platforms.cpp \
+    yougetbridge.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
-unix: SOURCES += yougetbridge.cpp
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -79,9 +79,8 @@ HEADERS  += player.h\
     videoqualities.h \
     danmakudelaygetter.h \
     danmakuloader.h \
-    platforms.h
-
-unix: HEADERS += yougetbridge.h
+    platforms.h \
+    yougetbridge.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 

@@ -29,6 +29,7 @@ private:
 
 private slots:
     void onFinished(void);
+    void onError(void);
 };
 
 extern YouGetBridge you_get_bridge;

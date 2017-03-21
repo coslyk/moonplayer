@@ -1,5 +1,6 @@
 #include "yougetbridge.h"
 #include "downloader.h"
+#include "platforms.h"
 #include "playlist.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
@@ -30,8 +31,19 @@ YouGetBridge::YouGetBridge(QObject *parent) : QObject(parent)
     selectionDialog = NULL;
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)),this, SLOT(onFinished()));
+    connect(process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(onError()));
+
 #ifdef Q_OS_MAC
+    // add "/usr/local/bin" to path
     QStringList envs = QProcess::systemEnvironment();
+    for (int i = 0; i < envs.size(); i++)
+    {
+        if (envs[i].startsWith("PATH=") && !envs[i].contains("/usr/local/bin"))
+        {
+            envs[i] += ":/usr/local/bin";
+            break;
+        }
+    }
     envs << "LC_CTYPE=en_US.UTF-8";
     process->setEnvironment(envs);
 #endif
@@ -59,24 +71,12 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &danma
     this->format = format;
     QStringList args;
 
-#ifdef Q_OS_MAC
-    QString sh_command = QDir::homePath() + "/Library/Application\\ Support/MoonPlayer/you-get/you-get";
-    if (!Settings::proxy.isEmpty())
-        sh_command += QString(" --http-proxy '%1:%2'").arg(Settings::proxy,
-                                                           QString::number(Settings::port));
-    if (!format.isEmpty())
-        sh_command += " --format=" + format;
-    sh_command += QString(" -t 10 --json '%1'").arg(url);
-    args << "--login" << "-c" << sh_command;
-    process->start("bash", args, QProcess::ReadOnly);
-#else
     if (!Settings::proxy.isEmpty())
         args << "--http-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
     if (!format.isEmpty())
         args << "--format=" + format;
     args << "-t" << "10" << "--json" << url;
-    process->start("you-get", args, QProcess::ReadOnly);
-#endif
+    process->start(yougetFilePath(), args, QProcess::ReadOnly);
 }
 
 
@@ -232,6 +232,11 @@ void YouGetBridge::onFinished()
     }
 
     // Parse failed
+    onError();
+}
+
+void YouGetBridge::onError()
+{
 #ifdef Q_OS_MAC
     if (QMessageBox::warning(NULL, "Error",
                              "Parse failed!\nURL:" + url + "\n" +

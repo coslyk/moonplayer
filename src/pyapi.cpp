@@ -18,10 +18,8 @@
 #include <QNetworkProxy>
 #include <QDir>
 #include <QTimer>
-#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
 #include "danmakudelaygetter.h"
 #include "yougetbridge.h"
-#endif
 
 /*****************************************
  ******** Some useful functions **********
@@ -345,15 +343,10 @@ static PyObject *download_with_danmaku(PyObject *, PyObject *args)
         urls << QString::fromUtf8(str);
     }
 
-#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
     if (size > 2) //video clips with danmaku
         new DanmakuDelayGetter(names, urls, danmaku, true);
     else //only 1 clip with danmaku
         downloader->addTask(urls.takeFirst().toUtf8(), names.takeFirst(), (bool) childDir, danmaku);
-#else
-    while (!names.isEmpty())
-        downloader->addTask(urls.takeFirst().toUtf8(), names.takeFirst(), (bool) childDir);
-#endif
 
     QMessageBox::information(webvideo, "Message", "Add task successfully.");
     Py_IncRef(Py_None);
@@ -388,7 +381,6 @@ static PyObject *play(PyObject *, PyObject *args)
         urls << QString::fromUtf8(str);
     }
 
-#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
     if (danmaku_url && size > 2) //video clips with danmaku
         new DanmakuDelayGetter(names, urls, danmaku_url, false);
     else
@@ -397,11 +389,6 @@ static PyObject *play(PyObject *, PyObject *args)
         while (!names.isEmpty())
             playlist->addFile(names.takeFirst(), urls.takeFirst());
     }
-#else
-    playlist->addFileAndPlay(names.takeFirst(), urls.takeFirst(), danmaku_url); //first clip
-	while (!names.isEmpty())
-		playlist->addFile(names.takeFirst(), urls.takeFirst());
-#endif
 
     if (Settings::autoCloseWindow)
         webvideo->close();
@@ -412,15 +399,11 @@ static PyObject *play(PyObject *, PyObject *args)
 
 static PyObject *use_fallback_parser(PyObject *, PyObject *args)
 {
-#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
     const char *url, *danmaku_url = NULL;
     int download;
     if (!PyArg_ParseTuple(args, "si|s", &url, &download, &danmaku_url))
         return NULL;
     you_get_bridge.parse(url, download, danmaku_url);
-#else
-    QMessageBox::warning(NULL, "Error", "Error: Parse failed!");
-#endif
     Py_IncRef(Py_None);
     return Py_None;
 }

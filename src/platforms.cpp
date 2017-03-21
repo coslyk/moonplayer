@@ -60,7 +60,7 @@ QString createUserPath()
 
 
 
-//get ffmpeg's file name
+//get ffmpeg's file path
 QString ffmpegFilePath()
 {
     static QString filename;
@@ -72,6 +72,25 @@ QString ffmpegFilePath()
         filename = "ffmpeg";
 #elif defined(Q_OS_MAC)
         filename = QCoreApplication::applicationDirPath() + "/ffmpeg";
+#else
+#error ERROR: Unsupport system!
+#endif
+    }
+    return filename;
+}
+
+// get you-get's file path
+QString yougetFilePath()
+{
+    static QString filename;
+    if (filename.isNull())
+    {
+#if defined(Q_OS_WIN)
+        filename = QCoreApplication::applicationDirPath() + "/you-get.exe";
+#elif defined(Q_OS_LINUX)
+        filename = "you-get";
+#elif defined(Q_OS_MAC)
+        filename = QDir::homePath() + "/Library/Application Support/MoonPlayer/you-get/you-get";
 #else
 #error ERROR: Unsupport system!
 #endif
