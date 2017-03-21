@@ -18,7 +18,4 @@ void readXspf(const QByteArray& xmlpage, QStringList& result);
 //Save cookies to disk
 bool saveCookies(const QUrl &url, const QString &filename);
 
-//Get FFmpeg's file name
-QString getFFmpegFile(void);
-
 #endif // MP_UTILS_H

@@ -1,6 +1,6 @@
 #include "videocombiner.h"
 #include <QMessageBox>
-#include "utils.h"
+#include "platforms.h"
 
 VideoCombiner::VideoCombiner(QObject *parent, const QDir &dir) :
     QProcess(parent)
@@ -26,7 +26,7 @@ VideoCombiner::VideoCombiner(QObject *parent, const QDir &dir) :
     args << "-f" << "concat" << "-safe" << "0" << "-i" << "filelist.txt" << "-c" << "copy" << save_as;
     setWorkingDirectory(dir.absolutePath());
     connect(this, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
-    start(getFFmpegFile(), args, QProcess::ReadOnly);
+    start(ffmpegFilePath(), args, QProcess::ReadOnly);
 }
 
 void VideoCombiner::onFinished(int status)

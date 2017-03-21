@@ -79,30 +79,6 @@ void readXspf(const QByteArray &xmlpage, QStringList &result)
     }
 }
 
-//get ffmpeg's file name
-QString getFFmpegFile()
-{
-    static QString filename;
-    if (filename.isNull())
-    {
-#if defined(Q_OS_WIN)
-        QDir dir(Settings::path);
-        if (dir.exists("ffmpeg.exe"))
-            filename = dir.filePath("ffmpeg.exe");
-        else
-            filename = "";
-
-#elif defined(Q_OS_LINUX)
-        filename = "ffmpeg";
-#elif defined(Q_OS_MAC)
-        filename = QCoreApplication::applicationDirPath() + "/ffmpeg";
-#else
-#error ERROR: Unsupport system!
-#endif
-    }
-    return filename;
-}
-
 //save cookies to disk
 bool saveCookies(const QUrl &url, const QString &filename)
 {

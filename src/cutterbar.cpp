@@ -1,6 +1,7 @@
 #include "cutterbar.h"
 #include "ui_cutterbar.h"
 #include "utils.h"
+#include "platforms.h"
 #include <QDir>
 #include <QMessageBox>
 #include <QProcess>
@@ -73,7 +74,7 @@ void CutterBar::onSliderReleased()
 
 void CutterBar::startTask()
 {
-    QString ffmpeg = getFFmpegFile();
+    QString ffmpeg = ffmpegFilePath();
     // Check whether ffmpeg is installed
     if (ffmpeg.isEmpty())
     {

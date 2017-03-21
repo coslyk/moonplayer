@@ -21,6 +21,7 @@
 #include "settings_audio.h"
 #include "plugin.h"
 #include "utils.h"
+#include "platforms.h"
 
 QString Settings::aout;
 QString Settings::vout;
@@ -193,47 +194,11 @@ SettingsDialog::~SettingsDialog()
 //Init settings
 void initSettings()
 {
-#if defined(Q_OS_LINUX)
-    QDir dir = QDir::home();
-    if (!dir.cd(".moonplayer"))
-    {
-        dir.mkdir(".moonplayer");
-        dir.cd(".moonplayer");
-    }
-    if (!dir.exists("plugins"))
-        dir.mkdir("plugins");
-    if (!dir.exists("skins"))
-        dir.mkdir("skins");
-
-#elif defined(Q_OS_MAC)
-    QDir dir = QDir::home();
-    dir.cd("Library");
-    dir.cd("Application Support");
-    if (!dir.cd("MoonPlayer"))
-    {
-        dir.mkdir("MoonPlayer");
-        dir.cd("MoonPlayer");
-    }
-    if (!dir.exists("plugins"))
-        dir.mkdir("plugins");
-    if (!dir.exists("skins"))
-        dir.mkdir("skins");
-#elif defined(Q_OS_WIN)
-	QDir dir = QDir::home();
-	dir.cd("AppData");
-	dir.cd("Local");
-	if (!dir.cd("MoonPlayer"))
-	{
-		dir.mkdir("MoonPlayer");
-		dir.cd("MoonPlayer");
-	}
-	if (!dir.exists("plugins"))
-		dir.mkdir("plugins");
-	if (!dir.exists("skins"))
-		dir.mkdir("skins");
-#endif
-
     QSettings settings("moonsoft", "moonplayer");
+
+    //set path
+    path = getAppPath();
+    userPath = createUserPath();
 
     //read settings
 #if defined(Q_OS_WIN)
@@ -244,19 +209,6 @@ void initSettings()
     vout = settings.value("Video/out", "opengl").toString();
 #endif
 
-    //set path
-#if defined(Q_OS_LINUX)
-    path = "/usr/share/moonplayer";
-    userPath = QDir::homePath() + "/.moonplayer";
-#elif defined(Q_OS_MAC)
-    path = QCoreApplication::applicationDirPath().replace("/MacOS", "/Resources");
-    userPath = QDir::homePath() + "/Library/Application Support/MoonPlayer";
-#elif defined(Q_OS_WIN)
-    path = QCoreApplication::applicationDirPath();
-	userPath = QDir::homePath() + "/AppData/Local/MoonPlayer";
-#else
-#error ERROR: Unsupported system!
-#endif
 
     aout = settings.value("Audio/out", "auto").toString();
     volume = settings.value("Audio/volume", 10).toInt();
@@ -293,8 +245,8 @@ void initSettings()
     QDir skinDir(path);
     skinDir.cd("skins");
     skinList = skinDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-    dir.cd("skins");
-    skinList.append(dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
+    skinDir.cd(userPath + "/skins");
+    skinList.append(skinDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
     if (currentSkin >= skinList.size())
         currentSkin = 0;
 }

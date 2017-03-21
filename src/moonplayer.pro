@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     playercore_mpv.cpp \
     danmakudelaygetter_mpv.cpp \
     danmakuloader.cpp \
-    accessmanager.cpp
+    accessmanager.cpp \
+    platforms.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 unix: SOURCES += yougetbridge.cpp
@@ -77,7 +78,8 @@ HEADERS  += player.h\
     selectiondialog.h \
     videoqualities.h \
     danmakudelaygetter.h \
-    danmakuloader.h
+    danmakuloader.h \
+    platforms.h
 
 unix: HEADERS += yougetbridge.h
 !macx: HEADERS += localserver.h \
