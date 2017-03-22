@@ -1,13 +1,13 @@
 #include "videoqualities.h"
 #include <QDir>
 #include <QFile>
-#include "settings_player.h"
+#include "platforms.h"
 
 QHash<QString, QString> qualities;
 
 void loadQualities()
 {
-    QFile file(Settings::userPath + "/qualities");
+    QFile file(getUserPath() + "/qualities");
     if (file.open(QFile::ReadOnly | QFile::Text))
     {
         QStringList list = QString(file.readAll()).split('\n');
@@ -26,7 +26,7 @@ void loadQualities()
 
 void saveQualities()
 {
-    QFile file(Settings::userPath + "/qualities");
+    QFile file(getUserPath() + "/qualities");
     if (file.open(QFile::WriteOnly | QFile::Text))
     {
         QHash<QString, QString>::const_iterator i;

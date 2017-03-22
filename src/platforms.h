@@ -4,7 +4,8 @@
 #include <QString>
 
 QString getAppPath(void);
-QString createUserPath(void);
+QString getUserPath(void);
+void createUserPath(void);
 
 // Get FFmpeg's file path
 QString ffmpegFilePath(void);

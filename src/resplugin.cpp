@@ -1,8 +1,8 @@
 #include "resplugin.h"
 #include <QDir>
 #include "utils.h"
+#include "platforms.h"
 #include "pyapi.h"
-#include "settings_player.h"
 
 /************************
  ** Initialize plugins **
@@ -15,9 +15,9 @@ void initResPlugins()
     static ResPlugin *array[128];
     resplugins = array;
 
-    QDir pluginsDir(Settings::path + "/plugins");
+    QDir pluginsDir(getAppPath() + "/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-    pluginsDir = QDir(Settings::userPath + "/plugins");
+    pluginsDir = QDir(getUserPath() + "/plugins");
     list += pluginsDir.entryList(QDir::Files, QDir::Name);
 
     while (!list.isEmpty())

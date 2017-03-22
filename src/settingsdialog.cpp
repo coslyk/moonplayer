@@ -25,8 +25,6 @@
 
 QString Settings::aout;
 QString Settings::vout;
-QString Settings::path;
-QString Settings::userPath;
 QString Settings::proxy;
 QString Settings::downloadDir;
 QString Settings::danmakuFont;
@@ -196,9 +194,8 @@ void initSettings()
 {
     QSettings settings("moonsoft", "moonplayer");
 
-    //set path
-    path = getAppPath();
-    userPath = createUserPath();
+    //create user path
+    createUserPath();
 
     //read settings
 #if defined(Q_OS_WIN)
@@ -242,10 +239,10 @@ void initSettings()
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
 
     //init skins
-    QDir skinDir(path);
+    QDir skinDir(getAppPath());
     skinDir.cd("skins");
     skinList = skinDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-    skinDir.cd(userPath + "/skins");
+    skinDir.cd(getUserPath() + "/skins");
     skinList.append(skinDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
     if (currentSkin >= skinList.size())
         currentSkin = 0;
@@ -254,9 +251,9 @@ void initSettings()
 void SettingsDialog::showPluginsMsg()
 {
 #ifdef Q_OS_WIN
-    QDesktopServices::openUrl("file:///" + userPath + "/plugins");
+    QDesktopServices::openUrl("file:///" + getUserPath() + "/plugins");
 #else
-	QDesktopServices::openUrl("file://" + userPath + "/plugins");
+    QDesktopServices::openUrl("file://" + getUserPath() + "/plugins");
 #endif
 }
 

@@ -1,7 +1,7 @@
 #include "danmakuloader.h"
 #include "accessmanager.h"
+#include "platforms.h"
 #include "settings_danmaku.h"
-#include "settings_player.h"
 #include <QDir>
 #include <QProcess>
 #include <QNetworkReply>
@@ -46,7 +46,7 @@ void DanmakuLoader::onXmlDownloaded()
     if (reply->error() == QNetworkReply::NoError)
     {
         QStringList args;
-        args << QDir(Settings::path).filePath("danmaku2ass") << "-o" << QDir::temp().filePath("moonplayer_danmaku.ass");
+        args << QDir(getAppPath()).filePath("danmaku2ass") << "-o" << QDir::temp().filePath("moonplayer_danmaku.ass");
         args << "-s" << QString().sprintf("%dx%d", width, height);  //Ratio
 
         // Font

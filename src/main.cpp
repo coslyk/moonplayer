@@ -15,6 +15,7 @@
 #include <QNetworkAccessManager>
 #include <Python.h>
 #include "pyapi.h"
+#include "platforms.h"
 #include "player.h"
 
 #ifdef Q_OS_MAC
@@ -122,7 +123,7 @@ int main(int argc, char *argv[])
 
     //translate moonplayer
     printf("Initialize language support...\n");
-    QDir path(Settings::path);
+    QDir path(getAppPath());
 #ifdef Q_OS_MAC
     path.cd("translations");
     //translate application menu

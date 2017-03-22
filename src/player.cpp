@@ -1,5 +1,6 @@
 #include "player.h"
 #include "ui_player.h"
+#include "platforms.h"
 #include "playercore.h"
 #include "playlist.h"
 #include "webvideo.h"
@@ -112,7 +113,9 @@ Player::Player(QWidget *parent) :
     menu->addAction(tr("Online video"), webvideo, SLOT(show()));
     menu->addAction(tr("Settings"), this, SLOT(onSetButton()));
     menu->addSeparator();
+#ifdef Q_OS_MAC
     menu->addAction(tr("Update you-get"), &you_get_bridge, SLOT(updateYouGet()));
+#endif
     menu->addAction(tr("Plugins"), this, SLOT(openPluginsPage()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
     QMenu *aboutMenu = menu->addMenu(tr("About"));
@@ -573,16 +576,9 @@ void Player::onSaveVolume(int volume)
 
 void Player::setSkin(const QString& skin_name)
 {
-    QDir dir = QDir(Settings::path);
-    dir.cd("skins");
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    dir.cd(skin_name);
-#elif defined(Q_OS_LINUX)
+    QDir dir = QDir(getAppPath() + "/skins");
     if (!dir.cd(skin_name))
-        dir = QDir(QDir::homePath() + "/.moonplayer/skins/" + skin_name);
-#else
-#error ERROR: Unsupported system!
-#endif
+        dir = QDir(getUserPath() + "/skins/" + skin_name);
 
     // Load skin.qss, skin_normal.qss or skin_hidpi.qss
     if (chdir(dir.absolutePath().toUtf8().constData()))

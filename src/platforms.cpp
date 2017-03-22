@@ -4,19 +4,43 @@
 
 QString getAppPath()
 {
+    static QString path;
+    if (path.isNull())
+    {
 #if defined(Q_OS_LINUX)
-    return "/usr/share/moonplayer";
+        path = "/usr/share/moonplayer";
 #elif defined(Q_OS_MAC)
-    return QCoreApplication::applicationDirPath().replace("/MacOS", "/Resources");
+        path = QCoreApplication::applicationDirPath().replace("/MacOS", "/Resources");
 #elif defined(Q_OS_WIN)
-    return QCoreApplication::applicationDirPath();
+        path = QCoreApplication::applicationDirPath();
 #else
 #error ERROR: Unsupported system!
 #endif
+    }
+    return path;
 }
 
 
-QString createUserPath()
+QString getUserPath()
+{
+    static QString path;
+    if (path.isNull())
+    {
+#if defined(Q_OS_LINUX)
+        path = QDir::homePath() + "/.moonplayer";
+#elif defined(Q_OS_MAC)
+        path = QDir::homePath() + "/Library/Application Support/MoonPlayer";
+#elif defined(Q_OS_WIN)
+        path = QDir::homePath() + "/AppData/Local/MoonPlayer";
+#else
+#error ERROR: Unsupported system!
+#endif
+    }
+    return path;
+}
+
+
+void createUserPath()
 {
     QDir dir = QDir::home();
 #if defined(Q_OS_LINUX)
@@ -41,21 +65,13 @@ QString createUserPath()
         dir.mkdir("MoonPlayer");
         dir.cd("MoonPlayer");
     }
+#else
+#error ERROR: Unsupported system!
 #endif
     if (!dir.exists("plugins"))
         dir.mkdir("plugins");
     if (!dir.exists("skins"))
         dir.mkdir("skins");
-
-#if defined(Q_OS_LINUX)
-    return QDir::homePath() + "/.moonplayer";
-#elif defined(Q_OS_MAC)
-    return QDir::homePath() + "/Library/Application Support/MoonPlayer";
-#elif defined(Q_OS_WIN)
-    return QDir::homePath() + "/AppData/Local/MoonPlayer";
-#else
-#error ERROR: Unsupported system!
-#endif
 }
 
 

@@ -1,9 +1,9 @@
 #include "plugin.h"
 #include <QDir>
 #include <QHash>
+#include "platforms.h"
 #include "pyapi.h"
 #include "settings_plugins.h"
-#include "settings_player.h"
 
 /************************
  ** Initialize plugins **
@@ -17,15 +17,15 @@ void initPlugins()
     PyRun_SimpleString("import sys");
     PyRun_SimpleString("reload(sys)");
     PyRun_SimpleString("sys.setdefaultencoding('utf8')");
-    PyRun_SimpleString(QString("sys.path.insert(0, '%1/plugins')").arg(Settings::path).toUtf8().constData());
-    PyRun_SimpleString(QString("sys.path.append('%1/plugins')").arg(Settings::userPath).toUtf8().constData());
+    PyRun_SimpleString(QString("sys.path.insert(0, '%1/plugins')").arg(getAppPath()).toUtf8().constData());
+    PyRun_SimpleString(QString("sys.path.append('%1/plugins')").arg(getUserPath()).toUtf8().constData());
 
     //load plugins
     static Plugin *array[128];
     plugins = array;
-    QDir pluginsDir(Settings::path + "/plugins");
+    QDir pluginsDir(getAppPath() + "/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-    pluginsDir = QDir(Settings::userPath + "/plugins");
+    pluginsDir = QDir(getUserPath() + "/plugins");
     list += pluginsDir.entryList(QDir::Files, QDir::Name);
 
     while (!list.isEmpty())

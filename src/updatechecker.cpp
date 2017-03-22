@@ -1,6 +1,6 @@
 #include "updatechecker.h"
 #include "accessmanager.h"
-#include "settings_player.h"
+#include "platforms.h"
 #include <QFile>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
@@ -24,7 +24,7 @@ void UpdateChecker::onFinished()
     if (reply->error() == QNetworkReply::NoError)
     {
         int newVersion = reply->readAll().simplified().toInt();
-        QFile file(Settings::path + "/Version");
+        QFile file(getAppPath() + "/Version");
         if (file.open(QFile::ReadOnly))
         {
             int currentVersion = file.readAll().simplified().toInt();

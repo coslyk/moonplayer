@@ -1,5 +1,6 @@
 #include "playercore.h"
 #include "danmakuloader.h"
+#include "platforms.h"
 #include "settings_audio.h"
 #include "settings_network.h"
 #include "settings_player.h"
@@ -135,7 +136,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     unseekable_forced = false;
 
     // read unfinished_time
-    QString filename = QDir(Settings::userPath).filePath("unfinished.txt");
+    QString filename = QDir(getUserPath()).filePath("unfinished.txt");
     QFile file(filename);
     if (file.open(QFile::ReadOnly | QFile::Text))
     {
@@ -175,7 +176,7 @@ PlayerCore::~PlayerCore()
         data.chop(1); // Remove last '\n'
         if (data.isEmpty())
             return;
-        QString filename = QDir(Settings::userPath).filePath("unfinished.txt");
+        QString filename = QDir(getUserPath()).filePath("unfinished.txt");
         QFile file(filename);
         if (!file.open(QFile::WriteOnly | QFile::Text))
             return;
@@ -184,7 +185,7 @@ PlayerCore::~PlayerCore()
     }
     else
     {
-        QDir dir(Settings::userPath);
+        QDir dir(getUserPath());
         if (dir.exists("unfinished.txt"))
             dir.remove("unfinished.txt");
     }

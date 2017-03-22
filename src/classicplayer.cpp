@@ -2,6 +2,7 @@
 #include "ui_classicplayer.h"
 #include "cutterbar.h"
 #include "downloader.h"
+#include "platforms.h"
 #include "playercore.h"
 #include "playlist.h"
 #include "reslibrary.h"
@@ -34,11 +35,11 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     resize(size() * Settings::uiScale);
     // Set icons
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-    ui->netButton->setIcon(QIcon(Settings::path + "/icons/net.png"));
-    ui->pauseButton->setIcon(QIcon(Settings::path + "/icons/pause.png"));
-    ui->playButton->setIcon(QIcon(Settings::path + "/icons/play.png"));
-    ui->stopButton->setIcon(QIcon(Settings::path + "/icons/stop.png"));
-    ui->volumeButton->setIcon(QIcon(Settings::path + "/icons/volume.png"));
+    ui->netButton->setIcon(QIcon(getAppPath() + "/icons/net.png"));
+    ui->pauseButton->setIcon(QIcon(getAppPath() + "/icons/pause.png"));
+    ui->playButton->setIcon(QIcon(getAppPath() + "/icons/play.png"));
+    ui->stopButton->setIcon(QIcon(getAppPath() + "/icons/stop.png"));
+    ui->volumeButton->setIcon(QIcon(getAppPath() + "/icons/volume.png"));
     ui->netButton->setIconSize(QSize(16, 16) * Settings::uiScale);
     ui->pauseButton->setIconSize(QSize(16, 16) * Settings::uiScale);
     ui->playButton->setIconSize(QSize(16, 16) * Settings::uiScale);

@@ -2,7 +2,7 @@
 #include "utils.h"
 #include "pyapi.h"
 #include <QDir>
-#include "settings_player.h"
+#include "platforms.h"
 
 /************************
  ** Initialize plugins **
@@ -16,9 +16,9 @@ void initSearchers()
     static Searcher *array[128];
     searchers = array;
 
-    QDir pluginsDir(Settings::path + "/plugins");
+    QDir pluginsDir(getAppPath() + "/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-    pluginsDir = QDir(Settings::userPath + "/plugins");
+    pluginsDir = QDir(getUserPath() + "/plugins");
     list += pluginsDir.entryList(QDir::Files, QDir::Name);
 
     while (!list.isEmpty())

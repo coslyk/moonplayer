@@ -21,7 +21,7 @@
 #include <QUrl>
 #include "danmakudelaygetter.h"
 #ifdef Q_OS_MAC
-#include "settings_player.h"
+#include "platforms.h"
 #endif
 
 YouGetBridge you_get_bridge;
@@ -261,7 +261,7 @@ void YouGetBridge::onError()
 #ifdef Q_OS_MAC
 void YouGetBridge::updateYouGet()
 {
-    QByteArray shFile = Settings::path.toUtf8() + "/upgrade-you-get.sh";
+    QByteArray shFile = getAppPath().toUtf8() + "/upgrade-you-get.sh";
     if ((QFile::permissions(shFile) & QFile::ExeOther) == 0)
         system("chmod +x " + shFile);
     system("open -a Terminal.app '" + shFile + '\'');
