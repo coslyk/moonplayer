@@ -21,11 +21,14 @@
 #include "danmakudelaygetter.h"
 #include "yougetbridge.h"
 
+
+bool win_debug = false;
+
 /*****************************************
  ******** Some useful functions **********
  ****************************************/
 #define RETURN_IF_ERROR(retval)  if ((retval) == NULL){show_pyerr(); return;}
-#define EXIT_IF_ERROR(retval)    if ((retval) == NULL){show_pyerr(); exit(-1);}
+#define EXIT_IF_ERROR(retval)    if ((retval) == NULL){show_pyerr(); exit(EXIT_FAILURE);}
 
 void call_py_func_vsi(PyObject *func, const char *first, int second)
 {
@@ -37,38 +40,15 @@ void call_py_func_vsi(PyObject *func, const char *first, int second)
 void show_pyerr()
 {
 #ifdef Q_OS_WIN
-	PyObject *type, *value, *traceback;
-	PyErr_Fetch(&type, &value, &traceback);
-	QString msg;
-	if (traceback)
-	{
-		PyObject *line_number = PyObject_GetAttrString(traceback, "tb_lineno");
-		msg = "In Line " + QString::number(PyInt_AsLong(line_number)) + ":\n";
-		Py_DecRef(line_number);
-		Py_DecRef(traceback);
-	}
-	if (type)
-	{
-		PyObject *strobj = PyObject_Str(type);
-		msg += PyString_AsQString(strobj) + '\n';
-		Py_DecRef(strobj);
-		Py_DecRef(type);
-	}
-	if (value)
-	{
-		if (PyString_Check(value))
-			msg += PyString_AsQString(value);
-		else
-		{
-			PyObject *strobj = PyObject_Str(value);
-			msg += PyString_AsQString(strobj);
-			Py_DecRef(strobj);
-		}
-		Py_DecRef(value);
-	}
-	QMessageBox::warning(NULL, "Python Error", msg);
-#else
+    if (!win_debug)
+    {
+        PyErr_Clear();
+        return;
+    }
 	PyErr_Print();
+    PyRun_SimpleString("sys.stderr.flush()");
+#else
+    PyErr_Print();
 #endif
 }
 

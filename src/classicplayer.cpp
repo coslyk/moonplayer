@@ -357,8 +357,8 @@ void ClassicPlayer::onSizeChanged(const QSize &sz)
     if (frameNewSize.width() > available.width() || frameNewSize.height() > available.height())
     {
         newsize = available.size() + size() - frameSize();
-        available.setSize(newsize);
-        setGeometry(available);
+        resize(newsize);
+        move(0, 0);
     }
     else
         resize(newsize);

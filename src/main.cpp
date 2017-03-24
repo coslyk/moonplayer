@@ -17,6 +17,9 @@
 #include "pyapi.h"
 #include "platforms.h"
 #include "player.h"
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
 
 #ifdef Q_OS_MAC
 #include <QFileOpenEvent>
@@ -104,10 +107,25 @@ int main(int argc, char *argv[])
     LocalServer server;
 #endif
 
-    // optimize font
 #ifdef Q_OS_WIN
+    // optimize font
     if (QLocale::system().country() == QLocale::China)
         QApplication::setFont(QFont("Microsoft Yahei", 9));
+    // debug mode
+    for (int i = 1; i < argc; i++)
+    {
+        if (QByteArray(argv[i]) == "--win-debug")
+        {
+            win_debug = AttachConsole(ATTACH_PARENT_PROCESS);
+            if (win_debug)
+            {
+                freopen("CON", "w", stdout);
+                freopen("CON", "w", stderr);
+                freopen("CON", "r", stdin);
+            }
+            break;
+        }
+    }
 #endif
 
     //for mpv
@@ -152,6 +170,9 @@ int main(int argc, char *argv[])
     {
         QTextCodec* codec = QTextCodec::codecForLocale();
         QString file = codec->toUnicode(argv[i]);
+
+        if (file.startsWith("--"))
+            continue;
         if (file.startsWith("http://"))
             playlist->addUrl(file);
         else if (file.endsWith(".m3u") || file.endsWith("m3u8") || file.endsWith(".xspf")) //playlist
@@ -177,5 +198,6 @@ int main(int argc, char *argv[])
         delete classic_player;
     else
         delete player;
+
     return 0;
 }

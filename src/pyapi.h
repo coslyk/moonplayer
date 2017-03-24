@@ -36,7 +36,8 @@ extern PyObject *exc_GetUrlError;
 extern PyObject *apiModule;
 void initAPI(void);
 void call_py_func_vsi(PyObject *func, const char *first, int second);
-void show_pyerr(void);
+void show_pyerr();
+extern bool win_debug;
 
 #define OPT_QL_HIGH  0x01
 #define OPT_QL_SUPER 0x02
