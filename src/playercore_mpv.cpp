@@ -16,6 +16,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QMouseEvent>
+#include <QTimer>
 
 static void postEvent(void *ptr)
 {
@@ -100,6 +101,11 @@ PlayerCore::PlayerCore(QWidget *parent) :
     msgLabel->move(0, 0);
     msgLabel->resize(QSize(400, 30));
     msgLabel->hide();
+
+    // create timer
+    mouseHideTimer = new QTimer(this);
+    mouseHideTimer->setSingleShot(true);
+    connect(mouseHideTimer, &QTimer::timeout, this, &PlayerCore::hideCursor);
 
     // create menu
     QMenu *ratio_menu = new QMenu(tr("Ratio"));
@@ -374,6 +380,22 @@ void PlayerCore::mouseDoubleClickEvent(QMouseEvent *e)
     e->accept();
 }
 
+// Hide or show mouse cursor
+void PlayerCore::mouseMoveEvent(QMouseEvent *e)
+{
+    setCursor(QCursor(Qt::ArrowCursor));
+    mouseHideTimer->stop();
+    if (state == VIDEO_PLAYING)
+        mouseHideTimer->start(2000);
+    QWidget::mouseMoveEvent(e);
+}
+
+void PlayerCore::hideCursor()
+{
+    setCursor(QCursor(Qt::BlankCursor));
+}
+
+// Show menu
 void PlayerCore::showMenu(const QPoint&)
 {
     menu->exec(QCursor::pos());

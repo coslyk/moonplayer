@@ -199,11 +199,16 @@ bool ClassicPlayer::eventFilter(QObject *obj, QEvent *e)
         if (isFullScreen() && me->globalY() > toolbar_pos_y && !ui->toolbar->isVisible()) //mouse enters toolbar
         {
             ui->toolbar->show();
+            me->accept();
+            return true;
         }
         else if (!isFullScreen() && me->x() > width() - 100)
+        {
             playlist->show();
-        me->accept();
-        return true;
+            me->accept();
+            return true;
+        }
+        return false;
     }
 
     // Key event

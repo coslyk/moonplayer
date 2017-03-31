@@ -22,7 +22,7 @@ void initPlugins()
 #ifdef Q_OS_WIN
     if (win_debug)
     {
-        PyRun_SimpleString("sys.stdout = open('CON ', 'w')");
+        PyRun_SimpleString("sys.stdout = open('CON', 'w')");
         PyRun_SimpleString("sys.stderr = open('CON', 'w')");
         PyRun_SimpleString("sys.stdin  = open('CON', 'r')");
     }

@@ -309,10 +309,18 @@ bool Player::eventFilter(QObject *obj, QEvent *e)
     {
         QMouseEvent* me = static_cast<QMouseEvent*>(e);
         if (isFullScreen() && me->y() > toolbar_pos_y && !ui->toolBar->isVisible()) //mouse enters toolbar
+        {
             ui->toolBar->show();
+            me->accept();
+            return true;
+        }
         else if (!isFullScreen() && me->x() > width() - 100)
+        {
             playlist->show();
-        return true;
+            me->accept();
+            return true;
+        }
+        return false;
     }
 
 
