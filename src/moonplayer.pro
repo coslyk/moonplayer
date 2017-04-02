@@ -117,7 +117,7 @@ macx {
     FFMPEG.path = Contents/MacOS
     RESFILES.files = upgrade-you-get.sh danmaku2ass skins plugins icons Version
     RESFILES.path = Contents/Resources
-    TRANS_FILES.files = moonplayer_zh_CN.qm /usr/local/opt/qt5/translations/qt_zh_CN.qm
+    TRANS_FILES.files = moonplayer_zh_CN.qm qt_zh_CN.qm
     TRANS_FILES.path = Contents/Resources/translations
     QMAKE_BUNDLE_DATA += RESFILES FFMPEG TRANS_FILES
     QMAKE_INFO_PLIST = Info.plist
