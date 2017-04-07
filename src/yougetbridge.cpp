@@ -179,6 +179,14 @@ void YouGetBridge::onFinished()
                 QJsonArray json_urls = selectedItem["src"].toArray();
                 QStringList names, urls;
 
+                if (json_urls.size() == 0)
+                {
+                    QMessageBox::warning(NULL,
+                                         "Error",
+                                         tr("No videos available. Please try other language or quality."));
+                    return;
+                }
+
                 // Make file list
                 for (int i = 0; i < json_urls.size(); i++)
                 {
@@ -207,12 +215,11 @@ void YouGetBridge::onFinished()
                     if (!danmaku.isEmpty() && urls.size() > 1)
                         new DanmakuDelayGetter(names, urls, danmaku, true);
                     // Download without danmaku or only 1 clip with danmaku
-                     else
+                    else
                     {
                         for (int i = 0; i < urls.size(); i++)
                              downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1, danmaku.toUtf8());
                     }
-
                     QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
                 }
 
