@@ -5,7 +5,7 @@ import moonplayer
 import re
 from moonplayer_utils import parse_flvcd_page
 
-hosts = ('www.acfun.tv',)
+hosts = ('www.acfun.tv', 'www.acfun.cn')
 
 def parse(url, options):
     origin_url = url

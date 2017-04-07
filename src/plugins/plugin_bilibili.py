@@ -7,6 +7,9 @@ from moonplayer_utils import list_links, parse_flvcd_page
 
 hosts = ('www.bilibili.com', 'bangumi.bilibili.com')
 
+# Avoid speed limitation
+moonplayer.bind_referer('ws.acgvideo.com', 'http://www.bilibili.com')
+
 def parse(url, options):
     origin_url = url
     url = 'http://www.flvcd.com/parse.php?go=1&kw=' + origin_url
