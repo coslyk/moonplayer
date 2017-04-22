@@ -20,9 +20,6 @@
 #include <QTextCodec>
 #include <QUrl>
 #include "danmakudelaygetter.h"
-#ifdef Q_OS_MAC
-#include "platforms.h"
-#endif
 
 YouGetBridge you_get_bridge;
 
