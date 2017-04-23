@@ -9,7 +9,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QHash>
-#include "httpget.h"
+#include "downloaderitem.h"
 #include "settings_network.h"
 #include "settings_plugins.h"
 #include "videocombiner.h"
@@ -63,42 +63,36 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
     //rename if the same file is exist
     if (QFile::exists(filename))
     {
-        if (QMessageBox::question(this, "Download again?", filename + tr(" is existed. Download again?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::No)
+        if (QMessageBox::question(this,
+                                  "Download again?",
+                                  filename + tr(" is existed. Download again?"),
+                                  QMessageBox::Yes,
+                                  QMessageBox::No) == QMessageBox::No)
             return;
     }
 
-    HttpGet *get = new HttpGet(QString::fromUtf8(url.simplified()), filename, this);
-    connect(get, SIGNAL(finished(HttpGet*,bool)), this, SLOT(onFinished(HttpGet*,bool)));
-    connect(get, SIGNAL(paused(HttpGet*,int)), this, SLOT(onPaused(HttpGet*,int)));
-    connect(get, SIGNAL(progressChanged(HttpGet*,int,bool)), this, SLOT(onProgressChanged(HttpGet*,int,bool)));
+    DownloaderItem *item = new DownloaderItem(QString::fromUtf8(url.simplified()), filename, this);
+    connect(item, SIGNAL(finished(HttpGet*,bool)), this, SLOT(onFinished(HttpGet*,bool)));
 
-    //Create item
-    QFileInfo info(filename);
-    QStringList labels;
-    QTreeWidgetItem *item;
+    // Add item to tree
     if (in_group)
     {
+        QFileInfo info(filename);
         DownloaderGroup *group = dir2group[info.path()];
         if (group == NULL)
         {
+            QStringList labels;
             labels << info.path() << "";
             group = new DownloaderGroup(treeWidget, labels);
             group->finished = 0;
             group->dir = QDir(info.path());
             dir2group[info.path()] = group;
-            labels.clear();
         }
-        labels << info.fileName() << "Wait";
-        item = new QTreeWidgetItem(group, labels);
+        group->addChild(item);
         group->setText(1, QString().sprintf("%d / %d", group->finished, group->childCount()));
     }
     else
-    {
-        labels << filename  << "Wait";
-        item = new QTreeWidgetItem(treeWidget, labels);
-    }
-    get2item[get] = item;
-    item2get[item] = get;
+        treeWidget->addTopLevelItem(item);
 
     //save danmaku's url
     if (!danmaku.isEmpty())
@@ -113,32 +107,24 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
 
     //Start downloading
     if (n_downloading < Settings::maxTasks) {
-        get->start();
+        item->start();
         n_downloading++;
     }
     else
-        waitings << get;
+        waitings << item;
 }
 
 void Downloader::onFinished(HttpGet *get, bool error)
 {
-    QTreeWidgetItem *item = get2item[get];
-    if (error)
-        item->setText(1, "Error");
-    else
+    QTreeWidgetItem *item = static_cast<DownloaderItem*>(get);
+    if (!error && item->parent()) //in group
     {
-        item->setText(1, "Finished");
-        if (item->parent())
-        {
-            DownloaderGroup *group = static_cast<DownloaderGroup*>(item->parent());
-            group->finished++;
-            group->setText(1, QString().sprintf("%d / %d", group->finished, group->childCount()));
-            if (Settings::autoCombine && group->finished == group->childCount())
-                new VideoCombiner(this, group->dir);
-        }
+        DownloaderGroup *group = static_cast<DownloaderGroup*>(item->parent());
+        group->finished++;
+        group->setText(1, QString().sprintf("%d / %d", group->finished, group->childCount()));
+        if (Settings::autoCombine && group->finished == group->childCount())
+            new VideoCombiner(this, group->dir);
     }
-    get2item.remove(get);
-    item2get[item] = NULL;
     n_downloading--;
     while (n_downloading < Settings::maxTasks && !waitings.isEmpty())
     {
@@ -182,28 +168,29 @@ void Downloader::onPlayButton()
 
 void Downloader::onDelButton()
 {
-    QTreeWidgetItem *item = treeWidget->currentItem();
-    if (!item)
+    QTreeWidgetItem *i = treeWidget->currentItem();
+    if (!i)
+        return;
+    if (i->childCount()) //group
         return;
 
+    DownloaderItem *item = static_cast<DownloaderItem*>(i);
     QString state = item->text(1);
     if (state != "Finished" && state != "Error")
     {
-        if (QMessageBox::No == QMessageBox::question(this, "Confirm", tr("File is being downloaded. Still want to delete?"),
-            QMessageBox::Yes, QMessageBox::No))
+        if (QMessageBox::No == QMessageBox::question(this,
+                                                     "Confirm",
+                                                     tr("File is being downloaded. Still want to delete?"),
+                                                     QMessageBox::Yes,
+                                                     QMessageBox::No))
             return;
-        HttpGet *get = item2get[item];
-        if (get == NULL)
-            return;
-        get->stop();
-        get2item.remove(get);
+        item->stop();
         if (state == "Wait")
-            waitings.removeOne(get);
+            waitings.removeOne(item);
         else
             n_downloading--;
     }
-    item2get.remove(item);
-    delete item;
+    item->deleteLater();
 }
 
 void Downloader::onPauseButton()
@@ -211,30 +198,13 @@ void Downloader::onPauseButton()
     QTreeWidgetItem *item = treeWidget->currentItem();
     if (!item)
         return;
-    HttpGet *get = item2get[item];
-    if (get == NULL)
+    if (item->childCount() || item->text(1) == "Finished") //group or finished
         return;
-    if (item->text(1) == "Wait")
+    DownloaderItem *i = static_cast<DownloaderItem*>(item);
+    if (i->text(1) == "Wait")
     {
-        waitings.removeOne(get);
+        waitings.removeOne(i);
         n_downloading++;
     }
-    get->pause();
-}
-
-void Downloader::onProgressChanged(HttpGet *get, int progress, bool is_percentage)
-{
-    QTreeWidgetItem *item = get2item[get];
-    if (is_percentage)
-        item->setText(1, QString::number(progress) + '%');
-    else
-        item->setText(1, QString::number(progress) + 'M');
-}
-
-void Downloader::onPaused(HttpGet *get, int reason)
-{
-    QTreeWidgetItem *item = get2item[get];
-    QString s;
-    s.sprintf("Pause (%d)", reason);
-    item->setText(1, s);
+    i->pause();
 }

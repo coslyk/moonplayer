@@ -2,8 +2,6 @@
 #define DOWNLOADER_H
 
 #include <QWidget>
-#include <QHash>
-#include <QLinkedList>
 
 class QVBoxLayout;
 class QTreeWidget;
@@ -11,6 +9,7 @@ class QPushButton;
 class QTreeWidgetItem;
 class HttpGet;
 class DownloaderGroup;
+class DownloaderItem;
 
 class Downloader : public QWidget
 {
@@ -29,16 +28,12 @@ public slots:
     
 private:
     QTreeWidget *treeWidget;
-    QHash<HttpGet*, QTreeWidgetItem*> get2item;
-    QHash<QTreeWidgetItem*, HttpGet*> item2get;
     QHash<QString, DownloaderGroup*> dir2group;
-    QLinkedList<HttpGet*> waitings;
+    QList<DownloaderItem*> waitings;
     int n_downloading;
 
 private slots:
     void onFinished(HttpGet *get, bool error);
-    void onProgressChanged(HttpGet *get, int progress, bool is_percentage);
-    void onPaused(HttpGet *get, int reason);
     void onPauseButton(void);
     void onPlayButton(void);
     void onDelButton(void);

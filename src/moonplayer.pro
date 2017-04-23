@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     danmakuloader.cpp \
     accessmanager.cpp \
     platforms.cpp \
-    yougetbridge.cpp
+    yougetbridge.cpp \
+    downloaderitem.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -80,7 +81,8 @@ HEADERS  += player.h\
     danmakudelaygetter.h \
     danmakuloader.h \
     platforms.h \
-    yougetbridge.h
+    yougetbridge.h \
+    downloaderitem.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 

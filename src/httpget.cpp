@@ -88,7 +88,6 @@ void HttpGet::onFinished()
         reply->deleteLater();
         reply = 0;
         emit finished(this, false);
-        deleteLater(); //task end, delete self
         //close file
         file->close();
         delete file;
@@ -109,7 +108,6 @@ void HttpGet::stop()
     file->close();
     file->deleteLater();
     file = 0;
-    deleteLater(); //task end, delete self
 }
 
 void HttpGet::onReadyRead()
