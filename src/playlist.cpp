@@ -36,8 +36,8 @@ Playlist::Playlist(QWidget *parent) :
     connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clearList()));
 
     menu = new QMenu(this);
-    menu->addAction(tr("Add file"), this, SLOT(onAddItem()));
-    menu->addAction(tr("Add url"), this, SLOT(onNetItem()));
+    menu->addAction(tr("Add file"), this, SLOT(onAddItem()), QKeySequence("Ctrl+O"));
+    menu->addAction(tr("Add url"), this, SLOT(onNetItem()), QKeySequence("Ctrl+U"));
     menu->addAction(tr("Add playlist"), this, SLOT(onListItem()));
     connect(ui->addButton, SIGNAL(clicked()), this, SLOT(showMenu()));
     connect(ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(selectFile(QListWidgetItem*)));

@@ -352,6 +352,14 @@ bool Player::eventFilter(QObject *obj, QEvent *e)
         case Qt::Key_D:
             player_core->switchDanmaku();
             return true;
+        case Qt::Key_O:
+            if (ctrl_pressed)
+                playlist->onAddItem();
+            return true;
+        case Qt::Key_U:
+            if (ctrl_pressed)
+                playlist->onNetItem();
+            return true;
         case Qt::Key_Return:
             setFullScreen();
             return true;
