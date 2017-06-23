@@ -16,21 +16,15 @@ cd $TMPDIR
 echo ""
 echo -e "\033[34m ---------- Checking updates --------- \033[0m"
 
-# Read version from version.py
-get_version() {
-    while read LINE; do
-        if [ "${LINE%% *}" = '__version__' ]; then  # Like __version__ = '0.4.626'
-            VERSION=${LINE##* }
-            VERSION=${VERSION//"'"/}
-            echo "$VERSION"
-            break
-        fi
-    done
-}
 
 # Get latest you-get version
-VERSION_URL='https://raw.githubusercontent.com/soimort/you-get/develop/src/you_get/version.py'
-LATEST_VERSION=`curl -s $VERSION_URL | get_version`
+get_latest_version() {
+    export PYTHONIOENCODING=utf8
+    curl -s 'https://api.github.com/repos/rosynirvana/you-get/branches/master' | \
+        python -c "import sys, json; print json.load(sys.stdin)['commit']['sha']"
+}
+
+LATEST_VERSION=`get_latest_version`
 if [ -n "$LATEST_VERSION" ]; then
     echo "Latest version: $LATEST_VERSION"
 else
@@ -38,10 +32,11 @@ else
     exit 0
 fi
 
+
 # Get current you-get version
-VERSION_FILE="$HOME/Library/Application Support/MoonPlayer/you-get/src/you_get/version.py"
+VERSION_FILE="$HOME/Library/Application Support/MoonPlayer/you-get-version.txt"
 if [ -e "$VERSION_FILE" ]; then
-    CURRENT_VERSION=`cat "$VERSION_FILE" | get_version`
+    CURRENT_VERSION=`cat "$VERSION_FILE"`
     echo "Current version: $CURRENT_VERSION"
     if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
         echo "You-get already up-to-date."
@@ -52,11 +47,12 @@ else
     echo "Current version: Not installed"
 fi
 
+
 # Download latest version
 echo ""
 echo -e "\033[34m --------- Updating you-get --------- \033[0m"
-echo "https://github.com/soimort/you-get/archive/v${LATEST_VERSION}.zip"
-curl -L -o you-get.zip "https://github.com/soimort/you-get/archive/v${LATEST_VERSION}.zip"
+echo "https://github.com/rosynirvana/you-get/archive/master.zip"
+curl -L -o you-get.zip "https://github.com/rosynirvana/you-get/archive/master.zip"
 
 echo ""
 echo "Installing..."
@@ -65,6 +61,10 @@ rm -rf "$HOME/Library/Application Support/MoonPlayer/you-get"
 mv you-get-* "$HOME/Library/Application Support/MoonPlayer/you-get"
 chmod +x "$HOME/Library/Application Support/MoonPlayer/you-get/you-get"
 rm -f you-get.zip
+
+
+# Save version info
+echo "$LATEST_VERSION" > "$VERSION_FILE"
 
 echo ""
 echo -e "\033[34m ---------------- End ---------------- \033[0m"
