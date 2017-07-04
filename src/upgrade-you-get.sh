@@ -1,4 +1,30 @@
-#!/bin/bash
+#!/bin/sh
+
+# Set OS-dependent variables
+OS_NAME=`uname -s`
+if [ "$OS_NAME" = 'Darwin' ]; then    # macOS
+    VERSION_FILE="$HOME/Library/Application Support/MoonPlayer/you-get-version.txt"
+    DEST_DIR="$HOME/Library/Application Support/MoonPlayer/you-get"
+    DOWNLOADER=curl -L -o
+    FETCHER=curl -s
+elif [ "$OS_NAME" = 'Linux' ]; then   # Linux
+    VERSION_FILE="$HOME/.moonplayer/you-get-version.txt"
+    DEST_DIR="$HOME/.moonplayer/you-get"
+    DOWNLOADER="wget -q -O"
+    FETCHER="wget -q -O -"
+    TMPDIR="/tmp"
+else
+    echo "Unsupported system!"
+    exit 0
+fi
+
+
+pause_() {
+    if [ "$OS_NAME" = 'Linux' ]; then
+        echo "Press enter to continue"
+        read LINE
+    fi
+}
 
 
 # Check whether Python3 is installed
@@ -8,19 +34,20 @@ echo -e "\033[31m Python3 is not installed. Please download it from \033[0m"
 echo -e "\033[31m https://www.python.org/downloads/mac-osx/ \033[0m"
 echo -e "\033[31m and then install it. \033[0m"
 echo -e "\033[31m ************ End ************ \033[0m"
+pause_
 exit 0
 }
 
 
-cd $TMPDIR
+
+cd "$TMPDIR"
 echo ""
 echo -e "\033[34m ---------- Checking updates --------- \033[0m"
-
 
 # Get latest you-get version
 get_latest_version() {
     export PYTHONIOENCODING=utf8
-    curl -s 'https://api.github.com/repos/rosynirvana/you-get/branches/master' | \
+    $FETCHER 'https://api.github.com/repos/rosynirvana/you-get/branches/master' | \
         python -c "import sys, json; print json.load(sys.stdin)['commit']['sha']"
 }
 
@@ -29,18 +56,19 @@ if [ -n "$LATEST_VERSION" ]; then
     echo "Latest version: $LATEST_VERSION"
 else
     echo 'Error: Cannot get the latest version of you-get. Please try again later.'
+    pause_
     exit 0
 fi
 
 
 # Get current you-get version
-VERSION_FILE="$HOME/Library/Application Support/MoonPlayer/you-get-version.txt"
-if [ -e "$VERSION_FILE" ]; then
+if [ -e "$VERSION_FILE" ] && [ -d "$DEST_DIR" ]; then
     CURRENT_VERSION=`cat "$VERSION_FILE"`
     echo "Current version: $CURRENT_VERSION"
     if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
         echo "You-get already up-to-date."
         echo -e "\033[34m ---------------- End ---------------- \033[0m"
+        pause_
         exit 0
     fi
 else
@@ -51,15 +79,15 @@ fi
 # Download latest version
 echo ""
 echo -e "\033[34m --------- Updating you-get --------- \033[0m"
-echo "https://github.com/rosynirvana/you-get/archive/master.zip"
-curl -L -o you-get.zip "https://github.com/rosynirvana/you-get/archive/master.zip"
+echo "Downloading https://github.com/rosynirvana/you-get/archive/master.zip"
+$DOWNLOADER you-get.zip "https://github.com/rosynirvana/you-get/archive/master.zip"
 
 echo ""
 echo "Installing..."
 unzip -q you-get.zip
-rm -rf "$HOME/Library/Application Support/MoonPlayer/you-get"
-mv you-get-* "$HOME/Library/Application Support/MoonPlayer/you-get"
-chmod +x "$HOME/Library/Application Support/MoonPlayer/you-get/you-get"
+rm -rf "$DEST_DIR"
+mv you-get-* "$DEST_DIR"
+chmod +x "$DEST_DIR/you-get"
 rm -f you-get.zip
 
 
@@ -68,3 +96,5 @@ echo "$LATEST_VERSION" > "$VERSION_FILE"
 
 echo ""
 echo -e "\033[34m ---------------- End ---------------- \033[0m"
+pause_
+

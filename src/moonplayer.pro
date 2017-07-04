@@ -99,7 +99,7 @@ FORMS    += \
 
 # Installation on Linux
 unix:!macx {
-    usr_share.files += skins plugins moonplayer_*.qm Version danmaku2ass
+    usr_share.files += skins plugins moonplayer_*.qm Version danmaku2ass upgrade-you-get.sh
     usr_share.path = /usr/share/moonplayer
     #icon
     icon.files += moonplayer.png

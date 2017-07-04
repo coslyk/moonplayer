@@ -31,9 +31,7 @@
 #ifdef Q_OS_WIN
 #include <direct.h>
 #endif
-#ifdef Q_OS_MAC
 #include "yougetbridge.h"
-#endif
 
 Player::Player(QWidget *parent) :
     QWidget(parent),
@@ -113,9 +111,7 @@ Player::Player(QWidget *parent) :
     menu->addAction(tr("Online video"), webvideo, SLOT(show()));
     menu->addAction(tr("Settings"), this, SLOT(onSetButton()));
     menu->addSeparator();
-#ifdef Q_OS_MAC
     menu->addAction(tr("Update you-get"), &you_get_bridge, SLOT(updateYouGet()));
-#endif
     menu->addAction(tr("Plugins"), this, SLOT(openPluginsPage()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
     QMenu *aboutMenu = menu->addMenu(tr("About"));

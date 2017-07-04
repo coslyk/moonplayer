@@ -248,26 +248,21 @@ void YouGetBridge::onFinished()
 
 void YouGetBridge::onError()
 {
-#ifdef Q_OS_MAC
     if (QMessageBox::warning(NULL, "Error",
                              "Parse failed!\nURL:" + url + "\n" +
                              QString::fromUtf8(process->readAllStandardError()),
                              tr("Cancel"),
                              tr("Upgrade Parser")))
         updateYouGet();
-#else
-    QTextCodec *codec = QTextCodec::codecForLocale();
-    QMessageBox::warning(NULL, "Error", "Parse failed!\nURL:" + url + '\n' +
-                         codec->toUnicode(process->readAllStandardError()));
+}
+
+
+void YouGetBridge::updateYouGet()
+{
+#if defined(Q_OS_MAC)
+    system(("open -a Terminal.app '" + yougetUpgraderPath() + '\'').toUtf8().constData());
+#elif defined(Q_OS_LINUX)
+    system(("x-terminal-emulator -e '/bin/sh " + yougetUpgraderPath() + '\'').toUtf8().constData());
 #endif
 }
 
-#ifdef Q_OS_MAC
-void YouGetBridge::updateYouGet()
-{
-    QByteArray shFile = getAppPath().toUtf8() + "/upgrade-you-get.sh";
-    if ((QFile::permissions(shFile) & QFile::ExeOther) == 0)
-        system("chmod +x " + shFile);
-    system("open -a Terminal.app '" + shFile + '\'');
-}
-#endif

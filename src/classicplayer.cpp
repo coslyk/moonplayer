@@ -17,9 +17,7 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QMouseEvent>
-#ifdef Q_OS_MAC
 #include "yougetbridge.h"
-#endif
 
 ClassicPlayer::ClassicPlayer(QWidget *parent) :
     QMainWindow(parent),
@@ -93,10 +91,8 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     // Settings
     settingsDialog = new SettingsDialog(this);
 
-#ifdef Q_OS_MAC
     ui->actionSettings->setMenuRole(QAction::PreferencesRole);
-    ui->menuTools_T->addAction(tr("Update you-get"), &you_get_bridge, &YouGetBridge::updateYouGet);
-#endif
+    ui->menuTools_T->addAction(tr("Update you-get"), &you_get_bridge, SLOT(updateYouGet()));
 
     connect(ui->actionAdd_file_s,        &QAction::triggered, playlist,       &Playlist::onAddItem);
     connect(ui->actionAdd_url,           &QAction::triggered, playlist,       &Playlist::onNetItem);

@@ -12,5 +12,6 @@ QString ffmpegFilePath(void);
 
 // Get you-get's file path
 QString yougetFilePath(void);
+QString yougetUpgraderPath(void);
 
 #endif // PLATFORMS_H

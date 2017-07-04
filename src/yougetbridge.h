@@ -14,10 +14,8 @@ public:
     void parse(const QString &url, bool download, const QString &danmaku = QString(),
                const QString &format = QString());
 
-#ifdef Q_OS_MAC
 public slots:
     void updateYouGet(void);
-#endif
 
 private:
     SelectionDialog *selectionDialog;
