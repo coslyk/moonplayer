@@ -5,8 +5,8 @@ OS_NAME=`uname -s`
 if [ "$OS_NAME" = 'Darwin' ]; then    # macOS
     VERSION_FILE="$HOME/Library/Application Support/MoonPlayer/you-get-version.txt"
     DEST_DIR="$HOME/Library/Application Support/MoonPlayer/you-get"
-    DOWNLOADER=curl -L -o
-    FETCHER=curl -s
+    DOWNLOADER="curl -L -o"
+    FETCHER="curl -s"
 elif [ "$OS_NAME" = 'Linux' ]; then   # Linux
     VERSION_FILE="$HOME/.moonplayer/you-get-version.txt"
     DEST_DIR="$HOME/.moonplayer/you-get"
@@ -47,7 +47,7 @@ echo -e "\033[34m ---------- Checking updates --------- \033[0m"
 # Get latest you-get version
 get_latest_version() {
     export PYTHONIOENCODING=utf8
-    $FETCHER 'https://api.github.com/repos/rosynirvana/you-get/branches/master' | \
+    $FETCHER 'https://api.github.com/repos/soimort/you-get/branches/develop' | \
         python -c "import sys, json; print json.load(sys.stdin)['commit']['sha']"
 }
 
@@ -79,8 +79,8 @@ fi
 # Download latest version
 echo ""
 echo -e "\033[34m --------- Updating you-get --------- \033[0m"
-echo "Downloading https://github.com/rosynirvana/you-get/archive/master.zip"
-$DOWNLOADER you-get.zip "https://github.com/rosynirvana/you-get/archive/master.zip"
+echo "Downloading https://github.com/soimort/you-get/archive/develop.zip"
+$DOWNLOADER you-get.zip "https://github.com/soimort/you-get/archive/develop.zip"
 
 echo ""
 echo "Installing..."
