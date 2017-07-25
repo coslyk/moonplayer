@@ -11,7 +11,6 @@
 #include "skin.h"
 #include "settings_player.h"
 #include "utils.h"
-#include "plugin.h"
 #include "pyapi.h"
 #include "yougetbridge.h"
 
@@ -174,27 +173,7 @@ void Playlist::onNetItem()
 
 void Playlist::addUrl(const QString &url)
 {
-    Plugin *plugin = getPluginByHost(QUrl(url).host());
-    if (plugin == NULL)
-    {
-        QString s = url.section('?', 0, 0);
-		if (s.endsWith(".html") || s.endsWith(".htm") || s.endsWith(".shtml"))
-            plugin = flvcd_parser;
-    }
-
-    if (plugin)
-    {
-        if (geturl_obj->hasTask())
-        {
-            QMessageBox::warning(this, "warning", tr("Another file is parsing. Please wait."));
-            return;
-        }
-        bool down = (QMessageBox::question(this, "Question", tr("Download?"),
-                              QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes);
-        plugin->parse(url.toUtf8().constData(), down);
-    }
-    else
-        addFileAndPlay(url.section('/', -1), url);
+    you_get_bridge.parse(url, false);
 }
 
 //called when a file is selected

@@ -2,7 +2,6 @@
 #include "ui_detailview.h"
 #include "utils.h"
 #include "accessmanager.h"
-#include "plugin.h"
 #include "settings_player.h"
 #include "yougetbridge.h"
 #include <QNetworkAccessManager>
@@ -132,13 +131,7 @@ void DetailView::onPlay()
     int current_row = ui->sourceListWidget->currentRow();
     if (current_row < 0)
         return;
-
-    QString host = QUrl(QString::fromUtf8(urls[current_row])).host();
-    Plugin *plugin = getPluginByHost(host);
-    if (plugin)
-        plugin->parse(urls[current_row].constData(), false);
-    else
-        flvcd_parser->parse(urls[current_row].constData(), false);
+    you_get_bridge.parse(QString::fromUtf8(urls[current_row]), false);
 }
 
 void DetailView::onDownload()
@@ -146,11 +139,5 @@ void DetailView::onDownload()
     int current_row = ui->sourceListWidget->currentRow();
     if (current_row < 0)
         return;
-
-    QString host = QUrl(QString::fromUtf8(urls[current_row])).host();
-    Plugin *plugin = getPluginByHost(host);
-    if (plugin)
-        plugin->parse(urls[current_row].constData(), true);
-    else
-        flvcd_parser->parse(urls[current_row].constData(), true);
+    you_get_bridge.parse(QString::fromUtf8(urls[current_row]), true);
 }

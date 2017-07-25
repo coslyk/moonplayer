@@ -12,8 +12,8 @@
 #include <QApplication>
 #include <QLabel>
 #include <QUrl>
-#include "plugin.h"
 #include "searcher.h"
+#include "plugin.h"
 #include "pyapi.h"
 #include "utils.h"
 #include "yougetbridge.h"
@@ -29,9 +29,8 @@ WebVideo::WebVideo(QWidget *parent) :
 
     initPlugins();
     initSearchers();
-    if (n_plugins == 0 || n_searchers == 0)
+    if (n_searchers == 0)
     {
-        qDebug("%i %i", n_plugins, n_searchers);
         QLabel *label = new QLabel(tr("You have not install any plugins yet ~_~"));
         addTab(label, tr("Web videos"));
         return;
@@ -200,11 +199,7 @@ void WebVideo::onDoubleClicked(QListWidgetItem *item)
     }
     int i = listWidget->row(item);
     QByteArray url = result[i];
-    Plugin *plugin = getPluginByHost(QUrl(QString::fromUtf8(url)).host());
-    if (plugin)
-        plugin->parse(url.constData(), false);
-    else
-        flvcd_parser->parse(url.constData(), false);
+    you_get_bridge.parse(QString::fromUtf8(url), false);
 }
 
 void WebVideo::onPlayButton()
@@ -225,9 +220,5 @@ void WebVideo::onDownButton()
     if (i == -1)
         return;
     QByteArray url = result[i];
-    Plugin *plugin = getPluginByHost(QUrl(QString::fromUtf8(url)).host());
-    if (plugin)
-        plugin->parse(url.constData(), true);
-    else
-        flvcd_parser->parse(url.constData(), false);
+    you_get_bridge.parse(QString::fromUtf8(url), true);
 }
