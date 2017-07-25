@@ -106,7 +106,7 @@ PyObject* DetailView::loadDetail(PyObject *dict)
     if (item)
     {
         QNetworkRequest request(QUrl(PyString_AsQString(item)));
-        request.setRawHeader("User-Agent", "moonplayer");
+        request.setRawHeader("User-Agent", defaultUA());
         reply = access_manager->get(request);
         connect(reply, SIGNAL(finished()), this, SLOT(onImageLoaded()));
     }

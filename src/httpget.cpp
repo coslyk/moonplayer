@@ -36,7 +36,7 @@ void HttpGet::start()
 {
     is_paused = false;
     QNetworkRequest request(url);
-    request.setRawHeader("User-Agent", "moonplayer");
+    request.setRawHeader("User-Agent", defaultUA());
     if (last_finished)
         request.setRawHeader("Range", "bytes=" + QByteArray::number(file->size()) + '-');
     if (referer_table.contains(url.host()))

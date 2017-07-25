@@ -1,3 +1,4 @@
+#include "accessmanager.h"
 #include "danmakudelaygetter.h"
 #include "downloader.h"
 #include "playlist.h"
@@ -23,6 +24,7 @@ DanmakuDelayGetter::DanmakuDelayGetter(QStringList &names, QStringList &urls,
     mpv_set_option(mpv, "no-video", MPV_FORMAT_NONE, NULL);
     mpv_set_option(mpv, "pause", MPV_FORMAT_NONE, NULL);
     mpv_set_option_string(mpv, "ao", "null");
+    mpv_set_option_string(mpv, "user-agent", defaultUA());
     mpv_observe_property(mpv, 0, "duration", MPV_FORMAT_DOUBLE);
     mpv_set_wakeup_callback(mpv, postEvent, this);
     if (mpv_initialize(mpv) < 0)

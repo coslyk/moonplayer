@@ -80,7 +80,7 @@ void GetUrl::start(const char *url, PyObject *callback, PyObject *_data,
     Py_IncRef(data);
     //start request
     QNetworkRequest request = QNetworkRequest(QString::fromUtf8(url));
-    request.setHeader(QNetworkRequest::UserAgentHeader, "moonplayer");
+    request.setHeader(QNetworkRequest::UserAgentHeader, defaultUA());
     if (!referer.isEmpty())
         request.setRawHeader("Referer", referer);
     if (postData.isEmpty())
@@ -118,7 +118,7 @@ void GetUrl::onFinished()
         Py_DecRef(str);
         //start request
         QNetworkRequest request = QNetworkRequest(QString::fromUtf8(final_url));
-        request.setRawHeader("User-Agent", "moonplayer");
+        request.setRawHeader("User-Agent", defaultUA());
         reply = access_manager->get(request);
         connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
         return;
@@ -323,10 +323,6 @@ void initAPI()
     //init module
     geturl_obj = new GetUrl(qApp);
     apiModule = Py_InitModule("moonplayer", methods);
-    PyModule_AddIntConstant(apiModule, "OPT_QL_HIGH",  OPT_QL_HIGH);
-    PyModule_AddIntConstant(apiModule, "OPT_QL_SUPER", OPT_QL_SUPER);
-	PyModule_AddIntConstant(apiModule, "OPT_QL_1080P", OPT_QL_1080P);
-    PyModule_AddIntConstant(apiModule, "OPT_DOWNLOAD",  OPT_DOWNLOAD);
     PyModule_AddStringConstant(apiModule, "final_url", "");
     Py_IncRef(exc_GetUrlError);
     PyModule_AddObject(apiModule, "GetUrlError", exc_GetUrlError);

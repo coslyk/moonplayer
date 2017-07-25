@@ -325,49 +325,28 @@
        <string>Plugins</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="3" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Default quality:</string>
+       <item row="2" column="0" colspan="3">
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="3" column="3">
-        <widget class="QRadioButton" name="superRadioButton">
+       <item row="6" column="0" colspan="2">
+        <widget class="QPushButton" name="viewPluginsButton">
          <property name="text">
-          <string>Super</string>
+          <string>Open plugins folder</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="5">
-        <widget class="QCheckBox" name="autoCloseWindowCheckBox">
+       <item row="0" column="0" colspan="3">
+        <widget class="QCheckBox" name="combineCheckBox">
          <property name="text">
-          <string>Close &quot;Online videos&quot; window after playing</string>
+          <string>Combine video clips automatically after downloading</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QRadioButton" name="normalRadioButton">
-         <property name="text">
-          <string>Normal</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="4">
-        <widget class="QRadioButton" name="_1080pRadioButton">
-         <property name="text">
-          <string>1080P</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QRadioButton" name="highRadioButton">
-         <property name="text">
-          <string>High</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
+       <item row="5" column="0">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -380,31 +359,17 @@
          </property>
         </spacer>
        </item>
-       <item row="7" column="0" colspan="2">
-        <widget class="QPushButton" name="viewPluginsButton">
+       <item row="1" column="0" colspan="3">
+        <widget class="QCheckBox" name="autoCloseWindowCheckBox">
          <property name="text">
-          <string>Open plugins folder</string>
+          <string>Close &quot;Online videos&quot; window after playing</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="5">
-        <widget class="QCheckBox" name="combineCheckBox">
-         <property name="text">
-          <string>Combine video clips automatically after downloading</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="5">
+       <item row="3" column="0" colspan="3">
         <widget class="QPushButton" name="qualitiesButton">
          <property name="text">
           <string>Manage special qualities</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="5">
-        <widget class="Line" name="line_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>

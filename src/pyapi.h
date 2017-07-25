@@ -39,9 +39,4 @@ void call_py_func_vsi(PyObject *func, const char *first, int second);
 void show_pyerr();
 extern bool win_debug;
 
-#define OPT_QL_HIGH  0x01
-#define OPT_QL_SUPER 0x02
-#define OPT_QL_1080P 0x04
-#define OPT_DOWNLOAD 0x08
-
 #endif // PYAPI_H

@@ -44,7 +44,6 @@ bool Settings::autoCombine;
 bool Settings::autoCloseWindow;
 double Settings::danmakuAlpha;
 double Settings::uiScale;
-enum Settings::Quality Settings::quality;
 
 using namespace Settings;
 
@@ -61,11 +60,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(ui->viewPluginsButton, SIGNAL(clicked()), this, SLOT(showPluginsMsg()));
     connect(ui->qualitiesButton, &QPushButton::clicked, this, &SettingsDialog::manageQualities);
 
-    group = new QButtonGroup(this);
-    group->addButton(ui->normalRadioButton, 0);
-    group->addButton(ui->highRadioButton, 1);
-    group->addButton(ui->superRadioButton, 2);
-	group->addButton(ui->_1080pRadioButton, 3);
     ui->skinComboBox->addItems(skinList);
 
     setMinimumSize(minimumSize() * uiScale);
@@ -101,14 +95,6 @@ void SettingsDialog::loadSettings()
     ui->fontSizeSpinBox->setValue(danmakuSize);
     ui->dmSpinBox->setValue(durationScrolling);
     ui->dsSpinBox->setValue(durationStill);
-
-    switch (quality)
-    {
-    case NORMAL: ui->normalRadioButton->setChecked(true);break;
-    case HIGH:   ui->highRadioButton->setChecked(true);  break;
-    case SUPER:  ui->superRadioButton->setChecked(true); break;
-	default:     ui->_1080pRadioButton->setChecked(true);break;
-    }
 }
 
 void SettingsDialog::onDirButton()
@@ -140,7 +126,6 @@ void SettingsDialog::saveSettings()
     cacheSize = ui->cacheSpinBox->value();
     maxTasks = ui->maxTaskSpinBox->value();
     downloadDir = ui->dirButton->text();
-    quality = (enum Quality) group->checkedId();
     currentSkin = ui->skinComboBox->currentIndex();
     autoResize = ui->resizeCheckBox->isChecked();
     disableSkin = ui->disableSkinCheckBox->isChecked();
@@ -178,7 +163,6 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Net/cache_size", cacheSize);
     settings.setValue("Net/max_tasks", maxTasks);
     settings.setValue("Net/download_dir", downloadDir);
-    settings.setValue("Plugins/quality", (int) quality);
     settings.setValue("Plugins/auto_combine", autoCombine);
     settings.setValue("Plugins/auto_close_window", autoCloseWindow);
     settings.setValue("Danmaku/alpha", danmakuAlpha);
@@ -218,7 +202,6 @@ void initSettings()
     cacheSize = settings.value("Net/cache_size", 4096).toInt();
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
     downloadDir = settings.value("Net/download_dir", QDir::homePath()).toString();
-    quality = (Quality) settings.value("Plugins/quality", (int) SUPER).toInt();
     autoCombine = settings.value("Plugins/auto_combine", false).toBool();
     autoCloseWindow = settings.value("Plugins/auto_close_window", true).toBool();
     danmakuAlpha = settings.value("Danmaku/alpha", 0.9).toDouble();
