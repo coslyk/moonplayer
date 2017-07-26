@@ -1,4 +1,5 @@
 #include "yougetbridge.h"
+#include "accessmanager.h"
 #include "downloader.h"
 #include "platforms.h"
 #include "playlist.h"
@@ -175,6 +176,9 @@ void YouGetBridge::onFinished()
                 QString container = selectedItem["container"].toString();
                 QJsonArray json_urls = selectedItem["src"].toArray();
                 QStringList names, urls;
+                QString refer;
+                if (selectedItem.contains("refer"))
+                    refer = selectedItem["refer"].toString();
 
                 if (json_urls.size() == 0)
                 {
@@ -189,6 +193,13 @@ void YouGetBridge::onFinished()
                 {
                     names << QString("%1_%2.%3").arg(title, QString::number(i), container);
                     urls << json_urls[i].toString();
+                }
+
+                // Bind referer
+                if (!refer.isEmpty())
+                {
+                    foreach (QString url, urls)
+                        referer_table[QUrl(url).host()] = refer.toUtf8();
                 }
 
                 // Download
