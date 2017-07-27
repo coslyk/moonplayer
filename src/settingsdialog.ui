@@ -325,28 +325,7 @@
        <string>Plugins</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="2" column="0" colspan="3">
-        <widget class="Line" name="line_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QPushButton" name="viewPluginsButton">
-         <property name="text">
-          <string>Open plugins folder</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="3">
-        <widget class="QCheckBox" name="combineCheckBox">
-         <property name="text">
-          <string>Combine video clips automatically after downloading</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
+       <item row="4" column="0">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -366,10 +345,24 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="3">
-        <widget class="QPushButton" name="qualitiesButton">
+       <item row="0" column="0" colspan="3">
+        <widget class="QCheckBox" name="combineCheckBox">
          <property name="text">
-          <string>Manage special qualities</string>
+          <string>Combine video clips automatically after downloading</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QPushButton" name="viewPluginsButton">
+         <property name="text">
+          <string>Open plugins folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>

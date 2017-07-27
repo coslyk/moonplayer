@@ -33,7 +33,6 @@ SOURCES += main.cpp\
     plugin.cpp \
     updatechecker.cpp \
     selectiondialog.cpp \
-    videoqualities.cpp \
     playercore_mpv.cpp \
     danmakudelaygetter_mpv.cpp \
     danmakuloader.cpp \
@@ -77,7 +76,6 @@ HEADERS  += player.h\
     plugin.h \
     updatechecker.h \
     selectiondialog.h \
-    videoqualities.h \
     danmakudelaygetter.h \
     danmakuloader.h \
     platforms.h \

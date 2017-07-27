@@ -26,7 +26,6 @@ private slots:
     void onDirButton(void);
     void onFontButton(void);
     void showPluginsMsg(void);
-    void manageQualities(void);
 };
 
 void initSettings(void);

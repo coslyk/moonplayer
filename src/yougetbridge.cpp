@@ -6,7 +6,6 @@
 #include "selectiondialog.h"
 #include "settings_network.h"
 #include "settings_plugins.h"
-#include "videoqualities.h"
 #include "webvideo.h"
 #include <QApplication>
 #include <QDir>
@@ -26,7 +25,6 @@ YouGetBridge you_get_bridge;
 
 YouGetBridge::YouGetBridge(QObject *parent) : QObject(parent)
 {
-    loadQualities();
     selectionDialog = NULL;
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)),this, SLOT(onFinished()));
@@ -50,7 +48,6 @@ YouGetBridge::YouGetBridge(QObject *parent) : QObject(parent)
 
 YouGetBridge::~YouGetBridge()
 {
-    saveQualities();
 }
 
 
@@ -126,49 +123,33 @@ void YouGetBridge::onFinished()
             // Select video quality
             if (format.isEmpty()) // quality has not been selected
             {
+                // get all available qualities
                 QString selected;
-                QString host = QUrl(url).host();
-                if (qualities.contains(host))
-                    selected = qualities[host];
-                else // Has not been saved
+                QStringList items;
+                for (i = streams.constBegin(); i != streams.constEnd(); i++)
                 {
-                    QStringList items;
-                    for (i = streams.constBegin(); i != streams.constEnd(); i++)
-                    {
-                        QString profile = i.value().toObject()["video_profile"].toString();
-                        items << QString("%1 (%2)").arg(i.key(), profile);
-                    }
-
-                    selected = selectionDialog->showDialog(items,
-                                                           tr("Please select a video quality:"),
-                                                           tr("Remember my selection for this website"));
-                    if (selected.isEmpty())
-                        return;
-                    selected = selected.section(' ', 0, 0);
-
-                    if (selectionDialog->isChecked()) // Save selection
-                        qualities[QUrl(url).host()] = selected;
+                    QString profile = i.value().toObject()["video_profile"].toString();
+                    items << QString("%1 (%2)").arg(i.key(), profile);
                 }
 
+                // show dialog
+                selected = selectionDialog->showDialog(items,
+                                                       tr("Please select a video quality:"));
+                if (selected.isEmpty())
+                    return;
+                selected = selected.section(' ', 0, 0);
+
+                // Check if re-parsing is needed
                 if (streams[selected].toObject().contains("src"))
                     selectedItem = streams[selected].toObject();
-                else // get the video source of selected quality
+                else
                 {
                     parse(url, download, danmaku, selected);
                     return;
                 }
             }
             else // quality has been selected
-            {
-                for (i = streams.constBegin(); i != streams.constEnd(); i++)
-                {
-                    if (i.value().toObject().contains("src"))
-                    {
-                        selectedItem = i.value().toObject();
-                        break;
-                    }
-                }
-            }
+                selectedItem = streams[format].toObject();
 
             // Start playing or downloading
             if (!selectedItem.isEmpty())
