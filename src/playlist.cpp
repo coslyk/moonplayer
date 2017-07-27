@@ -173,7 +173,9 @@ void Playlist::onNetItem()
 
 void Playlist::addUrl(const QString &url)
 {
-    you_get_bridge.parse(url, false);
+    bool down = (QMessageBox::question(this, "Question", tr("Download?"),
+                              QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes);
+    you_get_bridge.parse(url, down);
 }
 
 //called when a file is selected
