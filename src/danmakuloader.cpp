@@ -36,7 +36,7 @@ void DanmakuLoader::load(const QString &xmlFile, int width, int height, double d
         return;
     }
     QNetworkRequest request(xmlFile);
-    request.setRawHeader("User-Agent", defaultUA());
+    request.setRawHeader("User-Agent", generateUA(xmlFile));
     reply = access_manager->get(request);
     connect(reply, &QNetworkReply::finished, this, &DanmakuLoader::onXmlDownloaded);
 }

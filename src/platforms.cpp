@@ -104,9 +104,9 @@ QString yougetFilePath()
 #if defined(Q_OS_WIN)
         filename = QCoreApplication::applicationDirPath() + "/you-get.exe";
 #elif defined(Q_OS_LINUX)
-        filename = QDir::homePath() + "/.moonplayer/you-get/you-get";
+        filename = getAppPath() + "/you_get_patched.py";
 #elif defined(Q_OS_MAC)
-        filename = QDir::homePath() + "/Library/Application Support/MoonPlayer/you-get/you-get";
+        filename = getAppPath() + "/you_get_patched.py";
 #else
 #error ERROR: Unsupport system!
 #endif

@@ -65,14 +65,15 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &danma
     this->download = download;
     this->danmaku = danmaku;
     this->format = format;
-    QStringList args;
 
+    QStringList args;
+    args << "python3" << yougetFilePath();
     if (!Settings::proxy.isEmpty())
         args << "--http-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
     if (!format.isEmpty())
         args << "--format=" + format;
     args << "-t" << "10" << "--json" << url;
-    process->start(yougetFilePath(), args, QProcess::ReadOnly);
+    process->start("/usr/bin/env", args, QProcess::ReadOnly);
 }
 
 
@@ -157,9 +158,12 @@ void YouGetBridge::onFinished()
                 QString container = selectedItem["container"].toString();
                 QJsonArray json_urls = selectedItem["src"].toArray();
                 QStringList names, urls;
-                QString refer;
-                if (selectedItem.contains("refer"))
-                    refer = selectedItem["refer"].toString();
+                QString referer, ua;
+                if (obj.contains("referer"))
+                    referer = obj["referer"].toString();
+                if (obj.contains("user-agent"))
+                    ua = obj["user-agent"].toString();
+                qDebug("Referer: %s\nUA: %s", referer.toUtf8().constData(), ua.toUtf8().constData());
 
                 if (json_urls.size() == 0)
                 {
@@ -176,11 +180,16 @@ void YouGetBridge::onFinished()
                     urls << json_urls[i].toString();
                 }
 
-                // Bind referer
-                if (!refer.isEmpty())
+                // Bind referer and use-agent
+                if (!referer.isEmpty())
                 {
                     foreach (QString url, urls)
-                        referer_table[QUrl(url).host()] = refer.toUtf8();
+                        referer_table[QUrl(url).host()] = referer.toUtf8();
+                }
+                if (!ua.isEmpty())
+                {
+                    foreach (QString url, urls)
+                        ua_table[QUrl(url).host()] = ua.toUtf8();
                 }
 
                 // Download

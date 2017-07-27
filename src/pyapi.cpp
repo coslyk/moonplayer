@@ -80,7 +80,7 @@ void GetUrl::start(const char *url, PyObject *callback, PyObject *_data,
     Py_IncRef(data);
     //start request
     QNetworkRequest request = QNetworkRequest(QString::fromUtf8(url));
-    request.setHeader(QNetworkRequest::UserAgentHeader, defaultUA());
+    request.setHeader(QNetworkRequest::UserAgentHeader, generateUA(request.url()));
     if (!referer.isEmpty())
         request.setRawHeader("Referer", referer);
     if (postData.isEmpty())
@@ -118,7 +118,7 @@ void GetUrl::onFinished()
         Py_DecRef(str);
         //start request
         QNetworkRequest request = QNetworkRequest(QString::fromUtf8(final_url));
-        request.setRawHeader("User-Agent", defaultUA());
+        request.setRawHeader("User-Agent", generateUA(request.url()));
         reply = access_manager->get(request);
         connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
         return;

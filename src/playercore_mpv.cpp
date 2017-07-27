@@ -54,7 +54,6 @@ PlayerCore::PlayerCore(QWidget *parent) :
     mpv_set_option_string(mpv, "cursor-autohide", "no");
     mpv_set_option_string(mpv, "osc", "no");
     mpv_set_option_string(mpv, "ytdl", "no");             // We handle video url parsing
-    mpv_set_option_string(mpv, "user-agent", defaultUA());
     mpv_set_option_string(mpv, "cache", QByteArray::number(Settings::cacheSize).constData());
     mpv_set_option_string(mpv, "screenshot-directory", QDir::homePath().toUtf8().constData());
     mpv_set_option_string(mpv, "reset-on-next-file", "speed,video-aspect,sub-file,sub-delay,sub-visibility");
@@ -426,7 +425,7 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
         }
     }
 
-    // set referer and seekability
+    // set referer, user-agent and seekability
     if (file.startsWith("http:") || file.startsWith("https:"))
     {
         QString host = QUrl(file).host();
@@ -434,6 +433,8 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
             handleMpvError(mpv_set_option_string(mpv, "referrer", referer_table[host].constData()));
         else
             handleMpvError(mpv_set_option_string(mpv, "referrer", ""));
+        // set user-agent
+        handleMpvError(mpv_set_option_string(mpv, "user-agent", generateUA(file)));
 
         /* Some websites does not allow "Range" option in http request header.
          * To hack these websites, we force ffmpeg/libav to set the stream unseekable.

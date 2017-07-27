@@ -4,12 +4,18 @@
 
 QNetworkAccessManager *access_manager = 0;
 QHash<QString,QByteArray> referer_table;
+QHash<QString,QByteArray> ua_table;
 QStringList unseekable_hosts;
 
-QByteArray defaultUA()
+QByteArray generateUA(const QUrl &url)
 {
-    static QByteArray ua;
-    if (ua.isNull())
+    static QByteArray default_ua;
+
+    QString host = url.host();
+    if (ua_table.contains(host))
+        return ua_table[host];
+
+    if (default_ua.isNull())
     {
         QStringList args;
         args << "-c" << "import sys; print('Python-urllib/%d.%d' % sys.version_info[:2])";
@@ -20,11 +26,11 @@ QByteArray defaultUA()
             process.start("/usr/local/bin/python3", args, QProcess::ReadOnly);
         else
         {
-            ua = "moonplayer";
-            return ua;
+            default_ua = "moonplayer";
+            return default_ua;
         }
         process.waitForFinished();
-        ua = process.readAll().simplified();
+        default_ua = process.readAll().simplified();
     }
-    return ua;
+    return default_ua;
 }

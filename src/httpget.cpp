@@ -36,7 +36,7 @@ void HttpGet::start()
 {
     is_paused = false;
     QNetworkRequest request(url);
-    request.setRawHeader("User-Agent", defaultUA());
+    request.setRawHeader("User-Agent", generateUA(url));
     if (last_finished)
         request.setRawHeader("Range", "bytes=" + QByteArray::number(file->size()) + '-');
     if (referer_table.contains(url.host()))
