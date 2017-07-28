@@ -11,8 +11,7 @@ class YouGetBridge : public QObject
 public:
     explicit YouGetBridge(QObject *parent = 0);
     ~YouGetBridge();
-    void parse(const QString &url, bool download, const QString &danmaku = QString(),
-               const QString &format = QString());
+    void parse(const QString &url, bool download, const QString &format = QString());
 
 public slots:
     void updateYouGet(void);
@@ -21,7 +20,6 @@ private:
     SelectionDialog *selectionDialog;
     QProcess *process;
     QString url;
-    QString danmaku;
     QString format;
     bool download;
 

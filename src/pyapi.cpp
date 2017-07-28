@@ -130,10 +130,11 @@ void GetUrl::onFinished()
     QNetworkReply::NetworkError error = reply->error();
     QByteArray barray = reply->readAll();
     reply->deleteLater();
-    reply = 0;
     if (error != QNetworkReply::NoError)
     {
-        QMessageBox::warning(NULL, "Error", "Network Error");
+        int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        QString errStr = QString().sprintf("Network Error: %d\n%s\n", status, reply->errorString().toUtf8().constData());
+        QMessageBox::warning(NULL, "Error", errStr);
         Py_DecRef(_data);
         Py_DecRef(callback);
         return;

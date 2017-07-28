@@ -15,6 +15,7 @@ _filepath = os.path.dirname(sys.argv[0])
 sys.path.insert(1, os.path.join(_filepath, _srcdir))
 import you_get
 
+
 # Patch json_output.output
 def output(video_extractor, pretty_print=True):
     ve = video_extractor
@@ -23,12 +24,14 @@ def output(video_extractor, pretty_print=True):
     out['title'] = ve.title
     out['site'] = ve.name
     out['streams'] = ve.streams
-    if getattr(ve, 'audiolang', None) is not None:
+    if getattr(ve, 'audiolang', None):
         out['audiolang'] = ve.audiolang
-    if getattr(ve, 'ua', None) is not None:
+    if getattr(ve, 'ua', None):
         out['user-agent'] = ve.ua
-    if getattr(ve, 'referer', None) is not None:
+    if getattr(ve, 'referer', None):
         out['referer'] = ve.referer
+    if getattr(ve, 'danmuku', None) and ve.danmuku.startswith('http'):
+        out['danmaku_url'] = ve.danmuku
     else:
         try:
             out['referer'] = ve.streams['__default__']['refer']
@@ -43,5 +46,13 @@ import you_get.json_output
 you_get.json_output.output = output
 
 
+# Patch bilibili
+def get_danmuku_xml(cid):
+    return 'http://comment.bilibili.com/{}.xml'.format(cid)
+from you_get.extractors import bilibili
+bilibili.get_danmuku_xml = get_danmuku_xml
+
+
+# Run you-get
 if __name__ == '__main__':
     you_get.main(repo_path=_filepath)

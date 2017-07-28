@@ -51,7 +51,7 @@ YouGetBridge::~YouGetBridge()
 }
 
 
-void YouGetBridge::parse(const QString &url, bool download, const QString &danmaku, const QString &format)
+void YouGetBridge::parse(const QString &url, bool download, const QString &format)
 {
     if (selectionDialog == NULL)
         selectionDialog = new SelectionDialog;
@@ -63,7 +63,6 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &danma
     }
     this->url = url;
     this->download = download;
-    this->danmaku = danmaku;
     this->format = format;
 
     QStringList args;
@@ -108,7 +107,7 @@ void YouGetBridge::onFinished()
                 QString new_url = lang2url[selected];
                 if (!url.startsWith(new_url))
                 {
-                    parse(new_url, download, danmaku);
+                    parse(new_url, download);
                     return;
                 }
             }
@@ -145,7 +144,7 @@ void YouGetBridge::onFinished()
                     selectedItem = streams[selected].toObject();
                 else
                 {
-                    parse(url, download, danmaku, selected);
+                    parse(url, download, selected);
                     return;
                 }
             }
@@ -158,12 +157,17 @@ void YouGetBridge::onFinished()
                 QString container = selectedItem["container"].toString();
                 QJsonArray json_urls = selectedItem["src"].toArray();
                 QStringList names, urls;
-                QString referer, ua;
+                QString referer, ua, danmaku_url;
                 if (obj.contains("referer"))
                     referer = obj["referer"].toString();
                 if (obj.contains("user-agent"))
                     ua = obj["user-agent"].toString();
-                qDebug("Referer: %s\nUA: %s", referer.toUtf8().constData(), ua.toUtf8().constData());
+                if (obj.contains("danmaku_url"))
+                    danmaku_url = obj["danmaku_url"].toString();
+                qDebug("Referer: %s\nUA: %s\nDanmaku: %s",
+                       referer.toUtf8().constData(),
+                       ua.toUtf8().constData(),
+                       danmaku_url.toUtf8().constData());
 
                 if (json_urls.size() == 0)
                 {
@@ -210,13 +214,13 @@ void YouGetBridge::onFinished()
                          names[i] = dir.filePath(names[i]);
 
                     // Download more than 1 video clips with danmaku
-                    if (!danmaku.isEmpty() && urls.size() > 1)
-                        new DanmakuDelayGetter(names, urls, danmaku, true);
+                    if (!danmaku_url.isEmpty() && urls.size() > 1)
+                        new DanmakuDelayGetter(names, urls, danmaku_url, true);
                     // Download without danmaku or only 1 clip with danmaku
                     else
                     {
                         for (int i = 0; i < urls.size(); i++)
-                             downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1, danmaku.toUtf8());
+                             downloader->addTask(urls[i].toUtf8(), names[i], urls.size() > 1, danmaku_url.toUtf8());
                     }
                     QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
                 }
@@ -225,12 +229,12 @@ void YouGetBridge::onFinished()
                 else
                 {
                     // Play more than 1 clips with danmaku
-                    if (!danmaku.isEmpty() && urls.size() > 1)
-                        new DanmakuDelayGetter(names, urls, danmaku, false);
+                    if (!danmaku_url.isEmpty() && urls.size() > 1)
+                        new DanmakuDelayGetter(names, urls, danmaku_url, false);
                     // Play clips without danmaku or only 1 clip with danmaku
                     else
                     {
-                        playlist->addFileAndPlay(names[0], urls[0], danmaku);
+                        playlist->addFileAndPlay(names[0], urls[0], danmaku_url);
                         for (int i = 1; i < urls.size(); i++)
                             playlist->addFile(names[i], urls[i]);
                     }
