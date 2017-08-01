@@ -2,6 +2,8 @@
 #include "accessmanager.h"
 #include "platforms.h"
 #include "settings_danmaku.h"
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QDir>
 #include <QProcess>
 #include <QNetworkReply>
@@ -26,8 +28,16 @@ void DanmakuLoader::reload()
 void DanmakuLoader::load(const QString &xmlFile, int width, int height, double delay)
 {
     this->xmlFile = xmlFile;
-    this->width = width;
-    this->height = height;
+    if (height > QApplication::desktop()->height())
+    {
+        this->height = QApplication::desktop()->height();
+        this->width = width * QApplication::desktop()->height() / height;
+    }
+    else
+    {
+        this->width = width;
+        this->height = height;
+    }
     this->delay = delay;
     if (reply) //another task is running
     {
