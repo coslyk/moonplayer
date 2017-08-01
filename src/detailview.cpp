@@ -4,6 +4,7 @@
 #include "accessmanager.h"
 #include "settings_player.h"
 #include "yougetbridge.h"
+#include <Python.h>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -131,7 +132,11 @@ void DetailView::onPlay()
     int current_row = ui->sourceListWidget->currentRow();
     if (current_row < 0)
         return;
-    you_get_bridge.parse(QString::fromUtf8(urls[current_row]), false);
+    QByteArray url = urls[current_row];
+    if (url.startsWith("python:"))
+        PyRun_SimpleString(url.mid(7).constData());
+    else
+        you_get_bridge.parse(QString::fromUtf8(url), false);
 }
 
 void DetailView::onDownload()
@@ -139,5 +144,9 @@ void DetailView::onDownload()
     int current_row = ui->sourceListWidget->currentRow();
     if (current_row < 0)
         return;
-    you_get_bridge.parse(QString::fromUtf8(urls[current_row]), true);
+    QByteArray url = urls[current_row];
+    if (url.startsWith("python:"))
+        PyRun_SimpleString(url.mid(7).constData());
+    else
+        you_get_bridge.parse(QString::fromUtf8(url), true);
 }

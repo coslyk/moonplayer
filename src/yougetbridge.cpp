@@ -48,6 +48,11 @@ YouGetBridge::YouGetBridge(QObject *parent) : QObject(parent)
 
 YouGetBridge::~YouGetBridge()
 {
+    if (process->state() == QProcess::Running)
+    {
+        process->kill();
+        process->waitForFinished();
+    }
 }
 
 

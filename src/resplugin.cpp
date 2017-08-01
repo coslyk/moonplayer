@@ -83,6 +83,9 @@ ResPlugin::ResPlugin(const QString &pluginName)
     }
     countriesList = PyList_AsQStringList(countries);
     Py_DecRef(countries);
+
+    // Add to __main__ namespace
+    PyRun_SimpleString(QString("import %1").arg(pluginName).toUtf8().constData());
 }
 
 void ResPlugin::explore(const QString &tag, const QString &country, int page)
