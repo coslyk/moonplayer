@@ -223,8 +223,11 @@ def load_youku_item_cb2(page, result):
     match = yk_li_re.search(page)
     while match:
         srcs.append(match.group(2))
-        srcs.append('http://list.youku.com/show/episode?callback=excited&id=%s&stage=%s' % (result['iid'], match.group(1)))
+        url = 'http://list.youku.com/show/episode?callback=excited&id=%s&stage=%s' % (result['iid'], match.group(1))
+        srcs.append('python:res_youku_tv.parse_childlist("%s")' % url)
         match = yk_li_re.search(page, match.end(0))
     result['source'] = srcs
     moonplayer.show_detail(result)
         
+def parse_childlist(url):
+    moonplayer.download_page(url, load_youku_item_cb2, {})
