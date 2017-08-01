@@ -25,6 +25,9 @@ DanmakuDelayGetter::DanmakuDelayGetter(QStringList &names, QStringList &urls,
     mpv_set_option(mpv, "pause", MPV_FORMAT_NONE, NULL);
     mpv_set_option_string(mpv, "ao", "null");
     mpv_set_option_string(mpv, "user-agent", generateUA(urls.first()));
+    QString host = QUrl(urls.first()).host();
+    if (referer_table.contains(host))
+        mpv_set_option_string(mpv, "referrer", referer_table[host].constData());
     mpv_observe_property(mpv, 0, "duration", MPV_FORMAT_DOUBLE);
     mpv_set_wakeup_callback(mpv, postEvent, this);
     if (mpv_initialize(mpv) < 0)
@@ -115,6 +118,22 @@ bool DanmakuDelayGetter::event(QEvent *e)
             if (urls.isEmpty()) // Finished
                 deleteLater();
             break;
+        case MPV_EVENT_END_FILE: // Error
+        {
+            mpv_event_end_file *ef = static_cast<mpv_event_end_file*>(event->data);
+            if (ef->error == MPV_ERROR_LOADING_FAILED)
+            {
+                qDebug("Parse danmaku's delay failed.");
+                while (!names.isEmpty())
+                {
+                    if (download)
+                        downloader->addTask(urls.takeFirst().toUtf8(), names.takeFirst(), true);
+                    else
+                        playlist->addFile(names.takeFirst(), urls.takeFirst());
+                }
+            }
+            break;
+        }
         default: break;
         }
     }
