@@ -25,7 +25,7 @@ void DanmakuLoader::reload()
     load(xmlFile, width, height);
 }
 
-void DanmakuLoader::load(const QString &xmlFile, int width, int height, double delay)
+void DanmakuLoader::load(const QString &xmlFile, int width, int height)
 {
     this->xmlFile = xmlFile;
     if (height > QApplication::desktop()->height())
@@ -38,7 +38,6 @@ void DanmakuLoader::load(const QString &xmlFile, int width, int height, double d
         this->width = width;
         this->height = height;
     }
-    this->delay = delay;
     if (reply) //another task is running
     {
         reply->abort();
@@ -56,7 +55,7 @@ void DanmakuLoader::onXmlDownloaded()
     if (reply->error() == QNetworkReply::NoError)
     {
         QStringList args;
-        args << QDir(getAppPath()).filePath("danmaku2ass") << "-o" << QDir::temp().filePath("moonplayer_danmaku.ass");
+        args << QDir(getAppPath()).filePath("danmaku2ass.py") << "-o" << QDir::temp().filePath("moonplayer_danmaku.ass");
         args << "-s" << QString().sprintf("%dx%d", width, height);  //Ratio
 
         // Font
@@ -95,10 +94,6 @@ void DanmakuLoader::onXmlDownloaded()
 
         // Alpha
         args << "-a" << QString::number(Settings::danmakuAlpha);
-
-        // Delay
-        if (delay > 0.5)
-            args << "--start-pos" << QString::number(delay);
 
         args << "/dev/stdin";
 #ifdef Q_OS_MAC
