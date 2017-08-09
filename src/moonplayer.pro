@@ -95,6 +95,10 @@ FORMS    += \
     classicplayer.ui \
     selectiondialog.ui
 
+
+RESOURCES += \
+    icons.qrc
+
 # Installation on Linux
 unix:!macx {
     usr_share.files += skins plugins moonplayer_*.qm Version danmaku2ass.py you_get_patched.py upgrade-you-get.sh
@@ -115,7 +119,7 @@ unix:!macx {
 macx {
     FFMPEG.files = /usr/local/opt/ffmpeg/bin/ffmpeg
     FFMPEG.path = Contents/MacOS
-    RESFILES.files = upgrade-you-get.sh danmaku2ass.py you_get_patched.py skins plugins icons Version
+    RESFILES.files = upgrade-you-get.sh danmaku2ass.py you_get_patched.py skins plugins Version
     RESFILES.path = Contents/Resources
     TRANS_FILES.files = moonplayer_zh_CN.qm qt_zh_CN.qm
     TRANS_FILES.path = Contents/Resources/translations

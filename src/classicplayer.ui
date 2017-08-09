@@ -55,8 +55,8 @@
           <enum>Qt::NoFocus</enum>
          </property>
          <property name="icon">
-          <iconset theme="media-playback-start">
-           <normaloff>.</normaloff>.</iconset>
+          <iconset resource="icons.qrc">
+           <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
          </property>
          <property name="flat">
           <bool>true</bool>
@@ -69,8 +69,8 @@
           <enum>Qt::NoFocus</enum>
          </property>
          <property name="icon">
-          <iconset theme="media-playback-pause">
-           <normaloff>.</normaloff>.</iconset>
+          <iconset resource="icons.qrc">
+           <normaloff>:/icons/pause.png</normaloff>:/icons/pause.png</iconset>
          </property>
          <property name="flat">
           <bool>true</bool>
@@ -83,8 +83,8 @@
           <enum>Qt::NoFocus</enum>
          </property>
          <property name="icon">
-          <iconset theme="media-playback-stop">
-           <normaloff>.</normaloff>.</iconset>
+          <iconset resource="icons.qrc">
+           <normaloff>:/icons/stop.png</normaloff>:/icons/stop.png</iconset>
          </property>
          <property name="flat">
           <bool>true</bool>
@@ -107,8 +107,8 @@
           <enum>Qt::NoFocus</enum>
          </property>
          <property name="icon">
-          <iconset theme="audio-volume-high">
-           <normaloff>.</normaloff>.</iconset>
+          <iconset resource="icons.qrc">
+           <normaloff>:/icons/volume.png</normaloff>:/icons/volume.png</iconset>
          </property>
          <property name="flat">
           <bool>true</bool>
@@ -134,8 +134,8 @@
           <enum>Qt::NoFocus</enum>
          </property>
          <property name="icon">
-          <iconset theme="applications-internet">
-           <normaloff>.</normaloff>.</iconset>
+          <iconset resource="icons.qrc">
+           <normaloff>:/icons/net.png</normaloff>:/icons/net.png</iconset>
          </property>
          <property name="flat">
           <bool>true</bool>
@@ -242,6 +242,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

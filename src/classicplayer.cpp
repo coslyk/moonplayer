@@ -32,12 +32,6 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     ui->setupUi(this);
     resize(size() * Settings::uiScale);
     // Set icons
-#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-    ui->netButton->setIcon(QIcon(getAppPath() + "/icons/net.png"));
-    ui->pauseButton->setIcon(QIcon(getAppPath() + "/icons/pause.png"));
-    ui->playButton->setIcon(QIcon(getAppPath() + "/icons/play.png"));
-    ui->stopButton->setIcon(QIcon(getAppPath() + "/icons/stop.png"));
-    ui->volumeButton->setIcon(QIcon(getAppPath() + "/icons/volume.png"));
     ui->netButton->setIconSize(QSize(16, 16) * Settings::uiScale);
     ui->pauseButton->setIconSize(QSize(16, 16) * Settings::uiScale);
     ui->playButton->setIconSize(QSize(16, 16) * Settings::uiScale);
@@ -48,11 +42,6 @@ ClassicPlayer::ClassicPlayer(QWidget *parent) :
     ui->playButton->setFixedSize(QSize(32, 32) * Settings::uiScale);
     ui->stopButton->setFixedSize(QSize(32, 32) * Settings::uiScale);
     ui->volumeButton->setFixedSize(QSize(32, 32) * Settings::uiScale);
-#else
-    QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton, ui->volumeButton, ui->netButton};
-    for (int i = 0; i < 5; i++)
-        buttons[i]->setIconSize(QSize(24, 24) * Settings::uiScale);
-#endif
 
     // Add player_core frame
     player_core = new PlayerCore;
