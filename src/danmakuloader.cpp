@@ -1,6 +1,7 @@
 #include "danmakuloader.h"
 #include "accessmanager.h"
 #include "platforms.h"
+#include "pyapi.h"
 #include "settings_danmaku.h"
 #include <QApplication>
 #include <QDesktopWidget>
@@ -14,9 +15,7 @@
 
 DanmakuLoader::DanmakuLoader(QObject *parent) : QObject(parent)
 {
-    process = new QProcess(this);
-    connect(process, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
-            this, &DanmakuLoader::onProcessFinished);
+    module = danmaku2assFunc = NULL;
     reply = NULL;
 }
 
@@ -32,6 +31,11 @@ void DanmakuLoader::load(const QString &xmlFile, int width, int height)
     {
         this->height = QApplication::desktop()->height();
         this->width = width * QApplication::desktop()->height() / height;
+    }
+    else if (width > QApplication::desktop()->width())
+    {
+        this->height = height * QApplication::desktop()->width() / width;
+        this->width = QApplication::desktop()->width();
     }
     else
     {
@@ -50,67 +54,102 @@ void DanmakuLoader::load(const QString &xmlFile, int width, int height)
     connect(reply, &QNetworkReply::finished, this, &DanmakuLoader::onXmlDownloaded);
 }
 
+
+
 void DanmakuLoader::onXmlDownloaded()
 {
     if (reply->error() == QNetworkReply::NoError)
     {
-        QStringList args;
-        args << QDir(getAppPath()).filePath("danmaku2ass.py") << "-o" << QDir::temp().filePath("moonplayer_danmaku.ass");
-        args << "-s" << QString().sprintf("%dx%d", width, height);  //Ratio
+        if (danmaku2assFunc == NULL)
+        {
+            if ((module = PyImport_ImportModule("danmaku2ass")) == NULL)
+            {
+                show_pyerr();
+                exit(EXIT_FAILURE);
+            }
+            if ((danmaku2assFunc = PyObject_GetAttrString(module, "Danmaku2ASS")) == NULL)
+            {
+                show_pyerr();
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        // Output file
+        QByteArray output_file = QDir::temp().filePath("moonplayer_danmaku.ass").toUtf8();
 
         // Font
-        if (!Settings::danmakuFont.isEmpty())
-            args << "-fn" << Settings::danmakuFont;
 #ifdef Q_OS_MAC
-        else
-            args << "-fn" << "PingFang SC";
+        QByteArray font = Settings::danmakuFont.isEmpty() ? "PingFang SC" : Settings::danmakuFont.toUtf8();
+#else
+        QByteArray font = Settings::danmakuFont.isEmpty() ? "sans-serif" : Settings::danmakuFont.toUtf8();
 #endif
 
+        // Font size
+        int fs;
         if (Settings::danmakuSize)
-            args << "-fs" << QString::number(Settings::danmakuSize);
+            fs = Settings::danmakuSize;
         else
         {
             if (width > 960)
-                args << "-fs" << "36";
+                fs = 36;
             else if (width > 640)
-                args << "-fs" << "32";
+                fs = 32;
             else
-                args << "-fs" << "28";
+                fs = 28;
         }
 
         // Duration of comment display
+        int dm;
         if (Settings::durationScrolling)
-            args << "-dm" << QString::number(Settings::durationScrolling);
+            dm = Settings::durationScrolling;
         else
         {
             if (width > 960)
-                args << "-dm" << "9";
+                dm = 9;
             else if (width > 640)
-                args << "-dm" << "7";
+                dm = 7;
             else
-                args << "-dm" << "6";
+                dm = 6;
         }
-        args << "-ds" << QString::number(Settings::durationStill);
 
-        // Alpha
-        args << "-a" << QString::number(Settings::danmakuAlpha);
-
-        args << "/dev/stdin";
-#ifdef Q_OS_MAC
-        process->start("/usr/local/bin/python3", args);
-#else
-        process->start("python3", args);
-#endif
-        process->waitForStarted(-1);
-        process->write(reply->readAll());
-        process->closeWriteChannel();
+        // Run parser
+        /* API definition:
+         * def Danmaku2ASS(input_files,
+         *                 input_format,
+         *                 output_file,
+         *                 stage_width,
+         *                 stage_height,
+         *                 reserve_blank=0,
+         *                 font_face=_('(FONT) sans-serif')[7:],
+         *                 font_size=25.0,
+         *                 text_opacity=1.0,
+         *                 duration_marquee=5.0,
+         *                 duration_still=5.0,
+         *                 comment_filter=None,
+         *                 is_reduce_comments=False,
+         *                 progress_callback=None)
+         */
+        PyObject *result = PyObject_CallFunction(danmaku2assFunc, "sssiiisdddd",
+                                                 reply->readAll().constData(),
+                                                 "autodetect",
+                                                 output_file.constData(),
+                                                 width,
+                                                 height,
+                                                 0,
+                                                 font.constData(),
+                                                 (double) fs,
+                                                 Settings::danmakuAlpha,
+                                                 (double) dm,
+                                                 (double) Settings::durationStill
+                                                 );
+        if (result) // success
+        {
+            Py_DecRef(result);
+            emit finished(output_file);
+        }
+        else
+            show_pyerr();
     }
     reply->deleteLater();
     reply = NULL;
-}
-
-void DanmakuLoader::onProcessFinished()
-{
-    qDebug("%s", process->readAllStandardError().constData());
-    emit finished(QDir::temp().filePath("moonplayer_danmaku.ass"));
 }

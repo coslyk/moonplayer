@@ -2,7 +2,7 @@
 #define DANMAKULOADER_H
 
 #include <QObject>
-#include <QProcess>
+#include <Python.h>
 class QNetworkReply;
 
 class DanmakuLoader : public QObject
@@ -20,12 +20,12 @@ signals:
 private slots:
     void reload(void);
     void onXmlDownloaded(void);
-    void onProcessFinished(void);
 
 private:
-    QProcess *process;
     QNetworkReply *reply;
     QString xmlFile;
+    PyObject *module;
+    PyObject *danmaku2assFunc;
     int width;
     int height;
 };
