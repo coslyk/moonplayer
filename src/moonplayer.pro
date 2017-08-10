@@ -144,4 +144,4 @@ macx: LIBS += -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/pyt
 win32: INCLUDEPATH += C:\\Python27\\include
 win32: LIBS += C:\\Python27\\libs\\python27.lib
 win32: INCLUDEPATH += D:\\Develop\\libmpv\\include
-win32: LIBS += D:\\Develop\\libmpv\\64\\mpv.lib
+win32: LIBS += D:\\Develop\\libmpv\\32\\mpv.lib

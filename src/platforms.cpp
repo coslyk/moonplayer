@@ -127,6 +127,8 @@ QString yougetUpgraderPath()
         filename = getAppPath().toUtf8() + "/upgrade-you-get.sh";
         if ((QFile::permissions(filename) & QFile::ExeOther) == 0) // make it excutable
             system(("chmod +x '" + filename + '\'').toUtf8().constData());
+#elif defined(Q_OS_WIN)
+		filename = "";
 #else
 #error ERROR: Unsupport system!
 #endif
