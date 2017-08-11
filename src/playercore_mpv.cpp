@@ -33,6 +33,10 @@ PlayerCore::PlayerCore(QWidget *parent) :
 {
     printf("Initialize mpv backend...\n");
 
+    // Set attribute
+    setAttribute(Qt::WA_DontCreateNativeAncestors);
+    setAttribute(Qt::WA_NativeWindow);
+
     // Set color and focus policy
     setPalette(QPalette(QColor(0, 0, 0)));
     setAutoFillBackground(true);
@@ -52,6 +56,8 @@ PlayerCore::PlayerCore(QWidget *parent) :
     mpv_set_option_string(mpv, "softvol", "yes");         // mpv handles the volume
     mpv_set_option_string(mpv, "input-cursor", "no");     // We handle cursor
     mpv_set_option_string(mpv, "cursor-autohide", "no");
+    mpv_set_option_string(mpv, "input-default-bindings", "no");
+    mpv_set_option_string(mpv, "input-vo-keyboard", "no");
     mpv_set_option_string(mpv, "osc", "no");
     mpv_set_option_string(mpv, "ytdl", "no");             // We handle video url parsing
     mpv_set_option_string(mpv, "cache", QByteArray::number(Settings::cacheSize).constData());
