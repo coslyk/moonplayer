@@ -16,7 +16,10 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QMouseEvent>
+#include <QOpenGLContext>
 #include <QTimer>
+
+#define GL_UPDATE_EVENT ((QEvent::Type) (QEvent::User+1))
 
 static void postEvent(void *ptr)
 {
@@ -24,22 +27,24 @@ static void postEvent(void *ptr)
     QCoreApplication::postEvent(core, new QEvent(QEvent::User));
 }
 
+
+static void *get_proc_address(void *, const char *name)
+{
+    QOpenGLContext *glctx = QOpenGLContext::currentContext();
+    if (!glctx)
+        return NULL;
+    return (void*) glctx->getProcAddress(name);
+}
+
+
 PlayerCore *player_core = NULL;
 
 static QHash<QString,int64_t> unfinished_time;
 
 PlayerCore::PlayerCore(QWidget *parent) :
-    QWidget(parent)
+    QOpenGLWidget(parent)
 {
     printf("Initialize mpv backend...\n");
-
-    // Set attribute
-    setAttribute(Qt::WA_DontCreateNativeAncestors);
-    setAttribute(Qt::WA_NativeWindow);
-
-    // Set color and focus policy
-    setPalette(QPalette(QColor(0, 0, 0)));
-    setAutoFillBackground(true);
     setFocusPolicy(Qt::StrongFocus);
 
     // create mpv instance
@@ -51,8 +56,6 @@ PlayerCore::PlayerCore(QWidget *parent) :
     }
 
     // set mpv options
-    int64_t wid = winId();
-    mpv_set_option(mpv, "wid", MPV_FORMAT_INT64, &wid);   // playback's window id
     mpv_set_option_string(mpv, "softvol", "yes");         // mpv handles the volume
     mpv_set_option_string(mpv, "input-cursor", "no");     // We handle cursor
     mpv_set_option_string(mpv, "cursor-autohide", "no");
@@ -63,7 +66,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     mpv_set_option_string(mpv, "cache", QByteArray::number(Settings::cacheSize).constData());
     mpv_set_option_string(mpv, "screenshot-directory", QDir::homePath().toUtf8().constData());
     mpv_set_option_string(mpv, "reset-on-next-file", "speed,video-aspect,sub-file,sub-delay,sub-visibility");
-    mpv_set_option_string(mpv, "vo", Settings::vout.toUtf8().constData());
+    mpv_set_option_string(mpv, "vo", "opengl-cb");
     mpv_request_log_messages(mpv, "info");
 
     if (Settings::aout != "auto")
@@ -71,18 +74,19 @@ PlayerCore::PlayerCore(QWidget *parent) :
 
     // set hardware decoding
 #if defined(Q_OS_LINUX)
-    if (Settings::vout == "vaapi")
-        mpv_set_option_string(mpv, "hwdec", "vaapi");
-    else if (Settings::vout == "vdpau")
-        mpv_set_option_string(mpv, "hwdec", "vdpau");
+    if (Settings::hwdec == "auto")
+        mpv_set_option_string(mpv, "opengl-hwdec-interop", "auto");
+    else if (Settings::hwdec == "vaapi")
+        mpv_set_option_string(mpv, "opengl-hwdec-interop", "vaapi-egl");
+    else
+        mpv_set_option_string(mpv, "opengl-hwdec-interop", "vdpau-glx");
+    mpv_set_option_string(mpv, "hwdec", Settings::hwdec.toUtf8().constData());
 #elif defined(Q_OS_MAC)
+    mpv_set_option_string(mpv, "opengl-hwdec-interop", "videotoolbox");
     mpv_set_option_string(mpv, "hwdec", "videotoolbox");
 #elif defined(Q_OS_WIN)
-	if (Settings::vout == "opengl")
-	{
-		mpv_set_option_string(mpv, "opengl-backend", "angle");
-		mpv_set_option_string(mpv, "hwdec", "d3d11va");
-	}
+    mpv_set_option_string(mpv, "opengl-backend", "angle");
+    mpv_set_option_string(mpv, "hwdec", "d3d11va");
 #endif
 
     // listen mpv event
@@ -98,8 +102,18 @@ PlayerCore::PlayerCore(QWidget *parent) :
     if (mpv_initialize(mpv) < 0)
     {
         qDebug("Cannot initialize mpv.");
-        exit(-1);
+        exit(EXIT_FAILURE);
     }
+
+    // initialize opengl
+    mpv_gl = (mpv_opengl_cb_context*) mpv_get_sub_api(mpv, MPV_SUB_API_OPENGL_CB);
+    if (!mpv_gl)
+    {
+        qDebug("OpenGL not compiled in");
+        exit(EXIT_FAILURE);
+    }
+    mpv_opengl_cb_set_update_callback(mpv_gl, PlayerCore::on_update, (void*) this);
+    connect(this, &PlayerCore::frameSwapped, this, &PlayerCore::swapped);
 
     // catch message
     msgLabel = new QLabel(this);
@@ -163,9 +177,56 @@ PlayerCore::PlayerCore(QWidget *parent) :
     player_core = this;
 }
 
+// opengl
+void PlayerCore::initializeGL()
+{
+    printf("OpenGL Version: %i.%i\n", context()->format().majorVersion(), context()->format().minorVersion());
+    int r = mpv_opengl_cb_init_gl(mpv_gl, NULL, get_proc_address, NULL);
+    if (r < 0)
+    {
+        qDebug("Cannot initialize OpenGL.");
+        exit(EXIT_FAILURE);
+    }
+}
+
+void PlayerCore::paintGL()
+{
+    mpv_opengl_cb_draw(mpv_gl, defaultFramebufferObject(), width(), -height());
+}
+
+void PlayerCore::swapped()
+{
+    mpv_opengl_cb_report_flip(mpv_gl, 0);
+}
+
+void PlayerCore::maybeUpdate()
+{
+    if (window()->isMinimized())
+    {
+        makeCurrent();
+        paintGL();
+        context()->swapBuffers(context()->surface());
+        swapped();
+        doneCurrent();
+    }
+    else
+        update();
+}
+
+void PlayerCore::on_update(void *ctx)
+{
+    QCoreApplication::postEvent((PlayerCore*) ctx, new QEvent(GL_UPDATE_EVENT));
+}
+
+
 PlayerCore::~PlayerCore()
 {
     player_core = NULL;
+    makeCurrent();
+    if (mpv_gl)
+        mpv_opengl_cb_set_update_callback(mpv_gl, NULL, NULL);
+    mpv_opengl_cb_uninit_gl(mpv_gl);
+    mpv_gl = NULL;
     if (mpv)
     {
         mpv_terminate_destroy(mpv);
@@ -206,6 +267,11 @@ PlayerCore::~PlayerCore()
 // handle event
 bool PlayerCore::event(QEvent *e)
 {
+    if (e->type() == GL_UPDATE_EVENT)
+    {
+        maybeUpdate();
+        return true;
+    }
     if (e->type() != QEvent::User)
         return QWidget::event(e);
 

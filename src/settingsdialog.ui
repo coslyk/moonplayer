@@ -69,24 +69,19 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
-        <layout class="QHBoxLayout" name="voLayout">
+        <layout class="QHBoxLayout" name="hwdecLayout">
          <item>
-          <widget class="QLabel" name="voLabel">
+          <widget class="QLabel" name="hwdecLabel">
            <property name="text">
-            <string>Video Output</string>
+            <string>Hardware decoding:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="voComboBox">
+          <widget class="QComboBox" name="hwdecComboBox">
            <item>
             <property name="text">
-             <string>xv</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>wayland</string>
+             <string>auto</string>
             </property>
            </item>
            <item>
@@ -99,28 +94,18 @@
              <string>vdpau</string>
             </property>
            </item>
-           <item>
-            <property name="text">
-             <string>direct3d</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>opengl</string>
-            </property>
-           </item>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QStackedWidget" name="voStackedWidget">
+        <widget class="QStackedWidget" name="hwdecStackedWidget">
          <widget class="QWidget" name="page">
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QLabel" name="xvLabel">
+            <widget class="QLabel" name="hwdecAutoLabel">
              <property name="text">
-              <string>Default output on Linux.</string>
+              <string>Choose hardware decoder automatically.</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
@@ -129,21 +114,10 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_3">
+         <widget class="QWidget" name="page_1">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QLabel" name="waylandLabel">
-             <property name="text">
-              <string>Wayland video output on Linux.</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="page_2">
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <item>
-            <widget class="QLabel" name="vaLabel">
+            <widget class="QLabel" name="vaapiLabel">
              <property name="text">
               <string>Intel hardware decoding on Linux.</string>
              </property>
@@ -151,40 +125,12 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_7">
+         <widget class="QWidget" name="page_2">
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <item>
             <widget class="QLabel" name="vdpauLabel">
              <property name="text">
               <string>Nvidia hardware decoding on Linux.</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="page_4">
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <widget class="QLabel" name="d3Label">
-             <property name="text">
-              <string>Default output on Windows 7, 8, 10.</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="page_5">
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <widget class="QLabel" name="glLabel">
-             <property name="text">
-              <string>Default output on macOS.</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -512,9 +458,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>voComboBox</sender>
+   <sender>hwdecComboBox</sender>
    <signal>currentIndexChanged(int)</signal>
-   <receiver>voStackedWidget</receiver>
+   <receiver>hwdecStackedWidget</receiver>
    <slot>setCurrentIndex(int)</slot>
    <hints>
     <hint type="sourcelabel">

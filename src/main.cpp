@@ -11,6 +11,7 @@
 #include <QIcon>
 #include <QLocale>
 #include <QDebug>
+#include <QSurfaceFormat>
 #include <QTextCodec>
 #include <QNetworkAccessManager>
 #include <Python.h>
@@ -61,6 +62,12 @@ public:
 int main(int argc, char *argv[])
 {
     QDir currentDir = QDir::current();
+
+    // OpenGL version >= 3.0 is required for hardware decoding
+    QSurfaceFormat surface = QSurfaceFormat::defaultFormat();
+    surface.setVersion(3, 2);
+    surface.setProfile(QSurfaceFormat::CoreProfile);
+    QSurfaceFormat::setDefaultFormat(surface);
 
 #ifdef Q_OS_MAC
     MyApplication a(argc, argv);
