@@ -1,7 +1,7 @@
 #ifndef MPLAYER_H
 #define MPLAYER_H
 
-#include <QWidget>
+#include <QOpenGLWidget>
 #include <QHash>
 class QTimer;
 class QMenu;
@@ -10,8 +10,9 @@ class QResizeEvent;
 class QLabel;
 class DanmakuLoader;
 #include <mpv/client.h>
+#include <mpv/opengl_cb.h>
 
-class PlayerCore : public QWidget
+class PlayerCore : public QOpenGLWidget
 {
     Q_OBJECT
 
@@ -50,12 +51,15 @@ public slots:
     void showText(const QByteArray &text);
 
 protected:
+    void initializeGL();
+    void paintGL();
     void mouseDoubleClickEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *e);
     bool event(QEvent *e);
 
 private:
     mpv_handle *mpv;
+    mpv_opengl_cb_context *mpv_gl;
     DanmakuLoader *danmakuLoader;
     QLabel *msgLabel;
     QMenu *menu;
@@ -76,6 +80,8 @@ private:
 
     void loadDanmaku(void);
     void handleMpvError(int code);
+    static void on_update(void *ctx);
+    void maybeUpdate();
 
 private slots:
     void hideCursor(void);
@@ -85,6 +91,7 @@ private slots:
     void setRatio_4_3(void);
     void setRatio_0(void);
     void showMenu(const QPoint&);
+    void swapped(void);
 };
 
 extern PlayerCore *player_core;
