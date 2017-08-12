@@ -4,7 +4,7 @@
 #include <QString>
 
 namespace Settings {
-extern QString vout;
+extern QString hwdec;
 extern bool rememberUnfinished;
 extern int cacheSize;
 }

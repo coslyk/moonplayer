@@ -74,19 +74,19 @@ PlayerCore::PlayerCore(QWidget *parent) :
 
     // set hardware decoding
 #if defined(Q_OS_LINUX)
-    if (Settings::vout == "vaapi")
-        mpv_set_option_string(mpv, "hwdec", "vaapi");
-    else if (Settings::vout == "vdpau")
-        mpv_set_option_string(mpv, "hwdec", "vdpau");
+    if (Settings::hwdec == "auto")
+        mpv_set_option_string(mpv, "opengl-hwdec-interop", "auto");
+    else if (Settings::hwdec == "vaapi")
+        mpv_set_option_string(mpv, "opengl-hwdec-interop", "vaapi-egl");
+    else
+        mpv_set_option_string(mpv, "opengl-hwdec-interop", "vdpau-glx");
+    mpv_set_option_string(mpv, "hwdec", Settings::hwdec.toUtf8().constData());
 #elif defined(Q_OS_MAC)
     mpv_set_option_string(mpv, "opengl-hwdec-interop", "videotoolbox");
     mpv_set_option_string(mpv, "hwdec", "videotoolbox");
 #elif defined(Q_OS_WIN)
-	if (Settings::vout == "opengl")
-	{
-		mpv_set_option_string(mpv, "opengl-backend", "angle");
-		mpv_set_option_string(mpv, "hwdec", "d3d11va");
-	}
+    mpv_set_option_string(mpv, "opengl-backend", "angle");
+    mpv_set_option_string(mpv, "hwdec", "d3d11va");
 #endif
 
     // listen mpv event

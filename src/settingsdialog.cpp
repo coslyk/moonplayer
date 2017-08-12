@@ -23,7 +23,7 @@
 #include "platforms.h"
 
 QString Settings::aout;
-QString Settings::vout;
+QString Settings::hwdec;
 QString Settings::proxy;
 QString Settings::downloadDir;
 QString Settings::danmakuFont;
@@ -66,6 +66,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->aoComboBox->addItem("pulse");
     ui->aoComboBox->addItem("alsa");
     ui->aoComboBox->addItem("oss");
+#else
+    ui->hwdecComboBox->setEnabled(false); // takes effect only on Linux
 #endif
 
     loadSettings();
@@ -74,7 +76,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 //Load settings
 void SettingsDialog::loadSettings()
 {
-    ui->voComboBox->setCurrentIndex(ui->voComboBox->findText(vout));
+    ui->hwdecComboBox->setCurrentIndex(ui->hwdecComboBox->findText(hwdec));
     ui->aoComboBox->setCurrentIndex(ui->aoComboBox->findText(aout));
     ui->skinComboBox->setCurrentIndex(currentSkin);
     ui->proxyEdit->setText(proxy);
@@ -118,7 +120,7 @@ void SettingsDialog::onFontButton()
 //Save settings
 void SettingsDialog::saveSettings()
 {
-    vout = ui->voComboBox->currentText();
+    hwdec = ui->hwdecComboBox->currentText();
     proxy = ui->proxyEdit->text().simplified();
     port = ui->portEdit->text().toInt();
     cacheSize = ui->cacheSpinBox->value();
@@ -153,7 +155,7 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Player/auto_resize", autoResize);
     settings.setValue("Player/disable_skin", disableSkin);
     settings.setValue("Player/remember_unfinished", rememberUnfinished);
-    settings.setValue("Video/out", vout);
+    settings.setValue("Video/hwdec", hwdec);
     settings.setValue("Audio/out", aout);
     settings.setValue("Audio/volume", volume);
     settings.setValue("Net/proxy", proxy);
@@ -180,15 +182,7 @@ void initSettings()
     createUserPath();
 
     //read settings
-#if defined(Q_OS_WIN)
-    vout = settings.value("Video/out", "direct3d").toString();
-#elif defined(Q_OS_LINUX)
-    vout = settings.value("Video/out", "xv").toString();
-#elif defined(Q_OS_MAC)
-    vout = settings.value("Video/out", "opengl").toString();
-#endif
-
-
+    hwdec = settings.value("Video/hwdec", "auto").toString();
     aout = settings.value("Audio/out", "auto").toString();
     volume = settings.value("Audio/volume", 10).toInt();
     currentSkin = settings.value("Player/current_skin", 0).toInt();
