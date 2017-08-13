@@ -50,6 +50,7 @@ PlayerView::PlayerView(QWidget *parent) :
 
     quit_requested = false;
     no_play_next = false;
+    ctrl_pressed = false;
 
     // create player core
     core = new PlayerCore(this);
@@ -152,6 +153,79 @@ void PlayerView::resizeEvent(QResizeEvent *e)
     e->accept();
 }
 
+// Keyboard shortcuts
+void PlayerView::keyPressEvent(QKeyEvent *e)
+{
+    switch (e->key())
+    {
+    case Qt::Key_Control:
+        ctrl_pressed = true;
+        break;
+    case Qt::Key_S:
+        core->screenShot();
+        break;
+    case Qt::Key_D:
+        core->switchDanmaku();
+        break;
+    case Qt::Key_L:
+        showPlaylist();
+        break;
+    case Qt::Key_O:
+        if (ctrl_pressed)
+            playlist->onAddItem();
+        break;
+    case Qt::Key_U:
+        if (ctrl_pressed)
+            playlist->onNetItem();
+        break;
+    case Qt::Key_Space:
+        core->changeState();
+        break;
+    case Qt::Key_Return:
+        setFullScreen();
+        break;
+    case Qt::Key_R:
+        core->speedSetToDefault();
+        break;
+    case Qt::Key_Left:
+        if (ctrl_pressed)
+            core->speedDown();
+        else
+            ui->timeSlider->setValue(ui->timeSlider->value() - 5);
+        break;
+
+    case Qt::Key_Right:
+        if (ctrl_pressed)
+            core->speedUp();
+        else
+            ui->timeSlider->setValue(ui->timeSlider->value() + 5);
+        break;
+
+    case Qt::Key_Up:
+        volumeSlider->setValue(volumeSlider->value() + 1);
+        break;
+    case Qt::Key_Down:
+        volumeSlider->setValue(volumeSlider->value() - 1);
+        break;
+    default: break;
+    }
+    e->accept();
+}
+
+void PlayerView::keyReleaseEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Control)
+        ctrl_pressed = false;
+    e->accept();
+}
+
+void PlayerView::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    setFullScreen();
+    e->accept();
+}
+
+
 void PlayerView::mousePressEvent(QMouseEvent *e)
 {
     if (!isMaximized() && e->button() == Qt::LeftButton)
@@ -238,7 +312,7 @@ void PlayerView::onSizeChanged(const QSize &sz)
 {
     if (isFullScreen() || isMaximized())
         return;
-    QRect available = QApplication::desktop()->availableGeometry();
+    QRect available = QApplication::desktop()->availableGeometry(this);
     if (sz.width() > available.width() || sz.height() > available.height())
         setGeometry(available);
     else
@@ -258,3 +332,35 @@ void PlayerView::showVolumeSlider()
     volumeSlider->move(vbPos.x(), vbPos.y() - volumeSlider->height());
     volumeSlider->show();
 }
+
+
+void PlayerView::setFullScreen()
+{
+    if (isFullScreen())
+        showNormal();
+    else
+    {
+#ifdef Q_OS_MAC
+        setWindowFlag(Qt::FramelessWindowHint, false);
+        show();
+        QTimer::singleShot(0, this, SLOT(showFullScreen()));
+#else
+        showFullScreen();
+#endif
+    }
+}
+
+#ifdef Q_OS_MAC
+void PlayerView::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::WindowStateChange)
+    {
+        QWindowStateChangeEvent *ce = static_cast<QWindowStateChangeEvent*>(e);
+        if ((ce->oldState() & Qt::WindowFullScreen) && !isFullScreen())
+            setWindowFlag(Qt::FramelessWindowHint, true);
+        ce->accept();
+        return;
+    }
+    QWidget::changeEvent(e);
+}
+#endif

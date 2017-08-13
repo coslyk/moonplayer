@@ -22,7 +22,13 @@ public:
     ~PlayerView();
 
 protected:
+#ifdef Q_OS_MAC
+    void changeEvent(QEvent *e);
+#endif
     void closeEvent(QCloseEvent *e);
+    void keyPressEvent(QKeyEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
+    void mouseDoubleClickEvent(QMouseEvent *e);
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
     void mouseReleaseEvent(QMouseEvent *e);
@@ -37,6 +43,7 @@ private slots:
     void onSizeChanged(const QSize &sz);
     void onStopButton(void);
     void onStopped(void);
+    void setFullScreen(void);
     void showPlaylist(void);
     void showVolumeSlider(void);
     void hideElements(void);
@@ -53,6 +60,7 @@ private:
     QPoint dPos;
     bool quit_requested;
     bool no_play_next;
+    bool ctrl_pressed;
 };
 
 #endif // PLAYERVIEW_H
