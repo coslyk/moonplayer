@@ -19,6 +19,7 @@
 #include "platforms.h"
 //#include "player.h"
 #include "playerview.h"
+#include "plugin.h"
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
@@ -146,6 +147,7 @@ int main(int argc, char *argv[])
 
     printf("Initialize API for Python...\n");
     initAPI();
+    initPlugins();
 
     //translate moonplayer
     printf("Initialize language support...\n");

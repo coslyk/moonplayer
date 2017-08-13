@@ -27,7 +27,6 @@ WebVideo::WebVideo(QWidget *parent) :
     webvideo = this;
     setObjectName("WebVideo");
 
-    initPlugins();
     initSearchers();
     if (n_searchers == 0)
     {
