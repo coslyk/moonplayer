@@ -19,8 +19,6 @@
 #include <QOpenGLContext>
 #include <QTimer>
 
-#define GL_UPDATE_EVENT ((QEvent::Type) (QEvent::User+1))
-
 static void postEvent(void *ptr)
 {
     PlayerCore *core = (PlayerCore*) ptr;
@@ -215,7 +213,7 @@ void PlayerCore::maybeUpdate()
 
 void PlayerCore::on_update(void *ctx)
 {
-    QCoreApplication::postEvent((PlayerCore*) ctx, new QEvent(GL_UPDATE_EVENT));
+    QMetaObject::invokeMethod((PlayerCore*) ctx, "maybeUpdate");
 }
 
 
@@ -267,11 +265,6 @@ PlayerCore::~PlayerCore()
 // handle event
 bool PlayerCore::event(QEvent *e)
 {
-    if (e->type() == GL_UPDATE_EVENT)
-    {
-        maybeUpdate();
-        return true;
-    }
     if (e->type() != QEvent::User)
         return QWidget::event(e);
 

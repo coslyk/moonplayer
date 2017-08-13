@@ -81,7 +81,6 @@ private:
     void loadDanmaku(void);
     void handleMpvError(int code);
     static void on_update(void *ctx);
-    void maybeUpdate();
 
 private slots:
     void hideCursor(void);
@@ -92,6 +91,7 @@ private slots:
     void setRatio_0(void);
     void showMenu(const QPoint&);
     void swapped(void);
+    void maybeUpdate();
 };
 
 extern PlayerCore *player_core;

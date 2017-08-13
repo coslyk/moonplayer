@@ -18,11 +18,17 @@ PlayerView::PlayerView(QWidget *parent) :
     ui->setupUi(this);
     ui->pauseButton->hide();
     setWindowFlag(Qt::FramelessWindowHint);
-    QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton, ui->playlistButton};
-    for (int i = 0; i < 4; i++)
+    QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton};
+    for (int i = 0; i < 3; i++)
     {
         buttons[i]->setIconSize(QSize(16, 16) * Settings::uiScale);
         buttons[i]->setFixedSize(QSize(32, 32) * Settings::uiScale);
+    }
+    QPushButton *buttons2[] = {ui->playlistButton, ui->searchButton, ui->volumeButton};
+    for (int i = 0; i < 3; i++)
+    {
+        buttons2[i]->setIconSize(QSize(16, 16) * Settings::uiScale);
+        buttons2[i]->setFixedSize(QSize(24, 20) * Settings::uiScale);
     }
     ui->controllerWidget->setFixedSize(QSize(450, 70) * Settings::uiScale);
     ui->closeButton->setFixedSize(QSize(16, 16) * Settings::uiScale);
@@ -45,12 +51,20 @@ PlayerView::PlayerView(QWidget *parent) :
     quit_requested = false;
     no_play_next = false;
 
+    // create player core
     core = new PlayerCore(this);
     core->move(0, 0);
     core->setMouseTracking(true);
 
+    // create playlist
     playlist = new Playlist(this);
     playlist->hide();
+
+    // create volume slider
+    volumeSlider = new QSlider(Qt::Vertical, this);
+    volumeSlider->setWindowFlag(Qt::Popup);
+    volumeSlider->setRange(0, 10);
+    volumeSlider->setValue(10);
 
     hideTimer = new QTimer(this);
     hideTimer->setSingleShot(true);
@@ -66,10 +80,13 @@ PlayerView::PlayerView(QWidget *parent) :
     connect(core, &PlayerCore::stopped, this, &PlayerView::onStopped);
     connect(playlist, &Playlist::fileSelected, core, &PlayerCore::openFile);
     connect(hideTimer, &QTimer::timeout, ui->controllerWidget, &QWidget::hide);
+    connect(hideTimer, &QTimer::timeout, ui->titleBar, &QWidget::hide);
+    connect(volumeSlider, &QSlider::valueChanged, core, &PlayerCore::setVolume);
     connect(ui->playlistButton, &QPushButton::clicked, this, &PlayerView::showHidePlaylist);
     connect(ui->stopButton, &QPushButton::clicked, this, &PlayerView::onStopButton);
     connect(ui->playButton, &QPushButton::clicked, core, &PlayerCore::changeState);
     connect(ui->pauseButton, &QPushButton::clicked, core, &PlayerCore::changeState);
+    connect(ui->volumeButton, &QPushButton::clicked, this, &PlayerView::showVolumeSlider);
     connect(ui->timeSlider, &QSlider::valueChanged, core, &PlayerCore::setProgress);
 }
 
@@ -139,11 +156,30 @@ void PlayerView::resizeEvent(QResizeEvent *e)
     e->accept();
 }
 
+void PlayerView::mousePressEvent(QMouseEvent *e)
+{
+    if (!isMaximized() && e->button() == Qt::LeftButton)
+        dPos = e->pos();
+    e->accept();
+}
+
 void PlayerView::mouseMoveEvent(QMouseEvent *e)
 {
+    // move window
+    if (!dPos.isNull())
+        move(e->globalPos() - dPos);
+
+    // show controller
     hideTimer->stop();
     ui->controllerWidget->show();
+    ui->titleBar->show();
     hideTimer->start(2000);
+    e->accept();
+}
+
+void PlayerView::mouseReleaseEvent(QMouseEvent *e)
+{
+    dPos = QPoint();
     e->accept();
 }
 
@@ -183,4 +219,11 @@ void PlayerView::onSizeChanged(const QSize &sz)
 void PlayerView::showHidePlaylist()
 {
     playlist->setVisible(!playlist->isVisible());
+}
+
+void PlayerView::showVolumeSlider()
+{
+    QPoint vbPos = ui->controllerWidget->mapToGlobal(ui->volumeButton->pos());
+    volumeSlider->move(vbPos.x(), vbPos.y() - volumeSlider->height());
+    volumeSlider->show();
 }
