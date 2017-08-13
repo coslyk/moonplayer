@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlayerView</class>
+ <widget class="QWidget" name="PlayerView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>450</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="controllerWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>230</y>
+     <width>450</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#controllerWidget {
+    background: rgba(50, 50, 50, 230);
+    border-radius: 8px;
+}
+
+QLabel {
+    color: rgb(200, 200, 200);
+}
+
+QSlider::groove:horizontal {
+    height: 1px;
+    margin: 0px 0px;
+    left: 12px; right: 12px;
+    border: 2px solid #999999;
+}
+QSlider::handle:horizontal {
+    border: 0px solid #5c5c5c;
+    border-radius: 2px;
+    background: rgb(230, 230, 230);
+    width: 9px;
+    margin: -6px -6px -6px -6px;
+}
+QSlider::sub-page:horizontal{
+    background: rgb(170, 170, 170);
+}
+QSlider::add-page:horizontal{
+    background: rgb(120, 120, 120);
+}
+</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="horizontalSpacing">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QLabel" name="volumeLabel">
+      <property name="pixmap">
+       <pixmap resource="icons.qrc">:/modern_ui/volume.png</pixmap>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>143</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="0" column="3">
+     <widget class="QPushButton" name="playButton">
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/play.png</normaloff>:/modern_ui/play.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4">
+     <widget class="QPushButton" name="pauseButton">
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/pause.png</normaloff>:/modern_ui/pause.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="5">
+     <widget class="QPushButton" name="stopButton">
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/stop.png</normaloff>:/modern_ui/stop.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="6">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>147</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="0" column="7">
+     <widget class="QPushButton" name="playlistButton">
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/playlist.png</normaloff>:/modern_ui/playlist.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="timeLabel">
+      <property name="text">
+       <string>00:00</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="6">
+     <widget class="QSlider" name="timeSlider">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="7">
+     <widget class="QLabel" name="durationLabel">
+      <property name="text">
+       <string>00:00</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="titleBar" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>461</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#titleBar {
+background: rgba(50, 50, 50, 230);
+}</string>
+   </property>
+   <layout class="QHBoxLayout" name="titlebarLayout">
+    <item>
+     <spacer name="horizontalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>206</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="minButton">
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/min.png</normaloff>:/modern_ui/min.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="maxButton">
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/max.png</normaloff>:/modern_ui/max.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="closeButton">
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/close.png</normaloff>:/modern_ui/close.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>closeButton</sender>
+   <signal>clicked()</signal>
+   <receiver>PlayerView</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>417</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>minButton</sender>
+   <signal>clicked()</signal>
+   <receiver>PlayerView</receiver>
+   <slot>showMinimized()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>265</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maxButton</sender>
+   <signal>clicked()</signal>
+   <receiver>PlayerView</receiver>
+   <slot>showMaximized()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>341</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

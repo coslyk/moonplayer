@@ -30,7 +30,7 @@ signals:
 public:
     typedef enum {STOPPING, VIDEO_PLAYING, VIDEO_PAUSING, TV_PLAYING} State;
     explicit PlayerCore(QWidget *parent = 0);
-    ~PlayerCore();
+    virtual ~PlayerCore();
     State state;
     inline QString currentFile() { return file; }
     inline int getTime() {return time;}

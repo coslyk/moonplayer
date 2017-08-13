@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     accessmanager.cpp \
     platforms.cpp \
     yougetbridge.cpp \
-    downloaderitem.cpp
+    downloaderitem.cpp \
+    playerview.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -80,7 +81,8 @@ HEADERS  += player.h\
     danmakuloader.h \
     platforms.h \
     yougetbridge.h \
-    downloaderitem.h
+    downloaderitem.h \
+    playerview.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 
@@ -93,7 +95,8 @@ FORMS    += \
     detailview.ui \
     cutterbar.ui \
     classicplayer.ui \
-    selectiondialog.ui
+    selectiondialog.ui \
+    playerview.ui
 
 
 RESOURCES += \

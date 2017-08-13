@@ -5,5 +5,14 @@
         <file>icons/play.png</file>
         <file>icons/stop.png</file>
         <file>icons/volume.png</file>
+        <file>modern_ui/pause.png</file>
+        <file>modern_ui/play.png</file>
+        <file>modern_ui/stop.png</file>
+        <file>modern_ui/volume.png</file>
+        <file>modern_ui/net.png</file>
+        <file>modern_ui/playlist.png</file>
+        <file>modern_ui/close.png</file>
+        <file>modern_ui/max.png</file>
+        <file>modern_ui/min.png</file>
     </qresource>
 </RCC>
