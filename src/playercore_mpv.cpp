@@ -152,6 +152,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     reload_when_idle = false;
     emit_stopped_when_idle = false;
     unseekable_forced = false;
+    rendering_paused = false;
 
     // read unfinished_time
     QString filename = QDir(getUserPath()).filePath("unfinished.txt");
@@ -194,7 +195,7 @@ void PlayerCore::swapped()
 
 void PlayerCore::maybeUpdate()
 {
-    if (window()->isMinimized())
+    if (window()->isMinimized() || rendering_paused)
     {
         makeCurrent();
         paintGL();
@@ -209,6 +210,16 @@ void PlayerCore::maybeUpdate()
 void PlayerCore::on_update(void *ctx)
 {
     QMetaObject::invokeMethod((PlayerCore*) ctx, "maybeUpdate");
+}
+
+void PlayerCore::pauseRendering()
+{
+    rendering_paused = true;
+}
+
+void PlayerCore::unpauseRendering()
+{
+    rendering_paused = false;
 }
 
 

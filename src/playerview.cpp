@@ -336,6 +336,10 @@ void PlayerView::showVolumeSlider()
 
 void PlayerView::setFullScreen()
 {
+    // avoid freezing
+    core->pauseRendering();
+    QTimer::singleShot(1000, core, SLOT(unpauseRendering()));
+
     if (isFullScreen())
         showNormal();
     else

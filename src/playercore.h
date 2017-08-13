@@ -49,6 +49,8 @@ public slots:
     void speedSetToDefault(void);
     void switchDanmaku(void);
     void showText(const QByteArray &text);
+    void pauseRendering(void);
+    void unpauseRendering(void);
 
 protected:
     void initializeGL();
@@ -75,6 +77,7 @@ private:
     bool danmaku_visible;
     bool openfile_called;
     bool unseekable_forced;
+    bool rendering_paused;
 
     void loadDanmaku(void);
     void handleMpvError(int code);
