@@ -16,6 +16,9 @@
     <height>450</height>
    </size>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::StrongFocus</enum>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -27,6 +30,9 @@
      <width>561</width>
      <height>70</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">QWidget#controllerWidget {
@@ -63,14 +69,24 @@ QSlider::add-page:horizontal{
     <property name="horizontalSpacing">
      <number>0</number>
     </property>
-    <item row="0" column="4">
-     <widget class="QPushButton" name="pauseButton">
+    <item row="0" column="5">
+     <widget class="QPushButton" name="stopButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/pause.png</normaloff>:/modern_ui/pause.png</iconset>
+        <normaloff>:/modern_ui/stop.png</normaloff>:/modern_ui/stop.png</iconset>
       </property>
       <property name="flat">
        <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="timeLabel">
+      <property name="text">
+       <string>00:00</string>
       </property>
      </widget>
     </item>
@@ -87,8 +103,25 @@ QSlider::add-page:horizontal{
       </property>
      </spacer>
     </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="volumeButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/volume.png</normaloff>:/modern_ui/volume.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="3">
      <widget class="QPushButton" name="playButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/modern_ui/play.png</normaloff>:/modern_ui/play.png</iconset>
@@ -98,39 +131,27 @@ QSlider::add-page:horizontal{
       </property>
      </widget>
     </item>
-    <item row="0" column="5">
-     <widget class="QPushButton" name="stopButton">
-      <property name="icon">
-       <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/stop.png</normaloff>:/modern_ui/stop.png</iconset>
+    <item row="1" column="1" colspan="6">
+     <widget class="QSlider" name="timeSlider">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
       </property>
-      <property name="flat">
-       <bool>true</bool>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </item>
-    <item row="0" column="7">
+    <item row="0" column="8">
      <widget class="QPushButton" name="playlistButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/modern_ui/playlist.png</normaloff>:/modern_ui/playlist.png</iconset>
       </property>
       <property name="flat">
        <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1" colspan="6">
-     <widget class="QSlider" name="timeSlider">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="timeLabel">
-      <property name="text">
-       <string>00:00</string>
       </property>
      </widget>
     </item>
@@ -147,8 +168,25 @@ QSlider::add-page:horizontal{
       </property>
      </spacer>
     </item>
-    <item row="0" column="8">
+    <item row="0" column="4">
+     <widget class="QPushButton" name="pauseButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/pause.png</normaloff>:/modern_ui/pause.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="7">
      <widget class="QPushButton" name="searchButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/modern_ui/net.png</normaloff>:/modern_ui/net.png</iconset>
@@ -158,21 +196,10 @@ QSlider::add-page:horizontal{
       </property>
      </widget>
     </item>
-    <item row="1" column="7" colspan="2">
+    <item row="1" column="7" colspan="3">
      <widget class="QLabel" name="durationLabel">
       <property name="text">
        <string>00:00</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="volumeButton">
-      <property name="icon">
-       <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/volume.png</normaloff>:/modern_ui/volume.png</iconset>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -186,6 +213,9 @@ QSlider::add-page:horizontal{
      <width>461</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">QWidget#titleBar {
@@ -208,6 +238,9 @@ background: rgba(50, 50, 50, 230);
     </item>
     <item>
      <widget class="QPushButton" name="minButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/modern_ui/min.png</normaloff>:/modern_ui/min.png</iconset>
@@ -219,6 +252,9 @@ background: rgba(50, 50, 50, 230);
     </item>
     <item>
      <widget class="QPushButton" name="maxButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/modern_ui/max.png</normaloff>:/modern_ui/max.png</iconset>
@@ -230,6 +266,9 @@ background: rgba(50, 50, 50, 230);
     </item>
     <item>
      <widget class="QPushButton" name="closeButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/modern_ui/close.png</normaloff>:/modern_ui/close.png</iconset>

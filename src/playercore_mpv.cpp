@@ -119,11 +119,6 @@ PlayerCore::PlayerCore(QWidget *parent) :
     msgLabel->resize(QSize(400, 30));
     msgLabel->hide();
 
-    // create timer
-    mouseHideTimer = new QTimer(this);
-    mouseHideTimer->setSingleShot(true);
-    connect(mouseHideTimer, &QTimer::timeout, this, &PlayerCore::hideCursor);
-
     // create menu
     QMenu *ratio_menu = new QMenu(tr("Ratio"));
     ratio_menu->addAction("4:3", this, SLOT(setRatio_4_3()));
@@ -442,21 +437,6 @@ void PlayerCore::mouseDoubleClickEvent(QMouseEvent *e)
     if (e->buttons() == Qt::LeftButton && QRect(0, 0, width(), height()).contains(e->pos(), true))
         emit fullScreen();
     e->accept();
-}
-
-// Hide or show mouse cursor
-void PlayerCore::mouseMoveEvent(QMouseEvent *e)
-{
-    setCursor(QCursor(Qt::ArrowCursor));
-    mouseHideTimer->stop();
-    if (state == VIDEO_PLAYING)
-        mouseHideTimer->start(2000);
-    QWidget::mouseMoveEvent(e);
-}
-
-void PlayerCore::hideCursor()
-{
-    setCursor(QCursor(Qt::BlankCursor));
 }
 
 // Show menu

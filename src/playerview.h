@@ -36,6 +36,7 @@ private slots:
     void onStopped(void);
     void showHidePlaylist(void);
     void showVolumeSlider(void);
+    void hideElements(void);
 
 private:
     Ui::PlayerView *ui;

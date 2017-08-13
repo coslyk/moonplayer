@@ -54,7 +54,7 @@ PlayerView::PlayerView(QWidget *parent) :
     // create player core
     core = new PlayerCore(this);
     core->move(0, 0);
-    core->setMouseTracking(true);
+    core->setAttribute(Qt::WA_TransparentForMouseEvents);
 
     // create playlist
     playlist = new Playlist(this);
@@ -79,8 +79,7 @@ PlayerView::PlayerView(QWidget *parent) :
     connect(core, &PlayerCore::paused, ui->pauseButton, &QPushButton::hide);
     connect(core, &PlayerCore::stopped, this, &PlayerView::onStopped);
     connect(playlist, &Playlist::fileSelected, core, &PlayerCore::openFile);
-    connect(hideTimer, &QTimer::timeout, ui->controllerWidget, &QWidget::hide);
-    connect(hideTimer, &QTimer::timeout, ui->titleBar, &QWidget::hide);
+    connect(hideTimer, &QTimer::timeout, this, &PlayerView::hideElements);
     connect(volumeSlider, &QSlider::valueChanged, core, &PlayerCore::setVolume);
     connect(ui->playlistButton, &QPushButton::clicked, this, &PlayerView::showHidePlaylist);
     connect(ui->stopButton, &QPushButton::clicked, this, &PlayerView::onStopButton);
@@ -169,11 +168,13 @@ void PlayerView::mouseMoveEvent(QMouseEvent *e)
     if (!dPos.isNull())
         move(e->globalPos() - dPos);
 
-    // show controller
+    // show controller, titlebar and cursor
     hideTimer->stop();
     ui->controllerWidget->show();
     ui->titleBar->show();
-    hideTimer->start(2000);
+    setCursor(QCursor(Qt::ArrowCursor));
+    if (core->state == PlayerCore::VIDEO_PLAYING || core->state == PlayerCore::TV_PLAYING)
+        hideTimer->start(2000);
     e->accept();
 }
 
@@ -181,6 +182,13 @@ void PlayerView::mouseReleaseEvent(QMouseEvent *e)
 {
     dPos = QPoint();
     e->accept();
+}
+
+void PlayerView::hideElements()
+{
+    ui->controllerWidget->hide();
+    ui->titleBar->hide();
+    setCursor(QCursor(Qt::BlankCursor));
 }
 
 void PlayerView::onLengthChanged(int len)

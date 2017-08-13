@@ -54,7 +54,6 @@ protected:
     void initializeGL();
     void paintGL();
     void mouseDoubleClickEvent(QMouseEvent *);
-    void mouseMoveEvent(QMouseEvent *e);
     bool event(QEvent *e);
 
 private:
@@ -63,7 +62,6 @@ private:
     DanmakuLoader *danmakuLoader;
     QLabel *msgLabel;
     QMenu *menu;
-    QTimer *mouseHideTimer;
     QString file;
     QString danmaku;
     int64_t length;
@@ -83,7 +81,6 @@ private:
     static void on_update(void *ctx);
 
 private slots:
-    void hideCursor(void);
     void loadAss(const QString &assFile);
     void setRatio_16_9(void);
     void setRatio_16_10(void);
