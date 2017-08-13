@@ -58,7 +58,7 @@ PlayerView::PlayerView(QWidget *parent) :
 
     // create playlist
     playlist = new Playlist(this);
-    playlist->hide();
+    playlist->setWindowFlag(Qt::Popup);
 
     // create volume slider
     volumeSlider = new QSlider(Qt::Vertical, this);
@@ -81,7 +81,7 @@ PlayerView::PlayerView(QWidget *parent) :
     connect(playlist, &Playlist::fileSelected, core, &PlayerCore::openFile);
     connect(hideTimer, &QTimer::timeout, this, &PlayerView::hideElements);
     connect(volumeSlider, &QSlider::valueChanged, core, &PlayerCore::setVolume);
-    connect(ui->playlistButton, &QPushButton::clicked, this, &PlayerView::showHidePlaylist);
+    connect(ui->playlistButton, &QPushButton::clicked, this, &PlayerView::showPlaylist);
     connect(ui->stopButton, &QPushButton::clicked, this, &PlayerView::onStopButton);
     connect(ui->playButton, &QPushButton::clicked, core, &PlayerCore::changeState);
     connect(ui->pauseButton, &QPushButton::clicked, core, &PlayerCore::changeState);
@@ -142,11 +142,6 @@ void PlayerView::resizeEvent(QResizeEvent *e)
     int c_y = e->size().height() - 130;
     ui->controllerWidget->move(c_x, c_y);
     ui->controllerWidget->raise();
-
-    // move and resize playlist
-    playlist->resize(playlist->width(), e->size().height() - ui->titleBar->height());
-    playlist->move(e->size().width() - playlist->width(), ui->titleBar->height());
-    playlist->raise();
 
     // raise borders and titlebar
     leftBorder->raise();
@@ -250,10 +245,11 @@ void PlayerView::onSizeChanged(const QSize &sz)
         resize(sz);
 }
 
-
-void PlayerView::showHidePlaylist()
+void PlayerView::showPlaylist()
 {
-    playlist->setVisible(!playlist->isVisible());
+    QPoint vbPos = ui->controllerWidget->mapToGlobal(ui->playlistButton->pos());
+    playlist->move(vbPos.x(), vbPos.y() - playlist->height());
+    playlist->show();
 }
 
 void PlayerView::showVolumeSlider()

@@ -67,7 +67,6 @@ void Playlist::initClassicUI()
     ui->delButton->setText(" - ");
     ui->clearButton->setText(" C ");
 #endif
-    ui->verticalLayout->setContentsMargins(0, 0, -1, 0);
 }
 
 void Playlist::showMenu()

@@ -37,7 +37,7 @@ private slots:
     void onSizeChanged(const QSize &sz);
     void onStopButton(void);
     void onStopped(void);
-    void showHidePlaylist(void);
+    void showPlaylist(void);
     void showVolumeSlider(void);
     void hideElements(void);
 
