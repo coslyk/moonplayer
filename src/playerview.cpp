@@ -86,7 +86,9 @@ PlayerView::PlayerView(QWidget *parent) :
     connect(ui->playButton, &QPushButton::clicked, core, &PlayerCore::changeState);
     connect(ui->pauseButton, &QPushButton::clicked, core, &PlayerCore::changeState);
     connect(ui->volumeButton, &QPushButton::clicked, this, &PlayerView::showVolumeSlider);
-    connect(ui->timeSlider, &QSlider::valueChanged, core, &PlayerCore::setProgress);
+    connect(ui->timeSlider, &QSlider::sliderPressed, this, &PlayerView::onTimeSliderPressed);
+    connect(ui->timeSlider, &QSlider::valueChanged, this, &PlayerView::onTimeSliderValueChanged);
+    connect(ui->timeSlider, &QSlider::sliderReleased, this, &PlayerView::onTimeSliderReleased);
 }
 
 PlayerView::~PlayerView()
@@ -210,6 +212,31 @@ void PlayerView::onTimeChanged(int time)
     ui->timeLabel->setText(secToTime(time));
     if (!ui->timeSlider->isSliderDown() && time % 4 == 0) // Make slider easier to drag
         ui->timeSlider->setValue(time);
+}
+
+void PlayerView::onTimeSliderPressed()
+{
+    if (core->state == PlayerCore::STOPPING)
+        return;
+    QString time = secToTime(ui->timeSlider->value());
+    ui->timeLabel->setText(time);
+}
+
+void PlayerView::onTimeSliderValueChanged(int time)
+{
+    if (core->state == PlayerCore::STOPPING)
+        return;
+    if (ui->timeSlider->isSliderDown()) // move by mouse
+        ui->timeLabel->setText(secToTime(time));
+    else // move by keyboard
+        core->setProgress(time);
+}
+
+void PlayerView::onTimeSliderReleased()
+{
+    if (core->state == PlayerCore::STOPPING)
+        return;
+    core->setProgress(ui->timeSlider->value());
 }
 
 void PlayerView::onSizeChanged(const QSize &sz)

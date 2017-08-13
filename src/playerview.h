@@ -31,6 +31,9 @@ protected:
 private slots:
     void onLengthChanged(int len);
     void onTimeChanged(int time);
+    void onTimeSliderPressed(void);
+    void onTimeSliderValueChanged(int time);
+    void onTimeSliderReleased(void);
     void onSizeChanged(const QSize &sz);
     void onStopButton(void);
     void onStopped(void);
