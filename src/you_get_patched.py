@@ -6,7 +6,7 @@
 
 
 # Init environment and import module
-import os, sys, json, platform
+import os, sys, json, platform, io
 if platform.system() == 'Darwin':
     _srcdir = '%s/Library/Application Support/MoonPlayer/you-get/src/' % os.getenv('HOME')
 else:
@@ -15,6 +15,11 @@ _filepath = os.path.dirname(sys.argv[0])
 sys.path.insert(1, os.path.join(_filepath, _srcdir))
 import you_get
 
+
+# Fix: print unusable info under json mode
+stdout_bak = sys.stdout
+strio = io.StringIO()
+sys.stdout = strio
 
 # Patch json_output.output
 def output(video_extractor, pretty_print=True):
@@ -38,10 +43,12 @@ def output(video_extractor, pretty_print=True):
         except KeyError:
             pass
 
+    sys.stdout = stdout_bak
     if pretty_print:
         print(json.dumps(out, indent=4, sort_keys=True, ensure_ascii=False))
     else:
         print(json.dumps(out))
+    sys.stdout = strio
 import you_get.json_output
 you_get.json_output.output = output
 

@@ -111,7 +111,7 @@ PlayerView::PlayerView(QWidget *parent) :
 
     menu->addSeparator();
     menu->addAction(tr("Online video"), reslibrary, SLOT(show()), QKeySequence("W"));
-    menu->addAction(tr("Settings"), settingsDialog, SLOT(show()));
+    menu->addAction(tr("Settings"), settingsDialog, SLOT(show()), QKeySequence("Ctrl+,"));
     menu->addAction(tr("Update you-get"), &you_get_bridge, SLOT(updateYouGet()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
     QMenu *aboutMenu = menu->addMenu(tr("About"));
