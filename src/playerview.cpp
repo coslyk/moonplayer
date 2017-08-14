@@ -22,13 +22,12 @@
 #include <QTimer>
 
 PlayerView::PlayerView(QWidget *parent) :
-    QWidget(parent),
+    QWidget(parent, Qt::FramelessWindowHint),
     ui(new Ui::PlayerView)
 {
     // init ui
     ui->setupUi(this);
     ui->pauseButton->hide();
-    setWindowFlag(Qt::FramelessWindowHint);
     QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton};
     for (int i = 0; i < 3; i++)
     {
@@ -74,17 +73,20 @@ PlayerView::PlayerView(QWidget *parent) :
 
     // create playlist
     playlist = new Playlist(this);
-    playlist->setWindowFlag(Qt::Popup);
+    playlist->setWindowFlags(playlist->windowFlags() | Qt::Popup);
     playlist->setFixedSize(QSize(200, 350) * Settings::uiScale);
 
     // create library viewer
     reslibrary = new ResLibrary;
 
     // create volume slider
-    volumeSlider = new QSlider(Qt::Vertical, this);
-    volumeSlider->setWindowFlag(Qt::Popup);
+    QWidget *volumePopup = new QWidget(this, Qt::Popup);
+    volumePopup->resize(QSize(24, 80) * Settings::uiScale);
+    volumeSlider = new QSlider(Qt::Vertical, volumePopup);
     volumeSlider->setRange(0, 10);
     volumeSlider->setValue(10);
+    volumeSlider->resize(QSize(20, 70) * Settings::uiScale);
+    volumeSlider->move(2, 5);
 
     // create menu
     QMenu *ratio_menu = new QMenu(tr("Ratio"));
@@ -108,7 +110,7 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addAction(tr("Cut video"), this, SLOT(showCutterBar()), QKeySequence("C"));
 
     menu->addSeparator();
-    menu->addAction(tr("Online video"), reslibrary, SLOT(show()));
+    menu->addAction(tr("Online video"), reslibrary, SLOT(show()), QKeySequence("W"));
     menu->addAction(tr("Settings"), settingsDialog, SLOT(show()));
     menu->addAction(tr("Update you-get"), &you_get_bridge, SLOT(updateYouGet()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
@@ -118,7 +120,7 @@ PlayerView::PlayerView(QWidget *parent) :
 
     // create cutterbar
     cutterBar = new CutterBar(this);
-    cutterBar->setWindowFlag(Qt::Popup);
+    cutterBar->setWindowFlags(cutterBar->windowFlags() | Qt::Popup);
 
     // create timer
     hideTimer = new QTimer(this);
@@ -287,6 +289,9 @@ void PlayerView::keyPressEvent(QKeyEvent *e)
         if (ctrl_pressed)
             playlist->onNetItem();
         break;
+    case Qt::Key_W:
+        reslibrary->show();
+        break;
     case Qt::Key_Space:
         core->changeState();
         break;
@@ -295,6 +300,10 @@ void PlayerView::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_R:
         core->speedSetToDefault();
+        break;
+    case Qt::Key_Comma:
+        if (ctrl_pressed)
+            settingsDialog->exec();
         break;
     case Qt::Key_Left:
         if (ctrl_pressed)
@@ -468,9 +477,10 @@ void PlayerView::showPlaylist()
 // show volume slider
 void PlayerView::showVolumeSlider()
 {
+    QWidget *volumePopup = volumeSlider->window();
     QPoint vbPos = ui->controllerWidget->mapToGlobal(ui->volumeButton->pos());
-    volumeSlider->move(vbPos.x(), vbPos.y() - volumeSlider->height());
-    volumeSlider->show();
+    volumePopup->move(vbPos.x(), vbPos.y() - volumePopup->height());
+    volumePopup->show();
 }
 
 void PlayerView::saveVolume(int vol)

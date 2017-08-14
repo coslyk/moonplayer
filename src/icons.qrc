@@ -1,10 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>icons/net.png</file>
-        <file>icons/pause.png</file>
-        <file>icons/play.png</file>
-        <file>icons/stop.png</file>
-        <file>icons/volume.png</file>
         <file>modern_ui/pause.png</file>
         <file>modern_ui/play.png</file>
         <file>modern_ui/stop.png</file>

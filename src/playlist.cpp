@@ -96,6 +96,14 @@ void Playlist::onAddItem()
     emit needPause(true);
 
     QStringList files = QFileDialog::getOpenFileNames(this);
+
+    if (!files.isEmpty()) // first file
+    {
+        QString file = files.takeFirst();
+        QString name = file.section('/', -1, -1);
+        addFileAndPlay(name, file);
+    }
+
     while (!files.isEmpty())
     {
         QString file = files.takeFirst();
