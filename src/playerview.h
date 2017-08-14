@@ -31,6 +31,8 @@ protected:
 #endif
     void contextMenuEvent(QContextMenuEvent *e);
     void closeEvent(QCloseEvent *e);
+    void dragEnterEvent(QDragEnterEvent *e);
+    void dropEvent(QDropEvent *e);
     void keyPressEvent(QKeyEvent *e);
     void keyReleaseEvent(QKeyEvent *e);
     void mouseDoubleClickEvent(QMouseEvent *e);

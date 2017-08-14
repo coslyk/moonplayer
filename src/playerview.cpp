@@ -10,9 +10,11 @@
 #include "skin.h"
 #include "utils.h"
 #include <QDesktopWidget>
+#include <QFileInfo>
 #include <QGridLayout>
 #include <QMenu>
 #include <QMessageBox>
+#include <QMimeData>
 #include <QResizeEvent>
 #include <QTimer>
 
@@ -53,6 +55,7 @@ PlayerView::PlayerView(QWidget *parent) :
     gridLayout->addWidget(bottomBorder, 2, 1, 1, 1);
     gridLayout->setMargin(0);
     gridLayout->setSpacing(0);
+    setAcceptDrops(true);
 
     quit_requested = false;
     no_play_next = false;
@@ -190,6 +193,36 @@ void PlayerView::closeEvent(QCloseEvent *e)
         e->accept();
 }
 
+// Drag & drop files
+void PlayerView::dragEnterEvent(QDragEnterEvent *e)
+{
+    if (e->mimeData()->hasUrls())
+        e->acceptProposedAction();
+}
+
+void PlayerView::dropEvent(QDropEvent *e)
+{
+    QList<QUrl> urls = e->mimeData()->urls();
+    bool first = true;
+    foreach (QUrl url, urls) {
+        if (url.isLocalFile())
+        {
+            QString file = url.toLocalFile();
+            if (first)
+            {
+                playlist->addFileAndPlay(QFileInfo(file).fileName(), file);
+                first = false;
+            }
+            else
+                playlist->addFile(QFileInfo(file).fileName(), file);
+        }
+        else if (!url.scheme().isEmpty())
+            playlist->addUrl(url.toString());
+    }
+    e->accept();
+}
+
+// resize ui
 void PlayerView::resizeEvent(QResizeEvent *e)
 {
     // resize player core
