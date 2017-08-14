@@ -502,7 +502,7 @@
     <message>
         <location filename="reslibrary.ui" line="21"/>
         <source>Library</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网络资源</translation>
     </message>
     <message>
         <location filename="reslibrary.ui" line="48"/>
