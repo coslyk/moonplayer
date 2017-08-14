@@ -164,6 +164,21 @@ void PlayerView::onStopped()
 
 void PlayerView::closeEvent(QCloseEvent *e)
 {
+    if (downloader->hasTask())
+        {
+            bool ignore = (QMessageBox::question(this, "question",
+                                             tr("Some files are being downloaded. Do you still want to close?"),
+                                             QMessageBox::Yes, QMessageBox::No) == QMessageBox::No);
+            if (ignore)
+            {
+                e->ignore();
+                return;
+            }
+        }
+
+        reslibrary->close();
+        no_play_next = true;
+
     // It's not safe to quit until mpv is stopped
     if (core->state != PlayerCore::STOPPING)
     {
