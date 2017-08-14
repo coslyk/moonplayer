@@ -459,22 +459,22 @@
     <message>
         <location filename="playlist.ui" line="26"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">删除</translation>
     </message>
     <message>
         <location filename="playlist.ui" line="33"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">添加</translation>
     </message>
     <message>
         <location filename="playlist.ui" line="40"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">清空</translation>
     </message>
     <message>
         <location filename="playlist.ui" line="47"/>
         <source>Playlist (Shortcut: L)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">播放列表（快捷键：L）</translation>
     </message>
 </context>
 <context>

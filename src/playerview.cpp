@@ -75,6 +75,7 @@ PlayerView::PlayerView(QWidget *parent) :
     // create playlist
     playlist = new Playlist(this);
     playlist->setWindowFlag(Qt::Popup);
+    playlist->setFixedSize(QSize(200, 350) * Settings::uiScale);
 
     // create library viewer
     reslibrary = new ResLibrary;
