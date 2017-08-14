@@ -4,11 +4,13 @@
 #include <QWidget>
 #include <QList>
 #include <QListWidgetItem>
+#include <Python.h>
 
 namespace Ui {
 class ResLibrary;
 }
 class MyListWidget;
+class DetailView;
 
 //******************
 // ResLibrary
@@ -20,6 +22,7 @@ public:
     explicit ResLibrary(QWidget *parent = 0);
     void addItem(const QString &name, const QByteArray &pic_url, const QByteArray &flag);
     void clearItem(void);
+    PyObject *openDetailPage(PyObject *dict);
 
 private:
     Ui::ResLibrary *ui;
@@ -29,6 +32,7 @@ private:
     QString current_country;
     QString current_key;
     MyListWidget *listWidget;
+    DetailView *detailView;
 
 private slots:
     void reSearch(void);

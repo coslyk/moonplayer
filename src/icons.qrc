@@ -14,5 +14,6 @@
         <file>modern_ui/close.png</file>
         <file>modern_ui/max.png</file>
         <file>modern_ui/min.png</file>
+        <file>modern_ui/settings.png</file>
     </qresource>
 </RCC>

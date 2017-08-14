@@ -1,8 +1,11 @@
 #include "playerview.h"
 #include "ui_playerview.h"
+#include "downloader.h"
 #include "playlist.h"
 #include "playercore.h"
+#include "reslibrary.h"
 #include "settings_player.h"
+#include "settingsdialog.h"
 #include "skin.h"
 #include "utils.h"
 #include <QDesktopWidget>
@@ -24,8 +27,8 @@ PlayerView::PlayerView(QWidget *parent) :
         buttons[i]->setIconSize(QSize(16, 16) * Settings::uiScale);
         buttons[i]->setFixedSize(QSize(32, 32) * Settings::uiScale);
     }
-    QPushButton *buttons2[] = {ui->playlistButton, ui->searchButton, ui->volumeButton};
-    for (int i = 0; i < 3; i++)
+    QPushButton *buttons2[] = {ui->playlistButton, ui->searchButton, ui->volumeButton, ui->settingsButton};
+    for (int i = 0; i < 4; i++)
     {
         buttons2[i]->setIconSize(QSize(16, 16) * Settings::uiScale);
         buttons2[i]->setFixedSize(QSize(24, 20) * Settings::uiScale);
@@ -57,9 +60,15 @@ PlayerView::PlayerView(QWidget *parent) :
     core->move(0, 0);
     core->setAttribute(Qt::WA_TransparentForMouseEvents);
 
+    // create settings dialog
+    settingsDialog = new SettingsDialog(this);
+
     // create playlist
     playlist = new Playlist(this);
     playlist->setWindowFlag(Qt::Popup);
+
+    // create library viewer
+    reslibrary = new ResLibrary;
 
     // create volume slider
     volumeSlider = new QSlider(Qt::Vertical, this);
@@ -87,6 +96,8 @@ PlayerView::PlayerView(QWidget *parent) :
     connect(ui->playButton, &QPushButton::clicked, core, &PlayerCore::changeState);
     connect(ui->pauseButton, &QPushButton::clicked, core, &PlayerCore::changeState);
     connect(ui->volumeButton, &QPushButton::clicked, this, &PlayerView::showVolumeSlider);
+    connect(ui->settingsButton, &QPushButton::clicked, settingsDialog, &SettingsDialog::exec);
+    connect(ui->searchButton, &QPushButton::clicked, reslibrary, &ResLibrary::show);
     connect(ui->timeSlider, &QSlider::sliderPressed, this, &PlayerView::onTimeSliderPressed);
     connect(ui->timeSlider, &QSlider::valueChanged, this, &PlayerView::onTimeSliderValueChanged);
     connect(ui->timeSlider, &QSlider::sliderReleased, this, &PlayerView::onTimeSliderReleased);

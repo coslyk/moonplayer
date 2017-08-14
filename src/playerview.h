@@ -12,6 +12,8 @@ class Playlist;
 class PlayerCore;
 class QSlider;
 class QTimer;
+class ResLibrary;
+class SettingsDialog;
 
 class PlayerView : public QWidget
 {
@@ -58,6 +60,8 @@ private:
     QSlider *volumeSlider;
     QTimer *hideTimer;
     QPoint dPos;
+    ResLibrary *reslibrary;
+    SettingsDialog *settingsDialog;
     bool quit_requested;
     bool no_play_next;
     bool ctrl_pressed;

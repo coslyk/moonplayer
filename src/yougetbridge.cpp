@@ -6,7 +6,7 @@
 #include "selectiondialog.h"
 #include "settings_network.h"
 #include "settings_plugins.h"
-#include "webvideo.h"
+#include "reslibrary.h"
 #include <QApplication>
 #include <QDir>
 #include <QFile>
@@ -204,6 +204,8 @@ void YouGetBridge::onFinished()
                 // Download
                 if (download)
                 {
+                    static QRegularExpression illegalChars("[\\\\/]");
+                    title.replace(illegalChars, ".");
                     // Build file path list
                     QDir dir = QDir(Settings::downloadDir);
                     QString dirname = title + '.' + container;
@@ -216,7 +218,7 @@ void YouGetBridge::onFinished()
                         }
                     }
                     for (int i = 0; i < names.size(); i++)
-                         names[i] = dir.filePath(names[i]);
+                         names[i] = dir.filePath(QString(names[i]).replace(illegalChars, "."));
 
                     // Download more than 1 video clips with danmaku
                     if (!danmaku_url.isEmpty() && urls.size() > 1)
@@ -244,8 +246,7 @@ void YouGetBridge::onFinished()
                             playlist->addFile(names[i], urls[i]);
                     }
 
-                    if (Settings::autoCloseWindow)
-                         webvideo->close();
+                    res_library->close();
                  }
                  return;
             }

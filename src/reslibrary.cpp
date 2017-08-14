@@ -2,6 +2,8 @@
 #include "ui_reslibrary.h"
 #include "resplugin.h"
 #include "accessmanager.h"
+#include "detailview.h"
+#include "downloader.h"
 #include "mybuttongroup.h"
 #include "pyapi.h"
 #include "settings_player.h"
@@ -27,6 +29,7 @@ ResLibrary::ResLibrary(QWidget *parent) :
     ui->gridLayout->addWidget(listWidget, 0, 1, 1, 4);
     ui->keyLineEdit->setFixedWidth(220 * Settings::uiScale);
     ui->stackedWidget->setFixedWidth(220 * Settings::uiScale);
+    setMinimumSize(QSize(950, 650) * Settings::uiScale);
 
     for (int i = 0; i < n_resplugins; i++)
     {
@@ -54,6 +57,9 @@ ResLibrary::ResLibrary(QWidget *parent) :
     current_country = resplugins[0]->countriesList[0];
     current_page = 1;
     res_library = this;
+    detailView = NULL;
+
+    ui->tabWidget->addTab(new Downloader, tr("Downloader"));
 
     connect(ui->pageSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onPageChanged(int)));
     connect(ui->prevPushButton, SIGNAL(clicked()), this, SLOT(onPrevPage()));
@@ -146,4 +152,17 @@ void ResLibrary::addItem(const QString &name, const QByteArray &pic_url, const Q
 void ResLibrary::clearItem()
 {
     listWidget->clearItem();
+}
+
+PyObject* ResLibrary::openDetailPage(PyObject *dict)
+{
+    if (detailView == NULL)
+    {
+        detailView = new DetailView;
+        ui->tabWidget->addTab(detailView, "detail");
+    }
+    PyObject *retVal = detailView->loadDetail(dict);
+    ui->tabWidget->setCurrentIndex(2);
+    ui->tabWidget->setTabText(2, detailView->windowTitle());
+    return retVal;
 }

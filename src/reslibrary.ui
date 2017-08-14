@@ -6,95 +6,106 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
-    <height>332</height>
+    <width>604</width>
+    <height>357</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>MoonPlayer</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QComboBox" name="pluginComboBox"/>
-     </item>
-     <item>
-      <widget class="QStackedWidget" name="stackedWidget"/>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Keyword:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="keyLineEdit"/>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="1">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>115</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="2">
-    <widget class="QPushButton" name="prevPushButton">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>Prev</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <widget class="QSpinBox" name="pageSpinBox">
-     <property name="keyboardTracking">
-      <bool>false</bool>
-     </property>
-     <property name="minimum">
-      <number>1</number>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="4">
-    <widget class="QPushButton" name="nextPushButton">
-     <property name="text">
-      <string>Next</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>&lt;a href=&quot;https://github.com/coslyk/moonplayer-plugins&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Add plugins&lt;/span&gt;&lt;/a&gt;</string>
-     </property>
-     <property name="openExternalLinks">
-      <bool>true</bool>
-     </property>
+    <widget class="QTabWidget" name="tabWidget">
+     <widget class="QWidget" name="libraryTab">
+      <attribute name="title">
+       <string>Library</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QComboBox" name="pluginComboBox"/>
+         </item>
+         <item>
+          <widget class="QStackedWidget" name="stackedWidget"/>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Keyword:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="keyLineEdit"/>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>&lt;a href=&quot;https://github.com/coslyk/moonplayer-plugins&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Add plugins&lt;/span&gt;&lt;/a&gt;</string>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>155</width>
+           <height>17</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="prevPushButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Prev</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QSpinBox" name="pageSpinBox">
+         <property name="keyboardTracking">
+          <bool>false</bool>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QPushButton" name="nextPushButton">
+         <property name="text">
+          <string>Next</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>

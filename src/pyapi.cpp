@@ -7,7 +7,6 @@
 #include "playlist.h"
 #include "playercore.h"
 #include "reslibrary.h"
-#include "detailview.h"
 #include "utils.h"
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -278,18 +277,7 @@ static PyObject *show_detail(PyObject *, PyObject *args)
     PyObject *dict = NULL;
     if (!PyArg_ParseTuple(args, "O", &dict))
         return NULL;
-    DetailView *detailview;
-    if (webvideo->count() == 4) // DetailView page has been created
-        detailview = static_cast<DetailView*>(webvideo->widget(3));
-    else
-    {
-        detailview = new DetailView(res_library);
-        webvideo->addTab(detailview, "");
-    }
-    PyObject *retVal = detailview->loadDetail(dict);
-    webvideo->setCurrentWidget(detailview);
-    webvideo->setTabText(3, detailview->windowTitle());
-    return retVal;
+    return res_library->openDetailPage(dict);
 }
 
 /*******************

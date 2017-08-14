@@ -69,7 +69,45 @@ QSlider::add-page:horizontal{
     <property name="horizontalSpacing">
      <number>0</number>
     </property>
-    <item row="0" column="5">
+    <item row="1" column="2" colspan="6">
+     <widget class="QSlider" name="timeSlider">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="8">
+     <widget class="QPushButton" name="searchButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/net.png</normaloff>:/modern_ui/net.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4">
+     <widget class="QPushButton" name="playButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/play.png</normaloff>:/modern_ui/play.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="6">
      <widget class="QPushButton" name="stopButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
@@ -83,27 +121,21 @@ QSlider::add-page:horizontal{
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="timeLabel">
-      <property name="text">
-       <string>00:00</string>
+    <item row="0" column="9">
+     <widget class="QPushButton" name="playlistButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/playlist.png</normaloff>:/modern_ui/playlist.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
-    <item row="0" column="2">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>143</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="0" column="0">
+    <item row="0" column="1">
      <widget class="QPushButton" name="volumeButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
@@ -118,44 +150,26 @@ QSlider::add-page:horizontal{
      </widget>
     </item>
     <item row="0" column="3">
-     <widget class="QPushButton" name="playButton">
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
-      <property name="icon">
-       <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/play.png</normaloff>:/modern_ui/play.png</iconset>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1" colspan="6">
-     <widget class="QSlider" name="timeSlider">
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
+     <spacer name="horizontalSpacer">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>143</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="8" colspan="3">
+     <widget class="QLabel" name="durationLabel">
+      <property name="text">
+       <string>00:00</string>
+      </property>
      </widget>
     </item>
-    <item row="0" column="8">
-     <widget class="QPushButton" name="playlistButton">
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
-      <property name="icon">
-       <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/playlist.png</normaloff>:/modern_ui/playlist.png</iconset>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="6">
+    <item row="0" column="7">
      <spacer name="horizontalSpacer_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -168,7 +182,7 @@ QSlider::add-page:horizontal{
       </property>
      </spacer>
     </item>
-    <item row="0" column="4">
+    <item row="0" column="5">
      <widget class="QPushButton" name="pauseButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
@@ -182,22 +196,22 @@ QSlider::add-page:horizontal{
       </property>
      </widget>
     </item>
-    <item row="0" column="7">
-     <widget class="QPushButton" name="searchButton">
+    <item row="0" column="0">
+     <widget class="QPushButton" name="settingsButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
       <property name="icon">
        <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/net.png</normaloff>:/modern_ui/net.png</iconset>
+        <normaloff>:/modern_ui/settings.png</normaloff>:/modern_ui/settings.png</iconset>
       </property>
       <property name="flat">
        <bool>true</bool>
       </property>
      </widget>
     </item>
-    <item row="1" column="7" colspan="3">
-     <widget class="QLabel" name="durationLabel">
+    <item row="1" column="0" colspan="2">
+     <widget class="QLabel" name="timeLabel">
       <property name="text">
        <string>00:00</string>
       </property>

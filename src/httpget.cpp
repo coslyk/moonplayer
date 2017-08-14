@@ -22,8 +22,10 @@ HttpGet::HttpGet(const QUrl &url, const QString &filename, QObject *parent) :
     file = new QFile(filename);
     if (!file->open(QFile::WriteOnly))
     {
+        qDebug("Create file failed: %s", filename.toUtf8().constData());
         emit finished(this, true);
         delete file;
+        file = NULL;
         deleteLater();
         return;
     }
@@ -34,6 +36,8 @@ HttpGet::HttpGet(const QUrl &url, const QString &filename, QObject *parent) :
 //start a request
 void HttpGet::start()
 {
+    if (file == NULL)
+        return;
     is_paused = false;
     QNetworkRequest request(url);
     request.setRawHeader("User-Agent", generateUA(url));
