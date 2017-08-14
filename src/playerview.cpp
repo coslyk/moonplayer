@@ -10,6 +10,7 @@
 #include "utils.h"
 #include <QDesktopWidget>
 #include <QGridLayout>
+#include <QMenu>
 #include <QResizeEvent>
 #include <QTimer>
 
@@ -76,6 +77,28 @@ PlayerView::PlayerView(QWidget *parent) :
     volumeSlider->setRange(0, 10);
     volumeSlider->setValue(10);
 
+    // create menu
+    QMenu *ratio_menu = new QMenu(tr("Ratio"));
+    ratio_menu->addAction("4:3", core, SLOT(setRatio_4_3()));
+    ratio_menu->addAction("16:9", core, SLOT(setRatio_16_9()));
+    ratio_menu->addAction("16:10", core, SLOT(setRatio_16_10()));
+    ratio_menu->addAction(tr("Default"), core, SLOT(setRatio_0()));
+
+    QMenu *speed_menu = new QMenu(tr("Speed"));
+    speed_menu->addAction(tr("Speed up"), core, SLOT(speedUp()), QKeySequence("Ctrl+Right"));
+    speed_menu->addAction(tr("Speed down"), core, SLOT(speedDown()), QKeySequence("Ctrl+Left"));
+    speed_menu->addAction(tr("Default"), core, SLOT(speedSetToDefault()), QKeySequence("R"));
+
+    menu = new QMenu(this);
+    menu->addMenu(ratio_menu);
+    menu->addMenu(speed_menu);
+
+    menu->addAction(tr("Danmaku"), core, SLOT(switchDanmaku()), QKeySequence("D"));
+    menu->addSeparator();
+    menu->addAction(tr("Screenshot"), core, SLOT(screenShot()), QKeySequence("S"));
+    menu->addAction(tr("Cut video"), core, SIGNAL(cutVideo()), QKeySequence("C"));
+
+    // create timer
     hideTimer = new QTimer(this);
     hideTimer->setSingleShot(true);
     setMouseTracking(true);
@@ -232,7 +255,12 @@ void PlayerView::keyReleaseEvent(QKeyEvent *e)
 
 void PlayerView::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    setFullScreen();
+    /* On macOS, this event will be emitted without double-click when mouse
+     * is moved to screen edge.
+     * Is it a Qt's bug?
+     */
+    if (e->buttons() == Qt::LeftButton && QRect(0, 0, width(), height()).contains(e->pos(), true))
+        setFullScreen();
     e->accept();
 }
 
@@ -263,6 +291,12 @@ void PlayerView::mouseMoveEvent(QMouseEvent *e)
 void PlayerView::mouseReleaseEvent(QMouseEvent *e)
 {
     dPos = QPoint();
+    e->accept();
+}
+
+void PlayerView::contextMenuEvent(QContextMenuEvent *e)
+{
+    menu->exec(QCursor::pos());
     e->accept();
 }
 

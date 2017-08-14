@@ -2,7 +2,6 @@
 #include "settings_network.h"
 #include "settings_plugins.h"
 #include "accessmanager.h"
-#include "webvideo.h"
 #include "downloader.h"
 #include "playlist.h"
 #include "playercore.h"
@@ -224,17 +223,6 @@ static PyObject *question(PyObject *, PyObject *args)
     return Py_False;
 }
 
-/************************
- ** WebVideo functions **
- ************************/
-static PyObject *show_list(PyObject *, PyObject *args)
-{
-    PyObject *list;
-    if (!PyArg_ParseTuple(args, "O", &list))
-        return NULL;
-    return webvideo->showList(list);
-}
-
 
 /*******************
  ** ResLibrary    **
@@ -292,7 +280,6 @@ static PyMethodDef methods[] = {
     {"force_unseekable", force_unseekable, METH_VARARGS, "Force stream with specific host to be unseekable"},
     {"warn",             warn,             METH_VARARGS, "Show warning message"},
     {"question",         question,         METH_VARARGS, "Show a question dialog"},
-    {"show_list",        show_list,        METH_VARARGS, "Show searching result on the list"},
     {"res_show",         res_show,         METH_VARARGS, "Show resources result"},
     {"show_detail",      show_detail,      METH_VARARGS, "Show detail"},
     {NULL, NULL, 0, NULL}

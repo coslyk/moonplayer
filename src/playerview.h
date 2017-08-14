@@ -10,6 +10,7 @@ class PlayerView;
 class Border;
 class Playlist;
 class PlayerCore;
+class QMenu;
 class QSlider;
 class QTimer;
 class ResLibrary;
@@ -27,6 +28,7 @@ protected:
 #ifdef Q_OS_MAC
     void changeEvent(QEvent *e);
 #endif
+    void contextMenuEvent(QContextMenuEvent *e);
     void closeEvent(QCloseEvent *e);
     void keyPressEvent(QKeyEvent *e);
     void keyReleaseEvent(QKeyEvent *e);
@@ -57,6 +59,7 @@ private:
     Border *bottomBorder;
     Playlist *playlist;
     PlayerCore *core;
+    QMenu *menu;
     QSlider *volumeSlider;
     QTimer *hideTimer;
     QPoint dPos;

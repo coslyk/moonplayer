@@ -13,7 +13,6 @@
 #include <QEvent>
 #include <QHash>
 #include <QLabel>
-#include <QMenu>
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QOpenGLContext>
@@ -118,29 +117,6 @@ PlayerCore::PlayerCore(QWidget *parent) :
     msgLabel->move(0, 0);
     msgLabel->resize(QSize(400, 30));
     msgLabel->hide();
-
-    // create menu
-    QMenu *ratio_menu = new QMenu(tr("Ratio"));
-    ratio_menu->addAction("4:3", this, SLOT(setRatio_4_3()));
-    ratio_menu->addAction("16:9", this, SLOT(setRatio_16_9()));
-    ratio_menu->addAction("16:10", this, SLOT(setRatio_16_10()));
-    ratio_menu->addAction(tr("Default"), this, SLOT(setRatio_0()));
-
-    QMenu *speed_menu = new QMenu(tr("Speed"));
-    speed_menu->addAction(tr("Speed up"), this, SLOT(speedUp()), QKeySequence("Ctrl+Right"));
-    speed_menu->addAction(tr("Speed down"), this, SLOT(speedDown()), QKeySequence("Ctrl+Left"));
-    speed_menu->addAction(tr("Default"), this, SLOT(speedSetToDefault()), QKeySequence("R"));
-
-    menu = new QMenu(this);
-    menu->addMenu(ratio_menu);
-    menu->addMenu(speed_menu);
-
-    menu->addAction(tr("Danmaku"), this, SLOT(switchDanmaku()), QKeySequence("D"));
-    menu->addSeparator();
-    menu->addAction(tr("Screenshot"), this, SLOT(screenShot()), QKeySequence("S"));
-    menu->addAction(tr("Cut video"), this, SIGNAL(cutVideo()), QKeySequence("C"));
-    setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, &PlayerCore::customContextMenuRequested, this, &PlayerCore::showMenu);
 
     // create danmaku loader
     danmakuLoader = new DanmakuLoader(this);
@@ -437,23 +413,6 @@ bool PlayerCore::event(QEvent *e)
         }
     }
     return true;
-}
-
-void PlayerCore::mouseDoubleClickEvent(QMouseEvent *e)
-{
-    /* On macOS, this event will be emitted without double-click when mouse
-     * is moved to screen edge.
-     * Is it a Qt's bug?
-     */
-    if (e->buttons() == Qt::LeftButton && QRect(0, 0, width(), height()).contains(e->pos(), true))
-        emit fullScreen();
-    e->accept();
-}
-
-// Show menu
-void PlayerCore::showMenu(const QPoint&)
-{
-    menu->exec(QCursor::pos());
 }
 
 // open file

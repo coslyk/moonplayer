@@ -12,7 +12,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    player.cpp \
     playlist.cpp \
     skin.cpp \
     httpget.cpp \
@@ -27,7 +26,6 @@ SOURCES += main.cpp\
     mylistwidget.cpp \
     cutterbar.cpp \
     videocombiner.cpp \
-    classicplayer.cpp \
     plugin.cpp \
     updatechecker.cpp \
     selectiondialog.cpp \
@@ -46,7 +44,7 @@ SOURCES += main.cpp\
 TRANSLATIONS += moonplayer_zh_CN.ts
 
 
-HEADERS  += player.h\
+HEADERS  +=\
     playlist.h \
     skin.h \
     httpget.h \
@@ -68,7 +66,6 @@ HEADERS  += player.h\
     settings_plugins.h \
     videocombiner.h \
     settings_danmaku.h \
-    classicplayer.h \
     playercore.h \
     plugin.h \
     updatechecker.h \

@@ -4,7 +4,6 @@
 #include <QOpenGLWidget>
 #include <QHash>
 class QTimer;
-class QMenu;
 class QProcess;
 class QResizeEvent;
 class QLabel;
@@ -51,11 +50,14 @@ public slots:
     void showText(const QByteArray &text);
     void pauseRendering(void);
     void unpauseRendering(void);
+    void setRatio_16_9(void);
+    void setRatio_16_10(void);
+    void setRatio_4_3(void);
+    void setRatio_0(void);
 
 protected:
     void initializeGL();
     void paintGL();
-    void mouseDoubleClickEvent(QMouseEvent *);
     bool event(QEvent *e);
 
 private:
@@ -63,7 +65,6 @@ private:
     mpv_opengl_cb_context *mpv_gl;
     DanmakuLoader *danmakuLoader;
     QLabel *msgLabel;
-    QMenu *menu;
     QString file;
     QString danmaku;
     int64_t length;
@@ -85,11 +86,6 @@ private:
 
 private slots:
     void loadAss(const QString &assFile);
-    void setRatio_16_9(void);
-    void setRatio_16_10(void);
-    void setRatio_4_3(void);
-    void setRatio_0(void);
-    void showMenu(const QPoint&);
     void swapped(void);
     void maybeUpdate();
 };
