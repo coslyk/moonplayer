@@ -266,18 +266,6 @@ bool PlayerCore::event(QEvent *e)
             videoWidth = videoHeight = 0;
             time = 0;
             emit timeChanged(time);
-            if (openfile_called)
-                openfile_called = false;
-            else // mpv opens file itself
-            {
-                char *filename = mpv_get_property_string(mpv, "filename");
-                char *path = mpv_get_property_string(mpv, "path");
-                file = QString::fromUtf8(path);
-                danmaku.clear();
-                emit newFile(QString::fromUtf8(filename), file);
-                mpv_free(filename);
-                mpv_free(path);
-            }
             break;
 
         case MPV_EVENT_FILE_LOADED:
@@ -479,7 +467,6 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
     speed = 1.0;
     danmaku_visible = true;
 
-    openfile_called = true;
     QByteArray tmp = file.toUtf8();
     const char *args[] = {"loadfile", tmp.constData(), NULL};
     handleMpvError(mpv_command_async(mpv, 2, args));

@@ -21,7 +21,6 @@ signals:
     void paused(void);
     void stopped(void);
     void fullScreen(void);
-    void newFile(const QString &name, const QString &path);
     void timeChanged(int pos);
     void lengthChanged(int len);
     void sizeChanged(const QSize &size);
@@ -76,7 +75,6 @@ private:
     bool reload_when_idle;
     bool emit_stopped_when_idle;
     bool danmaku_visible;
-    bool openfile_called;
     bool unseekable_forced;
     bool rendering_paused;
 
