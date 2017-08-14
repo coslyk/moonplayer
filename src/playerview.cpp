@@ -1,5 +1,6 @@
 #include "playerview.h"
 #include "ui_playerview.h"
+#include "cutterbar.h"
 #include "downloader.h"
 #include "playlist.h"
 #include "playercore.h"
@@ -11,6 +12,7 @@
 #include <QDesktopWidget>
 #include <QGridLayout>
 #include <QMenu>
+#include <QMessageBox>
 #include <QResizeEvent>
 #include <QTimer>
 
@@ -96,7 +98,11 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addAction(tr("Danmaku"), core, SLOT(switchDanmaku()), QKeySequence("D"));
     menu->addSeparator();
     menu->addAction(tr("Screenshot"), core, SLOT(screenShot()), QKeySequence("S"));
-    menu->addAction(tr("Cut video"), core, SIGNAL(cutVideo()), QKeySequence("C"));
+    menu->addAction(tr("Cut video"), this, SLOT(showCutterBar()), QKeySequence("C"));
+
+    // create cutterbar
+    cutterBar = new CutterBar(this);
+    cutterBar->setWindowFlag(Qt::Popup);
 
     // create timer
     hideTimer = new QTimer(this);
@@ -114,6 +120,7 @@ PlayerView::PlayerView(QWidget *parent) :
     connect(playlist, &Playlist::fileSelected, core, &PlayerCore::openFile);
     connect(hideTimer, &QTimer::timeout, this, &PlayerView::hideElements);
     connect(volumeSlider, &QSlider::valueChanged, core, &PlayerCore::setVolume);
+    connect(cutterBar, &CutterBar::newFrame, core, &PlayerCore::jumpTo);
     connect(ui->playlistButton, &QPushButton::clicked, this, &PlayerView::showPlaylist);
     connect(ui->stopButton, &QPushButton::clicked, this, &PlayerView::onStopButton);
     connect(ui->maxButton, &QPushButton::clicked, this, &PlayerView::onMaxButton);
@@ -183,7 +190,7 @@ void PlayerView::resizeEvent(QResizeEvent *e)
     leftBorder->raise();
     rightBorder->raise();
     bottomBorder->raise();
-    ui->titleBar->raise();
+    ui->titleBar->raise();\
 
     e->accept();
 }
@@ -198,6 +205,9 @@ void PlayerView::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_S:
         core->screenShot();
+        break;
+    case Qt::Key_C:
+        showCutterBar();
         break;
     case Qt::Key_D:
         core->switchDanmaku();
@@ -365,6 +375,25 @@ void PlayerView::onSizeChanged(const QSize &sz)
         resize(sz);
 }
 
+// show cutterbar
+void PlayerView::showCutterBar()
+{
+    if (core->state == PlayerCore::STOPPING || core->state == PlayerCore::TV_PLAYING || cutterBar->isVisible())
+        return;
+    QString filename = core->currentFile();
+    if (filename.startsWith("http"))
+    {
+        QMessageBox::warning(this, "Error", tr("Only support cutting local videos!"));
+        return;
+    }
+    if (core->state == PlayerCore::VIDEO_PLAYING) //pause
+        core->changeState();
+    cutterBar->init(filename, core->getLength(), core->getTime());
+    cutterBar->move(mapToGlobal(QPoint(50, 50)));
+    cutterBar->show();
+}
+
+// show playlist
 void PlayerView::showPlaylist()
 {
     QPoint vbPos = ui->controllerWidget->mapToGlobal(ui->playlistButton->pos());
@@ -372,6 +401,7 @@ void PlayerView::showPlaylist()
     playlist->show();
 }
 
+// show volume slider
 void PlayerView::showVolumeSlider()
 {
     QPoint vbPos = ui->controllerWidget->mapToGlobal(ui->volumeButton->pos());

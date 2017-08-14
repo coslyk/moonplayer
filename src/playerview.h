@@ -8,6 +8,7 @@ namespace Ui {
 class PlayerView;
 }
 class Border;
+class CutterBar;
 class Playlist;
 class PlayerCore;
 class QMenu;
@@ -49,6 +50,7 @@ private slots:
     void onStopButton(void);
     void onStopped(void);
     void setFullScreen(void);
+    void showCutterBar(void);
     void showPlaylist(void);
     void showVolumeSlider(void);
     void hideElements(void);
@@ -58,6 +60,7 @@ private:
     Border *leftBorder;
     Border *rightBorder;
     Border *bottomBorder;
+    CutterBar *cutterBar;
     Playlist *playlist;
     PlayerCore *core;
     QMenu *menu;
