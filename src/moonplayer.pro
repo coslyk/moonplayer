@@ -14,7 +14,6 @@ TEMPLATE = app
 SOURCES += main.cpp\
     player.cpp \
     playlist.cpp \
-    webvideo.cpp \
     skin.cpp \
     httpget.cpp \
     downloader.cpp \
@@ -28,7 +27,6 @@ SOURCES += main.cpp\
     mylistwidget.cpp \
     cutterbar.cpp \
     videocombiner.cpp \
-    searcher.cpp \
     classicplayer.cpp \
     plugin.cpp \
     updatechecker.cpp \
@@ -50,7 +48,6 @@ TRANSLATIONS += moonplayer_zh_CN.ts
 
 HEADERS  += player.h\
     playlist.h \
-    webvideo.h \
     skin.h \
     httpget.h \
     downloader.h \
@@ -70,7 +67,6 @@ HEADERS  += player.h\
     cutterbar.h \
     settings_plugins.h \
     videocombiner.h \
-    searcher.h \
     settings_danmaku.h \
     classicplayer.h \
     playercore.h \
