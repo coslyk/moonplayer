@@ -1,6 +1,5 @@
 #include <QApplication>
 #include <QTranslator>
-//#include "classicplayer.h"
 #include "settingsdialog.h"
 #include "settings_player.h"
 #include "playlist.h"
@@ -17,7 +16,6 @@
 #include <Python.h>
 #include "pyapi.h"
 #include "platforms.h"
-//#include "player.h"
 #include "playerview.h"
 #include "plugin.h"
 #ifdef Q_OS_WIN
@@ -162,19 +160,6 @@ int main(int argc, char *argv[])
     QTranslator translator;
     if (translator.load(path.filePath("moonplayer_" + QLocale::system().name())))
         a.installTranslator(&translator);
-
-    /*ClassicPlayer *classic_player = NULL;
-    Player *player = NULL;
-    if (Settings::disableSkin)
-    {
-        classic_player = new ClassicPlayer;
-        classic_player->show();
-    }
-    else
-    {
-        player = new Player;
-        player->show();
-    }*/
 
     PlayerView *player_view = new PlayerView;
     player_view->show();
