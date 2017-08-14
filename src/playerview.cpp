@@ -10,6 +10,8 @@
 #include "settingsdialog.h"
 #include "skin.h"
 #include "utils.h"
+#include "yougetbridge.h"
+#include <QDesktopServices>
 #include <QDesktopWidget>
 #include <QFileInfo>
 #include <QGridLayout>
@@ -103,6 +105,15 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addSeparator();
     menu->addAction(tr("Screenshot"), core, SLOT(screenShot()), QKeySequence("S"));
     menu->addAction(tr("Cut video"), this, SLOT(showCutterBar()), QKeySequence("C"));
+
+    menu->addSeparator();
+    menu->addAction(tr("Online video"), reslibrary, SLOT(show()));
+    menu->addAction(tr("Settings"), settingsDialog, SLOT(show()));
+    menu->addAction(tr("Update you-get"), &you_get_bridge, SLOT(updateYouGet()));
+    menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
+    QMenu *aboutMenu = menu->addMenu(tr("About"));
+    aboutMenu->addAction(tr("Contribute"), this, SLOT(openContributePage()));
+    aboutMenu->addAction(tr("Homepage"), this, SLOT(openHomepage()));
 
     // create cutterbar
     cutterBar = new CutterBar(this);
@@ -511,4 +522,25 @@ void PlayerView::onMaxButton()
         showNormal();
     else
         showMaximized();
+}
+
+//open homepage
+void PlayerView::openHomepage()
+{
+    static QUrl url("https://github.com/coslyk/moonplayer");
+    QDesktopServices::openUrl(url);
+}
+
+//open extension page
+void PlayerView::openExtPage()
+{
+    static QUrl url("https://github.com/coslyk/moonplayer/wiki/BroswerExtension");
+    QDesktopServices::openUrl(url);
+}
+
+//open contribute page
+void PlayerView::openContributePage()
+{
+    static QUrl url("https://github.com/coslyk/moonplayer/wiki/Contribute");
+    QDesktopServices::openUrl(url);
 }

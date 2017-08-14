@@ -57,6 +57,9 @@ private slots:
     void showPlaylist(void);
     void showVolumeSlider(void);
     void hideElements(void);
+    void openHomepage(void);
+    void openContributePage(void);
+    void openExtPage(void);
 
 private:
     Ui::PlayerView *ui;
