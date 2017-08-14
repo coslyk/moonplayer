@@ -27,8 +27,6 @@ QString Settings::hwdec;
 QString Settings::proxy;
 QString Settings::downloadDir;
 QString Settings::danmakuFont;
-QStringList Settings::skinList;
-int Settings::currentSkin;
 int Settings::port;
 int Settings::cacheSize;
 int Settings::maxTasks;
@@ -36,8 +34,6 @@ int Settings::volume;
 int Settings::danmakuSize;
 int Settings::durationScrolling;
 int Settings::durationStill;
-bool Settings::autoResize;
-bool Settings::disableSkin;
 bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 bool Settings::autoCloseWindow;
@@ -58,8 +54,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(ui->fontPushButton, &QPushButton::clicked, this, &SettingsDialog::onFontButton);
     connect(ui->viewPluginsButton, SIGNAL(clicked()), this, SLOT(showPluginsMsg()));
 
-    ui->skinComboBox->addItems(skinList);
-
     setMinimumSize(minimumSize() * uiScale);
 
 #ifdef Q_OS_LINUX
@@ -78,14 +72,11 @@ void SettingsDialog::loadSettings()
 {
     ui->hwdecComboBox->setCurrentIndex(ui->hwdecComboBox->findText(hwdec));
     ui->aoComboBox->setCurrentIndex(ui->aoComboBox->findText(aout));
-    ui->skinComboBox->setCurrentIndex(currentSkin);
     ui->proxyEdit->setText(proxy);
     ui->portEdit->setText(QString::number(port));
     ui->cacheSpinBox->setValue(cacheSize);
     ui->maxTaskSpinBox->setValue(maxTasks);
     ui->dirButton->setText(downloadDir);
-    ui->resizeCheckBox->setChecked(autoResize);
-    ui->disableSkinCheckBox->setChecked(disableSkin);
     ui->rememberCheckBox->setChecked(rememberUnfinished);
     ui->combineCheckBox->setChecked(autoCombine);
     ui->autoCloseWindowCheckBox->setChecked(autoCloseWindow);
@@ -126,9 +117,6 @@ void SettingsDialog::saveSettings()
     cacheSize = ui->cacheSpinBox->value();
     maxTasks = ui->maxTaskSpinBox->value();
     downloadDir = ui->dirButton->text();
-    currentSkin = ui->skinComboBox->currentIndex();
-    autoResize = ui->resizeCheckBox->isChecked();
-    disableSkin = ui->disableSkinCheckBox->isChecked();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
     autoCombine = ui->combineCheckBox->isChecked();
     autoCloseWindow = ui->autoCloseWindowCheckBox->isChecked();
@@ -151,9 +139,6 @@ SettingsDialog::~SettingsDialog()
     //open file
     QSettings settings("moonsoft", "moonplayer");
 
-    settings.setValue("Player/current_skin", currentSkin);
-    settings.setValue("Player/auto_resize", autoResize);
-    settings.setValue("Player/disable_skin", disableSkin);
     settings.setValue("Player/remember_unfinished", rememberUnfinished);
     settings.setValue("Video/hwdec", hwdec);
     settings.setValue("Audio/out", aout);
@@ -185,9 +170,6 @@ void initSettings()
     hwdec = settings.value("Video/hwdec", "auto").toString();
     aout = settings.value("Audio/out", "auto").toString();
     volume = settings.value("Audio/volume", 10).toInt();
-    currentSkin = settings.value("Player/current_skin", 0).toInt();
-    autoResize = settings.value("Player/auto_resize", true).toBool();
-    disableSkin = settings.value("Player/disable_skin", false).toBool();
     rememberUnfinished = settings.value("Player/remember_unfinished", true).toBool();
     proxy = settings.value("Net/proxy").toString();
     port = settings.value("Net/port").toInt();
@@ -212,15 +194,6 @@ void initSettings()
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
     else
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
-
-    //init skins
-    QDir skinDir(getAppPath());
-    skinDir.cd("skins");
-    skinList = skinDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-    skinDir.cd(getUserPath() + "/skins");
-    skinList.append(skinDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name));
-    if (currentSkin >= skinList.size())
-        currentSkin = 0;
 }
 
 void SettingsDialog::showPluginsMsg()

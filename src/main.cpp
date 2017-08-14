@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <QTranslator>
 #include "settingsdialog.h"
-#include "settings_player.h"
 #include "playlist.h"
 #include "accessmanager.h"
 #include "updatechecker.h"

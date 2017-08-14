@@ -30,31 +30,7 @@
        <property name="fieldGrowthPolicy">
         <enum>QFormLayout::ExpandingFieldsGrow</enum>
        </property>
-       <item row="2" column="0">
-        <widget class="QLabel" name="skinLabel">
-         <property name="text">
-          <string>Skin</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="skinComboBox"/>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QCheckBox" name="disableSkinCheckBox">
-         <property name="text">
-          <string>Disable skin (Need restart)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QCheckBox" name="resizeCheckBox">
-         <property name="text">
-          <string>Resize window automatically</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
+       <item row="3" column="0" colspan="2">
         <widget class="QCheckBox" name="rememberCheckBox">
          <property name="text">
           <string>Remember unfinished clips</string>
