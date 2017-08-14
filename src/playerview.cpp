@@ -6,6 +6,7 @@
 #include "playercore.h"
 #include "reslibrary.h"
 #include "settings_player.h"
+#include "settings_audio.h"
 #include "settingsdialog.h"
 #include "skin.h"
 #include "utils.h"
@@ -123,6 +124,7 @@ PlayerView::PlayerView(QWidget *parent) :
     connect(playlist, &Playlist::fileSelected, core, &PlayerCore::openFile);
     connect(hideTimer, &QTimer::timeout, this, &PlayerView::hideElements);
     connect(volumeSlider, &QSlider::valueChanged, core, &PlayerCore::setVolume);
+    connect(volumeSlider, &QSlider::valueChanged, this, &PlayerView::saveVolume);
     connect(cutterBar, &CutterBar::newFrame, core, &PlayerCore::jumpTo);
     connect(ui->playlistButton, &QPushButton::clicked, this, &PlayerView::showPlaylist);
     connect(ui->stopButton, &QPushButton::clicked, this, &PlayerView::onStopButton);
@@ -135,6 +137,8 @@ PlayerView::PlayerView(QWidget *parent) :
     connect(ui->timeSlider, &QSlider::sliderPressed, this, &PlayerView::onTimeSliderPressed);
     connect(ui->timeSlider, &QSlider::valueChanged, this, &PlayerView::onTimeSliderValueChanged);
     connect(ui->timeSlider, &QSlider::sliderReleased, this, &PlayerView::onTimeSliderReleased);
+
+    volumeSlider->setValue(Settings::volume);
 }
 
 PlayerView::~PlayerView()
@@ -455,6 +459,11 @@ void PlayerView::showVolumeSlider()
     QPoint vbPos = ui->controllerWidget->mapToGlobal(ui->volumeButton->pos());
     volumeSlider->move(vbPos.x(), vbPos.y() - volumeSlider->height());
     volumeSlider->show();
+}
+
+void PlayerView::saveVolume(int vol)
+{
+    Settings::volume = vol;
 }
 
 // show or exit fullscreen
