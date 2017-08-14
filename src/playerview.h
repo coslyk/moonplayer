@@ -45,6 +45,7 @@ private slots:
     void onTimeSliderValueChanged(int time);
     void onTimeSliderReleased(void);
     void onSizeChanged(const QSize &sz);
+    void onMaxButton(void);
     void onStopButton(void);
     void onStopped(void);
     void setFullScreen(void);

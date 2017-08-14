@@ -116,6 +116,7 @@ PlayerView::PlayerView(QWidget *parent) :
     connect(volumeSlider, &QSlider::valueChanged, core, &PlayerCore::setVolume);
     connect(ui->playlistButton, &QPushButton::clicked, this, &PlayerView::showPlaylist);
     connect(ui->stopButton, &QPushButton::clicked, this, &PlayerView::onStopButton);
+    connect(ui->maxButton, &QPushButton::clicked, this, &PlayerView::onMaxButton);
     connect(ui->playButton, &QPushButton::clicked, core, &PlayerCore::changeState);
     connect(ui->pauseButton, &QPushButton::clicked, core, &PlayerCore::changeState);
     connect(ui->volumeButton, &QPushButton::clicked, this, &PlayerView::showVolumeSlider);
@@ -378,7 +379,7 @@ void PlayerView::showVolumeSlider()
     volumeSlider->show();
 }
 
-
+// show or exit fullscreen
 void PlayerView::setFullScreen()
 {
     // avoid freezing
@@ -413,3 +414,14 @@ void PlayerView::changeEvent(QEvent *e)
     QWidget::changeEvent(e);
 }
 #endif
+
+// maximize or normalize window
+void PlayerView::onMaxButton()
+{
+    if (isFullScreen())
+        return;
+    else if (isMaximized())
+        showNormal();
+    else
+        showMaximized();
+}

@@ -20,7 +20,7 @@
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>MoonPlayer</string>
   </property>
   <widget class="QWidget" name="controllerWidget" native="true">
    <property name="geometry">
@@ -323,22 +323,6 @@ background: rgba(50, 50, 50, 230);
    <hints>
     <hint type="sourcelabel">
      <x>265</x>
-     <y>25</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>224</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>maxButton</sender>
-   <signal>clicked()</signal>
-   <receiver>PlayerView</receiver>
-   <slot>showMaximized()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>341</x>
      <y>25</y>
     </hint>
     <hint type="destinationlabel">
