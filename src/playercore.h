@@ -63,7 +63,6 @@ private:
     mpv_handle *mpv;
     mpv_opengl_cb_context *mpv_gl;
     DanmakuLoader *danmakuLoader;
-    QLabel *msgLabel;
     QString file;
     QString danmaku;
     int64_t length;

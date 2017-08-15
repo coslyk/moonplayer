@@ -64,7 +64,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     mpv_set_option_string(mpv, "screenshot-directory", QDir::homePath().toUtf8().constData());
     mpv_set_option_string(mpv, "reset-on-next-file", "speed,video-aspect,sub-file,sub-delay,sub-visibility");
     mpv_set_option_string(mpv, "vo", "opengl-cb");
-    mpv_request_log_messages(mpv, "info");
+    mpv_request_log_messages(mpv, "warn");
 
     if (Settings::aout != "auto")
         mpv_set_option_string(mpv, "ao", Settings::aout.toUtf8().constData());
@@ -111,12 +111,6 @@ PlayerCore::PlayerCore(QWidget *parent) :
     }
     mpv_opengl_cb_set_update_callback(mpv_gl, PlayerCore::on_update, (void*) this);
     connect(this, &PlayerCore::frameSwapped, this, &PlayerCore::swapped);
-
-    // catch message
-    msgLabel = new QLabel(this);
-    msgLabel->move(0, 0);
-    msgLabel->resize(QSize(400, 30));
-    msgLabel->hide();
 
     // create danmaku loader
     danmakuLoader = new DanmakuLoader(this);
@@ -270,7 +264,6 @@ bool PlayerCore::event(QEvent *e)
 
         case MPV_EVENT_FILE_LOADED:
         {
-            msgLabel->hide();
             int f = 0;
             handleMpvError(mpv_set_property_async(mpv, 2, "pause", MPV_FORMAT_FLAG, &f));
         }
@@ -327,12 +320,8 @@ bool PlayerCore::event(QEvent *e)
 
         case MPV_EVENT_LOG_MESSAGE:
         {
-            static QString format = "<span style=\" color:#00ff00;\">%1</span>";
             mpv_event_log_message *msg = static_cast<mpv_event_log_message*>(event->data);
-            if (msg && msgLabel->isVisible())
-                msgLabel->setText(format.arg(QString::fromUtf8(msg->text)));
-            if (msg->log_level < MPV_LOG_LEVEL_INFO)
-                fprintf(stderr, "[%s] %s", msg->prefix, msg->text);
+            fprintf(stderr, "[%s] %s", msg->prefix, msg->text);
             break;
         }
         case MPV_EVENT_PROPERTY_CHANGE:
@@ -463,7 +452,6 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
         unseekable_forced = false;
     }
 
-    msgLabel->show();
     speed = 1.0;
     danmaku_visible = true;
 

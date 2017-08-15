@@ -29,14 +29,14 @@ SOURCES += main.cpp\
     plugin.cpp \
     updatechecker.cpp \
     selectiondialog.cpp \
-    playercore_mpv.cpp \
-    danmakudelaygetter_mpv.cpp \
     danmakuloader.cpp \
     accessmanager.cpp \
     platforms.cpp \
     yougetbridge.cpp \
     downloaderitem.cpp \
-    playerview.cpp
+    playerview.cpp \
+    playercore.cpp \
+    danmakudelaygetter.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
