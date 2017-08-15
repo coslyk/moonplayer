@@ -35,4 +35,4 @@ Explore movies in Internet!
 
 Support danmaku!
 
-<img src="screenshots/screenshot2.png?raw=true" title="screenshot3" />
+<img src="screenshots/screenshot3.png?raw=true" title="screenshot3" />
