@@ -14,6 +14,7 @@
 #include "yougetbridge.h"
 #include <QDesktopServices>
 #include <QDesktopWidget>
+#include <QFileDialog>
 #include <QFileInfo>
 #include <QGridLayout>
 #include <QMenu>
@@ -104,6 +105,7 @@ PlayerView::PlayerView(QWidget *parent) :
     QMenu *sub_menu = new QMenu(tr("Subtitle"));
     sub_menu->addAction(tr("Visible"), core, SLOT(switchDanmaku()), QKeySequence("D"));
     sub_menu->addAction(tr("Select"), this, SLOT(selectSubtitle()));
+    sub_menu->addAction(tr("Load from file"), this, SLOT(addSubtitle()));
 
     menu = new QMenu(this);
     menu->addMenu(ratio_menu);
@@ -530,7 +532,16 @@ void PlayerView::changeEvent(QEvent *e)
 #endif
 
 
-// select subtitle
+// add & select subtitle
+void PlayerView::addSubtitle()
+{
+    QString videoFile = core->currentFile();
+    QString dir = videoFile.startsWith('/') ? QFileInfo(videoFile).path() : QDir::homePath();
+    QString subFile = QFileDialog::getOpenFileName(this, tr("Open subtitle file"), dir);
+    if (!subFile.isEmpty())
+        core->openSubtitle(subFile);
+}
+
 void PlayerView::selectSubtitle()
 {
     static SelectionDialog *dialog = NULL;
