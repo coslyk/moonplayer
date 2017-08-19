@@ -8,20 +8,13 @@ SelectionDialog::SelectionDialog(QWidget *parent) :
     ui->setupUi(this);
 }
 
-QString SelectionDialog::showDialog(const QStringList &list, const QString &label, const QString &checkboxText)
+QString SelectionDialog::showDialog(const QStringList &list, const QString &label)
 {
     ui->listWidget->clear();
     foreach (QString item, list) {
         ui->listWidget->addItem(item);
     }
     ui->label->setText(label);
-    if (checkboxText.isEmpty())
-        ui->checkBox->hide();
-    else
-    {
-        ui->checkBox->setText(checkboxText);
-        ui->checkBox->show();
-    }
 
     int state = exec();
     if (state == QDialog::Accepted && ui->listWidget->currentItem())
@@ -30,10 +23,21 @@ QString SelectionDialog::showDialog(const QStringList &list, const QString &labe
         return QString();
 }
 
-bool SelectionDialog::isChecked()
+int SelectionDialog::showDialog_Index(const QStringList &list, const QString &label)
 {
-    return ui->checkBox->isChecked();
+    ui->listWidget->clear();
+    foreach (QString item, list) {
+        ui->listWidget->addItem(item);
+    }
+    ui->label->setText(label);
+
+    int state = exec();
+    if (state == QDialog::Accepted && ui->listWidget->currentItem())
+        return ui->listWidget->currentRow();
+    else
+        return -1;
 }
+
 
 SelectionDialog::~SelectionDialog()
 {

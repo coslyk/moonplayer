@@ -51,6 +51,7 @@ private slots:
     void onMaxButton(void);
     void onStopButton(void);
     void onStopped(void);
+    void selectSubtitle(void);
     void saveVolume(int vol);
     void setFullScreen(void);
     void showCutterBar(void);

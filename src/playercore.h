@@ -55,6 +55,7 @@ public slots:
     void setRatio_16_10(void);
     void setRatio_4_3(void);
     void setRatio_0(void);
+    void setSid(int64_t sid);
 
 protected:
     void initializeGL();

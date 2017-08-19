@@ -5,6 +5,7 @@
 #include "playlist.h"
 #include "playercore.h"
 #include "reslibrary.h"
+#include "selectiondialog.h"
 #include "settings_player.h"
 #include "settings_audio.h"
 #include "settingsdialog.h"
@@ -100,11 +101,15 @@ PlayerView::PlayerView(QWidget *parent) :
     speed_menu->addAction(tr("Speed down"), core, SLOT(speedDown()), QKeySequence("Ctrl+Left"));
     speed_menu->addAction(tr("Default"), core, SLOT(speedSetToDefault()), QKeySequence("R"));
 
+    QMenu *sub_menu = new QMenu(tr("Subtitle"));
+    sub_menu->addAction(tr("Visible"), core, SLOT(switchDanmaku()), QKeySequence("D"));
+    sub_menu->addAction(tr("Select"), this, SLOT(selectSubtitle()));
+
     menu = new QMenu(this);
     menu->addMenu(ratio_menu);
     menu->addMenu(speed_menu);
+    menu->addMenu(sub_menu);
 
-    menu->addAction(tr("Danmaku"), core, SLOT(switchDanmaku()), QKeySequence("D"));
     menu->addSeparator();
     menu->addAction(tr("Screenshot"), core, SLOT(screenShot()), QKeySequence("S"));
     menu->addAction(tr("Cut video"), this, SLOT(showCutterBar()), QKeySequence("C"));
@@ -523,6 +528,19 @@ void PlayerView::changeEvent(QEvent *e)
     QWidget::changeEvent(e);
 }
 #endif
+
+
+// select subtitle
+void PlayerView::selectSubtitle()
+{
+    static SelectionDialog *dialog = NULL;
+    if (dialog == NULL)
+        dialog = new SelectionDialog(this);
+    int sid = dialog->showDialog_Index(core->getSubtitleList(), tr("Select subtitle:"));
+    if (sid != -1)
+        core->setSid(sid);
+}
+
 
 // maximize or normalize window
 void PlayerView::onMaxButton()

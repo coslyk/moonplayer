@@ -54,11 +54,6 @@ PlayerCore::PlayerCore(QWidget *parent) :
 
     // set mpv options
     mpv_set_option_string(mpv, "softvol", "yes");         // mpv handles the volume
-    mpv_set_option_string(mpv, "input-cursor", "no");     // We handle cursor
-    mpv_set_option_string(mpv, "cursor-autohide", "no");
-    mpv_set_option_string(mpv, "input-default-bindings", "no");
-    mpv_set_option_string(mpv, "input-vo-keyboard", "no");
-    mpv_set_option_string(mpv, "osc", "no");
     mpv_set_option_string(mpv, "ytdl", "no");             // We handle video url parsing
     mpv_set_option_string(mpv, "cache", QByteArray::number(Settings::cacheSize).constData());
     mpv_set_option_string(mpv, "screenshot-directory", QDir::homePath().toUtf8().constData());
@@ -551,6 +546,15 @@ void PlayerCore::setVolume(int volume)
         showText("Volume: " + QByteArray::number(vol));
     }
 }
+
+// set sid
+void PlayerCore::setSid(int64_t sid)
+{
+    if (state == STOPPING)
+        return;
+    handleMpvError(mpv_set_property_async(mpv, 0, "sid", MPV_FORMAT_INT64, &sid));
+}
+
 
 void PlayerCore::setProgress(int pos)
 {
