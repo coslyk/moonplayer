@@ -93,6 +93,8 @@ PlayerCore::PlayerCore(QWidget *parent) :
     mpv_observe_property(mpv, 0, "playback-time",    MPV_FORMAT_DOUBLE);
     mpv_observe_property(mpv, 0, "paused-for-cache", MPV_FORMAT_FLAG);
     mpv_observe_property(mpv, 0, "core-idle",        MPV_FORMAT_FLAG);
+    mpv_observe_property(mpv, 0, "track-list",       MPV_FORMAT_NODE);
+    mpv_observe_property(mpv, 0, "sid",              MPV_FORMAT_INT64);
     mpv_set_wakeup_callback(mpv, postEvent, this);
 
     // initialize mpv
@@ -114,7 +116,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
 
     // create danmaku loader
     danmakuLoader = new DanmakuLoader(this);
-    connect(danmakuLoader, &DanmakuLoader::finished, this, &PlayerCore::loadAss);
+    connect(danmakuLoader, &DanmakuLoader::finished, this, &PlayerCore::openSubtitle);
 
     // set state
     state = STOPPING;
@@ -179,7 +181,7 @@ void PlayerCore::maybeUpdate()
 
 void PlayerCore::on_update(void *ctx)
 {
-    QMetaObject::invokeMethod((PlayerCore*) ctx, "maybeUpdate");
+    QMetaObject::invokeMethod((PlayerCore*) ctx, "maybeUpdate", Qt::QueuedConnection);
 }
 
 void PlayerCore::pauseRendering()
@@ -384,6 +386,48 @@ bool PlayerCore::event(QEvent *e)
                         showText("");
                 }
             }
+            else if (propName == "sid") // set danmaku's delay
+            {
+                int sid = *(int64_t *) prop->data;
+                double tmp = 0;
+                if (subtitleList[sid] == "moonplayer_danmaku.ass")
+                    handleMpvError(mpv_set_property_async(mpv, 2, "sub-delay", MPV_FORMAT_DOUBLE, &danmakuDelay));
+                else
+                    handleMpvError(mpv_set_property_async(mpv, 2, "sub-delay", MPV_FORMAT_DOUBLE, &tmp));
+            }
+            else if (propName == "track-list") // read tracks info
+            {
+                subtitleList.clear();
+                mpv_node *node = (mpv_node *) prop->data;
+                for (int i = 0; i < node->u.list->num; i++)
+                {
+                    mpv_node_list *item = node->u.list->values[i].u.list;
+                    QByteArray type;
+                    int id;
+                    QString title;
+                    for (int n = 0; n < item->num; n++)
+                    {
+                        if (!strcmp(item->keys[n], "type"))
+                            type = item->values[n].u.string;
+                        else if (!strcmp(item->keys[n], "id"))
+                            id = item->values[n].u.int64;
+                        else if (!strcmp(item->keys[n], "title"))
+                            title = QString::fromUtf8(item->values[n].u.string);
+                    }
+                    // subtitles
+                    if (type == "sub")
+                    {
+                        if (subtitleList.size() <= id)
+                        {
+                            for (int j = subtitleList.size(); j < id; j++)
+                                subtitleList.append(QString());
+                            subtitleList.append(title);
+                        }
+                        else
+                            subtitleList[id] = title;
+                    }
+                }
+            }
             break;
         }
         default: break;
@@ -416,6 +460,14 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
             f.close();
         }
     }
+
+    if (this->danmaku.contains(" http")) // danmaku has delay
+    {
+        danmakuDelay = - danmaku.section(' ', 0, 0).toDouble();
+        this->danmaku = this->danmaku.section(' ', 1);
+    }
+    else
+        danmakuDelay = 0;
 
     // set referer, user-agent and seekability
     if (file.startsWith("http:") || file.startsWith("https:"))
@@ -525,26 +577,16 @@ void PlayerCore::jumpTo(int pos)
 void PlayerCore::loadDanmaku()
 {
     if (!danmaku.isEmpty() && state != STOPPING)
-    {
-        if (danmaku.contains(" http"))
-            danmakuLoader->load(danmaku.section(' ', 1), videoWidth, videoHeight); //danmaku has delay
-        else
-            danmakuLoader->load(danmaku, videoWidth, videoHeight);
-    }
+        danmakuLoader->load(danmaku, videoWidth, videoHeight);
 }
 
-void PlayerCore::loadAss(const QString &assFile)
+void PlayerCore::openSubtitle(const QString &subFile)
 {
     if (state == STOPPING)
         return;
-    QByteArray tmp = assFile.toUtf8();
+    QByteArray tmp = subFile.toUtf8();
     const char *args[] = {"sub-add", tmp.constData(), "select", NULL};
     handleMpvError(mpv_command_async(mpv, 2, args));
-    if (danmaku.contains(" http")) // has delay
-    {
-        double delay = - danmaku.section(' ', 0, 0).toDouble();
-        handleMpvError(mpv_set_property_async(mpv, 2, "sub-delay", MPV_FORMAT_DOUBLE, &delay));
-    }
 }
 
 void PlayerCore::switchDanmaku()

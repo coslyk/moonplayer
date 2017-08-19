@@ -31,8 +31,9 @@ public:
     virtual ~PlayerCore();
     State state;
     inline QString currentFile() { return file; }
-    inline int getTime() {return time;}
-    inline int getLength() {return length;}
+    inline int getTime() { return time; }
+    inline int getLength() { return length; }
+    inline const QStringList &getSubtitleList() { return subtitleList; }
 
 public slots:
     void stop(void);
@@ -41,6 +42,7 @@ public slots:
     void setProgress(int pos);
     void setVolume(int volume);
     void openFile(const QString &file, const QString &danmaku = QString());
+    void openSubtitle(const QString &subFile);
     void screenShot(void);
     void speedUp(void);
     void speedDown(void);
@@ -65,11 +67,13 @@ private:
     DanmakuLoader *danmakuLoader;
     QString file;
     QString danmaku;
+    QStringList subtitleList;
     int64_t length;
     int64_t time;
     int64_t videoWidth;
     int64_t videoHeight;
     double speed;
+    double danmakuDelay;
     bool no_emit_stopped;
     bool reload_when_idle;
     bool emit_stopped_when_idle;
@@ -82,7 +86,6 @@ private:
     static void on_update(void *ctx);
 
 private slots:
-    void loadAss(const QString &assFile);
     void swapped(void);
     void maybeUpdate();
 };
