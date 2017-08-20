@@ -163,6 +163,7 @@ void YouGetBridge::onFinished()
                 QJsonArray json_urls = selectedItem["src"].toArray();
                 QStringList names, urls;
                 QString referer, ua, danmaku_url;
+                bool seekable = obj["seekable"].toBool();
                 if (obj.contains("referer"))
                     referer = obj["referer"].toString();
                 if (obj.contains("user-agent"))
@@ -189,7 +190,7 @@ void YouGetBridge::onFinished()
                     urls << json_urls[i].toString();
                 }
 
-                // Bind referer and use-agent
+                // Bind referer and use-agent, set unseekable-list
                 if (!referer.isEmpty())
                 {
                     foreach (QString url, urls)
@@ -199,6 +200,12 @@ void YouGetBridge::onFinished()
                 {
                     foreach (QString url, urls)
                         ua_table[QUrl(url).host()] = ua.toUtf8();
+                }
+                if (!seekable)
+                {
+                    foreach (QString url, urls) {
+                        unseekable_hosts.append(QUrl(url).host());
+                    }
                 }
 
                 // Download

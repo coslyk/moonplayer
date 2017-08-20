@@ -15,6 +15,9 @@ _filepath = os.path.dirname(sys.argv[0])
 sys.path.insert(1, os.path.join(_filepath, _srcdir))
 import you_get
 
+# List of unseekable video streams
+unseekables = ('Sohu.com',)
+
 
 # Fix: print unusable info under json mode
 stdout_bak = sys.stdout
@@ -28,6 +31,7 @@ def output(video_extractor, pretty_print=True):
     out['url'] = ve.url
     out['title'] = ve.title
     out['site'] = ve.name
+    out['seekable'] = not ve.name in unseekables
     out['streams'] = ve.streams
     if getattr(ve, 'audiolang', None):
         out['audiolang'] = ve.audiolang
