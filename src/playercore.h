@@ -62,6 +62,11 @@ public slots:
     void setRatio_4_3(void);
     void setRatio_0(void);
     void setSid(int64_t sid);
+    void setBrightness(int64_t v);
+    void setContrast(int64_t v);
+    void setSaturation(int64_t v);
+    void setGamma(int64_t v);
+    void setHue(int64_t v);
 
 protected:
     void initializeGL();

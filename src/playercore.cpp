@@ -568,7 +568,38 @@ void PlayerCore::setSid(int64_t sid)
     handleMpvError(mpv_set_property_async(mpv, 0, "sid", MPV_FORMAT_INT64, &sid));
 }
 
+// set brightness, constrast, saturation, gamma and hue
+void PlayerCore::setBrightness(int64_t v)
+{
+    v *= 10;
+    handleMpvError(mpv_set_property_async(mpv, 2, "brightness", MPV_FORMAT_INT64, &v));
+}
 
+void PlayerCore::setContrast(int64_t v)
+{
+    v *= 10;
+    handleMpvError(mpv_set_property_async(mpv, 2, "contrast", MPV_FORMAT_INT64, &v));
+}
+
+void PlayerCore::setSaturation(int64_t v)
+{
+    v *= 10;
+    handleMpvError(mpv_set_property_async(mpv, 2, "saturation", MPV_FORMAT_INT64, &v));
+}
+
+void PlayerCore::setGamma(int64_t v)
+{
+    v *= 10;
+    handleMpvError(mpv_set_property_async(mpv, 2, "gamma", MPV_FORMAT_INT64, &v));
+}
+
+void PlayerCore::setHue(int64_t v)
+{
+    v *= 10;
+    handleMpvError(mpv_set_property_async(mpv, 2, "hue", MPV_FORMAT_INT64, &v));
+}
+
+// set progress
 void PlayerCore::setProgress(int pos)
 {
     if (state == STOPPING)

@@ -36,13 +36,15 @@ PlayerView::PlayerView(QWidget *parent) :
         buttons[i]->setIconSize(QSize(16, 16) * Settings::uiScale);
         buttons[i]->setFixedSize(QSize(32, 32) * Settings::uiScale);
     }
-    QPushButton *buttons2[] = {ui->playlistButton, ui->searchButton, ui->volumeButton, ui->settingsButton};
-    for (int i = 0; i < 4; i++)
+    QPushButton *buttons2[] = {ui->playlistButton, ui->searchButton, ui->volumeButton, ui->settingsButton, ui->hideEqualizerButton};
+    for (int i = 0; i < 5; i++)
     {
         buttons2[i]->setIconSize(QSize(16, 16) * Settings::uiScale);
         buttons2[i]->setFixedSize(QSize(24, 20) * Settings::uiScale);
     }
     ui->controllerWidget->setFixedSize(QSize(450, 70) * Settings::uiScale);
+    ui->equalizerWidget->setFixedSize(QSize(350, 180) * Settings::uiScale);
+    ui->equalizerWidget->hide();
     ui->closeButton->setFixedSize(QSize(16, 16) * Settings::uiScale);
     ui->minButton->setFixedSize(QSize(16, 16) * Settings::uiScale);
     ui->maxButton->setFixedSize(QSize(16, 16) * Settings::uiScale);
@@ -99,6 +101,8 @@ PlayerView::PlayerView(QWidget *parent) :
     video_menu->addAction("16:9", core, SLOT(setRatio_16_9()));
     video_menu->addAction("16:10", core, SLOT(setRatio_16_10()));
     video_menu->addAction(tr("Default"), core, SLOT(setRatio_0()));
+    video_menu->addSeparator();
+    video_menu->addAction(tr("Equalizer"), ui->equalizerWidget, SLOT(show()));
 
     QMenu *audio_menu = new QMenu(tr("Audio"));
     audio_menu->addAction(tr("Stereo"), core, SLOT(setChannel_Stereo()));
@@ -121,8 +125,8 @@ PlayerView::PlayerView(QWidget *parent) :
     menu = new QMenu(this);
     menu->addMenu(video_menu);
     menu->addMenu(audio_menu);
-    menu->addMenu(speed_menu);
     menu->addMenu(sub_menu);
+    menu->addMenu(speed_menu);
 
     menu->addSeparator();
     menu->addAction(tr("Screenshot"), core, SLOT(screenShot()), QKeySequence("S"));
@@ -170,6 +174,12 @@ PlayerView::PlayerView(QWidget *parent) :
     connect(ui->timeSlider, &QSlider::sliderPressed, this, &PlayerView::onTimeSliderPressed);
     connect(ui->timeSlider, &QSlider::valueChanged, this, &PlayerView::onTimeSliderValueChanged);
     connect(ui->timeSlider, &QSlider::sliderReleased, this, &PlayerView::onTimeSliderReleased);
+
+    connect(ui->brightnessSlider, &QSlider::valueChanged, core, &PlayerCore::setBrightness);
+    connect(ui->contrastSlider, &QSlider::valueChanged, core, &PlayerCore::setContrast);
+    connect(ui->saturationSlider, &QSlider::valueChanged, core, &PlayerCore::setSaturation);
+    connect(ui->gammaSlider, &QSlider::valueChanged, core, &PlayerCore::setGamma);
+    connect(ui->hueSlider, &QSlider::valueChanged, core, &PlayerCore::setHue);
 
     volumeSlider->setValue(Settings::volume);
 }
@@ -275,6 +285,12 @@ void PlayerView::resizeEvent(QResizeEvent *e)
     int c_y = e->size().height() - 130;
     ui->controllerWidget->move(c_x, c_y);
     ui->controllerWidget->raise();
+
+    // move and resize equalizer
+    int e_x = (e->size().width() - ui->equalizerWidget->width()) / 2;
+    int e_y = (e->size().height() - ui->equalizerWidget->height()) / 2;
+    ui->equalizerWidget->move(e_x, e_y);
+    ui->equalizerWidget->raise();
 
     // raise borders and titlebar
     leftBorder->raise();
@@ -412,7 +428,8 @@ void PlayerView::hideElements()
 {
     ui->controllerWidget->hide();
     ui->titleBar->hide();
-    setCursor(QCursor(Qt::BlankCursor));
+    if (!ui->equalizerWidget->isVisible())
+        setCursor(QCursor(Qt::BlankCursor));
 }
 
 void PlayerView::onLengthChanged(int len)

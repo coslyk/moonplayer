@@ -25,8 +25,8 @@
   <widget class="QWidget" name="controllerWidget" native="true">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>230</y>
+     <x>50</x>
+     <y>340</y>
      <width>561</width>
      <height>70</height>
     </rect>
@@ -79,42 +79,75 @@ QSlider::add-page:horizontal{
       </property>
      </widget>
     </item>
-    <item row="0" column="8">
-     <widget class="QPushButton" name="searchButton">
+    <item row="1" column="0" colspan="2">
+     <widget class="QLabel" name="timeLabel">
+      <property name="text">
+       <string>00:00</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="settingsButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
       <property name="icon">
        <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/net.png</normaloff>:/modern_ui/net.png</iconset>
+        <normaloff>:/modern_ui/settings.png</normaloff>:/modern_ui/settings.png</iconset>
       </property>
       <property name="flat">
        <bool>true</bool>
       </property>
      </widget>
     </item>
-    <item row="0" column="4">
-     <widget class="QPushButton" name="playButton">
+    <item row="0" column="5">
+     <widget class="QPushButton" name="pauseButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
       <property name="icon">
        <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/play.png</normaloff>:/modern_ui/play.png</iconset>
+        <normaloff>:/modern_ui/pause.png</normaloff>:/modern_ui/pause.png</iconset>
       </property>
       <property name="flat">
        <bool>true</bool>
       </property>
      </widget>
     </item>
-    <item row="0" column="6">
-     <widget class="QPushButton" name="stopButton">
+    <item row="0" column="7">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>147</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="0" column="3">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>143</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="volumeButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
       <property name="icon">
        <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/stop.png</normaloff>:/modern_ui/stop.png</iconset>
+        <normaloff>:/modern_ui/volume.png</normaloff>:/modern_ui/volume.png</iconset>
       </property>
       <property name="flat">
        <bool>true</bool>
@@ -135,83 +168,50 @@ QSlider::add-page:horizontal{
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QPushButton" name="volumeButton">
+    <item row="0" column="6">
+     <widget class="QPushButton" name="stopButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
       <property name="icon">
        <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/volume.png</normaloff>:/modern_ui/volume.png</iconset>
+        <normaloff>:/modern_ui/stop.png</normaloff>:/modern_ui/stop.png</iconset>
       </property>
       <property name="flat">
        <bool>true</bool>
       </property>
      </widget>
     </item>
-    <item row="0" column="3">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+    <item row="0" column="4">
+     <widget class="QPushButton" name="playButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>143</width>
-        <height>20</height>
-       </size>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/play.png</normaloff>:/modern_ui/play.png</iconset>
       </property>
-     </spacer>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="8">
+     <widget class="QPushButton" name="searchButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/net.png</normaloff>:/modern_ui/net.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
     <item row="1" column="8" colspan="3">
      <widget class="QLabel" name="durationLabel">
-      <property name="text">
-       <string>00:00</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="7">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>147</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="0" column="5">
-     <widget class="QPushButton" name="pauseButton">
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
-      <property name="icon">
-       <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/pause.png</normaloff>:/modern_ui/pause.png</iconset>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="settingsButton">
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
-      <property name="icon">
-       <iconset resource="icons.qrc">
-        <normaloff>:/modern_ui/settings.png</normaloff>:/modern_ui/settings.png</iconset>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" colspan="2">
-     <widget class="QLabel" name="timeLabel">
       <property name="text">
        <string>00:00</string>
       </property>
@@ -233,7 +233,7 @@ QSlider::add-page:horizontal{
    </property>
    <property name="styleSheet">
     <string notr="true">QWidget#titleBar {
-background: rgba(50, 50, 50, 230);
+background: rgba(60, 60, 60, 230);
 }</string>
    </property>
    <layout class="QHBoxLayout" name="titlebarLayout">
@@ -294,6 +294,195 @@ background: rgba(50, 50, 50, 230);
     </item>
    </layout>
   </widget>
+  <widget class="QWidget" name="equalizerWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>107</y>
+     <width>331</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#equalizerWidget {
+    background: rgba(50, 50, 50, 230);
+    border-radius: 8px;
+}
+
+QLabel {
+    color: rgb(200, 200, 200);
+}
+
+QSlider::groove:horizontal {
+    height: 1px;
+    margin: 0px 0px;
+    left: 12px; right: 12px;
+    border: 2px solid #999999;
+}
+QSlider::handle:horizontal {
+    border: 0px solid #5c5c5c;
+    border-radius: 6px;
+    background: rgb(230, 230, 230);
+    width: 13px;
+    margin: -6px -6px -6px -6px;
+}
+QSlider::sub-page:horizontal{
+    background: rgb(170, 170, 170);
+}
+QSlider::add-page:horizontal{
+    background: rgb(120, 120, 120);
+}
+</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="2" column="2">
+     <widget class="QLabel" name="constrastLabel">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QLabel" name="brightnessLabel">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Gamma</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QSlider" name="hueSlider">
+      <property name="minimum">
+       <number>-10</number>
+      </property>
+      <property name="maximum">
+       <number>10</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <widget class="QLabel" name="gammaLabel">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2">
+     <widget class="QLabel" name="saturationLabel">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Hue</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Contrast</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Brightness</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QSlider" name="contrastSlider">
+      <property name="minimum">
+       <number>-10</number>
+      </property>
+      <property name="maximum">
+       <number>10</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="hideEqualizerButton">
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/modern_ui/close.png</normaloff>:/modern_ui/close.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QSlider" name="saturationSlider">
+      <property name="minimum">
+       <number>-10</number>
+      </property>
+      <property name="maximum">
+       <number>10</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QSlider" name="gammaSlider">
+      <property name="minimum">
+       <number>-10</number>
+      </property>
+      <property name="maximum">
+       <number>10</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="2">
+     <widget class="QLabel" name="hueLabel">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Saturation</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QSlider" name="brightnessSlider">
+      <property name="minimum">
+       <number>-10</number>
+      </property>
+      <property name="maximum">
+       <number>10</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources>
   <include location="icons.qrc"/>
@@ -328,6 +517,102 @@ background: rgba(50, 50, 50, 230);
     <hint type="destinationlabel">
      <x>399</x>
      <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>brightnessSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>brightnessLabel</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>324</x>
+     <y>165</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>447</x>
+     <y>165</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>contrastSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>constrastLabel</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>324</x>
+     <y>193</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>447</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saturationSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>saturationLabel</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>324</x>
+     <y>221</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>447</x>
+     <y>221</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gammaSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>gammaLabel</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>324</x>
+     <y>249</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>447</x>
+     <y>249</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hueSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>hueLabel</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>324</x>
+     <y>277</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>447</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hideEqualizerButton</sender>
+   <signal>clicked()</signal>
+   <receiver>equalizerWidget</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>447</x>
+     <y>131</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>325</x>
+     <y>202</y>
     </hint>
    </hints>
   </connection>
