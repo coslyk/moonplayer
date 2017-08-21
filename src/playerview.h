@@ -15,6 +15,7 @@ class QMenu;
 class QSlider;
 class QTimer;
 class ResLibrary;
+class SelectionDialog;
 class SettingsDialog;
 
 class PlayerView : public QWidget
@@ -52,6 +53,7 @@ private slots:
     void onStopButton(void);
     void onStopped(void);
     void addSubtitle(void);
+    void selectAudioTrack(void);
     void selectSubtitle(void);
     void saveVolume(int vol);
     void setFullScreen(void);
@@ -76,6 +78,7 @@ private:
     QTimer *hideTimer;
     QPoint dPos;
     ResLibrary *reslibrary;
+    SelectionDialog *selectionDialog;
     SettingsDialog *settingsDialog;
     bool quit_requested;
     bool no_play_next;

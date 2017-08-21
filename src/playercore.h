@@ -34,6 +34,7 @@ public:
     inline int getTime() { return time; }
     inline int getLength() { return length; }
     inline const QStringList &getSubtitleList() { return subtitleList; }
+    inline const QStringList &getAudioTracksList() { return audioTracksList; }
 
 public slots:
     void stop(void);
@@ -51,6 +52,7 @@ public slots:
     void showText(const QByteArray &text);
     void pauseRendering(void);
     void unpauseRendering(void);
+    void setAid(int64_t aid);
     void setChannel_Left(void);
     void setChannel_Right(void);
     void setChannel_Stereo(void);
@@ -72,6 +74,7 @@ private:
     DanmakuLoader *danmakuLoader;
     QString file;
     QString danmaku;
+    QStringList audioTracksList;
     QStringList subtitleList;
     int64_t length;
     int64_t time;

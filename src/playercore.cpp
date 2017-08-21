@@ -392,6 +392,7 @@ bool PlayerCore::event(QEvent *e)
             }
             else if (propName == "track-list") // read tracks info
             {
+                audioTracksList.clear();
                 subtitleList.clear();
                 mpv_node *node = (mpv_node *) prop->data;
                 for (int i = 0; i < node->u.list->num; i++)
@@ -415,11 +416,23 @@ bool PlayerCore::event(QEvent *e)
                         if (subtitleList.size() <= id)
                         {
                             for (int j = subtitleList.size(); j < id; j++)
-                                subtitleList.append(QString());
-                            subtitleList.append(title);
+                                subtitleList.append('#' + QString::number(j));
+                            subtitleList.append(title.isEmpty() ? '#' + QString::number(id) : title);
                         }
                         else
-                            subtitleList[id] = title;
+                            subtitleList[id] = title.isEmpty() ? '#' + QString::number(id) : title;
+                    }
+                    // audio tracks
+                    if (type == "audio")
+                    {
+                        if (audioTracksList.size() <= id)
+                        {
+                            for (int j = audioTracksList.size(); j < id; j++)
+                                audioTracksList.append('#' + QString::number(j));
+                            audioTracksList.append(title.isEmpty() ? '#' + QString::number(id) : title);
+                        }
+                        else
+                            audioTracksList[id] = title.isEmpty() ? '#' + QString::number(id) : title;
                     }
                 }
             }
@@ -638,6 +651,14 @@ void PlayerCore::speedSetToDefault()
         mpv_set_property_async(mpv, 2, "speed", MPV_FORMAT_DOUBLE, &speed);
         showText("Speed: 1");
     }
+}
+
+// set aid
+void PlayerCore::setAid(int64_t sid)
+{
+    if (state == STOPPING)
+        return;
+    handleMpvError(mpv_set_property_async(mpv, 0, "aid", MPV_FORMAT_INT64, &sid));
 }
 
 // set audio channel

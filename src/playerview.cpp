@@ -73,6 +73,9 @@ PlayerView::PlayerView(QWidget *parent) :
     // create settings dialog
     settingsDialog = new SettingsDialog(this);
 
+    // create selection dialo
+    selectionDialog = new SelectionDialog(this);
+
     // create playlist
     playlist = new Playlist(this);
     playlist->setWindowFlags(playlist->windowFlags() | Qt::Popup);
@@ -102,6 +105,8 @@ PlayerView::PlayerView(QWidget *parent) :
     audio_menu->addAction(tr("Left channel"), core, SLOT(setChannel_Left()));
     audio_menu->addAction(tr("Right channel"), core, SLOT(setChannel_Right()));
     audio_menu->addAction(tr("Swap channel"), core, SLOT(setChannel_Swap()));
+    audio_menu->addSeparator();
+    audio_menu->addAction(tr("Select track"), this, SLOT(selectAudioTrack()));
 
     QMenu *speed_menu = new QMenu(tr("Speed"));
     speed_menu->addAction(tr("Speed up"), core, SLOT(speedUp()), QKeySequence("Ctrl+Right"));
@@ -551,12 +556,17 @@ void PlayerView::addSubtitle()
 
 void PlayerView::selectSubtitle()
 {
-    static SelectionDialog *dialog = NULL;
-    if (dialog == NULL)
-        dialog = new SelectionDialog(this);
-    int sid = dialog->showDialog_Index(core->getSubtitleList(), tr("Select subtitle:"));
+    int sid = selectionDialog->showDialog_Index(core->getSubtitleList(), tr("Select subtitle:"));
     if (sid != -1)
         core->setSid(sid);
+}
+
+// select audio track
+void PlayerView::selectAudioTrack()
+{
+    int aid = selectionDialog->showDialog_Index(core->getAudioTracksList(), tr("Select audio track:"));
+    if (aid != -1)
+        core->setAid(aid);
 }
 
 
