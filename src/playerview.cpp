@@ -91,11 +91,17 @@ PlayerView::PlayerView(QWidget *parent) :
     volumeSlider->move(2, 5);
 
     // create menu
-    QMenu *ratio_menu = new QMenu(tr("Ratio"));
-    ratio_menu->addAction("4:3", core, SLOT(setRatio_4_3()));
-    ratio_menu->addAction("16:9", core, SLOT(setRatio_16_9()));
-    ratio_menu->addAction("16:10", core, SLOT(setRatio_16_10()));
-    ratio_menu->addAction(tr("Default"), core, SLOT(setRatio_0()));
+    QMenu *video_menu = new QMenu(tr("Video"));
+    video_menu->addAction("4:3", core, SLOT(setRatio_4_3()));
+    video_menu->addAction("16:9", core, SLOT(setRatio_16_9()));
+    video_menu->addAction("16:10", core, SLOT(setRatio_16_10()));
+    video_menu->addAction(tr("Default"), core, SLOT(setRatio_0()));
+
+    QMenu *audio_menu = new QMenu(tr("Audio"));
+    audio_menu->addAction(tr("Stereo"), core, SLOT(setChannel_Stereo()));
+    audio_menu->addAction(tr("Left channel"), core, SLOT(setChannel_Left()));
+    audio_menu->addAction(tr("Right channel"), core, SLOT(setChannel_Right()));
+    audio_menu->addAction(tr("Swap channel"), core, SLOT(setChannel_Swap()));
 
     QMenu *speed_menu = new QMenu(tr("Speed"));
     speed_menu->addAction(tr("Speed up"), core, SLOT(speedUp()), QKeySequence("Ctrl+Right"));
@@ -108,7 +114,8 @@ PlayerView::PlayerView(QWidget *parent) :
     sub_menu->addAction(tr("Load from file"), this, SLOT(addSubtitle()));
 
     menu = new QMenu(this);
-    menu->addMenu(ratio_menu);
+    menu->addMenu(video_menu);
+    menu->addMenu(audio_menu);
     menu->addMenu(speed_menu);
     menu->addMenu(sub_menu);
 

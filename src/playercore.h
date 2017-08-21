@@ -51,6 +51,10 @@ public slots:
     void showText(const QByteArray &text);
     void pauseRendering(void);
     void unpauseRendering(void);
+    void setChannel_Left(void);
+    void setChannel_Right(void);
+    void setChannel_Stereo(void);
+    void setChannel_Swap(void);
     void setRatio_16_9(void);
     void setRatio_16_10(void);
     void setRatio_4_3(void);

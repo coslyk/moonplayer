@@ -57,7 +57,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     mpv_set_option_string(mpv, "ytdl", "no");             // We handle video url parsing
     mpv_set_option_string(mpv, "cache", QByteArray::number(Settings::cacheSize).constData());
     mpv_set_option_string(mpv, "screenshot-directory", QDir::homePath().toUtf8().constData());
-    mpv_set_option_string(mpv, "reset-on-next-file", "speed,video-aspect,sub-file,sub-delay,sub-visibility");
+    mpv_set_option_string(mpv, "reset-on-next-file", "speed,video-aspect,af,sub-delay,sub-visibility");
     mpv_set_option_string(mpv, "vo", "opengl-cb");
     mpv_request_log_messages(mpv, "warn");
 
@@ -638,6 +638,39 @@ void PlayerCore::speedSetToDefault()
         mpv_set_property_async(mpv, 2, "speed", MPV_FORMAT_DOUBLE, &speed);
         showText("Speed: 1");
     }
+}
+
+// set audio channel
+void PlayerCore::setChannel_Left()
+{
+    if (state == STOPPING)
+        return;
+    handleMpvError(mpv_set_property_string(mpv, "af", "channels=2:[0-0,0-1]"));
+    showText("Left channel");
+}
+
+void PlayerCore::setChannel_Right()
+{
+    if (state == STOPPING)
+        return;
+    handleMpvError(mpv_set_property_string(mpv, "af", "channels=2:[1-0,1-1]"));
+    showText("Right channel");
+}
+
+void PlayerCore::setChannel_Stereo()
+{
+    if (state == STOPPING)
+        return;
+    handleMpvError(mpv_set_property_string(mpv, "af", ""));
+    showText("Stereo");
+}
+
+void PlayerCore::setChannel_Swap()
+{
+    if (state == STOPPING)
+        return;
+    handleMpvError(mpv_set_property_string(mpv, "af", "channels=2:[0-1,1-0]"));
+    showText("Swap channel");
 }
 
 // set video aspect

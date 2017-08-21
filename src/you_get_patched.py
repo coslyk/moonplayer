@@ -37,10 +37,10 @@ def output(video_extractor, pretty_print=True):
         out['audiolang'] = ve.audiolang
     if getattr(ve, 'ua', None):
         out['user-agent'] = ve.ua
-    if getattr(ve, 'referer', None):
-        out['referer'] = ve.referer
     if getattr(ve, 'danmuku', None) and ve.danmuku.startswith('http'):
         out['danmaku_url'] = ve.danmuku
+    if getattr(ve, 'referer', None):
+        out['referer'] = ve.referer
     else:
         try:
             out['referer'] = ve.streams['__default__']['refer']
