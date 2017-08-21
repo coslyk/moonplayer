@@ -245,11 +245,16 @@ void PlayerView::dropEvent(QDropEvent *e)
         if (url.isLocalFile())
         {
             QString file = url.toLocalFile();
-            if (first)
+            // subtitle
+            if ((file.endsWith(".srt") || file.endsWith(".ass")) && core->state != PlayerCore::STOPPING)
+                core->openSubtitle(file);
+            // first file
+            else if (first)
             {
                 playlist->addFileAndPlay(QFileInfo(file).fileName(), file);
                 first = false;
             }
+            // not first file
             else
                 playlist->addFile(QFileInfo(file).fileName(), file);
         }
