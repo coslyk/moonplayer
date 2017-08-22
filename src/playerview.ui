@@ -91,6 +91,9 @@ QSlider::add-page:horizontal{
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
+      <property name="toolTip">
+       <string>Settings</string>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/modern_ui/settings.png</normaloff>:/modern_ui/settings.png</iconset>
@@ -159,6 +162,9 @@ QSlider::add-page:horizontal{
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
+      <property name="toolTip">
+       <string>Playlist</string>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/modern_ui/playlist.png</normaloff>:/modern_ui/playlist.png</iconset>
@@ -200,6 +206,9 @@ QSlider::add-page:horizontal{
      <widget class="QPushButton" name="searchButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="toolTip">
+       <string>Resources</string>
       </property>
       <property name="icon">
        <iconset resource="icons.qrc">
@@ -255,6 +264,9 @@ background: rgba(60, 60, 60, 230);
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
+      <property name="toolTip">
+       <string>Minimize</string>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/modern_ui/min.png</normaloff>:/modern_ui/min.png</iconset>
@@ -269,6 +281,9 @@ background: rgba(60, 60, 60, 230);
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
+      <property name="toolTip">
+       <string>Maximize</string>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/modern_ui/max.png</normaloff>:/modern_ui/max.png</iconset>
@@ -282,6 +297,9 @@ background: rgba(60, 60, 60, 230);
      <widget class="QPushButton" name="closeButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="toolTip">
+       <string>Close</string>
       </property>
       <property name="icon">
        <iconset resource="icons.qrc">
@@ -419,6 +437,9 @@ QSlider::add-page:horizontal{
     </item>
     <item row="0" column="2">
      <widget class="QPushButton" name="hideEqualizerButton">
+      <property name="toolTip">
+       <string>Close</string>
+      </property>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/modern_ui/close.png</normaloff>:/modern_ui/close.png</iconset>

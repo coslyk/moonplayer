@@ -97,6 +97,11 @@ PlayerView::PlayerView(QWidget *parent) :
     volumeSlider->move(2, 5);
 
     // create menu
+    QMenu *open_menu = new QMenu(tr("Open"));
+    open_menu->addAction(tr("File"), playlist, SLOT(onAddItem()), QKeySequence("Ctrl+O"));
+    open_menu->addAction(tr("Url"), playlist, SLOT(onNetItem()), QKeySequence("Ctrl+U"));
+    open_menu->addAction(tr("Playlist"), playlist, SLOT(onListItem()));
+
     QMenu *video_menu = new QMenu(tr("Video"));
     video_menu->addAction("4:3", core, SLOT(setRatio_4_3()));
     video_menu->addAction("16:9", core, SLOT(setRatio_16_9()));
@@ -126,6 +131,9 @@ PlayerView::PlayerView(QWidget *parent) :
     speed_menu->addAction(tr("Default"), core, SLOT(speedSetToDefault()), QKeySequence("R"));
 
     menu = new QMenu(this);
+    menu->addMenu(open_menu);
+    menu->addAction(tr("Playlist"), this, SLOT(showPlaylist()), QKeySequence("L"));
+    menu->addSeparator();
     menu->addMenu(video_menu);
     menu->addMenu(audio_menu);
     menu->addMenu(sub_menu);
@@ -138,9 +146,9 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addSeparator();
     menu->addAction(tr("Online video"), reslibrary, SLOT(show()), QKeySequence("W"));
     menu->addAction(tr("Settings"), settingsDialog, SLOT(show()), QKeySequence("Ctrl+,"));
-    menu->addAction(tr("Update you-get"), &you_get_bridge, SLOT(updateYouGet()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
     QMenu *aboutMenu = menu->addMenu(tr("About"));
+    aboutMenu->addAction(tr("Update you-get"), &you_get_bridge, SLOT(updateYouGet()));
     aboutMenu->addAction(tr("Contribute"), this, SLOT(openContributePage()));
     aboutMenu->addAction(tr("Homepage"), this, SLOT(openHomepage()));
 
@@ -431,7 +439,7 @@ void PlayerView::hideElements()
 {
     ui->controllerWidget->hide();
     ui->titleBar->hide();
-    if (!ui->equalizerWidget->isVisible())
+    if (!ui->equalizerWidget->isVisible() && !ui->timeSlider->isSliderDown())
         setCursor(QCursor(Qt::BlankCursor));
 }
 
