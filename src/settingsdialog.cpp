@@ -36,7 +36,6 @@ int Settings::durationScrolling;
 int Settings::durationStill;
 bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
-bool Settings::autoCloseWindow;
 double Settings::danmakuAlpha;
 double Settings::uiScale;
 
@@ -79,7 +78,6 @@ void SettingsDialog::loadSettings()
     ui->dirButton->setText(downloadDir);
     ui->rememberCheckBox->setChecked(rememberUnfinished);
     ui->combineCheckBox->setChecked(autoCombine);
-    ui->autoCloseWindowCheckBox->setChecked(autoCloseWindow);
 
     ui->alphaDoubleSpinBox->setValue(danmakuAlpha);
     ui->fontPushButton->setText(danmakuFont);
@@ -119,7 +117,6 @@ void SettingsDialog::saveSettings()
     downloadDir = ui->dirButton->text();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
     autoCombine = ui->combineCheckBox->isChecked();
-    autoCloseWindow = ui->autoCloseWindowCheckBox->isChecked();
 
     danmakuAlpha = ui->alphaDoubleSpinBox->value();
     danmakuFont = ui->fontPushButton->text();
@@ -149,7 +146,6 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Net/max_tasks", maxTasks);
     settings.setValue("Net/download_dir", downloadDir);
     settings.setValue("Plugins/auto_combine", autoCombine);
-    settings.setValue("Plugins/auto_close_window", autoCloseWindow);
     settings.setValue("Danmaku/alpha", danmakuAlpha);
     settings.setValue("Danmaku/font", danmakuFont);
     settings.setValue("Danmaku/size", danmakuSize);
@@ -177,7 +173,6 @@ void initSettings()
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
     downloadDir = settings.value("Net/download_dir", QDir::homePath()).toString();
     autoCombine = settings.value("Plugins/auto_combine", false).toBool();
-    autoCloseWindow = settings.value("Plugins/auto_close_window", true).toBool();
     danmakuAlpha = settings.value("Danmaku/alpha", 0.9).toDouble();
     danmakuFont = settings.value("Danmaku/font", "").toString();
     danmakuSize = settings.value("Danmaku/size", 0).toInt();

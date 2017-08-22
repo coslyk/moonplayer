@@ -55,6 +55,8 @@ private slots:
     void addSubtitle(void);
     void selectAudioTrack(void);
     void selectSubtitle(void);
+    void setAudioDelay(void);
+    void setSubDelay(void);
     void saveVolume(int vol);
     void setFullScreen(void);
     void showCutterBar(void);

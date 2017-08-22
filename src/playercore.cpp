@@ -57,7 +57,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     mpv_set_option_string(mpv, "ytdl", "no");             // We handle video url parsing
     mpv_set_option_string(mpv, "cache", QByteArray::number(Settings::cacheSize).constData());
     mpv_set_option_string(mpv, "screenshot-directory", QDir::homePath().toUtf8().constData());
-    mpv_set_option_string(mpv, "reset-on-next-file", "speed,video-aspect,af,sub-delay,sub-visibility");
+    mpv_set_option_string(mpv, "reset-on-next-file", "speed,video-aspect,af,sub-delay,sub-visibility,audio-delay");
     mpv_set_option_string(mpv, "vo", "opengl-cb");
     mpv_request_log_messages(mpv, "warn");
 
@@ -384,11 +384,10 @@ bool PlayerCore::event(QEvent *e)
             else if (propName == "sid") // set danmaku's delay
             {
                 int sid = *(int64_t *) prop->data;
-                double tmp = 0;
                 if (subtitleList[sid] == "moonplayer_danmaku.ass")
                     handleMpvError(mpv_set_property_async(mpv, 2, "sub-delay", MPV_FORMAT_DOUBLE, &danmakuDelay));
                 else
-                    handleMpvError(mpv_set_property_async(mpv, 2, "sub-delay", MPV_FORMAT_DOUBLE, &tmp));
+                    handleMpvError(mpv_set_property_async(mpv, 2, "sub-delay", MPV_FORMAT_DOUBLE, &subDelay));
             }
             else if (propName == "track-list") // read tracks info
             {
@@ -471,7 +470,7 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
 
     if (this->danmaku.contains(" http")) // danmaku has delay
     {
-        danmakuDelay = - danmaku.section(' ', 0, 0).toDouble();
+        danmakuDelay = - this->danmaku.section(' ', 0, 0).toDouble();
         this->danmaku = this->danmaku.section(' ', 1);
     }
     else
@@ -514,6 +513,7 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
 
     speed = 1.0;
     danmaku_visible = true;
+    subDelay = audioDelay = 0;
 
     QByteArray tmp = file.toUtf8();
     const char *args[] = {"loadfile", tmp.constData(), NULL};
@@ -560,12 +560,21 @@ void PlayerCore::setVolume(int volume)
     }
 }
 
-// set sid
+// set sid and subtitle delay
 void PlayerCore::setSid(int64_t sid)
 {
     if (state == STOPPING)
         return;
     handleMpvError(mpv_set_property_async(mpv, 0, "sid", MPV_FORMAT_INT64, &sid));
+}
+
+void PlayerCore::setSubDelay(double v)
+{
+    if (state == STOPPING || danmakuDelay > 0.5)
+        return;
+    subDelay = v;
+    handleMpvError(mpv_set_property_async(mpv, 2, "sub-delay", MPV_FORMAT_DOUBLE, &v));
+    showText("Subtitle delay: " + QByteArray::number(v));
 }
 
 // set brightness, constrast, saturation, gamma and hue
@@ -684,12 +693,21 @@ void PlayerCore::speedSetToDefault()
     }
 }
 
-// set aid
+// set aid and audio delay
 void PlayerCore::setAid(int64_t sid)
 {
     if (state == STOPPING)
         return;
     handleMpvError(mpv_set_property_async(mpv, 0, "aid", MPV_FORMAT_INT64, &sid));
+}
+
+void PlayerCore::setAudioDelay(double v)
+{
+    if (state == STOPPING)
+        return;
+    audioDelay = v;
+    handleMpvError(mpv_set_property_async(mpv, 2, "audio-delay", MPV_FORMAT_DOUBLE, &v));
+    showText("Audio delay: " + QByteArray::number(v));
 }
 
 // set audio channel

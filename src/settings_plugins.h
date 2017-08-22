@@ -3,7 +3,6 @@
 
 namespace Settings {
 extern bool autoCombine;
-extern bool autoCloseWindow;
 }
 
 #endif // SETTINGS_PLUGINS_H

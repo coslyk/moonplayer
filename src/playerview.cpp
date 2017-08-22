@@ -17,6 +17,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QGridLayout>
+#include <QInputDialog>
 #include <QMenu>
 #include <QMessageBox>
 #include <QMimeData>
@@ -111,16 +112,18 @@ PlayerView::PlayerView(QWidget *parent) :
     audio_menu->addAction(tr("Swap channel"), core, SLOT(setChannel_Swap()));
     audio_menu->addSeparator();
     audio_menu->addAction(tr("Select track"), this, SLOT(selectAudioTrack()));
-
-    QMenu *speed_menu = new QMenu(tr("Speed"));
-    speed_menu->addAction(tr("Speed up"), core, SLOT(speedUp()), QKeySequence("Ctrl+Right"));
-    speed_menu->addAction(tr("Speed down"), core, SLOT(speedDown()), QKeySequence("Ctrl+Left"));
-    speed_menu->addAction(tr("Default"), core, SLOT(speedSetToDefault()), QKeySequence("R"));
+    audio_menu->addAction(tr("Delay"), this, SLOT(setAudioDelay()));
 
     QMenu *sub_menu = new QMenu(tr("Subtitle"));
     sub_menu->addAction(tr("Visible"), core, SLOT(switchDanmaku()), QKeySequence("D"));
     sub_menu->addAction(tr("Select"), this, SLOT(selectSubtitle()));
     sub_menu->addAction(tr("Load from file"), this, SLOT(addSubtitle()));
+    sub_menu->addAction(tr("Delay"), this, SLOT(setSubDelay()));
+
+    QMenu *speed_menu = new QMenu(tr("Speed"));
+    speed_menu->addAction(tr("Speed up"), core, SLOT(speedUp()), QKeySequence("Ctrl+Right"));
+    speed_menu->addAction(tr("Speed down"), core, SLOT(speedDown()), QKeySequence("Ctrl+Left"));
+    speed_menu->addAction(tr("Default"), core, SLOT(speedSetToDefault()), QKeySequence("R"));
 
     menu = new QMenu(this);
     menu->addMenu(video_menu);
@@ -566,7 +569,7 @@ void PlayerView::changeEvent(QEvent *e)
 #endif
 
 
-// add & select subtitle
+// add & select subtitle and set subtitle delay
 void PlayerView::addSubtitle()
 {
     QString videoFile = core->currentFile();
@@ -583,12 +586,28 @@ void PlayerView::selectSubtitle()
         core->setSid(sid);
 }
 
-// select audio track
+void PlayerView::setSubDelay()
+{
+    bool ok = false;
+    double delay = QInputDialog::getDouble(this, "Input", tr("Subtitle delay (sec):"), core->getAudioDelay(), -100, 100, 1, &ok);
+    if (ok)
+        core->setSubDelay(delay);
+}
+
+// select audio track and set audio delay
 void PlayerView::selectAudioTrack()
 {
     int aid = selectionDialog->showDialog_Index(core->getAudioTracksList(), tr("Select audio track:"));
     if (aid != -1)
         core->setAid(aid);
+}
+
+void PlayerView::setAudioDelay()
+{
+    bool ok = false;
+    double delay = QInputDialog::getDouble(this, "Input", tr("Audio delay (sec):"), core->getAudioDelay(), -100, 100, 1, &ok);
+    if (ok)
+        core->setAudioDelay(delay);
 }
 
 

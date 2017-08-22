@@ -33,6 +33,8 @@ public:
     inline QString currentFile() { return file; }
     inline int getTime() { return time; }
     inline int getLength() { return length; }
+    inline double getAudioDelay() { return audioDelay; }
+    inline double getSubDelay() { return subDelay; }
     inline const QStringList &getSubtitleList() { return subtitleList; }
     inline const QStringList &getAudioTracksList() { return audioTracksList; }
 
@@ -53,6 +55,9 @@ public slots:
     void pauseRendering(void);
     void unpauseRendering(void);
     void setAid(int64_t aid);
+    void setSid(int64_t sid);
+    void setAudioDelay(double v);
+    void setSubDelay(double v);
     void setChannel_Left(void);
     void setChannel_Right(void);
     void setChannel_Stereo(void);
@@ -61,7 +66,6 @@ public slots:
     void setRatio_16_10(void);
     void setRatio_4_3(void);
     void setRatio_0(void);
-    void setSid(int64_t sid);
     void setBrightness(int64_t v);
     void setContrast(int64_t v);
     void setSaturation(int64_t v);
@@ -86,7 +90,9 @@ private:
     int64_t videoWidth;
     int64_t videoHeight;
     double speed;
+    double audioDelay;
     double danmakuDelay;
+    double subDelay;
     bool no_emit_stopped;
     bool reload_when_idle;
     bool emit_stopped_when_idle;
