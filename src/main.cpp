@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
         {
             QByteArray f = argv[i];
             //online resource
-            if (f.startsWith("http://"))
+            if (f.startsWith("http://") || f.startsWith("https://"))
                 socket.addUrl(f);
 
             //playlist
@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
 
         if (file.startsWith("--"))
             continue;
-        if (file.startsWith("http://"))
+        if (file.startsWith("http://") || file.startsWith("https://"))
             playlist->addUrl(file);
         else if (file.endsWith(".m3u") || file.endsWith("m3u8") || file.endsWith(".xspf")) //playlist
             playlist->addList(file);
