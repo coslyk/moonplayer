@@ -114,6 +114,30 @@
          </widget>
         </widget>
        </item>
+       <item>
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="copyModeCheckBox">
+         <property name="text">
+          <string>Copy mode</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="copyModeLabel">
+         <property name="text">
+          <string>This option will make all video filters work under hardware decoding, but it will comsume more hardware resources.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="audioTab">

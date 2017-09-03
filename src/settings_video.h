@@ -5,6 +5,7 @@
 
 namespace Settings {
 extern QString hwdec;
+extern bool copyMode;
 extern bool rememberUnfinished;
 extern int cacheSize;
 }

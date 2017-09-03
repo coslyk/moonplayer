@@ -72,10 +72,11 @@ PlayerCore::PlayerCore(QWidget *parent) :
         mpv_set_option_string(mpv, "opengl-hwdec-interop", "vaapi-egl");
     else
         mpv_set_option_string(mpv, "opengl-hwdec-interop", "vdpau-glx");
-    mpv_set_option_string(mpv, "hwdec", Settings::hwdec.toUtf8().constData());
+    QByteArray hwdec = Settings::hwdec.toUtf8() + (Settings::copyMode ? "-copy" : "");
+    mpv_set_option_string(mpv, "hwdec", hwdec);
 #elif defined(Q_OS_MAC)
     mpv_set_option_string(mpv, "opengl-hwdec-interop", "videotoolbox");
-    mpv_set_option_string(mpv, "hwdec", "videotoolbox");
+    mpv_set_option_string(mpv, "hwdec", Settings::copyMode ? "videotoolbox-copy" : "videotoolbox");
 #elif defined(Q_OS_WIN)
     mpv_set_option_string(mpv, "opengl-backend", "angle");
     mpv_set_option_string(mpv, "hwdec", "d3d11va");

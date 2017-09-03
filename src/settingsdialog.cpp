@@ -34,6 +34,7 @@ int Settings::volume;
 int Settings::danmakuSize;
 int Settings::durationScrolling;
 int Settings::durationStill;
+bool Settings::copyMode;
 bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 double Settings::danmakuAlpha;
@@ -78,6 +79,7 @@ void SettingsDialog::loadSettings()
     ui->dirButton->setText(downloadDir);
     ui->rememberCheckBox->setChecked(rememberUnfinished);
     ui->combineCheckBox->setChecked(autoCombine);
+    ui->copyModeCheckBox->setChecked(copyMode);
 
     ui->alphaDoubleSpinBox->setValue(danmakuAlpha);
     ui->fontPushButton->setText(danmakuFont);
@@ -117,6 +119,7 @@ void SettingsDialog::saveSettings()
     downloadDir = ui->dirButton->text();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
     autoCombine = ui->combineCheckBox->isChecked();
+    copyMode = ui->copyModeCheckBox->isChecked();
 
     danmakuAlpha = ui->alphaDoubleSpinBox->value();
     danmakuFont = ui->fontPushButton->text();
@@ -137,6 +140,7 @@ SettingsDialog::~SettingsDialog()
     QSettings settings("moonsoft", "moonplayer");
 
     settings.setValue("Player/remember_unfinished", rememberUnfinished);
+    settings.setValue("Video/copy_mode", copyMode);
     settings.setValue("Video/hwdec", hwdec);
     settings.setValue("Audio/out", aout);
     settings.setValue("Audio/volume", volume);
@@ -173,6 +177,7 @@ void initSettings()
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
     downloadDir = settings.value("Net/download_dir", QDir::homePath()).toString();
     autoCombine = settings.value("Plugins/auto_combine", false).toBool();
+    copyMode = settings.value("Video/copy_mode", false).toBool();
     danmakuAlpha = settings.value("Danmaku/alpha", 0.9).toDouble();
     danmakuFont = settings.value("Danmaku/font", "").toString();
     danmakuSize = settings.value("Danmaku/size", 0).toInt();
