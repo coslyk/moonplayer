@@ -12,7 +12,7 @@ if platform.system() == 'Darwin':
 else:
     _srcdir = '%s/.moonplayer/you-get/src/' % os.getenv('HOME')
 _filepath = os.path.dirname(sys.argv[0])
-sys.path.insert(1, os.path.join(_filepath, _srcdir))
+sys.path.insert(0, _srcdir)
 import you_get
 
 # List of unseekable video streams
