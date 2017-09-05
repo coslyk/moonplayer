@@ -207,17 +207,17 @@
 <context>
     <name>PlayerCore</name>
     <message>
-        <location filename="playercore.cpp" line="283"/>
+        <location filename="playercore.cpp" line="284"/>
         <source>Fails to load: </source>
         <translation type="unfinished">加载失败：</translation>
     </message>
     <message>
-        <location filename="playercore.cpp" line="284"/>
+        <location filename="playercore.cpp" line="285"/>
         <source>Skip</source>
         <translation type="unfinished">跳过</translation>
     </message>
     <message>
-        <location filename="playercore.cpp" line="285"/>
+        <location filename="playercore.cpp" line="286"/>
         <source>Try again</source>
         <translation type="unfinished">重试</translation>
     </message>
@@ -626,18 +626,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="121"/>
+        <location filename="settingsdialog.ui" line="145"/>
         <source>Audio</source>
         <translation type="unfinished">音频</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="127"/>
+        <location filename="settingsdialog.ui" line="151"/>
         <source>Audio Output:</source>
         <translation type="unfinished">音频输出：</translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="60"/>
-        <location filename="settingsdialog.ui" line="135"/>
+        <location filename="settingsdialog.ui" line="159"/>
         <source>auto</source>
         <translation type="unfinished"></translation>
     </message>
@@ -652,32 +652,32 @@
         <translation type="unfinished">自动选择。</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="144"/>
+        <location filename="settingsdialog.ui" line="168"/>
         <source>Internet</source>
         <translation type="unfinished">网络</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="152"/>
+        <location filename="settingsdialog.ui" line="176"/>
         <source>Http proxy</source>
         <translation type="unfinished">Http代理</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="162"/>
+        <location filename="settingsdialog.ui" line="186"/>
         <source>Port</source>
         <translation type="unfinished">端口</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="247"/>
+        <location filename="settingsdialog.ui" line="271"/>
         <source>Plugins</source>
         <translation type="unfinished">插件</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="253"/>
+        <location filename="settingsdialog.ui" line="277"/>
         <source>Combine video clips automatically after downloading</source>
         <translation type="unfinished">下载后自动合并分段视频</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="273"/>
+        <location filename="settingsdialog.ui" line="297"/>
         <source>Open plugins folder</source>
         <translation type="unfinished">打开插件文件夹</translation>
     </message>
@@ -697,53 +697,63 @@
         <translation type="unfinished">Linux下的Nvidia显卡硬件解码。</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="294"/>
+        <location filename="settingsdialog.ui" line="127"/>
+        <source>Copy mode</source>
+        <translation type="unfinished">复制模式</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="134"/>
+        <source>This option will make all video filters work under hardware decoding, but it will comsume more hardware resources.</source>
+        <translation type="unfinished">该选项会使所有滤镜在硬件解码时正常工作，但会消耗更多资源。</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="318"/>
         <source>Danmaku</source>
         <translation type="unfinished">弹幕</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="300"/>
+        <location filename="settingsdialog.ui" line="324"/>
         <source>Alpha:</source>
         <translation type="unfinished">透明度：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="320"/>
+        <location filename="settingsdialog.ui" line="344"/>
         <source>Font size:</source>
         <translation type="unfinished">字体大小：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="327"/>
-        <location filename="settingsdialog.ui" line="340"/>
+        <location filename="settingsdialog.ui" line="351"/>
+        <location filename="settingsdialog.ui" line="364"/>
         <source>0 means auto</source>
         <translation type="unfinished">0表示自动</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="347"/>
+        <location filename="settingsdialog.ui" line="371"/>
         <source>Duration of scrolling comment display:</source>
         <translation type="unfinished">滚动弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="354"/>
+        <location filename="settingsdialog.ui" line="378"/>
         <source>Duration of still comment display:</source>
         <translation type="unfinished">静止弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="381"/>
+        <location filename="settingsdialog.ui" line="405"/>
         <source>Font:</source>
         <translation type="unfinished">字体：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="199"/>
+        <location filename="settingsdialog.ui" line="223"/>
         <source>Max tasks</source>
         <translation type="unfinished">最大任务数</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="213"/>
+        <location filename="settingsdialog.ui" line="237"/>
         <source>Save to:</source>
         <translation type="unfinished">保存至：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="230"/>
+        <location filename="settingsdialog.ui" line="254"/>
         <source>Cache(KB):</source>
         <translation type="unfinished">缓冲大小(KB):</translation>
     </message>
