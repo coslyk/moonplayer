@@ -399,7 +399,7 @@ bool PlayerCore::event(QEvent *e)
                 {
                     mpv_node_list *item = node->u.list->values[i].u.list;
                     QByteArray type;
-                    int id;
+                    int id = 0;
                     QString title;
                     for (int n = 0; n < item->num; n++)
                     {

@@ -5,17 +5,22 @@ OS_NAME=`uname -s`
 if [ "$OS_NAME" = 'Darwin' ]; then    # macOS
     VERSION_FILE="$HOME/Library/Application Support/MoonPlayer/you-get-version.txt"
     DEST_DIR="$HOME/Library/Application Support/MoonPlayer/you-get"
-    DOWNLOADER="curl -L -o"
-    FETCHER="curl -s"
 elif [ "$OS_NAME" = 'Linux' ]; then   # Linux
     VERSION_FILE="$HOME/.moonplayer/you-get-version.txt"
     DEST_DIR="$HOME/.moonplayer/you-get"
-    DOWNLOADER="wget -q -O"
-    FETCHER="wget -q -O -"
     TMPDIR="/tmp"
 else
     echo "Unsupported system!"
     exit 0
+fi
+
+# Set network tool
+if which curl > /dev/null; then
+    DOWNLOADER="curl -L -o"
+    FETCHER="curl -s"
+else
+    DOWNLOADER="wget -q -O"
+    FETCHER="wget -q -O -"
 fi
 
 
@@ -48,7 +53,7 @@ echo -e "\033[34m ---------- Checking updates --------- \033[0m"
 get_latest_version() {
     export PYTHONIOENCODING=utf8
     $FETCHER 'https://api.github.com/repos/soimort/you-get/branches/develop' | \
-        python -c "import sys, json; print json.load(sys.stdin)['commit']['sha']"
+        python2 -c "import sys, json; print json.load(sys.stdin)['commit']['sha']"
 }
 
 LATEST_VERSION=`get_latest_version`
@@ -86,7 +91,7 @@ echo ""
 echo "Installing..."
 unzip -q you-get.zip
 rm -rf "$DEST_DIR"
-mv you-get-* "$DEST_DIR"
+mv you-get-develop "$DEST_DIR"
 chmod +x "$DEST_DIR/you-get"
 rm -f you-get.zip
 
