@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     downloaderitem.cpp \
     playerview.cpp \
     playercore.cpp \
-    danmakudelaygetter.cpp
+    danmakudelaygetter.cpp \
+    terminal.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -75,7 +76,8 @@ HEADERS  +=\
     platforms.h \
     yougetbridge.h \
     downloaderitem.h \
-    playerview.h
+    playerview.h \
+    terminal.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 
@@ -127,7 +129,7 @@ win32: RC_FILE = icon.rc
 
 # Libraries
 unix:!macx: CONFIG += link_pkgconfig
-unix:!macx: PKGCONFIG += python2 mpv
+unix:!macx: PKGCONFIG += python2 mpv qtermwidget5
 
 macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/Headers \
     /usr/local/include

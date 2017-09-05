@@ -20,6 +20,7 @@
 #include <QTextCodec>
 #include <QUrl>
 #include "danmakudelaygetter.h"
+#include "terminal.h"
 
 YouGetBridge you_get_bridge;
 
@@ -277,10 +278,6 @@ void YouGetBridge::onError()
 
 void YouGetBridge::updateYouGet()
 {
-#if defined(Q_OS_MAC)
-    system(("open -a Terminal.app '" + yougetUpgraderPath() + '\'').toUtf8().constData());
-#elif defined(Q_OS_LINUX)
-    system(("x-terminal-emulator -e '/bin/sh " + yougetUpgraderPath() + '\'').toUtf8().constData());
-#endif
+    execShell(yougetUpgraderPath());
 }
 
