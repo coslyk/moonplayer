@@ -25,6 +25,7 @@
 QString Settings::aout;
 QString Settings::hwdec;
 QString Settings::proxy;
+QString Settings::proxyType;
 QString Settings::downloadDir;
 QString Settings::danmakuFont;
 int Settings::port;
@@ -72,6 +73,7 @@ void SettingsDialog::loadSettings()
 {
     ui->hwdecComboBox->setCurrentIndex(ui->hwdecComboBox->findText(hwdec));
     ui->aoComboBox->setCurrentIndex(ui->aoComboBox->findText(aout));
+    ui->proxyTypeComboBox->setCurrentIndex(ui->proxyTypeComboBox->findText(proxyType));
     ui->proxyEdit->setText(proxy);
     ui->portEdit->setText(QString::number(port));
     ui->cacheSpinBox->setValue(cacheSize);
@@ -112,6 +114,7 @@ void SettingsDialog::onFontButton()
 void SettingsDialog::saveSettings()
 {
     hwdec = ui->hwdecComboBox->currentText();
+    proxyType = ui->proxyTypeComboBox->currentText();
     proxy = ui->proxyEdit->text().simplified();
     port = ui->portEdit->text().toInt();
     cacheSize = ui->cacheSpinBox->value();
@@ -127,8 +130,10 @@ void SettingsDialog::saveSettings()
     durationScrolling = ui->dmSpinBox->value();
     durationStill = ui->dsSpinBox->value();
 
-    if (proxy.isEmpty())
+    if (proxyType == "no" || proxy.isEmpty())
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+    else if (proxyType == "socks5")
+        access_manager->setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
     else
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
 }
@@ -144,6 +149,7 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Video/hwdec", hwdec);
     settings.setValue("Audio/out", aout);
     settings.setValue("Audio/volume", volume);
+    settings.setValue("Net/proxy_type", proxyType);
     settings.setValue("Net/proxy", proxy);
     settings.setValue("Net/port", port);
     settings.setValue("Net/cache_size", cacheSize);
@@ -171,6 +177,7 @@ void initSettings()
     aout = settings.value("Audio/out", "auto").toString();
     volume = settings.value("Audio/volume", 10).toInt();
     rememberUnfinished = settings.value("Player/remember_unfinished", true).toBool();
+    proxyType = settings.value("Net/proxy_type", "no").toString();
     proxy = settings.value("Net/proxy").toString();
     port = settings.value("Net/port").toInt();
     cacheSize = settings.value("Net/cache_size", 4096).toInt();

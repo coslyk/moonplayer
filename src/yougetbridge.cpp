@@ -73,8 +73,11 @@ void YouGetBridge::parse(const QString &url, bool download, const QString &forma
 
     QStringList args;
     args << "python3" << yougetFilePath();
-    if (!Settings::proxy.isEmpty())
-        args << "--http-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
+    if (Settings::proxyType != "no" && !Settings::proxy.isEmpty())
+    {
+        args << (Settings::proxyType == "socks5" ? "--socks-proxy" : "--http-proxy");
+        args << (Settings::proxy + ':' + QString::number(Settings::port));
+    }
     if (!format.isEmpty())
         args << "--format=" + format;
     args << "-t" << "10" << "--json" << url;

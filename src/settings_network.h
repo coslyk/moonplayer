@@ -4,6 +4,7 @@
 #include <QString>
 
 namespace Settings {
+extern QString proxyType;
 extern QString proxy;
 extern QString downloadDir;
 extern int port;
