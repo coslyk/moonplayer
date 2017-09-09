@@ -657,27 +657,26 @@
         <translation type="unfinished">网络</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="176"/>
         <source>Http proxy</source>
-        <translation type="unfinished">Http代理</translation>
+        <translation type="obsolete">Http代理</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="186"/>
+        <location filename="settingsdialog.ui" line="210"/>
         <source>Port</source>
         <translation type="unfinished">端口</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="271"/>
+        <location filename="settingsdialog.ui" line="299"/>
         <source>Plugins</source>
         <translation type="unfinished">插件</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="277"/>
+        <location filename="settingsdialog.ui" line="305"/>
         <source>Combine video clips automatically after downloading</source>
         <translation type="unfinished">下载后自动合并分段视频</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="297"/>
+        <location filename="settingsdialog.ui" line="325"/>
         <source>Open plugins folder</source>
         <translation type="unfinished">打开插件文件夹</translation>
     </message>
@@ -707,53 +706,78 @@
         <translation type="unfinished">该选项会使所有滤镜在硬件解码时正常工作，但会消耗更多资源。</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="318"/>
+        <location filename="settingsdialog.ui" line="174"/>
+        <source>Proxy:</source>
+        <translation type="unfinished">代理：</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="182"/>
+        <source>no</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="187"/>
+        <source>http</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="192"/>
+        <source>socks5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="200"/>
+        <source>Address</source>
+        <translation type="unfinished">地址</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="346"/>
         <source>Danmaku</source>
         <translation type="unfinished">弹幕</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="324"/>
+        <location filename="settingsdialog.ui" line="352"/>
         <source>Alpha:</source>
         <translation type="unfinished">透明度：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="344"/>
+        <location filename="settingsdialog.ui" line="372"/>
         <source>Font size:</source>
         <translation type="unfinished">字体大小：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="351"/>
-        <location filename="settingsdialog.ui" line="364"/>
+        <location filename="settingsdialog.ui" line="379"/>
+        <location filename="settingsdialog.ui" line="392"/>
         <source>0 means auto</source>
         <translation type="unfinished">0表示自动</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="371"/>
+        <location filename="settingsdialog.ui" line="399"/>
         <source>Duration of scrolling comment display:</source>
         <translation type="unfinished">滚动弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="378"/>
+        <location filename="settingsdialog.ui" line="406"/>
         <source>Duration of still comment display:</source>
         <translation type="unfinished">静止弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="405"/>
+        <location filename="settingsdialog.ui" line="433"/>
         <source>Font:</source>
         <translation type="unfinished">字体：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="223"/>
+        <location filename="settingsdialog.ui" line="240"/>
         <source>Max tasks</source>
         <translation type="unfinished">最大任务数</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="237"/>
+        <location filename="settingsdialog.ui" line="254"/>
         <source>Save to:</source>
         <translation type="unfinished">保存至：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="254"/>
+        <location filename="settingsdialog.ui" line="271"/>
         <source>Cache(KB):</source>
         <translation type="unfinished">缓冲大小(KB):</translation>
     </message>
@@ -782,37 +806,37 @@
 <context>
     <name>YouGetBridge</name>
     <message>
-        <location filename="yougetbridge.cpp" line="66"/>
+        <location filename="yougetbridge.cpp" line="67"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="109"/>
+        <location filename="yougetbridge.cpp" line="113"/>
         <source>Please select a language:</source>
         <translation type="unfinished">请选择语言：</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="142"/>
+        <location filename="yougetbridge.cpp" line="146"/>
         <source>Please select a video quality:</source>
         <translation type="unfinished">请选择视频质量：</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="182"/>
+        <location filename="yougetbridge.cpp" line="186"/>
         <source>No videos available. Please try other language or quality.</source>
         <translation type="unfinished">无视频可用。请尝试其他语言或视频质量。</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="239"/>
+        <location filename="yougetbridge.cpp" line="243"/>
         <source>Add download task successfully!</source>
         <translation type="unfinished">添加下载任务成功！</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="272"/>
+        <location filename="yougetbridge.cpp" line="276"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="273"/>
+        <location filename="yougetbridge.cpp" line="277"/>
         <source>Upgrade Parser</source>
         <translation type="unfinished">更新解析程序</translation>
     </message>
