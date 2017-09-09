@@ -197,8 +197,10 @@ void initSettings()
 #endif
 
     //init proxy
-    if (proxy.isEmpty())
+    if (proxyType == "no" || proxy.isEmpty())
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+    else if (proxyType == "socks5")
+        access_manager->setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
     else
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
 }
