@@ -29,6 +29,7 @@ MyListWidget::MyListWidget(QWidget *parent) :
 void MyListWidget::addPicItem(const QString &name, const QByteArray &picUrl, const QByteArray &flag)
 {
     MyListWidgetItem *item = new MyListWidgetItem(name, picUrl, flag);
+    item->setToolTip(name);
     items_to_load_pic << item;
     if (loading_item == NULL)
         loadNextPic();
