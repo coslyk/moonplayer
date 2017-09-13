@@ -9,18 +9,42 @@ Border::Border(QWidget *topwin, BorderType t) :
 {
     type = t;
     topwindow = topwin;
-    if (type == BOTTOM)
+    switch (type) {
+    case BOTTOM:
         setFixedHeight(4 * Settings::uiScale);
-    else
+        break;
+    case LEFT:
+    case RIGHT:
         setFixedWidth(4 * Settings::uiScale);
+        break;
+    case BOTTOMLEFT:
+    case BOTTOMRIGHT:
+        setFixedSize(4 * Settings::uiScale, 4 * Settings::uiScale);
+        break;
+    default:
+        break;
+    }
 }
 
 void Border::enterEvent(QEvent *)
 {
-    if (type == BOTTOM)
+    switch (type) {
+    case BOTTOM:
         setCursor(Qt::SizeVerCursor);
-    else
+        break;
+    case LEFT:
+    case RIGHT:
         setCursor(Qt::SizeHorCursor);
+        break;
+    case BOTTOMLEFT:
+        setCursor(Qt::SizeBDiagCursor);
+        break;
+    case BOTTOMRIGHT:
+        setCursor(Qt::SizeFDiagCursor);
+        break;
+    default:
+        break;
+    }
 }
 
 void Border::mousePressEvent(QMouseEvent *e)
@@ -34,12 +58,26 @@ void Border::mouseMoveEvent(QMouseEvent *e)
     int dy = e->globalY() - oldPos.y();
     QRect g = topwindow->geometry();
 
-    if (type == BOTTOM)
+    switch (type) {
+    case BOTTOM:
         g.setBottom(g.bottom() + dy);
-    else if (type == LEFT)
+        break;
+    case LEFT:
         g.setLeft(g.left() + dx);
-    else if (type == RIGHT)
+        break;
+    case RIGHT:
         g.setRight(g.right() + dx);
+        break;
+    case BOTTOMLEFT:
+        g.setBottom(g.bottom() + dy);
+        g.setLeft(g.left() + dx);
+        break;
+    case BOTTOMRIGHT:
+        g.setBottom(g.bottom() + dy);
+        g.setRight(g.right() + dx);
+    default:
+        break;
+    }
     topwindow->setGeometry(g);
     oldPos = e->globalPos();
 }

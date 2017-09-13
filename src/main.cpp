@@ -191,11 +191,6 @@ int main(int argc, char *argv[])
 
     a.exec();
     Py_Finalize();
-    /*
-    if (classic_player)
-        delete classic_player;
-    else
-        delete player;*/
     delete player_view;
     return 0;
 }

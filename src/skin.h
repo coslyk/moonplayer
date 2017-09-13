@@ -9,7 +9,7 @@ class QPixmap;
 class Border : public QWidget
 {
 public:
-    enum BorderType{LEFT, RIGHT, BOTTOM};
+    enum BorderType{LEFT, RIGHT, BOTTOM, BOTTOMLEFT, BOTTOMRIGHT};
     Border(QWidget* topwin, BorderType type);
 protected:
     void enterEvent(QEvent *);

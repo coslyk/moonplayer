@@ -72,6 +72,8 @@ private:
     Border *leftBorder;
     Border *rightBorder;
     Border *bottomBorder;
+    Border *bottomLeftBorder;
+    Border *bottomRightBorder;
     CutterBar *cutterBar;
     Playlist *playlist;
     PlayerCore *core;

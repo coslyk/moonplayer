@@ -55,11 +55,15 @@ PlayerView::PlayerView(QWidget *parent) :
     leftBorder = new Border(this, Border::LEFT);
     rightBorder = new Border(this, Border::RIGHT);
     bottomBorder = new Border(this, Border::BOTTOM);
+    bottomLeftBorder = new Border(this, Border::BOTTOMLEFT);
+    bottomRightBorder = new Border(this, Border::BOTTOMRIGHT);
     QGridLayout *gridLayout = new QGridLayout(this);
     gridLayout->addWidget(ui->titleBar, 0, 0, 1, 3);
     gridLayout->addWidget(leftBorder, 1, 0, 1, 1);
     gridLayout->addWidget(rightBorder, 1, 2, 1, 1);
     gridLayout->addWidget(bottomBorder, 2, 1, 1, 1);
+    gridLayout->addWidget(bottomLeftBorder, 2, 0, 1, 1);
+    gridLayout->addWidget(bottomRightBorder, 2, 2, 1, 1);
     gridLayout->setMargin(0);
     gridLayout->setSpacing(0);
     setAcceptDrops(true);
@@ -307,7 +311,9 @@ void PlayerView::resizeEvent(QResizeEvent *e)
     leftBorder->raise();
     rightBorder->raise();
     bottomBorder->raise();
-    ui->titleBar->raise();\
+    bottomLeftBorder->raise();
+    bottomRightBorder->raise();
+    ui->titleBar->raise();
 
     e->accept();
 }
