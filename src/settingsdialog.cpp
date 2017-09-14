@@ -29,7 +29,6 @@ QString Settings::proxyType;
 QString Settings::downloadDir;
 QString Settings::danmakuFont;
 int Settings::port;
-int Settings::cacheSize;
 int Settings::maxTasks;
 int Settings::volume;
 int Settings::danmakuSize;
@@ -76,7 +75,6 @@ void SettingsDialog::loadSettings()
     ui->proxyTypeComboBox->setCurrentIndex(ui->proxyTypeComboBox->findText(proxyType));
     ui->proxyEdit->setText(proxy);
     ui->portEdit->setText(QString::number(port));
-    ui->cacheSpinBox->setValue(cacheSize);
     ui->maxTaskSpinBox->setValue(maxTasks);
     ui->dirButton->setText(downloadDir);
     ui->rememberCheckBox->setChecked(rememberUnfinished);
@@ -117,7 +115,6 @@ void SettingsDialog::saveSettings()
     proxyType = ui->proxyTypeComboBox->currentText();
     proxy = ui->proxyEdit->text().simplified();
     port = ui->portEdit->text().toInt();
-    cacheSize = ui->cacheSpinBox->value();
     maxTasks = ui->maxTaskSpinBox->value();
     downloadDir = ui->dirButton->text();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
@@ -152,7 +149,6 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Net/proxy_type", proxyType);
     settings.setValue("Net/proxy", proxy);
     settings.setValue("Net/port", port);
-    settings.setValue("Net/cache_size", cacheSize);
     settings.setValue("Net/max_tasks", maxTasks);
     settings.setValue("Net/download_dir", downloadDir);
     settings.setValue("Plugins/auto_combine", autoCombine);
@@ -180,7 +176,6 @@ void initSettings()
     proxyType = settings.value("Net/proxy_type", "no").toString();
     proxy = settings.value("Net/proxy").toString();
     port = settings.value("Net/port").toInt();
-    cacheSize = settings.value("Net/cache_size", 4096).toInt();
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
     downloadDir = settings.value("Net/download_dir", QDir::homePath()).toString();
     autoCombine = settings.value("Plugins/auto_combine", false).toBool();
