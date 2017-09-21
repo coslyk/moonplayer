@@ -133,8 +133,9 @@ unix:!macx: PKGCONFIG += python2 mpv qtermwidget5
 
 macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/Headers \
     /usr/local/include
-macx: LIBS += -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config \
-    -lpython2.7 -ldl -framework CoreFoundation \
+macx: LIBS += -F /System/Library/Frameworks -framework CoreFoundation \
+    -L/usr/lib -ldl \
+    -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config -lpython2.7 \
     -L /usr/local/lib -lmpv
 
 win32: INCLUDEPATH += C:\\Python27\\include
