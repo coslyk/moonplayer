@@ -23,7 +23,14 @@ else
     FETCHER="wget -q -O -"
 fi
 
+# set python2 excutable
+if which python2 > /dev/null; then
+    PYTHON2="python2"
+else
+    PYTHON2="python"
+fi
 
+# pause function
 pause_() {
     if [ "$OS_NAME" = 'Linux' ]; then
         echo "Press enter to continue"
@@ -53,7 +60,7 @@ echo -e "\033[34m ---------- Checking updates --------- \033[0m"
 get_latest_version() {
     export PYTHONIOENCODING=utf8
     $FETCHER 'https://api.github.com/repos/soimort/you-get/branches/develop' | \
-        python2 -c "import sys, json; print json.load(sys.stdin)['commit']['sha']"
+        $PYTHON2 -c "import sys, json; print json.load(sys.stdin)['commit']['sha']"
 }
 
 LATEST_VERSION=`get_latest_version`
