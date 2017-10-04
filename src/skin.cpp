@@ -2,6 +2,26 @@
 #include "settings_player.h"
 #include <QWidget>
 #include <QMouseEvent>
+#include <QRegularExpression>
+
+QString scaleStyleSheet(const QString qss)
+{
+    static QRegularExpression re("(\\d+)px");
+    QString newQss;
+    QRegularExpressionMatch match;
+    int offset = 0;
+    match = re.match(qss, 0);
+    while (match.hasMatch())
+    {
+        newQss += qss.mid(offset, match.capturedStart() - offset);
+        newQss += QString::number((int) (match.captured(1).toInt() * Settings::uiScale));
+        newQss += "px";
+        offset = match.capturedEnd();
+        match = re.match(qss, offset);
+    }
+    newQss += qss.mid(offset);
+    return newQss;
+}
 
 //window's borders
 Border::Border(QWidget *topwin, BorderType t) :

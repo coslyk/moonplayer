@@ -24,6 +24,66 @@
 #include <QResizeEvent>
 #include <QTimer>
 
+static QString controllerQSS =
+        "QWidget#controllerWidget {\
+        background: rgba(50, 50, 50, 230);\
+        border-radius: 8px;\
+    }\
+    \
+    QLabel {\
+        color: rgb(200, 200, 200);\
+    }\
+    \
+    QSlider::groove:horizontal {\
+        height: 1px;\
+        margin: 0px 0px;\
+        left: 12px; right: 12px;\
+        border: 2px solid #999999;\
+    }\
+    QSlider::handle:horizontal {\
+        border: 0px solid #5c5c5c;\
+        border-radius: 2px;\
+        background: rgb(230, 230, 230);\
+        width: 9px;\
+        margin: -6px -6px -6px -6px;\
+    }\
+    QSlider::sub-page:horizontal{\
+        background: rgb(170, 170, 170);\
+    }\
+    QSlider::add-page:horizontal{\
+        background: rgb(120, 120, 120);\
+    }";
+
+static QString EqualizerQSS =
+        "QWidget#equalizerWidget {\
+        background: rgba(50, 50, 50, 230);\
+        border-radius: 8px;\
+    }\
+    \
+    QLabel {\
+        color: rgb(200, 200, 200);\
+    }\
+    \
+    QSlider::groove:horizontal {\
+        height: 1px;\
+        margin: 0px 0px;\
+        left: 12px; right: 12px;\
+        border: 2px solid #999999;\
+    }\
+    QSlider::handle:horizontal {\
+        border: 0px solid #5c5c5c;\
+        border-radius: 6px;\
+        background: rgb(230, 230, 230);\
+        width: 13px;\
+        margin: -6px -6px -6px -6px;\
+    }\
+    QSlider::sub-page:horizontal{\
+        background: rgb(170, 170, 170);\
+    }\
+    QSlider::add-page:horizontal{\
+        background: rgb(120, 120, 120);\
+    }";
+
 PlayerView::PlayerView(QWidget *parent) :
     QWidget(parent, Qt::FramelessWindowHint),
     ui(new Ui::PlayerView)
@@ -67,6 +127,11 @@ PlayerView::PlayerView(QWidget *parent) :
     gridLayout->setMargin(0);
     gridLayout->setSpacing(0);
     setAcceptDrops(true);
+    setMinimumSize(QSize(640, 360) * Settings::uiScale);
+
+    // stylesheet
+    ui->controllerWidget->setStyleSheet(scaleStyleSheet(controllerQSS));
+    ui->equalizerWidget->setStyleSheet(scaleStyleSheet(EqualizerQSS));
 
     quit_requested = false;
     no_play_next = false;
@@ -303,7 +368,7 @@ void PlayerView::resizeEvent(QResizeEvent *e)
 
     // move and resize equalizer
     int e_x = (e->size().width() - ui->equalizerWidget->width()) / 2;
-    int e_y = (e->size().height() - ui->equalizerWidget->height()) / 2;
+    int e_y = (e->size().height() - ui->equalizerWidget->height()) / 2 - 30 * Settings::uiScale;
     ui->equalizerWidget->move(e_x, e_y);
     ui->equalizerWidget->raise();
 

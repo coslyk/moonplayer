@@ -6,6 +6,9 @@ class QString;
 class QPushButton;
 class QPixmap;
 
+// scale stylesheet
+QString scaleStyleSheet(const QString qss);
+
 class Border : public QWidget
 {
 public:
