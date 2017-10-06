@@ -405,11 +405,19 @@ void PlayerView::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_O:
         if (ctrl_pressed)
+        {
             playlist->onAddItem();
+            // key-release event may not be received after dialog is shown
+            ctrl_pressed = false;
+        }
         break;
     case Qt::Key_U:
         if (ctrl_pressed)
+        {
             playlist->onNetItem();
+            // key-release event may not be received after dialog is shown
+            ctrl_pressed = false;
+        }
         break;
     case Qt::Key_W:
         reslibrary->show();
@@ -425,7 +433,11 @@ void PlayerView::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Comma:
         if (ctrl_pressed)
+        {
             settingsDialog->exec();
+            // key-release event may not be received after dialog is shown
+            ctrl_pressed = false;
+        }
         break;
     case Qt::Key_Left:
         if (ctrl_pressed)
