@@ -508,10 +508,13 @@ void PlayerView::contextMenuEvent(QContextMenuEvent *e)
 
 void PlayerView::hideElements()
 {
-    ui->controllerWidget->hide();
     ui->titleBar->hide();
-    if (!ui->equalizerWidget->isVisible() && !ui->timeSlider->isSliderDown())
+    if (!ui->controllerWidget->geometry().contains(mapFromGlobal(QCursor::pos())) && !ui->equalizerWidget->isVisible())
+    {
+        // mouse is not in controller and equalizer is hidden
+        ui->controllerWidget->hide();
         setCursor(QCursor(Qt::BlankCursor));
+    }
 }
 
 void PlayerView::onLengthChanged(int len)
