@@ -24,6 +24,7 @@ void execShell(const QString &shellFile)
     QObject::connect(term, &QTermWidget::finished, dialog, &QDialog::accept);
     QStringList args;
     args << shellFile;
+    term->setShellProgram("/bin/sh");
     term->setArgs(args);
     term->startShellProgram();
     dialog->exec();
