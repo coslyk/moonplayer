@@ -16,11 +16,11 @@ fi
 
 # Set network tool
 if which curl > /dev/null; then
-    DOWNLOADER="curl -L -o"
-    FETCHER="curl -s"
+    alias downloader="curl -L -o"
+    alias fetcher="curl -s"
 else
-    DOWNLOADER="wget -q -O"
-    FETCHER="wget -q -O -"
+    alias downloader="wget -q -O"
+    alias fetcher="wget -q -O -"
 fi
 
 # set python2 excutable
@@ -59,7 +59,7 @@ echo -e "\033[34m ---------- Checking updates --------- \033[0m"
 # Get latest you-get version
 get_latest_version() {
     export PYTHONIOENCODING=utf8
-    $FETCHER 'https://api.github.com/repos/soimort/you-get/branches/develop' | \
+    fetcher 'https://api.github.com/repos/soimort/you-get/branches/develop' | \
         $PYTHON2 -c "import sys, json; print json.load(sys.stdin)['commit']['sha']"
 }
 
@@ -92,7 +92,7 @@ fi
 echo ""
 echo -e "\033[34m --------- Updating you-get --------- \033[0m"
 echo "Downloading https://github.com/soimort/you-get/archive/develop.zip"
-$DOWNLOADER you-get.zip "https://github.com/soimort/you-get/archive/develop.zip"
+downloader you-get.zip "https://github.com/soimort/you-get/archive/develop.zip"
 
 echo ""
 echo "Installing..."
