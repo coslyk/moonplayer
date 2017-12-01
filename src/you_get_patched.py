@@ -19,11 +19,6 @@ import you_get
 unseekables = ('Sohu.com',)
 
 
-# Fix: print unusable info under json mode
-stdout_bak = sys.stdout
-strio = io.StringIO()
-sys.stdout = strio
-
 # Patch json_output.output
 def output(video_extractor, pretty_print=True):
     ve = video_extractor
@@ -47,12 +42,10 @@ def output(video_extractor, pretty_print=True):
         except KeyError:
             pass
 
-    sys.stdout = stdout_bak
     if pretty_print:
         print(json.dumps(out, indent=4, sort_keys=True, ensure_ascii=False))
     else:
         print(json.dumps(out))
-    sys.stdout = strio
 import you_get.json_output
 you_get.json_output.output = output
 

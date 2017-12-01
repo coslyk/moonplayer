@@ -89,6 +89,10 @@ void YouGetBridge::onFinished()
 {
     QJsonParseError json_error;
     QByteArray output = process->readAllStandardOutput();
+
+    // Output may include non-json content in the head, remove it
+    output = output.mid(output.indexOf('{'));
+
 #ifdef  Q_OS_WIN
     QTextCodec *codec = QTextCodec::codecForLocale();
     output = codec->toUnicode(output).toUtf8();
