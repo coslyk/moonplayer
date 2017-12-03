@@ -186,6 +186,7 @@ PlayerView::PlayerView(QWidget *parent) :
     audio_menu->addAction(tr("Swap channel"), core, SLOT(setChannel_Swap()));
     audio_menu->addSeparator();
     audio_menu->addAction(tr("Select track"), this, SLOT(selectAudioTrack()));
+    audio_menu->addAction(tr("Load from file"), this, SLOT(addAudioTrack()));
     audio_menu->addAction(tr("Delay"), this, SLOT(setAudioDelay()));
 
     QMenu *sub_menu = new QMenu(tr("Subtitle"));
@@ -688,7 +689,16 @@ void PlayerView::setSubDelay()
         core->setSubDelay(delay);
 }
 
-// select audio track and set audio delay
+// add audio track, select audio track and set audio delay
+void PlayerView::addAudioTrack()
+{
+    QString videoFile = core->currentFile();
+    QString dir = videoFile.startsWith('/') ? QFileInfo(videoFile).path() : QDir::homePath();
+    QString audioFile = QFileDialog::getOpenFileName(this, tr("Open audio track file"), dir);
+    if (!audioFile.isEmpty())
+        core->openAudioTrack(audioFile);
+}
+
 void PlayerView::selectAudioTrack()
 {
     int aid = selectionDialog->showDialog_Index(core->getAudioTracksList(), tr("Select audio track:"));

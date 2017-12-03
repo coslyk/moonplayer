@@ -349,6 +349,8 @@ bool PlayerCore::event(QEvent *e)
                 if (videoWidth && videoHeight)
                 {
                     emit sizeChanged(QSize(videoWidth, videoHeight));
+                    if (!audioTrack.isEmpty())
+                        openAudioTrack(audioTrack);
                     loadDanmaku();
                 }
             }
@@ -358,6 +360,8 @@ bool PlayerCore::event(QEvent *e)
                 if (videoWidth && videoHeight)
                 {
                     emit sizeChanged(QSize(videoWidth, videoHeight));
+                    if (!audioTrack.isEmpty())
+                        openAudioTrack(audioTrack);
                     loadDanmaku();
                 }
             }
@@ -444,7 +448,7 @@ bool PlayerCore::event(QEvent *e)
 }
 
 // open file
-void PlayerCore::openFile(const QString &file, const QString &danmaku)
+void PlayerCore::openFile(const QString &file, const QString &danmaku, const QString &audioTrack)
 {
     if (state != STOPPING)
     {
@@ -457,6 +461,8 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku)
 
     this->file = file;
     this->danmaku = danmaku;
+    this->audioTrack = audioTrack;
+
     if (danmaku.isEmpty() && !file.startsWith("http://") && !file.startsWith("https://"))
     {
         //get danmaku's url of local videos
@@ -714,6 +720,15 @@ void PlayerCore::setAudioDelay(double v)
     audioDelay = v;
     handleMpvError(mpv_set_property_async(mpv, 2, "audio-delay", MPV_FORMAT_DOUBLE, &v));
     showText("Audio delay: " + QByteArray::number(v));
+}
+
+void PlayerCore::openAudioTrack(const QString &audioFile)
+{
+    if (state == STOPPING)
+        return;
+    QByteArray tmp = audioFile.toUtf8();
+    const char *args[] = {"audio-add", tmp.constData(), "select", NULL};
+    handleMpvError(mpv_command_async(mpv, 2, args));
 }
 
 // set audio channel

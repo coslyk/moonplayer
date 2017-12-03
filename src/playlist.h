@@ -32,7 +32,7 @@ public slots:
     void onListItem(void);
 
 signals:
-    void fileSelected(const QString &file, const QString &danmaku);
+    void fileSelected(const QString &file, const QString &danmaku, const QString &audioTrack = QString());
     void needPause(bool);
 
 private slots:

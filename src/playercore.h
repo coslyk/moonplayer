@@ -44,8 +44,9 @@ public slots:
     void jumpTo(int pos);
     void setProgress(int pos);
     void setVolume(int volume);
-    void openFile(const QString &file, const QString &danmaku = QString());
+    void openFile(const QString &file, const QString &danmaku = QString(), const QString &audioTrack = QString());
     void openSubtitle(const QString &subFile);
+    void openAudioTrack(const QString &audioFile);
     void screenShot(void);
     void speedUp(void);
     void speedDown(void);
@@ -82,6 +83,7 @@ private:
     mpv_opengl_cb_context *mpv_gl;
     DanmakuLoader *danmakuLoader;
     QString file;
+    QString audioTrack;
     QString danmaku;
     QStringList audioTracksList;
     QStringList subtitleList;

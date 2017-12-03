@@ -52,6 +52,7 @@ private slots:
     void onMaxButton(void);
     void onStopButton(void);
     void onStopped(void);
+    void addAudioTrack(void);
     void addSubtitle(void);
     void selectAudioTrack(void);
     void selectSubtitle(void);
