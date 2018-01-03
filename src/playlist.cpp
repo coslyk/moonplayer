@@ -19,8 +19,9 @@ class ItemForPlaylist : public QListWidgetItem
 public:
     QString uri;
     QString danmaku;
-    ItemForPlaylist(const QString &name, const QString &uri, const QString &danmaku) :
-        QListWidgetItem(name), uri(uri), danmaku(danmaku) {}
+    QString audioTrack;
+    ItemForPlaylist(const QString &name, const QString &uri, const QString &danmaku, const QString &audioTrack) :
+        QListWidgetItem(name), uri(uri), danmaku(danmaku), audioTrack(audioTrack) {}
 };
 
 Playlist *playlist = NULL;
@@ -114,16 +115,16 @@ void Playlist::onAddItem()
     emit needPause(false);
 }
 
-void Playlist::addFile(const QString& name, const QString& file, const QString &danmaku)
+void Playlist::addFile(const QString& name, const QString& file, const QString &danmaku, const QString &audioTrack)
 {
-    ui->listWidget->addItem(new ItemForPlaylist(name, file, danmaku));
+    ui->listWidget->addItem(new ItemForPlaylist(name, file, danmaku, audioTrack));
 }
 
-void Playlist::addFileAndPlay(const QString& name, const QString& file, const QString &danmaku)
+void Playlist::addFileAndPlay(const QString& name, const QString& file, const QString &danmaku, const QString &audioTrack)
 {
     last_index = ui->listWidget->count();
-    ui->listWidget->addItem(new ItemForPlaylist(name, file, danmaku));
-    emit fileSelected(file, danmaku);
+    ui->listWidget->addItem(new ItemForPlaylist(name, file, danmaku, audioTrack));
+    emit fileSelected(file, danmaku, audioTrack);
 }
 
 // Add list
@@ -190,7 +191,7 @@ void Playlist::selectFile(QListWidgetItem *item)
 {
     last_index = ui->listWidget->row(item);
     ItemForPlaylist *i = static_cast<ItemForPlaylist*>(item);
-    emit fileSelected(i->uri, i->danmaku);
+    emit fileSelected(i->uri, i->danmaku, i->audioTrack);
 }
 
 //play the next video
@@ -201,6 +202,6 @@ void Playlist::playNext()
     {
         ui->listWidget->setCurrentRow(last_index);
         ItemForPlaylist *item = static_cast<ItemForPlaylist*>(ui->listWidget->item(last_index));
-        emit fileSelected(item->uri, item->danmaku);
+        emit fileSelected(item->uri, item->danmaku, item->audioTrack);
     }
 }

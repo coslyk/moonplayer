@@ -130,8 +130,10 @@ void YouGetBridge::onFinished()
         {
             QString title = obj["title"].toString();
             QJsonObject streams = obj["streams"].toObject();
+            QJsonObject dash_streams = obj["dash_streams"].toObject();
             QJsonObject selectedItem;
             QJsonObject::const_iterator i;
+            bool is_dash = false;
 
             // Select video quality
             if (format.isEmpty()) // quality has not been selected
@@ -144,6 +146,11 @@ void YouGetBridge::onFinished()
                     QString profile = i.value().toObject()["video_profile"].toString();
                     items << QString("%1 (%2)").arg(i.key(), profile);
                 }
+                for (i = dash_streams.constBegin(); i != dash_streams.constEnd(); i++)
+                {
+                    QString quality = i.value().toObject()["quality"].toString();
+                    items << QString("%1 (%2) [DASH]").arg(i.key(), quality);
+                }
 
                 // show dialog
                 selected = selectionDialog->showDialog(items,
@@ -153,7 +160,12 @@ void YouGetBridge::onFinished()
                 selected = selected.section(' ', 0, 0);
 
                 // Check if re-parsing is needed
-                if (streams[selected].toObject().contains("src"))
+                if (dash_streams[selected].toObject().contains("src"))
+                {
+                    selectedItem = dash_streams[selected].toObject();
+                    is_dash = true;
+                }
+                else if (streams[selected].toObject().contains("src"))
                     selectedItem = streams[selected].toObject();
                 else
                 {
@@ -191,13 +203,6 @@ void YouGetBridge::onFinished()
                     return;
                 }
 
-                // Make file list
-                for (int i = 0; i < json_urls.size(); i++)
-                {
-                    names << QString("%1_%2.%3").arg(title, QString::number(i), container);
-                    urls << json_urls[i].toString();
-                }
-
                 // Bind referer and use-agent, set unseekable-list
                 if (!referer.isEmpty())
                 {
@@ -214,6 +219,23 @@ void YouGetBridge::onFinished()
                     foreach (QString url, urls) {
                         unseekable_hosts.append(QUrl(url).host());
                     }
+                }
+
+                // Make file list
+                for (int i = 0; i < json_urls.size(); i++)
+                {
+                    names << QString("%1_%2.%3").arg(title, QString::number(i), container);
+                    urls << json_urls[i].toString();
+                }
+
+                // Play or download dash streams
+                if (is_dash)
+                {
+                    if (download)
+                        QMessageBox::warning(NULL, "Error", "Currently downloading dash streams is not supported");
+                    else
+                        playlist->addFileAndPlay(names[0], urls[0], QString(), urls[1]);
+                    return;
                 }
 
                 // Download

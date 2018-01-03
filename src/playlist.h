@@ -22,10 +22,12 @@ public:
     ~Playlist();
 
 public slots:
-    void addFile(const QString& name, const QString& file, const QString &danmaku = QString());
-    void addFileAndPlay(const QString& name, const QString& file, const QString &danmaku = QString());
-    void addList(const QString& filename);
-    void addUrl(const QString& url);
+    void addFile(const QString &name, const QString &file, const QString &danmaku = QString(),
+                 const QString &audioTrack = QString());
+    void addFileAndPlay(const QString &name, const QString &file, const QString &danmaku = QString(),
+                        const QString &audioTrack = QString());
+    void addList(const QString &filename);
+    void addUrl(const QString &url);
     void onAddItem(void);
     void onNetItem(void);
     void onDelButton(void);

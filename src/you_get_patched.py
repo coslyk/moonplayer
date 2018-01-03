@@ -28,6 +28,8 @@ def output(video_extractor, pretty_print=True):
     out['site'] = ve.name
     out['seekable'] = not ve.name in unseekables
     out['streams'] = ve.streams
+    if getattr(ve, 'dash_streams', None) and len(ve.dash_streams):
+        out['dash_streams'] = ve.dash_streams
     if getattr(ve, 'audiolang', None):
         out['audiolang'] = ve.audiolang
     if getattr(ve, 'ua', None):
