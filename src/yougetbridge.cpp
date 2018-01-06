@@ -203,6 +203,12 @@ void YouGetBridge::onFinished()
                     return;
                 }
 
+
+                // replace illegal chars in title with .
+                static QRegularExpression illegalChars("[\\\\/]");
+                title.replace(illegalChars, ".");
+
+
                 // Bind referer and use-agent, set unseekable-list
                 if (!referer.isEmpty())
                 {
@@ -221,6 +227,28 @@ void YouGetBridge::onFinished()
                     }
                 }
 
+                // Play or download dash streams
+                if (is_dash)
+                {
+                    QString name = title + '.' + container;
+                    if (download)
+                    {
+                        QDir dir = QDir(Settings::downloadDir);
+                        if (!dir.cd(name))
+                        {
+                            dir.mkdir(name);
+                            dir.cd(name);
+                        }
+                        downloader->addTask(json_urls[0].toString().toUtf8(), dir.filePath("video."+ container), true);
+                        downloader->addTask(json_urls[1].toString().toUtf8(), dir.filePath("audio."+ container), true);
+                        QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
+                    }
+                    else
+                        playlist->addFileAndPlay(name, json_urls[0].toString(), QString(), json_urls[1].toString());
+                    return;
+                }
+
+
                 // Make file list
                 for (int i = 0; i < json_urls.size(); i++)
                 {
@@ -228,21 +256,10 @@ void YouGetBridge::onFinished()
                     urls << json_urls[i].toString();
                 }
 
-                // Play or download dash streams
-                if (is_dash)
-                {
-                    if (download)
-                        QMessageBox::warning(NULL, "Error", "Currently downloading dash streams is not supported");
-                    else
-                        playlist->addFileAndPlay(names[0], urls[0], QString(), urls[1]);
-                    return;
-                }
 
                 // Download
                 if (download)
                 {
-                    static QRegularExpression illegalChars("[\\\\/]");
-                    title.replace(illegalChars, ".");
                     // Build file path list
                     QDir dir = QDir(Settings::downloadDir);
                     QString dirname = title + '.' + container;
@@ -255,7 +272,7 @@ void YouGetBridge::onFinished()
                         }
                     }
                     for (int i = 0; i < names.size(); i++)
-                         names[i] = dir.filePath(QString(names[i]).replace(illegalChars, "."));
+                         names[i] = dir.filePath(QString(names[i]));
 
                     // Download more than 1 video clips with danmaku
                     if (!danmaku_url.isEmpty() && urls.size() > 1)
