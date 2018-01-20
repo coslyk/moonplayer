@@ -244,7 +244,10 @@ void YouGetBridge::onFinished()
                         QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
                     }
                     else
+                    {
                         playlist->addFileAndPlay(name, json_urls[0].toString(), QString(), json_urls[1].toString());
+                        res_library->close();
+                    }
                     return;
                 }
 
