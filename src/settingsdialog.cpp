@@ -178,7 +178,7 @@ void initSettings()
     port = settings.value("Net/port").toInt();
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
     downloadDir = settings.value("Net/download_dir", QDir::homePath()).toString();
-    autoCombine = settings.value("Plugins/auto_combine", false).toBool();
+    autoCombine = settings.value("Plugins/auto_combine", true).toBool();
     copyMode = settings.value("Video/copy_mode", false).toBool();
     danmakuAlpha = settings.value("Danmaku/alpha", 0.9).toDouble();
     danmakuFont = settings.value("Danmaku/font", "").toString();
