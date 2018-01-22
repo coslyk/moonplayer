@@ -4,6 +4,7 @@
 #include "accessmanager.h"
 #include "settings_player.h"
 #include "yougetbridge.h"
+#include "ykdlbridge.h"
 #include <Python.h>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -136,7 +137,8 @@ void DetailView::onPlay()
     if (url.startsWith("python:"))
         PyRun_SimpleString(url.mid(7).constData());
     else
-        you_get_bridge.parse(QString::fromUtf8(url), false);
+        ykdl_bridge.parse(QString::fromUtf8(url), false);
+//        you_get_bridge.parse(QString::fromUtf8(url), false);
 }
 
 void DetailView::onDownload()
@@ -148,5 +150,6 @@ void DetailView::onDownload()
     if (url.startsWith("python:"))
         PyRun_SimpleString(url.mid(7).constData());
     else
-        you_get_bridge.parse(QString::fromUtf8(url), true);
+        ykdl_bridge.parse(QString::fromUtf8(url), true);
+//        you_get_bridge.parse(QString::fromUtf8(url), true);
 }

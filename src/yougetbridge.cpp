@@ -5,19 +5,16 @@
 #include "playlist.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
-#include "settings_plugins.h"
 #include "reslibrary.h"
 #include <QApplication>
 #include <QDir>
 #include <QFile>
-#include <QInputDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QMessageBox>
 #include <QProcess>
-#include <QTextCodec>
 #include <QUrl>
 #include "danmakudelaygetter.h"
 #include "terminal.h"
@@ -92,11 +89,6 @@ void YouGetBridge::onFinished()
 
     // Output may include non-json content in the head, remove it
     output = output.mid(output.indexOf('{'));
-
-#ifdef  Q_OS_WIN
-    QTextCodec *codec = QTextCodec::codecForLocale();
-    output = codec->toUnicode(output).toUtf8();
-#endif //  Q_OS_WIN
 
     QJsonObject obj = QJsonDocument::fromJson(output, &json_error).object();
     if (json_error.error == QJsonParseError::NoError)

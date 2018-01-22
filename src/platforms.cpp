@@ -135,3 +135,22 @@ QString yougetUpgraderPath()
     }
     return filename;
 }
+
+// get ykdl's upgrader path
+QString ykdlUpgraderPath()
+{
+    static QString filename;
+    if (filename.isNull())
+    {
+#if defined(Q_OS_LINUX)
+        filename = "/usr/share/moonplayer/upgrade-ykdl.sh";
+#elif defined(Q_OS_MAC)
+        filename = getAppPath().toUtf8() + "/upgrade-ykdl.sh";
+        if ((QFile::permissions(filename) & QFile::ExeOther) == 0) // make it excutable
+            system(("chmod +x '" + filename + '\'').toUtf8().constData());
+#else
+#error ERROR: Unsupport system!
+#endif
+    }
+    return filename;
+}

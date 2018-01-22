@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     playerview.cpp \
     playercore.cpp \
     danmakudelaygetter.cpp \
-    terminal.cpp
+    terminal.cpp \
+    ykdlbridge.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -77,7 +78,8 @@ HEADERS  +=\
     yougetbridge.h \
     downloaderitem.h \
     playerview.h \
-    terminal.h
+    terminal.h \
+    ykdlbridge.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 
