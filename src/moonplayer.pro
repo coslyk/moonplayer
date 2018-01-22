@@ -97,7 +97,7 @@ RESOURCES += \
 
 # Installation on Linux
 unix:!macx {
-    usr_share.files += plugins moonplayer_*.qm Version you_get_patched.py upgrade-you-get.sh
+    usr_share.files += plugins moonplayer_*.qm Version you_get_patched.py upgrade-you-get.sh upgrade-ykdl.sh
     usr_share.path = /usr/share/moonplayer
     #icon
     icon.files += moonplayer.png
@@ -115,7 +115,7 @@ unix:!macx {
 macx {
     FFMPEG.files = /usr/local/opt/ffmpeg/bin/ffmpeg
     FFMPEG.path = Contents/MacOS
-    RESFILES.files = upgrade-you-get.sh you_get_patched.py plugins Version
+    RESFILES.files = upgrade-you-get.sh upgrade-ykdl.sh you_get_patched.py plugins Version
     RESFILES.path = Contents/Resources
     TRANS_FILES.files = moonplayer_zh_CN.qm qt_zh_CN.qm
     TRANS_FILES.path = Contents/Resources/translations
