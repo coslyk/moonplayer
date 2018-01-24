@@ -10,8 +10,10 @@
 #include <QUrl>
 #include "skin.h"
 #include "settings_player.h"
+#include "settings_plugins.h"
 #include "utils.h"
 #include "pyapi.h"
+#include "ykdlbridge.h"
 #include "yougetbridge.h"
 
 class ItemForPlaylist : public QListWidgetItem
@@ -183,7 +185,10 @@ void Playlist::addUrl(const QString &url)
 {
     bool down = (QMessageBox::question(this, "Question", tr("Download?"),
                               QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes);
-    you_get_bridge.parse(url, down);
+    if (Settings::parser == Settings::YKDL)
+        ykdl_bridge.parse(url, down);
+    else
+        you_get_bridge.parse(url, down);
 }
 
 //called when a file is selected

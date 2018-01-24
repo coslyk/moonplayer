@@ -39,6 +39,7 @@ bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 double Settings::danmakuAlpha;
 double Settings::uiScale;
+Settings::VideoParser Settings::parser;
 
 using namespace Settings;
 
@@ -79,6 +80,7 @@ void SettingsDialog::loadSettings()
     ui->dirButton->setText(downloadDir);
     ui->rememberCheckBox->setChecked(rememberUnfinished);
     ui->combineCheckBox->setChecked(autoCombine);
+    ui->parserComboBox->setCurrentIndex((int) parser);
     ui->copyModeCheckBox->setChecked(copyMode);
 
     ui->alphaDoubleSpinBox->setValue(danmakuAlpha);
@@ -119,6 +121,7 @@ void SettingsDialog::saveSettings()
     downloadDir = ui->dirButton->text();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
     autoCombine = ui->combineCheckBox->isChecked();
+    parser = (VideoParser) ui->parserComboBox->currentIndex();
     copyMode = ui->copyModeCheckBox->isChecked();
 
     danmakuAlpha = ui->alphaDoubleSpinBox->value();
@@ -152,6 +155,7 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Net/max_tasks", maxTasks);
     settings.setValue("Net/download_dir", downloadDir);
     settings.setValue("Plugins/auto_combine", autoCombine);
+    settings.setValue("Plugins/parser", (int) parser);
     settings.setValue("Danmaku/alpha", danmakuAlpha);
     settings.setValue("Danmaku/font", danmakuFont);
     settings.setValue("Danmaku/size", danmakuSize);
@@ -179,6 +183,7 @@ void initSettings()
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
     downloadDir = settings.value("Net/download_dir", QDir::homePath()).toString();
     autoCombine = settings.value("Plugins/auto_combine", true).toBool();
+    parser = (VideoParser) settings.value("Plugins/parser", 0).toInt();
     copyMode = settings.value("Video/copy_mode", false).toBool();
     danmakuAlpha = settings.value("Danmaku/alpha", 0.9).toDouble();
     danmakuFont = settings.value("Danmaku/font", "").toString();

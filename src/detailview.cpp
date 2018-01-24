@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "accessmanager.h"
 #include "settings_player.h"
+#include "settings_plugins.h"
 #include "yougetbridge.h"
 #include "ykdlbridge.h"
 #include <Python.h>
@@ -136,9 +137,10 @@ void DetailView::onPlay()
     QByteArray url = urls[current_row];
     if (url.startsWith("python:"))
         PyRun_SimpleString(url.mid(7).constData());
-    else
+    else if (Settings::parser == Settings::YKDL)
         ykdl_bridge.parse(QString::fromUtf8(url), false);
-//        you_get_bridge.parse(QString::fromUtf8(url), false);
+    else
+        you_get_bridge.parse(QString::fromUtf8(url), false);
 }
 
 void DetailView::onDownload()
@@ -149,7 +151,8 @@ void DetailView::onDownload()
     QByteArray url = urls[current_row];
     if (url.startsWith("python:"))
         PyRun_SimpleString(url.mid(7).constData());
-    else
+    else if (Settings::parser == Settings::YKDL)
         ykdl_bridge.parse(QString::fromUtf8(url), true);
-//        you_get_bridge.parse(QString::fromUtf8(url), true);
+    else
+        you_get_bridge.parse(QString::fromUtf8(url), true);
 }
