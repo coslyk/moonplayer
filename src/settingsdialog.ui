@@ -288,10 +288,24 @@
        <string>Plugins</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_4">
+       <item row="1" column="1">
+        <widget class="QComboBox" name="parserComboBox">
+         <item>
+          <property name="text">
+           <string>ykdl</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>you-get</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="viewPluginsButton">
          <property name="text">
-          <string>Video parser:</string>
+          <string>Open plugins folder</string>
          </property>
         </widget>
        </item>
@@ -308,10 +322,24 @@
          </property>
         </spacer>
        </item>
-       <item row="4" column="0">
-        <widget class="QPushButton" name="viewPluginsButton">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Open plugins folder</string>
+          <string>Video parser:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="parserHelpButton">
+         <property name="text">
+          <string>Help</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="QCheckBox" name="combineCheckBox">
+         <property name="text">
+          <string>Combine video clips automatically after downloading</string>
          </property>
         </widget>
        </item>
@@ -327,27 +355,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QCheckBox" name="combineCheckBox">
-         <property name="text">
-          <string>Combine video clips automatically after downloading</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="parserComboBox">
-         <item>
-          <property name="text">
-           <string>ykdl</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>you-get</string>
-          </property>
-         </item>
-        </widget>
        </item>
       </layout>
      </widget>

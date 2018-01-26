@@ -49,11 +49,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
-    connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
-    connect(this, SIGNAL(rejected()), this, SLOT(loadSettings()));
-    connect(ui->dirButton, SIGNAL(clicked()), this, SLOT(onDirButton()));
+    connect(this, &SettingsDialog::accepted, this, &SettingsDialog::saveSettings);
+    connect(this, &SettingsDialog::rejected, this, &SettingsDialog::loadSettings);
+    connect(ui->dirButton, &QPushButton::clicked, this, &SettingsDialog::onDirButton);
     connect(ui->fontPushButton, &QPushButton::clicked, this, &SettingsDialog::onFontButton);
-    connect(ui->viewPluginsButton, SIGNAL(clicked()), this, SLOT(showPluginsMsg()));
+    connect(ui->parserHelpButton, &QPushButton::clicked, this, &SettingsDialog::openParserHelp);
+    connect(ui->viewPluginsButton, &QPushButton::clicked, this, &SettingsDialog::openPluginsFolder);
 
     setMinimumSize(minimumSize() * uiScale);
 
@@ -205,7 +206,15 @@ void initSettings()
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
 }
 
-void SettingsDialog::showPluginsMsg()
+
+void SettingsDialog::openParserHelp()
+{
+    QDesktopServices::openUrl(QUrl("https://github.com/coslyk/moonplayer/wiki/VideoParser"));
+}
+
+
+
+void SettingsDialog::openPluginsFolder()
 {
 #ifdef Q_OS_WIN
     QDesktopServices::openUrl("file:///" + getUserPath() + "/plugins");
