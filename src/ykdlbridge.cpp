@@ -41,7 +41,7 @@ void YkdlBridge::runParser(const QString &url)
 }
 
 
-void YkdlBridge::parseJson(const QByteArray &jsonData)
+void YkdlBridge::parseOutput(const QByteArray &jsonData)
 {
     QJsonParseError json_error;
     QJsonObject obj = QJsonDocument::fromJson(jsonData, &json_error).object();

@@ -17,7 +17,7 @@ public slots:
 
 protected:
     void runParser(const QString &url);
-    void parseJson(const QByteArray &jsonData);
+    void parseOutput(const QByteArray &jsonData);
 };
 
 extern YkdlBridge ykdl_bridge;

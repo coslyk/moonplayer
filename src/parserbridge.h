@@ -22,15 +22,18 @@ protected:
     QProcess *process;
 
     virtual void runParser(const QString &url) = 0;
-    virtual void parseJson(const QByteArray &jsonData) = 0;
+    virtual void parseOutput(const QByteArray &jsonData) = 0;
 
     // the following members should be filled in parseJson
     QStringList names;
     QStringList urls;
     QString title;
     QString container;
+    QString danmaku_url;
     QString referer;
     QString ua;
+    bool seekable;
+    bool is_dash;
 
 private:
     QString url;
