@@ -170,7 +170,7 @@ def load_item_cb(page, url):
     
     
 # Parse Youku's detail page
-yk_item_url_re = re.compile(r'''<a [^>]*?href="([^"]+?list\.youku\.com/show/id_[^"]+?)"[^>]*?>节目简介''')
+yk_item_url_re = re.compile(r'''<a [^>]*?href="([^"]+?list\.youku\.com/show/id_[^"]+?)"''')
 def load_youku_item_url_cb(page, data):
     match = yk_item_url_re.search(page)
     if match:
