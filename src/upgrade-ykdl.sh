@@ -23,18 +23,10 @@ else
     alias fetcher="wget -q -O -"
 fi
 
-# pause function
-pause_() {
-    if [ "$OS_NAME" = 'Linux' ]; then
-        echo "Press enter to continue"
-        read LINE
-    fi
-}
-
 
 cd "$TMPDIR"
 echo ""
-echo -e "\033[34m ---------- Checking updates --------- \033[0m"
+echo -e "\033[34m ---------- Checking ykdl's updates ----------- \033[0m"
 
 # Get latest ykdl version
 get_latest_version() {
@@ -48,7 +40,6 @@ if [ -n "$LATEST_VERSION" ]; then
     echo "Latest version: $LATEST_VERSION"
 else
     echo 'Error: Cannot get the latest version of ykdl. Please try again later.'
-    pause_
     exit 0
 fi
 
@@ -59,8 +50,7 @@ if [ -e "$VERSION_FILE" ] && [ -d "$DEST_DIR" ]; then
     echo "Current version: $CURRENT_VERSION"
     if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
         echo "Ykdl already up-to-date."
-        echo -e "\033[34m ---------------- End ---------------- \033[0m"
-        pause_
+        echo -e "\033[34m -------------------- End --------------------- \033[0m"
         exit 0
     fi
 else
@@ -70,7 +60,7 @@ fi
 
 # Download latest version
 echo ""
-echo -e "\033[34m --------- Updating ykdl --------- \033[0m"
+echo -e "\033[34m --------------- Updating ykdl ---------------- \033[0m"
 echo "Downloading https://github.com/zhangn1985/ykdl/archive/master.zip"
 downloader ykdl.zip "https://github.com/zhangn1985/ykdl/archive/master.zip"
 
@@ -86,6 +76,5 @@ rm -f ykdl.zip
 echo "$LATEST_VERSION" > "$VERSION_FILE"
 
 echo ""
-echo -e "\033[34m ---------------- End ---------------- \033[0m"
-pause_
+echo -e "\033[34m -------------------- End --------------------- \033[0m"
 

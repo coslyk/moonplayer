@@ -23,20 +23,10 @@ else
     alias fetcher="wget -q -O -"
 fi
 
-# set python2 excutable
-if which python2 > /dev/null; then
-    PYTHON2="python2"
-else
-    PYTHON2="python"
-fi
 
-# pause function
-pause_() {
-    if [ "$OS_NAME" = 'Linux' ]; then
-        echo "Press enter to continue"
-        read LINE
-    fi
-}
+cd "$TMPDIR"
+echo ""
+echo -e "\033[34m ---------- Checking you-get's update --------- \033[0m"
 
 
 # Check whether Python3 is installed
@@ -46,21 +36,14 @@ echo -e "\033[31m Python3 is not installed. Please download it from \033[0m"
 echo -e "\033[31m https://www.python.org/downloads/mac-osx/ \033[0m"
 echo -e "\033[31m and then install it. \033[0m"
 echo -e "\033[31m ************ End ************ \033[0m"
-pause_
 exit 0
 }
-
-
-
-cd "$TMPDIR"
-echo ""
-echo -e "\033[34m ---------- Checking updates --------- \033[0m"
 
 # Get latest you-get version
 get_latest_version() {
     export PYTHONIOENCODING=utf8
     fetcher 'https://api.github.com/repos/soimort/you-get/branches/develop' | \
-        $PYTHON2 -c "import sys, json; print json.load(sys.stdin)['commit']['sha']"
+        python -c "import sys, json; sys.stdout.write(json.load(sys.stdin)['commit']['sha'])"
 }
 
 LATEST_VERSION=`get_latest_version`
@@ -68,7 +51,6 @@ if [ -n "$LATEST_VERSION" ]; then
     echo "Latest version: $LATEST_VERSION"
 else
     echo 'Error: Cannot get the latest version of you-get. Please try again later.'
-    pause_
     exit 0
 fi
 
@@ -79,8 +61,7 @@ if [ -e "$VERSION_FILE" ] && [ -d "$DEST_DIR" ]; then
     echo "Current version: $CURRENT_VERSION"
     if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
         echo "You-get already up-to-date."
-        echo -e "\033[34m ---------------- End ---------------- \033[0m"
-        pause_
+        echo -e "\033[34m -------------------- End --------------------- \033[0m"
         exit 0
     fi
 else
@@ -90,7 +71,7 @@ fi
 
 # Download latest version
 echo ""
-echo -e "\033[34m --------- Updating you-get --------- \033[0m"
+echo -e "\033[34m -------------- Updating you-get -------------- \033[0m"
 echo "Downloading https://github.com/soimort/you-get/archive/develop.zip"
 downloader you-get.zip "https://github.com/soimort/you-get/archive/develop.zip"
 
@@ -107,6 +88,5 @@ rm -f you-get.zip
 echo "$LATEST_VERSION" > "$VERSION_FILE"
 
 echo ""
-echo -e "\033[34m ---------------- End ---------------- \033[0m"
-pause_
+echo -e "\033[34m -------------------- End --------------------- \033[0m"
 
