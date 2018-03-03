@@ -205,6 +205,29 @@
     </message>
 </context>
 <context>
+    <name>ParserBridge</name>
+    <message>
+        <location filename="parserbridge.cpp" line="56"/>
+        <source>Another file is being parsed.</source>
+        <translation type="unfinished">其他视频正在解析中。</translation>
+    </message>
+    <message>
+        <location filename="parserbridge.cpp" line="137"/>
+        <source>Add download task successfully!</source>
+        <translation type="unfinished">添加下载任务成功！</translation>
+    </message>
+    <message>
+        <location filename="parserbridge.cpp" line="167"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <location filename="parserbridge.cpp" line="168"/>
+        <source>Upgrade parser</source>
+        <translation type="unfinished">更新解析程序</translation>
+    </message>
+</context>
+<context>
     <name>PlayerCore</name>
     <message>
         <location filename="playercore.cpp" line="283"/>
@@ -395,6 +418,11 @@
         <translation type="unfinished">选择</translation>
     </message>
     <message>
+        <location filename="playerview.cpp" line="222"/>
+        <source>Upgrade parsers</source>
+        <translation type="unfinished">更新解析程序</translation>
+    </message>
+    <message>
         <location filename="playerview.cpp" line="190"/>
         <location filename="playerview.cpp" line="196"/>
         <source>Load from file</source>
@@ -422,11 +450,6 @@
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="playerview.cpp" line="223"/>
-        <source>Update you-get</source>
-        <translation type="unfinished">更新you-get</translation>
-    </message>
-    <message>
         <location filename="playerview.cpp" line="220"/>
         <source>Ext. for browser</source>
         <translation type="unfinished">浏览器扩展</translation>
@@ -437,57 +460,52 @@
         <translation type="unfinished">关于</translation>
     </message>
     <message>
-        <location filename="playerview.cpp" line="222"/>
-        <source>Update ykdl</source>
-        <translation type="unfinished">更新ykdl</translation>
-    </message>
-    <message>
-        <location filename="playerview.cpp" line="224"/>
+        <location filename="playerview.cpp" line="223"/>
         <source>Contribute</source>
         <translation type="unfinished">贡献</translation>
     </message>
     <message>
-        <location filename="playerview.cpp" line="225"/>
+        <location filename="playerview.cpp" line="224"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="playerview.cpp" line="303"/>
+        <location filename="playerview.cpp" line="302"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="playerview.cpp" line="600"/>
+        <location filename="playerview.cpp" line="599"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
     <message>
-        <location filename="playerview.cpp" line="674"/>
+        <location filename="playerview.cpp" line="673"/>
         <source>Open subtitle file</source>
         <translation type="unfinished">打开字幕文件</translation>
     </message>
     <message>
-        <location filename="playerview.cpp" line="681"/>
+        <location filename="playerview.cpp" line="680"/>
         <source>Select subtitle:</source>
         <translation type="unfinished">选择字幕：</translation>
     </message>
     <message>
-        <location filename="playerview.cpp" line="689"/>
+        <location filename="playerview.cpp" line="688"/>
         <source>Subtitle delay (sec):</source>
         <translation type="unfinished">字幕延时（秒）：</translation>
     </message>
     <message>
-        <location filename="playerview.cpp" line="699"/>
+        <location filename="playerview.cpp" line="698"/>
         <source>Open audio track file</source>
         <translation type="unfinished">打开音轨文件</translation>
     </message>
     <message>
-        <location filename="playerview.cpp" line="706"/>
+        <location filename="playerview.cpp" line="705"/>
         <source>Select audio track:</source>
         <translation type="unfinished">选择音轨：</translation>
     </message>
     <message>
-        <location filename="playerview.cpp" line="714"/>
+        <location filename="playerview.cpp" line="713"/>
         <source>Audio delay (sec):</source>
         <translation type="unfinished">音频延时（秒）：</translation>
     </message>
@@ -831,75 +849,18 @@
     </message>
 </context>
 <context>
-    <name>YkdlBridge</name>
     <message>
-        <location filename="ykdlbridge.cpp" line="60"/>
-        <source>Another file is being parsed.</source>
-        <translation type="unfinished">其他视频正在解析中。</translation>
-    </message>
-    <message>
-        <location filename="ykdlbridge.cpp" line="102"/>
+        <location filename="ykdlbridge.cpp" line="67"/>
         <source>Please select a video quality:</source>
         <translation type="unfinished">请选择视频质量：</translation>
-    </message>
-    <message>
-        <location filename="ykdlbridge.cpp" line="121"/>
-        <source>No videos available. Please try other language or quality.</source>
-        <translation type="unfinished">无视频可用。请尝试其他语言或视频质量。</translation>
-    </message>
-    <message>
-        <location filename="ykdlbridge.cpp" line="169"/>
-        <source>Add download task successfully!</source>
-        <translation type="unfinished">添加下载任务成功！</translation>
-    </message>
-    <message>
-        <location filename="ykdlbridge.cpp" line="194"/>
-        <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
-    </message>
-    <message>
-        <location filename="ykdlbridge.cpp" line="195"/>
-        <source>Upgrade Parser</source>
-        <translation type="unfinished">更新解析程序</translation>
     </message>
 </context>
 <context>
     <name>YouGetBridge</name>
     <message>
-        <location filename="yougetbridge.cpp" line="64"/>
-        <source>Another file is being parsed.</source>
-        <translation type="unfinished">其他视频正在解析中。</translation>
-    </message>
-    <message>
-        <location filename="yougetbridge.cpp" line="109"/>
-        <source>Please select a language:</source>
-        <translation type="unfinished">请选择语言：</translation>
-    </message>
-    <message>
-        <location filename="yougetbridge.cpp" line="149"/>
+        <location filename="yougetbridge.cpp" line="69"/>
         <source>Please select a video quality:</source>
         <translation type="unfinished">请选择视频质量：</translation>
-    </message>
-    <message>
-        <location filename="yougetbridge.cpp" line="194"/>
-        <source>No videos available. Please try other language or quality.</source>
-        <translation type="unfinished">无视频可用。请尝试其他语言或视频质量。</translation>
-    </message>
-    <message>
-        <location filename="yougetbridge.cpp" line="236"/>
-        <location filename="yougetbridge.cpp" line="281"/>
-        <source>Add download task successfully!</source>
-        <translation type="unfinished">添加下载任务成功！</translation>
-    </message>
-    <message>
-        <location filename="yougetbridge.cpp" line="314"/>
-        <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
-    </message>
-    <message>
-        <location filename="yougetbridge.cpp" line="315"/>
-        <source>Upgrade Parser</source>
-        <translation type="unfinished">更新解析程序</translation>
     </message>
 </context>
 </TS>
