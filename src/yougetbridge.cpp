@@ -8,7 +8,6 @@
 #include <QJsonParseError>
 #include <QProcess>
 #include <QRegularExpression>
-#include "terminal.h"
 
 YouGetBridge you_get_bridge;
 
@@ -109,11 +108,5 @@ void YouGetBridge::parseOutput(const QByteArray &jsonData)
             urls << json_urls[i].toString();
         }
     }
-}
-
-
-void YouGetBridge::updateYouGet()
-{
-    execShell(yougetUpgraderPath());
 }
 

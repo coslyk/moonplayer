@@ -1,5 +1,4 @@
 #include "ykdlbridge.h"
-#include "platforms.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
 #include <QDir>
@@ -9,7 +8,6 @@
 #include <QJsonParseError>
 #include <QProcess>
 #include <QRegularExpression>
-#include "terminal.h"
 
 YkdlBridge ykdl_bridge;
 
@@ -97,11 +95,4 @@ void YkdlBridge::parseOutput(const QByteArray &jsonData)
     }
 }
 
-
-
-
-void YkdlBridge::updateYkdl()
-{
-    execShell(ykdlUpgraderPath());
-}
 

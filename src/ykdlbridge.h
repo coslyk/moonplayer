@@ -12,9 +12,6 @@ class YkdlBridge : public ParserBridge
 public:
     explicit YkdlBridge(QObject *parent = 0);
 
-public slots:
-    void updateYkdl(void);
-
 protected:
     void runParser(const QString &url);
     void parseOutput(const QByteArray &jsonData);

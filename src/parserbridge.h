@@ -13,6 +13,9 @@ public:
     virtual ~ParserBridge();
     void parse(const QString &url, bool download);
 
+public slots:
+    void upgradeParsers(void);
+
 private slots:
     void onFinished(void);
     void onError(void);

@@ -219,8 +219,7 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addAction(tr("Settings"), settingsDialog, SLOT(show()), QKeySequence("Ctrl+,"));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
     QMenu *aboutMenu = menu->addMenu(tr("About"));
-    aboutMenu->addAction(tr("Update ykdl"), &ykdl_bridge, SLOT(updateYkdl()));
-    aboutMenu->addAction(tr("Update you-get"), &you_get_bridge, SLOT(updateYouGet()));
+    aboutMenu->addAction(tr("Upgrade parsers"), &ykdl_bridge, SLOT(upgradeParsers()));
     aboutMenu->addAction(tr("Contribute"), this, SLOT(openContributePage()));
     aboutMenu->addAction(tr("Homepage"), this, SLOT(openHomepage()));
 

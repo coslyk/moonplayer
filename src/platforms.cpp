@@ -115,37 +115,16 @@ QString yougetFilePath()
 }
 
 
-// get you-get's upgrader path
-QString yougetUpgraderPath()
+// get parsers' upgrader path
+QString parserUpgraderPath()
 {
     static QString filename;
     if (filename.isNull())
     {
 #if defined(Q_OS_LINUX)
-        filename = "/usr/share/moonplayer/upgrade-you-get.sh";
+        filename = "/usr/share/moonplayer/upgrade-parsers.sh";
 #elif defined(Q_OS_MAC)
-        filename = getAppPath().toUtf8() + "/upgrade-you-get.sh";
-        if ((QFile::permissions(filename) & QFile::ExeOther) == 0) // make it excutable
-            system(("chmod +x '" + filename + '\'').toUtf8().constData());
-#elif defined(Q_OS_WIN)
-		filename = "";
-#else
-#error ERROR: Unsupport system!
-#endif
-    }
-    return filename;
-}
-
-// get ykdl's upgrader path
-QString ykdlUpgraderPath()
-{
-    static QString filename;
-    if (filename.isNull())
-    {
-#if defined(Q_OS_LINUX)
-        filename = "/usr/share/moonplayer/upgrade-ykdl.sh";
-#elif defined(Q_OS_MAC)
-        filename = getAppPath().toUtf8() + "/upgrade-ykdl.sh";
+        filename = getAppPath().toUtf8() + "/upgrade-parsers.sh";
         if ((QFile::permissions(filename) & QFile::ExeOther) == 0) // make it excutable
             system(("chmod +x '" + filename + '\'').toUtf8().constData());
 #else

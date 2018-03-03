@@ -11,9 +11,6 @@ class YouGetBridge : public ParserBridge
 public:
     explicit YouGetBridge(QObject *parent = 0);
 
-public slots:
-    void updateYouGet(void);
-
 protected:
     void runParser(const QString &url);
     void parseOutput(const QByteArray &jsonData);

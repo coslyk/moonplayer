@@ -5,10 +5,12 @@
 #include "accessmanager.h"
 #include "danmakudelaygetter.h"
 #include "downloader.h"
+#include "platforms.h"
 #include "playlist.h"
 #include "reslibrary.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
+#include "terminal.h"
 
 SelectionDialog *ParserBridge::selectionDialog = NULL;
 
@@ -163,3 +165,11 @@ void ParserBridge::onError()
                         "Parse failed!\nURL:" + url + "\n" +
                          QString::fromUtf8(process->readAllStandardError()));
 }
+
+
+
+void ParserBridge::upgradeParsers()
+{
+    execShell(parserUpgraderPath());
+}
+
