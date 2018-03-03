@@ -161,9 +161,13 @@ void ParserBridge::onFinished()
 
 void ParserBridge::onError()
 {
-    QMessageBox::warning(NULL, "Error",
-                        "Parse failed!\nURL:" + url + "\n" +
-                         QString::fromUtf8(process->readAllStandardError()));
+    int btn = QMessageBox::warning(NULL, "Error",
+                                   "Parse failed!\nURL:" + url + "\n" +
+                                   QString::fromUtf8(process->readAllStandardError()),
+                                   tr("Cancel"),
+                                   tr("Upgrade parser"));
+    if (btn == 1)
+        upgradeParsers();
 }
 
 
