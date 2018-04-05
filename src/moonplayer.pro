@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT += core gui network xml widgets
+unix:!macx: QT += gui-private x11extras
 
 macx:  TARGET = MoonPlayer
 !macx: TARGET = moonplayer

@@ -62,11 +62,15 @@ int main(int argc, char *argv[])
 {
     QDir currentDir = QDir::current();
 
+#if defined(Q_OS_LINUX)
+    qputenv("QT_XCB_GL_INTEGRATION", "xcb_egl");
+#elif defined(Q_OS_MAC)
     // OpenGL version >= 3.0 is required for hardware decoding
     QSurfaceFormat surface = QSurfaceFormat::defaultFormat();
     surface.setVersion(3, 2);
     surface.setProfile(QSurfaceFormat::CoreProfile);
     QSurfaceFormat::setDefaultFormat(surface);
+#endif
 
 #ifdef Q_OS_MAC
     MyApplication a(argc, argv);
@@ -111,6 +115,7 @@ int main(int argc, char *argv[])
 
     // This is the first instance, create server
     LocalServer server;
+    Q_UNUSED(server);
 #endif
 
 #ifdef Q_OS_WIN

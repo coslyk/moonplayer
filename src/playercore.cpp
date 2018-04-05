@@ -16,7 +16,21 @@
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QOpenGLContext>
-#include <QTimer>
+
+// wayland fix
+#ifdef Q_OS_LINUX
+#include <QGuiApplication>
+#include <QX11Info>
+#include <qpa/qplatformnativeinterface.h>
+static void *GLAPIENTRY glMPGetNativeDisplay(const char *name)
+{
+    if (strcmp(name, "wl") == 0 && !QX11Info::isPlatformX11())
+        return QGuiApplication::platformNativeInterface()->nativeResourceForWindow("display", NULL);
+    else if (strcmp(name, "x11") == 0 && QX11Info::isPlatformX11())
+        return QX11Info::display();
+    return NULL;
+}
+#endif
 
 static void postEvent(void *ptr)
 {
@@ -25,8 +39,15 @@ static void postEvent(void *ptr)
 }
 
 
+
 static void *get_proc_address(void *, const char *name)
 {
+    // hardware acceleration fix
+#ifdef Q_OS_LINUX
+    if(strcmp(name, "glMPGetNativeDisplay") == 0)
+        return (void*) glMPGetNativeDisplay;
+#endif
+
     QOpenGLContext *glctx = QOpenGLContext::currentContext();
     if (!glctx)
         return NULL;
@@ -66,11 +87,20 @@ PlayerCore::PlayerCore(QWidget *parent) :
     // set hardware decoding
 #if defined(Q_OS_LINUX)
     if (Settings::hwdec == "auto")
+    {
+        mpv_set_option_string(mpv, "hwdec-preload", "auto");
         mpv_set_option_string(mpv, "opengl-hwdec-interop", "auto");
+    }
     else if (Settings::hwdec == "vaapi")
+    {
+        mpv_set_option_string(mpv, "hwdec-preload", "vaapi-egl");
         mpv_set_option_string(mpv, "opengl-hwdec-interop", "vaapi-egl");
+    }
     else
+    {
+        mpv_set_option_string(mpv, "hwdec-preload", "vdpau-glx");
         mpv_set_option_string(mpv, "opengl-hwdec-interop", "vdpau-glx");
+    }
     QByteArray hwdec = Settings::hwdec.toUtf8() + (Settings::copyMode ? "-copy" : "");
     mpv_set_option_string(mpv, "hwdec", hwdec);
 #elif defined(Q_OS_MAC)
@@ -142,7 +172,11 @@ PlayerCore::PlayerCore(QWidget *parent) :
 void PlayerCore::initializeGL()
 {
     printf("OpenGL Version: %i.%i\n", context()->format().majorVersion(), context()->format().minorVersion());
+#ifdef Q_OS_LINUX
+    int r = mpv_opengl_cb_init_gl(mpv_gl, "GL_MP_MPGetNativeDisplay", get_proc_address, NULL);
+#else
     int r = mpv_opengl_cb_init_gl(mpv_gl, NULL, get_proc_address, NULL);
+#endif
     if (r < 0)
     {
         qDebug("Cannot initialize OpenGL.");
