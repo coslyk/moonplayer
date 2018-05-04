@@ -134,7 +134,9 @@ win32: RC_FILE = icon.rc
 
 # Libraries
 unix:!macx: CONFIG += link_pkgconfig
-unix:!macx: PKGCONFIG += python2 mpv qtermwidget5
+unix:!macx: PKGCONFIG += python2 mpv
+unix:!macx: INCLUDEPATH += /usr/include/qtermwidget5
+unix:!macx: LIBS += -lqtermwidget5
 
 macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/Headers \
     /usr/local/include
