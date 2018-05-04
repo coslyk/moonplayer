@@ -141,7 +141,7 @@ macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/He
 macx: LIBS += -F /System/Library/Frameworks -framework CoreFoundation \
     -L/usr/lib -ldl \
     -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config -lpython2.7 \
-    -L /usr/local/lib -lmpv
+    -L/usr/local/lib -lmpv
 
 win32: INCLUDEPATH += C:\\Python27\\include
 win32: LIBS += C:\\Python27\\libs\\python27.lib
