@@ -81,7 +81,6 @@ void SettingsDialog::loadSettings()
     ui->dirButton->setText(downloadDir);
     ui->rememberCheckBox->setChecked(rememberUnfinished);
     ui->combineCheckBox->setChecked(autoCombine);
-    ui->parserComboBox->setCurrentIndex((int) parser);
     ui->copyModeCheckBox->setChecked(copyMode);
 
     ui->alphaDoubleSpinBox->setValue(danmakuAlpha);
@@ -89,6 +88,11 @@ void SettingsDialog::loadSettings()
     ui->fontSizeSpinBox->setValue(danmakuSize);
     ui->dmSpinBox->setValue(durationScrolling);
     ui->dsSpinBox->setValue(durationStill);
+
+    if (parser == YKDL)
+        ui->ykdlButton->setChecked(true);
+    else
+        ui->yougetButton->setChecked(true);
 }
 
 void SettingsDialog::onDirButton()
@@ -121,8 +125,8 @@ void SettingsDialog::saveSettings()
     maxTasks = ui->maxTaskSpinBox->value();
     downloadDir = ui->dirButton->text();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
+    parser = ui->ykdlButton->isChecked() ? YKDL : YOU_GET;
     autoCombine = ui->combineCheckBox->isChecked();
-    parser = (VideoParser) ui->parserComboBox->currentIndex();
     copyMode = ui->copyModeCheckBox->isChecked();
 
     danmakuAlpha = ui->alphaDoubleSpinBox->value();

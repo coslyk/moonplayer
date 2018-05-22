@@ -10,7 +10,10 @@
 #include "reslibrary.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
+#include "settings_plugins.h"
 #include "terminal.h"
+#include "ykdlbridge.h"
+#include "yougetbridge.h"
 
 SelectionDialog *ParserBridge::selectionDialog = NULL;
 
@@ -161,13 +164,41 @@ void ParserBridge::onFinished()
 
 void ParserBridge::onError()
 {
-    int btn = QMessageBox::warning(NULL, "Error",
-                                   "Parse failed!\nURL:" + url + "\n" +
-                                   QString::fromUtf8(process->readAllStandardError()),
-                                   tr("Cancel"),
-                                   tr("Upgrade parser"));
-    if (btn == 1)
-        upgradeParsers();
+    // Use fallback parser
+    ParserBridge *firstParser, *secondParser;
+    QString msg;
+    if (Settings::parser == Settings::YKDL)
+    {
+        firstParser = &ykdl_bridge;
+        secondParser = &you_get_bridge;
+        msg = tr("Parsing with ykdl failed. We will try with you-get again.");
+    }
+    else
+    {
+        firstParser = &you_get_bridge;
+        secondParser = &ykdl_bridge;
+        msg = tr("Parsing with you-get failed. We will try with ykdl again.");
+    }
+
+    if (this == firstParser)
+    {
+        QMessageBox::warning(NULL, "Error",
+                             msg + "\n\nURL:" + url + "\n\nError Output:\n" +
+                             QString::fromUtf8(process->readAllStandardError()));
+        secondParser->parse(url, download);
+    }
+
+    // parse with fallback parser failed
+    else
+    {
+        int btn = QMessageBox::warning(NULL, "Error",
+                                       "Parse failed!\nURL:" + url + "\n" +
+                                       QString::fromUtf8(process->readAllStandardError()),
+                                       tr("Cancel"),
+                                       tr("Upgrade parser"));
+        if (btn == 1)
+            upgradeParsers();
+    }
 }
 
 

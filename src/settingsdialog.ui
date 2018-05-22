@@ -288,28 +288,62 @@
        <string>Plugins</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="1" column="1">
-        <widget class="QComboBox" name="parserComboBox">
-         <item>
-          <property name="text">
-           <string>ykdl</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>you-get</string>
-          </property>
-         </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="parserHelpButton">
+         <property name="text">
+          <string>Help</string>
+         </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="1" column="0" colspan="4">
+        <widget class="QRadioButton" name="ykdlButton">
+         <property name="text">
+          <string>Use ykdl first, you-get as fallback</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="4">
+        <widget class="QCheckBox" name="combineCheckBox">
+         <property name="text">
+          <string>Combine video clips automatically after downloading</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="2">
         <widget class="QPushButton" name="viewPluginsButton">
          <property name="text">
           <string>Open plugins folder</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="7" column="2">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>201</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Parser mode:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="4">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -322,39 +356,12 @@
          </property>
         </spacer>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_4">
+       <item row="3" column="0" colspan="4">
+        <widget class="QRadioButton" name="yougetButton">
          <property name="text">
-          <string>Video parser:</string>
+          <string>Use you-get first, ykdl as fallback</string>
          </property>
         </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QPushButton" name="parserHelpButton">
-         <property name="text">
-          <string>Help</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="3">
-        <widget class="QCheckBox" name="combineCheckBox">
-         <property name="text">
-          <string>Combine video clips automatically after downloading</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>201</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>
