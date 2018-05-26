@@ -12,7 +12,6 @@
 #include "skin.h"
 #include "utils.h"
 #include "ykdlbridge.h"
-#include "yougetbridge.h"
 #include <QDesktopServices>
 #include <QDesktopWidget>
 #include <QFileDialog>
