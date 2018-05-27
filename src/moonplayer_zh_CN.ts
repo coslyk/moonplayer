@@ -589,8 +589,12 @@
     </message>
     <message>
         <location filename="reslibrary.cpp" line="50"/>
+        <source>Regions:</source>
+        <translation type="unfinished">地区：</translation>
+    </message>
+    <message>
         <source>Countries:</source>
-        <translation type="unfinished">国家：</translation>
+        <translation type="obsolete">国家：</translation>
     </message>
     <message>
         <location filename="reslibrary.cpp" line="62"/>
@@ -715,7 +719,7 @@
     <message>
         <location filename="settingsdialog.ui" line="301"/>
         <source>Use ykdl first, you-get as fallback</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">优先使用ykdl，失败时使用you-get</translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="308"/>
@@ -794,12 +798,12 @@
     <message>
         <location filename="settingsdialog.ui" line="335"/>
         <source>Parser mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">解析模式：</translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="362"/>
         <source>Use you-get first, ykdl as fallback</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">优先使用you-get，失败时使用ykdl</translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="370"/>

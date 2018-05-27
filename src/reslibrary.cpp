@@ -47,7 +47,7 @@ ResLibrary::ResLibrary(QWidget *parent) :
         connect(buttonGroup, SIGNAL(selectedChanged()), this, SLOT(reSearch()));
         layout->addWidget(buttonGroup);
 
-        layout->addWidget(new QLabel(tr("Countries:")));
+        layout->addWidget(new QLabel(tr("Regions:")));
         buttonGroup = new MyButtonGroup(plugin->countriesList);
         connect(buttonGroup, SIGNAL(selectedChanged()), this, SLOT(reSearch()));
         layout->addWidget(buttonGroup);
