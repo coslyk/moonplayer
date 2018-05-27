@@ -21,6 +21,7 @@ MyButtonGroup::MyButtonGroup(QStringList list, QWidget *parent) :
 {
     selectedButton = NULL;
     QGridLayout *layout = new QGridLayout(this);
+    layout->setSpacing(0);
     int size = list.size();
     for (int i = 0; i < size; i++)
     {
