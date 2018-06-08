@@ -16,7 +16,6 @@ class Playlist : public QWidget
     
 public:
     explicit Playlist(QWidget *parent = 0);
-    void initClassicUI(void);
     void playNext(void);
     ~Playlist();
 

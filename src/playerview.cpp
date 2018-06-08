@@ -6,7 +6,6 @@
 #include "playercore.h"
 #include "reslibrary.h"
 #include "selectiondialog.h"
-#include "settings_player.h"
 #include "settings_audio.h"
 #include "settingsdialog.h"
 #include "skin.h"
@@ -24,65 +23,6 @@
 #include <QResizeEvent>
 #include <QTimer>
 
-static QString controllerQSS =
-        "QWidget#controllerWidget {\
-        background: rgba(50, 50, 50, 230);\
-        border-radius: 8px;\
-    }\
-    \
-    QLabel {\
-        color: rgb(200, 200, 200);\
-    }\
-    \
-    QSlider::groove:horizontal {\
-        height: 1px;\
-        margin: 0px 0px;\
-        left: 12px; right: 12px;\
-        border: 2px solid #999999;\
-    }\
-    QSlider::handle:horizontal {\
-        border: 0px solid #5c5c5c;\
-        border-radius: 2px;\
-        background: rgb(230, 230, 230);\
-        width: 9px;\
-        margin: -6px -6px -6px -6px;\
-    }\
-    QSlider::sub-page:horizontal{\
-        background: rgb(170, 170, 170);\
-    }\
-    QSlider::add-page:horizontal{\
-        background: rgb(120, 120, 120);\
-    }";
-
-static QString EqualizerQSS =
-        "QWidget#equalizerWidget {\
-        background: rgba(50, 50, 50, 230);\
-        border-radius: 8px;\
-    }\
-    \
-    QLabel {\
-        color: rgb(200, 200, 200);\
-    }\
-    \
-    QSlider::groove:horizontal {\
-        height: 1px;\
-        margin: 0px 0px;\
-        left: 12px; right: 12px;\
-        border: 2px solid #999999;\
-    }\
-    QSlider::handle:horizontal {\
-        border: 0px solid #5c5c5c;\
-        border-radius: 6px;\
-        background: rgb(230, 230, 230);\
-        width: 13px;\
-        margin: -6px -6px -6px -6px;\
-    }\
-    QSlider::sub-page:horizontal{\
-        background: rgb(170, 170, 170);\
-    }\
-    QSlider::add-page:horizontal{\
-        background: rgb(120, 120, 120);\
-    }";
 
 PlayerView::PlayerView(QWidget *parent) :
     QWidget(parent, Qt::FramelessWindowHint),
@@ -94,24 +34,24 @@ PlayerView::PlayerView(QWidget *parent) :
     QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton};
     for (int i = 0; i < 3; i++)
     {
-        buttons[i]->setIconSize(QSize(16, 16) * Settings::uiScale);
-        buttons[i]->setFixedSize(QSize(32, 32) * Settings::uiScale);
+        buttons[i]->setIconSize(QSize(16, 16));
+        buttons[i]->setFixedSize(QSize(32, 32));
     }
     QPushButton *buttons2[] = {ui->playlistButton, ui->searchButton, ui->volumeButton, ui->settingsButton, ui->hideEqualizerButton};
     for (int i = 0; i < 5; i++)
     {
-        buttons2[i]->setIconSize(QSize(16, 16) * Settings::uiScale);
-        buttons2[i]->setFixedSize(QSize(24, 20) * Settings::uiScale);
+        buttons2[i]->setIconSize(QSize(16, 16));
+        buttons2[i]->setFixedSize(QSize(24, 20));
     }
-    ui->controllerWidget->setFixedSize(QSize(450, 70) * Settings::uiScale);
-    ui->equalizerWidget->setFixedSize(QSize(350, 180) * Settings::uiScale);
+    ui->controllerWidget->setFixedSize(QSize(450, 70));
+    ui->equalizerWidget->setFixedSize(QSize(350, 180));
     ui->equalizerWidget->hide();
-    ui->closeButton->setFixedSize(QSize(16, 16) * Settings::uiScale);
-    ui->minButton->setFixedSize(QSize(16, 16) * Settings::uiScale);
-    ui->maxButton->setFixedSize(QSize(16, 16) * Settings::uiScale);
-    ui->titleBar->setFixedHeight(24 * Settings::uiScale);
-    ui->titlebarLayout->setContentsMargins(QMargins(8, 4, 8, 4) * Settings::uiScale);
-    ui->titlebarLayout->setSpacing(4 * Settings::uiScale);
+    ui->closeButton->setFixedSize(QSize(16, 16));
+    ui->minButton->setFixedSize(QSize(16, 16));
+    ui->maxButton->setFixedSize(QSize(16, 16));
+    ui->titleBar->setFixedHeight(24);
+    ui->titlebarLayout->setContentsMargins(QMargins(8, 4, 8, 4));
+    ui->titlebarLayout->setSpacing(4);
     leftBorder = new Border(this, Border::LEFT);
     rightBorder = new Border(this, Border::RIGHT);
     bottomBorder = new Border(this, Border::BOTTOM);
@@ -127,11 +67,7 @@ PlayerView::PlayerView(QWidget *parent) :
     gridLayout->setMargin(0);
     gridLayout->setSpacing(0);
     setAcceptDrops(true);
-    setMinimumSize(QSize(640, 360) * Settings::uiScale);
-
-    // stylesheet
-    ui->controllerWidget->setStyleSheet(scaleStyleSheet(controllerQSS));
-    ui->equalizerWidget->setStyleSheet(scaleStyleSheet(EqualizerQSS));
+    setMinimumSize(QSize(640, 360));
 
     quit_requested = false;
     no_play_next = false;
@@ -151,18 +87,18 @@ PlayerView::PlayerView(QWidget *parent) :
     // create playlist
     playlist = new Playlist(this);
     playlist->setWindowFlags(playlist->windowFlags() | Qt::Popup);
-    playlist->setFixedSize(QSize(200, 350) * Settings::uiScale);
+    playlist->setFixedSize(QSize(200, 350));
 
     // create library viewer
     reslibrary = new ResLibrary;
 
     // create volume slider
     QWidget *volumePopup = new QWidget(this, Qt::Popup);
-    volumePopup->resize(QSize(24, 80) * Settings::uiScale);
+    volumePopup->resize(QSize(24, 80));
     volumeSlider = new QSlider(Qt::Vertical, volumePopup);
     volumeSlider->setRange(0, 10);
     volumeSlider->setValue(10);
-    volumeSlider->resize(QSize(20, 70) * Settings::uiScale);
+    volumeSlider->resize(QSize(20, 70));
     volumeSlider->move(2, 5);
 
     // create menu
@@ -369,7 +305,7 @@ void PlayerView::resizeEvent(QResizeEvent *e)
 
     // move and resize equalizer
     int e_x = (e->size().width() - ui->equalizerWidget->width()) / 2;
-    int e_y = (e->size().height() - ui->equalizerWidget->height()) / 2 - 30 * Settings::uiScale;
+    int e_y = (e->size().height() - ui->equalizerWidget->height()) / 2 - 30;
     ui->equalizerWidget->move(e_x, e_y);
     ui->equalizerWidget->raise();
 
@@ -486,7 +422,7 @@ void PlayerView::mouseDoubleClickEvent(QMouseEvent *e)
 
 void PlayerView::mousePressEvent(QMouseEvent *e)
 {
-    if (!isMaximized() && e->button() == Qt::LeftButton)
+    if (e->button() == Qt::LeftButton)
         dPos = e->pos();
     e->accept();
 }
@@ -578,13 +514,13 @@ void PlayerView::onTimeSliderReleased()
 
 void PlayerView::onSizeChanged(const QSize &sz)
 {
-    if (isFullScreen() || isMaximized())
+    if (isFullScreen())
         return;
     QRect available = QApplication::desktop()->availableGeometry(this);
-    if (sz.width() > available.width() || sz.height() > available.height())
+    if (sz.width() / devicePixelRatioF() > available.width() || sz.height()/ devicePixelRatioF() > available.height())
         setGeometry(available);
     else
-        resize(sz);
+        resize(sz / devicePixelRatioF());
 }
 
 // show cutterbar

@@ -3,7 +3,6 @@
 #include "platforms.h"
 #include "settings_audio.h"
 #include "settings_network.h"
-#include "settings_player.h"
 #include "settings_video.h"
 #include "accessmanager.h"
 #include <stdio.h>
@@ -186,7 +185,7 @@ void PlayerCore::initializeGL()
 
 void PlayerCore::paintGL()
 {
-    mpv_opengl_cb_draw(mpv_gl, defaultFramebufferObject(), width(), -height());
+    mpv_opengl_cb_draw(mpv_gl, defaultFramebufferObject(), width() * devicePixelRatioF(), -height() * devicePixelRatioF());
 }
 
 void PlayerCore::swapped()

@@ -28,6 +28,36 @@
    <property name="focusPolicy">
     <enum>Qt::NoFocus</enum>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#controllerWidget {
+    background: rgba(50, 50, 50, 230);
+    border-radius: 8px;
+}
+    
+QLabel {
+    color: rgb(200, 200, 200);
+}
+    
+QSlider::groove:horizontal {
+    height: 1px;
+    margin: 0px 0px;
+    left: 12px; right: 12px;
+    border: 2px solid #999999;
+}
+QSlider::handle:horizontal {
+    border: 0px solid #5c5c5c;
+    border-radius: 2px;
+    background: rgb(230, 230, 230);
+    width: 9px;
+    margin: -6px -6px -6px -6px;
+}
+QSlider::sub-page:horizontal{
+    background: rgb(170, 170, 170);
+}
+QSlider::add-page:horizontal{
+    background: rgb(120, 120, 120);
+}</string>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="horizontalSpacing">
      <number>0</number>
@@ -283,6 +313,36 @@ background: rgba(60, 60, 60, 230);
      <width>331</width>
      <height>191</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#equalizerWidget {
+    background: rgba(50, 50, 50, 230);
+    border-radius: 8px;
+}
+
+QLabel {
+    color: rgb(200, 200, 200);
+}
+
+QSlider::groove:horizontal {
+    height: 1px;
+    margin: 0px 0px;
+    left: 12px; right: 12px;
+    border: 2px solid #999999;
+}
+QSlider::handle:horizontal {
+    border: 0px solid #5c5c5c;
+    border-radius: 6px;
+    background: rgb(230, 230, 230);
+    width: 13px;
+    margin: -6px -6px -6px -6px;
+}
+QSlider::sub-page:horizontal{
+    background: rgb(170, 170, 170);
+}
+QSlider::add-page:horizontal{
+    background: rgb(120, 120, 120);
+}</string>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="2" column="2">

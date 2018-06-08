@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
     QDir currentDir = QDir::current();
 
 #if defined(Q_OS_LINUX)
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     if (QSettings("moonsoft", "moonplayer").value("Video/hwdec").toString() != "vdpau")
         qputenv("QT_XCB_GL_INTEGRATION", "xcb_egl");
 #elif defined(Q_OS_MAC)

@@ -1,5 +1,4 @@
 #include "terminal.h"
-#include "settings_player.h"
 
 /* macOS, use system's terminal emulator */
 #ifdef Q_OS_MAC
@@ -17,7 +16,7 @@ void execShell(const QString &shellFile)
 void execShell(const QString &shellFile)
 {
     QDialog *dialog = new QDialog;
-    dialog->setFixedSize(QSize(600, 480) * Settings::uiScale);
+    dialog->setFixedSize(QSize(600, 480));
     QGridLayout *layout = new QGridLayout(dialog);
     QTermWidget *term = new QTermWidget(0);
     layout->addWidget(term, 0, 0);

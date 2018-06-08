@@ -1,6 +1,5 @@
 #include "mylistwidget.h"
 #include "accessmanager.h"
-#include "settings_player.h"
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -51,10 +50,10 @@ void MyListWidget::onLoadPicFinished()
     {
         QPixmap pic;
         pic.loadFromData(reply->readAll());
-        if (pic.width() > 100 * Settings::uiScale)
-            pic = pic.scaledToWidth(100 * Settings::uiScale, Qt::SmoothTransformation);
+        if (pic.width())
+            pic = pic.scaledToWidth(100, Qt::SmoothTransformation);
         loading_item->setIcon(QIcon(pic));
-        loading_item->setSizeHint(pic.size() + QSize(10, 20) * Settings::uiScale);
+        loading_item->setSizeHint(pic.size() + QSize(10, 20));
         if (count() == 0) // First item
             setIconSize(pic.size());
         addItem(loading_item);

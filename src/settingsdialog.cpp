@@ -1,6 +1,5 @@
 #include "settingsdialog.h"
 #include "settings_network.h"
-#include "settings_player.h"
 #include "settings_plugins.h"
 #include "settings_video.h"
 #include "settings_danmaku.h"
@@ -38,7 +37,6 @@ bool Settings::copyMode;
 bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 double Settings::danmakuAlpha;
-double Settings::uiScale;
 Settings::VideoParser Settings::parser;
 
 using namespace Settings;
@@ -55,8 +53,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(ui->fontPushButton, &QPushButton::clicked, this, &SettingsDialog::onFontButton);
     connect(ui->parserHelpButton, &QPushButton::clicked, this, &SettingsDialog::openParserHelp);
     connect(ui->viewPluginsButton, &QPushButton::clicked, this, &SettingsDialog::openPluginsFolder);
-
-    setMinimumSize(minimumSize() * uiScale);
 
 #ifdef Q_OS_LINUX
     ui->aoComboBox->addItem("pulse");
@@ -195,11 +191,6 @@ void initSettings()
     danmakuSize = settings.value("Danmaku/size", 0).toInt();
     durationScrolling = settings.value("Danmaku/dm", 0).toInt();
     durationStill = settings.value("Danmaku/ds", 6).toInt();
-#ifdef Q_OS_MAC
-    uiScale = 1.0;
-#else
-    uiScale = qApp->desktop()->logicalDpiX() / 96.0;
-#endif
 
     //init proxy
     if (proxyType == "no" || proxy.isEmpty())

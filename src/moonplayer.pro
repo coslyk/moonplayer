@@ -55,7 +55,6 @@ HEADERS  +=\
     httpget.h \
     downloader.h \
     pyapi.h \
-    settings_player.h \
     settings_video.h \
     settings_network.h \
     settingsdialog.h \
