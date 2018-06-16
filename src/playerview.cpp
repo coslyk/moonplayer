@@ -103,8 +103,8 @@ PlayerView::PlayerView(QWidget *parent) :
 
     // create menu
     QMenu *open_menu = new QMenu(tr("Open"));
-    open_menu->addAction(tr("File"), playlist, SLOT(onAddItem()), QKeySequence("Ctrl+O"));
-    open_menu->addAction(tr("Url"), playlist, SLOT(onNetItem()), QKeySequence("Ctrl+U"));
+    open_menu->addAction(tr("File") + "\tCtrl+O", playlist, SLOT(onAddItem()));
+    open_menu->addAction(tr("Url") + "\tCtrl+U", playlist, SLOT(onNetItem()));
     open_menu->addAction(tr("Playlist"), playlist, SLOT(onListItem()));
 
     QMenu *video_menu = new QMenu(tr("Video"));
@@ -126,19 +126,19 @@ PlayerView::PlayerView(QWidget *parent) :
     audio_menu->addAction(tr("Delay"), this, SLOT(setAudioDelay()));
 
     QMenu *sub_menu = new QMenu(tr("Subtitle"));
-    sub_menu->addAction(tr("Visible"), core, SLOT(switchDanmaku()), QKeySequence("D"));
+    sub_menu->addAction(tr("Visible") + "\tD", core, SLOT(switchDanmaku()));
     sub_menu->addAction(tr("Select"), this, SLOT(selectSubtitle()));
     sub_menu->addAction(tr("Load from file"), this, SLOT(addSubtitle()));
     sub_menu->addAction(tr("Delay"), this, SLOT(setSubDelay()));
 
     QMenu *speed_menu = new QMenu(tr("Speed"));
-    speed_menu->addAction(tr("Speed up"), core, SLOT(speedUp()), QKeySequence("Ctrl+Right"));
-    speed_menu->addAction(tr("Speed down"), core, SLOT(speedDown()), QKeySequence("Ctrl+Left"));
-    speed_menu->addAction(tr("Default"), core, SLOT(speedSetToDefault()), QKeySequence("R"));
+    speed_menu->addAction(tr("Speed up") + "\tCtrl+Right", core, SLOT(speedUp()));
+    speed_menu->addAction(tr("Speed down") + "\tCtrl+Left", core, SLOT(speedDown()));
+    speed_menu->addAction(tr("Default") + "\tR", core, SLOT(speedSetToDefault()));
 
     menu = new QMenu(this);
     menu->addMenu(open_menu);
-    menu->addAction(tr("Playlist"), this, SLOT(showPlaylist()), QKeySequence("L"));
+    menu->addAction(tr("Playlist") + "\tL", this, SLOT(showPlaylist()));
     menu->addSeparator();
     menu->addMenu(video_menu);
     menu->addMenu(audio_menu);
@@ -146,12 +146,12 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addMenu(speed_menu);
 
     menu->addSeparator();
-    menu->addAction(tr("Screenshot"), core, SLOT(screenShot()), QKeySequence("S"));
-    menu->addAction(tr("Cut video"), this, SLOT(showCutterBar()), QKeySequence("C"));
+    menu->addAction(tr("Screenshot") + "\tS", core, SLOT(screenShot()));
+    menu->addAction(tr("Cut video") + "\tC", this, SLOT(showCutterBar()));
 
     menu->addSeparator();
-    menu->addAction(tr("Online video"), reslibrary, SLOT(show()), QKeySequence("W"));
-    menu->addAction(tr("Settings"), settingsDialog, SLOT(show()), QKeySequence("Ctrl+,"));
+    menu->addAction(tr("Online video") + "\tW", reslibrary, SLOT(show()));
+    menu->addAction(tr("Settings") + "\tCtrl+,", settingsDialog, SLOT(show()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
     QMenu *aboutMenu = menu->addMenu(tr("About"));
     aboutMenu->addAction(tr("Upgrade parsers"), &ykdl_bridge, SLOT(upgradeParsers()));
