@@ -1,6 +1,7 @@
 #include "videocombiner.h"
 #include <QMessageBox>
 #include "platforms.h"
+#include "playlist.h"
 
 VideoCombiner::VideoCombiner(QObject *parent, const QDir &dir) :
     QProcess(parent)
@@ -57,8 +58,13 @@ void VideoCombiner::onFinished(int status)
         QStringList nameFilter;
         nameFilter << "*.danmaku";
         QStringList danmakuFiles = dir.entryList(nameFilter, QDir::Files, QDir::Name);
+        QString newDanmakuFile;
         if (!danmakuFiles.isEmpty())
-            QFile::copy(dir.filePath(danmakuFiles[0]), save_as + ".danmaku");
+        {
+            newDanmakuFile = save_as + ".danmaku";
+            QFile::copy(dir.filePath(danmakuFiles[0]), newDanmakuFile);
+        }
+        playlist->addFile(QFileInfo(save_as).fileName(), save_as, newDanmakuFile);
     }
     else
     {
