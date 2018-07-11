@@ -175,6 +175,8 @@ PlayerView::PlayerView(QWidget *parent) :
     connect(core, &PlayerCore::paused, ui->playButton, &QPushButton::show);
     connect(core, &PlayerCore::paused, ui->pauseButton, &QPushButton::hide);
     connect(core, &PlayerCore::stopped, this, &PlayerView::onStopped);
+    connect(downloader, SIGNAL(newFile(QString,QString)), playlist, SLOT(addFile(QString,QString)));
+    connect(downloader, SIGNAL(newPlay(QString,QString)), playlist, SLOT(addFileAndPlay(QString,QString)));
     connect(playlist, &Playlist::fileSelected, core, &PlayerCore::openFile);
     connect(hideTimer, &QTimer::timeout, this, &PlayerView::hideElements);
     connect(volumeSlider, &QSlider::valueChanged, core, &PlayerCore::setVolume);
