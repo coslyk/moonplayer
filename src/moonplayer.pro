@@ -138,7 +138,7 @@ unix:!macx: PKGCONFIG += python2 mpv
 unix:!macx: INCLUDEPATH += /usr/include/qtermwidget5
 unix:!macx: LIBS += -lqtermwidget5
 
-macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/Headers \
+macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 \
     /usr/local/include
 macx: LIBS += -F /System/Library/Frameworks -framework CoreFoundation \
     -L/usr/lib -ldl \
