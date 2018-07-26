@@ -1,0 +1,16 @@
+Source: moonplayer
+Section: sound
+Priority: extra
+Maintainer: YK Liu <cos.lyk@gmail.com>
+Build-Depends: debhelper (>= 8.0.0),
+ qtbase5-dev, qtbase5-private-dev, libqt5x11extras5-dev, python-dev, pkg-config, python-all, libmpv-dev, libqtermwidget5-0-dev
+Standards-Version: 3.9.2
+Homepage: https://github.com/coslyk/moonplayer
+#Vcs-Git: git://git.debian.org/collab-maint/moonplayer.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/moonplayer.git;a=summary
+
+Package: moonplayer
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python3, ffmpeg, wget | curl
+Description: Video player
+ Video player for playing and downloading online videos from youku, tudou etc.
