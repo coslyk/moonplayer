@@ -8,7 +8,11 @@ QString getAppPath()
     if (path.isNull())
     {
 #if defined(Q_OS_LINUX)
-        path = "/usr/share/moonplayer";
+        QString appPath = QCoreApplication::applicationDirPath();
+        if (appPath.endsWith("/bin"))
+            path = appPath.replace("/bin", "/share/moonplayer");
+        else
+            path = "/usr/share/moonplayer";
 #elif defined(Q_OS_MAC)
         path = QCoreApplication::applicationDirPath().replace("/MacOS", "/Resources");
 #elif defined(Q_OS_WIN)
@@ -122,9 +126,9 @@ QString parserUpgraderPath()
     if (filename.isNull())
     {
 #if defined(Q_OS_LINUX)
-        filename = "/usr/share/moonplayer/upgrade-parsers.sh";
+        filename = getAppPath() + "/upgrade-parsers.sh";
 #elif defined(Q_OS_MAC)
-        filename = getAppPath().toUtf8() + "/upgrade-parsers.sh";
+        filename = getAppPath() + "/upgrade-parsers.sh";
         if ((QFile::permissions(filename) & QFile::ExeOther) == 0) // make it excutable
             system(("chmod +x '" + filename + '\'').toUtf8().constData());
 #else
