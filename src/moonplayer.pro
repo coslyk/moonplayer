@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     danmakudelaygetter.cpp \
     terminal.cpp \
     ykdlbridge.cpp \
-    parserbridge.cpp
+    parserbridge.cpp \
+    detectopengl.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -82,7 +83,8 @@ HEADERS  +=\
     playerview.h \
     terminal.h \
     ykdlbridge.h \
-    parserbridge.h
+    parserbridge.h \
+    detectopengl.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 

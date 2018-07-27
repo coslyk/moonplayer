@@ -10,10 +10,10 @@
 #include <QLocale>
 #include <QDebug>
 #include <QSettings>
-#include <QSurfaceFormat>
 #include <QTextCodec>
 #include <QNetworkAccessManager>
 #include <Python.h>
+#include "detectopengl.h"
 #include "pyapi.h"
 #include "platforms.h"
 #include "playerview.h"
@@ -65,15 +65,8 @@ int main(int argc, char *argv[])
 
 #if defined(Q_OS_LINUX)
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    if (QSettings("moonsoft", "moonplayer").value("Video/hwdec").toString() != "vdpau")
-        qputenv("QT_XCB_GL_INTEGRATION", "xcb_egl");
-#elif defined(Q_OS_MAC)
-    // OpenGL version >= 3.0 is required for hardware decoding
-    QSurfaceFormat surface = QSurfaceFormat::defaultFormat();
-    surface.setVersion(3, 2);
-    surface.setProfile(QSurfaceFormat::CoreProfile);
-    QSurfaceFormat::setDefaultFormat(surface);
 #endif
+    detectOpenGL();
 
 #ifdef Q_OS_MAC
     MyApplication a(argc, argv);
