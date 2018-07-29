@@ -9,19 +9,19 @@ Latest version: v1.8.2 (2018.07.29)
 
 Download & Install
 ----
-macOS & Linux AppImage:
+ * macOS & Linux AppImage:
 
 [Download](https://github.com/coslyk/moonplayer/releases "Download")
 
- * macOS: extract files and drag it to Application folder
+macOS: extract files and drag it to Application folder
 
- * Linux: Set the file excutable in properties and run
+Linux: Set the file excutable in properties and run
 
-Linux (Ubuntu): 
+ * Linux (Ubuntu): 
 
 use this ppa: cos-lyk/moonsoft
 
-Linux (Fedora): 
+ * Linux (Fedora): 
 
 Add [FZUG source](https://github.com/FZUG/repo/wiki/FZUG "FZUG source") and run
 ```
