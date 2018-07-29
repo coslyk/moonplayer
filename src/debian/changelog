@@ -1,3 +1,10 @@
+moonplayer (1.8.2-1~bionic) bionic; urgency=medium
+
+  * v1.8.2
+  * Detect OpenGL backend to fix the black screen on Nvidia platforms
+
+ -- YK Liu <cos.lyk@gmail.com>  Sat, 28 Jul 2018 12:32:36 +0800
+
 moonplayer (1.8-1~bionic) bionic; urgency=medium
 
   * v1.8

@@ -4,11 +4,19 @@ moonplayer
 ==========
 Video player that can play online videos from youku, tudou etc.
 
-Latest version: v1.8 (2018.07.26)
+Latest version: v1.8.2 (2018.07.29)
 
 
-Install
+Download & Install
 ----
+macOS & Linux AppImage:
+
+[Download](https://github.com/coslyk/moonplayer/releases "Download")
+
+ * macOS: extract files and drag it to Application folder
+
+ * Linux: Set the file excutable in properties and run
+
 Linux (Ubuntu): 
 
 use this ppa: cos-lyk/moonsoft
@@ -20,8 +28,6 @@ Add [FZUG source](https://github.com/FZUG/repo/wiki/FZUG "FZUG source") and run
 dnf install moonplayer
 ```
  (Thanks 1dot75cm for building package)
-
-Windows & macOS: <http://pan.baidu.com/s/1gptym>
 
 Feature
 ====
