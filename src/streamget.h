@@ -3,6 +3,7 @@
 
 #include "downloaderitem.h"
 class QProcess;
+class QTimer;
 
 class StreamGet : public DownloaderItem
 {
@@ -16,9 +17,12 @@ public:
 
 private:
     QProcess *process;
+    QTimer *timer;
     QStringList args;
+    int duration;
 
 private slots:
+    void readOutput(void);
     void onProcFinished(int code);
 };
 
