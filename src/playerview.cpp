@@ -367,6 +367,10 @@ void PlayerView::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Return:
         setFullScreen();
         break;
+    case Qt::Key_Escape:
+        if (isFullScreen())
+            setFullScreen();
+        break;
     case Qt::Key_R:
         core->speedSetToDefault();
         break;
@@ -570,7 +574,7 @@ void PlayerView::setFullScreen()
 {
     // avoid freezing
     core->pauseRendering();
-    QTimer::singleShot(1000, core, SLOT(unpauseRendering()));
+    QTimer::singleShot(1500, core, SLOT(unpauseRendering()));
 
     if (isFullScreen())
         showNormal();
