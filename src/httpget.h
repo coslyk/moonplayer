@@ -1,26 +1,20 @@
 #ifndef HTTPGET_H
 #define HTTPGET_H
 
-#include <QObject>
 #include <QUrl>
+#include "downloaderitem.h"
 class QString;
 class QFile;
 class QNetworkReply;
 
-class HttpGet : public QObject
+class HttpGet : public DownloaderItem
 {
     Q_OBJECT
 public:
-    explicit HttpGet(const QUrl &url, const QString &filename, QObject *parent = 0);
-    inline QString &getFileName(void) {return name;}
+    explicit HttpGet(const QUrl &url, const QString &filename, QObject *parent = NULL);
     void pause(void);
     void start(void);
     void stop(void);
-
-signals:
-    void finished(HttpGet *self, bool error);
-    void progressChanged(HttpGet *self, int progress, bool isPercentage);
-    void paused(HttpGet *self, int reason);
 
 private:
     QFile *file;

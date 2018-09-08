@@ -1,20 +1,28 @@
 #ifndef DOWNLOADERITEM_H
 #define DOWNLOADERITEM_H
 
-#include "httpget.h"
+#include <QObject>
 #include <QTreeWidgetItem>
 
 
-class DownloaderItem : public HttpGet, public QTreeWidgetItem
+class DownloaderItem : public QObject, public QTreeWidgetItem
 {
     Q_OBJECT
 public:
-    DownloaderItem(const QUrl &url, const QString &filename, QObject *parent = NULL);
+    DownloaderItem(const QString &filename, QObject *parent = NULL);
+    virtual void pause(void) = 0;
+    virtual void start(void) = 0;
+    virtual void stop(void) = 0;
+
+signals:
+    void finished(QTreeWidgetItem *item, bool error);
+    void paused(int reason);
+    void progressChanged(int progress, bool isPercentage);
 
 private slots:
-    void onFinished(HttpGet *, bool error);
-    void onPaused(HttpGet *, int reason);
-    void updateProgress(HttpGet *, int progress, bool isPercentage);
+    void onFinished(QTreeWidgetItem *item, bool error);
+    void onPaused(int reason);
+    void updateProgress(int progress, bool isPercentage);
 };
 
 #endif // DOWNLOADERITEM_H

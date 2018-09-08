@@ -11,7 +11,7 @@
 
 //start download task
 HttpGet::HttpGet(const QUrl &url, const QString &filename, QObject *parent) :
-    QObject(parent)
+    DownloaderItem(filename, parent)
 {
     //open file
     last_finished = 0;
@@ -49,7 +49,7 @@ void HttpGet::start()
     connect(reply, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
     connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onProgressChanged(qint64,qint64)));
-    emit progressChanged(this, prev_progress, true);
+    emit progressChanged(prev_progress, true);
 }
 
 void HttpGet::onFinished()
@@ -84,7 +84,7 @@ void HttpGet::onFinished()
         reply->deleteLater();
         reply = 0;
         is_paused = true;
-        emit paused(this, (int) reason);
+        emit paused((int) reason);
     }
 
     else  //finished
@@ -130,7 +130,7 @@ void HttpGet::onProgressChanged(qint64 received, qint64 total)
     if (progress != prev_progress)
     {
         prev_progress = progress;
-        emit progressChanged(this, progress, is_percentage);
+        emit progressChanged(progress, is_percentage);
     }
 }
 

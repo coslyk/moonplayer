@@ -7,7 +7,6 @@ class QVBoxLayout;
 class QTreeWidget;
 class QPushButton;
 class QTreeWidgetItem;
-class HttpGet;
 class DownloaderGroup;
 class DownloaderItem;
 
@@ -33,7 +32,7 @@ private:
     int n_downloading;
 
 private slots:
-    void onFinished(HttpGet *get, bool error);
+    void onFinished(QTreeWidgetItem *item, bool error);
     void onPauseButton(void);
     void onPlayButton(void);
     void onDelButton(void);

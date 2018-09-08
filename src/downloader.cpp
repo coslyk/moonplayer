@@ -9,9 +9,10 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QHash>
-#include "downloaderitem.h"
+#include "httpget.h"
 #include "settings_network.h"
 #include "settings_plugins.h"
+#include "streamget.h"
 #include "videocombiner.h"
 #include <iostream>
 
@@ -71,8 +72,12 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
             return;
     }
 
-    DownloaderItem *item = new DownloaderItem(QString::fromUtf8(url.simplified()), filename, this);
-    connect(item, SIGNAL(finished(HttpGet*,bool)), this, SLOT(onFinished(HttpGet*,bool)));
+    DownloaderItem *item;
+    if (filename.endsWith(".m3u") || filename.endsWith(".m3u8")) // stream
+        item = new StreamGet(QString::fromUtf8(url.simplified()), filename.section('.', 0, -2) + ".mp4", this);
+    else
+        item = new HttpGet(QString::fromUtf8(url.simplified()), filename, this);
+    connect(item, &DownloaderItem::finished, this, &Downloader::onFinished);
 
     // Add item to tree
     if (in_group)
@@ -114,9 +119,8 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
         waitings << item;
 }
 
-void Downloader::onFinished(HttpGet *get, bool error)
+void Downloader::onFinished(QTreeWidgetItem *item, bool error)
 {
-    QTreeWidgetItem *item = static_cast<DownloaderItem*>(get);
     if (!error && item->parent()) //in group
     {
         DownloaderGroup *group = static_cast<DownloaderGroup*>(item->parent());

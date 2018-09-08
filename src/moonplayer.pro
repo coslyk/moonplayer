@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     terminal.cpp \
     ykdlbridge.cpp \
     parserbridge.cpp \
-    detectopengl.cpp
+    detectopengl.cpp \
+    streamget.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -84,7 +85,8 @@ HEADERS  +=\
     terminal.h \
     ykdlbridge.h \
     parserbridge.h \
-    detectopengl.h
+    detectopengl.h \
+    streamget.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 
