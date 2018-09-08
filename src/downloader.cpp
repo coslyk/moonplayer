@@ -35,7 +35,7 @@ Downloader::Downloader(QWidget *parent) :
     treeWidget = new QTreeWidget;
     treeWidget->setColumnCount(2);
     treeWidget->setHeaderLabels(labels);
-    treeWidget->setColumnWidth(0, 850);
+    treeWidget->setColumnWidth(0, 750);
     treeWidget->setColumnWidth(1, 50);
     QPushButton *playButton = new QPushButton(tr("Play"));
     QPushButton *delButton = new QPushButton(tr("Delete"));
