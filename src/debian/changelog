@@ -1,3 +1,11 @@
+moonplayer (1.9-1~bionic) bionic; urgency=medium
+
+  * v1.9
+  * Exit fullscreen by pressing Esc button
+  * Able to download HLS stream format
+
+ -- YK Liu <cos.lyk@gmail.com>  Sun, 09 Sep 2018 13:20:16 +0200
+
 moonplayer (1.8.2-1~bionic) bionic; urgency=medium
 
   * v1.8.2
