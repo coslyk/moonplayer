@@ -11,5 +11,7 @@
         <file>modern_ui/min.png</file>
         <file>modern_ui/settings.png</file>
         <file>moonplayer.png</file>
+        <file>qrcodes/alipay.png</file>
+        <file>qrcodes/wechatpay.png</file>
     </qresource>
 </RCC>
