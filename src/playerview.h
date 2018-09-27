@@ -7,6 +7,7 @@
 namespace Ui {
 class PlayerView;
 }
+class AboutDialog;
 class Border;
 class CutterBar;
 class Playlist;
@@ -64,12 +65,11 @@ private slots:
     void showPlaylist(void);
     void showVolumeSlider(void);
     void hideElements(void);
-    void openHomepage(void);
-    void openContributePage(void);
     void openExtPage(void);
 
 private:
     Ui::PlayerView *ui;
+    AboutDialog *aboutDialog;
     Border *leftBorder;
     Border *rightBorder;
     Border *bottomBorder;

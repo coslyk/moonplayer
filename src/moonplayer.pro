@@ -29,7 +29,6 @@ SOURCES += main.cpp\
     cutterbar.cpp \
     videocombiner.cpp \
     plugin.cpp \
-    updatechecker.cpp \
     selectiondialog.cpp \
     danmakuloader.cpp \
     accessmanager.cpp \
@@ -43,7 +42,8 @@ SOURCES += main.cpp\
     ykdlbridge.cpp \
     parserbridge.cpp \
     detectopengl.cpp \
-    streamget.cpp
+    streamget.cpp \
+    aboutdialog.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -74,7 +74,6 @@ HEADERS  +=\
     settings_danmaku.h \
     playercore.h \
     plugin.h \
-    updatechecker.h \
     selectiondialog.h \
     danmakudelaygetter.h \
     danmakuloader.h \
@@ -86,7 +85,8 @@ HEADERS  +=\
     ykdlbridge.h \
     parserbridge.h \
     detectopengl.h \
-    streamget.h
+    streamget.h \
+    aboutdialog.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 
@@ -98,7 +98,8 @@ FORMS    += \
     detailview.ui \
     cutterbar.ui \
     selectiondialog.ui \
-    playerview.ui
+    playerview.ui \
+    aboutdialog.ui
 
 
 RESOURCES += \

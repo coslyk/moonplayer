@@ -10,5 +10,6 @@
         <file>modern_ui/max.png</file>
         <file>modern_ui/min.png</file>
         <file>modern_ui/settings.png</file>
+        <file>moonplayer.png</file>
     </qresource>
 </RCC>

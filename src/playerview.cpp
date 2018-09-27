@@ -1,5 +1,6 @@
 #include "playerview.h"
 #include "ui_playerview.h"
+#include "aboutdialog.h"
 #include "cutterbar.h"
 #include "downloader.h"
 #include "playlist.h"
@@ -101,6 +102,9 @@ PlayerView::PlayerView(QWidget *parent) :
     volumeSlider->resize(QSize(20, 70));
     volumeSlider->move(2, 5);
 
+    // create about dialog
+    aboutDialog = new AboutDialog(this);
+
     // create menu
     QMenu *open_menu = new QMenu(tr("Open"));
     open_menu->addAction(tr("File") + "\tCtrl+O", playlist, SLOT(onAddItem()));
@@ -139,6 +143,7 @@ PlayerView::PlayerView(QWidget *parent) :
     menu = new QMenu(this);
     menu->addMenu(open_menu);
     menu->addAction(tr("Playlist") + "\tL", this, SLOT(showPlaylist()));
+    menu->addAction(tr("Online video") + "\tW", reslibrary, SLOT(show()));
     menu->addSeparator();
     menu->addMenu(video_menu);
     menu->addMenu(audio_menu);
@@ -150,13 +155,10 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addAction(tr("Cut video") + "\tC", this, SLOT(showCutterBar()));
 
     menu->addSeparator();
-    menu->addAction(tr("Online video") + "\tW", reslibrary, SLOT(show()));
     menu->addAction(tr("Settings") + "\tCtrl+,", settingsDialog, SLOT(show()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
-    QMenu *aboutMenu = menu->addMenu(tr("About"));
-    aboutMenu->addAction(tr("Upgrade parsers"), &ykdl_bridge, SLOT(upgradeParsers()));
-    aboutMenu->addAction(tr("Contribute"), this, SLOT(openContributePage()));
-    aboutMenu->addAction(tr("Homepage"), this, SLOT(openHomepage()));
+    menu->addAction(tr("Upgrade parsers"), &ykdl_bridge, SLOT(upgradeParsers()));
+    menu->addAction(tr("About"), aboutDialog, &AboutDialog::exec);
 
     // create cutterbar
     cutterBar = new CutterBar(this);
@@ -668,23 +670,9 @@ void PlayerView::onMaxButton()
         showMaximized();
 }
 
-//open homepage
-void PlayerView::openHomepage()
-{
-    static QUrl url("https://github.com/coslyk/moonplayer");
-    QDesktopServices::openUrl(url);
-}
-
 //open extension page
 void PlayerView::openExtPage()
 {
     static QUrl url("https://github.com/coslyk/moonplayer/wiki/BroswerExtension");
-    QDesktopServices::openUrl(url);
-}
-
-//open contribute page
-void PlayerView::openContributePage()
-{
-    static QUrl url("https://github.com/coslyk/moonplayer/wiki/Contribute");
     QDesktopServices::openUrl(url);
 }
