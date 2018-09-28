@@ -1,3 +1,9 @@
+moonplayer (1.9.2-1~bionic) bionic; urgency=medium
+
+  * Add about dialog
+
+ -- YK Liu <cos.lyk@gmail.com>  Fri, 28 Sep 2018 21:33:24 +0200
+
 moonplayer (1.9-1~bionic) bionic; urgency=medium
 
   * v1.9

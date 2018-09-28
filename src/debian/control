@@ -11,6 +11,7 @@ Homepage: https://github.com/coslyk/moonplayer
 
 Package: moonplayer
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python3, ffmpeg, wget | curl
+Depends: ${shlibs:Depends}, ${misc:Depends}, ffmpeg, wget | curl
+Recommends: python3
 Description: Video player
  Video player for playing and downloading online videos from youku, tudou etc.
