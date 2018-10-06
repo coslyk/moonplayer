@@ -131,12 +131,7 @@ void SettingsDialog::saveSettings()
     durationScrolling = ui->dmSpinBox->value();
     durationStill = ui->dsSpinBox->value();
 
-    if (proxyType == "no" || proxyType == "http_unblockcn" || proxy.isEmpty())
-        access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
-    else if (proxyType == "socks5")
-        access_manager->setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
-    else
-        access_manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
+    access_manager->setProxy(proxyType, proxy, port);
 }
 
 
@@ -193,12 +188,7 @@ void initSettings()
     durationStill = settings.value("Danmaku/ds", 6).toInt();
 
     //init proxy
-    if (proxyType == "no" || proxy.isEmpty())
-        access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
-    else if (proxyType == "socks5")
-        access_manager->setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
-    else
-        access_manager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
+    access_manager->setProxy(proxyType, proxy, port);
 }
 
 

@@ -46,6 +46,24 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent) :
 }
 
 
+void NetworkAccessManager::setProxy(const QString &proxyType, const QString &proxy, int port)
+{
+    if (proxyType == "no" || proxy.isEmpty())
+        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+    else if (proxyType == "socks5")
+        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
+    else if (proxyType == "http")
+        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
+    else if (proxyType == "http_unblockcn")
+    {
+        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+        if (amForUnblock == NULL)
+            amForUnblock = new QNetworkAccessManager(this);
+        amForUnblock->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, Settings::proxy, Settings::port));
+    }
+}
+
+
 QNetworkReply *NetworkAccessManager::get(const QNetworkRequest &req)
 {
     // unblock mode is disable
@@ -61,6 +79,7 @@ QNetworkReply *NetworkAccessManager::get(const QNetworkRequest &req)
     {
         if (url.contains(patt))
         {
+            qInfo("[UnblockCN] Fake ip for: %s", url.toUtf8().constData());
             request.setRawHeader("X-Forwarded-For", china_fake_ip.toUtf8());
             request.setRawHeader("Client-IP", china_fake_ip.toUtf8());
             return QNetworkAccessManager::get(request);
@@ -68,9 +87,6 @@ QNetworkReply *NetworkAccessManager::get(const QNetworkRequest &req)
     }
 
     // check if the website can be unblocked by proxy
-    if (amForUnblock == NULL)
-        amForUnblock = new QNetworkAccessManager(this);
-    amForUnblock->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, Settings::proxy, Settings::port));
     foreach (QString patt, proxy_urls)
     {
         if (url.contains(patt))
