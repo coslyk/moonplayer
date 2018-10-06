@@ -32,7 +32,9 @@ void YkdlBridge::runParser(const QString &url)
 {
     QStringList args;
     args << "-m" << "cykdl" << "-t" << "15" << "--json";
-    if ((Settings::proxyType == "http" || Settings::proxyType == "http_unblockcn") && !Settings::proxy.isEmpty())
+    if (!Settings::proxy.isEmpty() &&
+            (Settings::proxyType == "http" ||
+             (Settings::proxyType == "http_unblockcn" && !url.contains(".youtube.com"))))
         args << "--proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
     args << url;
     process->start("python", args, QProcess::ReadOnly);

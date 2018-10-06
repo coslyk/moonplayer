@@ -49,7 +49,7 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent) :
 {
     amForUnblock = NULL;
     // read header urls list
-    QString header_urls_file = getUserPath() + "/unblockcn/header_urls.txt";
+    QString header_urls_file = getAppPath() + "/unblockcn/header_urls.txt";
     if (QFile::exists(header_urls_file))
     {
         QFile f(header_urls_file);
@@ -65,7 +65,7 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent) :
         }
     }
     // read proxy urls list
-    QString proxy_urls_file = getUserPath() + "/unblockcn/proxy_urls.txt";
+    QString proxy_urls_file = getAppPath() + "/unblockcn/proxy_urls.txt";
     if (QFile::exists(proxy_urls_file))
     {
         QFile f(proxy_urls_file);
