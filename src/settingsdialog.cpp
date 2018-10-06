@@ -131,7 +131,7 @@ void SettingsDialog::saveSettings()
     durationScrolling = ui->dmSpinBox->value();
     durationStill = ui->dsSpinBox->value();
 
-    if (proxyType == "no" || proxy.isEmpty())
+    if (proxyType == "no" || proxyType == "http_unblockcn" || proxy.isEmpty())
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
     else if (proxyType == "socks5")
         access_manager->setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));

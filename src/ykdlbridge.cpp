@@ -31,8 +31,8 @@ YkdlBridge::YkdlBridge(QObject *parent) : ParserBridge(parent)
 void YkdlBridge::runParser(const QString &url)
 {
     QStringList args;
-    args << "-m" << "cykdl" << "-t" << "10" << "--json";
-    if (Settings::proxyType == "http" && !Settings::proxy.isEmpty())
+    args << "-m" << "cykdl" << "-t" << "30" << "--json";
+    if ((Settings::proxyType == "http" || Settings::proxyType == "http_unblockcn") && !Settings::proxy.isEmpty())
         args << "--proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
     args << url;
     process->start("python", args, QProcess::ReadOnly);

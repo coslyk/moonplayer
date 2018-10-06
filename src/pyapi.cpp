@@ -1,6 +1,4 @@
 #include "pyapi.h"
-#include "settings_network.h"
-#include "settings_plugins.h"
 #include "accessmanager.h"
 #include "downloader.h"
 #include "playlist.h"
@@ -13,7 +11,6 @@
 #include <QApplication>
 #include <QColor>
 #include <QMessageBox>
-#include <QNetworkProxy>
 #include <QDir>
 #include <QTimer>
 #include "danmakudelaygetter.h"

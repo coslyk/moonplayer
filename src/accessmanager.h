@@ -2,10 +2,23 @@
 #define ACCESSMANAGER_H
 
 #include <QHash>
+#include <QNetworkAccessManager>
 #include <QUrl>
 
-class QNetworkAccessManager;
-extern QNetworkAccessManager *access_manager;
+class NetworkAccessManager : public QNetworkAccessManager
+{
+    Q_OBJECT
+public:
+    NetworkAccessManager(QObject *parent = NULL);
+    QNetworkReply *get(const QNetworkRequest &request);
+
+private:
+    QStringList header_urls;
+    QStringList proxy_urls;
+    QNetworkAccessManager *amForUnblock;
+};
+
+extern NetworkAccessManager *access_manager;
 extern QStringList unseekable_hosts;
 extern QHash<QString,QByteArray> referer_table;
 extern QHash<QString,QByteArray> ua_table;

@@ -10,7 +10,6 @@
 #include <QDebug>
 #include <QSettings>
 #include <QTextCodec>
-#include <QNetworkAccessManager>
 #include <Python.h>
 #include "detectopengl.h"
 #include "pyapi.h"
@@ -138,7 +137,7 @@ int main(int argc, char *argv[])
     setlocale(LC_NUMERIC, "C");
 
     //init
-    access_manager = new QNetworkAccessManager(&a);
+    access_manager = new NetworkAccessManager(&a);
     printf("Initialize settings...\n");
     initSettings();
 

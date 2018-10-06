@@ -19,12 +19,11 @@ void YouGetBridge::runParser(const QString &url)
 {
     QStringList args;
     args << "python3" << yougetFilePath();
-    if (Settings::proxyType != "no" && !Settings::proxy.isEmpty())
-    {
-        args << (Settings::proxyType == "socks5" ? "--socks-proxy" : "--http-proxy");
-        args << (Settings::proxy + ':' + QString::number(Settings::port));
-    }
-    args << "-t" << "10" << "--json" << url;
+    if ((Settings::proxyType == "http" || Settings::proxyType == "http_unblockcn") && !Settings::proxy.isEmpty())
+        args << "--http-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
+    else if (Settings::proxyType != "socks5" && !Settings::proxy.isEmpty())
+        args << "--socks-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
+    args << "-t" << "30" << "--json" << url;
     process->start("/usr/bin/env", args, QProcess::ReadOnly);
 }
 

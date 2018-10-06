@@ -1,6 +1,5 @@
 #include "httpget.h"
 #include "accessmanager.h"
-#include <QNetworkAccessManager>
 #include <QApplication>
 #include <QNetworkReply>
 #include <QNetworkRequest>

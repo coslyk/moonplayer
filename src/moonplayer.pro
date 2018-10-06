@@ -154,3 +154,6 @@ win32: INCLUDEPATH += C:\\Python27\\include
 win32: LIBS += C:\\Python27\\libs\\python27.lib
 win32: INCLUDEPATH += D:\\Develop\\libmpv\\include
 win32: LIBS += D:\\Develop\\libmpv\\32\\mpv.lib
+
+DISTFILES += \
+    Version
