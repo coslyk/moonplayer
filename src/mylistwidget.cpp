@@ -39,7 +39,6 @@ void MyListWidget::loadNextPic()
 {
     loading_item = items_to_load_pic.takeFirst();
     QNetworkRequest request(QString::fromUtf8(loading_item->picUrl()));
-    request.setRawHeader("User-Agent", generateUA(request.url()));
     reply = access_manager->get(request);
     connect(reply, SIGNAL(finished()), this, SLOT(onLoadPicFinished()));
 }

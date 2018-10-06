@@ -48,9 +48,7 @@ void DanmakuLoader::load(const QString &xmlFile, int width, int height)
         QTimer::singleShot(0, this, SLOT(reload())); //after event loop
         return;
     }
-    QNetworkRequest request(xmlFile);
-    request.setRawHeader("User-Agent", generateUA(xmlFile));
-    reply = access_manager->get(request);
+    reply = access_manager->get(QNetworkRequest(xmlFile));
     connect(reply, &QNetworkReply::finished, this, &DanmakuLoader::onXmlDownloaded);
 }
 

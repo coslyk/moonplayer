@@ -6,6 +6,43 @@
 #include <QProcess>
 
 const QString china_fake_ip = "220.181.111.63";
+NetworkAccessManager *access_manager = 0;
+QHash<QString,QByteArray> referer_table;
+QHash<QString,QByteArray> ua_table;
+QStringList unseekable_hosts;
+
+
+// Generate a user-agent from URL
+QByteArray generateUA(const QUrl &url)
+{
+    // custom UA
+    QString host = url.host();
+    if (ua_table.contains(host))
+        return ua_table[host];
+
+    // default UA
+    static QByteArray default_ua;
+    if (default_ua.isNull())
+    {
+        QStringList args;
+        args << "-c" << "import sys; print('Python-urllib/%d.%d' % sys.version_info[:2])";
+        QProcess process;
+        if (QFile::exists("/usr/bin/python3"))
+            process.start("/usr/bin/python3", args, QProcess::ReadOnly);
+        else if (QFile::exists("/usr/local/bin/python3"))
+            process.start("/usr/local/bin/python3", args, QProcess::ReadOnly);
+        else
+        {
+            default_ua = "moonplayer";
+            return default_ua;
+        }
+        process.waitForFinished();
+        default_ua = process.readAll().simplified();
+    }
+    return default_ua;
+}
+
+
 
 NetworkAccessManager::NetworkAccessManager(QObject *parent) :
     QNetworkAccessManager(parent)
@@ -66,14 +103,16 @@ void NetworkAccessManager::setProxy(const QString &proxyType, const QString &pro
 
 QNetworkReply *NetworkAccessManager::get(const QNetworkRequest &req)
 {
-    // unblock mode is disable
-    if (Settings::proxyType != "http_unblockcn")
-        return QNetworkAccessManager::get(req);
-
-    // unblock mode is enable
+    // set user agent
     QNetworkRequest request = req;
     QString url = request.url().toString();
+    request.setHeader(QNetworkRequest::UserAgentHeader, generateUA(request.url()));
 
+    // unblock mode is disable
+    if (Settings::proxyType != "http_unblockcn")
+        return QNetworkAccessManager::get(request);
+
+    // unblock mode is enable
     // check if the website can be unblocked by modifying headers
     foreach (QString patt, header_urls)
     {
@@ -99,36 +138,3 @@ QNetworkReply *NetworkAccessManager::get(const QNetworkRequest &req)
     return QNetworkAccessManager::get(request);
 }
 
-
-NetworkAccessManager *access_manager = 0;
-QHash<QString,QByteArray> referer_table;
-QHash<QString,QByteArray> ua_table;
-QStringList unseekable_hosts;
-
-QByteArray generateUA(const QUrl &url)
-{
-    static QByteArray default_ua;
-
-    QString host = url.host();
-    if (ua_table.contains(host))
-        return ua_table[host];
-
-    if (default_ua.isNull())
-    {
-        QStringList args;
-        args << "-c" << "import sys; print('Python-urllib/%d.%d' % sys.version_info[:2])";
-        QProcess process;
-        if (QFile::exists("/usr/bin/python3"))
-            process.start("/usr/bin/python3", args, QProcess::ReadOnly);
-        else if (QFile::exists("/usr/local/bin/python3"))
-            process.start("/usr/local/bin/python3", args, QProcess::ReadOnly);
-        else
-        {
-            default_ua = "moonplayer";
-            return default_ua;
-        }
-        process.waitForFinished();
-        default_ua = process.readAll().simplified();
-    }
-    return default_ua;
-}
