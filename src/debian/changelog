@@ -1,3 +1,9 @@
+moonplayer (2.0-1~bionic) bionic; urgency=medium
+
+  * Add: Unblock Chinese websites from oversea
+
+ -- YK Liu <cos.lyk@gmail.com>  Sat, 06 Oct 2018 21:18:12 +0200
+
 moonplayer (1.9.2-1~bionic) bionic; urgency=medium
 
   * Add about dialog
