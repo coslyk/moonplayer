@@ -36,6 +36,7 @@
 // @include       http://*.youku.com/*
 // @include       https://*.youku.com/*
 // @include       https://*.youtube.com/*
+// @updateURL     https://github.com/coslyk/moonplayer/raw/master/MoonPlayer_Helper.user.js
 // ==/UserScript==
 
 var new_url = window.location.href.replace(/^http/, 'moonplayer');
