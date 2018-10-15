@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          MoonPlayer Helper
 // @description   Open URLs in MoonPlayer
-// @version       1.0.0
+// @version       1.1.0
 // @license       GPLv3
 // @author        coslyk
 // @email         cos.lyk@gmail.com
@@ -45,11 +45,21 @@
 
 var new_url = window.location.href.replace(/^http/, 'moonplayer');
 
-var logo = document.createElement("div");
-logo.innerHTML = '<div style="margin: 00 auto 0 auto; ' +
-    'border-bottom: 1px solid #ffffff; margin-bottom: 5px; ' +
-    'font-size: large; background-color: #ffffff; ' +
-    'color: #000000;"><p style="margin: 20px 0 20px 0; text-align:center;"> ' +
-    '<a href="' + new_url + '">Open in MoonPlayer</a>' +
-    '</p></div>';
-document.body.insertBefore(logo, document.body.firstChild);
+var float_panel = document.createElement('div');
+float_panel.innerHTML = '<div id="float_win" style="position: fixed;' +
+          'position: fixed;' +
+          'vertical-align: middle;' +
+          'width: 100%;' +
+          'height: 36px;' +
+          'left: 0;' +
+          'bottom: 0px;' +
+          'z-index: 99999;' +
+          'border: 2px solid #ccc;' +
+          'background-color: #ddd;' +
+          'overflow-y: hidden;' +
+          'line-height: 36px;' +
+          'font-size: large;' +
+          'text-align: center;">' +
+          '<a href="' + new_url + '">Open in MoonPlayer</a>' +
+          '</div>';
+document.body.appendChild(float_panel);
