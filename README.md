@@ -1,44 +1,43 @@
 [中文主页](https://github.com/coslyk/moonplayer/wiki/HomePageZH)
 
-moonplayer
-==========
-Video player that can play online videos from youku, tudou etc.
+# MoonPlayer
+MoonPlayer is an interesting player that lets you to enjoy videos. It can play the video online, download it or just open the local videos.
 
-Latest version: v2.0 (2018.10.06)
+***
+Latest version: v2.0 [Download](https://github.com/coslyk/moonplayer/wiki/Download)
 
+Last update: 2018.10.06
 
-Download & Install
-----
- * macOS & Linux AppImage:
+* [Browser extension](https://github.com/coslyk/moonplayer/wiki/BrowserExtension)
+* [Update log](https://github.com/coslyk/moonplayer/blob/master/src/debian/changelog)
 
-[Download](https://github.com/coslyk/moonplayer/releases "Download")
+Plugins：[Download](https://github.com/coslyk/moonplayer-plugins)
+(Save them under ~/.moonplayer/plugins)
+[How to write plugins](https://github.com/coslyk/moonplayer-plugins/wiki/PluginsTutorial)
 
-macOS: extract files and drag it to Application folder
+***
+[Donation & Contribution](https://github.com/coslyk/moonplayer/wiki/Contribute)
+***
+Features:
+1. Cool
+1. Super cool
+1. Fuckingly cool
+1. Beautiful and lightweight, package size on Debian/Ubuntu is only about 500kb
+1. Based on MPV so it can play nearly all video formats
+1. Directly open video pages, like Youtube's url
+1. Support [plugins](https://github.com/coslyk/moonplayer-plugins), you can also [write plugins](https://github.com/coslyk/moonplayer-plugins/wiki/PluginsTutorialZH) for MoonPlayer ^_^
 
-Linux: Set the file excutable in properties and run
+### Easy to use and lightweight!
 
- * Linux (Ubuntu): 
+![](https://github.com/coslyk/moonplayer/raw/master/screenshots/screenshot.png?raw=true)
 
-use this ppa: cos-lyk/moonsoft
+### Explore the Internet videos!
 
- * Linux (Fedora): 
+![](https://github.com/coslyk/moonplayer/raw/master/screenshots/screenshot2.png?raw=true)
 
-Add [FZUG source](https://github.com/FZUG/repo/wiki/FZUG "FZUG source") and run
-```
-dnf install moonplayer
-```
- (Thanks 1dot75cm for building package)
-
-Feature
-====
-Simple, but powerful!
-
-<img src="screenshots/screenshot.png?raw=true" title="screenshot" />
-
-Explore movies in Internet!
-
-<img src="screenshots/screenshot2.png?raw=true" title="screenshot2" />
-
-Support danmaku!
-
-<img src="screenshots/screenshot3.png?raw=true" title="screenshot3" />
+***
+### Used open source projects
+[libmpv](https://mpv.io)
+[danmaku2ass](https://github.com/coslyk/danmaku2ass)
+[you-get](https://github.com/soimort/you-get)
+[ykdl](https://github.com/zhangn1985/ykdl)
