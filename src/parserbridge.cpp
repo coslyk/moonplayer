@@ -2,6 +2,7 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QProcess>
+#include <QPushButton>
 #include "accessmanager.h"
 #include "danmakudelaygetter.h"
 #include "downloader.h"
@@ -182,21 +183,28 @@ void ParserBridge::onError()
 
     if (this == firstParser)
     {
-        QMessageBox::warning(NULL, "Error",
-                             msg + "\n\nURL:" + url + "\n\nError Output:\n" +
-                             QString::fromUtf8(process->readAllStandardError()));
+        QMessageBox msgBox;
+        msgBox.setText("Error");
+        msgBox.setInformativeText(msg + "\n\nURL:" + url);
+        msgBox.setDetailedText(QString::fromUtf8(process->readAllStandardError()));
+        msgBox.addButton(QMessageBox::Ok);
+        msgBox.addButton(QMessageBox::Cancel);
+        msgBox.exec();
         secondParser->parse(url, download);
     }
 
     // parse with fallback parser failed
     else
     {
-        int btn = QMessageBox::warning(NULL, "Error",
-                                       "Parse failed!\nURL:" + url + "\n" +
-                                       QString::fromUtf8(process->readAllStandardError()),
-                                       tr("Cancel"),
-                                       tr("Upgrade parser"));
-        if (btn == 1)
+        QMessageBox msgBox;
+        msgBox.setText("Error");
+        msgBox.setInformativeText("Parse failed!\nURL:" + url);
+        msgBox.setDetailedText(QString::fromUtf8(process->readAllStandardError()));
+        msgBox.setMinimumWidth(200);
+        msgBox.addButton(QMessageBox::Cancel);
+        QPushButton *updateButton = msgBox.addButton(tr("Upgrade parser"), QMessageBox::ActionRole);
+        msgBox.exec();
+        if (msgBox.clickedButton() == updateButton)
             upgradeParsers();
     }
 }
