@@ -1,4 +1,5 @@
 #include "ykdlbridge.h"
+#include "platforms.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
 #include <QDir>
@@ -14,30 +15,20 @@ YkdlBridge ykdl_bridge;
 YkdlBridge::YkdlBridge(QObject *parent) : ParserBridge(parent)
 {
     selectionDialog = NULL;
-
-    // change environment settings
-    QStringList envs = process->environment();
-#if defined(Q_OS_MAC)
-    envs << QString("PYTHONPATH=%1/Library/Application Support/MoonPlayer/ykdl/").arg(QDir::homePath());
-#elif defined(Q_OS_LINUX)
-    envs << QString("PYTHONPATH=%1/.moonplayer/ykdl/").arg(QDir::homePath());
-#else
-#error ERROR: Unsupported system!
-#endif
-    process->setEnvironment(envs);
 }
 
 
 void YkdlBridge::runParser(const QString &url)
 {
     QStringList args;
-    args << "-m" << "cykdl" << "-t" << "15" << "--json";
+    args << "python" << (getAppPath() + "/ykdl_patched.py");
+    args << "-t" << "15" << "--json";
     if (!Settings::proxy.isEmpty() &&
             (Settings::proxyType == "http" ||
              (Settings::proxyType == "http_unblockcn" && !url.contains(".youtube.com"))))
         args << "--proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
     args << url;
-    process->start("python", args, QProcess::ReadOnly);
+    process->start("/usr/bin/env", args, QProcess::ReadOnly);
 }
 
 
@@ -79,6 +70,7 @@ void YkdlBridge::parseOutput(const QByteArray &jsonData)
             container = selectedItem["container"].toString();
             referer = obj["extra"].toObject()["referer"].toString();
             ua = obj["extra"].toObject()["ua"].toString();
+            danmaku_url = obj["danmaku_url"].toString();
 
             if (json_urls.size() == 0)
                 return;
