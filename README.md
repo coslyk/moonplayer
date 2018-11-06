@@ -4,9 +4,9 @@
 MoonPlayer is an interesting player that lets you to enjoy videos. It can play the video online, download it or just open the local videos.
 
 ***
-Latest version: v2.0 [Download](https://github.com/coslyk/moonplayer/wiki/Download)
+Latest version: v2.1 [Download](https://github.com/coslyk/moonplayer/wiki/Download)
 
-Last update: 2018.10.06
+Last update: 2018.11.06
 
 * [Browser extension](https://github.com/coslyk/moonplayer/wiki/BrowserExtension)
 * [Update log](https://github.com/coslyk/moonplayer/blob/master/src/debian/changelog)

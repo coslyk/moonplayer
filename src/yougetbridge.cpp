@@ -30,7 +30,7 @@ void YouGetBridge::runParser(const QString &url)
     else if (Settings::proxyType == "socks5" && !Settings::proxy.isEmpty())
         args << "--socks-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
 
-    args << "-t" << "15" << "--json" << url;
+    args << "-t" << "15" << "--debug" << "--json" << url;
     process->start("/usr/bin/env", args, QProcess::ReadOnly);
 }
 
