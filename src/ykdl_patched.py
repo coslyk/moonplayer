@@ -36,14 +36,17 @@ BiliBase.prepare = bilibase_prepare
 
 # Patch jsonlize
 from ykdl.videoinfo import VideoInfo
+from ykdl.util.html import fake_headers
 old_jsonlize = VideoInfo.jsonlize
 def jsonlize(self):
     retVal = old_jsonlize(self)
     retVal['danmaku_url'] = danmaku_url
+    if retVal['extra']['ua'] == '':
+        retVal['extra']['ua'] = fake_headers['User-Agent']
     return retVal
 VideoInfo.jsonlize = jsonlize
 
 # Run ykdl
-import cykdl.__main__
+from cykdl.__main__ import main
 if __name__ == '__main__':
-    cykdl.__main__.main()
+    main()

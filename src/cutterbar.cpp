@@ -78,9 +78,7 @@ void CutterBar::startTask()
     // Check whether ffmpeg is installed
     if (ffmpeg.isEmpty())
     {
-        QMessageBox::warning(this, "Error", tr("FFMPEG is not installed. Please download it from") +
-                             "\n    http://johnvansickle.com/ffmpeg/\n" +
-                            tr("and place file \"ffmpeg\" into ~/.moonplayer/ or /usr/share/moonplayer/"));
+        QMessageBox::warning(this, "Error", tr("Fails to cut video: FFMPEG is not installed."));
         return;
     }
 
