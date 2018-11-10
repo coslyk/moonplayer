@@ -107,17 +107,23 @@ RESOURCES += \
 
 # Installation on Linux
 unix:!macx {
+    isEmpty(PREFIX) {
+        PREFIX = /usr/local
+    }
+    isEmpty(BINDIR) {
+        BINDIR = bin
+    }
     usr_share.files += plugins unblockcn moonplayer_*.qm ykdl_patched.py you_get_patched.py upgrade-you-get.sh upgrade-ykdl.sh upgrade-parsers.sh
-    usr_share.path = /usr/share/moonplayer
+    usr_share.path = $$PREFIX/share/moonplayer
     #icon
     icon.files += icons
-    icon.path = /usr/share
+    icon.path = $$PREFIX/share
     #bin
     execute.files += moonplayer
-    execute.path = /usr/bin
+    execute.path = $$PREFIX/$$BINDIR/
     #menu
-    menu.files += moonplayer.desktop
-    menu.path = /usr/share/applications
+    menu.files += com.github.coslyk.MoonPlayer.desktop
+    menu.path = $$PREFIX/share/applications
     INSTALLS += usr_share icon execute menu
 }
 
@@ -140,7 +146,7 @@ win32: RC_FILE = icon.rc
 # Libraries
 unix:!macx: CONFIG += link_pkgconfig
 unix:!macx: PKGCONFIG += python2 mpv
-unix:!macx: INCLUDEPATH += /usr/include/qtermwidget5
+unix:!macx: INCLUDEPATH += $$PREFIX/include/qtermwidget5
 unix:!macx: LIBS += -lqtermwidget5
 
 macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 \

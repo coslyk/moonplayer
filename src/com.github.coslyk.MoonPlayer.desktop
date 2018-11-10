@@ -1,14 +1,14 @@
 [Desktop Entry]
-Categories=AudioVideo;Player;QT;
+Categories=AudioVideo;Player;
 Comment[zh_CN]=播放本地及网络视频
 Comment=Play local or online videos
 Exec=moonplayer %U
 GenericName[zh_CN]=视频播放器
 GenericName=Media Player
-Icon=moonplayer
+Icon=com.github.coslyk.MoonPlayer
 MimeType=video/x-theora+ogg;video/x-ogm+ogg;video/x-msvideo;video/x-msvideo;video/x-ms-wmv;video/x-ms-asf;video/x-matroska;video/x-flv;video/vnd.rn-realvideo;video/quicktime;video/mpeg;video/mp4;audio/x-wav;audio/x-vorbis+ogg;audio/x-vorbis+ogg;audio/x-scpls;audio/x-ms-wma;audio/x-mpegurl;audio/x-mpegurl;audio/x-matroska;audio/x-adpcm;audio/vnd.rn-realaudio;audio/vnd.rn-realaudio;audio/mpeg;audio/mpeg;audio/mp4;audio/mp2;audio/ac3;application/xspf+xml;
-Name[zh_CN]=Moon Player
-Name=Moon Player
+Name[zh_CN]=MoonPlayer
+Name=MoonPlayer
 StartupNotify=true
 Terminal=false
 Type=Application
