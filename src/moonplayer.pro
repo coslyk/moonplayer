@@ -110,8 +110,8 @@ unix:!macx {
     usr_share.files += plugins unblockcn moonplayer_*.qm ykdl_patched.py you_get_patched.py upgrade-you-get.sh upgrade-ykdl.sh upgrade-parsers.sh
     usr_share.path = /usr/share/moonplayer
     #icon
-    icon.files += moonplayer.png
-    icon.path = /usr/share/icons
+    icon.files += icons
+    icon.path = /usr/share
     #bin
     execute.files += moonplayer
     execute.path = /usr/bin
