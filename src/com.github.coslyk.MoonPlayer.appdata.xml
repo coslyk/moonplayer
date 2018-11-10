@@ -24,8 +24,5 @@
   <url type="bugtracker">https://github.com/coslyk/moonplayer/issues</url>
   <project_group>coslyk</project_group>
   <update_contact>cos.lyk_AT_gmail.com</update_contact>
-  <provides>
-    <id>com.github.coslyk.MoonPlayer</id>
-  </provides>
   <content_rating type="oars-1.1" />
 </component>
