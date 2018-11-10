@@ -118,13 +118,16 @@ unix:!macx {
     #icon
     icon.files += icons
     icon.path = $$PREFIX/share
+    #appdata
+    appdata.files += com.github.coslyk.MoonPlayer.appdata.xml
+    appdata.path = $$PREFIX/share/metainfo
     #bin
     execute.files += moonplayer
     execute.path = $$PREFIX/$$BINDIR/
     #menu
     menu.files += com.github.coslyk.MoonPlayer.desktop
     menu.path = $$PREFIX/share/applications
-    INSTALLS += usr_share icon execute menu
+    INSTALLS += usr_share icon execute menu appdata
 }
 
 # Build bundle for Mac OS X
