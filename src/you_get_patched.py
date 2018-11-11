@@ -10,13 +10,13 @@ import os, sys, json, platform, io
 if platform.system() == 'Darwin':
     _srcdir = '%s/Library/Application Support/MoonPlayer/you-get/src/' % os.getenv('HOME')
 else:
-    _srcdir = '%s/.moonplayer/you-get/src/' % os.getenv('HOME')
+    _srcdir = '%s/moonplayer/you-get/src/' % os.getenv('XDG_DATA_HOME', os.getenv('HOME') + '/.local/share')
 _filepath = os.path.dirname(sys.argv[0])
 sys.path.insert(0, _srcdir)
 import you_get
 
-# List of unseekable video streams
-unseekables = ('Sohu.com',)
+
+unseekables = []
 
 
 # Patch json_output.output

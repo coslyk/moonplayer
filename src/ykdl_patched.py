@@ -15,13 +15,10 @@ sys.setdefaultencoding('UTF8')
 if platform.system() == 'Darwin':
     _srcdir = '%s/Library/Application Support/MoonPlayer/ykdl/' % os.getenv('HOME')
 else:
-    _srcdir = '%s/.moonplayer/ykdl/' % os.getenv('HOME')
+    _srcdir = '%s/moonplayer/ykdl/' % os.getenv('XDG_DATA_HOME', os.getenv('HOME') + '/.local/share')
 _filepath = os.path.dirname(sys.argv[0])
 sys.path.insert(0, _srcdir)
 
-
-# List of unseekable video streams
-unseekables = ('Sohu.com',)
 
 # Patch bilibase
 danmaku_url = ''

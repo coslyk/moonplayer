@@ -1,6 +1,7 @@
 #include "platforms.h"
 #include <QDir>
 #include <QCoreApplication>
+#include <QStandardPaths>
 
 QString getAppPath()
 {
@@ -31,7 +32,8 @@ QString getUserPath()
     if (path.isNull())
     {
 #if defined(Q_OS_LINUX)
-        path = QDir::homePath() + "/.moonplayer";
+        const char *dataPath = getenv("XDG_DATA_HOME");
+        path = dataPath ? QString::fromUtf8(dataPath) + "/moonplayer" : QDir::homePath() + "/.local/share/moonplayer";
 #elif defined(Q_OS_MAC)
         path = QDir::homePath() + "/Library/Application Support/MoonPlayer";
 #elif defined(Q_OS_WIN)
@@ -46,36 +48,8 @@ QString getUserPath()
 
 void createUserPath()
 {
-    QDir dir = QDir::home();
-#if defined(Q_OS_LINUX)
-    if (!dir.cd(".moonplayer"))
-    {
-        dir.mkdir(".moonplayer");
-        dir.cd(".moonplayer");
-    }
-#elif defined(Q_OS_MAC)
-    dir.cd("Library");
-    dir.cd("Application Support");
-    if (!dir.cd("MoonPlayer"))
-    {
-        dir.mkdir("MoonPlayer");
-        dir.cd("MoonPlayer");
-    }
-#elif defined(Q_OS_WIN)
-    dir.cd("AppData");
-    dir.cd("Local");
-    if (!dir.cd("MoonPlayer"))
-    {
-        dir.mkdir("MoonPlayer");
-        dir.cd("MoonPlayer");
-    }
-#else
-#error ERROR: Unsupported system!
-#endif
-    if (!dir.exists("plugins"))
-        dir.mkdir("plugins");
-    if (!dir.exists("skins"))
-        dir.mkdir("skins");
+    QDir dir;
+    dir.mkpath(getUserPath() + "/plugins");
 }
 
 
@@ -86,9 +60,7 @@ QString ffmpegFilePath()
     static QString filename;
     if (filename.isNull())
     {
-#if defined(Q_OS_WIN)
-        filename = QCoreApplication::applicationDirPath() + "/ffmpeg.exe";
-#elif defined(Q_OS_LINUX)
+#if defined(Q_OS_LINUX)
         filename = "ffmpeg";
 #elif defined(Q_OS_MAC)
         filename = QCoreApplication::applicationDirPath() + "/ffmpeg";
@@ -105,11 +77,7 @@ QString yougetFilePath()
     static QString filename;
     if (filename.isNull())
     {
-#if defined(Q_OS_WIN)
-        filename = QCoreApplication::applicationDirPath() + "/you-get.exe";
-#elif defined(Q_OS_LINUX)
-        filename = getAppPath() + "/you_get_patched.py";
-#elif defined(Q_OS_MAC)
+#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
         filename = getAppPath() + "/you_get_patched.py";
 #else
 #error ERROR: Unsupport system!
@@ -125,9 +93,7 @@ QString parserUpgraderPath()
     static QString filename;
     if (filename.isNull())
     {
-#if defined(Q_OS_LINUX)
-        filename = getAppPath() + "/upgrade-parsers.sh";
-#elif defined(Q_OS_MAC)
+#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
         filename = getAppPath() + "/upgrade-parsers.sh";
         if ((QFile::permissions(filename) & QFile::ExeOther) == 0) // make it excutable
             system(("chmod +x '" + filename + '\'').toUtf8().constData());

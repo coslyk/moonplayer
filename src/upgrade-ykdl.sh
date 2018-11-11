@@ -6,9 +6,10 @@ if [ "$OS_NAME" = 'Darwin' ]; then    # macOS
     VERSION_FILE="$HOME/Library/Application Support/MoonPlayer/ykdl-version.txt"
     DEST_DIR="$HOME/Library/Application Support/MoonPlayer/ykdl"
 elif [ "$OS_NAME" = 'Linux' ]; then   # Linux
-    VERSION_FILE="$HOME/.moonplayer/ykdl-version.txt"
-    DEST_DIR="$HOME/.moonplayer/ykdl"
-    TMPDIR="/tmp"
+    XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
+    VERSION_FILE="$XDG_DATA_HOME/moonplayer/ykdl-version.txt"
+    DEST_DIR="$XDG_DATA_HOME/moonplayer/ykdl"
+    TMPDIR=${XDG_CACHE_HOME:="/tmp"}
 else
     echo "Unsupported system!"
     exit 0
