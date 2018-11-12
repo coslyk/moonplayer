@@ -1,3 +1,9 @@
+moonplayer (2.1.5-1~cosmic) cosmic; urgency=medium
+
+  * Use the standard application directories
+
+ -- YK Liu <cos.lyk@gmail.com>  Mon, 12 Nov 2018 22:43:04 +0100
+
 moonplayer (2.1-1~cosmic) cosmic; urgency=medium
 
   * Able to get danmaku from ykdl
