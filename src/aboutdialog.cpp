@@ -1,6 +1,8 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 #include "accessmanager.h"
+#include "platforms.h"
+#include <QDir>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -28,6 +30,7 @@ AboutDialog::~AboutDialog()
     delete ui;
 }
 
+
 void AboutDialog::checkUpdateFinished()
 {
     if (reply->error() == QNetworkReply::NoError)
@@ -38,4 +41,20 @@ void AboutDialog::checkUpdateFinished()
             QMessageBox::warning(NULL, "Moon Player", tr("New version is available."));
     }
     reply->deleteLater();
+
+    // Move plugins to new path
+#ifdef Q_OS_LINUX
+    QDir dir(QDir::homePath() + "/.moonplayer/plugins");
+    if (dir.entryList(QDir::Files).count())
+    {
+        QString cmd = QString("mv '%1/'* '%2/plugins'").arg(dir.path(), getUserPath());
+        system(cmd.toUtf8().constData());
+        QMessageBox::information(NULL, "Plugins moved",
+                                 tr("Some plugins are found in ~/.moonplayer/plugins. "
+                                    "This directory is no longer used, "
+                                    "and all the plugins are moved to the new directory:"
+                                    "\n\n%1/plugins/\n\n"
+                                    "Please restart MoonPlayer to apply this change.").arg(getUserPath()));
+    }
+#endif
 }

@@ -87,9 +87,22 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">微信支付：</translation>
     </message>
     <message>
-        <location filename="aboutdialog.cpp" line="38"/>
+        <location filename="aboutdialog.cpp" line="41"/>
         <source>New version is available.</source>
         <translation type="unfinished">有新版本可用。</translation>
+    </message>
+    <message>
+        <location filename="aboutdialog.cpp" line="53"/>
+        <source>Some plugins are found in ~/.moonplayer/plugins. This directory is no longer used, and all the plugins are moved to the new directory:
+
+%1/plugins/
+
+Please restart MoonPlayer to apply this change.</source>
+        <translation type="unfinished">~/.moonplayer/plugins文件夹将不再使用，位于该目录的插件将被移动至新目录：
+
+%1
+
+请重启MoonPlayer以应用更改。</translation>
     </message>
 </context>
 <context>
@@ -127,21 +140,21 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="cutterbar.cpp" line="81"/>
-        <source>FFMPEG is not installed. Please download it from</source>
+        <source>Fails to cut video: FFMPEG is not installed.</source>
+        <oldsource>FFMPEG is not installed. Please download it from</oldsource>
         <translation type="unfinished">ffmpeg未安装。请从以下网址下载ffmpeg</translation>
     </message>
     <message>
-        <location filename="cutterbar.cpp" line="83"/>
         <source>and place file &quot;ffmpeg&quot; into ~/.moonplayer/ or /usr/share/moonplayer/</source>
-        <translation type="unfinished">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/或/usr/share/moonplayer/</translation>
+        <translation type="obsolete">并将文件&quot;ffmpeg&quot;放入~/.moonplayer/或/usr/share/moonplayer/</translation>
     </message>
     <message>
-        <location filename="cutterbar.cpp" line="89"/>
+        <location filename="cutterbar.cpp" line="87"/>
         <source>Time position is not valid.</source>
         <translation type="unfinished">无效的时间。</translation>
     </message>
     <message>
-        <location filename="cutterbar.cpp" line="108"/>
+        <location filename="cutterbar.cpp" line="106"/>
         <source>Finished</source>
         <translation type="unfinished">完成</translation>
     </message>
@@ -298,32 +311,31 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ParserBridge</name>
     <message>
-        <location filename="parserbridge.cpp" line="59"/>
+        <location filename="parserbridge.cpp" line="60"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="parserbridge.cpp" line="140"/>
+        <location filename="parserbridge.cpp" line="141"/>
         <source>Add download task successfully!</source>
         <translation type="unfinished">添加下载任务成功！</translation>
     </message>
     <message>
-        <location filename="parserbridge.cpp" line="174"/>
+        <location filename="parserbridge.cpp" line="175"/>
         <source>Parsing with ykdl failed. We will try with you-get again.</source>
         <translation type="unfinished">使用ykdl解析本视频失败。将尝试使用you-get解析。</translation>
     </message>
     <message>
-        <location filename="parserbridge.cpp" line="180"/>
+        <location filename="parserbridge.cpp" line="181"/>
         <source>Parsing with you-get failed. We will try with ykdl again.</source>
         <translation type="unfinished">使用you-get解析本视频失败。将尝试使用ykdl解析。</translation>
     </message>
     <message>
-        <location filename="parserbridge.cpp" line="197"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
     <message>
-        <location filename="parserbridge.cpp" line="198"/>
+        <location filename="parserbridge.cpp" line="205"/>
         <source>Upgrade parser</source>
         <translation type="unfinished">更新解析程序</translation>
     </message>
@@ -738,133 +750,138 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="27"/>
+        <location filename="settingsdialog.ui" line="30"/>
         <source>Player</source>
         <translation type="unfinished">播放器</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="36"/>
+        <location filename="settingsdialog.ui" line="39"/>
         <source>Remember unfinished clips</source>
         <translation type="unfinished">记住未播放完的片段</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="44"/>
+        <location filename="settingsdialog.ui" line="47"/>
         <source>Video</source>
         <translation type="unfinished">视频</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="70"/>
+        <location filename="settingsdialog.ui" line="73"/>
         <source>vdpau</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="145"/>
+        <location filename="settingsdialog.ui" line="148"/>
         <source>Audio</source>
         <translation type="unfinished">音频</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="151"/>
+        <location filename="settingsdialog.ui" line="154"/>
         <source>Audio Output:</source>
         <translation type="unfinished">音频输出：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="60"/>
-        <location filename="settingsdialog.ui" line="159"/>
+        <location filename="settingsdialog.ui" line="63"/>
+        <location filename="settingsdialog.ui" line="162"/>
         <source>auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="52"/>
+        <location filename="settingsdialog.ui" line="55"/>
         <source>Hardware decoding:</source>
         <translation type="unfinished">硬件解码：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="84"/>
+        <location filename="settingsdialog.ui" line="87"/>
         <source>Choose hardware decoder automatically.</source>
         <translation type="unfinished">自动选择。</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="168"/>
+        <location filename="settingsdialog.ui" line="171"/>
         <source>Internet</source>
         <translation type="unfinished">网络</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="267"/>
+        <location filename="settingsdialog.ui" line="211"/>
+        <source>http_unblockcn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="275"/>
         <source>Port</source>
         <translation type="unfinished">端口</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="288"/>
+        <location filename="settingsdialog.ui" line="296"/>
         <source>Plugins</source>
         <translation type="unfinished">插件</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="301"/>
+        <location filename="settingsdialog.ui" line="309"/>
         <source>Use ykdl first, you-get as fallback</source>
         <translation type="unfinished">优先使用ykdl，失败时使用you-get</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="308"/>
+        <location filename="settingsdialog.ui" line="316"/>
         <source>Combine video clips automatically after downloading</source>
         <translation type="unfinished">下载后自动合并分段视频</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="315"/>
+        <location filename="settingsdialog.ui" line="323"/>
         <source>Open plugins folder</source>
         <translation type="unfinished">打开插件文件夹</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="65"/>
+        <location filename="settingsdialog.ui" line="68"/>
         <source>vaapi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="98"/>
+        <location filename="settingsdialog.ui" line="101"/>
         <source>Intel hardware decoding on Linux.</source>
         <translation type="unfinished">Linux下的Intel显卡硬件解码。</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="109"/>
+        <location filename="settingsdialog.ui" line="112"/>
         <source>Nvidia hardware decoding on Linux.</source>
         <translation type="unfinished">Linux下的Nvidia显卡硬件解码。</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="127"/>
+        <location filename="settingsdialog.ui" line="130"/>
         <source>Copy mode</source>
         <translation type="unfinished">复制模式</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="134"/>
+        <location filename="settingsdialog.ui" line="137"/>
         <source>This option will make all video filters work under hardware decoding, but it will comsume more hardware resources.</source>
         <translation type="unfinished">该选项会使所有滤镜在硬件解码时正常工作，但会消耗更多资源。</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="216"/>
+        <location filename="settingsdialog.ui" line="224"/>
         <source>Proxy:</source>
         <translation type="unfinished">代理：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="198"/>
+        <location filename="settingsdialog.ui" line="201"/>
         <source>no</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="203"/>
+        <location filename="settingsdialog.ui" line="206"/>
         <source>http</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="208"/>
+        <location filename="settingsdialog.ui" line="216"/>
         <source>socks5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="190"/>
+        <location filename="settingsdialog.ui" line="193"/>
         <source>Address</source>
         <translation type="unfinished">地址</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="277"/>
+        <location filename="settingsdialog.ui" line="285"/>
         <source>Note: Due to the limitation of mpv, socks5 proxy is not supported by online playing.</source>
         <translation type="unfinished">注意：由于mpv限制，在线播放不支持socks5。</translation>
     </message>
@@ -873,63 +890,63 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">视频解析程序：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="294"/>
+        <location filename="settingsdialog.ui" line="302"/>
         <source>Help</source>
         <translation type="unfinished">帮助</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="335"/>
+        <location filename="settingsdialog.ui" line="343"/>
         <source>Parser mode:</source>
         <translation type="unfinished">解析模式：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="362"/>
+        <location filename="settingsdialog.ui" line="370"/>
         <source>Use you-get first, ykdl as fallback</source>
         <translation type="unfinished">优先使用you-get，失败时使用ykdl</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="370"/>
+        <location filename="settingsdialog.ui" line="378"/>
         <source>Danmaku</source>
         <translation type="unfinished">弹幕</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="376"/>
+        <location filename="settingsdialog.ui" line="384"/>
         <source>Alpha:</source>
         <translation type="unfinished">透明度：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="396"/>
+        <location filename="settingsdialog.ui" line="404"/>
         <source>Font size:</source>
         <translation type="unfinished">字体大小：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="403"/>
-        <location filename="settingsdialog.ui" line="416"/>
+        <location filename="settingsdialog.ui" line="411"/>
+        <location filename="settingsdialog.ui" line="424"/>
         <source>0 means auto</source>
         <translation type="unfinished">0表示自动</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="423"/>
+        <location filename="settingsdialog.ui" line="431"/>
         <source>Duration of scrolling comment display:</source>
         <translation type="unfinished">滚动弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="430"/>
+        <location filename="settingsdialog.ui" line="438"/>
         <source>Duration of still comment display:</source>
         <translation type="unfinished">静止弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="457"/>
+        <location filename="settingsdialog.ui" line="465"/>
         <source>Font:</source>
         <translation type="unfinished">字体：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="237"/>
+        <location filename="settingsdialog.ui" line="245"/>
         <source>Max tasks</source>
         <translation type="unfinished">最大任务数</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="223"/>
+        <location filename="settingsdialog.ui" line="231"/>
         <source>Save to:</source>
         <translation type="unfinished">保存至：</translation>
     </message>
@@ -958,7 +975,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>YkdlBridge</name>
     <message>
-        <location filename="ykdlbridge.cpp" line="67"/>
+        <location filename="ykdlbridge.cpp" line="60"/>
         <source>Please select a video quality:</source>
         <translation type="unfinished">请选择视频质量：</translation>
     </message>
@@ -966,7 +983,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>YouGetBridge</name>
     <message>
-        <location filename="yougetbridge.cpp" line="69"/>
+        <location filename="yougetbridge.cpp" line="75"/>
         <source>Please select a video quality:</source>
         <translation type="unfinished">请选择视频质量：</translation>
     </message>
