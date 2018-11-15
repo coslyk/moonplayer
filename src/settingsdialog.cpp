@@ -179,7 +179,6 @@ void initSettings()
     proxy = settings.value("Net/proxy").toString();
     port = settings.value("Net/port").toInt();
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
-    downloadDir = settings.value("Net/download_dir", getVideosPath()).toString();
     autoCombine = settings.value("Plugins/auto_combine", true).toBool();
     parser = (VideoParser) settings.value("Plugins/parser", 0).toInt();
     copyMode = settings.value("Video/copy_mode", false).toBool();
