@@ -39,7 +39,6 @@ ParserBridge::ParserBridge(QObject *parent) : QObject(parent)
 #endif
     process->setEnvironment(envs);
     connect(process, SIGNAL(finished(int)),this, SLOT(onFinished()));
-    connect(process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(onError()));
 }
 
 
