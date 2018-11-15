@@ -7,11 +7,14 @@ QString getAppPath(void);
 QString getUserPath(void);
 void createUserPath(void);
 
+// videos path
+QString getVideosPath(void);
+QString getPicturesPath(void);
+
 // Get FFmpeg's file path
 QString ffmpegFilePath(void);
 
-// Get you-get's file path
-QString yougetFilePath(void);
+// parser upgrader
 QString parserUpgraderPath(void);
 
 #endif // PLATFORMS_H

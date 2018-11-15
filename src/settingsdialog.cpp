@@ -58,6 +58,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->aoComboBox->addItem("pulse");
     ui->aoComboBox->addItem("alsa");
     ui->aoComboBox->addItem("oss");
+    if (getenv("FLATPAK_SANDBOX_DIR"))
+        ui->dirButton->setEnabled(false);
 #else
     ui->hwdecComboBox->setEnabled(false); // takes effect only on Linux
 #endif
@@ -177,7 +179,7 @@ void initSettings()
     proxy = settings.value("Net/proxy").toString();
     port = settings.value("Net/port").toInt();
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
-    downloadDir = settings.value("Net/download_dir", QDir::homePath()).toString();
+    downloadDir = settings.value("Net/download_dir", getVideosPath()).toString();
     autoCombine = settings.value("Plugins/auto_combine", true).toBool();
     parser = (VideoParser) settings.value("Plugins/parser", 0).toInt();
     copyMode = settings.value("Video/copy_mode", false).toBool();
@@ -186,6 +188,15 @@ void initSettings()
     danmakuSize = settings.value("Danmaku/size", 0).toInt();
     durationScrolling = settings.value("Danmaku/dm", 0).toInt();
     durationStill = settings.value("Danmaku/ds", 6).toInt();
+
+#ifdef Q_OS_LINUX
+    if (getenv("FLATPAK_SANDBOX_DIR")) // sandboxed by Flatpak, only has access to xdg-videos directory
+        downloadDir = getVideosPath();
+    else
+        downloadDir = settings.value("Net/download_dir", getVideosPath()).toString();
+#else
+    downloadDir = settings.value("Net/download_dir", getVideosPath()).toString();
+#endif
 
     //init proxy
     access_manager->setProxy(proxyType, proxy, port);

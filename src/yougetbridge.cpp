@@ -18,7 +18,7 @@ YouGetBridge::YouGetBridge(QObject *parent) : ParserBridge(parent)
 void YouGetBridge::runParser(const QString &url)
 {
     QStringList args;
-    args << "python3" << yougetFilePath();
+    args << "python3" << getAppPath() + "/you_get_patched.py";
 
     // http proxy
     if (!Settings::proxy.isEmpty() &&

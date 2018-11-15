@@ -53,6 +53,23 @@ void createUserPath()
 }
 
 
+//videos' and pictures' path
+QString getVideosPath()
+{
+    QString path;
+    if (path.isNull())
+        path = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).first();
+    return path;
+}
+
+QString getPicturesPath()
+{
+    QString path;
+    if (path.isNull())
+        path = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first();
+    return path;
+}
+
 
 //get ffmpeg's file path
 QString ffmpegFilePath()
@@ -70,22 +87,6 @@ QString ffmpegFilePath()
     }
     return filename;
 }
-
-// get you-get's file path
-QString yougetFilePath()
-{
-    static QString filename;
-    if (filename.isNull())
-    {
-#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
-        filename = getAppPath() + "/you_get_patched.py";
-#else
-#error ERROR: Unsupport system!
-#endif
-    }
-    return filename;
-}
-
 
 // get parsers' upgrader path
 QString parserUpgraderPath()
