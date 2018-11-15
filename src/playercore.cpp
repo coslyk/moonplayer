@@ -21,6 +21,9 @@
 #include <QGuiApplication>
 #include <QX11Info>
 #include <qpa/qplatformnativeinterface.h>
+#ifndef GLAPIENTRY
+#define GLAPIENTRY
+#endif
 static void *GLAPIENTRY glMPGetNativeDisplay(const char *name)
 {
     if (strcmp(name, "wl") == 0 && !QX11Info::isPlatformX11())
