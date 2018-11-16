@@ -158,6 +158,7 @@ void Downloader::onPlayButton()
             i++;
             child = item->child(i);
         }
+        window()->close();
         return;
     }
     QString name = item->text(0);
@@ -168,6 +169,7 @@ void Downloader::onPlayButton()
     }
     else
         emit newPlay(QFileInfo(name).fileName(), name);
+    window()->close();
 }
 
 void Downloader::onDelButton()

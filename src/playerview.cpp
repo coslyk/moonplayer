@@ -362,6 +362,7 @@ void PlayerView::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_W:
         reslibrary->show();
+        reslibrary->activateWindow();
         break;
     case Qt::Key_Space:
         core->changeState();
