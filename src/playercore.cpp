@@ -519,13 +519,8 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku, const QSt
         danmakuDelay = 0;
 
     // set network parameters
-    QStringList streamOptions;
     if (file.startsWith("http:") || file.startsWith("https:"))
     {
-        // set http proxy
-        if (Settings::proxyType == "http" && !Settings::proxy.isEmpty())
-            streamOptions << ("http_proxy=http://" + Settings::proxy + ':' + QString::number(Settings::port));
-
         // set referer
         QString host = QUrl(file).host();
         if (referer_table.contains(host))
@@ -542,22 +537,23 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku, const QSt
          */
         if (unseekable_hosts.contains(host))
         {
-            streamOptions << "seekable=0";
+            handleMpvError(mpv_set_option_string(mpv, "stream-lavf-o", "seekable=0"));
             handleMpvError(mpv_set_option_string(mpv, "force-seekable", "yes"));
             unseekable_forced = true;
         }
         else
         {
+            handleMpvError(mpv_set_option_string(mpv, "stream-lavf-o", ""));
             handleMpvError(mpv_set_option_string(mpv, "force-seekable", "no"));
             unseekable_forced = false;
         }
     }
     else
     {
+        handleMpvError(mpv_set_option_string(mpv, "stream-lavf-o", ""));
         handleMpvError(mpv_set_option_string(mpv, "force-seekable", "no"));
         unseekable_forced = false;
     }
-    handleMpvError(mpv_set_option_string(mpv, "stream-lavf-o", streamOptions.join(',').toUtf8().constData()));
 
     speed = 1.0;
     danmaku_visible = true;
