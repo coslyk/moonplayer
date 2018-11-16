@@ -84,6 +84,13 @@ int main(int argc, char *argv[])
         for (int i = 1; i < argc; i++)
         {
             QByteArray f = argv[i];
+
+            //opened from browser extension
+            if (f.startsWith("moonplayer://"))
+                f.replace("moonplayer://", "http://");
+            else if (f.startsWith("moonplayers://"))
+                f.replace("moonplayers://", "https://");
+
             //online resource
             if (f.startsWith("http://") || f.startsWith("https://"))
                 socket.addUrl(f);
@@ -169,6 +176,13 @@ int main(int argc, char *argv[])
 
         if (file.startsWith("--"))
             continue;
+
+        //opened from browser extension
+        if (file.startsWith("moonplayer://"))
+            file.replace("moonplayer://", "http://");
+        else if (file.startsWith("moonplayers://"))
+            file.replace("moonplayers://", "https://");
+
         if (file.startsWith("http://") || file.startsWith("https://"))
             playlist->addUrl(file);
         else if (file.endsWith(".m3u") || file.endsWith("m3u8") || file.endsWith(".xspf")) //playlist
