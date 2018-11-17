@@ -13,6 +13,7 @@
     <p xml:lang="zh-CN">Moon Player 是一个有趣的播放器，让您轻松享受观看视频的乐趣。配合浏览器扩展，可以轻松在线观看或下载来自Youtube、B站、优酷等诸多网站的视频。</p>
   </description>
   <releases>
+    <release version="2.2" date="2018-11-17"/>
     <release version="2.1.5" date="2018-11-11"/>
   </releases>
   <screenshots>
@@ -22,6 +23,7 @@
   </screenshots>
   <url type="homepage">https://github.com/coslyk/moonplayer</url>
   <url type="bugtracker">https://github.com/coslyk/moonplayer/issues</url>
+  <url type="donation">https://github.com/coslyk/moonplayer/wiki/Contribute</url>
   <project_group>coslyk</project_group>
   <update_contact>cos.lyk_AT_gmail.com</update_contact>
   <content_rating type="oars-1.1" />
