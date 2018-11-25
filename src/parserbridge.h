@@ -16,15 +16,12 @@ public:
 public slots:
     void upgradeParsers(void);
 
-private slots:
-    void onFinished(void);
 
 protected:
     static SelectionDialog *selectionDialog;
-    QProcess *process;
 
     virtual void runParser(const QString &url) = 0;
-    virtual void parseOutput(const QByteArray &jsonData) = 0;
+    void finishParsing(void);
     void showErrorDialog(const QString &errMsg);
 
     // the following members should be filled in parseJson

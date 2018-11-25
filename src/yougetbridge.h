@@ -10,10 +10,16 @@ class YouGetBridge : public ParserBridge
     Q_OBJECT
 public:
     explicit YouGetBridge(QObject *parent = 0);
+    ~YouGetBridge();
 
 protected:
     void runParser(const QString &url);
-    void parseOutput(const QByteArray &jsonData);
+
+private:
+    QProcess *process;
+
+private slots:
+    void parseOutput(void);
 };
 
 extern YouGetBridge you_get_bridge;

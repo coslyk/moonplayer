@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
+#include <QMessageBox>
 #include <QProcess>
 #include <QRegularExpression>
 
@@ -13,10 +14,46 @@ YouGetBridge you_get_bridge;
 
 YouGetBridge::YouGetBridge(QObject *parent) : ParserBridge(parent)
 {
+    process = new QProcess(this);
+
+    // Set environments
+    QStringList envs = QProcess::systemEnvironment();
+    envs << "PYTHONIOENCODING=utf8";
+#ifdef Q_OS_MAC
+    envs << "LC_CTYPE=en_US.UTF-8";
+    // add "/usr/local/bin" to path
+    for (int i = 0; i < envs.size(); i++)
+    {
+        if (envs[i].startsWith("PATH=") && !envs[i].contains("/usr/local/bin"))
+        {
+            envs[i] += ":/usr/local/bin";
+            break;
+        }
+    }
+#endif
+    process->setEnvironment(envs);
+    connect(process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
 }
+
+
+YouGetBridge::~YouGetBridge()
+{
+    if (process->state() == QProcess::Running)
+    {
+        process->kill();
+        process->waitForFinished();
+    }
+}
+
 
 void YouGetBridge::runParser(const QString &url)
 {
+    if (process->state() == QProcess::Running)
+    {
+        QMessageBox::warning(NULL, "Error", tr("Another file is being parsed."));
+        return;
+    }
+
     QStringList args;
     args << "python3" << getAppPath() + "/you_get_patched.py";
 
@@ -35,16 +72,20 @@ void YouGetBridge::runParser(const QString &url)
 }
 
 
-void YouGetBridge::parseOutput(const QByteArray &jsonData)
+void YouGetBridge::parseOutput()
 {
     QJsonParseError json_error;
 
-    // Output may include non-json content in the head, remove it
-    QByteArray output = jsonData.mid(jsonData.indexOf('{'));
+    QByteArray output = process->readAllStandardOutput();
+    // Output may include non-json content in the head, remove it (bug of you-get)
+    output = output.mid(output.indexOf('{'));
 
     QJsonObject obj = QJsonDocument::fromJson(output, &json_error).object();
     if (json_error.error != QJsonParseError::NoError)
+    {
+        showErrorDialog(QString::fromUtf8(process->readAllStandardError()));
         return;
+    }
 
 
     if (obj.contains("streams"))
@@ -94,7 +135,10 @@ void YouGetBridge::parseOutput(const QByteArray &jsonData)
         result.danmaku_url = obj["danmaku_url"].toString();
 
         if (json_urls.size() == 0)
+        {
+            showErrorDialog(QString::fromUtf8(process->readAllStandardError()));
             return;
+        }
 
         // replace illegal chars in title with .
         static QRegularExpression illegalChars("[\\\\/]");
@@ -105,6 +149,7 @@ void YouGetBridge::parseOutput(const QByteArray &jsonData)
         {
             result.names << ("video." + result.container) << ("audio." + result.container);
             result.urls << json_urls[0].toString() << json_urls[1].toString();
+            finishParsing();
             return;
         }
 
@@ -113,6 +158,9 @@ void YouGetBridge::parseOutput(const QByteArray &jsonData)
             result.names << QString("%1_%2.%3").arg(result.title, QString::number(i), result.container);
             result.urls << json_urls[i].toString();
         }
+        finishParsing();
     }
+    else
+        showErrorDialog(QString::fromUtf8(process->readAllStandardError()));
 }
 

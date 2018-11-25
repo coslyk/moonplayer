@@ -7,6 +7,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
+#include <QMessageBox>
 #include <QProcess>
 #include <QRegularExpression>
 
@@ -14,12 +15,28 @@ YkdlBridge ykdl_bridge;
 
 YkdlBridge::YkdlBridge(QObject *parent) : ParserBridge(parent)
 {
-    selectionDialog = NULL;
+    process = new QProcess(this);
+    connect(process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
+}
+
+YkdlBridge::~YkdlBridge()
+{
+    if (process->state() == QProcess::Running)
+    {
+        process->kill();
+        process->waitForFinished();
+    }
 }
 
 
 void YkdlBridge::runParser(const QString &url)
 {
+    if (process->state() == QProcess::Running)
+    {
+        QMessageBox::warning(NULL, "Error", tr("Another file is being parsed."));
+        return;
+    }
+
     QStringList args;
     args << "python" << (getAppPath() + "/ykdl_patched.py");
     args << "-t" << "15" << "--json";
@@ -32,12 +49,16 @@ void YkdlBridge::runParser(const QString &url)
 }
 
 
-void YkdlBridge::parseOutput(const QByteArray &jsonData)
+void YkdlBridge::parseOutput()
 {
+    QByteArray output = process->readAllStandardOutput();
     QJsonParseError json_error;
-    QJsonObject obj = QJsonDocument::fromJson(jsonData, &json_error).object();
+    QJsonObject obj = QJsonDocument::fromJson(output, &json_error).object();
     if (json_error.error != QJsonParseError::NoError)
+    {
+        showErrorDialog(QString::fromUtf8(process->readAllStandardError()));
         return;
+    }
     if (obj.contains("streams"))
     {
         result.title = obj["title"].toString();
@@ -64,29 +85,32 @@ void YkdlBridge::parseOutput(const QByteArray &jsonData)
         selectedItem = streams[selected].toObject();
 
         // Write names-urls-list
-        if (!selectedItem.isEmpty())
+        QJsonArray json_urls = selectedItem["src"].toArray();
+        result.container = selectedItem["container"].toString();
+        result.referer = obj["extra"].toObject()["referer"].toString();
+        result.ua = obj["extra"].toObject()["ua"].toString();
+        result.danmaku_url = obj["danmaku_url"].toString();
+
+        if (json_urls.size() == 0)
         {
-            QJsonArray json_urls = selectedItem["src"].toArray();
-            result.container = selectedItem["container"].toString();
-            result.referer = obj["extra"].toObject()["referer"].toString();
-            result.ua = obj["extra"].toObject()["ua"].toString();
-            result.danmaku_url = obj["danmaku_url"].toString();
-
-            if (json_urls.size() == 0)
-                return;
-
-            // replace illegal chars in title with .
-            static QRegularExpression illegalChars("[\\\\/]");
-            result.title.replace(illegalChars, ".");
-
-            // Make file list
-            for (int i = 0; i < json_urls.size(); i++)
-            {
-                result.names << QString("%1_%2.%3").arg(result.title, QString::number(i), result.container);
-                result.urls << json_urls[i].toString();
-            }
+            showErrorDialog(QString::fromUtf8(process->readAllStandardError()));
+            return;
         }
+
+        // replace illegal chars in title with .
+        static QRegularExpression illegalChars("[\\\\/]");
+        result.title.replace(illegalChars, ".");
+
+        // Make file list
+        for (int i = 0; i < json_urls.size(); i++)
+        {
+            result.names << QString("%1_%2.%3").arg(result.title, QString::number(i), result.container);
+            result.urls << json_urls[i].toString();
+        }
+        finishParsing();
     }
+    else
+        showErrorDialog(QString::fromUtf8(process->readAllStandardError()));
 }
 
 

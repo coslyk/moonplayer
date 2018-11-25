@@ -1,7 +1,6 @@
 #include "parserbridge.h"
 #include <QDir>
 #include <QMessageBox>
-#include <QProcess>
 #include <QPushButton>
 #include "accessmanager.h"
 #include "danmakudelaygetter.h"
@@ -11,55 +10,25 @@
 #include "reslibrary.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
-#include "settings_plugins.h"
 #include "settingsdialog.h"
 #include "terminal.h"
-#include "ykdlbridge.h"
-#include "yougetbridge.h"
 
 SelectionDialog *ParserBridge::selectionDialog = NULL;
 
 ParserBridge::ParserBridge(QObject *parent) : QObject(parent)
 {
-    process = new QProcess(this);
-
-    // Set environments
-    QStringList envs = QProcess::systemEnvironment();
-    envs << "PYTHONIOENCODING=utf8";
-#ifdef Q_OS_MAC
-    envs << "LC_CTYPE=en_US.UTF-8";
-    // add "/usr/local/bin" to path
-    for (int i = 0; i < envs.size(); i++)
-    {
-        if (envs[i].startsWith("PATH=") && !envs[i].contains("/usr/local/bin"))
-        {
-            envs[i] += ":/usr/local/bin";
-            break;
-        }
-    }
-#endif
-    process->setEnvironment(envs);
-    connect(process, SIGNAL(finished(int)),this, SLOT(onFinished()));
 }
 
 
 ParserBridge::~ParserBridge()
 {
-    if (process->state() == QProcess::Running)
-    {
-        process->kill();
-        process->waitForFinished();
-    }
 }
 
 
 void ParserBridge::parse(const QString &url, bool download)
 {
-    if (process->state() == QProcess::Running)
-    {
-        QMessageBox::warning(NULL, "Error", tr("Another file is being parsed."));
-        return;
-    }
+    if (selectionDialog == NULL)
+        selectionDialog = new SelectionDialog;
     this->url = url;
     this->download = download;
     result.title.clear();
@@ -75,20 +44,8 @@ void ParserBridge::parse(const QString &url, bool download)
 }
 
 
-void ParserBridge::onFinished()
+void ParserBridge::finishParsing()
 {
-    if (selectionDialog == NULL)
-        selectionDialog = new SelectionDialog;
-    QByteArray output = process->readAllStandardOutput();
-    parseOutput(output);
-
-    // Error
-    if (result.urls.isEmpty())
-    {
-        showErrorDialog(QString::fromUtf8(process->readAllStandardError()));
-        return;
-    }
-
     // Bind referer and use-agent
     if (!result.referer.isEmpty())
     {
