@@ -2,9 +2,7 @@
 #include "ui_detailview.h"
 #include "utils.h"
 #include "accessmanager.h"
-#include "settings_plugins.h"
-#include "yougetbridge.h"
-#include "ykdlbridge.h"
+#include "parserbridge.h"
 #include <Python.h>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -135,10 +133,8 @@ void DetailView::onPlay()
     QByteArray url = urls[current_row];
     if (url.startsWith("python:"))
         PyRun_SimpleString(url.mid(7).constData());
-    else if (Settings::parser == Settings::YKDL)
-        ykdl_bridge.parse(QString::fromUtf8(url), false);
     else
-        you_get_bridge.parse(QString::fromUtf8(url), false);
+        parseUrl(url, false);
 }
 
 void DetailView::onDownload()
@@ -149,8 +145,6 @@ void DetailView::onDownload()
     QByteArray url = urls[current_row];
     if (url.startsWith("python:"))
         PyRun_SimpleString(url.mid(7).constData());
-    else if (Settings::parser == Settings::YKDL)
-        ykdl_bridge.parse(QString::fromUtf8(url), true);
     else
-        you_get_bridge.parse(QString::fromUtf8(url), true);
+        parseUrl(url, true);
 }

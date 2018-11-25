@@ -10,8 +10,11 @@
 #include "reslibrary.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
+#include "settings_plugins.h"
 #include "settingsdialog.h"
 #include "terminal.h"
+#include "ykdlbridge.h"
+#include "yougetbridge.h"
 
 SelectionDialog *ParserBridge::selectionDialog = NULL;
 
@@ -140,5 +143,14 @@ void ParserBridge::showErrorDialog(const QString &errMsg)
 void ParserBridge::upgradeParsers()
 {
     execShell(parserUpgraderPath());
+}
+
+
+void parseUrl(const QString &url, bool download)
+{
+    if (Settings::parser == Settings::YKDL)
+        ykdl_bridge.parse(url, download);
+    else
+        you_get_bridge.parse(url, download);
 }
 

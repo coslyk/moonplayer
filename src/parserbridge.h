@@ -43,4 +43,6 @@ private:
     bool download;
 };
 
+void parseUrl(const QString &url, bool download);
+
 #endif // PARSERBRIDGE_H
