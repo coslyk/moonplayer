@@ -12,6 +12,7 @@
 #include "selectiondialog.h"
 #include "settings_network.h"
 #include "settings_plugins.h"
+#include "settingsdialog.h"
 #include "terminal.h"
 #include "ykdlbridge.h"
 #include "yougetbridge.h"
@@ -84,7 +85,7 @@ void ParserBridge::onFinished()
     // Error
     if (urls.isEmpty())
     {
-        onError();
+        showErrorDialog(QString::fromUtf8(process->readAllStandardError()));
         return;
     }
 
@@ -162,52 +163,21 @@ void ParserBridge::onFinished()
     }
 }
 
-void ParserBridge::onError()
+void ParserBridge::showErrorDialog(const QString &errMsg)
 {
-    // Use fallback parser
-    ParserBridge *firstParser, *secondParser;
-    QString msg;
-    if (Settings::parser == Settings::YKDL)
-    {
-        firstParser = &ykdl_bridge;
-        secondParser = &you_get_bridge;
-        msg = tr("Parsing with ykdl failed. We will try with you-get again.");
-    }
-    else
-    {
-        firstParser = &you_get_bridge;
-        secondParser = &ykdl_bridge;
-        msg = tr("Parsing with you-get failed. We will try with ykdl again.");
-    }
-
-    if (this == firstParser)
-    {
-        QMessageBox msgBox;
-        msgBox.setText("Error");
-        msgBox.setInformativeText(msg + "\n\nURL:" + url);
-        msgBox.setDetailedText(QString::fromUtf8(process->readAllStandardError()));
-        msgBox.addButton(QMessageBox::Ok);
-        msgBox.addButton(QMessageBox::Cancel);
-        msgBox.exec();
-        secondParser->parse(url, download);
-    }
-
-    // parse with fallback parser failed
-    else
-    {
-        QMessageBox msgBox;
-        msgBox.setText("Error");
-        msgBox.setInformativeText("Parse failed!\nURL:" + url);
-        msgBox.setDetailedText(QString::fromUtf8(process->readAllStandardError()));
-        msgBox.setMinimumWidth(200);
-        msgBox.addButton(QMessageBox::Cancel);
-        QPushButton *updateButton = msgBox.addButton(tr("Upgrade parser"), QMessageBox::ActionRole);
-        msgBox.exec();
-        if (msgBox.clickedButton() == updateButton)
-            upgradeParsers();
-    }
+    QMessageBox msgBox;
+    msgBox.setText("Error");
+    msgBox.setInformativeText("Parse failed!\nURL:" + url);
+    msgBox.setDetailedText("URL: " + url + "\n\n" + errMsg);
+    QPushButton *updateButton = msgBox.addButton(tr("Upgrade parser"), QMessageBox::ActionRole);
+    QPushButton *switchButton = msgBox.addButton(tr("Use another parser"), QMessageBox::ActionRole);
+    msgBox.addButton(QMessageBox::Cancel);
+    msgBox.exec();
+    if (msgBox.clickedButton() == updateButton)
+        upgradeParsers();
+    else if (msgBox.clickedButton() == switchButton)
+        settingsDialog->exec();
 }
-
 
 
 void ParserBridge::upgradeParsers()

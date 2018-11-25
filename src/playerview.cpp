@@ -82,7 +82,7 @@ PlayerView::PlayerView(QWidget *parent) :
     // create settings dialog
     settingsDialog = new SettingsDialog(this);
 
-    // create selection dialo
+    // create selection dialog
     selectionDialog = new SelectionDialog(this);
 
     // create playlist

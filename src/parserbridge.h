@@ -18,7 +18,6 @@ public slots:
 
 private slots:
     void onFinished(void);
-    void onError(void);
 
 protected:
     static SelectionDialog *selectionDialog;
@@ -26,6 +25,7 @@ protected:
 
     virtual void runParser(const QString &url) = 0;
     virtual void parseOutput(const QByteArray &jsonData) = 0;
+    void showErrorDialog(const QString &errMsg);
 
     // the following members should be filled in parseJson
     QStringList names;

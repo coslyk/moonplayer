@@ -39,6 +39,8 @@ bool Settings::autoCombine;
 double Settings::danmakuAlpha;
 Settings::VideoParser Settings::parser;
 
+SettingsDialog *settingsDialog = NULL;
+
 using namespace Settings;
 
 //Show settings dialog
@@ -65,6 +67,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 #endif
 
     loadSettings();
+    settingsDialog = this;
 }
 
 //Load settings

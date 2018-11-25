@@ -29,6 +29,8 @@ private slots:
     void openPluginsFolder(void);
 };
 
+extern SettingsDialog *settingsDialog;
+
 void initSettings(void);
 
 #endif // SETTINGS_H
