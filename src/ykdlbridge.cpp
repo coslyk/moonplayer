@@ -40,7 +40,7 @@ void YkdlBridge::parseOutput(const QByteArray &jsonData)
         return;
     if (obj.contains("streams"))
     {
-        title = obj["title"].toString();
+        result.title = obj["title"].toString();
         QJsonObject streams = obj["streams"].toObject();
         QJsonObject selectedItem;
         QJsonObject::const_iterator i;
@@ -67,23 +67,23 @@ void YkdlBridge::parseOutput(const QByteArray &jsonData)
         if (!selectedItem.isEmpty())
         {
             QJsonArray json_urls = selectedItem["src"].toArray();
-            container = selectedItem["container"].toString();
-            referer = obj["extra"].toObject()["referer"].toString();
-            ua = obj["extra"].toObject()["ua"].toString();
-            danmaku_url = obj["danmaku_url"].toString();
+            result.container = selectedItem["container"].toString();
+            result.referer = obj["extra"].toObject()["referer"].toString();
+            result.ua = obj["extra"].toObject()["ua"].toString();
+            result.danmaku_url = obj["danmaku_url"].toString();
 
             if (json_urls.size() == 0)
                 return;
 
             // replace illegal chars in title with .
             static QRegularExpression illegalChars("[\\\\/]");
-            title.replace(illegalChars, ".");
+            result.title.replace(illegalChars, ".");
 
             // Make file list
             for (int i = 0; i < json_urls.size(); i++)
             {
-                names << QString("%1_%2.%3").arg(title, QString::number(i), container);
-                urls << json_urls[i].toString();
+                result.names << QString("%1_%2.%3").arg(result.title, QString::number(i), result.container);
+                result.urls << json_urls[i].toString();
             }
         }
     }

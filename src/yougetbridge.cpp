@@ -49,7 +49,7 @@ void YouGetBridge::parseOutput(const QByteArray &jsonData)
 
     if (obj.contains("streams"))
     {
-        title = obj["title"].toString();
+        result.title = obj["title"].toString();
         QJsonObject streams = obj["streams"].toObject();
         QJsonObject dash_streams = obj["dash_streams"].toObject();
         QJsonObject selectedItem;
@@ -81,37 +81,37 @@ void YouGetBridge::parseOutput(const QByteArray &jsonData)
         if (dash_streams.contains(selected))
         {
             selectedItem = dash_streams[selected].toObject();
-            is_dash = true;
+            result.is_dash = true;
         }
         else
             selectedItem = streams[selected].toObject();
 
-        container = selectedItem["container"].toString();
+        result.container = selectedItem["container"].toString();
         QJsonArray json_urls = selectedItem["src"].toArray();
-        seekable = obj["seekable"].toBool();
-        referer = obj["referer"].toString();
-        ua = obj["user-agent"].toString();
-        danmaku_url = obj["danmaku_url"].toString();
+        result.seekable = obj["seekable"].toBool();
+        result.referer = obj["referer"].toString();
+        result.ua = obj["user-agent"].toString();
+        result.danmaku_url = obj["danmaku_url"].toString();
 
         if (json_urls.size() == 0)
             return;
 
         // replace illegal chars in title with .
         static QRegularExpression illegalChars("[\\\\/]");
-        title.replace(illegalChars, ".");
+        result.title.replace(illegalChars, ".");
 
         // Generate names-urls-list
-        if (is_dash)
+        if (result.is_dash)
         {
-            names << ("video." + container) << ("audio." + container);
-            urls << json_urls[0].toString() << json_urls[1].toString();
+            result.names << ("video." + result.container) << ("audio." + result.container);
+            result.urls << json_urls[0].toString() << json_urls[1].toString();
             return;
         }
 
         for (int i = 0; i < json_urls.size(); i++)
         {
-            names << QString("%1_%2.%3").arg(title, QString::number(i), container);
-            urls << json_urls[i].toString();
+            result.names << QString("%1_%2.%3").arg(result.title, QString::number(i), result.container);
+            result.urls << json_urls[i].toString();
         }
     }
 }

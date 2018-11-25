@@ -28,15 +28,18 @@ protected:
     void showErrorDialog(const QString &errMsg);
 
     // the following members should be filled in parseJson
-    QStringList names;
-    QStringList urls;
-    QString title;
-    QString container;
-    QString danmaku_url;
-    QString referer;
-    QString ua;
-    bool seekable;
-    bool is_dash;
+    struct Result
+    {
+        QStringList names;
+        QStringList urls;
+        QString title;
+        QString container;
+        QString danmaku_url;
+        QString referer;
+        QString ua;
+        bool seekable;
+        bool is_dash;
+    } result;
 
 private:
     QString url;

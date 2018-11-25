@@ -18,11 +18,6 @@ ResLibrary::ResLibrary(QWidget *parent) :
 {
     printf("Initialize ResLibrary...\n");
     initResPlugins();
-    if (n_resplugins == 0)
-    {
-        new QLabel("This function is under development. Please wait!", this);
-        return;
-    }
     ui->setupUi(this);
     listWidget = new MyListWidget;
     ui->gridLayout->addWidget(listWidget, 0, 1, 1, 4);
@@ -51,10 +46,20 @@ ResLibrary::ResLibrary(QWidget *parent) :
         connect(buttonGroup, SIGNAL(selectedChanged()), this, SLOT(reSearch()));
         layout->addWidget(buttonGroup);
     }
-    current_plugin = 0;
-    current_tag = resplugins[0]->tagsList[0];
-    current_country = resplugins[0]->countriesList[0];
-    current_page = 1;
+    if (n_resplugins)
+    {
+        current_plugin = 0;
+        current_tag = resplugins[0]->tagsList[0];
+        current_country = resplugins[0]->countriesList[0];
+        current_page = 1;
+    }
+    else
+    {
+        ui->keyLineEdit->setEnabled(false);
+        ui->pageSpinBox->setEnabled(false);
+        ui->nextPushButton->setEnabled(false);
+        ui->prevPushButton->setEnabled(false);
+    }
     res_library = this;
     detailView = NULL;
 
