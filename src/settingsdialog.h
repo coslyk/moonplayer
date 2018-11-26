@@ -25,7 +25,6 @@ private slots:
     void saveSettings(void);
     void onDirButton(void);
     void onFontButton(void);
-    void openParserHelp(void);
     void openPluginsFolder(void);
 };
 

@@ -6,7 +6,8 @@ namespace Settings {
 
 enum VideoParser {
     YKDL,
-    YOU_GET
+    YOU_GET,
+    SIMULATION
 };
 
 extern bool autoCombine;

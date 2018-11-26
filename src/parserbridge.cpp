@@ -12,6 +12,7 @@
 #include "settings_network.h"
 #include "settings_plugins.h"
 #include "settingsdialog.h"
+#include "simuparserbridge.h"
 #include "terminal.h"
 #include "ykdlbridge.h"
 #include "yougetbridge.h"
@@ -148,9 +149,16 @@ void ParserBridge::upgradeParsers()
 
 void parseUrl(const QString &url, bool download)
 {
-    if (Settings::parser == Settings::YKDL)
+    switch (Settings::parser) {
+    case Settings::YKDL:
         ykdl_bridge.parse(url, download);
-    else
+        break;
+    case Settings::YOU_GET:
         you_get_bridge.parse(url, download);
+        break;
+    default:
+        simuParserBridge.parse(url, download);
+        break;
+    }
 }
 

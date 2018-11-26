@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 
-QT += core gui network xml widgets
+QT += core gui network xml widgets webkitwidgets
 unix:!macx: QT += gui-private x11extras
 
 macx:  TARGET = MoonPlayer
@@ -43,9 +43,15 @@ SOURCES += main.cpp\
     parserbridge.cpp \
     detectopengl.cpp \
     streamget.cpp \
-    aboutdialog.cpp
+    aboutdialog.cpp \
+    extractor.cpp \
+    simuparser.cpp \
+    simuparserbridge.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
+
+DEFINES -= ENABLE_VIDEO=1
+DEFINES += ENABLE_VIDEO=0
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -86,7 +92,10 @@ HEADERS  +=\
     parserbridge.h \
     detectopengl.h \
     streamget.h \
-    aboutdialog.h
+    aboutdialog.h \
+    extractor.h \
+    simuparser.h \
+    simuparserbridge.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 

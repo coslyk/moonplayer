@@ -62,13 +62,7 @@ bool Extractor::match(const QString &url)
 }
 
 
-void Extractor::parse(const QByteArray &data)
+PyObject *Extractor::parse(const QByteArray &data)
 {
-    PyObject *retVal = PyObject_CallFunction(parseFunc, "s", data.constData());
-    if (retVal)
-    {
-        Py_DecRef(retVal);
-    }
-    else
-        PyErr_Print();
+    return PyObject_CallFunction(parseFunc, "s", data.constData());
 }

@@ -9,7 +9,7 @@ class Extractor
 {
 public:
     Extractor(const QString &name);
-    void parse(const QByteArray &data);
+    PyObject *parse(const QByteArray &data);
     bool match(const QString &url);
 
 private:

@@ -53,7 +53,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(this, &SettingsDialog::rejected, this, &SettingsDialog::loadSettings);
     connect(ui->dirButton, &QPushButton::clicked, this, &SettingsDialog::onDirButton);
     connect(ui->fontPushButton, &QPushButton::clicked, this, &SettingsDialog::onFontButton);
-    connect(ui->parserHelpButton, &QPushButton::clicked, this, &SettingsDialog::openParserHelp);
     connect(ui->viewPluginsButton, &QPushButton::clicked, this, &SettingsDialog::openPluginsFolder);
 
 #ifdef Q_OS_LINUX
@@ -75,6 +74,7 @@ void SettingsDialog::loadSettings()
 {
     ui->hwdecComboBox->setCurrentIndex(ui->hwdecComboBox->findText(hwdec));
     ui->aoComboBox->setCurrentIndex(ui->aoComboBox->findText(aout));
+    ui->parserComboBox->setCurrentIndex(parser);
     ui->proxyTypeComboBox->setCurrentIndex(ui->proxyTypeComboBox->findText(proxyType));
     ui->proxyEdit->setText(proxy);
     ui->portEdit->setText(QString::number(port));
@@ -89,11 +89,6 @@ void SettingsDialog::loadSettings()
     ui->fontSizeSpinBox->setValue(danmakuSize);
     ui->dmSpinBox->setValue(durationScrolling);
     ui->dsSpinBox->setValue(durationStill);
-
-    if (parser == YKDL)
-        ui->ykdlButton->setChecked(true);
-    else
-        ui->yougetButton->setChecked(true);
 }
 
 void SettingsDialog::onDirButton()
@@ -126,7 +121,7 @@ void SettingsDialog::saveSettings()
     maxTasks = ui->maxTaskSpinBox->value();
     downloadDir = ui->dirButton->text();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
-    parser = ui->ykdlButton->isChecked() ? YKDL : YOU_GET;
+    parser = (VideoParser) ui->parserComboBox->currentIndex();
     autoCombine = ui->combineCheckBox->isChecked();
     copyMode = ui->copyModeCheckBox->isChecked();
 
@@ -202,12 +197,6 @@ void initSettings()
 
     //init proxy
     access_manager->setProxy(proxyType, proxy, port);
-}
-
-
-void SettingsDialog::openParserHelp()
-{
-    QDesktopServices::openUrl(QUrl("https://github.com/coslyk/moonplayer/wiki/VideoParser"));
 }
 
 
