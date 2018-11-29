@@ -28,7 +28,6 @@ protected:
     // the following members should be filled in child class
     struct Result
     {
-        QStringList names;
         QStringList urls;
         QString title;
         QString container;

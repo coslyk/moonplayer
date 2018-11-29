@@ -25,9 +25,7 @@ void SimuParserBridge::runParser(const QString &url)
 void SimuParserBridge::onParseFinished(PyObject *dict)
 {
     PyObject *obj = PyDict_GetItemString(dict, "title");
-    result.title = PyString_AsQString(obj);// replace illegal chars in title with .
-    static QRegularExpression illegalChars("[\\\\/]");
-    result.title.replace(illegalChars, ".");
+    result.title = PyString_AsQString(obj);
 
     // read streams
     obj = PyDict_GetItemString(dict, "streams");
@@ -50,7 +48,6 @@ void SimuParserBridge::onParseFinished(PyObject *dict)
     for (int i = 0; i < PyList_Size(obj); i++)
     {
         PyObject *item = PyList_GetItem(obj, i);
-        result.names << QString("%1_%2.%3").arg(result.title, QString::number(i), result.container);
         result.urls << PyString_AsQString(item);
     }
 

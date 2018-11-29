@@ -97,16 +97,9 @@ void YkdlBridge::parseOutput()
             return;
         }
 
-        // replace illegal chars in title with .
-        static QRegularExpression illegalChars("[\\\\/]");
-        result.title.replace(illegalChars, ".");
-
-        // Make file list
+        // Make urls list
         for (int i = 0; i < json_urls.size(); i++)
-        {
-            result.names << QString("%1_%2.%3").arg(result.title, QString::number(i), result.container);
             result.urls << json_urls[i].toString();
-        }
         finishParsing();
     }
     else

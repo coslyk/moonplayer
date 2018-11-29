@@ -38,7 +38,6 @@ void ParserBridge::parse(const QString &url, bool download)
     result.title.clear();
     result.container.clear();
     result.danmaku_url.clear();
-    result.names.clear();
     result.urls.clear();
     result.referer.clear();
     result.ua.clear();
@@ -68,6 +67,20 @@ void ParserBridge::finishParsing()
         }
     }
 
+    // replace illegal chars in title with .
+    static QRegularExpression illegalChars("[\\\\/]");
+    result.title.replace(illegalChars, ".");
+
+    // Generate names list
+    QStringList names;
+    if (result.is_dash)
+        names << ("video." + result.container) << ("audio." + result.container);
+    else
+    {
+        for (int i = 0; i < result.urls.size(); i++)
+            names << QString("%1_%2.%3").arg(result.title, QString::number(i), result.container);
+    }
+
     // Download
     if (download)
     {
@@ -82,22 +95,22 @@ void ParserBridge::finishParsing()
                 dir.cd(dirname);
             }
         }
-        for (int i = 0; i < result.names.size(); i++)
-             result.names[i] = dir.filePath(QString(result.names[i]));
+        for (int i = 0; i < names.size(); i++)
+             names[i] = dir.filePath(QString(names[i]));
 
         // Download videos with danmaku
         if (!result.danmaku_url.isEmpty())
         {
             if (result.urls.size() > 1)
-                new DanmakuDelayGetter(result.names, result.urls, result.danmaku_url, true, this);
+                new DanmakuDelayGetter(names, result.urls, result.danmaku_url, true, this);
             else
-                downloader->addTask(result.urls[0].toUtf8(), result.names[0], false, result.danmaku_url.toUtf8());
+                downloader->addTask(result.urls[0].toUtf8(), names[0], false, result.danmaku_url.toUtf8());
         }
         // Download videos without danmaku
         else
         {
             for (int i = 0; i < result.urls.size(); i++)
-                 downloader->addTask(result.urls[i].toUtf8(), result.names[i], result.urls.size() > 1);
+                 downloader->addTask(result.urls[i].toUtf8(), names[i], result.urls.size() > 1);
         }
         QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
     }
@@ -111,15 +124,15 @@ void ParserBridge::finishParsing()
     else if (!result.danmaku_url.isEmpty()) // with danmaku
     {
         if (result.urls.size() > 1)
-            new DanmakuDelayGetter(result.names, result.urls, result.danmaku_url, false, this);
+            new DanmakuDelayGetter(names, result.urls, result.danmaku_url, false, this);
         else
-            playlist->addFileAndPlay(result.names[0], result.urls[0], result.danmaku_url);
+            playlist->addFileAndPlay(names[0], result.urls[0], result.danmaku_url);
     }
     else
     {
-        playlist->addFileAndPlay(result.names[0], result.urls[0]);
+        playlist->addFileAndPlay(names[0], result.urls[0]);
         for (int i = 1; i < result.urls.size(); i++)
-            playlist->addFile(result.names[i], result.urls[i]);
+            playlist->addFile(names[i], result.urls[i]);
         res_library->close();
     }
 }
