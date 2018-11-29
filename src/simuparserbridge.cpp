@@ -18,6 +18,7 @@ void SimuParserBridge::runParser(const QString &url)
     {
         parser = new SimuParser(this);
         connect(parser, &SimuParser::parseFinished, this, &SimuParserBridge::onParseFinished);
+        connect(parser, &SimuParser::parseError, this, &SimuParserBridge::showErrorDialog);
     }
     parser->parse(url);
 }

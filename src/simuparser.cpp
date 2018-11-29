@@ -3,6 +3,7 @@
 #include <QWebSettings>
 #include <QWebView>
 #include "extractor.h"
+#include "utils.h"
 
 SimuParser::SimuParser(QObject *parent) :
     QNetworkAccessManager(parent)
@@ -52,6 +53,7 @@ QNetworkReply *SimuParser::createRequest(Operation op, const QNetworkRequest &re
     {
         if (extractors[i]->match(url))
         {
+            printf("[simuparser] URL matched: %s\n", url.toUtf8().constData());
             QByteArray *data = new QByteArray;
             connect(reply, &QNetworkReply::readyRead,
                     std::bind(&SimuParser::onReadyRead, this, reply, data));
@@ -71,12 +73,24 @@ void SimuParser::onFinished(QNetworkReply *reply, Extractor *extractor, QByteArr
 {
     data->append(reply->readAll());
     PyObject *result = extractor->parse(*data);
-    delete data;
     if (result == NULL)
-        PyErr_Print();
+    {
+
+        PyObject *ptype, *pvalue, *ptraceback;
+        PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+        QString errString = QString("Python Exception: %1\n\nURL: %2\n\nResponse Content:\n%3").arg(
+                    PyString_AsQString(pvalue), reply->url().toString(), QString::fromUtf8(*data));
+        Py_DecRef(ptype);
+        Py_DecRef(pvalue);
+        Py_DecRef(ptraceback);
+        emit parseError(errString);
+    }
     else
     {
+        webview->setUrl(QUrl("about:blank"));
+        webview->close();
         emit parseFinished(result);
         Py_DecRef(result);
     }
+    delete data;
 }

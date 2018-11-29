@@ -16,6 +16,8 @@ public:
 public slots:
     void upgradeParsers(void);
 
+protected slots:
+    void showErrorDialog(const QString &errMsg);
 
 protected:
     virtual void runParser(const QString &url) = 0;
@@ -23,7 +25,6 @@ protected:
     // following can be used in child class
     static SelectionDialog *selectionDialog;
     void finishParsing(void);
-    void showErrorDialog(const QString &errMsg);
 
     // the following members should be filled in child class
     struct Result
