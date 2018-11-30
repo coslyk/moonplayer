@@ -124,11 +124,11 @@ unix:!macx {
     isEmpty(BINDIR) {
         BINDIR = bin
     }
-    usr_share.files += plugins unblockcn moonplayer_*.qm ykdl_patched.py you_get_patched.py upgrade-you-get.sh upgrade-ykdl.sh upgrade-parsers.sh
+    usr_share.files += plugins unblockcn moonplayer_*.qm ykdl_patched.py you_get_patched.py upgrade-*.sh
     usr_share.path = $$PREFIX/share/moonplayer
     #icon
-    icon.files += icons
-    icon.path = $$PREFIX/share
+    icon.files += icons/*
+    icon.path = $$PREFIX/share/icons
     #appdata
     appdata.files += com.github.coslyk.MoonPlayer.appdata.xml
     appdata.path = $$PREFIX/share/metainfo
