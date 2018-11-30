@@ -2,6 +2,7 @@
 #include "platforms.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
+#include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -9,6 +10,33 @@
 #include <QMessageBox>
 #include <QProcess>
 #include <QRegularExpression>
+
+
+// you-get uses User-Agent of Python3's urllib by default
+static QString python3UA()
+{
+    static QString ua;
+    if (ua.isNull())
+    {
+        QStringList args;
+        args << "-c" << "import sys; print('Python-urllib/%d.%d' % sys.version_info[:2])";
+        QProcess process;
+        if (QFile::exists("/usr/bin/python3"))
+            process.start("/usr/bin/python3", args, QProcess::ReadOnly);
+        else if (QFile::exists("/usr/local/bin/python3"))
+            process.start("/usr/local/bin/python3", args, QProcess::ReadOnly);
+        else
+        {
+            ua = "Are you kidding me?!";
+            return ua;
+        }
+        process.waitForFinished();
+        ua = QString::fromUtf8(process.readAll().simplified());
+    }
+    return ua;
+}
+
+
 
 YouGetBridge you_get_bridge;
 
@@ -132,6 +160,8 @@ void YouGetBridge::parseOutput()
         result.seekable = obj["seekable"].toBool();
         result.referer = obj["referer"].toString();
         result.ua = obj["user-agent"].toString();
+        if (result.ua.isEmpty())
+            result.ua = python3UA();
         result.danmaku_url = obj["danmaku_url"].toString();
 
         if (json_urls.size() == 0)
