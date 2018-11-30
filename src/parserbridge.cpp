@@ -12,10 +12,13 @@
 #include "settings_network.h"
 #include "settings_plugins.h"
 #include "settingsdialog.h"
-#include "simuparserbridge.h"
 #include "terminal.h"
 #include "ykdlbridge.h"
 #include "yougetbridge.h"
+#ifdef MP_ENABLE_WEBKIT
+#include "simuparserbridge.h"
+#endif
+
 
 SelectionDialog *ParserBridge::selectionDialog = NULL;
 
@@ -169,9 +172,12 @@ void parseUrl(const QString &url, bool download)
     case Settings::YOU_GET:
         you_get_bridge.parse(url, download);
         break;
-    default:
+#ifdef MP_ENABLE_WEBKIT
+    case Settings::SIMULATION:
         simuParserBridge.parse(url, download);
         break;
+#endif
+    default: break;
     }
 }
 

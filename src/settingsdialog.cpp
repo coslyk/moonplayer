@@ -65,6 +65,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->hwdecComboBox->setEnabled(false); // takes effect only on Linux
 #endif
 
+#ifndef MP_ENABLE_WEBKIT
+    ui->parserComboBox->removeItem(2);
+#endif
+
     loadSettings();
     settingsDialog = this;
 }

@@ -5,7 +5,9 @@
 #-------------------------------------------------
 
 
-QT += core gui network xml widgets webkitwidgets
+!defined(ENABLE_WEBKIT,var) { ENABLE_WEBKIT=yes }
+
+QT += core gui network xml widgets
 unix:!macx: QT += gui-private x11extras
 
 macx:  TARGET = MoonPlayer
@@ -44,15 +46,9 @@ SOURCES += main.cpp\
     detectopengl.cpp \
     streamget.cpp \
     aboutdialog.cpp \
-    extractor.cpp \
-    simuparser.cpp \
-    simuparserbridge.cpp \
     cookiejar.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
-
-DEFINES -= ENABLE_VIDEO=1
-DEFINES += ENABLE_VIDEO=0
 
 
 TRANSLATIONS += moonplayer_zh_CN.ts
@@ -94,12 +90,22 @@ HEADERS  +=\
     detectopengl.h \
     streamget.h \
     aboutdialog.h \
-    extractor.h \
-    simuparser.h \
-    simuparserbridge.h \
     cookiejar.h
 !macx: HEADERS += localserver.h \
     localsocket.h
+
+
+# Webkit support
+equals(ENABLE_WEBKIT, "yes") {
+    QT += webkitwidgets
+    HEADERS += extractor.h \
+        simuparser.h \
+        simuparserbridge.h
+    SOURCES += extractor.cpp \
+        simuparser.cpp \
+        simuparserbridge.cpp
+    DEFINES += MP_ENABLE_WEBKIT
+}
 
 
 FORMS    += \
@@ -158,22 +164,21 @@ macx {
 win32: RC_FILE = icon.rc
 
 # Libraries
-unix:!macx: CONFIG += link_pkgconfig
-unix:!macx: PKGCONFIG += python2 mpv
-unix:!macx: INCLUDEPATH += $$PREFIX/include/qtermwidget5
-unix:!macx: LIBS += -lqtermwidget5
+unix:!macx {
+    CONFIG += link_pkgconfig
+    PKGCONFIG += python2 mpv
+    INCLUDEPATH += $$PREFIX/include/qtermwidget5
+    LIBS += -lqtermwidget5
+}
 
-macx: INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 \
-    /usr/local/include
-macx: LIBS += -F /System/Library/Frameworks -framework CoreFoundation \
-    -L/usr/lib -ldl \
-    -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config -lpython2.7 \
-    -L/usr/local/lib -lmpv
-
-win32: INCLUDEPATH += C:\\Python27\\include
-win32: LIBS += C:\\Python27\\libs\\python27.lib
-win32: INCLUDEPATH += D:\\Develop\\libmpv\\include
-win32: LIBS += D:\\Develop\\libmpv\\32\\mpv.lib
+macx {
+    INCLUDEPATH += /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 \
+        /usr/local/include
+    LIBS += -F /System/Library/Frameworks -framework CoreFoundation \
+        -L/usr/lib -ldl \
+        -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config -lpython2.7 \
+        -L/usr/local/lib -lmpv
+}
 
 DISTFILES += \
     Version
