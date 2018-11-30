@@ -1,4 +1,5 @@
 #include "accessmanager.h"
+#include "cookiejar.h"
 #include "platforms.h"
 #include "settings_network.h"
 #include <QFile>
@@ -80,6 +81,8 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent) :
             f.close();
         }
     }
+    // Set cookie jar
+    setCookieJar(new CookieJar(this));
 }
 
 

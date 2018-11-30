@@ -1,7 +1,9 @@
 #include "simuparser.h"
+#include <QNetworkCookieJar>
 #include <QNetworkReply>
 #include <QWebSettings>
 #include <QWebView>
+#include "accessmanager.h"
 #include "extractor.h"
 #include "utils.h"
 
@@ -9,6 +11,11 @@ SimuParser::SimuParser(QObject *parent) :
     QNetworkAccessManager(parent)
 {
     initExtractors();
+
+    // Use the same cookiejar
+    QNetworkCookieJar *jar = access_manager->cookieJar();
+    setCookieJar(jar);
+    jar->setParent(access_manager);
 
     // Enable video loading
     QWebSettings *settings = QWebSettings::globalSettings();

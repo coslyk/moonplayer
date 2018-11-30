@@ -46,7 +46,8 @@ SOURCES += main.cpp\
     aboutdialog.cpp \
     extractor.cpp \
     simuparser.cpp \
-    simuparserbridge.cpp
+    simuparserbridge.cpp \
+    cookiejar.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -95,7 +96,8 @@ HEADERS  +=\
     aboutdialog.h \
     extractor.h \
     simuparser.h \
-    simuparserbridge.h
+    simuparserbridge.h \
+    cookiejar.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 
