@@ -5,6 +5,7 @@
 #include "accessmanager.h"
 #include <locale.h>
 #include <QDir>
+#include <QFile>
 #include <QIcon>
 #include <QLocale>
 #include <QDebug>
@@ -16,6 +17,7 @@
 #include "platforms.h"
 #include "playerview.h"
 #include "plugin.h"
+#include "ykdlbridge.h"
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
@@ -147,6 +149,10 @@ int main(int argc, char *argv[])
     access_manager = new NetworkAccessManager(&a);
     printf("Initialize settings...\n");
     initSettings();
+
+    // first time to use MoonPlayer?
+    if (!QFile::exists(getUserPath() + "/plugins-version.txt"))
+        ykdl_bridge.upgradeParsers();
 
     printf("Initialize API for Python...\n");
     initAPI();
