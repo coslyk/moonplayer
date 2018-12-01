@@ -53,7 +53,7 @@ QNetworkReply *SimuParser::createRequest(Operation op, const QNetworkRequest &re
 
     // prevent video from loading
     QString suffix = req.url().path().section('.', -1);
-    if (suffix == "mp4" || suffix == "flv" || suffix == "f4v" || suffix == "m3u8")
+    if (suffix == "mp4" || suffix == "flv" || suffix == "f4v" || suffix == "m3u8" || suffix == "swf")
     {
         QUrl new_url = req.url();
         new_url.setHost("127.0.0.1");
