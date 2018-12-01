@@ -4,7 +4,6 @@
 #include "settings_network.h"
 #include <QFile>
 #include <QNetworkProxy>
-#include <QProcess>
 
 const QString china_fake_ip = "220.181.111.63";
 NetworkAccessManager *access_manager = 0;

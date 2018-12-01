@@ -1,10 +1,12 @@
 #include "simuparser.h"
 #include <QNetworkCookieJar>
+#include <QNetworkProxy>
 #include <QNetworkReply>
 #include <QWebSettings>
 #include <QWebView>
 #include "accessmanager.h"
 #include "extractor.h"
+#include "settings_network.h"
 #include "utils.h"
 
 SimuParser::SimuParser(QObject *parent) :
@@ -28,6 +30,14 @@ SimuParser::SimuParser(QObject *parent) :
 
 void SimuParser::parse(const QString &url)
 {
+    // apply proxy settings
+    if (Settings::proxyType == "http" || (Settings::proxyType == "http_unblockcn" && !url.contains(".youtube.com")))
+        setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, Settings::proxy, Settings::port));
+    else if (Settings::proxyType == "socks5")
+        setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, Settings::proxy, Settings::port));
+    else
+        setProxy(QNetworkProxy::NoProxy);
+
     // load url
     webview->setUrl(QUrl(url));
     webview->show();
