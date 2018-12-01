@@ -11,10 +11,8 @@ void initExtractors()
     static Extractor *array[128];
     extractors = array;
 
-    QDir pluginsDir(getAppPath() + "/plugins");
+    QDir pluginsDir = QDir(getUserPath() + "/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-    pluginsDir = QDir(getUserPath() + "/plugins");
-    list += pluginsDir.entryList(QDir::Files, QDir::Name);
 
     while (!list.isEmpty())
     {

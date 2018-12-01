@@ -15,10 +15,8 @@ void initResPlugins()
     static ResPlugin *array[128];
     resplugins = array;
 
-    QDir pluginsDir(getAppPath() + "/plugins");
+    QDir pluginsDir = QDir(getUserPath() + "/plugins");
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
-    pluginsDir = QDir(getUserPath() + "/plugins");
-    list += pluginsDir.entryList(QDir::Files, QDir::Name);
 
     while (!list.isEmpty())
     {
