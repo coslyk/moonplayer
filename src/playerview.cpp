@@ -674,6 +674,6 @@ void PlayerView::onMaxButton()
 //open extension page
 void PlayerView::openExtPage()
 {
-    static QUrl url("https://github.com/coslyk/moonplayer/wiki/BroswerExtension");
+    static QUrl url("https://github.com/coslyk/moonplayer/wiki/BrowserExtension");
     QDesktopServices::openUrl(url);
 }
