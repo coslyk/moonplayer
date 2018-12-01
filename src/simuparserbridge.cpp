@@ -28,6 +28,11 @@ void SimuParserBridge::onParseFinished(PyObject *dict)
     PyObject *obj = PyDict_GetItemString(dict, "title");
     result.title = PyString_AsQString(obj);
 
+    // Danmaku
+    obj = PyDict_GetItemString(dict, "danmaku_url");
+    if (obj)
+        result.danmaku_url = PyString_AsQString(obj);
+
     // read streams
     obj = PyDict_GetItemString(dict, "streams");
     QStringList stream_types;
