@@ -30,6 +30,13 @@ SimuParser::SimuParser(QObject *parent) :
 
 void SimuParser::parse(const QString &url)
 {
+    // Check if URL is supported
+    if (!Extractor::isSupported(QUrl(url).host()))
+    {
+        emit parseError(tr("This URL is not supported now!"));
+        return;
+    }
+
     // apply proxy settings
     if (Settings::proxyType == "http" || (Settings::proxyType == "http_unblockcn" && !url.contains(".youtube.com")))
         setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, Settings::proxy, Settings::port));
@@ -41,7 +48,6 @@ void SimuParser::parse(const QString &url)
     // load url
     webview->setUrl(QUrl(url));
     webview->show();
-    webview->setWindowState(Qt::WindowMinimized);
 }
 
 
