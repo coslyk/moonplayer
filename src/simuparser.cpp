@@ -39,10 +39,7 @@ void SimuParser::parse(const QString &url)
 QNetworkReply *SimuParser::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData)
 {
     QNetworkRequest req = request;
-    req.setHeader(QNetworkRequest::UserAgentHeader,
-                  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Ubuntu Chromium/71.0.3578.20 "
-                  "Chrome/71.0.3578.20 Safari/537.36");
+    req.setHeader(QNetworkRequest::UserAgentHeader, DEFAULT_UA);
 
     // prevent video from loading
     QString suffix = req.url().path().section('.', -1);
@@ -53,14 +50,14 @@ QNetworkReply *SimuParser::createRequest(Operation op, const QNetworkRequest &re
         req.setUrl(new_url);
     }
 
-    // watch response if url matches
     QNetworkReply *reply = QNetworkAccessManager::createRequest(op, req, outgoingData);
+
+    // watch response if url matches
     QString url = req.url().toString();
     for (int i = 0; i < n_extractors; i++)
     {
         if (extractors[i]->match(url))
         {
-            printf("[simuparser] URL matched: %s\n", url.toUtf8().constData());
             QByteArray *data = new QByteArray;
             connect(reply, &QNetworkReply::readyRead,
                     std::bind(&SimuParser::onReadyRead, this, reply, data));
