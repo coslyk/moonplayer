@@ -15,6 +15,7 @@ class SettingsDialog : public QDialog
 public:
     explicit SettingsDialog(QWidget *parent = 0);
     ~SettingsDialog();
+    void switchToPluginsTab(void);
     
 private:
     Ui::SettingsDialog *ui;

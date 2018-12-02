@@ -213,3 +213,8 @@ void SettingsDialog::openPluginsFolder()
     QDesktopServices::openUrl("file://" + getUserPath() + "/plugins");
 #endif
 }
+
+void SettingsDialog::switchToPluginsTab()
+{
+    ui->tabWidget->setCurrentIndex(4);
+}

@@ -153,7 +153,10 @@ void ParserBridge::showErrorDialog(const QString &errMsg)
     if (msgBox.clickedButton() == updateButton)
         upgradeParsers();
     else if (msgBox.clickedButton() == switchButton)
+    {
+        settingsDialog->switchToPluginsTab();
         settingsDialog->exec();
+    }
 }
 
 
