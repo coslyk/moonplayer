@@ -1,3 +1,13 @@
+moonplayer (2.3-1~cosmic) cosmic; urgency=medium
+
+  * v2.3
+  * Add: Page loading simulating parser
+  * Add: Download and update plugins automatically
+  * Change default User-Agent
+  * Move all plugins to user's directory
+
+ -- YK Liu <cos.lyk@gmail.com>  Sun, 02 Dec 2018 16:11:21 +0100
+
 moonplayer (2.2-1~cosmic) cosmic; urgency=medium
 
   * v2.2
