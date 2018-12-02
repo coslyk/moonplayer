@@ -84,19 +84,6 @@ p, li { white-space: pre-wrap; }
         <source>New version is available.</source>
         <translation type="unfinished">有新版本可用。</translation>
     </message>
-    <message>
-        <location filename="aboutdialog.cpp" line="53"/>
-        <source>Some plugins are found in ~/.moonplayer/plugins. This directory is no longer used, and all the plugins are moved to the new directory:
-
-%1/plugins/
-
-Please restart MoonPlayer to apply this change.</source>
-        <translation type="unfinished">~/.moonplayer/plugins文件夹将不再使用，位于该目录的插件将被移动至新目录：
-
-%1
-
-请重启MoonPlayer以应用更改。</translation>
-    </message>
 </context>
 <context>
     <name>CutterBar</name>
@@ -917,11 +904,16 @@ Please restart MoonPlayer to apply this change.</source>
         <source>Simulate web page loading</source>
         <translation type="unfinished">模拟网页加载</translation>
     </message>
+    <message>
+        <location filename="simuparser.cpp" line="36"/>
+        <source>This URL is not supported now!</source>
+        <translation type="unfinished">暂不支持该URL！</translation>
+    </message>
 </context>
 <context>
     <name>SimuParserBridge</name>
     <message>
-        <location filename="simuparserbridge.cpp" line="45"/>
+        <location filename="simuparserbridge.cpp" line="50"/>
         <source>Please select a video quality:</source>
         <translation type="unfinished">请选择视频质量：</translation>
     </message>
