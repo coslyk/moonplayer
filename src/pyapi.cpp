@@ -22,8 +22,8 @@ bool win_debug = false;
 /*****************************************
  ******** Some useful functions **********
  ****************************************/
-#define RETURN_IF_ERROR(retval)  if ((retval) == NULL){show_pyerr(); return;}
-#define EXIT_IF_ERROR(retval)    if ((retval) == NULL){show_pyerr(); exit(EXIT_FAILURE);}
+#define RETURN_IF_ERROR(retval)  if ((retval) == NULL){PyErr_Print(); return;}
+#define EXIT_IF_ERROR(retval)    if ((retval) == NULL){PyErr_Print(); exit(EXIT_FAILURE);}
 
 void call_py_func_vsi(PyObject *func, const char *first, int second)
 {
@@ -32,19 +32,34 @@ void call_py_func_vsi(PyObject *func, const char *first, int second)
     Py_DecRef(ret);
 }
 
-void show_pyerr()
+QString fetchPythonException()
 {
-#ifdef Q_OS_WIN
-    if (!win_debug)
+    static PyObject *tracebackFunc = nullptr;
+    PyObject *ptype, *pvalue, *ptraceback;
+    QStringList tracebacks;
+
+    // Get error data
+    PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+    PyErr_NormalizeException(&ptype, &pvalue, &ptraceback);
+
+    // See if we can get a full traceback
+    if (tracebackFunc == nullptr)
     {
-        PyErr_Clear();
-        return;
+        PyObject *pyth_module = PyImport_ImportModule("traceback");
+        if (pyth_module)
+            tracebackFunc = PyObject_GetAttrString(pyth_module, "format_exception");
     }
-	PyErr_Print();
-    PyRun_SimpleString("sys.stderr.flush()");
-#else
-    PyErr_Print();
-#endif
+    if (tracebackFunc && PyCallable_Check(tracebackFunc)) {
+        PyObject *retVal = PyObject_CallFunctionObjArgs(tracebackFunc, ptype, pvalue, ptraceback, NULL);
+        tracebacks = PyList_AsQStringList(retVal);
+        Py_DecRef(retVal);
+    }
+
+    Py_DecRef(ptype);
+    Py_DecRef(pvalue);
+    Py_DecRef(ptraceback);
+
+    return tracebacks.join("");
 }
 
 /************************************************

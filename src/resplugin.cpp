@@ -35,7 +35,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     module = PyImport_ImportModule(pluginName.toUtf8().constData());
     if (module == NULL)
     {
-        show_pyerr();
+        PyErr_Print();
         exit(-1);
     }
 
@@ -58,7 +58,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     loadItemFunc = PyObject_GetAttrString(module, "load_item");
     if (searchFunc == NULL || loadItemFunc == NULL || exploreFunc == NULL)
     {
-        show_pyerr();
+        PyErr_Print();
         exit(EXIT_FAILURE);
     }
 
@@ -66,7 +66,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     PyObject *tags = PyObject_GetAttrString(module, "tags");
     if (tags == NULL)
     {
-        show_pyerr();
+        PyErr_Print();
         exit(EXIT_FAILURE);
     }
     tagsList = PyList_AsQStringList(tags);
@@ -76,7 +76,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     PyObject *countries = PyObject_GetAttrString(module, "countries");
     if (countries == NULL)
     {
-        show_pyerr();
+        PyErr_Print();
         exit(EXIT_FAILURE);
     }
     countriesList = PyList_AsQStringList(countries);
@@ -95,7 +95,7 @@ void ResPlugin::explore(const QString &tag, const QString &country, int page)
     if (retVal)
         Py_DecRef(retVal);
     else
-        show_pyerr();
+        PyErr_Print();
 }
 
 void ResPlugin::search(const QString &key, int page)
@@ -104,7 +104,7 @@ void ResPlugin::search(const QString &key, int page)
     if (retVal)
         Py_DecRef(retVal);
     else
-        show_pyerr();
+        PyErr_Print();
 }
 
 void ResPlugin::loadItem(const QByteArray &flag)
@@ -113,5 +113,5 @@ void ResPlugin::loadItem(const QByteArray &flag)
     if (retVal)
         Py_DecRef(retVal);
     else
-        show_pyerr();
+        PyErr_Print();
 }

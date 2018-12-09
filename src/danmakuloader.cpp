@@ -62,12 +62,12 @@ void DanmakuLoader::onXmlDownloaded()
         {
             if ((module = PyImport_ImportModule("danmaku2ass")) == NULL)
             {
-                show_pyerr();
+                PyErr_Print();
                 exit(EXIT_FAILURE);
             }
             if ((danmaku2assFunc = PyObject_GetAttrString(module, "Danmaku2ASS")) == NULL)
             {
-                show_pyerr();
+                PyErr_Print();
                 exit(EXIT_FAILURE);
             }
         }
@@ -146,7 +146,7 @@ void DanmakuLoader::onXmlDownloaded()
             emit finished(output_file);
         }
         else
-            show_pyerr();
+            PyErr_Print();
     }
     reply->deleteLater();
     reply = NULL;

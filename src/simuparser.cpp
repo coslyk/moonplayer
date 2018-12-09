@@ -6,6 +6,7 @@
 #include <QWebView>
 #include "accessmanager.h"
 #include "extractor.h"
+#include "pyapi.h"
 #include "settings_network.h"
 #include "utils.h"
 
@@ -95,14 +96,8 @@ void SimuParser::onFinished(QNetworkReply *reply, Extractor *extractor, QByteArr
     PyObject *result = extractor->parse(*data);
     if (result == NULL)
     {
-
-        PyObject *ptype, *pvalue, *ptraceback;
-        PyErr_Fetch(&ptype, &pvalue, &ptraceback);
-        QString errString = QString("Python Exception: %1\n\nURL: %2\n\nResponse Content:\n%3").arg(
-                    PyString_AsQString(pvalue), reply->url().toString(), QString::fromUtf8(*data));
-        Py_DecRef(ptype);
-        Py_DecRef(pvalue);
-        Py_DecRef(ptraceback);
+        QString errString = QString("Python Exception:\n%1\n\nRequest URL: %2\n\nResponse Content:\n%3").arg(
+                    fetchPythonException(), reply->url().toString(), QString::fromUtf8(*data));
         emit parseError(errString);
     }
     else

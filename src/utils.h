@@ -8,7 +8,7 @@
 
 //Convert python's string(include unicode) to QString
 QString PyString_AsQString(PyObject *pystr);
-QStringList PyList_AsQStringList(PyObject *tuple);
+QStringList PyList_AsQStringList(PyObject *listobj);
 
 QString secToTime(int second, bool use_format = false);
 
