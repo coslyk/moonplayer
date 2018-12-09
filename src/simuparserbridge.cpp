@@ -58,7 +58,8 @@ void SimuParserBridge::onParseFinished(PyObject *dict)
     }
 
     // find out container
-    result.container = QUrl(result.urls[0]).path().section('.', -1);
+    if (!result.urls.isEmpty())
+        result.container = QUrl(result.urls[0]).path().section('.', -1);
 
     finishParsing();
 }

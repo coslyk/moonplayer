@@ -52,6 +52,13 @@ void ParserBridge::parse(const QString &url, bool download)
 
 void ParserBridge::finishParsing()
 {
+    // Check if source is empty
+    if (result.urls.isEmpty())
+    {
+        showErrorDialog(tr("The video's url is empty. Maybe it is a VIP video and requires login."));
+        return;
+    }
+
     // Bind referer and use-agent
     if (!result.referer.isEmpty())
     {
