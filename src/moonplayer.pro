@@ -46,7 +46,8 @@ SOURCES += main.cpp\
     detectopengl.cpp \
     streamget.cpp \
     aboutdialog.cpp \
-    cookiejar.cpp
+    cookiejar.cpp \
+    youtubedlbridge.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -90,7 +91,8 @@ HEADERS  +=\
     detectopengl.h \
     streamget.h \
     aboutdialog.h \
-    cookiejar.h
+    cookiejar.h \
+    youtubedlbridge.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 

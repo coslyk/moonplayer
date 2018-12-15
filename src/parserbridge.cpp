@@ -14,7 +14,7 @@
 #include "settingsdialog.h"
 #include "terminal.h"
 #include "ykdlbridge.h"
-#include "yougetbridge.h"
+#include "youtubedlbridge.h"
 #ifdef MP_ENABLE_WEBKIT
 #include "simuparserbridge.h"
 #endif
@@ -180,7 +180,7 @@ void parseUrl(const QString &url, bool download)
         ykdl_bridge.parse(url, download);
         break;
     case Settings::YOU_GET:
-        you_get_bridge.parse(url, download);
+        youtubedl_bridge.parse(url, download);
         break;
 #ifdef MP_ENABLE_WEBKIT
     case Settings::SIMULATION:
