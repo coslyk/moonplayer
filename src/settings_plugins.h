@@ -6,7 +6,7 @@ namespace Settings {
 
 enum VideoParser {
     YKDL,
-    YOU_GET,
+    YOUTUBE_DL,
     SIMULATION
 };
 

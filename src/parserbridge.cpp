@@ -179,7 +179,7 @@ void parseUrl(const QString &url, bool download)
     case Settings::YKDL:
         ykdl_bridge.parse(url, download);
         break;
-    case Settings::YOU_GET:
+    case Settings::YOUTUBE_DL:
         youtubedl_bridge.parse(url, download);
         break;
 #ifdef MP_ENABLE_WEBKIT

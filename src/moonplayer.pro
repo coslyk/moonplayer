@@ -35,7 +35,6 @@ SOURCES += main.cpp\
     danmakuloader.cpp \
     accessmanager.cpp \
     platforms.cpp \
-    yougetbridge.cpp \
     downloaderitem.cpp \
     playerview.cpp \
     playercore.cpp \
@@ -82,7 +81,6 @@ HEADERS  +=\
     danmakudelaygetter.h \
     danmakuloader.h \
     platforms.h \
-    yougetbridge.h \
     downloaderitem.h \
     playerview.h \
     terminal.h \
