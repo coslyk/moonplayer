@@ -10,7 +10,6 @@
 #include "reslibrary.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
-#include "settings_plugins.h"
 #include "settingsdialog.h"
 #include "terminal.h"
 #include "ykdlbridge.h"
@@ -155,16 +154,10 @@ void ParserBridge::showErrorDialog(const QString &errMsg)
     msgBox.setInformativeText("Parse failed!\nURL:" + url);
     msgBox.setDetailedText("URL: " + url + "\n\n" + errMsg);
     QPushButton *updateButton = msgBox.addButton(tr("Upgrade parser"), QMessageBox::ActionRole);
-    QPushButton *switchButton = msgBox.addButton(tr("Use another parser"), QMessageBox::ActionRole);
     msgBox.addButton(QMessageBox::Cancel);
     msgBox.exec();
     if (msgBox.clickedButton() == updateButton)
         upgradeParsers();
-    else if (msgBox.clickedButton() == switchButton)
-    {
-        settingsDialog->switchToPluginsTab();
-        settingsDialog->exec();
-    }
 }
 
 

@@ -11,7 +11,6 @@
 #include <QHash>
 #include "httpget.h"
 #include "settings_network.h"
-#include "settings_plugins.h"
 #include "streamget.h"
 #include "videocombiner.h"
 #include <iostream>

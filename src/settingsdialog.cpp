@@ -1,6 +1,5 @@
 #include "settingsdialog.h"
 #include "settings_network.h"
-#include "settings_plugins.h"
 #include "settings_video.h"
 #include "settings_danmaku.h"
 #include "ui_settingsdialog.h"
@@ -37,7 +36,6 @@ bool Settings::copyMode;
 bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 double Settings::danmakuAlpha;
-Settings::VideoParser Settings::parser;
 
 SettingsDialog *settingsDialog = NULL;
 
@@ -53,7 +51,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(this, &SettingsDialog::rejected, this, &SettingsDialog::loadSettings);
     connect(ui->dirButton, &QPushButton::clicked, this, &SettingsDialog::onDirButton);
     connect(ui->fontPushButton, &QPushButton::clicked, this, &SettingsDialog::onFontButton);
-    connect(ui->viewPluginsButton, &QPushButton::clicked, this, &SettingsDialog::openPluginsFolder);
 
 #ifdef Q_OS_LINUX
     ui->aoComboBox->addItem("pulse");
@@ -65,10 +62,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->hwdecComboBox->setEnabled(false); // takes effect only on Linux
 #endif
 
-#ifndef MP_ENABLE_WEBKIT
-    ui->parserComboBox->removeItem(2);
-#endif
-
     loadSettings();
     settingsDialog = this;
 }
@@ -78,7 +71,6 @@ void SettingsDialog::loadSettings()
 {
     ui->hwdecComboBox->setCurrentIndex(ui->hwdecComboBox->findText(hwdec));
     ui->aoComboBox->setCurrentIndex(ui->aoComboBox->findText(aout));
-    ui->parserComboBox->setCurrentIndex(parser);
     ui->proxyTypeComboBox->setCurrentIndex(ui->proxyTypeComboBox->findText(proxyType));
     ui->proxyEdit->setText(proxy);
     ui->portEdit->setText(QString::number(port));
@@ -125,7 +117,6 @@ void SettingsDialog::saveSettings()
     maxTasks = ui->maxTaskSpinBox->value();
     downloadDir = ui->dirButton->text();
     rememberUnfinished = ui->rememberCheckBox->isChecked();
-    parser = (VideoParser) ui->parserComboBox->currentIndex();
     autoCombine = ui->combineCheckBox->isChecked();
     copyMode = ui->copyModeCheckBox->isChecked();
 
@@ -155,7 +146,6 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Net/max_tasks", maxTasks);
     settings.setValue("Net/download_dir", downloadDir);
     settings.setValue("Plugins/auto_combine", autoCombine);
-    settings.setValue("Plugins/parser", (int) parser);
     settings.setValue("Danmaku/alpha", danmakuAlpha);
     settings.setValue("Danmaku/font", danmakuFont);
     settings.setValue("Danmaku/size", danmakuSize);
@@ -182,7 +172,6 @@ void initSettings()
     port = settings.value("Net/port").toInt();
     maxTasks = settings.value("Net/max_tasks", 3).toInt();
     autoCombine = settings.value("Plugins/auto_combine", true).toBool();
-    parser = (VideoParser) settings.value("Plugins/parser", 0).toInt();
     copyMode = settings.value("Video/copy_mode", false).toBool();
     danmakuAlpha = settings.value("Danmaku/alpha", 0.9).toDouble();
     danmakuFont = settings.value("Danmaku/font", "").toString();
@@ -203,18 +192,3 @@ void initSettings()
     access_manager->setProxy(proxyType, proxy, port);
 }
 
-
-
-void SettingsDialog::openPluginsFolder()
-{
-#ifdef Q_OS_WIN
-    QDesktopServices::openUrl("file:///" + getUserPath() + "/plugins");
-#else
-    QDesktopServices::openUrl("file://" + getUserPath() + "/plugins");
-#endif
-}
-
-void SettingsDialog::switchToPluginsTab()
-{
-    ui->tabWidget->setCurrentIndex(4);
-}

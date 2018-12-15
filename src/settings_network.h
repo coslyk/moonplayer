@@ -9,6 +9,7 @@ extern QString proxy;
 extern QString downloadDir;
 extern int port;
 extern int maxTasks;
+extern bool autoCombine;
 }
 
 #endif // SETTINGS_NETWORK_H

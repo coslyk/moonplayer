@@ -15,7 +15,6 @@ class SettingsDialog : public QDialog
 public:
     explicit SettingsDialog(QWidget *parent = 0);
     ~SettingsDialog();
-    void switchToPluginsTab(void);
     
 private:
     Ui::SettingsDialog *ui;
@@ -26,7 +25,6 @@ private slots:
     void saveSettings(void);
     void onDirButton(void);
     void onFontButton(void);
-    void openPluginsFolder(void);
 };
 
 extern SettingsDialog *settingsDialog;

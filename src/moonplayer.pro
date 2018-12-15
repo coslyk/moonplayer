@@ -72,7 +72,6 @@ HEADERS  +=\
     mylistwidget.h \
     settings_audio.h \
     cutterbar.h \
-    settings_plugins.h \
     videocombiner.h \
     settings_danmaku.h \
     playercore.h \
