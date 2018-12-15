@@ -28,6 +28,16 @@ YkdlBridge::~YkdlBridge()
     }
 }
 
+bool YkdlBridge::isSupported(const QString &host)
+{
+    QDir extractorsDir(getUserPath() + "/ykdl/ykdl/extractors");
+    QStringList extractors = extractorsDir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
+    QString shortName = host.section('.', -2, -2);
+    if (shortName == "com" || shortName == "net" || shortName == "org")
+        shortName = host.section('.', -3, -3);
+    return extractors.contains(shortName) || extractors.contains(shortName + ".py");
+}
+
 
 void YkdlBridge::runParser(const QString &url)
 {

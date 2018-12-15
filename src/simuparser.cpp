@@ -13,8 +13,6 @@
 SimuParser::SimuParser(QObject *parent) :
     QNetworkAccessManager(parent)
 {
-    initExtractors();
-
     // Use the same cookiejar
     QNetworkCookieJar *jar = access_manager->cookieJar();
     setCookieJar(jar);

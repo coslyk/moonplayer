@@ -12,6 +12,7 @@ class YkdlBridge : public ParserBridge
 public:
     explicit YkdlBridge(QObject *parent = 0);
     ~YkdlBridge();
+    static bool isSupported(const QString &host);
 
 protected:
     void runParser(const QString &url);

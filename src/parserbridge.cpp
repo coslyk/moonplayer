@@ -16,6 +16,7 @@
 #include "ykdlbridge.h"
 #include "youtubedlbridge.h"
 #ifdef MP_ENABLE_WEBKIT
+#include "extractor.h"
 #include "simuparserbridge.h"
 #endif
 
@@ -175,19 +176,17 @@ void ParserBridge::upgradeParsers()
 
 void parseUrl(const QString &url, bool download)
 {
-    switch (Settings::parser) {
-    case Settings::YKDL:
-        ykdl_bridge.parse(url, download);
-        break;
-    case Settings::YOUTUBE_DL:
-        youtubedl_bridge.parse(url, download);
-        break;
+    QString host = QUrl(url).host();
 #ifdef MP_ENABLE_WEBKIT
-    case Settings::SIMULATION:
+    if (Extractor::isSupported(host))
+    {
         simuParserBridge.parse(url, download);
-        break;
-#endif
-    default: break;
+        return;
     }
+#endif
+    if (YkdlBridge::isSupported(host))
+        ykdl_bridge.parse(url, download);
+    else
+        youtubedl_bridge.parse(url, download);
 }
 
