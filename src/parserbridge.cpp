@@ -137,6 +137,8 @@ void ParserBridge::finishParsing()
             new DanmakuDelayGetter(names, result.urls, result.danmaku_url, false, this);
         else
             playlist->addFileAndPlay(names[0], result.urls[0], result.danmaku_url);
+        res_library->close();
+
     }
     else
     {
