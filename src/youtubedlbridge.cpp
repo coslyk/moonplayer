@@ -70,12 +70,33 @@ void YoutubeDLBridge::parseOutput()
 
         // Select video quality
         // get all available qualities
+        QString bestMp4Audio, bestWebmAudio;
+        int bestMp4AudioSize = 0;
+        int bestWebmAudioSize = 0;
         for (int i = 0; i < formats.size(); i++)
         {
             QJsonObject item = formats[i].toObject();
-            QString formatName = item["format"].toString();
-            formatsList << formatName;
-            formatsHash[formatName] = item;
+            // DASH Audio
+            if (item["vcodec"].toString() == "none")
+            {
+                if (item["ext"].toString() == "webm" && item["filesize"].toInt() > bestWebmAudioSize)
+                {
+                    bestWebmAudio = item["url"].toString();
+                    bestWebmAudioSize = item["filesize"].toInt();
+                }
+                else if (item["ext"].toString() == "m4a" && item["filesize"].toInt() > bestMp4AudioSize)
+                {
+                    bestMp4Audio = item["url"].toString();
+                    bestMp4AudioSize = item["filesize"].toInt();
+                }
+            }
+            // Videos
+            else
+            {
+                QString formatName = QString("%1 (%2)").arg(item["format"].toString(), item["ext"].toString());
+                formatsList << formatName;
+                formatsHash[formatName] = item;
+            }
         }
 
         // show dialog
@@ -95,6 +116,26 @@ void YoutubeDLBridge::parseOutput()
             result.ua = ua;
         }
         result.urls << selectedItem["url"].toString();
+
+        // Video has no audio track?
+        if (selectedItem["acodec"] == "none")
+        {
+            if (result.container == "webm" && !bestWebmAudio.isEmpty())
+            {
+                result.is_dash = true;
+                result.urls << bestWebmAudio;
+            }
+            else if (result.container == "mp4" && !bestMp4Audio.isEmpty())
+            {
+                result.is_dash = true;
+                result.urls << bestMp4Audio;
+            }
+            else
+            {
+                showErrorDialog(tr("The video of selected quality has no audio track. Please select another one."));
+                return;
+            }
+        }
         finishParsing();
     }
     else

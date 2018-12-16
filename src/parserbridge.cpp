@@ -138,7 +138,6 @@ void ParserBridge::finishParsing()
         else
             playlist->addFileAndPlay(names[0], result.urls[0], result.danmaku_url);
         res_library->close();
-
     }
     else
     {
