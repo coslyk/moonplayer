@@ -14,7 +14,6 @@
 #include <QDir>
 #include <QTimer>
 #include "danmakudelaygetter.h"
-#include "yougetbridge.h"
 
 
 bool win_debug = false;
