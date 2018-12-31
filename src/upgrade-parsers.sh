@@ -1,6 +1,5 @@
 #!/bin/sh
 
-sh "${0%/*}/upgrade-you-get.sh"
 sh "${0%/*}/upgrade-ykdl.sh"
 sh "${0%/*}/upgrade-plugins.sh"
 
