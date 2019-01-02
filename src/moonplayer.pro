@@ -150,7 +150,7 @@ unix:!macx {
 macx {
     FFMPEG.files = /usr/local/opt/ffmpeg/bin/ffmpeg
     FFMPEG.path = Contents/MacOS
-    RESFILES.files = upgrade-plugins.sh upgrade-ykdl.sh upgrade-parsers.sh ykdl_patched.py plugins unblockcn
+    RESFILES.files = upgrade-plugins.sh upgrade-ykdl.sh upgrade-youtubedl.sh upgrade-parsers.sh ykdl_patched.py plugins unblockcn
     RESFILES.path = Contents/Resources
     TRANS_FILES.files = moonplayer_zh_CN.qm qt_zh_CN.qm
     TRANS_FILES.path = Contents/Resources/translations
