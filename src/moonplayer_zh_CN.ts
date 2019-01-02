@@ -5,77 +5,84 @@
     <name>AboutDialog</name>
     <message>
         <location filename="aboutdialog.ui" line="14"/>
-        <location filename="aboutdialog.ui" line="24"/>
+        <location filename="aboutdialog.ui" line="21"/>
         <source>About</source>
         <translation type="unfinished">关于</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="51"/>
+        <location filename="aboutdialog.ui" line="48"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;MoonPlayer&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Modern, elegant and lightweight player for online and local videos.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;MoonPlayer&lt;/span&gt;&lt;/p&gt;&lt;p&gt;时尚、优雅、轻巧的本地和在线视频播放器。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="70"/>
+        <location filename="aboutdialog.ui" line="67"/>
         <source>Current version:</source>
         <translation type="unfinished">当前版本：</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="77"/>
+        <location filename="aboutdialog.ui" line="74"/>
         <source>#Current Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="84"/>
+        <location filename="aboutdialog.ui" line="81"/>
         <source>Latest version:</source>
         <translation type="unfinished">最新版本：</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="91"/>
+        <location filename="aboutdialog.ui" line="88"/>
         <source>#Latest Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="124"/>
+        <location filename="aboutdialog.ui" line="121"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/coslyk/moonplayer&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Homepage&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/coslyk/moonplayer&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;主页&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="135"/>
+        <location filename="aboutdialog.ui" line="132"/>
         <source>Thanks</source>
         <translation type="unfinished">鸣谢</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="141"/>
+        <location filename="aboutdialog.ui" line="138"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans CJK SC&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Many thanks to all the people who help me develop the software, including:&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;1. People who maintain packages for Linux distributions:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/levinit&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;@levinit&lt;/span&gt;&lt;/a&gt; for Arch Linux&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/1dot75cm&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;@1dot75cm&lt;/span&gt;&lt;/a&gt; for Fedora&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;1. The great works of the following open-source projects:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.qt.io&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt; (License: LGPLv3)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://mpv.io/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;libmpv&lt;/span&gt;&lt;/a&gt; (License: GPLv2 or later)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/coslyk/danmaku2ass&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;danmaku2ass&lt;/span&gt;&lt;/a&gt; (License: GPLv3)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/zhangn1985/ykdl&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;ykdl&lt;/span&gt;&lt;/a&gt; (License: MIT)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/rg3/youtube-dl&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;youtube-dl&lt;/span&gt;&lt;/a&gt; (License: Unlicense)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/lxqt/qtermwidget&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;qtermwidget&lt;/span&gt;&lt;/a&gt; (License: GPLv2 or later)&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2. People who &lt;a href=&quot;https://github.com/coslyk/moonplayer/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;submit issues&lt;/span&gt;&lt;/a&gt; or suggestions.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2. People who maintain packages for Linux distributions:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ArchLinux: &lt;a href=&quot;https://github.com/levinit&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;@levinit&lt;/span&gt;&lt;/a&gt;, &lt;a href=&quot;https://github.com/heavysink&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;@heavysink&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;3. People who &lt;a href=&quot;https://github.com/coslyk/moonplayer/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;submit issues&lt;/span&gt;&lt;/a&gt; or suggestions.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="162"/>
+        <location filename="aboutdialog.ui" line="166"/>
         <source>Donate</source>
         <translation type="unfinished">捐助</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="168"/>
+        <location filename="aboutdialog.ui" line="172"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;PayPal:  &lt;a href=&quot;https://www.paypal.me/YikunLiu&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click me&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="178"/>
+        <location filename="aboutdialog.ui" line="182"/>
         <source>Alipay:</source>
         <translation type="unfinished">支付宝：</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="185"/>
+        <location filename="aboutdialog.ui" line="189"/>
         <source>Wechat Pay:</source>
         <translation type="unfinished">微信支付：</translation>
     </message>
@@ -244,42 +251,42 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Downloader</name>
     <message>
-        <location filename="downloader.cpp" line="34"/>
+        <location filename="downloader.cpp" line="33"/>
         <source>File name</source>
         <translation type="unfinished">文件名</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="34"/>
+        <location filename="downloader.cpp" line="33"/>
         <source>State</source>
         <translation type="unfinished">状态</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="40"/>
+        <location filename="downloader.cpp" line="39"/>
         <source>Play</source>
         <translation type="unfinished">播放</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="41"/>
+        <location filename="downloader.cpp" line="40"/>
         <source>Delete</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="42"/>
+        <location filename="downloader.cpp" line="41"/>
         <source>Pause</source>
         <translation type="unfinished">暂停</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="52"/>
+        <location filename="downloader.cpp" line="51"/>
         <source>Download Manager</source>
         <translation type="unfinished">下载管理器</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="69"/>
+        <location filename="downloader.cpp" line="68"/>
         <source> is existed. Download again?</source>
         <translation type="unfinished"> 已存在。重新下载吗？</translation>
     </message>
     <message>
-        <location filename="downloader.cpp" line="189"/>
+        <location filename="downloader.cpp" line="188"/>
         <source>File is being downloaded. Still want to delete?</source>
         <translation type="unfinished">文件正在下载，仍要删除吗？</translation>
     </message>
@@ -287,17 +294,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ParserBridge</name>
     <message>
-        <location filename="parserbridge.cpp" line="118"/>
+        <location filename="parserbridge.cpp" line="58"/>
+        <source>The video&apos;s url is empty. Maybe it is a VIP video and requires login.</source>
+        <translation type="unfinished">解析结果为空。可能该视频需要登录才能查看。</translation>
+    </message>
+    <message>
+        <location filename="parserbridge.cpp" line="125"/>
         <source>Add download task successfully!</source>
         <translation type="unfinished">添加下载任务成功！</translation>
     </message>
     <message>
-        <location filename="parserbridge.cpp" line="150"/>
-        <source>Use another parser</source>
-        <translation type="unfinished">使用其他解析方式</translation>
-    </message>
-    <message>
-        <location filename="parserbridge.cpp" line="149"/>
+        <location filename="parserbridge.cpp" line="157"/>
         <source>Upgrade parser</source>
         <translation type="unfinished">更新解析程序</translation>
     </message>
@@ -647,8 +654,9 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="reslibrary.ui" line="14"/>
-        <source>MoonPlayer</source>
-        <translation type="unfinished"></translation>
+        <source>MoonPlayer - Explore</source>
+        <oldsource>MoonPlayer</oldsource>
+        <translation type="unfinished">MoonPlayer - 探索</translation>
     </message>
     <message>
         <location filename="reslibrary.ui" line="21"/>
@@ -730,21 +738,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">音频输出：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="354"/>
-        <source>Use ykdl</source>
-        <translation type="unfinished">使用ykdl</translation>
-    </message>
-    <message>
-        <location filename="settingsdialog.ui" line="359"/>
-        <source>Use you-get</source>
-        <translation type="unfinished">使用you-get</translation>
-    </message>
-    <message>
-        <location filename="settingsdialog.ui" line="364"/>
-        <source>Simulate web page loading</source>
-        <translation type="unfinished">模拟网页加载</translation>
-    </message>
-    <message>
         <location filename="settingsdialog.ui" line="60"/>
         <location filename="settingsdialog.ui" line="159"/>
         <source>auto</source>
@@ -766,29 +759,19 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">网络</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="208"/>
+        <location filename="settingsdialog.ui" line="266"/>
         <source>http_unblockcn</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="272"/>
+        <location filename="settingsdialog.ui" line="191"/>
         <source>Port</source>
         <translation type="unfinished">端口</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="293"/>
-        <source>Plugins</source>
-        <translation type="unfinished">插件</translation>
-    </message>
-    <message>
-        <location filename="settingsdialog.ui" line="319"/>
+        <location filename="settingsdialog.ui" line="235"/>
         <source>Combine video clips automatically after downloading</source>
         <translation type="unfinished">下载后自动合并分段视频</translation>
-    </message>
-    <message>
-        <location filename="settingsdialog.ui" line="326"/>
-        <source>Open plugins folder</source>
-        <translation type="unfinished">打开插件文件夹</translation>
     </message>
     <message>
         <location filename="settingsdialog.ui" line="65"/>
@@ -816,78 +799,73 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">该选项会使所有滤镜在硬件解码时正常工作，但会消耗更多资源。</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="221"/>
+        <location filename="settingsdialog.ui" line="174"/>
         <source>Proxy:</source>
         <translation type="unfinished">代理：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="198"/>
+        <location filename="settingsdialog.ui" line="256"/>
         <source>no</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="203"/>
+        <location filename="settingsdialog.ui" line="261"/>
         <source>http</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="213"/>
+        <location filename="settingsdialog.ui" line="271"/>
         <source>socks5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="190"/>
+        <location filename="settingsdialog.ui" line="181"/>
         <source>Address</source>
         <translation type="unfinished">地址</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="282"/>
+        <location filename="settingsdialog.ui" line="279"/>
         <source>Note: Due to the limitation of mpv, socks5 proxy is not supported by online playing.</source>
         <translation type="unfinished">注意：由于mpv限制，在线播放不支持socks5。</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="346"/>
-        <source>Video parser:</source>
-        <translation type="unfinished">视频解析程序：</translation>
-    </message>
-    <message>
-        <location filename="settingsdialog.ui" line="373"/>
+        <location filename="settingsdialog.ui" line="300"/>
         <source>Danmaku</source>
         <translation type="unfinished">弹幕</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="379"/>
+        <location filename="settingsdialog.ui" line="306"/>
         <source>Alpha:</source>
         <translation type="unfinished">透明度：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="399"/>
+        <location filename="settingsdialog.ui" line="326"/>
         <source>Font size:</source>
         <translation type="unfinished">字体大小：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="406"/>
-        <location filename="settingsdialog.ui" line="419"/>
+        <location filename="settingsdialog.ui" line="333"/>
+        <location filename="settingsdialog.ui" line="346"/>
         <source>0 means auto</source>
         <translation type="unfinished">0表示自动</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="426"/>
+        <location filename="settingsdialog.ui" line="353"/>
         <source>Duration of scrolling comment display:</source>
         <translation type="unfinished">滚动弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="433"/>
+        <location filename="settingsdialog.ui" line="360"/>
         <source>Duration of still comment display:</source>
         <translation type="unfinished">静止弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="460"/>
+        <location filename="settingsdialog.ui" line="387"/>
         <source>Font:</source>
         <translation type="unfinished">字体：</translation>
     </message>
     <message>
-        <location filename="settingsdialog.ui" line="242"/>
+        <location filename="settingsdialog.ui" line="221"/>
         <source>Max tasks</source>
         <translation type="unfinished">最大任务数</translation>
     </message>
@@ -900,12 +878,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>SimuParser</name>
     <message>
-        <location filename="simuparser.cpp" line="27"/>
+        <location filename="simuparser.cpp" line="26"/>
         <source>Simulate web page loading</source>
         <translation type="unfinished">模拟网页加载</translation>
     </message>
     <message>
-        <location filename="simuparser.cpp" line="36"/>
+        <location filename="simuparser.cpp" line="35"/>
         <source>This URL is not supported now!</source>
         <translation type="unfinished">暂不支持该URL！</translation>
     </message>
@@ -942,27 +920,42 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>YkdlBridge</name>
     <message>
-        <location filename="ykdlbridge.cpp" line="36"/>
+        <location filename="ykdlbridge.cpp" line="49"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="ykdlbridge.cpp" line="81"/>
+        <location filename="ykdlbridge.cpp" line="57"/>
+        <source>Parsing with Ykdl...</source>
+        <translation type="unfinished">使用Ykdl解析...</translation>
+    </message>
+    <message>
+        <location filename="ykdlbridge.cpp" line="104"/>
         <source>Please select a video quality:</source>
         <translation type="unfinished">请选择视频质量：</translation>
     </message>
 </context>
 <context>
-    <name>YouGetBridge</name>
+    <name>YoutubeDLBridge</name>
     <message>
-        <location filename="yougetbridge.cpp" line="81"/>
+        <location filename="youtubedlbridge.cpp" line="41"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="yougetbridge.cpp" line="144"/>
+        <location filename="youtubedlbridge.cpp" line="50"/>
+        <source>Parsing with Youtube-dl...</source>
+        <translation type="unfinished">使用Youtube-dl解析...</translation>
+    </message>
+    <message>
+        <location filename="youtubedlbridge.cpp" line="119"/>
         <source>Please select a video quality:</source>
         <translation type="unfinished">请选择视频质量：</translation>
+    </message>
+    <message>
+        <location filename="youtubedlbridge.cpp" line="150"/>
+        <source>The video of selected quality has no audio track. Please select another one.</source>
+        <translation type="unfinished">所选画质的视频缺失声音信息。请选择其他画质。</translation>
     </message>
 </context>
 </TS>
