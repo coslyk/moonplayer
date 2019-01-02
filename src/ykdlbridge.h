@@ -4,6 +4,7 @@
 
 #include <QObject>
 #include "parserbridge.h"
+class QWidget;
 class QProcess;
 
 class YkdlBridge : public ParserBridge
@@ -19,6 +20,7 @@ protected:
 
 private:
     QProcess *process;
+    QWidget *msgWindow;
 
 private slots:
     void parseOutput(void);

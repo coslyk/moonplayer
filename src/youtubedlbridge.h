@@ -15,6 +15,7 @@ protected:
 
 private:
     QProcess *process;
+    QWidget *msgWindow;
 
 private slots:
     void parseOutput(void);

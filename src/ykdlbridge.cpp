@@ -3,6 +3,8 @@
 #include "selectiondialog.h"
 #include "settings_network.h"
 #include <QDir>
+#include <QGridLayout>
+#include <QLabel>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -17,6 +19,7 @@ YkdlBridge::YkdlBridge(QObject *parent) : ParserBridge(parent)
 {
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
+    msgWindow = nullptr;
 }
 
 YkdlBridge::~YkdlBridge()
@@ -46,6 +49,15 @@ void YkdlBridge::runParser(const QString &url)
         QMessageBox::warning(NULL, "Error", tr("Another file is being parsed."));
         return;
     }
+    if (msgWindow == nullptr)
+    {
+        msgWindow = new QWidget;
+        msgWindow->setWindowFlag(Qt::FramelessWindowHint);
+        msgWindow->setWindowFlag(Qt::WindowStaysOnTopHint);
+        QLabel *label = new QLabel(tr("Parsing with Ykdl..."));
+        QGridLayout *layout = new QGridLayout(msgWindow);
+        layout->addWidget(label);
+    }
 
     QStringList args;
     args << "python" << (getAppPath() + "/ykdl_patched.py");
@@ -55,11 +67,13 @@ void YkdlBridge::runParser(const QString &url)
         args << "--proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
     args << url;
     process->start("/usr/bin/env", args, QProcess::ReadOnly);
+    msgWindow->show();
 }
 
 
 void YkdlBridge::parseOutput()
 {
+    msgWindow->close();
     QByteArray output = process->readAllStandardOutput();
     QJsonParseError json_error;
     QJsonObject obj = QJsonDocument::fromJson(output, &json_error).object();

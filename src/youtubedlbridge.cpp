@@ -4,6 +4,8 @@
 #include "selectiondialog.h"
 #include "settings_network.h"
 #include <QDir>
+#include <QGridLayout>
+#include <QLabel>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -19,6 +21,7 @@ YoutubeDLBridge::YoutubeDLBridge(QObject *parent) : ParserBridge(parent)
     process = new QProcess(this);
     process->setWorkingDirectory(getUserPath());
     connect(process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
+    msgWindow = nullptr;
 }
 
 YoutubeDLBridge::~YoutubeDLBridge()
@@ -39,6 +42,16 @@ void YoutubeDLBridge::runParser(const QString &url)
         return;
     }
 
+    if (msgWindow == nullptr)
+    {
+        msgWindow = new QWidget;
+        msgWindow->setWindowFlag(Qt::FramelessWindowHint);
+        msgWindow->setWindowFlag(Qt::WindowStaysOnTopHint);
+        QLabel *label = new QLabel(tr("Parsing with Youtube-dl..."));
+        QGridLayout *layout = new QGridLayout(msgWindow);
+        layout->addWidget(label);
+    }
+
     QStringList args;
     args << "-m" << "youtube_dl";
     args << "-j" << "--user-agent" << DEFAULT_UA;
@@ -48,11 +61,13 @@ void YoutubeDLBridge::runParser(const QString &url)
         args << "--proxy" << QString("socks5://%1:%2/").arg(Settings::proxy, QString::number(Settings::port));
     args << url;
     process->start("python", args, QProcess::ReadOnly);
+    msgWindow->show();
 }
 
 
 void YoutubeDLBridge::parseOutput()
 {
+    msgWindow->close();
     QByteArray output = process->readAllStandardOutput();
     QJsonParseError json_error;
     QJsonObject obj = QJsonDocument::fromJson(output, &json_error).object();
