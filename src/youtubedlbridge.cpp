@@ -122,7 +122,7 @@ void YoutubeDLBridge::parseOutput()
         QJsonObject selectedItem = formatsHash[selected];
 
         // write info
-        result.container = selectedItem["ext"].toString();
+        result.container = selectedItem["protocol"].toString() == "m3u8" ? "m3u8" : selectedItem["ext"].toString();
         result.referer = selectedItem["http_headers"].toObject()["Referer"].toString();
         QString ua = selectedItem["http_headers"].toObject()["User-Agent"].toString();
         if (ua != DEFAULT_UA)

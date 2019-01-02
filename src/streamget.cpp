@@ -82,6 +82,21 @@ StreamGet::~StreamGet()
 void StreamGet::onProcFinished(int code)
 {
     timer->stop();
+    if (code) // Error
+    {
+        QByteArray errOutput = process->readAllStandardError();
+        // audio filter does not match
+        if (errOutput.contains("Error initializing bitstream filter: aac_adtstoasc"))
+        {
+            args.removeOne("-bsf:a");
+            args.removeOne("aac_adtstoasc");
+            process->start(ffmpegFilePath(), args);
+            timer->start(1000);
+            return;
+        }
+        else // Other error
+            qDebug("%s", errOutput.constData());
+    }
     emit finished(this, code);
     process->deleteLater();
     process = NULL;
