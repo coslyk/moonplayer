@@ -17,6 +17,7 @@ YoutubeDLBridge youtubedl_bridge;
 YoutubeDLBridge::YoutubeDLBridge(QObject *parent) : ParserBridge(parent)
 {
     process = new QProcess(this);
+    process->setWorkingDirectory(getUserPath());
     connect(process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
 }
 
@@ -39,15 +40,14 @@ void YoutubeDLBridge::runParser(const QString &url)
     }
 
     QStringList args;
+    args << "-m" << "youtube_dl";
     args << "-j" << "--user-agent" << DEFAULT_UA;
-    if (!Settings::proxy.isEmpty() &&
-            (Settings::proxyType == "http" ||
-             (Settings::proxyType == "http_unblockcn" && !url.contains(".youtube.com"))))
+    if (!Settings::proxy.isEmpty() && Settings::proxyType == "http")
         args << "--proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
-    else if (Settings::proxyType == "socks5")
+    else if (!Settings::proxy.isEmpty() && Settings::proxyType == "socks5")
         args << "--proxy" << QString("socks5://%1:%2/").arg(Settings::proxy, QString::number(Settings::port));
     args << url;
-    process->start("youtube-dl", args, QProcess::ReadOnly);
+    process->start("python", args, QProcess::ReadOnly);
 }
 
 
