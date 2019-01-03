@@ -3,7 +3,6 @@
 #include <QHash>
 #include "platforms.h"
 #include "pyapi.h"
-#include "settings_plugins.h"
 
 /************************
  ** Initialize plugins **
