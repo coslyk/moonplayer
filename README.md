@@ -8,7 +8,7 @@ Latest version: v2.4 [Download](https://github.com/coslyk/moonplayer/wiki/Downlo
 
 <a href='https://flathub.org/apps/details/com.github.coslyk.MoonPlayer'><img height='100' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a>
 
-Last update: 2018.01.04
+Last update: 2019.01.04
 
 * [Browser extension](https://github.com/coslyk/moonplayer/wiki/BrowserExtension)
 * [Update log](https://github.com/coslyk/moonplayer/blob/master/src/debian/changelog)
