@@ -1,3 +1,14 @@
+moonplayer (2.4-1~cosmic) cosmic; urgency=medium
+
+  * v2.4
+  * Replace you-get with youtube-dl
+  * Automatically select video parser
+  * Show a message when parsing starts
+  * Fix: Playing a VIP video may cause crash
+  * Fix: some HLS streams cannot be downloaded
+
+ -- YK Liu <cos.lyk@gmail.com>  Fri, 04 Jan 2019 20:07:40 +0100
+
 moonplayer (2.3-1~cosmic) cosmic; urgency=medium
 
   * v2.3
