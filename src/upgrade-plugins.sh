@@ -77,7 +77,7 @@ rm -r moonplayer-plugins-master
 
 # Save version info
 echo "$LATEST_VERSION" > "$VERSION_FILE"
-
+echo "Successfully upgraded plugins. Please relaunch MoonPlayer to apply changes."
 echo ""
 echo -e "\033[34m -------------------- End --------------------- \033[0m"
 
