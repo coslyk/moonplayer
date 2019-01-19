@@ -104,7 +104,7 @@ void YkdlBridge::parseOutput()
                                                    tr("Please select a video quality:"));
         if (selected.isEmpty())
             return;
-        selected = selected.section(' ', 0, 0);
+        selected = selected.section(" (", 0, 0);
         selectedItem = streams[selected].toObject();
 
         // Write names-urls-list
