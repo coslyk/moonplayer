@@ -43,7 +43,6 @@ SOURCES += main.cpp\
     detectopengl.cpp \
     streamget.cpp \
     aboutdialog.cpp \
-    cookiejar.cpp \
     youtubedlbridge.cpp \
     chromiumdebugger.cpp \
     extractor.cpp \
@@ -90,7 +89,6 @@ HEADERS  +=\
     detectopengl.h \
     streamget.h \
     aboutdialog.h \
-    cookiejar.h \
     youtubedlbridge.h \
     chromiumdebugger.h \
     extractor.h \
