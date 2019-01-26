@@ -11,15 +11,13 @@ class SimuParserBridge : public ParserBridge
 public:
     SimuParserBridge(QObject *parent = 0);
     void initParser(void);
+    void onParseFinished(PyObject *dict);
 
 protected:
     void runParser(const QString &url);
 
 private:
     SimuParser *parser;
-
-private slots:
-    void onParseFinished(PyObject *dict);
 };
 
 extern SimuParserBridge simuParserBridge;

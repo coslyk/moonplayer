@@ -15,7 +15,6 @@ SimuParserBridge::SimuParserBridge(QObject *parent) :
 void SimuParserBridge::initParser()
 {
     parser = new SimuParser(this);
-    connect(parser, &SimuParser::parseFinished, this, &SimuParserBridge::onParseFinished);
     connect(parser, &SimuParser::parseError, this, &SimuParserBridge::showErrorDialog);
 }
 
@@ -27,6 +26,8 @@ void SimuParserBridge::runParser(const QString &url)
 
 void SimuParserBridge::onParseFinished(PyObject *dict)
 {
+    parser->closeWebview();
+
     PyObject *obj = PyDict_GetItemString(dict, "title");
     result.title = PyString_AsQString(obj);
 
@@ -62,6 +63,5 @@ void SimuParserBridge::onParseFinished(PyObject *dict)
     // find out container
     if (!result.urls.isEmpty())
         result.container = QUrl(result.urls[0]).path().section('.', -1);
-
     finishParsing();
 }

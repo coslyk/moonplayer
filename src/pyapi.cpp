@@ -14,6 +14,7 @@
 #include <QDir>
 #include <QTimer>
 #include "danmakudelaygetter.h"
+#include "simuparserbridge.h"
 
 
 bool win_debug = false;
@@ -277,6 +278,16 @@ static PyObject *show_detail(PyObject *, PyObject *args)
     return res_library->openDetailPage(dict);
 }
 
+static PyObject *finish_parsing(PyObject *, PyObject *args)
+{
+    PyObject *dict = NULL;
+    if (!PyArg_ParseTuple(args, "O", &dict))
+        return NULL;
+    simuParserBridge.onParseFinished(dict);
+    Py_IncRef(Py_None);
+    return Py_None;
+}
+
 /*******************
  ** Define module **
  *******************/
@@ -287,6 +298,7 @@ static PyMethodDef methods[] = {
     {"post_content",     post_content,     METH_VARARGS, "Send a HTTP-POST request"},
     {"bind_referer",     bind_referer,     METH_VARARGS, "Bind a host with referer"},
     {"force_unseekable", force_unseekable, METH_VARARGS, "Force stream with specific host to be unseekable"},
+    {"finish_parsing",   finish_parsing,   METH_VARARGS, "Finish video parsing"},
     {"warn",             warn,             METH_VARARGS, "Show warning message"},
     {"question",         question,         METH_VARARGS, "Show a question dialog"},
     {"res_show",         res_show,         METH_VARARGS, "Show resources result"},

@@ -102,12 +102,7 @@ void SimuParser::onChromiumResult(int id, const QVariantHash &result)
             emit parseError(errString);
         }
         else
-        {
-            webengineView->setUrl(QUrl("about:blank"));
-            webengineView->close();
-            emit parseFinished(result);
             Py_DecRef(result);
-        }
         catchedUrl.clear();
     }
 }

@@ -2,8 +2,7 @@
 #define SimuParser_H
 
 #include <Python.h>
-#include <QObject>
-class QWebEngineView;
+#include <QWebEngineView>
 class ChromiumDebugger;
 class Extractor;
 
@@ -13,9 +12,12 @@ class SimuParser : public QObject
 public:
     explicit SimuParser(QObject *parent = 0);
     void parse(const QString &url);
+    inline void closeWebview() {
+        webengineView->setUrl(QUrl("about:blank"));
+        webengineView->close();
+    }
 
 signals:
-    void parseFinished(PyObject *o);
     void parseError(const QString &errMsg);
 
 private:
