@@ -26,8 +26,7 @@ extern QHash<QString,QByteArray> ua_table;
 QByteArray generateUA(const QUrl &url);
 
 #define DEFAULT_UA \
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) "\
-    "AppleWebKit/605.1.15 (KHTML, like Gecko) "\
-    "Version/12.0.1 Safari/605.1.15"
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)"\
+    "Ubuntu Chromium/72.0.3626.28 Chrome/72.0.3626.28 Safari/537.36"
 
 #endif // NETWORKMANAGER_H

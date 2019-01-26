@@ -1,5 +1,6 @@
 #include "simuparser.h"
 #include <QNetworkReply>
+#include <QWebEngineProfile>
 #include <QWebEngineView>
 #include "accessmanager.h"
 #include "chromiumdebugger.h"
@@ -13,6 +14,10 @@
 SimuParser::SimuParser(QObject *parent) :
     QObject(parent)
 {
+    // set profile
+    QWebEngineProfile *profile = QWebEngineProfile::defaultProfile();
+    profile->setHttpUserAgent(DEFAULT_UA);
+
     // create chromium instance
     webengineView = new QWebEngineView;
     webengineView->show();
