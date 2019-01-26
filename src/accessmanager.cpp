@@ -66,26 +66,26 @@ void NetworkAccessManager::setProxy(const QString &proxyType, const QString &pro
 {
     if (proxyType == "no" || proxy.isEmpty())
     {
-        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::NoProxy));
         unsetenv("http_proxy");
     }
     else if (proxyType == "socks5")
     {
-        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
+        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
         unsetenv("http_proxy");
     }
     else if (proxyType == "http")
     {
-        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
+        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
         setenv("http_proxy", QString("http://%1:%2").arg(proxy, QString::number(port)).toUtf8().constData(), 1);
     }
     else if (proxyType == "http_unblockcn")
     {
-        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::NoProxy));
         unsetenv("http_proxy");
         if (amForUnblock == NULL)
             amForUnblock = new QNetworkAccessManager(this);
-        amForUnblock->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, Settings::proxy, Settings::port));
+        amForUnblock->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
     }
 }
 
