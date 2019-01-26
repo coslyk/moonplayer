@@ -13,6 +13,7 @@
 #include <QTextCodec>
 #include <Python.h>
 #include "detectopengl.h"
+#include "extractor.h"
 #include "pyapi.h"
 #include "platforms.h"
 #include "playerview.h"
@@ -20,9 +21,6 @@
 #include "ykdlbridge.h"
 #ifdef Q_OS_WIN
 #include <windows.h>
-#endif
-#ifdef MP_ENABLE_WEBKIT
-#include "extractor.h"
 #endif
 
 
@@ -162,10 +160,7 @@ int main(int argc, char *argv[])
     printf("Initialize API for Python...\n");
     initAPI();
     initPlugins();
-#ifdef MP_ENABLE_WEBKIT
     initExtractors();
-#endif
-
 
     //translate moonplayer
     printf("Initialize language support...\n");

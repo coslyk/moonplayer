@@ -14,10 +14,8 @@
 #include "terminal.h"
 #include "ykdlbridge.h"
 #include "youtubedlbridge.h"
-#ifdef MP_ENABLE_WEBKIT
 #include "extractor.h"
 #include "simuparserbridge.h"
-#endif
 
 
 SelectionDialog *ParserBridge::selectionDialog = NULL;
@@ -171,14 +169,9 @@ void ParserBridge::upgradeParsers()
 void parseUrl(const QString &url, bool download)
 {
     QString host = QUrl(url).host();
-#ifdef MP_ENABLE_WEBKIT
     if (Extractor::isSupported(host))
-    {
         simuParserBridge.parse(url, download);
-        return;
-    }
-#endif
-    if (YkdlBridge::isSupported(host))
+    else if (YkdlBridge::isSupported(host))
         ykdl_bridge.parse(url, download);
     else
         youtubedl_bridge.parse(url, download);
