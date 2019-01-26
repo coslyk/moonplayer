@@ -5,9 +5,7 @@
 #-------------------------------------------------
 
 
-!defined(ENABLE_WEBKIT,var) { ENABLE_WEBKIT=yes }
-
-QT += core gui network xml widgets
+QT += core gui network xml widgets websockets webenginewidgets
 unix:!macx: QT += gui-private x11extras
 
 macx:  TARGET = MoonPlayer
@@ -46,7 +44,11 @@ SOURCES += main.cpp\
     streamget.cpp \
     aboutdialog.cpp \
     cookiejar.cpp \
-    youtubedlbridge.cpp
+    youtubedlbridge.cpp \
+    chromiumdebugger.cpp \
+    extractor.cpp \
+    simuparser.cpp \
+    simuparserbridge.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -89,22 +91,13 @@ HEADERS  +=\
     streamget.h \
     aboutdialog.h \
     cookiejar.h \
-    youtubedlbridge.h
+    youtubedlbridge.h \
+    chromiumdebugger.h \
+    extractor.h \
+    simuparser.h \
+    simuparserbridge.h
 !macx: HEADERS += localserver.h \
     localsocket.h
-
-
-# Webkit support
-equals(ENABLE_WEBKIT, "yes") {
-    QT += webkitwidgets
-    HEADERS += extractor.h \
-        simuparser.h \
-        simuparserbridge.h
-    SOURCES += extractor.cpp \
-        simuparser.cpp \
-        simuparserbridge.cpp
-    DEFINES += MP_ENABLE_WEBKIT
-}
 
 
 FORMS    += \

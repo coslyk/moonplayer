@@ -10,6 +10,7 @@ class SimuParserBridge : public ParserBridge
     Q_OBJECT
 public:
     SimuParserBridge(QObject *parent = 0);
+    void initParser(void);
 
 protected:
     void runParser(const QString &url);

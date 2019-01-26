@@ -12,14 +12,16 @@ SimuParserBridge::SimuParserBridge(QObject *parent) :
     parser = NULL;
 }
 
+void SimuParserBridge::initParser()
+{
+    parser = new SimuParser(this);
+    connect(parser, &SimuParser::parseFinished, this, &SimuParserBridge::onParseFinished);
+    connect(parser, &SimuParser::parseError, this, &SimuParserBridge::showErrorDialog);
+}
+
 void SimuParserBridge::runParser(const QString &url)
 {
-    if (parser == NULL)
-    {
-        parser = new SimuParser(this);
-        connect(parser, &SimuParser::parseFinished, this, &SimuParserBridge::onParseFinished);
-        connect(parser, &SimuParser::parseError, this, &SimuParserBridge::showErrorDialog);
-    }
+    Q_ASSERT(parser != nullptr);
     parser->parse(url);
 }
 

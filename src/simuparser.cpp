@@ -1,32 +1,40 @@
 #include "simuparser.h"
-#include <QNetworkCookieJar>
-#include <QNetworkProxy>
 #include <QNetworkReply>
-#include <QWebSettings>
-#include <QWebView>
+#include <QWebEngineView>
 #include "accessmanager.h"
+#include "chromiumdebugger.h"
 #include "extractor.h"
 #include "pyapi.h"
 #include "settings_network.h"
 #include "utils.h"
 
-SimuParser::SimuParser(QObject *parent) :
-    QNetworkAccessManager(parent)
-{
-    // Use the same cookiejar
-    QNetworkCookieJar *jar = access_manager->cookieJar();
-    setCookieJar(jar);
-    jar->setParent(access_manager);
 
-    // Enable video loading
-    QWebSettings *settings = QWebSettings::globalSettings();
-    settings->setAttribute(QWebSettings::AutoLoadImages, false);
-    settings->setAttribute(QWebSettings::PluginsEnabled, false);
-    webview = new QWebView;
-    webview->setWindowTitle(tr("Simulate web page loading"));
-    webview->page()->setNetworkAccessManager(this);
+/* Initialization */
+SimuParser::SimuParser(QObject *parent) :
+    QObject(parent)
+{
+    // create chromium instance
+    webengineView = new QWebEngineView;
+    webengineView->show();
+
+    // create debugger
+    chromiumDebugger = new ChromiumDebugger(this);
+    connect(chromiumDebugger, &ChromiumDebugger::connected, this, &SimuParser::onChromiumConnected);
+    connect(chromiumDebugger, &ChromiumDebugger::eventReceived, this, &SimuParser::onChromiumEvent);
+    connect(chromiumDebugger, &ChromiumDebugger::resultReceived, this, &SimuParser::onChromiumResult);
+    chromiumDebugger->open(19260);
 }
 
+void SimuParser::onChromiumConnected()
+{
+    webengineView->close();
+    // enable network monitoring
+    QVariantHash params;
+    chromiumDebugger->send(1, "Network.enable");
+}
+
+
+/* Parse video*/
 void SimuParser::parse(const QString &url)
 {
     // Check if URL is supported
@@ -37,73 +45,65 @@ void SimuParser::parse(const QString &url)
     }
 
     // apply proxy settings
-    if (Settings::proxyType == "http" || (Settings::proxyType == "http_unblockcn" && !url.contains(".youtube.com")))
-        setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, Settings::proxy, Settings::port));
-    else if (Settings::proxyType == "socks5")
-        setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, Settings::proxy, Settings::port));
-    else
-        setProxy(QNetworkProxy::NoProxy);
+    // to be finished
 
     // load url
-    webview->setUrl(QUrl(url));
-    webview->show();
+    webengineView->setUrl(QUrl(url));
+    webengineView->show();
 }
 
-
-// Watch the network traffic. If the URL of http request matches, catch the response and parse it
-QNetworkReply *SimuParser::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData)
+/* Monitor network traffic */
+void SimuParser::onChromiumEvent(int id, const QString &method, const QVariantHash &params)
 {
-    QNetworkRequest req = request;
-    req.setHeader(QNetworkRequest::UserAgentHeader, DEFAULT_UA);
-
-    // prevent video from loading
-    QString suffix = req.url().path().section('.', -1);
-    if (suffix == "mp4" || suffix == "flv" || suffix == "f4v" || suffix == "m3u8" || suffix == "swf")
+    if (method == "Network.responseReceived") // Check if url matches
     {
-        QUrl new_url = req.url();
-        new_url.setHost("127.0.0.1");
-        req.setUrl(new_url);
-    }
-
-    QNetworkReply *reply = QNetworkAccessManager::createRequest(op, req, outgoingData);
-
-    // watch response if url matches
-    QString url = req.url().toString();
-    for (int i = 0; i < n_extractors; i++)
-    {
-        if (extractors[i]->match(url))
+        QString url = params["response"].toHash()["url"].toString();
+        id = -1;
+        for (int i = 0; i < n_extractors; i++)
         {
-            QByteArray *data = new QByteArray;
-            connect(reply, &QNetworkReply::readyRead,
-                    std::bind(&SimuParser::onReadyRead, this, reply, data));
-            connect(reply, &QNetworkReply::finished,
-                    std::bind(&SimuParser::onFinished, this, reply, extractors[i], data));
+            if (extractors[i]->match(url))
+                id = i;
+        }
+        if (id != -1) // Url matches, start catching data
+        {
+            catchedUrl = url;
+            catchedRequestId = params["requestId"].toString();
+            selectedExtractor = id;
         }
     }
-    return reply;
+    else if (method == "Network.loadingFinished" && !catchedUrl.isEmpty()) // Catching finished, request body
+    {
+        QString requestId = params["requestId"].toString();
+        if (requestId == catchedRequestId)
+        {
+            QVariantHash newParams;
+            newParams["requestId"] = catchedRequestId;
+            chromiumDebugger->send(1, "Network.getResponseBody", newParams);
+        }
+    }
 }
 
-void SimuParser::onReadyRead(QNetworkReply *reply, QByteArray *data)
+// read body
+void SimuParser::onChromiumResult(int id, const QVariantHash &result)
 {
-    data->append(reply->readAll());
+    if (result.contains("body"))
+    {
+        QByteArray data = result["body"].toString().toUtf8();
+        PyObject *result = extractors[selectedExtractor]->parse(data);
+        if (result == NULL)
+        {
+            QString errString = QString("Python Exception:\n%1\n\nRequest URL: %2\n\nResponse Content:\n%3").arg(
+                        fetchPythonException(), catchedUrl, QString::fromUtf8(data));
+            emit parseError(errString);
+        }
+        else
+        {
+            webengineView->setUrl(QUrl("about:blank"));
+            webengineView->close();
+            emit parseFinished(result);
+            Py_DecRef(result);
+        }
+        catchedUrl.clear();
+    }
 }
 
-void SimuParser::onFinished(QNetworkReply *reply, Extractor *extractor, QByteArray *data)
-{
-    data->append(reply->readAll());
-    PyObject *result = extractor->parse(*data);
-    if (result == NULL)
-    {
-        QString errString = QString("Python Exception:\n%1\n\nRequest URL: %2\n\nResponse Content:\n%3").arg(
-                    fetchPythonException(), reply->url().toString(), QString::fromUtf8(*data));
-        emit parseError(errString);
-    }
-    else
-    {
-        webview->setUrl(QUrl("about:blank"));
-        webview->close();
-        emit parseFinished(result);
-        Py_DecRef(result);
-    }
-    delete data;
-}

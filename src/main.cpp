@@ -65,6 +65,7 @@ public:
 
 int main(int argc, char *argv[])
 {
+    setenv("QTWEBENGINE_REMOTE_DEBUGGING", "19260", 1);
     QDir currentDir = QDir::current();
 
 #if defined(Q_OS_LINUX)

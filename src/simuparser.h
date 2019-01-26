@@ -1,12 +1,13 @@
 #ifndef SimuParser_H
 #define SimuParser_H
 
-#include <QNetworkAccessManager>
 #include <Python.h>
-class QWebView;
+#include <QObject>
+class QWebEngineView;
+class ChromiumDebugger;
 class Extractor;
 
-class SimuParser : public QNetworkAccessManager
+class SimuParser : public QObject
 {
     Q_OBJECT
 public:
@@ -17,14 +18,16 @@ signals:
     void parseFinished(PyObject *o);
     void parseError(const QString &errMsg);
 
-protected:
-    virtual QNetworkReply *createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData);
-
 private:
-    void onReadyRead(QNetworkReply *reply, QByteArray *data);
-    void onFinished(QNetworkReply *reply, Extractor *extractor, QByteArray *data);
+    void onChromiumConnected(void);
+    void onChromiumEvent(int id, const QString &method, const QVariantHash &params);
+    void onChromiumResult(int id, const QVariantHash &result);
 
-    QWebView *webview;
+    int selectedExtractor;
+    QString catchedUrl;
+    QString catchedRequestId;
+    QWebEngineView *webengineView;
+    ChromiumDebugger *chromiumDebugger;
 };
 
 #endif // SimuParser_H

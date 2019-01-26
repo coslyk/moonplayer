@@ -9,6 +9,7 @@
 #include "selectiondialog.h"
 #include "settings_audio.h"
 #include "settingsdialog.h"
+#include "simuparserbridge.h"
 #include "skin.h"
 #include "utils.h"
 #include "ykdlbridge.h"
@@ -23,7 +24,6 @@
 #include <QMimeData>
 #include <QResizeEvent>
 #include <QTimer>
-
 
 PlayerView::PlayerView(QWidget *parent) :
     QWidget(parent, Qt::FramelessWindowHint),
@@ -168,6 +168,9 @@ PlayerView::PlayerView(QWidget *parent) :
     hideTimer = new QTimer(this);
     hideTimer->setSingleShot(true);
     setMouseTracking(true);
+
+    // create parser
+    simuParserBridge.initParser();
 
     connect(core, &PlayerCore::lengthChanged, this, &PlayerView::onLengthChanged);
     connect(core, &PlayerCore::sizeChanged, this, &PlayerView::onSizeChanged);
