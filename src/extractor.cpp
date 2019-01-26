@@ -18,7 +18,7 @@ void initExtractors()
     while (!list.isEmpty())
     {
         QString filename = list.takeFirst();
-        if (filename.startsWith("extractor_") && filename.endsWith(".py"))
+        if (filename.startsWith("ext_") && filename.endsWith(".py"))
         {
             array[n_extractors] = new Extractor(filename.section('.', 0, 0));
             n_extractors++;

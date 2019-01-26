@@ -24,6 +24,10 @@ else
     alias fetcher="wget -q -O -"
 fi
 
+# Remove plugins using outdated APIs
+cd "$DEST_DIR"
+rm -f extractor_*
+
 
 cd "$TMPDIR"
 echo ""
