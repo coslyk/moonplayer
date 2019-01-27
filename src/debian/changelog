@@ -1,3 +1,12 @@
+moonplayer (2.5-1~cosmic) cosmic; urgency=medium
+
+  * v2.5
+  * Remind users to relaunch MoonPlayer after updating plugins
+  * Replace the unmaintained QWebkit with QWebEngine
+  * Fix: Cannot play video from dilidili
+
+ -- YK Liu <cos.lyk@gmail.com>  Sun, 27 Jan 2019 11:29:58 +0100
+
 moonplayer (2.4-1~cosmic) cosmic; urgency=medium
 
   * v2.4
