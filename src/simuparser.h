@@ -2,6 +2,7 @@
 #define SimuParser_H
 
 #include <Python.h>
+#include <QNetworkCookie>
 #include <QWebEngineView>
 class ChromiumDebugger;
 class Extractor;
@@ -20,11 +21,13 @@ public:
 signals:
     void parseError(const QString &errMsg);
 
-private:
+private slots:
     void onChromiumConnected(void);
     void onChromiumEvent(int id, const QString &method, const QVariantHash &params);
     void onChromiumResult(int id, const QVariantHash &result);
+    void onCookieAdded(const QNetworkCookie &cookie);
 
+private:
     int selectedExtractor;
     QString catchedUrl;
     QString catchedRequestId;

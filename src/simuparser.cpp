@@ -1,14 +1,13 @@
 #include "simuparser.h"
+#include <QNetworkCookieJar>
 #include <QNetworkReply>
+#include <QWebEngineCookieStore>
 #include <QWebEngineProfile>
 #include <QWebEngineView>
 #include "accessmanager.h"
 #include "chromiumdebugger.h"
 #include "extractor.h"
 #include "pyapi.h"
-#include "settings_network.h"
-#include "utils.h"
-
 
 /* Initialization */
 SimuParser::SimuParser(QObject *parent) :
@@ -17,6 +16,8 @@ SimuParser::SimuParser(QObject *parent) :
     // set profile
     QWebEngineProfile *profile = QWebEngineProfile::defaultProfile();
     profile->setHttpUserAgent(DEFAULT_UA);
+    connect(profile->cookieStore(), &QWebEngineCookieStore::cookieAdded, this, &SimuParser::onCookieAdded);
+    profile->cookieStore()->loadAllCookies();
 
     // create chromium instance
     webengineView = new QWebEngineView;
@@ -46,9 +47,6 @@ void SimuParser::parse(const QString &url)
         emit parseError(tr("This URL is not supported now!"));
         return;
     }
-
-    // apply proxy settings
-    // to be finished
 
     // load url
     webengineView->setUrl(QUrl(url));
@@ -105,3 +103,8 @@ void SimuParser::onChromiumResult(int id, const QVariantHash &result)
     }
 }
 
+/* Load cookies from QWebEngine */
+void SimuParser::onCookieAdded(const QNetworkCookie &cookie)
+{
+    access_manager->cookieJar()->insertCookie(cookie);
+}
