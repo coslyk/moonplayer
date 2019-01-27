@@ -20,7 +20,7 @@ SimuParser::SimuParser(QObject *parent) :
 
     // create chromium instance
     webengineView = new QWebEngineView;
-    webengineView->show();
+    webengineView->setUrl(QUrl("about:blank"));  // A trick to wait until QWebengine's initialization finishes
 
     // create debugger
     chromiumDebugger = new ChromiumDebugger(this);
@@ -32,9 +32,7 @@ SimuParser::SimuParser(QObject *parent) :
 
 void SimuParser::onChromiumConnected()
 {
-    webengineView->close();
     // enable network monitoring
-    QVariantHash params;
     chromiumDebugger->send(1, "Network.enable");
 }
 
