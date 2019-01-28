@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          MoonPlayer Helper
 // @description   Open URLs in MoonPlayer
-// @version       1.1.0
+// @version       1.2.0
 // @license       GPLv3
 // @author        coslyk
 // @email         cos.lyk@gmail.com
@@ -40,6 +40,8 @@
 // @include       http://*.youku.com/*
 // @include       https://*.youku.com/*
 // @include       https://*.youtube.com/*
+// @include       http://*.dilidili.wang/*
+// @include       https://*.dilidili.wang/*
 // @updateURL     https://github.com/coslyk/moonplayer/raw/master/MoonPlayer_Helper.user.js
 // ==/UserScript==
 
