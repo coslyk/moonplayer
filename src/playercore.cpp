@@ -21,9 +21,16 @@
 #include <QGuiApplication>
 #include <QX11Info>
 #include <qpa/qplatformnativeinterface.h>
+
+#ifdef Q_PROCESSOR_ARM
+    #ifndef GLAPIENTRY
+    #define GLAPIENTRY __stdcall
+    #endif
+#endif // Q_PROCESSOR_ARM
 #ifndef GLAPIENTRY
 #define GLAPIENTRY
-#endif
+#endif // GLAPIENTRY
+
 static void *GLAPIENTRY glMPGetNativeDisplay(const char *name)
 {
     if (strcmp(name, "wl") == 0 && !QX11Info::isPlatformX11())
@@ -32,7 +39,7 @@ static void *GLAPIENTRY glMPGetNativeDisplay(const char *name)
         return QX11Info::display();
     return NULL;
 }
-#endif
+#endif // Q_OS_LINUX
 
 static void postEvent(void *ptr)
 {
