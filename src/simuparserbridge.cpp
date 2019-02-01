@@ -1,6 +1,5 @@
 #include "simuparserbridge.h"
 #include "simuparser.h"
-#include "utils.h"
 #include "selectiondialog.h"
 #include <QRegularExpression>
 
@@ -24,41 +23,27 @@ void SimuParserBridge::runParser(const QString &url)
     parser->parse(url);
 }
 
-void SimuParserBridge::onParseFinished(PyObject *dict)
+void SimuParserBridge::onParseFinished(const QVariantHash &data)
 {
     parser->closeWebview();
 
-    PyObject *obj = PyDict_GetItemString(dict, "title");
-    result.title = PyString_AsQString(obj);
-
-    // Danmaku
-    obj = PyDict_GetItemString(dict, "danmaku_url");
-    if (obj)
-        result.danmaku_url = PyString_AsQString(obj);
+    result.title = data["title"].toString();
+    result.danmaku_url = data["danmaku_url"].toString();
 
     // read streams
-    obj = PyDict_GetItemString(dict, "streams");
+    QVariantList streams = data["streams"].toList();
     QStringList stream_types;
-    QHash<QString, PyObject*> srcs;
-    for (int i = 0; i < PyList_Size(obj); i++)
-    {
-        PyObject *item = PyList_GetItem(obj, i);
-        QString type = PyString_AsQString(PyDict_GetItemString(item, "type"));
-        stream_types << type;
-        srcs[type] = PyDict_GetItemString(item, "srcs");
-    }
+    foreach (QVariant item, streams)
+        stream_types << item.toHash()["type"].toString();
 
     // select video quality
-    QString selected = selectionDialog->showDialog(stream_types,
-                                               tr("Please select a video quality:"));
-    if (selected.isEmpty())
+    int selected = selectionDialog->showDialog_Index(stream_types,
+                                                     tr("Please select a video quality:"));
+    if (selected == -1) // no item selected
         return;
-    obj = srcs[selected];
-    for (int i = 0; i < PyList_Size(obj); i++)
-    {
-        PyObject *item = PyList_GetItem(obj, i);
-        result.urls << PyString_AsQString(item);
-    }
+
+    // Set source urls
+    result.urls = streams[selected].toHash()["srcs"].toStringList();
 
     // find out container
     if (!result.urls.isEmpty())

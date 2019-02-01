@@ -291,7 +291,13 @@ static PyObject *finish_parsing(PyObject *, PyObject *args)
     PyObject *dict = NULL;
     if (!PyArg_ParseTuple(args, "O", &dict))
         return NULL;
-    simuParserBridge.onParseFinished(dict);
+    if (!PyDict_Check(dict))
+    {
+        PyErr_SetString(PyExc_TypeError, "The argument is not a dict.");
+        return NULL;
+    }
+    QVariantHash data = PyObject_AsQVariant(dict).toHash();
+    simuParserBridge.onParseFinished(data);
     Py_IncRef(Py_None);
     return Py_None;
 }

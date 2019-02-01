@@ -2,7 +2,6 @@
 #define SIMUPARSERBRIDGE_H
 
 #include "parserbridge.h"
-#include <Python.h>
 class SimuParser;
 
 class SimuParserBridge : public ParserBridge
@@ -11,7 +10,7 @@ class SimuParserBridge : public ParserBridge
 public:
     SimuParserBridge(QObject *parent = 0);
     void initParser(void);
-    void onParseFinished(PyObject *dict);
+    void onParseFinished(const QVariantHash &data);
 
 protected:
     void runParser(const QString &url);
