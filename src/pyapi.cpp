@@ -25,13 +25,6 @@ bool win_debug = false;
 #define RETURN_IF_ERROR(retval)  if ((retval) == NULL){PyErr_Print(); return;}
 #define EXIT_IF_ERROR(retval)    if ((retval) == NULL){PyErr_Print(); exit(EXIT_FAILURE);}
 
-void call_py_func_vsi(PyObject *func, const char *first, int second)
-{
-    PyObject *ret = PyObject_CallFunction(func, "si", first, second);
-    RETURN_IF_ERROR(ret)
-    Py_DecRef(ret);
-}
-
 QString fetchPythonException()
 {
     static PyObject *tracebackFunc = nullptr;
