@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QList>
 #include <QListWidgetItem>
-#include <Python.h>
 
 namespace Ui {
 class ResLibrary;
@@ -22,7 +21,7 @@ public:
     explicit ResLibrary(QWidget *parent = 0);
     void addItem(const QString &name, const QByteArray &pic_url, const QByteArray &flag);
     void clearItem(void);
-    PyObject *openDetailPage(PyObject *dict);
+    void openDetailPage(const QVariantHash &data);
 
 private:
     Ui::ResLibrary *ui;

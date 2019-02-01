@@ -2,8 +2,6 @@
 #define DETAILVIEW_H
 
 #include <QWidget>
-#include <Python.h>
-#include <QVector>
 
 namespace Ui {
 class DetailView;
@@ -17,12 +15,12 @@ class DetailView : public QWidget
 public:
     explicit DetailView(QWidget *parent = 0);
     ~DetailView();
-    PyObject *loadDetail(PyObject *dict);
+    void loadDetail(const QVariantHash &data);
 
 private:
     Ui::DetailView *ui;
     QNetworkReply *reply;
-    QVector<QByteArray> urls;
+    QStringList urls;
 
 private slots:
     void onImageLoaded(void);

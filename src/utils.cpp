@@ -13,6 +13,7 @@
 #include "settings_player.h"
 #endif
 
+/* Convert a Python string (including Unicode in Py2 and Bytes in Py3) to a QString */
 QString PyString_AsQString(PyObject *pystr)
 {
     if (PyUnicode_Check(pystr))
@@ -28,6 +29,71 @@ QString PyString_AsQString(PyObject *pystr)
         return QString();
 }
 
+/* Convert a Python object to a QVariant */
+QVariant PyObject_AsQVariant(PyObject *obj)
+{
+    // Dict -> QVariantHash
+    if (PyDict_Check(obj))
+    {
+        QVariantHash result;
+        Py_ssize_t pos = 0;
+        PyObject *pykey, *pyval;
+        while (PyDict_Next(obj, &pos, &pykey, &pyval))
+        {
+            QString key = PyString_AsQString(pykey);
+            result[key] = PyObject_AsQVariant(pyval);
+        }
+        return result;
+    }
+    // List -> QVariantList
+    else if (PyList_Check(obj))
+    {
+        QVariantList result;
+        Py_ssize_t len = PyList_Size(obj);
+        for (Py_ssize_t i = 0; i < len; i++)
+        {
+            PyObject *item = PyList_GetItem(obj, i);
+            result << PyObject_AsQVariant(item);
+        }
+        return result;
+    }
+    // Tuple -> QVariantList
+    else if (PyTuple_Check(obj))
+    {
+        QVariantList result;
+        Py_ssize_t len = PyTuple_Size(obj);
+        for (Py_ssize_t i = 0; i < len; i++)
+        {
+            PyObject *item = PyTuple_GetItem(obj, i);
+            result << PyObject_AsQVariant(item);
+        }
+        return result;
+    }
+    // Long
+    else if (PyLong_Check(obj))
+        return PyLong_AsLongLong(obj);
+
+    // Int
+    else if (PyInt_Check(obj))
+        return (long long) PyInt_AsLong(obj);
+
+    // Float
+    else if (PyFloat_Check(obj))
+        return PyFloat_AsDouble(obj);
+
+    // String
+    else if (PyUnicode_Check(obj) || PyString_Check(obj))
+        return PyString_AsQString(obj);
+
+    // Unknown
+    else
+    {
+        qDebug("Error: convert an PyObject of unknown type to QVariant.");
+        return QVariant();
+    }
+}
+
+/* Convert a Python list to a QStringList */
 QStringList PyList_AsQStringList(PyObject *listobj)
 {
     QStringList list;

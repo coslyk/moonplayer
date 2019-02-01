@@ -1,6 +1,5 @@
 #include "detailview.h"
 #include "ui_detailview.h"
-#include "utils.h"
 #include "accessmanager.h"
 #include "parserbridge.h"
 #include <Python.h>
@@ -25,41 +24,23 @@ DetailView::~DetailView()
     delete ui;
 }
 
-PyObject* DetailView::loadDetail(PyObject *dict)
+
+void DetailView::loadDetail(const QVariantHash &data)
 {
     static QString nameFmt = "<span style=\" font-size:16pt; font-weight:600;\">%1</span> (rating: %2)";
-    if (!PyDict_Check(dict))
-    {
-        PyErr_SetString(PyExc_TypeError, "The argument is not a dict.");
-        return NULL;
-    }
 
-    PyObject *item;
-    QString name;
-    //name
-    if (NULL != (item = PyDict_GetItemString(dict, "name")))
-    {
-        name = PyString_AsQString(item);
-        setWindowTitle(name + tr(" - Detail page"));
-    }
+    // name
+    QString name = data["name"].toString();
+    setWindowTitle(name + tr(" - Detail page"));
 
     //rating
-    if (NULL != (item = PyDict_GetItemString(dict, "rating")))
-        ui->nameLabel->setText(nameFmt.arg(name, QString::number(PyFloat_AsDouble(item))));
-    else
-        ui->nameLabel->setText(nameFmt.arg(name, tr("Unknown")));
+    ui->nameLabel->setText(nameFmt.arg(name, data["rating"].toString()));
 
     //length
-    if (NULL != (item = PyDict_GetItemString(dict, "length")))
-        ui->lengthLabel->setText(PyString_AsQString(item));
-    else
-        ui->lengthLabel->setText(tr("Unknown"));
+    ui->lengthLabel->setText(data["length"].toString());
 
     //summary
-    if (NULL != (item = PyDict_GetItemString(dict, "summary")))
-        ui->summaryLabel->setText(PyString_AsQString(item));
-    else
-        ui->summaryLabel->setText(tr("Unknown"));
+    ui->summaryLabel->setText(data["summary"].toString());
 
     //others
     struct Item {const char *item_name; QLabel *label;};
@@ -75,43 +56,31 @@ PyObject* DetailView::loadDetail(PyObject *dict)
         {NULL, NULL}
     };
     for (struct Item *i = items; i->item_name; i++) {
-        item = PyDict_GetItemString(dict, i->item_name);
-        if (item) {
-            QStringList list = PyList_AsQStringList(item);
-            i->label->setText(list.join(" / ").simplified());
-        }
-        else
-            i->label->setText(tr("Unknown"));
+        QStringList list = data[i->item_name].toStringList();
+        i->label->setText(list.join(" / ").simplified());
     }
 
 
     // Source
     ui->sourceListWidget->clear();
     urls.clear();
-    item = PyDict_GetItemString(dict, "source");
-    if (item)
+    QStringList list = data["source"].toStringList();
+    int len = list.length();
+    for (int i = 0; i < len; i += 2)
     {
-        int n = PyList_Size(item);
-        for (int i = 0; i < n; i += 2)
-        {
-            QString name = PyString_AsQString(PyList_GetItem(item, i));
-            const char *url = PyString_AsString(PyList_GetItem(item, i+1));
-            ui->sourceListWidget->addItem(name);
-            urls.append(url);
-        }
+        ui->sourceListWidget->addItem(list[i]); // name
+        urls.append(list[i+1]);                 // url
     }
 
     // Image
-    item = PyDict_GetItemString(dict, "image");
-    if (item)
+    QString img = data["image"].toString();
+    if (!img.isEmpty())
     {
-        QNetworkRequest request(QUrl(PyString_AsQString(item)));
-        reply = access_manager->get(request);
+        reply = access_manager->get(QNetworkRequest(img));
         connect(reply, SIGNAL(finished()), this, SLOT(onImageLoaded()));
     }
-    Py_IncRef(Py_None);
-    return Py_None;
 }
+
 
 void DetailView::onImageLoaded()
 {
@@ -125,26 +94,28 @@ void DetailView::onImageLoaded()
     ui->picLabel->setFixedSize(pic.size());
 }
 
+
 void DetailView::onPlay()
 {
     int current_row = ui->sourceListWidget->currentRow();
     if (current_row < 0)
         return;
-    QByteArray url = urls[current_row];
+    QString url = urls[current_row];
     if (url.startsWith("python:"))
-        PyRun_SimpleString(url.mid(7).constData());
+        PyRun_SimpleString(url.toUtf8().mid(7).constData());
     else
         parseUrl(url, false);
 }
+
 
 void DetailView::onDownload()
 {
     int current_row = ui->sourceListWidget->currentRow();
     if (current_row < 0)
         return;
-    QByteArray url = urls[current_row];
+    QString url = urls[current_row];
     if (url.startsWith("python:"))
-        PyRun_SimpleString(url.mid(7).constData());
+        PyRun_SimpleString(url.toUtf8().mid(7).constData());
     else
         parseUrl(url, true);
 }

@@ -158,15 +158,14 @@ void ResLibrary::clearItem()
     listWidget->clearItem();
 }
 
-PyObject* ResLibrary::openDetailPage(PyObject *dict)
+void ResLibrary::openDetailPage(const QVariantHash &data)
 {
     if (detailView == NULL)
     {
         detailView = new DetailView;
         ui->tabWidget->addTab(detailView, "detail");
     }
-    PyObject *retVal = detailView->loadDetail(dict);
+    detailView->loadDetail(data);
     ui->tabWidget->setCurrentIndex(2);
     ui->tabWidget->setTabText(2, detailView->windowTitle());
-    return retVal;
 }
