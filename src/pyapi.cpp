@@ -56,7 +56,7 @@ QString fetchPythonException()
 }
 
 /************************************************
- ** Define download_page() function for python **
+ ** Define get_content() function for python **
  ************************************************/
 
 GetUrl *geturl_obj = NULL;
@@ -147,7 +147,7 @@ void GetUrl::onFinished()
     Py_DecRef(retVal);
 }
 
-static PyObject *get_url(PyObject *, PyObject *args)
+static PyObject *get_content(PyObject *, PyObject *args)
 {
     PyObject *callback, *data;
     const char *url, *referer = NULL;
@@ -300,8 +300,8 @@ static PyObject *finish_parsing(PyObject *, PyObject *args)
  *******************/
 
 static PyMethodDef methods[] = {
-    {"download_page",    get_url,          METH_VARARGS, "Send a HTTP-GET request"},
-    {"get_url",          get_url,          METH_VARARGS, "Send a HTTP-GET request (Obsolete method)"},
+    {"download_page",    get_content,      METH_VARARGS, "Send a HTTP-GET request (Obsolete method)"},
+    {"get_content",      get_content,      METH_VARARGS, "Send a HTTP-GET request"},
     {"post_content",     post_content,     METH_VARARGS, "Send a HTTP-POST request"},
     {"bind_referer",     bind_referer,     METH_VARARGS, "Bind a host with referer"},
     {"force_unseekable", force_unseekable, METH_VARARGS, "Force stream with specific host to be unseekable"},
