@@ -9,9 +9,10 @@ class Extractor
 {
 public:
     Extractor(const QString &name);
-    PyObject *parse(const QByteArray &data);
-    bool match(const QString &url);
-    static bool isSupported(const QString &host);
+    QString parse(const QByteArray &data); // Parse the catched data, return error string
+    bool match(const QString &url);        // Check if the catched data with url can be processed
+
+    static bool isSupported(const QString &host);  // Check if the website with host can be extracted
 
 private:
     PyObject *module;

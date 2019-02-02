@@ -3,11 +3,11 @@
 #include <QNetworkReply>
 #include <QWebEngineCookieStore>
 #include <QWebEngineProfile>
+#include <QWebEngineSettings>
 #include <QWebEngineView>
 #include "accessmanager.h"
 #include "chromiumdebugger.h"
 #include "extractor.h"
-#include "pyapi.h"
 
 /* Initialization */
 SimuParser::SimuParser(QObject *parent) :
@@ -16,6 +16,8 @@ SimuParser::SimuParser(QObject *parent) :
     // set profile
     QWebEngineProfile *profile = QWebEngineProfile::defaultProfile();
     profile->setHttpUserAgent(DEFAULT_UA);
+    profile->settings()->setAttribute(QWebEngineSettings::AutoLoadImages, false);
+    profile->settings()->setAttribute(QWebEngineSettings::AutoLoadIconsForPage, false);
     connect(profile->cookieStore(), &QWebEngineCookieStore::cookieAdded, this, &SimuParser::onCookieAdded);
     profile->cookieStore()->loadAllCookies();
 
@@ -90,15 +92,9 @@ void SimuParser::onChromiumResult(int id, const QVariantHash &result)
     if (result.contains("body"))
     {
         QByteArray data = result["body"].toString().toUtf8();
-        PyObject *result = extractors[selectedExtractor]->parse(data);
-        if (result == NULL)
-        {
-            QString errString = QString("Python Exception:\n%1\n\nRequest URL: %2\n\nResponse Content:\n%3").arg(
-                        fetchPythonException(), catchedUrl, QString::fromUtf8(data));
-            emit parseError(errString);
-        }
-        else
-            Py_DecRef(result);
+        QString err = extractors[selectedExtractor]->parse(data);
+        if (!err.isEmpty())
+            emit parseError(err);
         catchedUrl.clear();
     }
 }

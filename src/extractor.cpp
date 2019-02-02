@@ -1,5 +1,6 @@
 #include "extractor.h"
 #include "platforms.h"
+#include "pyapi.h"
 #include "utils.h"
 #include <QDir>
 
@@ -71,9 +72,17 @@ bool Extractor::match(const QString &url)
 }
 
 
-PyObject *Extractor::parse(const QByteArray &data)
+QString Extractor::parse(const QByteArray &data)
 {
-    return PyObject_CallFunction(parseFunc, "s", data.constData());
+    PyObject *result = PyObject_CallFunction(parseFunc, "s", data.constData());
+    if (result == NULL)
+        return QString("Python Exception:\n%1\n\nResponse Content:\n%3").arg(
+                    fetchPythonException(), QString::fromUtf8(data));
+    else
+    {
+        Py_DecRef(result);
+        return QString();
+    }
 }
 
 bool Extractor::isSupported(const QString &host)
