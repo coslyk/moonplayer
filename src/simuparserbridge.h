@@ -9,7 +9,6 @@ class SimuParserBridge : public ParserBridge
     Q_OBJECT
 public:
     SimuParserBridge(QObject *parent = 0);
-    void initParser(void);
     void onParseFinished(const QVariantHash &data);
 
 protected:

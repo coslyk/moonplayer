@@ -159,9 +159,6 @@ int main(int argc, char *argv[])
     printf("Initialize API for Python...\n");
     initPython();
     initExtractors();
-    ykdl_bridge = new YkdlBridge(&a);
-    youtubedl_bridge = new YoutubeDLBridge(&a);
-    simuParserBridge = new SimuParserBridge(&a);
 
     //translate moonplayer
     printf("Initialize language support...\n");
@@ -180,6 +177,12 @@ int main(int argc, char *argv[])
     PlayerView *player_view = new PlayerView;
     player_view->show();
 
+    // create video parsers
+    ykdl_bridge = new YkdlBridge(&a);
+    youtubedl_bridge = new YoutubeDLBridge(&a);
+    simuParserBridge = new SimuParserBridge(&a);
+
+    // open file / url
     for (int i = 1; i < argc; i++)
     {
         QTextCodec* codec = QTextCodec::codecForLocale();

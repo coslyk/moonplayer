@@ -8,11 +8,6 @@ SimuParserBridge *simuParserBridge;
 SimuParserBridge::SimuParserBridge(QObject *parent) :
     ParserBridge(parent)
 {
-    parser = NULL;
-}
-
-void SimuParserBridge::initParser()
-{
     parser = new SimuParser(this);
     connect(parser, &SimuParser::parseError, this, &SimuParserBridge::showErrorDialog);
 }
