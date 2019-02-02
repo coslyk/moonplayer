@@ -45,7 +45,6 @@ SOURCES += main.cpp\
     youtubedlbridge.cpp \
     chromiumdebugger.cpp \
     extractor.cpp \
-    simuparser.cpp \
     simuparserbridge.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
@@ -90,7 +89,6 @@ HEADERS  +=\
     youtubedlbridge.h \
     chromiumdebugger.h \
     extractor.h \
-    simuparser.h \
     simuparserbridge.h
 !macx: HEADERS += localserver.h \
     localsocket.h
