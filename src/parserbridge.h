@@ -2,7 +2,6 @@
 #define PARSERBRIDGE_H
 
 #include <QObject>
-class QProcess;
 class SelectionDialog;
 
 class ParserBridge : public QObject

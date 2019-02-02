@@ -11,9 +11,7 @@
 #include <QDir>
 #include <QEvent>
 #include <QHash>
-#include <QLabel>
 #include <QMessageBox>
-#include <QMouseEvent>
 #include <QOpenGLContext>
 
 // wayland fix

@@ -4,19 +4,15 @@
 #include "settings_danmaku.h"
 #include "ui_settingsdialog.h"
 #include "accessmanager.h"
-#include <QNetworkAccessManager>
-#include <QNetworkProxy>
 #include <QDesktopServices>
 #include <QDesktopWidget>
 #include <QDir>
 #include <QSettings>
-#include <QButtonGroup>
 #include <QFileDialog>
 #include <QFontDialog>
 #include <QInputDialog>
 #include <QMessageBox>
 #include "settings_audio.h"
-#include "plugin.h"
 #include "utils.h"
 #include "platforms.h"
 

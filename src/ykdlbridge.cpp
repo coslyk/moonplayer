@@ -11,7 +11,6 @@
 #include <QJsonParseError>
 #include <QMessageBox>
 #include <QProcess>
-#include <QRegularExpression>
 
 YkdlBridge *ykdl_bridge;
 

@@ -1,17 +1,12 @@
 #include "danmakuloader.h"
 #include "accessmanager.h"
-#include "platforms.h"
-#include "pyapi.h"
 #include "settings_danmaku.h"
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QDir>
-#include <QProcess>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QTimer>
-#include <QFile>
-#include <QMessageBox>
 
 DanmakuLoader::DanmakuLoader(QObject *parent) : QObject(parent)
 {

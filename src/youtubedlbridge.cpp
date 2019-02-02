@@ -12,7 +12,6 @@
 #include <QJsonParseError>
 #include <QMessageBox>
 #include <QProcess>
-#include <QRegularExpression>
 
 YoutubeDLBridge *youtubedl_bridge;
 

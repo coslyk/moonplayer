@@ -3,10 +3,8 @@
 #include "accessmanager.h"
 #include "parserbridge.h"
 #include <Python.h>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QMessageBox>
 
 DetailView::DetailView(QWidget *parent) :
     QWidget(parent),

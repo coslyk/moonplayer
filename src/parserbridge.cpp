@@ -10,7 +10,6 @@
 #include "reslibrary.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
-#include "settingsdialog.h"
 #include "terminal.h"
 #include "ykdlbridge.h"
 #include "youtubedlbridge.h"

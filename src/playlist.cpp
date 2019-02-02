@@ -3,15 +3,9 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QMessageBox>
-#include <QTimer>
-#include <QListWidget>
 #include <QMenu>
-#include <QFile>
-#include <QUrl>
-#include "skin.h"
 #include "utils.h"
 #include "parserbridge.h"
-#include "pyapi.h"
 
 class ItemForPlaylist : public QListWidgetItem
 {

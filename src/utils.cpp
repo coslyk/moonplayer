@@ -1,12 +1,8 @@
 #include "utils.h"
 #include "accessmanager.h"
-#include <QCoreApplication>
-#include <QFile>
-#include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QList>
-#include <QNetworkAccessManager>
 #include <QNetworkCookie>
 #include <QNetworkCookieJar>
 #ifdef Q_OS_WIN

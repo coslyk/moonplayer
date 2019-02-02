@@ -2,6 +2,8 @@
 #define YOUTUBEDLBRIDGE_H
 
 #include "parserbridge.h"
+class QProcess;
+class QWidget;
 
 class YoutubeDLBridge : public ParserBridge
 {

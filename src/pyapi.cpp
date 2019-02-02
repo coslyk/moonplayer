@@ -1,19 +1,13 @@
 #include "pyapi.h"
 #include "accessmanager.h"
-#include "downloader.h"
-#include "playlist.h"
-#include "playercore.h"
+#include "platforms.h"
 #include "reslibrary.h"
 #include "utils.h"
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QApplication>
-#include <QColor>
 #include <QMessageBox>
-#include <QDir>
 #include <QTimer>
-#include "danmakudelaygetter.h"
 #include "simuparserbridge.h"
 
 
@@ -279,6 +273,9 @@ static PyObject *show_detail(PyObject *, PyObject *args)
     return Py_None;
 }
 
+/*******************
+ ** Video parsing **
+ *******************/
 static PyObject *finish_parsing(PyObject *, PyObject *args)
 {
     PyObject *dict = NULL;
@@ -290,7 +287,7 @@ static PyObject *finish_parsing(PyObject *, PyObject *args)
         return NULL;
     }
     QVariantHash data = PyObject_AsQVariant(dict).toHash();
-    simuParserBridge.onParseFinished(data);
+    simuParserBridge->onParseFinished(data);
     Py_IncRef(Py_None);
     return Py_None;
 }
@@ -315,19 +312,26 @@ static PyMethodDef methods[] = {
 
 PyObject *apiModule = NULL;
 
-void initAPI()
+void initPython()
 {
     //init python
+    setenv("PYTHONIOENCODING", "utf-8", 1);
     Py_Initialize();
     if (!Py_IsInitialized())
     {
         qDebug("Cannot initialize python.");
         exit(-1);
     }
+
     //init module
     geturl_obj = new GetUrl(qApp);
     apiModule = Py_InitModule("moonplayer", methods);
     PyModule_AddStringConstant(apiModule, "final_url", "");
     Py_IncRef(exc_GetUrlError);
     PyModule_AddObject(apiModule, "GetUrlError", exc_GetUrlError);
+
+    // plugins' dir
+    PyRun_SimpleString("import sys");
+    PyRun_SimpleString(QString("sys.path.insert(0, '%1/plugins')").arg(getAppPath()).toUtf8().constData());
+    PyRun_SimpleString(QString("sys.path.append('%1/plugins')").arg(getUserPath()).toUtf8().constData());
 }

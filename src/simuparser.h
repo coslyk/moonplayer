@@ -2,10 +2,10 @@
 #define SimuParser_H
 
 #include <Python.h>
-#include <QNetworkCookie>
 #include <QWebEngineView>
 class ChromiumDebugger;
 class Extractor;
+class QNetworkCookie;
 
 class SimuParser : public QObject
 {

@@ -28,7 +28,6 @@ SOURCES += main.cpp\
     mylistwidget.cpp \
     cutterbar.cpp \
     videocombiner.cpp \
-    plugin.cpp \
     selectiondialog.cpp \
     danmakuloader.cpp \
     accessmanager.cpp \
@@ -76,7 +75,6 @@ HEADERS  +=\
     videocombiner.h \
     settings_danmaku.h \
     playercore.h \
-    plugin.h \
     selectiondialog.h \
     danmakudelaygetter.h \
     danmakuloader.h \

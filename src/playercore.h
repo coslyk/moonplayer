@@ -2,11 +2,6 @@
 #define MPLAYER_H
 
 #include <QOpenGLWidget>
-#include <QHash>
-class QTimer;
-class QProcess;
-class QResizeEvent;
-class QLabel;
 class DanmakuLoader;
 #include <mpv/client.h>
 #include <mpv/opengl_cb.h>

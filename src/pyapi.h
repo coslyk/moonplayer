@@ -34,7 +34,7 @@ extern PyObject *exc_GetUrlError;
 
 ///////Module
 extern PyObject *apiModule;
-void initAPI(void);
+void initPython(void);
 QString fetchPythonException();
 extern bool win_debug;
 

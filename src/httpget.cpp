@@ -1,12 +1,8 @@
 #include "httpget.h"
 #include "accessmanager.h"
-#include <QApplication>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QFile>
-#include <QDir>
-#include <QTimer>
-#include <iostream>
 
 //start download task
 HttpGet::HttpGet(const QUrl &url, const QString &filename, QObject *parent) :

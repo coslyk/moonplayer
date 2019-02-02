@@ -3,9 +3,7 @@
 
 #include <QWidget>
 
-class QVBoxLayout;
 class QTreeWidget;
-class QPushButton;
 class QTreeWidgetItem;
 class DownloaderGroup;
 class DownloaderItem;

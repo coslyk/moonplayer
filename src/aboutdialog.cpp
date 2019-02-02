@@ -1,10 +1,7 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 #include "accessmanager.h"
-#include "platforms.h"
-#include <QDir>
 #include <QMessageBox>
-#include <QNetworkAccessManager>
 #include <QNetworkReply>
 
 static const int currentVersion =

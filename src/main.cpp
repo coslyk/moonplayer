@@ -6,18 +6,15 @@
 #include <locale.h>
 #include <QDir>
 #include <QFile>
-#include <QIcon>
 #include <QLocale>
 #include <QDebug>
 #include <QSettings>
 #include <QTextCodec>
-#include <Python.h>
 #include "detectopengl.h"
 #include "extractor.h"
 #include "pyapi.h"
 #include "platforms.h"
 #include "playerview.h"
-#include "plugin.h"
 #include "ykdlbridge.h"
 #include "youtubedlbridge.h"
 #include "simuparserbridge.h"
@@ -160,8 +157,7 @@ int main(int argc, char *argv[])
         upgradeParsers();
 
     printf("Initialize API for Python...\n");
-    initAPI();
-    initPlugins();
+    initPython();
     initExtractors();
     ykdl_bridge = new YkdlBridge(&a);
     youtubedl_bridge = new YoutubeDLBridge(&a);

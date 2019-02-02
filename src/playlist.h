@@ -4,7 +4,6 @@
 #include <QWidget>
 class QListWidgetItem;
 class QMenu;
-class QDir;
 
 namespace Ui {
 class Playlist;

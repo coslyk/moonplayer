@@ -2,10 +2,6 @@
 #define SKIN_H
 
 #include <QWidget>
-class QString;
-class QPushButton;
-class QPixmap;
-
 
 class Border : public QWidget
 {

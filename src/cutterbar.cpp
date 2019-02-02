@@ -5,7 +5,6 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QProcess>
-#include <QTimer>
 #include <QTextCodec>
 
 CutterBar::CutterBar(QWidget *parent) :

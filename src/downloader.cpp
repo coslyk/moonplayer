@@ -8,7 +8,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
-#include <QHash>
 #include "httpget.h"
 #include "settings_network.h"
 #include "streamget.h"

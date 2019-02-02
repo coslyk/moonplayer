@@ -78,6 +78,7 @@ Extractor *Extractor::getMatchedExtractor(const QString &url)
         if (extractors[i]->match(url))
             return extractors[i];
     }
+    return nullptr;
 }
 
 

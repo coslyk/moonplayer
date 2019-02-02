@@ -1,7 +1,6 @@
 #include "mylistwidget.h"
 #include "accessmanager.h"
 #include <QNetworkRequest>
-#include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QPixmap>
 

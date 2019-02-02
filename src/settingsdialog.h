@@ -6,7 +6,6 @@
 namespace Ui {
 class SettingsDialog;
 }
-class QButtonGroup;
 
 class SettingsDialog : public QDialog
 {
@@ -18,7 +17,6 @@ public:
     
 private:
     Ui::SettingsDialog *ui;
-    QButtonGroup *group;
 
 private slots:
     void loadSettings(void);

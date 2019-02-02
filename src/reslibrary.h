@@ -2,7 +2,6 @@
 #define RESLIBRARY_H
 
 #include <QWidget>
-#include <QList>
 #include <QListWidgetItem>
 
 namespace Ui {

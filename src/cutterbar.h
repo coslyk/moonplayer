@@ -7,7 +7,6 @@ namespace Ui {
 class CutterBar;
 }
 class QProcess;
-class QTimer;
 
 class CutterBar : public QWidget
 {
