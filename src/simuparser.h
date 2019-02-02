@@ -28,8 +28,7 @@ private slots:
     void onCookieAdded(const QNetworkCookie &cookie);
 
 private:
-    int selectedExtractor;
-    QString catchedUrl;
+    Extractor *matchedExtractor;
     QString catchedRequestId;
     QWebEngineView *webengineView;
     ChromiumDebugger *chromiumDebugger;

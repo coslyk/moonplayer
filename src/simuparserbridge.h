@@ -19,6 +19,6 @@ private:
     SimuParser *parser;
 };
 
-extern SimuParserBridge simuParserBridge;
+extern SimuParserBridge *simuParserBridge;
 
 #endif // SIMUPARSERBRIDGE_H

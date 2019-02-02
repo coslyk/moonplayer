@@ -13,6 +13,7 @@ public:
     bool match(const QString &url);        // Check if the catched data with url can be processed
 
     static bool isSupported(const QString &host);  // Check if the website with host can be extracted
+    static Extractor *getMatchedExtractor(const QString &url);
 
 private:
     PyObject *module;

@@ -157,7 +157,7 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addSeparator();
     menu->addAction(tr("Settings") + "\tCtrl+,", settingsDialog, SLOT(show()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
-    menu->addAction(tr("Upgrade parsers"), &ykdl_bridge, SLOT(upgradeParsers()));
+    menu->addAction(tr("Upgrade parsers"), ykdl_bridge, SLOT(upgradeParsers()));
     menu->addAction(tr("About"), aboutDialog, &AboutDialog::exec);
 
     // create cutterbar
@@ -170,7 +170,7 @@ PlayerView::PlayerView(QWidget *parent) :
     setMouseTracking(true);
 
     // create parser
-    simuParserBridge.initParser();
+    simuParserBridge->initParser();
 
     connect(core, &PlayerCore::lengthChanged, this, &PlayerView::onLengthChanged);
     connect(core, &PlayerCore::sizeChanged, this, &PlayerView::onSizeChanged);

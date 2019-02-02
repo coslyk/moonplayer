@@ -3,7 +3,7 @@
 #include "selectiondialog.h"
 #include <QRegularExpression>
 
-SimuParserBridge simuParserBridge;
+SimuParserBridge *simuParserBridge;
 
 SimuParserBridge::SimuParserBridge(QObject *parent) :
     ParserBridge(parent)

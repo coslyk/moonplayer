@@ -45,5 +45,6 @@ private:
 };
 
 void parseUrl(const QString &url, bool download);
+void upgradeParsers(void);
 
 #endif // PARSERBRIDGE_H

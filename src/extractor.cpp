@@ -71,6 +71,15 @@ bool Extractor::match(const QString &url)
     return match.hasMatch();
 }
 
+Extractor *Extractor::getMatchedExtractor(const QString &url)
+{
+    for (int i = 0; i < n_extractors; i++)
+    {
+        if (extractors[i]->match(url))
+            return extractors[i];
+    }
+}
+
 
 QString Extractor::parse(const QByteArray &data)
 {

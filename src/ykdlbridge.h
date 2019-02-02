@@ -26,5 +26,5 @@ private slots:
     void parseOutput(void);
 };
 
-extern YkdlBridge ykdl_bridge;
+extern YkdlBridge *ykdl_bridge;
 #endif // YKDLBRIDGE_H

@@ -21,6 +21,6 @@ private slots:
     void parseOutput(void);
 };
 
-extern YoutubeDLBridge youtubedl_bridge;
+extern YoutubeDLBridge *youtubedl_bridge;
 
 #endif // YOUTUBEDLBRIDGE_H

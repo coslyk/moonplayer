@@ -162,6 +162,11 @@ void ParserBridge::showErrorDialog(const QString &errMsg)
 
 void ParserBridge::upgradeParsers()
 {
+    upgradeParsers();
+}
+
+void upgradeParsers()
+{
     execShell(parserUpgraderPath());
 }
 
@@ -170,10 +175,10 @@ void parseUrl(const QString &url, bool download)
 {
     QString host = QUrl(url).host();
     if (Extractor::isSupported(host))
-        simuParserBridge.parse(url, download);
+        simuParserBridge->parse(url, download);
     else if (YkdlBridge::isSupported(host))
-        ykdl_bridge.parse(url, download);
+        ykdl_bridge->parse(url, download);
     else
-        youtubedl_bridge.parse(url, download);
+        youtubedl_bridge->parse(url, download);
 }
 

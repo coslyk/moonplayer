@@ -58,23 +58,18 @@ void SimuParser::parse(const QString &url)
 /* Monitor network traffic */
 void SimuParser::onChromiumEvent(int id, const QString &method, const QVariantHash &params)
 {
+    Q_UNUSED(id);
     if (method == "Network.responseReceived") // Check if url matches
     {
         QString url = params["response"].toHash()["url"].toString();
-        id = -1;
-        for (int i = 0; i < n_extractors; i++)
+        Extractor *match = Extractor::getMatchedExtractor(url);
+        if (match)
         {
-            if (extractors[i]->match(url))
-                id = i;
-        }
-        if (id != -1) // Url matches, start catching data
-        {
-            catchedUrl = url;
+            matchedExtractor = match;
             catchedRequestId = params["requestId"].toString();
-            selectedExtractor = id;
         }
     }
-    else if (method == "Network.loadingFinished" && !catchedUrl.isEmpty()) // Catching finished, request body
+    else if (method == "Network.loadingFinished" && matchedExtractor) // Catching finished, request body
     {
         QString requestId = params["requestId"].toString();
         if (requestId == catchedRequestId)
@@ -89,13 +84,14 @@ void SimuParser::onChromiumEvent(int id, const QString &method, const QVariantHa
 // read body
 void SimuParser::onChromiumResult(int id, const QVariantHash &result)
 {
+    Q_UNUSED(id);
     if (result.contains("body"))
     {
         QByteArray data = result["body"].toString().toUtf8();
-        QString err = extractors[selectedExtractor]->parse(data);
+        QString err = matchedExtractor->parse(data);
         if (!err.isEmpty())
             emit parseError(err);
-        catchedUrl.clear();
+        matchedExtractor = nullptr;
     }
 }
 

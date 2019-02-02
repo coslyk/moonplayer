@@ -19,6 +19,8 @@
 #include "playerview.h"
 #include "plugin.h"
 #include "ykdlbridge.h"
+#include "youtubedlbridge.h"
+#include "simuparserbridge.h"
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
@@ -155,12 +157,15 @@ int main(int argc, char *argv[])
 
     // first time to use MoonPlayer?
     if (!QFile::exists(getUserPath() + "/plugins-version.txt"))
-        ykdl_bridge.upgradeParsers();
+        upgradeParsers();
 
     printf("Initialize API for Python...\n");
     initAPI();
     initPlugins();
     initExtractors();
+    ykdl_bridge = new YkdlBridge(&a);
+    youtubedl_bridge = new YoutubeDLBridge(&a);
+    simuParserBridge = new SimuParserBridge(&a);
 
     //translate moonplayer
     printf("Initialize language support...\n");

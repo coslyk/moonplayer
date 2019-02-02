@@ -14,7 +14,7 @@
 #include <QProcess>
 #include <QRegularExpression>
 
-YoutubeDLBridge youtubedl_bridge;
+YoutubeDLBridge *youtubedl_bridge;
 
 YoutubeDLBridge::YoutubeDLBridge(QObject *parent) : ParserBridge(parent)
 {

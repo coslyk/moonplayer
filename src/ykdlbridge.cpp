@@ -13,7 +13,7 @@
 #include <QProcess>
 #include <QRegularExpression>
 
-YkdlBridge ykdl_bridge;
+YkdlBridge *ykdl_bridge;
 
 YkdlBridge::YkdlBridge(QObject *parent) : ParserBridge(parent)
 {
