@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
     // create video parsers
     ykdl_bridge = new YkdlBridge(&a);
     youtubedl_bridge = new YoutubeDLBridge(&a);
-    simuParserBridge = new SimuParserBridge(&a);
+    simuParserBase = new SimuParserBase(&a);
 
     // open file / url
     for (int i = 1; i < argc; i++)

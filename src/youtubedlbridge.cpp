@@ -15,7 +15,7 @@
 
 YoutubeDLBridge *youtubedl_bridge;
 
-YoutubeDLBridge::YoutubeDLBridge(QObject *parent) : ParserBridge(parent)
+YoutubeDLBridge::YoutubeDLBridge(QObject *parent) : ParserBase(parent)
 {
     process = new QProcess(this);
     process->setWorkingDirectory(getUserPath());

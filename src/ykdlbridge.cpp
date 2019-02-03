@@ -14,7 +14,7 @@
 
 YkdlBridge *ykdl_bridge;
 
-YkdlBridge::YkdlBridge(QObject *parent) : ParserBridge(parent)
+YkdlBridge::YkdlBridge(QObject *parent) : ParserBase(parent)
 {
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)),this, SLOT(parseOutput()));

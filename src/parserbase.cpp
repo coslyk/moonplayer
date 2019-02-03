@@ -1,4 +1,4 @@
-#include "parserbridge.h"
+#include "parserbase.h"
 #include <QDir>
 #include <QMessageBox>
 #include <QPushButton>
@@ -17,19 +17,19 @@
 #include "simuparserbridge.h"
 
 
-SelectionDialog *ParserBridge::selectionDialog = NULL;
+SelectionDialog *ParserBase::selectionDialog = NULL;
 
-ParserBridge::ParserBridge(QObject *parent) : QObject(parent)
+ParserBase::ParserBase(QObject *parent) : QObject(parent)
 {
 }
 
 
-ParserBridge::~ParserBridge()
+ParserBase::~ParserBase()
 {
 }
 
 
-void ParserBridge::parse(const QString &url, bool download)
+void ParserBase::parse(const QString &url, bool download)
 {
     if (selectionDialog == NULL)
         selectionDialog = new SelectionDialog;
@@ -47,7 +47,7 @@ void ParserBridge::parse(const QString &url, bool download)
 }
 
 
-void ParserBridge::finishParsing()
+void ParserBase::finishParsing()
 {
     // Check if source is empty
     if (result.urls.isEmpty())
@@ -145,7 +145,7 @@ void ParserBridge::finishParsing()
     }
 }
 
-void ParserBridge::showErrorDialog(const QString &errMsg)
+void ParserBase::showErrorDialog(const QString &errMsg)
 {
     QMessageBox msgBox;
     msgBox.setText("Error");
@@ -159,7 +159,7 @@ void ParserBridge::showErrorDialog(const QString &errMsg)
 }
 
 
-void ParserBridge::upgradeParsers()
+void ParserBase::upgradeParsers()
 {
     upgradeParsers();
 }
@@ -174,7 +174,7 @@ void parseUrl(const QString &url, bool download)
 {
     QString host = QUrl(url).host();
     if (Extractor::isSupported(host))
-        simuParserBridge->parse(url, download);
+        simuParserBase->parse(url, download);
     else if (YkdlBridge::isSupported(host))
         ykdl_bridge->parse(url, download);
     else

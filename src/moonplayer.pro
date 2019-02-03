@@ -38,14 +38,14 @@ SOURCES += main.cpp\
     danmakudelaygetter.cpp \
     terminal.cpp \
     ykdlbridge.cpp \
-    parserbridge.cpp \
     detectopengl.cpp \
     streamget.cpp \
     aboutdialog.cpp \
     youtubedlbridge.cpp \
     chromiumdebugger.cpp \
     extractor.cpp \
-    simuparserbridge.cpp
+    simuparserbridge.cpp \
+    parserbase.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -82,14 +82,14 @@ HEADERS  +=\
     playerview.h \
     terminal.h \
     ykdlbridge.h \
-    parserbridge.h \
     detectopengl.h \
     streamget.h \
     aboutdialog.h \
     youtubedlbridge.h \
     chromiumdebugger.h \
     extractor.h \
-    simuparserbridge.h
+    simuparserbridge.h \
+    parserbase.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 

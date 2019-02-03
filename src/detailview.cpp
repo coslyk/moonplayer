@@ -1,7 +1,7 @@
 #include "detailview.h"
 #include "ui_detailview.h"
 #include "accessmanager.h"
-#include "parserbridge.h"
+#include "parserbase.h"
 #include <Python.h>
 #include <QNetworkRequest>
 #include <QNetworkReply>

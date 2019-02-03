@@ -1,11 +1,11 @@
 #ifndef YOUTUBEDLBRIDGE_H
 #define YOUTUBEDLBRIDGE_H
 
-#include "parserbridge.h"
+#include "parserbase.h"
 class QProcess;
 class QWidget;
 
-class YoutubeDLBridge : public ParserBridge
+class YoutubeDLBridge : public ParserBase
 {
     Q_OBJECT
 public:

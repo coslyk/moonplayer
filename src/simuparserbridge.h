@@ -1,17 +1,17 @@
 #ifndef SIMUPARSERBRIDGE_H
 #define SIMUPARSERBRIDGE_H
 
-#include "parserbridge.h"
+#include "parserbase.h"
 class ChromiumDebugger;
 class Extractor;
 class QNetworkCookie;
 class QWebEngineView;
 
-class SimuParserBridge : public ParserBridge
+class SimuParserBase : public ParserBase
 {
     Q_OBJECT
 public:
-    SimuParserBridge(QObject *parent = 0);
+    SimuParserBase(QObject *parent = 0);
     void onParseFinished(const QVariantHash &data);
 
 protected:
@@ -30,6 +30,6 @@ private:
     ChromiumDebugger *chromiumDebugger;
 };
 
-extern SimuParserBridge *simuParserBridge;
+extern SimuParserBase *simuParserBase;
 
 #endif // SIMUPARSERBRIDGE_H

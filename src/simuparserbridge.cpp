@@ -10,18 +10,18 @@
 #include "extractor.h"
 #include "selectiondialog.h"
 
-SimuParserBridge *simuParserBridge;
+SimuParserBase *simuParserBase;
 
 /* Init */
-SimuParserBridge::SimuParserBridge(QObject *parent) :
-    ParserBridge(parent)
+SimuParserBase::SimuParserBase(QObject *parent) :
+    ParserBase(parent)
 {
     // set profile
     QWebEngineProfile *profile = QWebEngineProfile::defaultProfile();
     profile->setHttpUserAgent(DEFAULT_UA);
     profile->settings()->setAttribute(QWebEngineSettings::AutoLoadImages, false);
     profile->settings()->setAttribute(QWebEngineSettings::AutoLoadIconsForPage, false);
-    connect(profile->cookieStore(), &QWebEngineCookieStore::cookieAdded, this, &SimuParserBridge::onCookieAdded);
+    connect(profile->cookieStore(), &QWebEngineCookieStore::cookieAdded, this, &SimuParserBase::onCookieAdded);
     profile->cookieStore()->loadAllCookies();
 
     // create chromium instance
@@ -30,20 +30,20 @@ SimuParserBridge::SimuParserBridge(QObject *parent) :
 
     // create debugger
     chromiumDebugger = new ChromiumDebugger(this);
-    connect(chromiumDebugger, &ChromiumDebugger::connected, this, &SimuParserBridge::onChromiumConnected);
-    connect(chromiumDebugger, &ChromiumDebugger::eventReceived, this, &SimuParserBridge::onChromiumEvent);
-    connect(chromiumDebugger, &ChromiumDebugger::resultReceived, this, &SimuParserBridge::onChromiumResult);
+    connect(chromiumDebugger, &ChromiumDebugger::connected, this, &SimuParserBase::onChromiumConnected);
+    connect(chromiumDebugger, &ChromiumDebugger::eventReceived, this, &SimuParserBase::onChromiumEvent);
+    connect(chromiumDebugger, &ChromiumDebugger::resultReceived, this, &SimuParserBase::onChromiumResult);
     chromiumDebugger->open(19260);
 }
 
-void SimuParserBridge::onChromiumConnected()
+void SimuParserBase::onChromiumConnected()
 {
     // enable network monitoring
     chromiumDebugger->send(1, "Network.enable");
 }
 
 /* Start parsing */
-void SimuParserBridge::runParser(const QString &url)
+void SimuParserBase::runParser(const QString &url)
 {
     // Check if URL is supported
     if (!Extractor::isSupported(QUrl(url).host()))
@@ -58,7 +58,7 @@ void SimuParserBridge::runParser(const QString &url)
 }
 
 /* Monitor network traffic */
-void SimuParserBridge::onChromiumEvent(int id, const QString &method, const QVariantHash &params)
+void SimuParserBase::onChromiumEvent(int id, const QString &method, const QVariantHash &params)
 {
     Q_UNUSED(id);
     if (method == "Network.responseReceived") // Check if url matches
@@ -84,7 +84,7 @@ void SimuParserBridge::onChromiumEvent(int id, const QString &method, const QVar
 }
 
 // read body
-void SimuParserBridge::onChromiumResult(int id, const QVariantHash &result)
+void SimuParserBase::onChromiumResult(int id, const QVariantHash &result)
 {
     Q_UNUSED(id);
     if (result.contains("body"))
@@ -98,7 +98,7 @@ void SimuParserBridge::onChromiumResult(int id, const QVariantHash &result)
 }
 
 // finish parsing
-void SimuParserBridge::onParseFinished(const QVariantHash &data)
+void SimuParserBase::onParseFinished(const QVariantHash &data)
 {
     webengineView->setUrl(QUrl("about:blank"));
     webengineView->close();
@@ -128,7 +128,7 @@ void SimuParserBridge::onParseFinished(const QVariantHash &data)
 }
 
 /* Load cookies from QWebEngine */
-void SimuParserBridge::onCookieAdded(const QNetworkCookie &cookie)
+void SimuParserBase::onCookieAdded(const QNetworkCookie &cookie)
 {
     access_manager->cookieJar()->insertCookie(cookie);
 }

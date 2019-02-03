@@ -1,15 +1,15 @@
-#ifndef PARSERBRIDGE_H
-#define PARSERBRIDGE_H
+#ifndef PARSERBASE_H
+#define PARSERBASE_H
 
 #include <QObject>
 class SelectionDialog;
 
-class ParserBridge : public QObject
+class ParserBase : public QObject
 {
     Q_OBJECT
 public:
-    explicit ParserBridge(QObject *parent = 0);
-    virtual ~ParserBridge();
+    explicit ParserBase(QObject *parent = 0);
+    virtual ~ParserBase();
     void parse(const QString &url, bool download);
 
 public slots:
@@ -46,4 +46,4 @@ private:
 void parseUrl(const QString &url, bool download);
 void upgradeParsers(void);
 
-#endif // PARSERBRIDGE_H
+#endif // PARSERBASE_H

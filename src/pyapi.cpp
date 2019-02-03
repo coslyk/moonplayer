@@ -287,7 +287,7 @@ static PyObject *finish_parsing(PyObject *, PyObject *args)
         return NULL;
     }
     QVariantHash data = PyObject_AsQVariant(dict).toHash();
-    simuParserBridge->onParseFinished(data);
+    simuParserBase->onParseFinished(data);
     Py_IncRef(Py_None);
     return Py_None;
 }

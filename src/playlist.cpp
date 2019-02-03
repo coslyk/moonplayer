@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include <QMenu>
 #include "utils.h"
-#include "parserbridge.h"
+#include "parserbase.h"
 
 class ItemForPlaylist : public QListWidgetItem
 {
