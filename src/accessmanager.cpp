@@ -26,7 +26,7 @@ QByteArray generateUA(const QUrl &url)
 NetworkAccessManager::NetworkAccessManager(QObject *parent) :
     QNetworkAccessManager(parent)
 {
-    amForUnblock = NULL;
+    amForUnblock = nullptr;
     // read header urls list
     QString header_urls_file = getAppPath() + "/unblockcn/header_urls.txt";
     if (QFile::exists(header_urls_file))
@@ -94,7 +94,7 @@ void NetworkAccessManager::setProxy(const QString &proxyType, const QString &pro
         // libmpv does not use proxy
         unsetenv("http_proxy");
         // access manager for unblocking
-        if (amForUnblock == NULL)
+        if (amForUnblock == nullptr)
             amForUnblock = new QNetworkAccessManager(this);
         amForUnblock->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
     }

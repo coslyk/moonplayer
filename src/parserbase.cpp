@@ -17,7 +17,7 @@
 #include "parserwebcatch.h"
 
 
-SelectionDialog *ParserBase::selectionDialog = NULL;
+SelectionDialog *ParserBase::selectionDialog = nullptr;
 
 ParserBase::ParserBase(QObject *parent) : QObject(parent)
 {
@@ -31,7 +31,7 @@ ParserBase::~ParserBase()
 
 void ParserBase::parse(const QString &url, bool download)
 {
-    if (selectionDialog == NULL)
+    if (selectionDialog == nullptr)
         selectionDialog = new SelectionDialog;
     this->url = url;
     this->download = download;
@@ -119,7 +119,7 @@ void ParserBase::finishParsing()
             for (int i = 0; i < result.urls.size(); i++)
                  downloader->addTask(result.urls[i].toUtf8(), names[i], result.urls.size() > 1);
         }
-        QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
+        QMessageBox::information(nullptr, "Message", tr("Add download task successfully!"));
     }
 
     // Play

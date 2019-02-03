@@ -35,7 +35,7 @@ void AboutDialog::checkUpdateFinished()
         latestVersion = reply->readAll().simplified().toInt();
         ui->latestVersion->setText(QString::number(latestVersion / 100.0));
         if (latestVersion > currentVersion)
-            QMessageBox::warning(NULL, "Moon Player", tr("New version is available."));
+            QMessageBox::warning(nullptr, "Moon Player", tr("New version is available."));
     }
     reply->deleteLater();
 }

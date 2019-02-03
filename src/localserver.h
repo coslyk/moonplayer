@@ -8,7 +8,7 @@ class LocalServer : public QLocalServer
 {
     Q_OBJECT
 public:
-    LocalServer(QObject *parent = NULL);
+    LocalServer(QObject *parent = nullptr);
     ~LocalServer();
 
 private slots:

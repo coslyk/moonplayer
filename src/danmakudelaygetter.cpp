@@ -21,8 +21,8 @@ DanmakuDelayGetter::DanmakuDelayGetter(QStringList &names, QStringList &urls,
         deleteLater();
         return;
     }
-    mpv_set_option(mpv, "no-video", MPV_FORMAT_NONE, NULL);
-    mpv_set_option(mpv, "pause", MPV_FORMAT_NONE, NULL);
+    mpv_set_option(mpv, "no-video", MPV_FORMAT_NONE, nullptr);
+    mpv_set_option(mpv, "pause", MPV_FORMAT_NONE, nullptr);
     mpv_set_option_string(mpv, "ao", "null");
     mpv_set_option_string(mpv, "user-agent", generateUA(urls.first()));
     QString host = QUrl(urls.first()).host();
@@ -45,7 +45,7 @@ DanmakuDelayGetter::~DanmakuDelayGetter()
     if (mpv)
     {
         mpv_detach_destroy(mpv);
-        mpv = NULL;
+        mpv = nullptr;
     }
 }
 
@@ -75,12 +75,12 @@ void DanmakuDelayGetter::start()
     if (!urls.isEmpty())
     {
         QByteArray tmp = url.toUtf8();
-        const char *args[] = {"loadfile", tmp.constData(), NULL};
+        const char *args[] = {"loadfile", tmp.constData(), nullptr};
         mpv_command_async(mpv, 2, args);
     }
     else // Finished
     {
-        const char *args[] = {"stop", NULL};
+        const char *args[] = {"stop", nullptr};
         mpv_command_async(mpv, 2, args);
     }
 }
@@ -93,7 +93,7 @@ bool DanmakuDelayGetter::event(QEvent *e)
     while (mpv)
     {
         mpv_event *event = mpv_wait_event(mpv, 0);
-        if (event == NULL || event->event_id == MPV_EVENT_NONE)
+        if (event == nullptr || event->event_id == MPV_EVENT_NONE)
             break;
 
         switch (event->event_id)
@@ -101,7 +101,7 @@ bool DanmakuDelayGetter::event(QEvent *e)
         case MPV_EVENT_PROPERTY_CHANGE:
         {
             mpv_event_property *prop = (mpv_event_property*) event->data;
-            if (prop->data == NULL)
+            if (prop->data == nullptr)
                 break;
             if (QByteArray(prop->name) == "duration")
             {

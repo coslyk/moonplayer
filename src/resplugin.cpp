@@ -8,7 +8,7 @@
  ** Initialize plugins **
  ************************/
 int n_resplugins = 0;
-ResPlugin **resplugins = NULL;
+ResPlugin **resplugins = nullptr;
 
 void initResPlugins()
 {
@@ -33,7 +33,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
 {
     //load module
     module = PyImport_ImportModule(pluginName.toUtf8().constData());
-    if (module == NULL)
+    if (module == nullptr)
     {
         PyErr_Print();
         exit(-1);
@@ -56,7 +56,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     searchFunc = PyObject_GetAttrString(module, "search");
     exploreFunc = PyObject_GetAttrString(module, "explore");
     loadItemFunc = PyObject_GetAttrString(module, "load_item");
-    if (searchFunc == NULL || loadItemFunc == NULL || exploreFunc == NULL)
+    if (searchFunc == nullptr || loadItemFunc == nullptr || exploreFunc == nullptr)
     {
         PyErr_Print();
         exit(EXIT_FAILURE);
@@ -64,7 +64,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
 
     //get tags
     PyObject *tags = PyObject_GetAttrString(module, "tags");
-    if (tags == NULL)
+    if (tags == nullptr)
     {
         PyErr_Print();
         exit(EXIT_FAILURE);
@@ -74,7 +74,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
 
     //get countries
     PyObject *countries = PyObject_GetAttrString(module, "countries");
-    if (countries == NULL)
+    if (countries == nullptr)
     {
         PyErr_Print();
         exit(EXIT_FAILURE);

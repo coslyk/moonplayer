@@ -51,7 +51,7 @@ void DetailView::loadDetail(const QVariantHash &data)
         {"languages", ui->langLabel},
         {"dates", ui->dateLabel},
         {"alt_names", ui->alternameLabel},
-        {NULL, NULL}
+        {nullptr, nullptr}
     };
     for (struct Item *i = items; i->item_name; i++) {
         QStringList list = data[i->item_name].toStringList();
@@ -87,7 +87,7 @@ void DetailView::onImageLoaded()
     if (pic.height() > 300)
         pic = pic.scaledToHeight(300, Qt::SmoothTransformation);
     reply->deleteLater();
-    reply = NULL;
+    reply = nullptr;
     ui->picLabel->setPixmap(pic);
     ui->picLabel->setFixedSize(pic.size());
 }

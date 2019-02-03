@@ -4,7 +4,7 @@
 #include "utils.h"
 #include <QDir>
 
-Extractor **extractors = NULL;
+Extractor **extractors = nullptr;
 int n_extractors = 0;
 QStringList Extractor::supportedHosts;
 
@@ -85,7 +85,7 @@ Extractor *Extractor::getMatchedExtractor(const QString &url)
 QString Extractor::parse(const QByteArray &data)
 {
     PyObject *result = PyObject_CallFunction(parseFunc, "s", data.constData());
-    if (result == NULL)
+    if (result == nullptr)
         return QString("Python Exception:\n%1\n\nResponse Content:\n%3").arg(
                     fetchPythonException(), QString::fromUtf8(data));
     else

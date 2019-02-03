@@ -8,7 +8,7 @@ class LocalSocket : public QLocalSocket
 {
     Q_OBJECT
 public:
-    LocalSocket(QObject *parent = NULL);
+    LocalSocket(QObject *parent = nullptr);
     ~LocalSocket();
     void addUrl(const QByteArray &url);
     void addList(const QByteArray &list);

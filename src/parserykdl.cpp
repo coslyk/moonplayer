@@ -45,7 +45,7 @@ void ParserYkdl::runParser(const QString &url)
 {
     if (process->state() == QProcess::Running)
     {
-        QMessageBox::warning(NULL, "Error", tr("Another file is being parsed."));
+        QMessageBox::warning(nullptr, "Error", tr("Another file is being parsed."));
         return;
     }
     if (msgWindow == nullptr)

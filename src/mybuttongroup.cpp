@@ -19,7 +19,7 @@ void MyButton::onClicked()
 MyButtonGroup::MyButtonGroup(QStringList list, QWidget *parent) :
     QWidget(parent)
 {
-    selectedButton = NULL;
+    selectedButton = nullptr;
     QGridLayout *layout = new QGridLayout(this);
     layout->setSpacing(0);
     int size = list.size();

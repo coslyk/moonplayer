@@ -20,8 +20,8 @@ MyListWidget::MyListWidget(QWidget *parent) :
     setResizeMode(QListWidget::Adjust);
     setWrapping(true);
     setMovement(QListWidget::Static);
-    loading_item = NULL;
-    reply = NULL;
+    loading_item = nullptr;
+    reply = nullptr;
 }
 
 void MyListWidget::addPicItem(const QString &name, const QByteArray &picUrl, const QByteArray &flag)
@@ -29,7 +29,7 @@ void MyListWidget::addPicItem(const QString &name, const QByteArray &picUrl, con
     MyListWidgetItem *item = new MyListWidgetItem(name, picUrl, flag);
     item->setToolTip(name);
     items_to_load_pic << item;
-    if (loading_item == NULL)
+    if (loading_item == nullptr)
         loadNextPic();
 }
 
@@ -57,16 +57,16 @@ void MyListWidget::onLoadPicFinished()
         addItem(loading_item);
     }
     reply->deleteLater();
-    reply = NULL;
+    reply = nullptr;
     if (items_to_load_pic.size())
         loadNextPic();
     else
-        loading_item = NULL;
+        loading_item = nullptr;
 }
 
 void MyListWidget::clearItem()
 {
-    loading_item = NULL;
+    loading_item = nullptr;
     QList<MyListWidgetItem*> items_to_clear = items_to_load_pic;
     items_to_load_pic.clear();
     clear();

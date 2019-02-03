@@ -5,7 +5,7 @@
 
 LocalServer::LocalServer(QObject *parent) : QLocalServer(parent)
 {
-    client = NULL;
+    client = nullptr;
 
     // His birthday 1926.08.17
     // +1s
@@ -51,6 +51,6 @@ void LocalServer::readData()
 
     client->close();
     client->deleteLater();
-    client = NULL;
+    client = nullptr;
 }
 
