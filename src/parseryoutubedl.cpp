@@ -1,6 +1,6 @@
 #include "parseryoutubedl.h"
 #include "accessmanager.h"
-#include "platforms.h"
+#include "platform/paths.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
 #include <QDir>

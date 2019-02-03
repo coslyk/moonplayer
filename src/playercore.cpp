@@ -1,6 +1,6 @@
 #include "playercore.h"
 #include "danmakuloader.h"
-#include "platforms.h"
+#include "platform/paths.h"
 #include "settings_audio.h"
 #include "settings_network.h"
 #include "settings_video.h"

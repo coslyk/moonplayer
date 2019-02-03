@@ -1,18 +1,8 @@
 #include "terminal.h"
-
-/* macOS, use system's terminal emulator */
-#ifdef Q_OS_MAC
-void execShell(const QString &shellFile)
-{
-    system(("open -a Terminal.app '" + shellFile + '\'').toUtf8().constData());
-}
-#endif
-
-/* linux, use built-in terminal emulator */
-#ifdef Q_OS_LINUX
 #include <QDialog>
 #include <QGridLayout>
 #include <qtermwidget.h>
+
 void execShell(const QString &shellFile)
 {
     QDialog *dialog = new QDialog;
@@ -29,4 +19,3 @@ void execShell(const QString &shellFile)
     dialog->exec();
     dialog->deleteLater();
 }
-#endif

@@ -3,7 +3,7 @@
 #include <QProcess>
 #include <QTimer>
 #include <QUrl>
-#include "platforms.h"
+#include "platform/paths.h"
 
 StreamGet::StreamGet(const QUrl &url, const QString &filename, QObject *parent) :
     DownloaderItem (filename, parent)

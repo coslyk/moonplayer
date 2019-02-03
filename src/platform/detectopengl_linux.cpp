@@ -1,22 +1,9 @@
+#include "detectopengl.h"
 #include <mpv/client.h>
 #include <QSurfaceFormat>
 #include <QSettings>
 
-#ifdef Q_OS_MAC
-void detectOpenGL()
-{
-  // Request OpenGL 4.1 if possible on OSX, otherwise it defaults to 2.0
-  // This needs to be done before we create the QGuiApplication
-  //
-  QSurfaceFormat format = QSurfaceFormat::defaultFormat();
-  format.setMajorVersion(3);
-  format.setMinorVersion(2);
-  format.setProfile(QSurfaceFormat::CoreProfile);
-  QSurfaceFormat::setDefaultFormat(format);
-}
-#endif
 
-#ifdef Q_OS_LINUX
 // Attempt to reuse mpv's code for detecting whether we want GLX or EGL (which
 // is tricky to do because of hardware decoding concerns). This is not pretty,
 // but quite effective and without having to duplicate too much GLX/EGL code.
@@ -40,7 +27,7 @@ static QString probeHwdecInterop()
     char *str = mpv_get_property_string(mpv, "hwdec-interop");
     if (str)
     {
-        qInfo("Detected OpenGL backend: %s", str);
+        printf("Detected OpenGL backend: %s\n", str);
         result = str;
         mpv_free(str);
     }
@@ -59,4 +46,3 @@ void detectOpenGL()
             qputenv("QT_XCB_GL_INTEGRATION", "xcb_egl");
     }
 }
-#endif

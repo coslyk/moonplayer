@@ -12,7 +12,7 @@ macx:  TARGET = MoonPlayer
 !macx: TARGET = moonplayer
 TEMPLATE = app
 
-
+# Sources codes
 SOURCES += \
     aboutdialog.cpp \
     accessmanager.cpp \
@@ -21,7 +21,6 @@ SOURCES += \
     danmakudelaygetter.cpp \
     danmakuloader.cpp \
     detailview.cpp \
-    detectopengl.cpp \
     downloader.cpp \
     downloaderitem.cpp \
     extractor.cpp \
@@ -33,7 +32,6 @@ SOURCES += \
     parserwebcatch.cpp \
     parserykdl.cpp \
     parseryoutubedl.cpp \
-    platforms.cpp \
     playercore.cpp \
     playerview.cpp \
     playlist.cpp \
@@ -44,15 +42,9 @@ SOURCES += \
     settingsdialog.cpp \
     skin.cpp \
     streamget.cpp \
-    terminal.cpp \
     utils.cpp \
-    videocombiner.cpp
-!macx: SOURCES += localserver.cpp \
-    localsocket.cpp
-
-
-TRANSLATIONS += moonplayer_zh_CN.ts
-
+    videocombiner.cpp \
+    platform/paths.cpp
 
 HEADERS  +=\
     aboutdialog.h \
@@ -62,7 +54,6 @@ HEADERS  +=\
     danmakudelaygetter.h \
     danmakuloader.h \
     detailview.h \
-    detectopengl.h \
     downloader.h \
     downloaderitem.h \
     extractor.h \
@@ -73,7 +64,6 @@ HEADERS  +=\
     parserwebcatch.h \
     parserykdl.h \
     parseryoutubedl.h \
-    platforms.h \
     playercore.h \
     playerview.h \
     playlist.h \
@@ -88,11 +78,36 @@ HEADERS  +=\
     settingsdialog.h \
     skin.h \
     streamget.h \
-    terminal.h \
     utils.h \
-    videocombiner.h
-!macx: HEADERS += localserver.h \
-    localsocket.h
+    videocombiner.h \
+    platform/detectopengl.h \
+    platform/paths.h \
+    platform/terminal.h
+
+
+# Platform specific source codes
+unix:!macx {
+    SOURCES += \
+        platform/detectopengl_linux.cpp \
+        platform/paths_linux.cpp \
+        platform/terminal_linux.cpp \
+        localserver.cpp \
+        localsocket.cpp
+    HEADERS += \
+        localserver.h \
+        localsocket.h
+}
+
+macx: {
+    SOURCES += \
+        platform/detectopengl_mac.cpp \
+        platform/paths_mac.cpp \
+        platform/terminal_mac.cpp
+}
+
+
+# Translations
+TRANSLATIONS += moonplayer_zh_CN.ts
 
 
 FORMS    += \

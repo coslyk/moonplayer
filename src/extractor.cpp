@@ -1,5 +1,5 @@
 #include "extractor.h"
-#include "platforms.h"
+#include "platform/paths.h"
 #include "pyapi.h"
 #include "utils.h"
 #include <QDir>

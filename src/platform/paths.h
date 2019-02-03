@@ -1,5 +1,5 @@
-#ifndef PLATFORMS_H
-#define PLATFORMS_H
+#ifndef PATHS_H
+#define PATHS_H
 
 #include <QString>
 
@@ -17,4 +17,4 @@ QString ffmpegFilePath(void);
 // parser upgrader
 QString parserUpgraderPath(void);
 
-#endif // PLATFORMS_H
+#endif // PATHS_H

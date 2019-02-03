@@ -1,7 +1,7 @@
 #include "cutterbar.h"
 #include "ui_cutterbar.h"
 #include "utils.h"
-#include "platforms.h"
+#include "platform/paths.h"
 #include <QDir>
 #include <QMessageBox>
 #include <QProcess>

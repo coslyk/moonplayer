@@ -1,7 +1,7 @@
 #include "resplugin.h"
 #include <QDir>
 #include "utils.h"
-#include "platforms.h"
+#include "platform/paths.h"
 #include "pyapi.h"
 
 /************************

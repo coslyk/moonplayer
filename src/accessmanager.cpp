@@ -1,5 +1,5 @@
 #include "accessmanager.h"
-#include "platforms.h"
+#include "platform/paths.h"
 #include "settings_network.h"
 #include <QFile>
 #include <QNetworkProxy>

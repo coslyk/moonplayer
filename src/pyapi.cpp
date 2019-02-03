@@ -1,6 +1,6 @@
 #include "pyapi.h"
 #include "accessmanager.h"
-#include "platforms.h"
+#include "platform/paths.h"
 #include "reslibrary.h"
 #include "utils.h"
 #include <QNetworkRequest>

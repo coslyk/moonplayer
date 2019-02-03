@@ -14,7 +14,7 @@
 #include <QMessageBox>
 #include "settings_audio.h"
 #include "utils.h"
-#include "platforms.h"
+#include "platform/paths.h"
 
 QString Settings::aout;
 QString Settings::hwdec;

@@ -1,6 +1,6 @@
 #include "videocombiner.h"
 #include <QMessageBox>
-#include "platforms.h"
+#include "platform/paths.h"
 #include "playlist.h"
 
 VideoCombiner::VideoCombiner(QObject *parent, const QDir &dir) :

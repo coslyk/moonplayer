@@ -10,9 +10,9 @@
 #include <QDebug>
 #include <QSettings>
 #include <QTextCodec>
-#include "detectopengl.h"
 #include "pyapi.h"
-#include "platforms.h"
+#include "platform/detectopengl.h"
+#include "platform/paths.h"
 #include "playerview.h"
 #include "parserykdl.h"
 #include "parseryoutubedl.h"
