@@ -194,6 +194,8 @@ int main(int argc, char *argv[])
             file.replace("moonplayer://", "http://");
         else if (file.startsWith("moonplayers://"))
             file.replace("moonplayers://", "https://");
+        else if (file.startsWith("file://"))
+            file = file.mid(7);
 
         if (file.startsWith("http://") || file.startsWith("https://"))
             playlist->addUrl(file);
