@@ -3,6 +3,7 @@
 #include "aboutdialog.h"
 #include "cutterbar.h"
 #include "downloader.h"
+#include "parserbase.h"
 #include "playlist.h"
 #include "playercore.h"
 #include "reslibrary.h"
@@ -11,7 +12,6 @@
 #include "settingsdialog.h"
 #include "skin.h"
 #include "utils.h"
-#include "parserykdl.h"
 #include <QDesktopServices>
 #include <QDesktopWidget>
 #include <QFileDialog>
@@ -156,7 +156,7 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addSeparator();
     menu->addAction(tr("Settings") + "\tCtrl+,", settingsDialog, SLOT(show()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
-    menu->addAction(tr("Upgrade parsers"), parser_ykdl, SLOT(upgradeParsers()));
+    menu->addAction(tr("Upgrade parsers"), upgradeParsers);
     menu->addAction(tr("About"), aboutDialog, &AboutDialog::exec);
 
     // create cutterbar
