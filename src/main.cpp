@@ -11,7 +11,6 @@
 #include <QSettings>
 #include <QTextCodec>
 #include "detectopengl.h"
-#include "extractor.h"
 #include "pyapi.h"
 #include "platforms.h"
 #include "playerview.h"
@@ -158,7 +157,6 @@ int main(int argc, char *argv[])
 
     printf("Initialize API for Python...\n");
     initPython();
-    initExtractors();
 
     //translate moonplayer
     printf("Initialize language support...\n");

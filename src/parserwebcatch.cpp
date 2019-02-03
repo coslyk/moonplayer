@@ -16,6 +16,9 @@ ParserWebCatch *parser_webcatch;
 ParserWebCatch::ParserWebCatch(QObject *parent) :
     ParserBase(parent)
 {
+    // init extractors
+    initExtractors();
+
     // set profile
     QWebEngineProfile *profile = QWebEngineProfile::defaultProfile();
     profile->setHttpUserAgent(DEFAULT_UA);

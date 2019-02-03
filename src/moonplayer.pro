@@ -13,39 +13,40 @@ macx:  TARGET = MoonPlayer
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-    playlist.cpp \
-    skin.cpp \
-    httpget.cpp \
-    downloader.cpp \
-    pyapi.cpp \
-    settingsdialog.cpp \
-    reslibrary.cpp \
-    resplugin.cpp \
-    mybuttongroup.cpp \
-    detailview.cpp \
-    utils.cpp \
-    mylistwidget.cpp \
-    cutterbar.cpp \
-    videocombiner.cpp \
-    selectiondialog.cpp \
-    danmakuloader.cpp \
-    accessmanager.cpp \
-    platforms.cpp \
-    downloaderitem.cpp \
-    playerview.cpp \
-    playercore.cpp \
-    danmakudelaygetter.cpp \
-    terminal.cpp \
-    detectopengl.cpp \
-    streamget.cpp \
+SOURCES += \
     aboutdialog.cpp \
+    accessmanager.cpp \
     chromiumdebugger.cpp \
+    cutterbar.cpp \
+    danmakudelaygetter.cpp \
+    danmakuloader.cpp \
+    detailview.cpp \
+    detectopengl.cpp \
+    downloader.cpp \
+    downloaderitem.cpp \
     extractor.cpp \
+    httpget.cpp \
+    main.cpp \
+    mybuttongroup.cpp \
+    mylistwidget.cpp \
     parserbase.cpp \
+    parserwebcatch.cpp \
     parserykdl.cpp \
     parseryoutubedl.cpp \
-    parserwebcatch.cpp
+    platforms.cpp \
+    playercore.cpp \
+    playerview.cpp \
+    playlist.cpp \
+    pyapi.cpp \
+    reslibrary.cpp \
+    resplugin.cpp \
+    selectiondialog.cpp \
+    settingsdialog.cpp \
+    skin.cpp \
+    streamget.cpp \
+    terminal.cpp \
+    utils.cpp \
+    videocombiner.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -54,42 +55,42 @@ TRANSLATIONS += moonplayer_zh_CN.ts
 
 
 HEADERS  +=\
-    playlist.h \
-    skin.h \
-    httpget.h \
-    downloader.h \
-    pyapi.h \
-    settings_video.h \
-    settings_network.h \
-    settingsdialog.h \
-    reslibrary.h \
-    resplugin.h \
+    aboutdialog.h \
     accessmanager.h \
-    mybuttongroup.h \
-    detailview.h \
-    utils.h \
-    mylistwidget.h \
-    settings_audio.h \
+    chromiumdebugger.h \
     cutterbar.h \
-    videocombiner.h \
-    settings_danmaku.h \
-    playercore.h \
-    selectiondialog.h \
     danmakudelaygetter.h \
     danmakuloader.h \
-    platforms.h \
-    downloaderitem.h \
-    playerview.h \
-    terminal.h \
+    detailview.h \
     detectopengl.h \
-    streamget.h \
-    aboutdialog.h \
-    chromiumdebugger.h \
+    downloader.h \
+    downloaderitem.h \
     extractor.h \
+    httpget.h \
+    mybuttongroup.h \
+    mylistwidget.h \
     parserbase.h \
+    parserwebcatch.h \
     parserykdl.h \
     parseryoutubedl.h \
-    parserwebcatch.h
+    platforms.h \
+    playercore.h \
+    playerview.h \
+    playlist.h \
+    pyapi.h \
+    reslibrary.h \
+    resplugin.h \
+    selectiondialog.h \
+    settings_audio.h \
+    settings_danmaku.h \
+    settings_network.h \
+    settings_video.h \
+    settingsdialog.h \
+    skin.h \
+    streamget.h \
+    terminal.h \
+    utils.h \
+    videocombiner.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 
