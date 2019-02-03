@@ -1,4 +1,4 @@
-#include "ykdlbridge.h"
+#include "parserykdl.h"
 #include "platforms.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
@@ -12,16 +12,16 @@
 #include <QMessageBox>
 #include <QProcess>
 
-YkdlBridge *ykdl_bridge;
+ParserYkdl *parser_ykdl;
 
-YkdlBridge::YkdlBridge(QObject *parent) : ParserBase(parent)
+ParserYkdl::ParserYkdl(QObject *parent) : ParserBase(parent)
 {
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
     msgWindow = nullptr;
 }
 
-YkdlBridge::~YkdlBridge()
+ParserYkdl::~ParserYkdl()
 {
     if (process->state() == QProcess::Running)
     {
@@ -30,7 +30,7 @@ YkdlBridge::~YkdlBridge()
     }
 }
 
-bool YkdlBridge::isSupported(const QString &host)
+bool ParserYkdl::isSupported(const QString &host)
 {
     QDir extractorsDir(getUserPath() + "/ykdl/ykdl/extractors");
     QStringList extractors = extractorsDir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot);
@@ -41,7 +41,7 @@ bool YkdlBridge::isSupported(const QString &host)
 }
 
 
-void YkdlBridge::runParser(const QString &url)
+void ParserYkdl::runParser(const QString &url)
 {
     if (process->state() == QProcess::Running)
     {
@@ -70,7 +70,7 @@ void YkdlBridge::runParser(const QString &url)
 }
 
 
-void YkdlBridge::parseOutput()
+void ParserYkdl::parseOutput()
 {
     msgWindow->close();
     QByteArray output = process->readAllStandardOutput();

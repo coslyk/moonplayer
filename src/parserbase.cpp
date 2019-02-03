@@ -11,7 +11,7 @@
 #include "selectiondialog.h"
 #include "settings_network.h"
 #include "terminal.h"
-#include "ykdlbridge.h"
+#include "parserykdl.h"
 #include "youtubedlbridge.h"
 #include "extractor.h"
 #include "simuparserbridge.h"
@@ -175,8 +175,8 @@ void parseUrl(const QString &url, bool download)
     QString host = QUrl(url).host();
     if (Extractor::isSupported(host))
         simuParserBase->parse(url, download);
-    else if (YkdlBridge::isSupported(host))
-        ykdl_bridge->parse(url, download);
+    else if (ParserYkdl::isSupported(host))
+        parser_ykdl->parse(url, download);
     else
         youtubedl_bridge->parse(url, download);
 }

@@ -37,7 +37,6 @@ SOURCES += main.cpp\
     playercore.cpp \
     danmakudelaygetter.cpp \
     terminal.cpp \
-    ykdlbridge.cpp \
     detectopengl.cpp \
     streamget.cpp \
     aboutdialog.cpp \
@@ -45,7 +44,8 @@ SOURCES += main.cpp\
     chromiumdebugger.cpp \
     extractor.cpp \
     simuparserbridge.cpp \
-    parserbase.cpp
+    parserbase.cpp \
+    parserykdl.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -81,7 +81,6 @@ HEADERS  +=\
     downloaderitem.h \
     playerview.h \
     terminal.h \
-    ykdlbridge.h \
     detectopengl.h \
     streamget.h \
     aboutdialog.h \
@@ -89,7 +88,8 @@ HEADERS  +=\
     chromiumdebugger.h \
     extractor.h \
     simuparserbridge.h \
-    parserbase.h
+    parserbase.h \
+    parserykdl.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 

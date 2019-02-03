@@ -15,7 +15,7 @@
 #include "pyapi.h"
 #include "platforms.h"
 #include "playerview.h"
-#include "ykdlbridge.h"
+#include "parserykdl.h"
 #include "youtubedlbridge.h"
 #include "simuparserbridge.h"
 #ifdef Q_OS_WIN
@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
     player_view->show();
 
     // create video parsers
-    ykdl_bridge = new YkdlBridge(&a);
+    parser_ykdl = new ParserYkdl(&a);
     youtubedl_bridge = new YoutubeDLBridge(&a);
     simuParserBase = new SimuParserBase(&a);
 
