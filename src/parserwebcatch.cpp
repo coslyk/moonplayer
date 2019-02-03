@@ -1,4 +1,4 @@
-#include "simuparserbridge.h"
+#include "parserwebcatch.h"
 #include <QNetworkCookieJar>
 #include <QNetworkReply>
 #include <QWebEngineCookieStore>
@@ -10,10 +10,10 @@
 #include "extractor.h"
 #include "selectiondialog.h"
 
-SimuParserBase *simuParserBase;
+ParserWebCatch *parser_webcatch;
 
 /* Init */
-SimuParserBase::SimuParserBase(QObject *parent) :
+ParserWebCatch::ParserWebCatch(QObject *parent) :
     ParserBase(parent)
 {
     // set profile
@@ -21,7 +21,7 @@ SimuParserBase::SimuParserBase(QObject *parent) :
     profile->setHttpUserAgent(DEFAULT_UA);
     profile->settings()->setAttribute(QWebEngineSettings::AutoLoadImages, false);
     profile->settings()->setAttribute(QWebEngineSettings::AutoLoadIconsForPage, false);
-    connect(profile->cookieStore(), &QWebEngineCookieStore::cookieAdded, this, &SimuParserBase::onCookieAdded);
+    connect(profile->cookieStore(), &QWebEngineCookieStore::cookieAdded, this, &ParserWebCatch::onCookieAdded);
     profile->cookieStore()->loadAllCookies();
 
     // create chromium instance
@@ -30,20 +30,20 @@ SimuParserBase::SimuParserBase(QObject *parent) :
 
     // create debugger
     chromiumDebugger = new ChromiumDebugger(this);
-    connect(chromiumDebugger, &ChromiumDebugger::connected, this, &SimuParserBase::onChromiumConnected);
-    connect(chromiumDebugger, &ChromiumDebugger::eventReceived, this, &SimuParserBase::onChromiumEvent);
-    connect(chromiumDebugger, &ChromiumDebugger::resultReceived, this, &SimuParserBase::onChromiumResult);
+    connect(chromiumDebugger, &ChromiumDebugger::connected, this, &ParserWebCatch::onChromiumConnected);
+    connect(chromiumDebugger, &ChromiumDebugger::eventReceived, this, &ParserWebCatch::onChromiumEvent);
+    connect(chromiumDebugger, &ChromiumDebugger::resultReceived, this, &ParserWebCatch::onChromiumResult);
     chromiumDebugger->open(19260);
 }
 
-void SimuParserBase::onChromiumConnected()
+void ParserWebCatch::onChromiumConnected()
 {
     // enable network monitoring
     chromiumDebugger->send(1, "Network.enable");
 }
 
 /* Start parsing */
-void SimuParserBase::runParser(const QString &url)
+void ParserWebCatch::runParser(const QString &url)
 {
     // Check if URL is supported
     if (!Extractor::isSupported(QUrl(url).host()))
@@ -58,7 +58,7 @@ void SimuParserBase::runParser(const QString &url)
 }
 
 /* Monitor network traffic */
-void SimuParserBase::onChromiumEvent(int id, const QString &method, const QVariantHash &params)
+void ParserWebCatch::onChromiumEvent(int id, const QString &method, const QVariantHash &params)
 {
     Q_UNUSED(id);
     if (method == "Network.responseReceived") // Check if url matches
@@ -84,7 +84,7 @@ void SimuParserBase::onChromiumEvent(int id, const QString &method, const QVaria
 }
 
 // read body
-void SimuParserBase::onChromiumResult(int id, const QVariantHash &result)
+void ParserWebCatch::onChromiumResult(int id, const QVariantHash &result)
 {
     Q_UNUSED(id);
     if (result.contains("body"))
@@ -98,7 +98,7 @@ void SimuParserBase::onChromiumResult(int id, const QVariantHash &result)
 }
 
 // finish parsing
-void SimuParserBase::onParseFinished(const QVariantHash &data)
+void ParserWebCatch::onParseFinished(const QVariantHash &data)
 {
     webengineView->setUrl(QUrl("about:blank"));
     webengineView->close();
@@ -128,7 +128,7 @@ void SimuParserBase::onParseFinished(const QVariantHash &data)
 }
 
 /* Load cookies from QWebEngine */
-void SimuParserBase::onCookieAdded(const QNetworkCookie &cookie)
+void ParserWebCatch::onCookieAdded(const QNetworkCookie &cookie)
 {
     access_manager->cookieJar()->insertCookie(cookie);
 }

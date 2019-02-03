@@ -14,7 +14,7 @@
 #include "parserykdl.h"
 #include "parseryoutubedl.h"
 #include "extractor.h"
-#include "simuparserbridge.h"
+#include "parserwebcatch.h"
 
 
 SelectionDialog *ParserBase::selectionDialog = NULL;
@@ -174,7 +174,7 @@ void parseUrl(const QString &url, bool download)
 {
     QString host = QUrl(url).host();
     if (Extractor::isSupported(host))
-        simuParserBase->parse(url, download);
+        parser_webcatch->parse(url, download);
     else if (ParserYkdl::isSupported(host))
         parser_ykdl->parse(url, download);
     else

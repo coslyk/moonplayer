@@ -42,10 +42,10 @@ SOURCES += main.cpp\
     aboutdialog.cpp \
     chromiumdebugger.cpp \
     extractor.cpp \
-    simuparserbridge.cpp \
     parserbase.cpp \
     parserykdl.cpp \
-    parseryoutubedl.cpp
+    parseryoutubedl.cpp \
+    parserwebcatch.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -86,10 +86,10 @@ HEADERS  +=\
     aboutdialog.h \
     chromiumdebugger.h \
     extractor.h \
-    simuparserbridge.h \
     parserbase.h \
     parserykdl.h \
-    parseryoutubedl.h
+    parseryoutubedl.h \
+    parserwebcatch.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 

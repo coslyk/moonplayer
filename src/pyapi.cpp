@@ -8,7 +8,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QTimer>
-#include "simuparserbridge.h"
+#include "parserwebcatch.h"
 
 
 bool win_debug = false;
@@ -287,7 +287,7 @@ static PyObject *finish_parsing(PyObject *, PyObject *args)
         return NULL;
     }
     QVariantHash data = PyObject_AsQVariant(dict).toHash();
-    simuParserBase->onParseFinished(data);
+    parser_webcatch->onParseFinished(data);
     Py_IncRef(Py_None);
     return Py_None;
 }
