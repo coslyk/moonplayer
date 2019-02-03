@@ -1,4 +1,4 @@
-#include "youtubedlbridge.h"
+#include "parseryoutubedl.h"
 #include "accessmanager.h"
 #include "platforms.h"
 #include "selectiondialog.h"
@@ -13,9 +13,9 @@
 #include <QMessageBox>
 #include <QProcess>
 
-YoutubeDLBridge *youtubedl_bridge;
+ParserYoutubeDL *parser_youtubedl;
 
-YoutubeDLBridge::YoutubeDLBridge(QObject *parent) : ParserBase(parent)
+ParserYoutubeDL::ParserYoutubeDL(QObject *parent) : ParserBase(parent)
 {
     process = new QProcess(this);
     process->setWorkingDirectory(getUserPath());
@@ -23,7 +23,7 @@ YoutubeDLBridge::YoutubeDLBridge(QObject *parent) : ParserBase(parent)
     msgWindow = nullptr;
 }
 
-YoutubeDLBridge::~YoutubeDLBridge()
+ParserYoutubeDL::~ParserYoutubeDL()
 {
     if (process->state() == QProcess::Running)
     {
@@ -33,7 +33,7 @@ YoutubeDLBridge::~YoutubeDLBridge()
 }
 
 
-void YoutubeDLBridge::runParser(const QString &url)
+void ParserYoutubeDL::runParser(const QString &url)
 {
     if (process->state() == QProcess::Running)
     {
@@ -64,7 +64,7 @@ void YoutubeDLBridge::runParser(const QString &url)
 }
 
 
-void YoutubeDLBridge::parseOutput()
+void ParserYoutubeDL::parseOutput()
 {
     msgWindow->close();
     QByteArray output = process->readAllStandardOutput();

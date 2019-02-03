@@ -40,12 +40,12 @@ SOURCES += main.cpp\
     detectopengl.cpp \
     streamget.cpp \
     aboutdialog.cpp \
-    youtubedlbridge.cpp \
     chromiumdebugger.cpp \
     extractor.cpp \
     simuparserbridge.cpp \
     parserbase.cpp \
-    parserykdl.cpp
+    parserykdl.cpp \
+    parseryoutubedl.cpp
 !macx: SOURCES += localserver.cpp \
     localsocket.cpp
 
@@ -84,12 +84,12 @@ HEADERS  +=\
     detectopengl.h \
     streamget.h \
     aboutdialog.h \
-    youtubedlbridge.h \
     chromiumdebugger.h \
     extractor.h \
     simuparserbridge.h \
     parserbase.h \
-    parserykdl.h
+    parserykdl.h \
+    parseryoutubedl.h
 !macx: HEADERS += localserver.h \
     localsocket.h
 

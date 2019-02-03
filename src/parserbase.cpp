@@ -12,7 +12,7 @@
 #include "settings_network.h"
 #include "terminal.h"
 #include "parserykdl.h"
-#include "youtubedlbridge.h"
+#include "parseryoutubedl.h"
 #include "extractor.h"
 #include "simuparserbridge.h"
 
@@ -178,6 +178,6 @@ void parseUrl(const QString &url, bool download)
     else if (ParserYkdl::isSupported(host))
         parser_ykdl->parse(url, download);
     else
-        youtubedl_bridge->parse(url, download);
+        parser_youtubedl->parse(url, download);
 }
 

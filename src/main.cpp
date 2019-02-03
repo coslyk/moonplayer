@@ -16,7 +16,7 @@
 #include "platforms.h"
 #include "playerview.h"
 #include "parserykdl.h"
-#include "youtubedlbridge.h"
+#include "parseryoutubedl.h"
 #include "simuparserbridge.h"
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
 
     // create video parsers
     parser_ykdl = new ParserYkdl(&a);
-    youtubedl_bridge = new YoutubeDLBridge(&a);
+    parser_youtubedl = new ParserYoutubeDL(&a);
     simuParserBase = new SimuParserBase(&a);
 
     // open file / url
