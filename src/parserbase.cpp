@@ -158,12 +158,6 @@ void ParserBase::showErrorDialog(const QString &errMsg)
         upgradeParsers();
 }
 
-
-void ParserBase::upgradeParsers()
-{
-    upgradeParsers();
-}
-
 void upgradeParsers()
 {
     execShell(parserUpgraderPath());

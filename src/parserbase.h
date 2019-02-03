@@ -12,9 +12,6 @@ public:
     virtual ~ParserBase();
     void parse(const QString &url, bool download);
 
-public slots:
-    void upgradeParsers(void);
-
 protected slots:
     void showErrorDialog(const QString &errMsg);
 
