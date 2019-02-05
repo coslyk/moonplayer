@@ -1,14 +1,12 @@
 #include <QApplication>
 #include <QTranslator>
 #include "settingsdialog.h"
-#include "playlist.h"
 #include "accessmanager.h"
+#include "application.h"
 #include <locale.h>
-#include <QDir>
-#include <QLocale>
 #include <QDebug>
+#include <QDir>
 #include <QSettings>
-#include <QTextCodec>
 #include "pyapi.h"
 #include "platform/detectopengl.h"
 #include "platform/paths.h"
@@ -61,7 +59,6 @@ public:
 int main(int argc, char *argv[])
 {
     setenv("QTWEBENGINE_REMOTE_DEBUGGING", "19260", 1);
-    QDir currentDir = QDir::current();
 
 #if defined(Q_OS_LINUX)
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -71,54 +68,9 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_MAC
     MyApplication a(argc, argv);
 #else
-    QApplication a(argc, argv);
-
-    //check whether another MoonPlayer instance is running
-    LocalSocket socket;
-    if (socket.state() == LocalSocket::ConnectedState) //Is already running
-    {
-        if (argc == 1)
-        {
-            qDebug("Another instance is running. Quit.\n");
-            return EXIT_FAILURE;
-        }
-
-        for (int i = 1; i < argc; i++)
-        {
-            QByteArray f = argv[i];
-
-            //opened from browser extension
-            if (f.startsWith("moonplayer://"))
-                f.replace("moonplayer://", "http://");
-            else if (f.startsWith("moonplayers://"))
-                f.replace("moonplayers://", "https://");
-
-            //online resource
-            if (f.startsWith("http://") || f.startsWith("https://"))
-                socket.addUrl(f);
-
-            //playlist
-            else if (f.endsWith(".m3u") || f.endsWith("m3u8") || f.endsWith(".xspf"))
-                socket.addList(f);
-
-            //local videos
-            else
-            {
-                if (!QDir::isAbsolutePath(f))
-                    f = currentDir.filePath(QTextCodec::codecForLocale()->toUnicode(f)).toLocal8Bit();
-
-                if (i == 1)   //first video
-                    socket.addFileAndPlay(f);
-                else
-                    socket.addFile(f);
-            }
-        }
-        return EXIT_SUCCESS;
-    }
-
-    // This is the first instance, create server
-    LocalServer server;
-    Q_UNUSED(server);
+    Application a(argc, argv);
+    if (!a.parseArgs())
+        return 0;
 #endif
 
 #ifdef Q_OS_WIN
@@ -174,38 +126,6 @@ int main(int argc, char *argv[])
     parser_ykdl = new ParserYkdl(&a);
     parser_youtubedl = new ParserYoutubeDL(&a);
     parser_webcatch = new ParserWebCatch(&a);
-
-    // open file / url
-    for (int i = 1; i < argc; i++)
-    {
-        QTextCodec* codec = QTextCodec::codecForLocale();
-        QString file = codec->toUnicode(argv[i]);
-
-        if (file.startsWith("--"))
-            continue;
-
-        //opened from browser extension
-        if (file.startsWith("moonplayer://"))
-            file.replace("moonplayer://", "http://");
-        else if (file.startsWith("moonplayers://"))
-            file.replace("moonplayers://", "https://");
-        else if (file.startsWith("file://"))
-            file = file.mid(7);
-
-        if (file.startsWith("http://") || file.startsWith("https://"))
-            playlist->addUrl(file);
-        else if (file.endsWith(".m3u") || file.endsWith("m3u8") || file.endsWith(".xspf")) //playlist
-            playlist->addList(file);
-        else
-        {
-            if (!QDir::isAbsolutePath(file))    //not an absolute path
-                file = currentDir.filePath(file);
-            if (i == 1) //first video
-                playlist->addFileAndPlay(file.section('/', -1), file);
-            else
-                playlist->addFile(file.section('/', -1), file);
-        }
-    }
 
     a.exec();
     Py_Finalize();
