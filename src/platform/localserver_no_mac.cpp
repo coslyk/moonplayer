@@ -1,4 +1,4 @@
-#include "localserver.h"
+#include "localserver_no_mac.h"
 #include "playlist.h"
 #include <QLocalSocket>
 #include <QTextCodec>

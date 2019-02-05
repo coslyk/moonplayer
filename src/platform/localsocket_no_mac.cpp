@@ -1,4 +1,4 @@
-#include "localsocket.h"
+#include "localsocket_no_mac.h"
 
 LocalSocket::LocalSocket(QObject *parent) : QLocalSocket(parent)
 {

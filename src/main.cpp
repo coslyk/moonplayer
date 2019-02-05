@@ -53,8 +53,8 @@ public:
     }
 };
 #else
-#include "localserver.h"
-#include "localsocket.h"
+#include "platform/localserver_no_mac.h"
+#include "platform/localsocket_no_mac.h"
 #endif
 
 
