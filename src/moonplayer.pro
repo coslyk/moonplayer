@@ -158,9 +158,11 @@ macx {
     FFMPEG.path = Contents/MacOS
     RESFILES.files = upgrade-plugins.sh upgrade-ykdl.sh upgrade-youtubedl.sh upgrade-parsers.sh ykdl_patched.py plugins unblockcn
     RESFILES.path = Contents/Resources
-    TRANS_FILES.files = moonplayer_zh_CN.qm qt_zh_CN.qm
+    QT_TRANS.files = /usr/local/opt/qt/translations
+    QT_TRANS.path = Contents/Resources
+    TRANS_FILES.files = moonplayer_zh_CN.qm
     TRANS_FILES.path = Contents/Resources/translations
-    QMAKE_BUNDLE_DATA += RESFILES FFMPEG TRANS_FILES
+    QMAKE_BUNDLE_DATA += RESFILES FFMPEG QT_TRANS TRANS_FILES
     QMAKE_INFO_PLIST = Info.plist
     ICON = moonplayer.icns
 }
