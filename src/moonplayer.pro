@@ -44,10 +44,7 @@ SOURCES += \
     streamget.cpp \
     utils.cpp \
     videocombiner.cpp \
-    platform/paths.cpp \
-    platform/localserver_no_mac.cpp \
-    platform/localsocket_no_mac.cpp \
-    application.cpp
+    platform/paths.cpp
 
 HEADERS  +=\
     aboutdialog.h \
@@ -83,25 +80,29 @@ HEADERS  +=\
     streamget.h \
     utils.h \
     videocombiner.h \
+    platform/application.h \
     platform/detectopengl.h \
     platform/paths.h \
-    platform/terminal.h \
-    platform/localserver_no_mac.h \
-    platform/localsocket_no_mac.h \
-    application.h
+    platform/terminal.h
 
 
 # Platform specific source codes
 unix:!macx {
     SOURCES += \
+        platform/application_no_mac.cpp \
         platform/detectopengl_linux.cpp \
+        platform/localserver_no_mac.cpp \
+        platform/localsocket_no_mac.cpp \
         platform/paths_linux.cpp \
         platform/terminal_linux.cpp
-    HEADERS +=
+    HEADERS += \
+        platform/localserver_no_mac.h \
+        platform/localsocket_no_mac.h
 }
 
 macx: {
     SOURCES += \
+        platform/application_mac.cpp \
         platform/detectopengl_mac.cpp \
         platform/paths_mac.cpp \
         platform/terminal_mac.cpp
