@@ -1,6 +1,7 @@
 #include "paths.h"
 #include <QDir>
 #include <QCoreApplication>
+#include <QLibraryInfo>
 #include <QStandardPaths>
 
 QString getAppPath()
@@ -27,6 +28,12 @@ QString getUserPath()
         path = dataPath ? QString::fromUtf8(dataPath) + "/moonplayer" : QDir::homePath() + "/.local/share/moonplayer";
     }
     return path;
+}
+
+// translation files
+QString getQtTranslationsPath()
+{
+    return QLibraryInfo::location(QLibraryInfo::TranslationsPath);
 }
 
 

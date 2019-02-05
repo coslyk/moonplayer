@@ -36,24 +36,21 @@ int main(int argc, char *argv[])
     printf("Initialize API for Python...\n");
     initPython();
 
-    //translate moonplayer
+    // Translate moonplayer
     printf("Initialize language support...\n");
-    QDir path(getAppPath());
-#ifdef Q_OS_MAC
-    path.cd("translations");
-    //translate application menu
     QTranslator qtTranslator;
-    if (qtTranslator.load(path.filePath("qt_" + QLocale::system().name())))
+    if (qtTranslator.load("qt_" + QLocale::system().name(), getQtTranslationsPath()))
         a.installTranslator(&qtTranslator);
-#endif
+
     QTranslator translator;
-    if (translator.load(path.filePath("moonplayer_" + QLocale::system().name())))
+    if (translator.load("moonplayer_" + QLocale::system().name(), getAppPath() + "/translations"))
         a.installTranslator(&translator);
 
+    // Create window
     PlayerView *player_view = new PlayerView;
     player_view->show();
 
-    // create video parsers
+    // Create video parsers
     parser_ykdl = new ParserYkdl(&a);
     parser_youtubedl = new ParserYoutubeDL(&a);
     parser_webcatch = new ParserWebCatch(&a);

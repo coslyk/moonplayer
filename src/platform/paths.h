@@ -11,6 +11,9 @@ void createUserPath(void);
 QString getVideosPath(void);
 QString getPicturesPath(void);
 
+// translation files
+QString getQtTranslationsPath(void);
+
 // Get FFmpeg's file path
 QString ffmpegFilePath(void);
 

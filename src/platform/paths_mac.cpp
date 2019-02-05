@@ -20,6 +20,11 @@ QString getUserPath()
     return path;
 }
 
+QString getQtTranslationsPath()
+{
+    return getAppPath() + "/translations";
+}
+
 //get ffmpeg's file path
 QString ffmpegFilePath()
 {
