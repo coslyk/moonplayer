@@ -135,8 +135,11 @@ unix:!macx {
     isEmpty(BINDIR) {
         BINDIR = bin
     }
-    usr_share.files += plugins unblockcn moonplayer_*.qm ykdl_patched.py upgrade-*.sh
+    usr_share.files += plugins unblockcn ykdl_patched.py upgrade-*.sh
     usr_share.path = $$PREFIX/share/moonplayer
+    #translations
+    trans.files += moonplayer_*.qm
+    trans.path += $$PREFIX/share/moonplayer/translations
     #icon
     icon.files += icons/*
     icon.path = $$PREFIX/share/icons
@@ -149,7 +152,7 @@ unix:!macx {
     #menu
     menu.files += com.github.coslyk.MoonPlayer.desktop
     menu.path = $$PREFIX/share/applications
-    INSTALLS += usr_share icon execute menu appdata
+    INSTALLS += usr_share trans icon execute menu appdata
 }
 
 # Build bundle for Mac OS X
