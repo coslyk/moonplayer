@@ -5,7 +5,6 @@
 #include "accessmanager.h"
 #include <locale.h>
 #include <QDir>
-#include <QFile>
 #include <QLocale>
 #include <QDebug>
 #include <QSettings>
@@ -150,10 +149,6 @@ int main(int argc, char *argv[])
     access_manager = new NetworkAccessManager(&a);
     printf("Initialize settings...\n");
     initSettings();
-
-    // first time to use MoonPlayer?
-    if (!QFile::exists(getUserPath() + "/plugins-version.txt"))
-        upgradeParsers();
 
     printf("Initialize API for Python...\n");
     initPython();

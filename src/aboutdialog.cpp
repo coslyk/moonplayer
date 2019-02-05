@@ -1,6 +1,9 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 #include "accessmanager.h"
+#include "parserbase.h"
+#include "platform/paths.h"
+#include <QFile>
 #include <QMessageBox>
 #include <QNetworkReply>
 
@@ -38,4 +41,19 @@ void AboutDialog::checkUpdateFinished()
             QMessageBox::warning(nullptr, "Moon Player", tr("New version is available."));
     }
     reply->deleteLater();
+
+    // first time to use MoonPlayer?
+    if (!QFile::exists(getUserPath() + "/plugins-version.txt"))
+    {
+        QMessageBox::StandardButton btn = QMessageBox::information(nullptr,
+                                                                   tr("Download plugins"),
+                                                                   tr("No plugins founded. Download it now?"),
+                                                                   QMessageBox::Yes,
+                                                                   QMessageBox::No);
+        if (btn == QMessageBox::Yes)
+        {
+            upgradeParsers();
+            QMessageBox::information(nullptr, "Finish", tr("Downloading plugins finished. Please relaunch MoonPlayer."));
+        }
+    }
 }
