@@ -84,7 +84,7 @@ QString Extractor::parse(const QByteArray &data)
 {
     PyObject *result = PyObject_CallFunction(parseFunc, "s", data.constData());
     if (result == nullptr)
-        return QString("Python Exception:\n%1\n\nResponse Content:\n%3").arg(
+        return QString("Python Exception:\n%1\n\nResponse Content:\n%2").arg(
                     fetchPythonException(), QString::fromUtf8(data));
     else
     {
