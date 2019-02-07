@@ -35,7 +35,7 @@ QString parserUpgraderPath()
     static QString filename;
     if (filename.isNull())
     {
-        filename = getAppPath() + "/upgrade-parsers.sh";
+        filename = getAppPath() + "/scripts/upgrade-parsers.sh";
 #if defined(Q_OS_MAC)
         if ((QFile::permissions(filename) & QFile::ExeOther) == 0) // make it excutable
             system(("chmod +x '" + filename + '\'').toUtf8().constData());

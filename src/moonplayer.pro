@@ -36,6 +36,7 @@ SOURCES += \
     playerview.cpp \
     playlist.cpp \
     pyapi.cpp \
+    python_wrapper.cpp \
     reslibrary.cpp \
     resplugin.cpp \
     selectiondialog.cpp \
@@ -44,8 +45,7 @@ SOURCES += \
     streamget.cpp \
     utils.cpp \
     videocombiner.cpp \
-    platform/paths.cpp \
-    python_wrapper.cpp
+    platform/paths.cpp
 
 HEADERS  +=\
     aboutdialog.h \
@@ -137,7 +137,7 @@ unix:!macx {
     isEmpty(BINDIR) {
         BINDIR = bin
     }
-    usr_share.files += plugins unblockcn ykdl_patched.py upgrade-*.sh
+    usr_share.files += plugins unblockcn scripts ykdl_patched.py
     usr_share.path = $$PREFIX/share/moonplayer
     #translations
     trans.files += moonplayer_*.qm
@@ -161,7 +161,7 @@ unix:!macx {
 macx {
     FFMPEG.files = /usr/local/opt/ffmpeg/bin/ffmpeg
     FFMPEG.path = Contents/MacOS
-    RESFILES.files = upgrade-plugins.sh upgrade-ykdl.sh upgrade-youtubedl.sh upgrade-parsers.sh ykdl_patched.py plugins unblockcn
+    RESFILES.files = ykdl_patched.py plugins unblockcn scripts
     RESFILES.path = Contents/Resources
     QT_TRANS.files = /usr/local/opt/qt/translations
     QT_TRANS.path = Contents/Resources
