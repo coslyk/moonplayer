@@ -10,12 +10,12 @@ class QNetworkReply;
 class MyListWidgetItem : public QListWidgetItem
 {
 public:
-    MyListWidgetItem(const QString &name, const QByteArray &pic_url, const QByteArray &flag);
-    inline QByteArray picUrl() {return m_picUrl;}
-    inline QByteArray flag() {return m_flag;}
+    MyListWidgetItem(const QString &name, const QString &pic_url, const QString &flag);
+    inline QString picUrl() {return m_picUrl;}
+    inline QString flag() {return m_flag;}
 private:
-    QByteArray m_picUrl;
-    QByteArray m_flag;
+    QString m_picUrl;
+    QString m_flag;
 };
 
 //******************
@@ -26,7 +26,7 @@ class MyListWidget : public QListWidget
     Q_OBJECT
 public:
     explicit MyListWidget(QWidget *parent = 0);
-    void addPicItem(const QString &name, const QByteArray &picUrl, const QByteArray &flag = QByteArray());
+    void addPicItem(const QString &name, const QString &picUrl, const QString &flag = QString());
     void clearItem(void);
 
 private:

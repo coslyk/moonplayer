@@ -1,14 +1,13 @@
 #include "pyapi.h"
 #include "accessmanager.h"
+#include "parserwebcatch.h"
 #include "platform/paths.h"
 #include "reslibrary.h"
-#include "utils.h"
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QApplication>
 #include <QMessageBox>
 #include <QTimer>
-#include "parserwebcatch.h"
 
 
 bool win_debug = false;
@@ -16,38 +15,9 @@ bool win_debug = false;
 /*****************************************
  ******** Some useful functions **********
  ****************************************/
-#define RETURN_IF_ERROR(retval)  if ((retval) == nullptr){PyErr_Print(); return;}
-#define EXIT_IF_ERROR(retval)    if ((retval) == nullptr){PyErr_Print(); exit(EXIT_FAILURE);}
+#define RETURN_IF_ERROR(retval)  if ((retval) == nullptr){printPythonException(); return;}
+#define EXIT_IF_ERROR(retval)    if ((retval) == nullptr){printPythonException(); exit(EXIT_FAILURE);}
 
-QString fetchPythonException()
-{
-    static PyObject *tracebackFunc = nullptr;
-    PyObject *ptype, *pvalue, *ptraceback;
-    QStringList tracebacks;
-
-    // Get error data
-    PyErr_Fetch(&ptype, &pvalue, &ptraceback);
-    PyErr_NormalizeException(&ptype, &pvalue, &ptraceback);
-
-    // See if we can get a full traceback
-    if (tracebackFunc == nullptr)
-    {
-        PyObject *pyth_module = PyImport_ImportModule("traceback");
-        if (pyth_module)
-            tracebackFunc = PyObject_GetAttrString(pyth_module, "format_exception");
-    }
-    if (tracebackFunc && PyCallable_Check(tracebackFunc)) {
-        PyObject *retVal = PyObject_CallFunctionObjArgs(tracebackFunc, ptype, pvalue, ptraceback, nullptr);
-        tracebacks = PyList_AsQStringList(retVal);
-        Py_DecRef(retVal);
-    }
-
-    Py_DecRef(ptype);
-    Py_DecRef(pvalue);
-    Py_DecRef(ptraceback);
-
-    return tracebacks.join("");
-}
 
 /************************************************
  ** Define get_content() function for python **
@@ -237,8 +207,7 @@ static PyObject *res_show(PyObject *, PyObject *args)
     {
         PyObject *dict = PyList_GetItem(list, i);
         PyObject *name_obj, *pic_url_obj, *flag_obj;
-        QString name;
-        const char *pic_url, *flag;
+        QString name, pic_url, flag;
         if (nullptr == (name_obj = PyDict_GetItemString(dict, "name")))
             return nullptr;
         if (nullptr == (flag_obj = PyDict_GetItemString(dict, "url")))
@@ -247,9 +216,9 @@ static PyObject *res_show(PyObject *, PyObject *args)
             return nullptr;
         if ((name = PyString_AsQString(name_obj)).isNull())
             return nullptr;
-        if (nullptr == (flag = PyString_AsString(flag_obj)))
+        if ((flag = PyString_AsQString(flag_obj)).isNull())
             return nullptr;
-        if (nullptr == (pic_url = PyString_AsString(pic_url_obj)))
+        if ((pic_url = PyString_AsQString(pic_url_obj)).isNull())
             return nullptr;
         res_library->addItem(name, pic_url, flag);
     }
@@ -310,6 +279,21 @@ static PyMethodDef methods[] = {
     {nullptr, nullptr, 0, nullptr}
 };
 
+#if PY_MAJOR_VERSION >= 3
+static struct PyModuleDef moonplayerModule =
+{
+    PyModuleDef_HEAD_INIT,
+    "moonplayer",  // m_name
+    nullptr,       // m_doc
+    -1,            // m_size
+    methods,       // m_methods
+    nullptr,       // m_slots
+    nullptr,       // m_traverse
+    nullptr,       // m_clear
+    nullptr        // m_free
+};
+#endif
+
 PyObject *apiModule = nullptr;
 
 void initPython()
@@ -325,7 +309,14 @@ void initPython()
 
     //init module
     geturl_obj = new GetUrl(qApp);
+#if PY_MAJOR_VERSION >= 3
+    apiModule = PyModule_Create(&moonplayerModule);
+    PyObject *modules = PySys_GetObject("modules");
+    PyDict_SetItemString(modules, "moonplayer", apiModule);
+#else
     apiModule = Py_InitModule("moonplayer", methods);
+#endif
+
     PyModule_AddStringConstant(apiModule, "final_url", "");
     Py_IncRef(exc_GetUrlError);
     PyModule_AddObject(apiModule, "GetUrlError", exc_GetUrlError);

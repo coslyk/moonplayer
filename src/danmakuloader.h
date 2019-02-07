@@ -2,7 +2,7 @@
 #define DANMAKULOADER_H
 
 #include <QObject>
-#include <Python.h>
+#include "python_wrapper.h"
 class QNetworkReply;
 
 class DanmakuLoader : public QObject

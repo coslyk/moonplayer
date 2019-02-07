@@ -1,7 +1,7 @@
 #ifndef RESPLUGIN_H
 #define RESPLUGIN_H
 
-#include <Python.h>
+#include "python_wrapper.h"
 #include <QStringList>
 
 class ResPlugin
@@ -10,7 +10,7 @@ public:
     ResPlugin(const QString &pluginName);
     void explore(const QString &tag, const QString &country, int page);
     void search(const QString &key, int page);
-    void loadItem(const QByteArray &flag);
+    void loadItem(const QString &flag);
     inline QString &getName(){return name;}
 
     QStringList tagsList;

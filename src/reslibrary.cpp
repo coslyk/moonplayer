@@ -148,7 +148,7 @@ void ResLibrary::onNextPage()
     ui->pageSpinBox->setValue(current_page + 1);
 }
 
-void ResLibrary::addItem(const QString &name, const QByteArray &pic_url, const QByteArray &flag)
+void ResLibrary::addItem(const QString &name, const QString &pic_url, const QString &flag)
 {
     listWidget->addPicItem(name, pic_url, flag);
 }

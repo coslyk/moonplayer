@@ -1,8 +1,6 @@
 #include "resplugin.h"
 #include <QDir>
-#include "utils.h"
 #include "platform/paths.h"
-#include "pyapi.h"
 
 /************************
  ** Initialize plugins **
@@ -35,7 +33,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     module = PyImport_ImportModule(pluginName.toUtf8().constData());
     if (module == nullptr)
     {
-        PyErr_Print();
+        printPythonException();
         exit(-1);
     }
 
@@ -58,7 +56,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     loadItemFunc = PyObject_GetAttrString(module, "load_item");
     if (searchFunc == nullptr || loadItemFunc == nullptr || exploreFunc == nullptr)
     {
-        PyErr_Print();
+        printPythonException();
         exit(EXIT_FAILURE);
     }
 
@@ -66,7 +64,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     PyObject *tags = PyObject_GetAttrString(module, "tags");
     if (tags == nullptr)
     {
-        PyErr_Print();
+        printPythonException();
         exit(EXIT_FAILURE);
     }
     tagsList = PyList_AsQStringList(tags);
@@ -76,7 +74,7 @@ ResPlugin::ResPlugin(const QString &pluginName)
     PyObject *countries = PyObject_GetAttrString(module, "countries");
     if (countries == nullptr)
     {
-        PyErr_Print();
+        printPythonException();
         exit(EXIT_FAILURE);
     }
     countriesList = PyList_AsQStringList(countries);
@@ -95,7 +93,7 @@ void ResPlugin::explore(const QString &tag, const QString &country, int page)
     if (retVal)
         Py_DecRef(retVal);
     else
-        PyErr_Print();
+        printPythonException();
 }
 
 void ResPlugin::search(const QString &key, int page)
@@ -104,14 +102,14 @@ void ResPlugin::search(const QString &key, int page)
     if (retVal)
         Py_DecRef(retVal);
     else
-        PyErr_Print();
+        printPythonException();
 }
 
-void ResPlugin::loadItem(const QByteArray &flag)
+void ResPlugin::loadItem(const QString &flag)
 {
-    PyObject *retVal = PyObject_CallFunction(loadItemFunc, "s", flag.constData());
+    PyObject *retVal = PyObject_CallFunction(loadItemFunc, "s", flag.toUtf8().constData());
     if (retVal)
         Py_DecRef(retVal);
     else
-        PyErr_Print();
+        printPythonException();
 }

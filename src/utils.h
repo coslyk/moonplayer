@@ -5,14 +5,7 @@
 #include <QStringList>
 #include <QUrl>
 #include <QVariant>
-#include <Python.h>
 
-//Convert python's string(include unicode) to QString
-QString PyString_AsQString(PyObject *pystr);
-QStringList PyList_AsQStringList(PyObject *listobj);
-
-// Convert a Python object to a QVariant
-QVariant PyObject_AsQVariant(PyObject *obj);
 
 QString secToTime(int second, bool use_format = false);
 

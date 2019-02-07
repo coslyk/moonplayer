@@ -44,7 +44,8 @@ SOURCES += \
     streamget.cpp \
     utils.cpp \
     videocombiner.cpp \
-    platform/paths.cpp
+    platform/paths.cpp \
+    python_wrapper.cpp
 
 HEADERS  +=\
     aboutdialog.h \
@@ -68,6 +69,7 @@ HEADERS  +=\
     playerview.h \
     playlist.h \
     pyapi.h \
+    python_wrapper.h \
     reslibrary.h \
     resplugin.h \
     selectiondialog.h \
@@ -176,7 +178,7 @@ win32: RC_FILE = icon.rc
 # Libraries
 unix:!macx {
     CONFIG += link_pkgconfig
-    PKGCONFIG += python2 mpv
+    PKGCONFIG += python3 mpv
     INCLUDEPATH += $$PREFIX/include/qtermwidget5
     LIBS += -lqtermwidget5
 }

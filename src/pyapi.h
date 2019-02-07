@@ -5,7 +5,7 @@
  ** API for python **
  ********************/
 
-#include <Python.h>
+#include "python_wrapper.h"
 #include <QObject>
 
 class QNetworkReply;
@@ -35,7 +35,6 @@ extern PyObject *exc_GetUrlError;
 ///////Module
 extern PyObject *apiModule;
 void initPython(void);
-QString fetchPythonException();
 extern bool win_debug;
 
 #endif // PYAPI_H

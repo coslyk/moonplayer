@@ -18,7 +18,7 @@ class ResLibrary : public QWidget
     Q_OBJECT
 public:
     explicit ResLibrary(QWidget *parent = 0);
-    void addItem(const QString &name, const QByteArray &pic_url, const QByteArray &flag);
+    void addItem(const QString &name, const QString &pic_url, const QString &flag);
     void clearItem(void);
     void openDetailPage(const QVariantHash &data);
 

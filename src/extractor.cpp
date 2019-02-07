@@ -1,7 +1,5 @@
 #include "extractor.h"
 #include "platform/paths.h"
-#include "pyapi.h"
-#include "utils.h"
 #include <QDir>
 
 Extractor **extractors = nullptr;
@@ -33,14 +31,14 @@ Extractor::Extractor(const QString &name)
     module = PyImport_ImportModule(name.toUtf8().constData());
     if (module == nullptr)
     {
-        PyErr_Print();
+        printPythonException();
         exit(EXIT_FAILURE);
     }
 
     PyObject *hosts = PyObject_GetAttrString(module, "supported_hosts");
     if (hosts == nullptr)
     {
-        PyErr_Print();
+        printPythonException();
         exit(EXIT_FAILURE);
     }
     for (int i = 0; i < PyTuple_Size(hosts); i++)
@@ -50,17 +48,17 @@ Extractor::Extractor(const QString &name)
     parseFunc = PyObject_GetAttrString(module, "parse");
     if (parseFunc == nullptr)
     {
-        PyErr_Print();
+        printPythonException();
         exit(EXIT_FAILURE);
     }
 
     PyObject *url_pattern = PyObject_GetAttrString(module, "url_pattern");
     if (url_pattern == nullptr)
     {
-        PyErr_Print();
+        printPythonException();
         exit(EXIT_FAILURE);
     }
-    urlPattern = QRegularExpression(QString::fromUtf8(PyString_AsString(url_pattern)),
+    urlPattern = QRegularExpression(PyString_AsQString(url_pattern),
                                     QRegularExpression::DotMatchesEverythingOption);
 }
 

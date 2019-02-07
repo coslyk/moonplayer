@@ -2,7 +2,7 @@
 #include "ui_detailview.h"
 #include "accessmanager.h"
 #include "parserbase.h"
-#include <Python.h>
+#include "python_wrapper.h"
 #include <QNetworkRequest>
 #include <QNetworkReply>
 

@@ -1,7 +1,7 @@
 #ifndef EXTRACTOR_H
 #define EXTRACTOR_H
 
-#include <Python.h>
+#include "python_wrapper.h"
 #include <QByteArray>
 #include <QRegularExpression>
 

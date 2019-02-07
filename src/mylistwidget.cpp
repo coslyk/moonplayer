@@ -5,7 +5,7 @@
 #include <QPixmap>
 
 //MyListWidgetItem
-MyListWidgetItem::MyListWidgetItem(const QString &name, const QByteArray &pic_url, const QByteArray &flag) :
+MyListWidgetItem::MyListWidgetItem(const QString &name, const QString &pic_url, const QString &flag) :
     QListWidgetItem(name)
 {
     m_picUrl = pic_url;
@@ -24,7 +24,7 @@ MyListWidget::MyListWidget(QWidget *parent) :
     reply = nullptr;
 }
 
-void MyListWidget::addPicItem(const QString &name, const QByteArray &picUrl, const QByteArray &flag)
+void MyListWidget::addPicItem(const QString &name, const QString &picUrl, const QString &flag)
 {
     MyListWidgetItem *item = new MyListWidgetItem(name, picUrl, flag);
     item->setToolTip(name);
@@ -37,7 +37,7 @@ void MyListWidget::addPicItem(const QString &name, const QByteArray &picUrl, con
 void MyListWidget::loadNextPic()
 {
     loading_item = items_to_load_pic.takeFirst();
-    QNetworkRequest request(QString::fromUtf8(loading_item->picUrl()));
+    QNetworkRequest request(loading_item->picUrl());
     reply = access_manager->get(request);
     connect(reply, SIGNAL(finished()), this, SLOT(onLoadPicFinished()));
 }
