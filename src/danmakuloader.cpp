@@ -8,6 +8,12 @@
 #include <QNetworkRequest>
 #include <QTimer>
 
+#if PY_MAJOR_VERSION >=3
+#define DANMAKU2ASS "danmaku2ass_py3"
+#else
+#define DANMAKU2ASS "danmaku2ass_py2"
+#endif
+
 DanmakuLoader::DanmakuLoader(QObject *parent) : QObject(parent)
 {
     module = danmaku2assFunc = nullptr;
@@ -55,7 +61,7 @@ void DanmakuLoader::onXmlDownloaded()
     {
         if (danmaku2assFunc == nullptr)
         {
-            if ((module = PyImport_ImportModule("danmaku2ass")) == nullptr)
+            if ((module = PyImport_ImportModule(DANMAKU2ASS)) == nullptr)
             {
                 printPythonException();
                 exit(EXIT_FAILURE);
