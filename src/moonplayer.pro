@@ -93,13 +93,8 @@ unix:!macx {
     SOURCES += \
         platform/application_no_mac.cpp \
         platform/detectopengl_linux.cpp \
-        platform/localserver_no_mac.cpp \
-        platform/localsocket_no_mac.cpp \
         platform/paths_linux.cpp \
         platform/terminal_linux.cpp
-    HEADERS += \
-        platform/localserver_no_mac.h \
-        platform/localsocket_no_mac.h
 }
 
 macx: {

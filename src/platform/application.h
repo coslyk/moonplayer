@@ -2,7 +2,8 @@
 #define APPLICATION_H
 
 #include <QApplication>
-class LocalServer;
+class QLocalServer;
+class QLocalSocket;
 
 /* MacOS handles file opening in a different way.
  * It don't use arguments, but FileOpenEvent.
@@ -13,6 +14,7 @@ class Application : public QApplication
     Q_OBJECT
 public:
     Application(int &argc, char **argv);
+    virtual ~Application();
     bool parseArgs(void);
 
 #ifdef Q_OS_MAC
@@ -22,11 +24,14 @@ protected:
 #else
 private slots:
     void openFiles(void);
+    void onNewConnection(void);
+    void readData(void);
 
 private:
     int argc;
     char **argv;
-    LocalServer *server;
+    QLocalServer *server;
+    QLocalSocket *client;
 #endif
 };
 

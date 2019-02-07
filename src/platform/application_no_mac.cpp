@@ -1,8 +1,8 @@
 #include "application.h"
-#include "platform/localserver_no_mac.h"
-#include "platform/localsocket_no_mac.h"
 #include "playlist.h"
 #include <QDir>
+#include <QLocalServer>
+#include <QLocalSocket>
 #include <QTextCodec>
 
 Application::Application(int &argc, char **argv) :
@@ -10,19 +10,37 @@ Application::Application(int &argc, char **argv) :
 {
     this->argc = argc;
     this->argv = argv;
+    server = nullptr;
+    client = nullptr;
 }
+
+Application::~Application()
+{
+    if (server)
+    {
+        server->close();
+        server = nullptr;
+    }
+}
+
 
 bool Application::parseArgs()
 {
     QDir currentDir = QDir::current();
 
     // Check whether another MoonPlayer instance is running
-    LocalSocket socket;
-    if (socket.state() == LocalSocket::ConnectedState) // Is already running?
+    QLocalSocket socket;
+    socket.connectToServer("MoonPlayer_0817", QLocalSocket::WriteOnly);
+    socket.waitForConnected();
+
+    if (socket.state() == QLocalSocket::ConnectedState) // Is already running?
     {
         if (argc == 1)
         {
             qDebug("Another instance is running. Quit.\n");
+            socket.disconnectFromServer();
+            if (socket.state() == QLocalSocket::ConnectedState)
+                socket.waitForDisconnected();
             return false;
         }
 
@@ -41,33 +59,45 @@ bool Application::parseArgs()
 
             // Online resource
             if (f.startsWith("http://") || f.startsWith("https://"))
-                socket.addUrl(f);
+                socket.write("addUrl " + f + '\n');
 
             else // Local videos
             {
                 // Convert to absolute path
                 if (!QDir::isAbsolutePath(f))
                     f = currentDir.filePath(QTextCodec::codecForLocale()->toUnicode(f)).toLocal8Bit();
+
                 // Playlist
                 if (f.endsWith(".m3u") || f.endsWith("m3u8") || f.endsWith(".xspf"))
-                    socket.addList(f);
+                    socket.write("addList " + f + '\n');
                 // First video
                 else if (i == 1)
-                    socket.addFileAndPlay(f);
+                    socket.write("addFileAndPlay " + f + '\n');
                 // Not first video
                 else
-                    socket.addFile(f);
+                    socket.write("addFile " + f + '\n');
             }
         }
+        socket.flush();
+        socket.disconnectFromServer();
+        if (socket.state() == QLocalSocket::ConnectedState)
+            socket.waitForDisconnected();
         return false;
     }
 
     // This is the first instance, create server
-     server = new LocalServer(this);
+    // His birthday 1926.08.17
+    // +1s
+    QLocalServer::removeServer("MoonPlayer_0817");
+    server = new QLocalServer(this);
+    if (server->listen("MoonPlayer_0817"))
+        connect(server, &QLocalServer::newConnection, this, &Application::onNewConnection);
+    else
+        qDebug("Fails to create server.");
 
-     // Open files after player is loaded
-     QMetaObject::invokeMethod(this, "openFiles", Qt::QueuedConnection);
-     return true;
+    // Open files after player is loaded
+    QMetaObject::invokeMethod(this, "openFiles", Qt::QueuedConnection);
+    return true;
 }
 
 // Read arguments and open files
@@ -114,3 +144,39 @@ void Application::openFiles()
         }
     }
 }
+
+
+// File opened from another instance
+void Application::onNewConnection()
+{
+    client = server->nextPendingConnection();
+    connect(client, &QLocalSocket::readChannelFinished, this, &Application::readData);
+}
+
+void Application::readData()
+{
+    QTextCodec *codec = QTextCodec::codecForLocale();
+
+    while (client->canReadLine())
+    {
+        QString data = codec->toUnicode(client->readLine());
+        data.chop(1); // Remove '\n'
+
+        if (data.startsWith("addUrl "))
+            playlist->addUrl(data.mid(7));
+
+        else if (data.startsWith("addList "))
+            playlist->addList(data.mid(8));
+
+        else if (data.startsWith("addFileAndPlay "))
+            playlist->addFileAndPlay(data.section('/', -1), data.section(' ', 1));
+
+        else if (data.startsWith("addFile "))
+            playlist->addFile(data.section('/', -1), data.section(' ', 1));
+    }
+
+    client->close();
+    client->deleteLater();
+    client = nullptr;
+}
+
