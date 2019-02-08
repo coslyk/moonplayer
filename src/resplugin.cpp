@@ -21,20 +21,32 @@ void initResPlugins()
         QString filename = list.takeFirst();
         if (filename.startsWith("res_") && filename.endsWith(".py"))
         {
-            array[n_resplugins] = new ResPlugin(filename.section('.', 0, 0));
-            n_resplugins++;
+            bool ok = false;
+            ResPlugin *plugin = new ResPlugin(filename.section('.', 0, 0), &ok);
+            if (ok)
+            {
+                array[n_resplugins] = plugin;
+                n_resplugins++;
+            }
+            else
+            {
+                delete plugin;
+                qDebug("[plugin] Fails to load: %s", filename.toUtf8().constData());
+            }
         }
     }
 }
 
-ResPlugin::ResPlugin(const QString &pluginName)
+ResPlugin::ResPlugin(const QString &pluginName, bool *ok)
 {
     //load module
+    module = searchFunc = exploreFunc = loadItemFunc = nullptr;
     module = PyImport_ImportModule(pluginName.toUtf8().constData());
     if (module == nullptr)
     {
         printPythonException();
-        exit(-1);
+        *ok = false;
+        return;
     }
 
     //get name
@@ -57,7 +69,8 @@ ResPlugin::ResPlugin(const QString &pluginName)
     if (searchFunc == nullptr || loadItemFunc == nullptr || exploreFunc == nullptr)
     {
         printPythonException();
-        exit(EXIT_FAILURE);
+        *ok = false;
+        return;
     }
 
     //get tags
@@ -65,7 +78,8 @@ ResPlugin::ResPlugin(const QString &pluginName)
     if (tags == nullptr)
     {
         printPythonException();
-        exit(EXIT_FAILURE);
+        *ok = false;
+        return;
     }
     tagsList = PyList_AsQStringList(tags);
     Py_DecRef(tags);
@@ -75,13 +89,23 @@ ResPlugin::ResPlugin(const QString &pluginName)
     if (countries == nullptr)
     {
         printPythonException();
-        exit(EXIT_FAILURE);
+        *ok = false;
+        return;
     }
     countriesList = PyList_AsQStringList(countries);
     Py_DecRef(countries);
 
     // Add to __main__ namespace
     PyRun_SimpleString(QString("import %1").arg(pluginName).toUtf8().constData());
+    *ok = true;
+}
+
+ResPlugin::~ResPlugin()
+{
+    Py_DecRef(module);
+    Py_DecRef(searchFunc);
+    Py_DecRef(exploreFunc);
+    Py_DecRef(loadItemFunc);
 }
 
 void ResPlugin::explore(const QString &tag, const QString &country, int page)

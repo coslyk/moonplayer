@@ -19,27 +19,40 @@ void initExtractors()
         QString filename = list.takeFirst();
         if (filename.startsWith("ext_") && filename.endsWith(".py"))
         {
-            array[n_extractors] = new Extractor(filename.section('.', 0, 0));
-            n_extractors++;
+            bool ok = false;
+            Extractor *extractor = new Extractor(filename.section('.', 0, 0), &ok);
+            if (ok)
+            {
+                array[n_extractors] = extractor;
+                n_extractors++;
+            }
+            else
+            {
+                delete extractor;
+                qDebug("[plugin] Fails to load: %s", filename.toUtf8().constData());
+            }
         }
     }
 }
 
 
-Extractor::Extractor(const QString &name)
+Extractor::Extractor(const QString &name, bool *ok)
 {
+    module = parseFunc = nullptr;
     module = PyImport_ImportModule(name.toUtf8().constData());
     if (module == nullptr)
     {
         printPythonException();
-        exit(EXIT_FAILURE);
+        *ok = false;
+        return;
     }
 
     PyObject *hosts = PyObject_GetAttrString(module, "supported_hosts");
     if (hosts == nullptr)
     {
         printPythonException();
-        exit(EXIT_FAILURE);
+        *ok = false;
+        return;
     }
     for (int i = 0; i < PyTuple_Size(hosts); i++)
         supportedHosts << PyString_AsQString(PyTuple_GetItem(hosts, i));
@@ -49,17 +62,27 @@ Extractor::Extractor(const QString &name)
     if (parseFunc == nullptr)
     {
         printPythonException();
-        exit(EXIT_FAILURE);
+        *ok = false;
+        return;
     }
 
     PyObject *url_pattern = PyObject_GetAttrString(module, "url_pattern");
     if (url_pattern == nullptr)
     {
         printPythonException();
-        exit(EXIT_FAILURE);
+        *ok = false;
+        return;
     }
     urlPattern = QRegularExpression(PyString_AsQString(url_pattern),
                                     QRegularExpression::DotMatchesEverythingOption);
+    Py_DecRef(url_pattern);
+    *ok = true;
+}
+
+Extractor::~Extractor()
+{
+    Py_DecRef(module);
+    Py_DecRef(parseFunc);
 }
 
 

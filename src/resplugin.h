@@ -7,7 +7,8 @@
 class ResPlugin
 {
 public:
-    ResPlugin(const QString &pluginName);
+    ResPlugin(const QString &pluginName, bool *ok);
+    ~ResPlugin();
     void explore(const QString &tag, const QString &country, int page);
     void search(const QString &key, int page);
     void loadItem(const QString &flag);

@@ -8,7 +8,8 @@
 class Extractor
 {
 public:
-    Extractor(const QString &name);
+    Extractor(const QString &name, bool *ok);
+    ~Extractor();
     QString parse(const QByteArray &data); // Parse the catched data, return error string
     bool match(const QString &url);        // Check if the catched data with url can be processed
 
