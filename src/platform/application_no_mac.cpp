@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QLocalServer>
 #include <QLocalSocket>
+#include <QSurfaceFormat>
 #include <QTextCodec>
 
 Application::Application(int &argc, char **argv) :
@@ -12,6 +13,16 @@ Application::Application(int &argc, char **argv) :
     this->argv = argv;
     server = nullptr;
     client = nullptr;
+
+    // force 32-bit color surface
+    if (platformName().contains("wayland")) {
+        QSurfaceFormat sf(QSurfaceFormat::defaultFormat());
+        sf.setBlueBufferSize(8);
+        sf.setGreenBufferSize(8);
+        sf.setRedBufferSize(8);
+        sf.setAlphaBufferSize(8);
+        QSurfaceFormat::setDefaultFormat(sf);
+    }
 }
 
 Application::~Application()
