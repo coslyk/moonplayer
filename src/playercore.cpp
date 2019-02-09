@@ -20,13 +20,12 @@
 #include <QX11Info>
 #include <qpa/qplatformnativeinterface.h>
 
-#ifdef Q_PROCESSOR_ARM
-    #ifndef GLAPIENTRY
-    #define GLAPIENTRY __stdcall
-    #endif
-#endif // Q_PROCESSOR_ARM
 #ifndef GLAPIENTRY
+#ifdef Q_OS_WIN
+#define GLAPIENTRY __stdcall
+#else
 #define GLAPIENTRY
+#endif
 #endif // GLAPIENTRY
 
 static void* GLAPIENTRY glMPGetNativeDisplay(const char *name)
