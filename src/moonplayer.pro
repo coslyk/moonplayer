@@ -107,7 +107,7 @@ macx: {
 
 
 # Translations
-TRANSLATIONS += moonplayer_zh_CN.ts
+TRANSLATIONS += translations/moonplayer_zh_CN.ts
 
 
 FORMS    += \
@@ -132,11 +132,8 @@ unix:!macx {
     isEmpty(BINDIR) {
         BINDIR = bin
     }
-    usr_share.files += plugins unblockcn scripts ykdl_patched.py
+    usr_share.files += plugins unblockcn scripts translations ykdl_patched.py
     usr_share.path = $$PREFIX/share/moonplayer
-    #translations
-    trans.files += moonplayer_*.qm
-    trans.path += $$PREFIX/share/moonplayer/translations
     #icon
     icon.files += icons/*
     icon.path = $$PREFIX/share/icons
@@ -149,20 +146,18 @@ unix:!macx {
     #menu
     menu.files += com.github.coslyk.MoonPlayer.desktop
     menu.path = $$PREFIX/share/applications
-    INSTALLS += usr_share trans icon execute menu appdata
+    INSTALLS += usr_share icon execute menu appdata
 }
 
 # Build bundle for Mac OS X
 macx {
     FFMPEG.files = /usr/local/opt/ffmpeg/bin/ffmpeg
     FFMPEG.path = Contents/MacOS
-    RESFILES.files = ykdl_patched.py plugins unblockcn scripts
+    RESFILES.files = ykdl_patched.py plugins unblockcn scripts translations
     RESFILES.path = Contents/Resources
     QT_TRANS.files = /usr/local/opt/qt/translations
-    QT_TRANS.path = Contents/Resources
-    TRANS_FILES.files = moonplayer_zh_CN.qm
-    TRANS_FILES.path = Contents/Resources/translations
-    QMAKE_BUNDLE_DATA += RESFILES FFMPEG QT_TRANS TRANS_FILES
+    QT_TRANS.path = Contents/Resources/qt
+    QMAKE_BUNDLE_DATA += RESFILES FFMPEG QT_TRANS
     QMAKE_INFO_PLIST = Info.plist
     ICON = moonplayer.icns
 }
