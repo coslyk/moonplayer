@@ -29,7 +29,7 @@
 #define GLAPIENTRY
 #endif // GLAPIENTRY
 
-static void *GLAPIENTRY glMPGetNativeDisplay(const char *name)
+static void* GLAPIENTRY glMPGetNativeDisplay(const char *name)
 {
     if (strcmp(name, "wl") == 0 && !QX11Info::isPlatformX11())
         return QGuiApplication::platformNativeInterface()->nativeResourceForWindow("display", nullptr);
