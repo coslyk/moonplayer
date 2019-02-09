@@ -7,6 +7,10 @@ Application::Application(int &argc, char **argv) :
 {
 }
 
+Application::~Application()
+{
+}
+
 // MacOS don't use arguments to open files. Always return true here
 bool Application::parseArgs()
 {
