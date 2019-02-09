@@ -1,3 +1,15 @@
+moonplayer (2.5.2-1~bionic) bionic; urgency=medium
+
+  * v2.5.2
+  * Fix: Cannot open files in some cases, e.g. files out of the Flatpak's sandbox
+  * Don't download plugins before MoonPlayer window is shown (seems to cause crash on some platform)
+  * Use Python3 on Linux
+  * Don't quit when failing to loading plugins
+  * Better wayland support
+  * Many other code level restructions to make program stabler
+
+ -- YK Liu <cos.lyk@gmail.com>  Sat, 09 Feb 2019 19:54:30 +0100
+
 moonplayer (2.5-1~cosmic) cosmic; urgency=medium
 
   * v2.5

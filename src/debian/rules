@@ -12,4 +12,4 @@
 export QT_SELECT := qt5
 
 %:
-	dh $@  --with python2
+	dh $@  --with python3
