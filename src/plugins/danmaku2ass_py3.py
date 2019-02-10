@@ -29,8 +29,10 @@ import xml.dom.minidom
 if sys.version_info < (3,):
     raise RuntimeError('at least Python 3.0 is required')
 
-gettext.install('danmaku2ass', os.path.join(os.path.dirname(os.path.abspath(os.path.realpath(sys.argv[0] or 'locale'))), 'locale'))
-
+try:
+    gettext.install('danmaku2ass', os.path.join(os.path.dirname(os.path.abspath(os.path.realpath(sys.argv[0] or 'locale'))), 'locale'))
+except AttributeError: # in some case sys.argv does not exist
+    gettext.install('danmaku2ass', os.path.join(os.path.dirname(os.path.abspath(os.path.realpath('locale'))), 'locale'))
 
 def SeekZero(function):
     def decorated_function(file_):
@@ -692,13 +694,16 @@ def ConvertType2(row, height, bottomReserved):
     return height - bottomReserved - row
 
 
-def ConvertToFile(filename_or_file, *args, **kwargs):
-    if isinstance(filename_or_file, bytes):
-        filename_or_file = str(bytes(filename_or_file).decode('utf-8', 'replace'))
-    if isinstance(filename_or_file, str):
-        return open(filename_or_file, *args, **kwargs)
+def ConvertToFile(str_or_file, *args, **kwargs):
+    if isinstance(str_or_file, bytes):
+        filename_or_file = str(bytes(str_or_file).decode('utf-8', 'replace'))
+    if isinstance(str_or_file, str):
+        if str_or_file[0] in ('[', '{', '<'):
+            return io.StringIO(str_or_file)
+        else:
+            return open(str_or_file, *args, **kwargs)
     else:
-        return filename_or_file
+        return str_or_file
 
 
 def FilterBadChars(f):
