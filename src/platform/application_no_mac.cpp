@@ -5,6 +5,7 @@
 #include <QLocalSocket>
 #include <QSurfaceFormat>
 #include <QTextCodec>
+#include <QUrl>
 
 Application::Application(int &argc, char **argv) :
     QApplication(argc, argv)
@@ -66,7 +67,7 @@ bool Application::parseArgs()
             else if (f.startsWith("moonplayers://"))
                 f.replace("moonplayers://", "https://");
             else if (f.startsWith("file://"))
-                f = f.mid(7);
+                f = QUrl::fromPercentEncoding(f.mid(7)).toUtf8();
 
             // Online resource
             if (f.startsWith("http://") || f.startsWith("https://"))
@@ -131,7 +132,7 @@ void Application::openFiles()
         else if (file.startsWith("moonplayers://"))
             file.replace("moonplayers://", "https://");
         else if (file.startsWith("file://"))
-            file = file.mid(7);
+            file = QUrl::fromPercentEncoding(file.mid(7).toUtf8());
 
         // Online videos
         if (file.startsWith("http://") || file.startsWith("https://"))
