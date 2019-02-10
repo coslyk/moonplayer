@@ -132,7 +132,7 @@ unix:!macx {
     isEmpty(BINDIR) {
         BINDIR = bin
     }
-    usr_share.files += plugins unblockcn scripts translations ykdl_patched.py
+    usr_share.files += plugins unblockcn scripts translations
     usr_share.path = $$PREFIX/share/moonplayer
     #icon
     icon.files += icons/*

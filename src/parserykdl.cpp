@@ -60,7 +60,7 @@ void ParserYkdl::runParser(const QString &url)
     }
 
     QStringList args;
-    args << PYTHON_BIN << (getAppPath() + "/ykdl_patched.py");
+    args << PYTHON_BIN << (getAppPath() + "/plugins/ykdl_patched.py");
     args << "-t" << "15" << "--json";
     if (!Settings::proxy.isEmpty() &&
             (Settings::proxyType == "http" || (Settings::proxyType == "http_unblockcn")))

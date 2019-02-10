@@ -7,9 +7,6 @@
 
 # Change default coding
 import os, sys, json, platform, io
-reload(sys)
-sys.setdefaultencoding('UTF8')
-
 
 # Init environment and import module
 if platform.system() == 'Darwin':
