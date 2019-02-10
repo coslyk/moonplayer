@@ -11,6 +11,15 @@
 #include <Python.h>
 #pragma pop_macro("slots")
 
+// Python executable file
+#ifdef Q_OS_MAC
+#define PYTHON_BIN "python"
+#elif PY_MAJOR_VERSION >= 3
+#define PYTHON_BIN "python3"
+#else
+#define PYTHON_BIN "python2"
+#endif
+
 // Python3 compatibility
 #if PY_MAJOR_VERSION >= 3
 #define PyString_FromString(str) PyUnicode_FromString(str)

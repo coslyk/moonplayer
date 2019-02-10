@@ -1,5 +1,6 @@
 #include "parserykdl.h"
 #include "platform/paths.h"
+#include "python_wrapper.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
 #include <QDir>
@@ -59,7 +60,7 @@ void ParserYkdl::runParser(const QString &url)
     }
 
     QStringList args;
-    args << "python" << (getAppPath() + "/ykdl_patched.py");
+    args << PYTHON_BIN << (getAppPath() + "/ykdl_patched.py");
     args << "-t" << "15" << "--json";
     if (!Settings::proxy.isEmpty() &&
             (Settings::proxyType == "http" || (Settings::proxyType == "http_unblockcn")))
