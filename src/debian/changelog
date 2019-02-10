@@ -1,3 +1,11 @@
+moonplayer (2.5.4-1~bionic) bionic; urgency=medium
+
+  * v2.5.4
+  * Fix: Flatpak version cannot parse videos
+  * Fix: Flatpak version cannot open files with non-ASCII filename from file manager
+
+ -- YK Liu <cos.lyk@gmail.com>  Sun, 10 Feb 2019 19:43:40 +0100
+
 moonplayer (2.5.2-1~bionic) bionic; urgency=medium
 
   * v2.5.2

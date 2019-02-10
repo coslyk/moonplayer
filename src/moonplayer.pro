@@ -153,7 +153,7 @@ unix:!macx {
 macx {
     FFMPEG.files = /usr/local/opt/ffmpeg/bin/ffmpeg
     FFMPEG.path = Contents/MacOS
-    RESFILES.files = ykdl_patched.py plugins unblockcn scripts translations
+    RESFILES.files = plugins unblockcn scripts translations
     RESFILES.path = Contents/Resources
     QT_TRANS.files = /usr/local/opt/qt/translations
     QT_TRANS.path = Contents/Resources/qt
