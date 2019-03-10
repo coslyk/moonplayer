@@ -13,8 +13,12 @@
 #include "platform/terminal.h"
 #include "parserykdl.h"
 #include "parseryoutubedl.h"
+
+#ifdef MP_ENABLE_WEBENGINE
 #include "extractor.h"
 #include "parserwebcatch.h"
+#endif
+
 
 
 SelectionDialog *ParserBase::selectionDialog = nullptr;
@@ -167,9 +171,12 @@ void upgradeParsers()
 void parseUrl(const QString &url, bool download)
 {
     QString host = QUrl(url).host();
+#ifdef MP_ENABLE_WEBENGINE
     if (Extractor::isSupported(host))
         parser_webcatch->parse(url, download);
-    else if (ParserYkdl::isSupported(host))
+    else
+#endif
+    if (ParserYkdl::isSupported(host))
         parser_ykdl->parse(url, download);
     else
         parser_youtubedl->parse(url, download);

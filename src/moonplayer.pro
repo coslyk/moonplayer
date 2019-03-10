@@ -4,8 +4,9 @@
 #
 #-------------------------------------------------
 
+!defined(ENABLE_WEBENGINE,var) { ENABLE_WEBENGINE=yes }
 
-QT += core gui network xml widgets websockets webenginewidgets
+QT += core gui network xml widgets
 unix:!macx: QT += gui-private x11extras
 
 macx:  TARGET = MoonPlayer
@@ -16,20 +17,17 @@ TEMPLATE = app
 SOURCES += \
     aboutdialog.cpp \
     accessmanager.cpp \
-    chromiumdebugger.cpp \
     cutterbar.cpp \
     danmakudelaygetter.cpp \
     danmakuloader.cpp \
     detailview.cpp \
     downloader.cpp \
     downloaderitem.cpp \
-    extractor.cpp \
     httpget.cpp \
     main.cpp \
     mybuttongroup.cpp \
     mylistwidget.cpp \
     parserbase.cpp \
-    parserwebcatch.cpp \
     parserykdl.cpp \
     parseryoutubedl.cpp \
     playercore.cpp \
@@ -50,19 +48,16 @@ SOURCES += \
 HEADERS  +=\
     aboutdialog.h \
     accessmanager.h \
-    chromiumdebugger.h \
     cutterbar.h \
     danmakudelaygetter.h \
     danmakuloader.h \
     detailview.h \
     downloader.h \
     downloaderitem.h \
-    extractor.h \
     httpget.h \
     mybuttongroup.h \
     mylistwidget.h \
     parserbase.h \
-    parserwebcatch.h \
     parserykdl.h \
     parseryoutubedl.h \
     playercore.h \
@@ -103,6 +98,18 @@ macx: {
         platform/detectopengl_mac.cpp \
         platform/paths_mac.cpp \
         platform/terminal_mac.cpp
+}
+
+# QtWebEngine Support (Mainly used for parsing youku videos)
+equals(ENABLE_WEBENGINE, "yes") {
+    QT += websockets webenginewidgets
+    HEADERS += chromiumdebugger.h \
+               extractor.h \
+               parserwebcatch.h
+    SOURCES += chromiumdebugger.cpp \
+               extractor.cpp \
+               parserwebcatch.cpp
+    DEFINES += MP_ENABLE_WEBENGINE
 }
 
 
@@ -151,7 +158,7 @@ unix:!macx {
 
 # Build bundle for Mac OS X
 macx {
-    FFMPEG.files = /usr/local/opt/ffmpeg/bin/ffmpeg
+    FFMPEG.files = /usr/local/bin/ffmpeg
     FFMPEG.path = Contents/MacOS
     RESFILES.files = plugins unblockcn scripts translations
     RESFILES.path = Contents/Resources

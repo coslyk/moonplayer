@@ -13,7 +13,10 @@
 #include "playerview.h"
 #include "parserykdl.h"
 #include "parseryoutubedl.h"
+
+#ifdef MP_ENABLE_WEBENGINE
 #include "parserwebcatch.h"
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -53,7 +56,9 @@ int main(int argc, char *argv[])
     // Create video parsers
     parser_ykdl = new ParserYkdl(&a);
     parser_youtubedl = new ParserYoutubeDL(&a);
+#ifdef MP_ENABLE_WEBENGINE
     parser_webcatch = new ParserWebCatch(&a);
+#endif
 
     a.exec();
     Py_Finalize();

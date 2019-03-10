@@ -1,6 +1,5 @@
 #include "pyapi.h"
 #include "accessmanager.h"
-#include "parserwebcatch.h"
 #include "platform/paths.h"
 #include "reslibrary.h"
 #include <QNetworkRequest>
@@ -9,6 +8,9 @@
 #include <QMessageBox>
 #include <QTimer>
 
+#ifdef MP_ENABLE_WEBENGINE
+#include "parserwebcatch.h"
+#endif
 
 bool win_debug = false;
 
@@ -247,6 +249,7 @@ static PyObject *show_detail(PyObject *, PyObject *args)
  *******************/
 static PyObject *finish_parsing(PyObject *, PyObject *args)
 {
+#ifdef MP_ENABLE_WEBENGINE
     PyObject *dict = nullptr;
     if (!PyArg_ParseTuple(args, "O", &dict))
         return nullptr;
@@ -259,6 +262,10 @@ static PyObject *finish_parsing(PyObject *, PyObject *args)
     parser_webcatch->onParseFinished(data);
     Py_IncRef(Py_None);
     return Py_None;
+#else
+    PyErr_SetString(PyExc_RuntimeError, "The current MoonPlayer is not built with Webengine support!");
+    return nullptr;
+#endif
 }
 
 /*******************
