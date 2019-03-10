@@ -35,7 +35,7 @@ static QString probeHwdecInterop()
     return result;
 }
 
-void detectOpenGL()
+void detectOpenGLEarly()
 {
     QString hwdec = QSettings("moonsoft", "moonplayer").value("Video/hwdec").toString();
     if (hwdec == "vaapi")
@@ -45,4 +45,8 @@ void detectOpenGL()
         if (probeHwdecInterop() == "vaapi-egl")
             qputenv("QT_XCB_GL_INTEGRATION", "xcb_egl");
     }
+}
+
+void detectOpenGLLate()
+{
 }

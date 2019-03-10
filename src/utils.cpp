@@ -5,9 +5,6 @@
 #include <QList>
 #include <QNetworkCookie>
 #include <QNetworkCookieJar>
-#ifdef Q_OS_WIN
-#include "settings_player.h"
-#endif
 
 QString secToTime(int second, bool use_format)
 {

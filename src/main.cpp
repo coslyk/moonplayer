@@ -18,15 +18,36 @@
 #include "parserwebcatch.h"
 #endif
 
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
+
 int main(int argc, char *argv[])
 {
-    setenv("QTWEBENGINE_REMOTE_DEBUGGING", "19260", 1);
+    qputenv("QTWEBENGINE_REMOTE_DEBUGGING", "19260");
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    detectOpenGL();
+
+    detectOpenGLEarly();
 
     Application a(argc, argv);
     if (!a.parseArgs())
         return 0;
+
+    detectOpenGLLate();
+
+
+    // Print python error to console on Windows
+#ifdef Q_OS_WIN
+    qputenv("PYTHONHOME", getAppPath().toUtf8() + "/python");
+    qputenv("PYTHONPATH", getAppPath().toUtf8() + "/python");
+    bool win_debug = AttachConsole(ATTACH_PARENT_PROCESS);
+    if (win_debug)
+    {
+        freopen("CON", "w", stdout);
+        freopen("CON", "w", stderr);
+        freopen("CON", "r", stdin);
+    }
+#endif
 
     //for mpv
     setlocale(LC_NUMERIC, "C");

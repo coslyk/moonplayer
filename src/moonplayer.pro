@@ -92,12 +92,20 @@ unix:!macx {
         platform/terminal_linux.cpp
 }
 
-macx: {
+macx {
     SOURCES += \
         platform/application_mac.cpp \
         platform/detectopengl_mac.cpp \
         platform/paths_mac.cpp \
         platform/terminal_mac.cpp
+}
+
+win32 {
+    SOURCES += \
+        platform/application_no_mac.cpp \
+        platform/detectopengl_win.cpp \
+        platform/paths_win.cpp \
+        platform/terminal_win.cpp
 }
 
 # QtWebEngine Support (Mainly used for parsing youku videos)
@@ -187,6 +195,13 @@ macx {
         -L/usr/lib -ldl \
         -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config -lpython2.7 \
         -L/usr/local/lib -lmpv
+}
+
+win32 {
+    CONFIG += link_pkgconfig
+    PKGCONFIG += python3
+    LIBS += -L$$PWD/mpv-dev/lib/ -llibmpv -lpowrprof
+    INCLUDEPATH += $$PWD/mpv-dev/include
 }
 
 DISTFILES += \

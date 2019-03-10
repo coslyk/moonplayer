@@ -71,19 +71,19 @@ void NetworkAccessManager::setProxy(const QString &proxyType, const QString &pro
         // QWebEngine uses application proxy
         QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::NoProxy));
         // libmpv uses proxy from environment
-        unsetenv("http_proxy");
+        qunsetenv("http_proxy");
     }
     else if (proxyType == "socks5")
     {
         QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
         QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
-        unsetenv("http_proxy");
+        qunsetenv("http_proxy");
     }
     else if (proxyType == "http")
     {
         QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
         QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
-        setenv("http_proxy", QString("http://%1:%2").arg(proxy, QString::number(port)).toUtf8().constData(), 1);
+        qputenv("http_proxy", QString("http://%1:%2").arg(proxy, QString::number(port)).toUtf8());
     }
     else if (proxyType == "http_unblockcn")
     {
@@ -92,7 +92,7 @@ void NetworkAccessManager::setProxy(const QString &proxyType, const QString &pro
         // QWebEngine uses proxy to parse videos
         QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
         // libmpv does not use proxy
-        unsetenv("http_proxy");
+        qunsetenv("http_proxy");
         // access manager for unblocking
         if (amForUnblock == nullptr)
             amForUnblock = new QNetworkAccessManager(this);

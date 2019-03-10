@@ -1,6 +1,7 @@
 #ifndef DETECTOPENGL_H
 #define DETECTOPENGL_H
 
-void detectOpenGL(void);
+void detectOpenGLEarly(void);
+void detectOpenGLLate(void);
 
 #endif // DETECTOPENGL_H

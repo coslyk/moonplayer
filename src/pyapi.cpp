@@ -306,7 +306,7 @@ PyObject *apiModule = nullptr;
 void initPython()
 {
     //init python
-    setenv("PYTHONIOENCODING", "utf-8", 1);
+    qputenv("PYTHONIOENCODING", "utf-8");
     Py_Initialize();
     if (!Py_IsInitialized())
     {
