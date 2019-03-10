@@ -24,6 +24,15 @@ else
     alias fetcher="wget -q -O -"
 fi
 
+# Set python
+if which python3 > /dev/null; then
+    PYTHON=python3
+elif which python2 > /dev/null; then
+    PYTHON=python2
+else
+    PYTHON=python
+fi
+
 
 cd "$TMPDIR"
 echo ""
@@ -33,7 +42,7 @@ echo -e "\033[34m ---------- Checking ykdl's updates ----------- \033[0m"
 get_latest_version() {
     export PYTHONIOENCODING=utf8
     fetcher 'https://api.github.com/repos/zhangn1985/ykdl/branches/master' | \
-        python -c "import sys, json; sys.stdout.write(json.load(sys.stdin)['commit']['sha'])"
+        $PYTHON -c "import sys, json; sys.stdout.write(json.load(sys.stdin)['commit']['sha'])"
 }
 
 LATEST_VERSION=`get_latest_version`
