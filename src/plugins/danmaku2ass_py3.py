@@ -31,7 +31,7 @@ if sys.version_info < (3,):
 
 try:
     gettext.install('danmaku2ass', os.path.join(os.path.dirname(os.path.abspath(os.path.realpath(sys.argv[0] or 'locale'))), 'locale'))
-except AttributeError: # in some case sys.argv does not exist
+except: # in some case sys.argv does not exist
     gettext.install('danmaku2ass', os.path.join(os.path.dirname(os.path.abspath(os.path.realpath('locale'))), 'locale'))
 
 def SeekZero(function):
