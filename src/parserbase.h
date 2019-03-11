@@ -41,6 +41,5 @@ private:
 };
 
 void parseUrl(const QString &url, bool download);
-void upgradeParsers(void);
 
 #endif // PARSERBASE_H

@@ -81,8 +81,7 @@ HEADERS  +=\
     videocombiner.h \
     platform/application.h \
     platform/detectopengl.h \
-    platform/paths.h \
-    platform/terminal.h
+    platform/paths.h
 
 
 # Platform specific source codes
@@ -90,24 +89,21 @@ unix:!macx {
     SOURCES += \
         platform/application_no_mac.cpp \
         platform/detectopengl_linux.cpp \
-        platform/paths_linux.cpp \
-        platform/terminal_linux.cpp
+        platform/paths_linux.cpp
 }
 
 macx {
     SOURCES += \
         platform/application_mac.cpp \
         platform/detectopengl_mac.cpp \
-        platform/paths_mac.cpp \
-        platform/terminal_mac.cpp
+        platform/paths_mac.cpp
 }
 
 win32 {
     SOURCES += \
         platform/application_no_mac.cpp \
         platform/detectopengl_win.cpp \
-        platform/paths_win.cpp \
-        platform/terminal_win.cpp
+        platform/paths_win.cpp
 }
 
 # QtWebEngine Support (Mainly used for parsing youku videos)

@@ -10,9 +10,9 @@
 #include "reslibrary.h"
 #include "selectiondialog.h"
 #include "settings_network.h"
-#include "platform/terminal.h"
 #include "parserykdl.h"
 #include "parseryoutubedl.h"
+#include "upgraderdialog.h"
 
 #ifdef MP_ENABLE_WEBENGINE
 #include "extractor.h"
@@ -159,12 +159,7 @@ void ParserBase::showErrorDialog(const QString &errMsg)
     msgBox.addButton(QMessageBox::Cancel);
     msgBox.exec();
     if (msgBox.clickedButton() == updateButton)
-        upgradeParsers();
-}
-
-void upgradeParsers()
-{
-    execShell(parserUpgraderPath());
+        upgraderDialog->runUpgrader();
 }
 
 

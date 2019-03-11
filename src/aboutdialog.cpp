@@ -1,7 +1,7 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 #include "accessmanager.h"
-#include "parserbase.h"
+#include "upgraderdialog.h"
 #include "platform/paths.h"
 #include <QFile>
 #include <QMessageBox>
@@ -52,7 +52,7 @@ void AboutDialog::checkUpdateFinished()
                                                                    QMessageBox::No);
         if (btn == QMessageBox::Yes)
         {
-            upgradeParsers();
+            upgraderDialog->runUpgrader();
             QMessageBox::information(nullptr, "Finish", tr("Downloading plugins finished. Please relaunch MoonPlayer."));
         }
     }
