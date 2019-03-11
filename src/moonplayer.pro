@@ -146,7 +146,7 @@ unix:!macx {
     isEmpty(BINDIR) {
         BINDIR = bin
     }
-    usr_share.files += plugins unblockcn scripts translations
+    usr_share.files += plugins unblockcn translations
     usr_share.path = $$PREFIX/share/moonplayer
     #icon
     icon.files += icons/*
@@ -167,7 +167,7 @@ unix:!macx {
 macx {
     FFMPEG.files = /usr/local/bin/ffmpeg
     FFMPEG.path = Contents/MacOS
-    RESFILES.files = plugins unblockcn scripts translations
+    RESFILES.files = plugins unblockcn translations
     RESFILES.path = Contents/Resources
     QT_TRANS.files = /usr/local/opt/qt/translations
     QT_TRANS.path = Contents/Resources/qt
@@ -183,8 +183,6 @@ win32: RC_FILE = icon.rc
 unix:!macx {
     CONFIG += link_pkgconfig
     PKGCONFIG += python3 mpv
-    INCLUDEPATH += $$PREFIX/include/qtermwidget5
-    LIBS += -lqtermwidget5
 }
 
 macx {
