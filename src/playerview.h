@@ -18,6 +18,7 @@ class QTimer;
 class ResLibrary;
 class SelectionDialog;
 class SettingsDialog;
+class UpgraderDialog;
 
 class PlayerView : public QWidget
 {
@@ -85,6 +86,7 @@ private:
     ResLibrary *reslibrary;
     SelectionDialog *selectionDialog;
     SettingsDialog *settingsDialog;
+    UpgraderDialog *upgraderDialog;
     bool quit_requested;
     bool no_play_next;
     bool ctrl_pressed;

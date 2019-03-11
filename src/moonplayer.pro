@@ -41,6 +41,7 @@ SOURCES += \
     settingsdialog.cpp \
     skin.cpp \
     streamget.cpp \
+    upgraderdialog.cpp \
     utils.cpp \
     videocombiner.cpp \
     platform/paths.cpp
@@ -75,6 +76,7 @@ HEADERS  +=\
     settingsdialog.h \
     skin.h \
     streamget.h \
+    upgraderdialog.h \
     utils.h \
     videocombiner.h \
     platform/application.h \
@@ -133,7 +135,8 @@ FORMS    += \
     cutterbar.ui \
     selectiondialog.ui \
     playerview.ui \
-    aboutdialog.ui
+    aboutdialog.ui \
+    upgraderdialog.ui
 
 
 RESOURCES += \

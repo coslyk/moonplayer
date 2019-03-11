@@ -11,6 +11,7 @@
 #include "settings_audio.h"
 #include "settingsdialog.h"
 #include "skin.h"
+#include "upgraderdialog.h"
 #include "utils.h"
 #include <QDesktopServices>
 #include <QDesktopWidget>
@@ -101,6 +102,9 @@ PlayerView::PlayerView(QWidget *parent) :
     volumeSlider->resize(QSize(20, 70));
     volumeSlider->move(2, 5);
 
+    // create upgrader dialog
+    upgraderDialog = new UpgraderDialog(this);
+
     // create about dialog
     aboutDialog = new AboutDialog(this);
 
@@ -156,7 +160,7 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addSeparator();
     menu->addAction(tr("Settings") + "\tCtrl+,", settingsDialog, SLOT(show()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
-    menu->addAction(tr("Upgrade parsers"), upgradeParsers);
+    menu->addAction(tr("Upgrade parsers"), upgraderDialog, &UpgraderDialog::runUpgrader);
     menu->addAction(tr("About"), aboutDialog, &AboutDialog::exec);
 
     // create cutterbar
