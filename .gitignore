@@ -1,6 +1,7 @@
 debug
 release
 ipch
+src/mpv-dev/*
 moonplayer.sdf
 moonplayer.sln
 moonplayer.suo
