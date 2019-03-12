@@ -4,6 +4,8 @@
 #include <QString>
 #include <QStringList>
 #include <QVariant>
+#include <QCoreApplication>
+#include <QDir>
 
 // Python3 defines macro "slots", which is conflict with Qt
 #pragma push_macro("slots")
@@ -12,8 +14,10 @@
 #pragma pop_macro("slots")
 
 // Python executable file
-#ifdef Q_OS_MAC
+#if defined(Q_OS_MAC)
 #define PYTHON_BIN "python"
+#elif defined(Q_OS_WIN)
+#define PYTHON_BIN (QDir(QCoreApplication::applicationDirPath()).filePath("python3.exe"))
 #elif PY_MAJOR_VERSION >= 3
 #define PYTHON_BIN "python3"
 #else

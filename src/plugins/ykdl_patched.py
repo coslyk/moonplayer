@@ -7,12 +7,15 @@
 
 # Change default coding
 import os, sys, json, platform, io
+from os.path import expanduser
 
 # Init environment and import module
 if platform.system() == 'Darwin':
     _srcdir = '%s/Library/Application Support/MoonPlayer/ykdl/' % os.getenv('HOME')
-else:
+elif platform.system() == 'Linux':
     _srcdir = '%s/moonplayer/ykdl/' % os.getenv('XDG_DATA_HOME', os.getenv('HOME') + '/.local/share')
+else:
+    _srcdir = expanduser(r'~\AppData\Local\MoonPlayer\ykdl')
 _filepath = os.path.dirname(sys.argv[0])
 sys.path.insert(0, _srcdir)
 

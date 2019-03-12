@@ -60,13 +60,13 @@ void ParserYkdl::runParser(const QString &url)
     }
 
     QStringList args;
-    args << PYTHON_BIN << (getAppPath() + "/plugins/ykdl_patched.py");
+    args << (getAppPath() + "/plugins/ykdl_patched.py");
     args << "-t" << "15" << "--json";
     if (!Settings::proxy.isEmpty() &&
             (Settings::proxyType == "http" || (Settings::proxyType == "http_unblockcn")))
         args << "--proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
     args << url;
-    process->start("/usr/bin/env", args, QProcess::ReadOnly);
+    process->start(PYTHON_BIN, args, QProcess::ReadOnly);
     msgWindow->show();
 }
 
