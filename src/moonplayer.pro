@@ -195,10 +195,12 @@ macx {
 }
 
 win32 {
-    CONFIG += link_pkgconfig
-    PKGCONFIG += python3
-    LIBS += -L$$PWD/mpv-dev/lib/ -llibmpv -lpowrprof
-    INCLUDEPATH += $$PWD/mpv-dev/include
+    INCLUDEPATH += \
+        C:\\Python27\\include \
+        D:\\Develop\\mpv-dev\\include
+    LIBS += \
+        C:\\Python27\\libs\\python27.lib \
+        D:\\Develop\\mpv-dev\\64\\mpv.lib
 }
 
 DISTFILES += \

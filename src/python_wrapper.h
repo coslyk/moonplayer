@@ -17,7 +17,7 @@
 #if defined(Q_OS_MAC)
 #define PYTHON_BIN "python"
 #elif defined(Q_OS_WIN)
-#define PYTHON_BIN (QDir(QCoreApplication::applicationDirPath()).filePath("python3.exe"))
+#define PYTHON_BIN (QDir(QCoreApplication::applicationDirPath()).filePath("python.exe"))
 #elif PY_MAJOR_VERSION >= 3
 #define PYTHON_BIN "python3"
 #else

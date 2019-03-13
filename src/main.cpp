@@ -38,8 +38,8 @@ int main(int argc, char *argv[])
 
     // Print python error to console on Windows
 #ifdef Q_OS_WIN
-    qputenv("PYTHONHOME", getAppPath().toUtf8() + "/python");
-    qputenv("PYTHONPATH", getAppPath().toUtf8() + "/python;" + getAppPath().toUtf8() + "/python/lib-dynload");
+    qputenv("PYTHONHOME", getAppPath().toUtf8());
+    qputenv("PYTHONPATH", getAppPath().toUtf8() + "/Lib;" + getAppPath().toUtf8() + "/DLLs");
     bool win_debug = AttachConsole(ATTACH_PARENT_PROCESS);
     if (win_debug)
     {
