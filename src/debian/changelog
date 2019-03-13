@@ -1,3 +1,13 @@
+moonplayer (2.6-1~bionic) bionic; urgency=medium
+
+  * v2.6
+  * Support Windows
+  * Use python script to upgrade plugins instead of shell
+  * Fix: Wrong sequence when joining more than 10 videos
+  * Fix: Danmaku2ass crashes on Python3.7
+
+ -- YK Liu <cos.lyk@gmail.com>  Wed, 13 Mar 2019 17:15:13 +0800
+
 moonplayer (2.5.4-1~bionic) bionic; urgency=medium
 
   * v2.5.4
