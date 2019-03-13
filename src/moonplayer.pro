@@ -4,7 +4,16 @@
 #
 #-------------------------------------------------
 
+### Config
+# QtWebEngine (Chromium) intergration, set ENABLE_WEBENGINE=no to disable it
 !defined(ENABLE_WEBENGINE,var) { ENABLE_WEBENGINE=yes }
+
+# Library paths on Windows
+win32 {
+    !defined(PYTHON2_PATH,var) { PYTHON2_PATH=C:\\Python27 }
+    !defined(LIBMPV_PATH,var) { LIBMPV_PATH=D:\\Develop\\mpv-dev }
+}
+
 
 QT += core gui network xml widgets
 unix:!macx: QT += gui-private x11extras
@@ -196,11 +205,11 @@ macx {
 
 win32 {
     INCLUDEPATH += \
-        C:\\Python27\\include \
-        D:\\Develop\\mpv-dev\\include
+        $$PYTHON2_PATH\\include \
+        $$LIBMPV_PATH\\include
     LIBS += \
-        C:\\Python27\\libs\\python27.lib \
-        D:\\Develop\\mpv-dev\\i686\\mpv.lib
+        $$PYTHON2_PATH\\libs\\python27.lib \
+        $$LIBMPV_PATH\\i686\\mpv.lib
     QMAKE_CFLAGS  -= -Zc:strictStrings
     QMAKE_CXXFLAGS  -= -Zc:strictStrings
     QMAKE_CFLAGS_RELEASE  -= -Zc:strictStrings
