@@ -258,7 +258,7 @@ PlayerCore::~PlayerCore()
         while (i != unfinished_time.constEnd())
         {
             QString name = i.key();
-            if (!name.startsWith("http://"))
+            if (!name.startsWith("http://") && !name.startsWith("https://"))
                 data += name.toUtf8() + '\n' + QByteArray::number((int) i.value()) + '\n';
             i++;
         }
