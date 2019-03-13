@@ -14,19 +14,22 @@
 #include <QMessageBox>
 #include <QOpenGLContext>
 
+// workaround for some gl.h headers
+#ifndef GLAPIENTRY
+#ifdef APIENTRY
+#define GLAPIENTRY APIENTRY
+#elif defined(Q_OS_WIN)
+#define GLAPIENTRY __stdcall
+#else
+#define GLAPIENTRY
+#endif
+#endif
+
 // wayland fix
 #ifdef Q_OS_LINUX
 #include <QGuiApplication>
 #include <QX11Info>
 #include <qpa/qplatformnativeinterface.h>
-
-#ifndef GLAPIENTRY
-#ifdef Q_OS_WIN
-#define GLAPIENTRY __stdcall
-#else
-#define GLAPIENTRY
-#endif
-#endif // GLAPIENTRY
 
 static void* GLAPIENTRY glMPGetNativeDisplay(const char *name)
 {
@@ -113,8 +116,11 @@ PlayerCore::PlayerCore(QWidget *parent) :
     mpv_set_option_string(mpv, "opengl-hwdec-interop", "videotoolbox");
     mpv_set_option_string(mpv, "hwdec", Settings::copyMode ? "videotoolbox-copy" : "videotoolbox");
 #elif defined(Q_OS_WIN)
-    mpv_set_option_string(mpv, "opengl-backend", "angle");
-    mpv_set_option_string(mpv, "hwdec", "d3d11va");
+    mpv_set_option_string(mpv, "gpu-context", "angle");
+    if (QSysInfo::productVersion() == "8.1" && QSysInfo::productVersion() == "10")
+        mpv_set_option_string(mpv, "hwdec", "d3d11va");
+    else
+        mpv_set_option_string(mpv, "hwdec", "dxva2");
 #endif
 
     // listen mpv event

@@ -200,7 +200,13 @@ win32 {
         D:\\Develop\\mpv-dev\\include
     LIBS += \
         C:\\Python27\\libs\\python27.lib \
-        D:\\Develop\\mpv-dev\\64\\mpv.lib
+        D:\\Develop\\mpv-dev\\i686\\mpv.lib
+    QMAKE_CFLAGS  -= -Zc:strictStrings
+    QMAKE_CXXFLAGS  -= -Zc:strictStrings
+    QMAKE_CFLAGS_RELEASE  -= -Zc:strictStrings
+    QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO -= -Zc:strictStrings
+    QMAKE_CXXFLAGS_RELEASE  -= -Zc:strictStrings
+    QMAKE_CXXFLAGS_RELEASE_WITH_DEBUGINFO -= -Zc:strictStrings
 }
 
 DISTFILES += \
