@@ -89,7 +89,7 @@ void ParserBase::finishParsing()
     else
     {
         for (int i = 0; i < result.urls.size(); i++)
-            names << QString("%1_%2.%3").arg(result.title, QString::number(i), result.container);
+            names << QString("%1_%2.%3").arg(result.title, QString::number(i).rightJustified(3, '0'), result.container);
     }
 
     // Download
