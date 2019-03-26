@@ -60,18 +60,21 @@ void StreamGet::pause()
 
 void StreamGet::stop()
 {
-    timer->stop();
+    if (timer)
+    {
+        timer->stop();
+        timer->deleteLater();
+        timer = nullptr;
+    }
     if (process)
     {
         process->write("q");
         process->waitForFinished(1000);
         if (process->state() == QProcess::Running)
             process->kill();
+        process->deleteLater();
+        process = nullptr;
     }
-    process->deleteLater();
-    process = nullptr;
-    timer->deleteLater();
-    timer = nullptr;
 }
 
 StreamGet::~StreamGet()
