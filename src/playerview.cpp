@@ -494,9 +494,11 @@ void PlayerView::onLengthChanged(int len)
 
 void PlayerView::onTimeChanged(int time)
 {
-    ui->timeLabel->setText(secToTime(time));
-    if (!ui->timeSlider->isSliderDown() && time % 4 == 0) // Make slider easier to drag
+    if (!ui->timeSlider->isSliderDown()) // Make slider easier to drag
+    {
+        ui->timeLabel->setText(secToTime(time));
         ui->timeSlider->setValue(time);
+    }
 }
 
 void PlayerView::onTimeSliderPressed()
