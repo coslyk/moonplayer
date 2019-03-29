@@ -16,8 +16,8 @@
 
 DanmakuLoader::DanmakuLoader(QObject *parent) : QObject(parent)
 {
-    module = danmaku2assFunc = nullptr;
-    reply = nullptr;
+    module = danmaku2assFunc = NULL;
+    reply = NULL;
 }
 
 void DanmakuLoader::reload()
@@ -59,14 +59,14 @@ void DanmakuLoader::onXmlDownloaded()
 {
     if (reply->error() == QNetworkReply::NoError)
     {
-        if (danmaku2assFunc == nullptr)
+        if (danmaku2assFunc == NULL)
         {
-            if ((module = PyImport_ImportModule(DANMAKU2ASS)) == nullptr)
+            if ((module = PyImport_ImportModule(DANMAKU2ASS)) == NULL)
             {
                 printPythonException();
                 exit(EXIT_FAILURE);
             }
-            if ((danmaku2assFunc = PyObject_GetAttrString(module, "Danmaku2ASS")) == nullptr)
+            if ((danmaku2assFunc = PyObject_GetAttrString(module, "Danmaku2ASS")) == NULL)
             {
                 printPythonException();
                 exit(EXIT_FAILURE);
@@ -150,5 +150,5 @@ void DanmakuLoader::onXmlDownloaded()
             printPythonException();
     }
     reply->deleteLater();
-    reply = nullptr;
+    reply = NULL;
 }

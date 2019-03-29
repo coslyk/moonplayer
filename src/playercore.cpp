@@ -34,10 +34,10 @@
 static void* GLAPIENTRY glMPGetNativeDisplay(const char *name)
 {
     if (strcmp(name, "wl") == 0 && !QX11Info::isPlatformX11())
-        return QGuiApplication::platformNativeInterface()->nativeResourceForWindow("display", nullptr);
+        return QGuiApplication::platformNativeInterface()->nativeResourceForWindow("display", NULL);
     else if (strcmp(name, "x11") == 0 && QX11Info::isPlatformX11())
         return QX11Info::display();
-    return nullptr;
+    return NULL;
 }
 #endif // Q_OS_LINUX
 
@@ -59,12 +59,12 @@ static void *get_proc_address(void *, const char *name)
 
     QOpenGLContext *glctx = QOpenGLContext::currentContext();
     if (!glctx)
-        return nullptr;
+        return NULL;
     return (void*) glctx->getProcAddress(name);
 }
 
 
-PlayerCore *player_core = nullptr;
+PlayerCore *player_core = NULL;
 
 static QHash<QString,int64_t> unfinished_time;
 
@@ -185,9 +185,9 @@ void PlayerCore::initializeGL()
 {
     printf("OpenGL Version: %i.%i\n", context()->format().majorVersion(), context()->format().minorVersion());
 #ifdef Q_OS_LINUX
-    int r = mpv_opengl_cb_init_gl(mpv_gl, "GL_MP_MPGetNativeDisplay", get_proc_address, nullptr);
+    int r = mpv_opengl_cb_init_gl(mpv_gl, "GL_MP_MPGetNativeDisplay", get_proc_address, NULL);
 #else
-    int r = mpv_opengl_cb_init_gl(mpv_gl, nullptr, get_proc_address, nullptr);
+    int r = mpv_opengl_cb_init_gl(mpv_gl, NULL, get_proc_address, NULL);
 #endif
     if (r < 0)
     {
@@ -238,16 +238,16 @@ void PlayerCore::unpauseRendering()
 
 PlayerCore::~PlayerCore()
 {
-    player_core = nullptr;
+    player_core = NULL;
     makeCurrent();
     if (mpv_gl)
-        mpv_opengl_cb_set_update_callback(mpv_gl, nullptr, nullptr);
+        mpv_opengl_cb_set_update_callback(mpv_gl, NULL, NULL);
     mpv_opengl_cb_uninit_gl(mpv_gl);
-    mpv_gl = nullptr;
+    mpv_gl = NULL;
     if (mpv)
     {
         mpv_terminate_destroy(mpv);
-        mpv = nullptr;
+        mpv = NULL;
     }
 
     // save unfinished time
@@ -290,7 +290,7 @@ bool PlayerCore::event(QEvent *e)
     while (mpv)
     {
         mpv_event *event = mpv_wait_event(mpv, 0);
-        if (event == nullptr)
+        if (event == NULL)
             break;
         if (event->event_id == MPV_EVENT_NONE)
             break;
@@ -370,7 +370,7 @@ bool PlayerCore::event(QEvent *e)
         case MPV_EVENT_PROPERTY_CHANGE:
         {
             mpv_event_property *prop = (mpv_event_property*) event->data;
-            if (prop->data == nullptr)
+            if (prop->data == NULL)
                 break;
             QByteArray propName = prop->name;
             if (propName == "playback-time")
@@ -570,7 +570,7 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku, const QSt
     subDelay = audioDelay = 0;
 
     QByteArray tmp = file.toUtf8();
-    const char *args[] = {"loadfile", tmp.constData(), nullptr};
+    const char *args[] = {"loadfile", tmp.constData(), NULL};
     handleMpvError(mpv_command_async(mpv, 2, args));
 }
 
@@ -596,7 +596,7 @@ void PlayerCore::stop()
 {
     if (state == STOPPING)
         return;
-    const char *args[] = {"stop", nullptr};
+    const char *args[] = {"stop", NULL};
     handleMpvError(mpv_command_async(mpv, 0, args));
     if (time < length - 2 && Settings::rememberUnfinished)
         unfinished_time[file] = time;
@@ -670,7 +670,7 @@ void PlayerCore::setProgress(int pos)
     if (pos != time)
     {
         QByteArray tmp = QByteArray::number(pos);
-        const char *args[] = {"seek", tmp.constData(), "absolute", nullptr};
+        const char *args[] = {"seek", tmp.constData(), "absolute", NULL};
         mpv_command_async(mpv, 2, args);
     }
 }
@@ -696,7 +696,7 @@ void PlayerCore::openSubtitle(const QString &subFile)
     if (state == STOPPING)
         return;
     QByteArray tmp = subFile.toUtf8();
-    const char *args[] = {"sub-add", tmp.constData(), "select", nullptr};
+    const char *args[] = {"sub-add", tmp.constData(), "select", NULL};
     handleMpvError(mpv_command_async(mpv, 2, args));
 }
 
@@ -712,7 +712,7 @@ void PlayerCore::screenShot()
 {
     if (state == STOPPING)
         return;
-    const char *args[] = {"osd-msg" ,"screenshot", nullptr};
+    const char *args[] = {"osd-msg" ,"screenshot", NULL};
     mpv_command_async(mpv, 2, args);
 }
 
@@ -769,7 +769,7 @@ void PlayerCore::openAudioTrack(const QString &audioFile)
     if (state == STOPPING)
         return;
     QByteArray tmp = audioFile.toUtf8();
-    const char *args[] = {"audio-add", tmp.constData(), "select", nullptr};
+    const char *args[] = {"audio-add", tmp.constData(), "select", NULL};
     handleMpvError(mpv_command_async(mpv, 2, args));
 }
 
@@ -849,6 +849,6 @@ void PlayerCore::showText(const QByteArray &text)
 {
     if (state == STOPPING)
         return;
-    const char *args[] = {"show-text", text.constData(), nullptr};
+    const char *args[] = {"show-text", text.constData(), NULL};
     mpv_command_async(mpv, 2, args);
 }

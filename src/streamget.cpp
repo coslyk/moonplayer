@@ -9,8 +9,8 @@ StreamGet::StreamGet(const QUrl &url, const QString &filename, QObject *parent) 
     DownloaderItem (filename, parent)
 {
     args << "-y" << "-i" << url.toString() << "-c" << "copy" << "-bsf:a" << "aac_adtstoasc" << filename;
-    process = nullptr;
-    timer = nullptr;
+    process = NULL;
+    timer = NULL;
     duration = 0;
 }
 
@@ -55,7 +55,7 @@ void StreamGet::readOutput()
 
 void StreamGet::pause()
 {
-    QMessageBox::warning(nullptr, "Error", tr("Cannot pause the download of stream medias"));
+    QMessageBox::warning(NULL, "Error", tr("Cannot pause the download of stream medias"));
 }
 
 void StreamGet::stop()
@@ -64,7 +64,7 @@ void StreamGet::stop()
     {
         timer->stop();
         timer->deleteLater();
-        timer = nullptr;
+        timer = NULL;
     }
     if (process)
     {
@@ -73,7 +73,7 @@ void StreamGet::stop()
         if (process->state() == QProcess::Running)
             process->kill();
         process->deleteLater();
-        process = nullptr;
+        process = NULL;
     }
 }
 
@@ -102,8 +102,8 @@ void StreamGet::onProcFinished(int code)
     }
     emit finished(this, code);
     process->deleteLater();
-    process = nullptr;
+    process = NULL;
     timer->deleteLater();
-    timer = nullptr;
+    timer = NULL;
 
 }

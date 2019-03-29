@@ -2,7 +2,7 @@
 #include "platform/paths.h"
 #include <QDir>
 
-Extractor **extractors = nullptr;
+Extractor **extractors = NULL;
 int n_extractors = 0;
 QStringList Extractor::supportedHosts;
 
@@ -38,9 +38,9 @@ void initExtractors()
 
 Extractor::Extractor(const QString &name, bool *ok)
 {
-    module = parseFunc = nullptr;
+    module = parseFunc = NULL;
     module = PyImport_ImportModule(name.toUtf8().constData());
-    if (module == nullptr)
+    if (module == NULL)
     {
         printPythonException();
         *ok = false;
@@ -48,7 +48,7 @@ Extractor::Extractor(const QString &name, bool *ok)
     }
 
     PyObject *hosts = PyObject_GetAttrString(module, "supported_hosts");
-    if (hosts == nullptr)
+    if (hosts == NULL)
     {
         printPythonException();
         *ok = false;
@@ -59,7 +59,7 @@ Extractor::Extractor(const QString &name, bool *ok)
     Py_DecRef(hosts);
 
     parseFunc = PyObject_GetAttrString(module, "parse");
-    if (parseFunc == nullptr)
+    if (parseFunc == NULL)
     {
         printPythonException();
         *ok = false;
@@ -67,7 +67,7 @@ Extractor::Extractor(const QString &name, bool *ok)
     }
 
     PyObject *url_pattern = PyObject_GetAttrString(module, "url_pattern");
-    if (url_pattern == nullptr)
+    if (url_pattern == NULL)
     {
         printPythonException();
         *ok = false;
@@ -99,14 +99,14 @@ Extractor *Extractor::getMatchedExtractor(const QString &url)
         if (extractors[i]->match(url))
             return extractors[i];
     }
-    return nullptr;
+    return NULL;
 }
 
 
 QString Extractor::parse(const QByteArray &data)
 {
     PyObject *result = PyObject_CallFunction(parseFunc, "s", data.constData());
-    if (result == nullptr)
+    if (result == NULL)
         return QString("Python Exception:\n%1\n\nResponse Content:\n%2").arg(
                     fetchPythonException(), QString::fromUtf8(data));
     else

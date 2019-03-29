@@ -2,7 +2,7 @@
 
 QString fetchPythonException()
 {
-    static PyObject *tracebackFunc = nullptr;
+    static PyObject *tracebackFunc = NULL;
     PyObject *ptype, *pvalue, *ptraceback;
     QStringList tracebacks;
 
@@ -11,14 +11,14 @@ QString fetchPythonException()
     PyErr_NormalizeException(&ptype, &pvalue, &ptraceback);
 
     // See if we can get a full traceback
-    if (tracebackFunc == nullptr)
+    if (tracebackFunc == NULL)
     {
         PyObject *pyth_module = PyImport_ImportModule("traceback");
         if (pyth_module)
             tracebackFunc = PyObject_GetAttrString(pyth_module, "format_exception");
     }
     if (tracebackFunc && PyCallable_Check(tracebackFunc)) {
-        PyObject *retVal = PyObject_CallFunctionObjArgs(tracebackFunc, ptype, pvalue, ptraceback, nullptr);
+        PyObject *retVal = PyObject_CallFunctionObjArgs(tracebackFunc, ptype, pvalue, ptraceback, NULL);
         tracebacks = PyList_AsQStringList(retVal);
         Py_DecRef(retVal);
     }

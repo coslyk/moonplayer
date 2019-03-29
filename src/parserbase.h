@@ -8,7 +8,7 @@ class ParserBase : public QObject
 {
     Q_OBJECT
 public:
-    explicit ParserBase(QObject *parent = nullptr);
+    explicit ParserBase(QObject *parent = NULL);
     virtual ~ParserBase();
     void parse(const QString &url, bool download);
 

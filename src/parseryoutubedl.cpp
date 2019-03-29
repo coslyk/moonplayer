@@ -21,7 +21,7 @@ ParserYoutubeDL::ParserYoutubeDL(QObject *parent) : ParserBase(parent)
     process = new QProcess(this);
     process->setWorkingDirectory(getUserPath());
     connect(process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
-    msgWindow = nullptr;
+    msgWindow = NULL;
 }
 
 ParserYoutubeDL::~ParserYoutubeDL()
@@ -38,11 +38,11 @@ void ParserYoutubeDL::runParser(const QString &url)
 {
     if (process->state() == QProcess::Running)
     {
-        QMessageBox::warning(nullptr, "Error", tr("Another file is being parsed."));
+        QMessageBox::warning(NULL, "Error", tr("Another file is being parsed."));
         return;
     }
 
-    if (msgWindow == nullptr)
+    if (msgWindow == NULL)
     {
         msgWindow = new QWidget;
         msgWindow->setWindowFlag(Qt::FramelessWindowHint);

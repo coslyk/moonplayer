@@ -96,7 +96,7 @@ void ParserWebCatch::onChromiumResult(int id, const QVariantHash &result)
         QString err = matchedExtractor->parse(data);
         if (!err.isEmpty())
             showErrorDialog(err);
-        matchedExtractor = nullptr;
+        matchedExtractor = NULL;
     }
 }
 

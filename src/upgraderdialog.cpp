@@ -4,7 +4,7 @@
 #include "python_wrapper.h"
 #include "platform/paths.h"
 
-UpgraderDialog *upgraderDialog = nullptr;
+UpgraderDialog *upgraderDialog = NULL;
 
 UpgraderDialog::UpgraderDialog(QWidget *parent) :
     QDialog(parent),

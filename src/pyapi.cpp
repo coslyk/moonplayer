@@ -17,26 +17,26 @@ bool win_debug = false;
 /*****************************************
  ******** Some useful functions **********
  ****************************************/
-#define RETURN_IF_ERROR(retval)  if ((retval) == nullptr){printPythonException(); return;}
-#define EXIT_IF_ERROR(retval)    if ((retval) == nullptr){printPythonException(); exit(EXIT_FAILURE);}
+#define RETURN_IF_ERROR(retval)  if ((retval) == NULL){printPythonException(); return;}
+#define EXIT_IF_ERROR(retval)    if ((retval) == NULL){printPythonException(); exit(EXIT_FAILURE);}
 
 
 /************************************************
  ** Define get_content() function for python **
  ************************************************/
 
-GetUrl *geturl_obj = nullptr;
-PyObject *exc_GetUrlError = nullptr;
+GetUrl *geturl_obj = NULL;
+PyObject *exc_GetUrlError = NULL;
 
 GetUrl::GetUrl(QObject *parent) : QObject(parent)
 {
-    reply = nullptr;
-    callbackFunc = nullptr;
-    data = nullptr;
+    reply = NULL;
+    callbackFunc = NULL;
+    data = NULL;
     timer = new QTimer(this);
     timer->setSingleShot(true);
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimeOut()));
-    exc_GetUrlError = PyErr_NewException("moonplayer.GetUrlError", nullptr, nullptr);
+    exc_GetUrlError = PyErr_NewException("moonplayer.GetUrlError", NULL, NULL);
 }
 
 void GetUrl::start(const char *url, PyObject *callback, PyObject *_data,
@@ -92,8 +92,8 @@ void GetUrl::onFinished()
     }
     PyObject *callback = callbackFunc;
     PyObject *_data = data;
-    callbackFunc = nullptr;
-    data = nullptr;
+    callbackFunc = NULL;
+    data = NULL;
     QNetworkReply::NetworkError error = reply->error();
     QByteArray barray = reply->readAll();
     reply->deleteLater();
@@ -101,7 +101,7 @@ void GetUrl::onFinished()
     {
         int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         QString errStr = QString().sprintf("Network Error: %d\n%s\n", status, reply->errorString().toUtf8().constData());
-        QMessageBox::warning(nullptr, "Error", errStr);
+        QMessageBox::warning(NULL, "Error", errStr);
         Py_DecRef(_data);
         Py_DecRef(callback);
         return;
@@ -116,15 +116,15 @@ void GetUrl::onFinished()
 static PyObject *get_content(PyObject *, PyObject *args)
 {
     PyObject *callback, *data;
-    const char *url, *referer = nullptr;
+    const char *url, *referer = NULL;
     if (!PyArg_ParseTuple(args, "sOO|s", &url, &callback, &data, &referer))
-        return nullptr;
+        return NULL;
     if (geturl_obj->hasTask())
     {
         PyErr_SetString(exc_GetUrlError, "Another task is running.");
-        return nullptr;
+        return NULL;
     }
-    geturl_obj->start(url, callback, data, referer, nullptr);
+    geturl_obj->start(url, callback, data, referer, NULL);
     Py_IncRef(Py_None);
     return Py_None;
 }
@@ -132,13 +132,13 @@ static PyObject *get_content(PyObject *, PyObject *args)
 static PyObject *post_content(PyObject *, PyObject *args)
 {
     PyObject *callback, *data;
-    const char *url, *post, *referer = nullptr;
+    const char *url, *post, *referer = NULL;
     if (!PyArg_ParseTuple(args, "ssOO|s", &url, &post, &callback, &data, &referer))
-        return nullptr;
+        return NULL;
     if (geturl_obj->hasTask())
     {
         PyErr_SetString(exc_GetUrlError, "Another task is running.");
-        return nullptr;
+        return NULL;
     }
     geturl_obj->start(url, callback, data, referer, post);
     Py_IncRef(Py_None);
@@ -149,7 +149,7 @@ static PyObject *bind_referer(PyObject *, PyObject *args)
 {
     const char *host, *url;
     if (!PyArg_ParseTuple(args, "ss", &host, &url))
-        return nullptr;
+        return NULL;
     referer_table[QString::fromUtf8(host)] = url;
     return Py_None;
 }
@@ -158,7 +158,7 @@ static PyObject *force_unseekable(PyObject *, PyObject *args)
 {
     const char *s;
     if (!PyArg_ParseTuple(args, "s", &s))
-        return nullptr;
+        return NULL;
     QString host = QString::fromUtf8(s);
     if (!unseekable_hosts.contains(host))
         unseekable_hosts.append(host);
@@ -172,8 +172,8 @@ static PyObject *warn(PyObject *, PyObject *args)
 {
     const char *msg;
     if (!PyArg_ParseTuple(args, "s", &msg))
-        return nullptr;
-    QMessageBox::warning(nullptr, "Warning", QString::fromUtf8(msg));
+        return NULL;
+    QMessageBox::warning(NULL, "Warning", QString::fromUtf8(msg));
     Py_IncRef(Py_None);
     return Py_None;
 }
@@ -182,8 +182,8 @@ static PyObject *question(PyObject *, PyObject *args)
 {
     const char *msg;
     if (!PyArg_ParseTuple(args, "s", &msg))
-        return nullptr;
-    if (QMessageBox::question(nullptr, "question", QString::fromUtf8(msg), QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
+        return NULL;
+    if (QMessageBox::question(NULL, "question", QString::fromUtf8(msg), QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
     {
         Py_IncRef(Py_True);
         return Py_True;
@@ -198,11 +198,11 @@ static PyObject *question(PyObject *, PyObject *args)
  *******************/
 static PyObject *res_show(PyObject *, PyObject *args)
 {
-    PyObject *list = nullptr;
+    PyObject *list = NULL;
     if (!PyArg_ParseTuple(args, "O", &list))
-        return nullptr;
+        return NULL;
     if (!PyList_Check(list))
-        return nullptr;
+        return NULL;
     res_library->clearItem();
     int size = PyList_Size(list);
     for (int i = 0; i < size; i++)
@@ -210,18 +210,18 @@ static PyObject *res_show(PyObject *, PyObject *args)
         PyObject *dict = PyList_GetItem(list, i);
         PyObject *name_obj, *pic_url_obj, *flag_obj;
         QString name, pic_url, flag;
-        if (nullptr == (name_obj = PyDict_GetItemString(dict, "name")))
-            return nullptr;
-        if (nullptr == (flag_obj = PyDict_GetItemString(dict, "url")))
-            return nullptr;
-        if (nullptr == (pic_url_obj = PyDict_GetItemString(dict, "pic_url")))
-            return nullptr;
+        if (NULL == (name_obj = PyDict_GetItemString(dict, "name")))
+            return NULL;
+        if (NULL == (flag_obj = PyDict_GetItemString(dict, "url")))
+            return NULL;
+        if (NULL == (pic_url_obj = PyDict_GetItemString(dict, "pic_url")))
+            return NULL;
         if ((name = PyString_AsQString(name_obj)).isNull())
-            return nullptr;
+            return NULL;
         if ((flag = PyString_AsQString(flag_obj)).isNull())
-            return nullptr;
+            return NULL;
         if ((pic_url = PyString_AsQString(pic_url_obj)).isNull())
-            return nullptr;
+            return NULL;
         res_library->addItem(name, pic_url, flag);
     }
     Py_IncRef(Py_None);
@@ -230,13 +230,13 @@ static PyObject *res_show(PyObject *, PyObject *args)
 
 static PyObject *show_detail(PyObject *, PyObject *args)
 {
-    PyObject *dict = nullptr;
+    PyObject *dict = NULL;
     if (!PyArg_ParseTuple(args, "O", &dict))
-        return nullptr;
+        return NULL;
     if (!PyDict_Check(dict))
     {
         PyErr_SetString(PyExc_TypeError, "The argument is not a dict.");
-        return nullptr;
+        return NULL;
     }
     QVariantHash data = PyObject_AsQVariant(dict).toHash();
     res_library->openDetailPage(data);
@@ -250,13 +250,13 @@ static PyObject *show_detail(PyObject *, PyObject *args)
 static PyObject *finish_parsing(PyObject *, PyObject *args)
 {
 #ifdef MP_ENABLE_WEBENGINE
-    PyObject *dict = nullptr;
+    PyObject *dict = NULL;
     if (!PyArg_ParseTuple(args, "O", &dict))
-        return nullptr;
+        return NULL;
     if (!PyDict_Check(dict))
     {
         PyErr_SetString(PyExc_TypeError, "The argument is not a dict.");
-        return nullptr;
+        return NULL;
     }
     QVariantHash data = PyObject_AsQVariant(dict).toHash();
     parser_webcatch->onParseFinished(data);
@@ -264,7 +264,7 @@ static PyObject *finish_parsing(PyObject *, PyObject *args)
     return Py_None;
 #else
     PyErr_SetString(PyExc_RuntimeError, "The current MoonPlayer is not built with Webengine support!");
-    return nullptr;
+    return NULL;
 #endif
 }
 
@@ -283,7 +283,7 @@ static PyMethodDef methods[] = {
     {"question",         question,         METH_VARARGS, "Show a question dialog"},
     {"res_show",         res_show,         METH_VARARGS, "Show resources result"},
     {"show_detail",      show_detail,      METH_VARARGS, "Show detail"},
-    {nullptr, nullptr, 0, nullptr}
+    {NULL, NULL, 0, NULL}
 };
 
 #if PY_MAJOR_VERSION >= 3
@@ -291,17 +291,17 @@ static struct PyModuleDef moonplayerModule =
 {
     PyModuleDef_HEAD_INIT,
     "moonplayer",  // m_name
-    nullptr,       // m_doc
+    NULL,       // m_doc
     -1,            // m_size
     methods,       // m_methods
-    nullptr,       // m_slots
-    nullptr,       // m_traverse
-    nullptr,       // m_clear
-    nullptr        // m_free
+    NULL,       // m_slots
+    NULL,       // m_traverse
+    NULL,       // m_clear
+    NULL        // m_free
 };
 #endif
 
-PyObject *apiModule = nullptr;
+PyObject *apiModule = NULL;
 
 void initPython()
 {

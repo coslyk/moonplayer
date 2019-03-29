@@ -19,7 +19,7 @@ ParserYkdl::ParserYkdl(QObject *parent) : ParserBase(parent)
 {
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
-    msgWindow = nullptr;
+    msgWindow = NULL;
 }
 
 ParserYkdl::~ParserYkdl()
@@ -46,10 +46,10 @@ void ParserYkdl::runParser(const QString &url)
 {
     if (process->state() == QProcess::Running)
     {
-        QMessageBox::warning(nullptr, "Error", tr("Another file is being parsed."));
+        QMessageBox::warning(NULL, "Error", tr("Another file is being parsed."));
         return;
     }
-    if (msgWindow == nullptr)
+    if (msgWindow == NULL)
     {
         msgWindow = new QWidget;
         msgWindow->setWindowFlag(Qt::FramelessWindowHint);

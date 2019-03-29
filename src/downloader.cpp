@@ -21,7 +21,7 @@ public:
     DownloaderGroup(QTreeWidget *tree, const QStringList &labels) : QTreeWidgetItem(tree, labels) {}
 };
 
-Downloader *downloader = nullptr;
+Downloader *downloader = NULL;
 
 Downloader::Downloader(QWidget *parent) :
     QWidget(parent)
@@ -82,7 +82,7 @@ void Downloader::addTask(const QByteArray &url, const QString &filename, bool in
     {
         QFileInfo info(filename);
         DownloaderGroup *group = dir2group[info.path()];
-        if (group == nullptr)
+        if (group == NULL)
         {
             QStringList labels;
             labels << info.path() << "";

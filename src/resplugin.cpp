@@ -6,7 +6,7 @@
  ** Initialize plugins **
  ************************/
 int n_resplugins = 0;
-ResPlugin **resplugins = nullptr;
+ResPlugin **resplugins = NULL;
 
 void initResPlugins()
 {
@@ -40,9 +40,9 @@ void initResPlugins()
 ResPlugin::ResPlugin(const QString &pluginName, bool *ok)
 {
     //load module
-    module = searchFunc = exploreFunc = loadItemFunc = nullptr;
+    module = searchFunc = exploreFunc = loadItemFunc = NULL;
     module = PyImport_ImportModule(pluginName.toUtf8().constData());
-    if (module == nullptr)
+    if (module == NULL)
     {
         printPythonException();
         *ok = false;
@@ -66,7 +66,7 @@ ResPlugin::ResPlugin(const QString &pluginName, bool *ok)
     searchFunc = PyObject_GetAttrString(module, "search");
     exploreFunc = PyObject_GetAttrString(module, "explore");
     loadItemFunc = PyObject_GetAttrString(module, "load_item");
-    if (searchFunc == nullptr || loadItemFunc == nullptr || exploreFunc == nullptr)
+    if (searchFunc == NULL || loadItemFunc == NULL || exploreFunc == NULL)
     {
         printPythonException();
         *ok = false;
@@ -75,7 +75,7 @@ ResPlugin::ResPlugin(const QString &pluginName, bool *ok)
 
     //get tags
     PyObject *tags = PyObject_GetAttrString(module, "tags");
-    if (tags == nullptr)
+    if (tags == NULL)
     {
         printPythonException();
         *ok = false;
@@ -86,7 +86,7 @@ ResPlugin::ResPlugin(const QString &pluginName, bool *ok)
 
     //get countries
     PyObject *countries = PyObject_GetAttrString(module, "countries");
-    if (countries == nullptr)
+    if (countries == NULL)
     {
         printPythonException();
         *ok = false;

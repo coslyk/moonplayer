@@ -17,7 +17,7 @@ public:
         QListWidgetItem(name), uri(uri), danmaku(danmaku), audioTrack(audioTrack) {}
 };
 
-Playlist *playlist = nullptr;
+Playlist *playlist = NULL;
 
 Playlist::Playlist(QWidget *parent) :
     QWidget(parent),

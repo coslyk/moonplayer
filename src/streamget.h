@@ -9,7 +9,7 @@ class StreamGet : public DownloaderItem
 {
     Q_OBJECT
 public:
-    StreamGet(const QUrl &url, const QString &filename, QObject *parent = nullptr);
+    StreamGet(const QUrl &url, const QString &filename, QObject *parent = NULL);
     ~StreamGet();
     void pause();
     void start();

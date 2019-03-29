@@ -11,7 +11,7 @@
 #include <QLabel>
 
 //ResLibrary
-ResLibrary *res_library = nullptr;
+ResLibrary *res_library = NULL;
 
 ResLibrary::ResLibrary(QWidget *parent) :
     QWidget(parent), ui(new Ui::ResLibrary)
@@ -61,7 +61,7 @@ ResLibrary::ResLibrary(QWidget *parent) :
         ui->prevPushButton->setEnabled(false);
     }
     res_library = this;
-    detailView = nullptr;
+    detailView = NULL;
 
     ui->tabWidget->addTab(new Downloader, tr("Downloader"));
 
@@ -160,7 +160,7 @@ void ResLibrary::clearItem()
 
 void ResLibrary::openDetailPage(const QVariantHash &data)
 {
-    if (detailView == nullptr)
+    if (detailView == NULL)
     {
         detailView = new DetailView;
         ui->tabWidget->addTab(detailView, "detail");

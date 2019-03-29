@@ -38,14 +38,14 @@ void AboutDialog::checkUpdateFinished()
         latestVersion = reply->readAll().simplified().toInt();
         ui->latestVersion->setText(QString::number(latestVersion / 100.0));
         if (latestVersion > currentVersion)
-            QMessageBox::warning(nullptr, "Moon Player", tr("New version is available."));
+            QMessageBox::warning(NULL, "Moon Player", tr("New version is available."));
     }
     reply->deleteLater();
 
     // first time to use MoonPlayer?
     if (!QFile::exists(getUserPath() + "/plugins-version.txt"))
     {
-        QMessageBox::StandardButton btn = QMessageBox::information(nullptr,
+        QMessageBox::StandardButton btn = QMessageBox::information(NULL,
                                                                    tr("Download plugins"),
                                                                    tr("No plugins founded. Download it now?"),
                                                                    QMessageBox::Yes,
@@ -53,7 +53,7 @@ void AboutDialog::checkUpdateFinished()
         if (btn == QMessageBox::Yes)
         {
             upgraderDialog->runUpgrader();
-            QMessageBox::information(nullptr, "Finish", tr("Downloading plugins finished. Please relaunch MoonPlayer."));
+            QMessageBox::information(NULL, "Finish", tr("Downloading plugins finished. Please relaunch MoonPlayer."));
         }
     }
 }

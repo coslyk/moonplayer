@@ -9,7 +9,7 @@ class DownloaderItem : public QObject, public QTreeWidgetItem
 {
     Q_OBJECT
 public:
-    DownloaderItem(const QString &filename, QObject *parent = nullptr);
+    DownloaderItem(const QString &filename, QObject *parent = NULL);
     virtual void pause(void) = 0;
     virtual void start(void) = 0;
     virtual void stop(void) = 0;

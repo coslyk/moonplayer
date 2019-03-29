@@ -9,7 +9,7 @@ class NetworkAccessManager : public QNetworkAccessManager
 {
     Q_OBJECT
 public:
-    NetworkAccessManager(QObject *parent = nullptr);
+    NetworkAccessManager(QObject *parent = NULL);
     QNetworkReply *get(const QNetworkRequest &request);
     void setProxy(const QString &proxyType, const QString &proxy, int port);
 

@@ -31,7 +31,7 @@ void ChromiumDebugger::onDebugInfoReceived()
         ws->open(QUrl(url));
     }
     else
-        QMessageBox::warning(nullptr, "Error", "Fails to get Chromium's debug info!");
+        QMessageBox::warning(NULL, "Error", "Fails to get Chromium's debug info!");
     reply->deleteLater();
 }
 

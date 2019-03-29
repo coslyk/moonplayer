@@ -11,7 +11,7 @@ class ChromiumDebugger : public QObject
 {
     Q_OBJECT
 public:
-    ChromiumDebugger(QObject *parent = nullptr);
+    ChromiumDebugger(QObject *parent = NULL);
     void open(int port);
     void send(int id, const QString &method, const QVariantHash &params = QVariantHash());
 

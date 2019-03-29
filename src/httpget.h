@@ -11,7 +11,7 @@ class HttpGet : public DownloaderItem
 {
     Q_OBJECT
 public:
-    explicit HttpGet(const QUrl &url, const QString &filename, QObject *parent = nullptr);
+    explicit HttpGet(const QUrl &url, const QString &filename, QObject *parent = NULL);
     void pause(void);
     void start(void);
     void stop(void);

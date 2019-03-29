@@ -53,7 +53,7 @@ void VideoCombiner::onFinished(int status)
 {
     if (status == 0)
     {
-        QMessageBox::information(nullptr, "Information", tr("Finished combining:") + save_as);
+        QMessageBox::information(NULL, "Information", tr("Finished combining:") + save_as);
         // Copy .danmaku file
         QStringList nameFilter;
         nameFilter << "*.danmaku";
@@ -68,7 +68,7 @@ void VideoCombiner::onFinished(int status)
     }
     else
     {
-        QMessageBox::warning(nullptr, "Error", tr("Failed to combine:") + save_as);
+        QMessageBox::warning(NULL, "Error", tr("Failed to combine:") + save_as);
         qDebug("FFmpeg ERROR:\n%s", readAllStandardError().constData());
     }
     deleteLater();

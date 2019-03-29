@@ -12,8 +12,8 @@ Application::Application(int &argc, char **argv) :
 {
     this->argc = argc;
     this->argv = argv;
-    server = nullptr;
-    client = nullptr;
+    server = NULL;
+    client = NULL;
 
     // force 32-bit color surface
     if (platformName().contains("wayland")) {
@@ -31,7 +31,7 @@ Application::~Application()
     if (server)
     {
         server->close();
-        server = nullptr;
+        server = NULL;
     }
 }
 
@@ -189,6 +189,6 @@ void Application::readData()
 
     client->close();
     client->deleteLater();
-    client = nullptr;
+    client = NULL;
 }
 

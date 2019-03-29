@@ -21,7 +21,7 @@
 
 
 
-SelectionDialog *ParserBase::selectionDialog = nullptr;
+SelectionDialog *ParserBase::selectionDialog = NULL;
 
 ParserBase::ParserBase(QObject *parent) : QObject(parent)
 {
@@ -35,7 +35,7 @@ ParserBase::~ParserBase()
 
 void ParserBase::parse(const QString &url, bool download)
 {
-    if (selectionDialog == nullptr)
+    if (selectionDialog == NULL)
         selectionDialog = new SelectionDialog;
     this->url = url;
     this->download = download;
@@ -123,7 +123,7 @@ void ParserBase::finishParsing()
             for (int i = 0; i < result.urls.size(); i++)
                  downloader->addTask(result.urls[i].toUtf8(), names[i], result.urls.size() > 1);
         }
-        QMessageBox::information(nullptr, "Message", tr("Add download task successfully!"));
+        QMessageBox::information(NULL, "Message", tr("Add download task successfully!"));
     }
 
     // Play

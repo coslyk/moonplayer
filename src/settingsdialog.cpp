@@ -33,7 +33,7 @@ bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 double Settings::danmakuAlpha;
 
-SettingsDialog *settingsDialog = nullptr;
+SettingsDialog *settingsDialog = NULL;
 
 using namespace Settings;
 

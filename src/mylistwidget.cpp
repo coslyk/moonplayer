@@ -25,8 +25,8 @@ MyListWidget::MyListWidget(QWidget *parent) :
     setWrapping(true);
     setMovement(QListWidget::Static);
     setIconSize(QSize(100, 150));
-    loading_item = nullptr;
-    reply = nullptr;
+    loading_item = NULL;
+    reply = NULL;
 }
 
 void MyListWidget::addPicItem(const QString &name, const QString &picUrl, const QString &flag)
@@ -35,7 +35,7 @@ void MyListWidget::addPicItem(const QString &name, const QString &picUrl, const 
     item->setToolTip(name);
     addItem(item);
     items_to_load_pic << item;
-    if (loading_item == nullptr)
+    if (loading_item == NULL)
         loadNextPic();
 }
 
@@ -49,7 +49,7 @@ void MyListWidget::loadNextPic()
 
 void MyListWidget::onLoadPicFinished()
 {
-    if (reply == nullptr)
+    if (reply == NULL)
         return;
 
     if (loading_item)
@@ -63,11 +63,11 @@ void MyListWidget::onLoadPicFinished()
         }
     }
     reply->deleteLater();
-    reply = nullptr;
+    reply = NULL;
     if (items_to_load_pic.size())
         loadNextPic();
     else
-        loading_item = nullptr;
+        loading_item = NULL;
 }
 
 void MyListWidget::clearItem()
@@ -76,9 +76,9 @@ void MyListWidget::clearItem()
     {
         reply->abort();
         reply->deleteLater();
-        reply = nullptr;
+        reply = NULL;
     }
-    loading_item = nullptr;
+    loading_item = NULL;
     items_to_load_pic.clear();
     clear();
 }
