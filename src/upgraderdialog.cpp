@@ -11,7 +11,7 @@ UpgraderDialog::UpgraderDialog(QWidget *parent) :
     ui(new Ui::UpgraderDialog)
 {
     ui->setupUi(this);
-    setWindowFlag(Qt::WindowCloseButtonHint, false);
+    setWindowFlags(windowFlags() & ~Qt::WindowCloseButtonHint);
     process = new QProcess(this);
     process->setProcessChannelMode(QProcess::MergedChannels);
     connect(process, &QProcess::readyReadStandardOutput, this, &UpgraderDialog::onReadyRead);

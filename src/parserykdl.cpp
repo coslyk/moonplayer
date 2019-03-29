@@ -52,8 +52,7 @@ void ParserYkdl::runParser(const QString &url)
     if (msgWindow == NULL)
     {
         msgWindow = new QWidget;
-        msgWindow->setWindowFlag(Qt::FramelessWindowHint);
-        msgWindow->setWindowFlag(Qt::WindowStaysOnTopHint);
+        msgWindow->setWindowFlags(msgWindow->windowFlags() | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
         QLabel *label = new QLabel(tr("Parsing with Ykdl..."));
         QGridLayout *layout = new QGridLayout(msgWindow);
         layout->addWidget(label);
