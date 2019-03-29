@@ -25,7 +25,10 @@
 int main(int argc, char *argv[])
 {
     qputenv("QTWEBENGINE_REMOTE_DEBUGGING", "19260");
+
+#if QT_VERSION_MINOR >= 6
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
 
     detectOpenGLEarly();
 
