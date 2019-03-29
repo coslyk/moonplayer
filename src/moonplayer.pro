@@ -6,7 +6,10 @@
 
 ### Config
 # QtWebEngine (Chromium) intergration, set ENABLE_WEBENGINE=no to disable it
-!defined(ENABLE_WEBENGINE,var) { ENABLE_WEBENGINE=yes }
+!defined(ENABLE_WEBENGINE,var) {
+    qtHaveModule(webenginewidgets): ENABLE_WEBENGINE=yes
+    !qtHaveModule(webenginewidgets): ENABLE_WEBENGINE=no
+}
 
 # Library paths on Windows
 win32 {
