@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 {
     qputenv("QTWEBENGINE_REMOTE_DEBUGGING", "19260");
 
-#if QT_VERSION_MINOR >= 6
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 

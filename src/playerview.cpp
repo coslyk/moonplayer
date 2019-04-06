@@ -160,8 +160,8 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addSeparator();
     menu->addAction(tr("Settings") + "\tCtrl+,", settingsDialog, SLOT(show()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
-    menu->addAction(tr("Upgrade parsers"), upgraderDialog, &UpgraderDialog::runUpgrader);
-    menu->addAction(tr("About"), aboutDialog, &AboutDialog::exec);
+    menu->addAction(tr("Upgrade parsers"), upgraderDialog, SLOT(runUpgrader()));
+    menu->addAction(tr("About"), aboutDialog, SLOT(exec()));
 
     // create cutterbar
     cutterBar = new CutterBar(this);
@@ -531,10 +531,17 @@ void PlayerView::onSizeChanged(const QSize &sz)
     if (isFullScreen())
         return;
     QRect available = QApplication::desktop()->availableGeometry(this);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     if (sz.width() / devicePixelRatioF() > available.width() || sz.height()/ devicePixelRatioF() > available.height())
         setGeometry(available);
     else
         resize(sz / devicePixelRatioF());
+#else
+    if (sz.width() > available.width() || sz.height() > available.height())
+        setGeometry(available);
+    else
+        resize(sz);
+#endif
 }
 
 // show cutterbar

@@ -2,6 +2,7 @@
 #include <mpv/client.h>
 #include <QSurfaceFormat>
 #include <QSettings>
+#include <cstdio>
 
 
 // Attempt to reuse mpv's code for detecting whether we want GLX or EGL (which

@@ -2,6 +2,7 @@
 #include "accessmanager.h"
 #include <QDomDocument>
 #include <QDomElement>
+#include <QFile>
 #include <QList>
 #include <QNetworkCookie>
 #include <QNetworkCookieJar>

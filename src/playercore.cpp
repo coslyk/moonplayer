@@ -198,7 +198,11 @@ void PlayerCore::initializeGL()
 
 void PlayerCore::paintGL()
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     mpv_opengl_cb_draw(mpv_gl, defaultFramebufferObject(), width() * devicePixelRatioF(), -height() * devicePixelRatioF());
+#else
+    mpv_opengl_cb_draw(mpv_gl, defaultFramebufferObject(), width(), -height());
+#endif
 }
 
 void PlayerCore::swapped()
