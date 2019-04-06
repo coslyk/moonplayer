@@ -39,11 +39,15 @@ def download_as_tmpfile(url):
 def get_latest_commit(repo):
     url = 'https://api.github.com/repos/{repo}/branches/master'.format(repo=repo)
     data = get_content(url)
+    if not isinstance(data, str):
+        data = data.decode('utf-8')
     return json.loads(data)['commit']['sha']
 
 def get_latest_release(repo):
     url = 'https://api.github.com/repos/{repo}/releases/latest'.format(repo=repo)
     data = get_content(url)
+    if not isinstance(data, str):
+        data = data.decode('utf-8')
     return json.loads(data)['tag_name']
 
 # Platform-specific variables
