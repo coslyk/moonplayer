@@ -23,6 +23,7 @@ QString SelectionDialog::showDialog(const QStringList &list,
     else
     {
         ui->checkBox->setText(checkBoxText);
+        ui->checkBox->setChecked(false);
         ui->checkBox->show();
     }
 
@@ -52,6 +53,7 @@ int SelectionDialog::showDialog_Index(const QStringList &list,
     else
     {
         ui->checkBox->setText(checkBoxText);
+        ui->checkBox->setChecked(false);
         ui->checkBox->show();
     }
 

@@ -19,6 +19,8 @@
 #include "parserwebcatch.h"
 #endif
 
+QHash<QString,QString> saved_qualities;
+
 ParserBase::ParserBase(QObject *parent) : QObject(parent)
 {
 }
@@ -148,8 +150,29 @@ int ParserBase::selectQuality(const QStringList &stream_types)
     static SelectionDialog *selectionDialog = NULL;
     if (selectionDialog == NULL)
         selectionDialog = new SelectionDialog;
+
+    // Check if the selection is already saved
+    QString host = QUrl(url).host();
+    if (saved_qualities.contains(host))
+    {
+        QString quality = saved_qualities[host];
+
+        // Check if the saved quality is available in this video
+        for (int i = 0; i < stream_types.length(); i++)
+        {
+            if (stream_types[i] == quality)
+                return i;
+        }
+    }
+
+    // Not saved, show dialog
+    bool remember = false;
     int selected = selectionDialog->showDialog_Index(stream_types,
-                                                     tr("Please select a video quality:"));
+                                                     tr("Please select a video quality:"),
+                                                     tr("Remember my selection for this website"),
+                                                     &remember);
+    if (remember && selected != -1) // save selection
+        saved_qualities[host] = stream_types[selected];
     return selected;
 }
 

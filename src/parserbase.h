@@ -2,6 +2,7 @@
 #define PARSERBASE_H
 
 #include <QObject>
+#include <QHash>
 
 class ParserBase : public QObject
 {
@@ -39,6 +40,7 @@ private:
     bool download;
 };
 
+extern QHash<QString,QString> saved_qualities;
 void parseUrl(const QString &url, bool download);
 
 #endif // PARSERBASE_H
