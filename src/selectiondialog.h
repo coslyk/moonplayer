@@ -13,8 +13,14 @@ class SelectionDialog : public QDialog
 
 public:
     explicit SelectionDialog(QWidget *parent = 0);
-    QString showDialog(const QStringList &list, const QString &label);
-    int showDialog_Index(const QStringList &list, const QString &label);
+    QString showDialog(const QStringList &list,
+                       const QString &msg,
+                       const QString &checkBoxText = QString(),
+                       bool *isChecked = NULL);
+    int showDialog_Index(const QStringList &list,
+                         const QString &msg,
+                         const QString &checkBoxText = QString(),
+                         bool *isChecked = NULL);
     ~SelectionDialog();
 
 private:

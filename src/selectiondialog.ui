@@ -21,6 +21,9 @@
     <widget class="QListWidget" name="listWidget"/>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkBox"/>
+   </item>
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
