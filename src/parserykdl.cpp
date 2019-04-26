@@ -1,7 +1,6 @@
 #include "parserykdl.h"
 #include "platform/paths.h"
 #include "python_wrapper.h"
-#include "selectiondialog.h"
 #include "settings_network.h"
 #include <QDir>
 #include <QGridLayout>
@@ -90,7 +89,6 @@ void ParserYkdl::parseOutput()
 
         // Select video quality
         // get all available qualities
-        QString selected;
         QStringList items;
         for (i = streams.constBegin(); i != streams.constEnd(); i++)
         {
@@ -99,11 +97,10 @@ void ParserYkdl::parseOutput()
         }
 
         // show dialog
-        selected = selectionDialog->showDialog(items,
-                                                   tr("Please select a video quality:"));
-        if (selected.isEmpty())
+        int index = selectQuality(items);
+        if (index == -1)
             return;
-        selected = selected.section(" (", 0, 0);
+        QString selected = items[index].section(" (", 0, 0);
         selectedItem = streams[selected].toObject();
 
         // Write names-urls-list

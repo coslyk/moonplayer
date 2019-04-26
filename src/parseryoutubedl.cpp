@@ -2,7 +2,6 @@
 #include "accessmanager.h"
 #include "platform/paths.h"
 #include "python_wrapper.h"
-#include "selectiondialog.h"
 #include "settings_network.h"
 #include <QDir>
 #include <QGridLayout>
@@ -114,10 +113,10 @@ void ParserYoutubeDL::parseOutput()
         }
 
         // show dialog
-        QString selected = selectionDialog->showDialog(formatsList,
-                                                   tr("Please select a video quality:"));
-        if (selected.isEmpty())
+        int index = selectQuality(formatsList);
+        if (index == -1)
             return;
+        QString selected = formatsList[index];
         QJsonObject selectedItem = formatsHash[selected];
 
         // write info

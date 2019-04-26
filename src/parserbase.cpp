@@ -19,10 +19,6 @@
 #include "parserwebcatch.h"
 #endif
 
-
-
-SelectionDialog *ParserBase::selectionDialog = NULL;
-
 ParserBase::ParserBase(QObject *parent) : QObject(parent)
 {
 }
@@ -35,8 +31,6 @@ ParserBase::~ParserBase()
 
 void ParserBase::parse(const QString &url, bool download)
 {
-    if (selectionDialog == NULL)
-        selectionDialog = new SelectionDialog;
     this->url = url;
     this->download = download;
     result.title.clear();
@@ -147,6 +141,16 @@ void ParserBase::finishParsing()
             playlist->addFile(names[i], result.urls[i]);
         res_library->close();
     }
+}
+
+int ParserBase::selectQuality(const QStringList &stream_types)
+{
+    static SelectionDialog *selectionDialog = NULL;
+    if (selectionDialog == NULL)
+        selectionDialog = new SelectionDialog;
+    int selected = selectionDialog->showDialog_Index(stream_types,
+                                                     tr("Please select a video quality:"));
+    return selected;
 }
 
 void ParserBase::showErrorDialog(const QString &errMsg)

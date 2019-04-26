@@ -8,7 +8,6 @@
 #include "accessmanager.h"
 #include "chromiumdebugger.h"
 #include "extractor.h"
-#include "selectiondialog.h"
 
 ParserWebCatch *parser_webcatch;
 
@@ -116,8 +115,7 @@ void ParserWebCatch::onParseFinished(const QVariantHash &data)
         stream_types << item.toHash()["type"].toString();
 
     // select video quality
-    int selected = selectionDialog->showDialog_Index(stream_types,
-                                                     tr("Please select a video quality:"));
+    int selected = selectQuality(stream_types);
     if (selected == -1) // no item selected
         return;
 

@@ -2,7 +2,6 @@
 #define PARSERBASE_H
 
 #include <QObject>
-class SelectionDialog;
 
 class ParserBase : public QObject
 {
@@ -19,8 +18,8 @@ protected:
     virtual void runParser(const QString &url) = 0;
 
     // following can be used in child class
-    static SelectionDialog *selectionDialog;
     void finishParsing(void);
+    int selectQuality(const QStringList &stream_types);
 
     // the following members should be filled in child class
     struct Result
