@@ -23,6 +23,7 @@ private slots:
     void saveSettings(void);
     void onDirButton(void);
     void onFontButton(void);
+    void onQualityButton(void);
 };
 
 extern SettingsDialog *settingsDialog;

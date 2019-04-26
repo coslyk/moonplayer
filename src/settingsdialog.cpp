@@ -1,9 +1,9 @@
 #include "settingsdialog.h"
+#include "settings_audio.h"
 #include "settings_network.h"
 #include "settings_video.h"
 #include "settings_danmaku.h"
 #include "ui_settingsdialog.h"
-#include "accessmanager.h"
 #include <QDesktopServices>
 #include <QDesktopWidget>
 #include <QDir>
@@ -12,9 +12,11 @@
 #include <QFontDialog>
 #include <QInputDialog>
 #include <QMessageBox>
-#include "settings_audio.h"
-#include "utils.h"
+#include "accessmanager.h"
+#include "parserbase.h"
 #include "platform/paths.h"
+#include "selectiondialog.h"
+#include "utils.h"
 
 QString Settings::aout;
 QString Settings::hwdec;
@@ -47,6 +49,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(this, &SettingsDialog::rejected, this, &SettingsDialog::loadSettings);
     connect(ui->dirButton, &QPushButton::clicked, this, &SettingsDialog::onDirButton);
     connect(ui->fontPushButton, &QPushButton::clicked, this, &SettingsDialog::onFontButton);
+    connect(ui->qualityButton, &QPushButton::clicked, this, &SettingsDialog::onQualityButton);
 
 #ifdef Q_OS_LINUX
     ui->aoComboBox->addItem("pulse");
@@ -101,6 +104,26 @@ void SettingsDialog::onFontButton()
     }
     else
         ui->fontPushButton->setText("");
+}
+
+void SettingsDialog::onQualityButton()
+{
+    static SelectionDialog *dialog = NULL;
+    if (dialog == NULL)
+        dialog = new SelectionDialog(this);
+    QStringList list;
+    QHash<QString,QString>::const_iterator i = saved_qualities.constBegin();
+    while (i != saved_qualities.constEnd())
+    {
+        list << (i.key() + " => " + i.value());
+        i++;
+    }
+    int index = dialog->showDialog_Index(list, tr("Saved quality selections are shown below. Select to remove:"));
+    if (index != -1)
+    {
+        QString selected = list[index].section(" => ", 0, 0);
+        saved_qualities.remove(selected);
+    }
 }
 
 //Save settings
