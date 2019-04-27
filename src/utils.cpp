@@ -1,11 +1,13 @@
 #include "utils.h"
-#include "accessmanager.h"
+#include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QFile>
 #include <QList>
 #include <QNetworkCookie>
 #include <QNetworkCookieJar>
+#include "accessmanager.h"
+#include "platform/paths.h"
 
 QString secToTime(int second, bool use_format)
 {
@@ -75,4 +77,47 @@ bool saveCookies(const QUrl &url, const QString &filename)
         file.close();
         return true;
     }
+}
+
+void saveQHashToFile(const QHash<QString, QString> &hash, const QString &filename)
+{
+    QByteArray data;
+    QHash<QString, QString>::const_iterator i = hash.constBegin();
+    while (i != hash.constEnd())
+    {
+        data += i.key().toUtf8() + '\n' + i.value().toUtf8() + '\n';
+        i++;
+    }
+    data.chop(1); // Remove last '\n'
+    if (data.isEmpty())
+    {
+        QDir dir(getUserPath());
+        dir.remove(filename);
+        return;
+    }
+    QString fn = QDir(getUserPath()).filePath(filename);
+    QFile file(fn);
+    if (!file.open(QFile::WriteOnly | QFile::Text))
+        return;
+    file.write(data);
+    file.close();
+}
+
+QHash<QString, QString> loadQHashFromFile(const QString &filename)
+{
+    QHash<QString, QString> result;
+    QString fn = QDir(getUserPath()).filePath(filename);
+    QFile file(fn);
+    if (file.open(QFile::ReadOnly | QFile::Text))
+    {
+        QByteArray data = file.readAll();
+        file.close();
+        if (!data.isEmpty())
+        {
+            QStringList list = QString::fromUtf8(data).split('\n');
+            for (int i = 0; i < list.size(); i += 2)
+                result[list[i]] = list[i + 1];
+        }
+    }
+    return result;
 }

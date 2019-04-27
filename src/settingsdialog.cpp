@@ -170,6 +170,7 @@ SettingsDialog::~SettingsDialog()
     settings.setValue("Danmaku/size", danmakuSize);
     settings.setValue("Danmaku/dm", durationScrolling);
     settings.setValue("Danmaku/ds", durationStill);
+    saveQHashToFile(saved_qualities, "saved_qualities.txt");
     delete ui;
 }
 
@@ -209,5 +210,8 @@ void initSettings()
 
     //init proxy
     access_manager->setProxy(proxyType, proxy, port);
+
+    // Read saved quality selections
+    saved_qualities = loadQHashFromFile("saved_qualities.txt");
 }
 
