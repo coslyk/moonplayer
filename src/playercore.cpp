@@ -4,6 +4,7 @@
 #include "settings_audio.h"
 #include "settings_network.h"
 #include "settings_video.h"
+#include "utils.h"
 #include "accessmanager.h"
 #include <stdio.h>
 #include <mpv/client.h>
@@ -66,7 +67,7 @@ static void *get_proc_address(void *, const char *name)
 
 PlayerCore *player_core = NULL;
 
-static QHash<QString,int64_t> unfinished_time;
+static QHash<QString,QString> unfinished_time;
 
 PlayerCore::PlayerCore(QWidget *parent) :
     QOpenGLWidget(parent)
@@ -164,19 +165,7 @@ PlayerCore::PlayerCore(QWidget *parent) :
     rendering_paused = false;
 
     // read unfinished_time
-    QString filename = QDir(getUserPath()).filePath("unfinished.txt");
-    QFile file(filename);
-    if (file.open(QFile::ReadOnly | QFile::Text))
-    {
-        QByteArray data = file.readAll();
-        file.close();
-        if (!data.isEmpty())
-        {
-            QStringList list = QString::fromUtf8(data).split('\n');
-            for (int i = 0; i < list.size(); i += 2)
-                unfinished_time[list[i]] = list[i + 1].toInt();
-        }
-    }
+    unfinished_time = loadQHashFromFile("unfinished.txt");
     player_core = this;
 }
 
@@ -255,33 +244,8 @@ PlayerCore::~PlayerCore()
     }
 
     // save unfinished time
-    if (!unfinished_time.isEmpty() && Settings::rememberUnfinished)
-    {
-        QByteArray data;
-        QHash<QString, int64_t>::const_iterator i = unfinished_time.constBegin();
-        while (i != unfinished_time.constEnd())
-        {
-            QString name = i.key();
-            if (!name.startsWith("http://") && !name.startsWith("https://"))
-                data += name.toUtf8() + '\n' + QByteArray::number((int) i.value()) + '\n';
-            i++;
-        }
-        data.chop(1); // Remove last '\n'
-        if (data.isEmpty())
-            return;
-        QString filename = QDir(getUserPath()).filePath("unfinished.txt");
-        QFile file(filename);
-        if (!file.open(QFile::WriteOnly | QFile::Text))
-            return;
-        file.write(data);
-        file.close();
-    }
-    else
-    {
-        QDir dir(getUserPath());
-        if (dir.exists("unfinished.txt"))
-            dir.remove("unfinished.txt");
-    }
+    if (Settings::rememberUnfinished)
+        saveQHashToFile(unfinished_time, "unfinished.txt");
 }
 
 
@@ -391,7 +355,7 @@ bool PlayerCore::event(QEvent *e)
                 length = *(double*) prop->data;
                 emit lengthChanged(length);
                 if (unfinished_time.contains(file) && !unseekable_forced)
-                    setProgress(unfinished_time[file]);
+                    setProgress(unfinished_time[file].toInt());
             }
             else if (propName == "width")
             {
@@ -504,7 +468,7 @@ void PlayerCore::openFile(const QString &file, const QString &danmaku, const QSt
     {
         no_emit_stopped = true;
         if (time <= length - 5 && Settings::rememberUnfinished)
-            unfinished_time[this->file] = time;
+            unfinished_time[this->file] = QString::number(time);
         else if (time > length - 5)
             unfinished_time.remove(file);
     }
@@ -603,7 +567,7 @@ void PlayerCore::stop()
     const char *args[] = {"stop", NULL};
     handleMpvError(mpv_command_async(mpv, 0, args));
     if (time < length - 2 && Settings::rememberUnfinished)
-        unfinished_time[file] = time;
+        unfinished_time[file] = QString::number(time);
 }
 
 void PlayerCore::setVolume(int volume)
