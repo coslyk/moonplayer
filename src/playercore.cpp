@@ -243,9 +243,18 @@ PlayerCore::~PlayerCore()
         mpv = NULL;
     }
 
-    // save unfinished time
+    // save timestamps
     if (Settings::rememberUnfinished)
-        saveQHashToFile(unfinished_time, "unfinished.txt");
+    {
+        // only save timestamp of local videos
+        QHash<QString, QString> table;
+        for (auto i = unfinished_time.constBegin(); i != unfinished_time.constEnd(); i++)
+        {
+            if (!i.key().startsWith("http:") && !i.key().startsWith("https:"))
+                table[i.key()] = i.value();
+        }
+        saveQHashToFile(table, "unfinished.txt");
+    }
 }
 
 
