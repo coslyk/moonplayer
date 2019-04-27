@@ -112,6 +112,7 @@ void SettingsDialog::onQualityButton()
     if (dialog == NULL)
         dialog = new SelectionDialog(this);
     QStringList list;
+    list << tr("Remove all");
     QHash<QString,QString>::const_iterator i = saved_qualities.constBegin();
     while (i != saved_qualities.constEnd())
     {
@@ -119,7 +120,9 @@ void SettingsDialog::onQualityButton()
         i++;
     }
     int index = dialog->showDialog_Index(list, tr("Saved quality selections are shown below. Select to remove:"));
-    if (index != -1)
+    if (index == 0)
+        saved_qualities.clear();
+    else if (index != -1)
     {
         QString selected = list[index].section(" => ", 0, 0);
         saved_qualities.remove(selected);
