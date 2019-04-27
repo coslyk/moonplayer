@@ -151,6 +151,10 @@ int ParserBase::selectQuality(const QStringList &stream_types)
     if (selectionDialog == NULL)
         selectionDialog = new SelectionDialog;
 
+    // If there is only one quality, use it
+    if (stream_types.length() == 1)
+        return 0;
+
     // Check if the selection is already saved
     QString host = QUrl(url).host();
     if (saved_qualities.contains(host))
