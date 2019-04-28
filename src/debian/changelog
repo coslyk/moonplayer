@@ -1,3 +1,12 @@
+moonplayer (2.7-1~bionic) bionic; urgency=medium
+
+  * v2.7
+  * Make dragging progressbar smoother
+  * Able to remember video quality selection now
+  * Add an option to choose the action when opening an URL
+
+ -- YK Liu <cos.lyk@gmail.com>  Sun, 28 Apr 2019 11:47:15 +0200
+
 moonplayer (2.6-1~bionic) bionic; urgency=medium
 
   * v2.6
