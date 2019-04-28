@@ -249,7 +249,7 @@ PlayerCore::~PlayerCore()
     {
         // only save timestamp of local videos
         QHash<QString, QString> table;
-        for (auto i = unfinished_time.constBegin(); i != unfinished_time.constEnd(); i++)
+        for (QHash<QString, QString>::const_iterator i = unfinished_time.constBegin(); i != unfinished_time.constEnd(); i++)
         {
             if (!i.key().startsWith("http:") && !i.key().startsWith("https:"))
                 table[i.key()] = i.value();
