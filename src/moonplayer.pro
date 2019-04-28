@@ -84,6 +84,7 @@ HEADERS  +=\
     settings_audio.h \
     settings_danmaku.h \
     settings_network.h \
+    settings_player.h \
     settings_video.h \
     settingsdialog.h \
     skin.h \

@@ -6,6 +6,7 @@
 #include <QMenu>
 #include "utils.h"
 #include "parserbase.h"
+#include "settings_player.h"
 
 class ItemForPlaylist : public QListWidgetItem
 {
@@ -154,8 +155,21 @@ void Playlist::onNetItem()
 
 void Playlist::addUrl(const QString &url)
 {
-    bool down = (QMessageBox::question(this, "Question", tr("Download?"),
+    bool down;
+    switch (Settings::urlOpenMode)
+    {
+    case Settings::QUESTION:
+        down = (QMessageBox::question(this, "Question", tr("Download?"),
                               QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes);
+        break;
+    case Settings::PLAY:
+        down = false;
+        break;
+    case Settings::DOWNLOAD:
+        down = true;
+        break;
+    default: break;
+    }
     parseUrl(url, down);
 }
 

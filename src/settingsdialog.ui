@@ -26,16 +26,73 @@
       <attribute name="title">
        <string>Player</string>
       </attribute>
-      <layout class="QFormLayout" name="formLayout">
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::ExpandingFieldsGrow</enum>
-       </property>
-       <item row="3" column="0" colspan="2">
-        <widget class="QCheckBox" name="rememberCheckBox">
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Remember unfinished clips</string>
+          <string>When opening an URL:</string>
          </property>
         </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="urlOpenModeComboBox">
+         <item>
+          <property name="text">
+           <string>Question</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Play</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Download</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Saved video quality selection</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="qualityButton">
+         <property name="text">
+          <string>Manage</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="rememberCheckBox">
+         <property name="text">
+          <string>Remember timestamps</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>144</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -168,31 +225,31 @@
        <string>Internet</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
+       <item row="1" column="0">
         <widget class="QLabel" name="proxyLabel">
          <property name="text">
-          <string>Proxy:</string>
+          <string>Mode</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="addressLabel">
          <property name="text">
           <string>Address</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="1">
         <widget class="QLineEdit" name="proxyEdit"/>
        </item>
-       <item row="1" column="2">
+       <item row="2" column="2">
         <widget class="QLabel" name="portLabel">
          <property name="text">
           <string>Port</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="3">
+       <item row="2" column="3">
         <widget class="QLineEdit" name="portEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -208,35 +265,35 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="4">
+       <item row="4" column="0" colspan="4">
         <widget class="Line" name="line_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="maxTaskLabel">
          <property name="text">
           <string>Max tasks</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="7" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>Save to:</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="4">
+       <item row="8" column="0" colspan="4">
         <widget class="QCheckBox" name="combineCheckBox">
          <property name="text">
           <string>Combine video clips automatically after downloading</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="9" column="0">
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -249,7 +306,7 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="1" colspan="3">
+       <item row="1" column="1" colspan="3">
         <widget class="QComboBox" name="proxyTypeComboBox">
          <item>
           <property name="text">
@@ -273,7 +330,7 @@
          </item>
         </widget>
        </item>
-       <item row="2" column="0" colspan="4">
+       <item row="3" column="0" colspan="4">
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Note: Due to the limitation of mpv, socks5 proxy is not supported by online playing.</string>
@@ -283,49 +340,29 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1" colspan="3">
+       <item row="6" column="1" colspan="3">
         <widget class="QSpinBox" name="maxTaskSpinBox">
          <property name="minimum">
           <number>1</number>
          </property>
         </widget>
        </item>
-       <item row="5" column="1" colspan="3">
+       <item row="7" column="1" colspan="3">
         <widget class="QPushButton" name="dirButton"/>
        </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="parserTab">
-      <attribute name="title">
-       <string>Parser</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_4">
+       <item row="5" column="0" colspan="4">
+        <widget class="QLabel" name="label_11">
          <property name="text">
-          <string>Saved video quality selection</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Downloader&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QPushButton" name="qualityButton">
+       <item row="0" column="0" colspan="4">
+        <widget class="QLabel" name="label_12">
          <property name="text">
-          <string>Manage</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Proxy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
-       </item>
-       <item row="1" column="0">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>215</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>

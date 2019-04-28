@@ -1,6 +1,7 @@
 #include "settingsdialog.h"
 #include "settings_audio.h"
 #include "settings_network.h"
+#include "settings_player.h"
 #include "settings_video.h"
 #include "settings_danmaku.h"
 #include "ui_settingsdialog.h"
@@ -34,6 +35,7 @@ bool Settings::copyMode;
 bool Settings::rememberUnfinished;
 bool Settings::autoCombine;
 double Settings::danmakuAlpha;
+Settings::URLOpenMode Settings::urlOpenMode;
 
 SettingsDialog *settingsDialog = NULL;
 
@@ -71,6 +73,7 @@ void SettingsDialog::loadSettings()
     ui->hwdecComboBox->setCurrentIndex(ui->hwdecComboBox->findText(hwdec));
     ui->aoComboBox->setCurrentIndex(ui->aoComboBox->findText(aout));
     ui->proxyTypeComboBox->setCurrentIndex(ui->proxyTypeComboBox->findText(proxyType));
+    ui->urlOpenModeComboBox->setCurrentIndex((int) urlOpenMode);
     ui->proxyEdit->setText(proxy);
     ui->portEdit->setText(QString::number(port));
     ui->maxTaskSpinBox->setValue(maxTasks);
@@ -134,6 +137,7 @@ void SettingsDialog::saveSettings()
 {
     hwdec = ui->hwdecComboBox->currentText();
     proxyType = ui->proxyTypeComboBox->currentText();
+    urlOpenMode = (Settings::URLOpenMode) ui->urlOpenModeComboBox->currentIndex();
     proxy = ui->proxyEdit->text().simplified();
     port = ui->portEdit->text().toInt();
     maxTasks = ui->maxTaskSpinBox->value();
@@ -158,6 +162,7 @@ SettingsDialog::~SettingsDialog()
     QSettings settings("moonsoft", "moonplayer");
 
     settings.setValue("Player/remember_unfinished", rememberUnfinished);
+    settings.setValue("Player/url_open_mode", (int) urlOpenMode);
     settings.setValue("Video/copy_mode", copyMode);
     settings.setValue("Video/hwdec", hwdec);
     settings.setValue("Audio/out", aout);
@@ -190,6 +195,7 @@ void initSettings()
     aout = settings.value("Audio/out", "auto").toString();
     volume = settings.value("Audio/volume", 10).toInt();
     rememberUnfinished = settings.value("Player/remember_unfinished", true).toBool();
+    urlOpenMode = (Settings::URLOpenMode) settings.value("Player/url_open_mode", 0).toInt();
     proxyType = settings.value("Net/proxy_type", "no").toString();
     proxy = settings.value("Net/proxy").toString();
     port = settings.value("Net/port").toInt();

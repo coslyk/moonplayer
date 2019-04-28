@@ -3,6 +3,7 @@
 #include "platform/paths.h"
 #include "settings_audio.h"
 #include "settings_network.h"
+#include "settings_player.h"
 #include "settings_video.h"
 #include "utils.h"
 #include "accessmanager.h"
