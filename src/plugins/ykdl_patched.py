@@ -12,7 +12,7 @@ from os.path import expanduser
 # Init environment and import module
 if platform.system() == 'Darwin':
     _srcdir = '%s/Library/Application Support/MoonPlayer/ykdl/' % os.getenv('HOME')
-elif platform.system() == 'Linux':
+elif platform.system() == 'Linux' or platform.system() == 'FreeBSD':
     _srcdir = '%s/moonplayer/ykdl/' % os.getenv('XDG_DATA_HOME', os.getenv('HOME') + '/.local/share')
 else:
     _srcdir = expanduser(r'~\AppData\Local\MoonPlayer\ykdl')

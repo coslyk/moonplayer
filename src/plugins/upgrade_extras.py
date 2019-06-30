@@ -53,7 +53,7 @@ def get_latest_release(repo):
 # Platform-specific variables
 if platform.system() == 'Darwin':
     APPDATA = expanduser('~/Library/Application Support/MoonPlayer')
-elif platform.system() == 'Linux':
+elif platform.system() == 'Linux' or platform.system() == 'FreeBSD':
     XDG_DATA_HOME = os.getenv('XDG_DATA_HOME', expanduser('~/.local/share'))
     APPDATA = XDG_DATA_HOME + '/moonplayer'
 else:
