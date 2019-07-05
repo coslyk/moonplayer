@@ -1,54 +1,42 @@
 #include "streamget.h"
 #include <QMessageBox>
 #include <QProcess>
-#include <QTimer>
 #include <QUrl>
 #include "platform/paths.h"
+#include "python_wrapper.h"
+#include "settings_network.h"
 
 StreamGet::StreamGet(const QUrl &url, const QString &filename, QObject *parent) :
     DownloaderItem (filename, parent)
 {
-    args << "-y" << "-i" << url.toString() << "-c" << "copy" << "-bsf:a" << "aac_adtstoasc" << filename;
+    args << getAppPath() + "/plugins/hls_downloader.py";
+    if (Settings::proxyType == "http" && !Settings::proxy.isEmpty())
+        args << "--http-proxy" << Settings::proxy;
+    args << "--title" << filename.section('.', 0, -2) << url.toString();
     process = NULL;
-    timer = NULL;
-    duration = 0;
 }
 
 void StreamGet::start()
 {
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)), this, SLOT(onProcFinished(int)));
-    process->start(ffmpegFilePath(), args);
+    connect(process, &QProcess::readyReadStandardOutput, this, &StreamGet::readOutput);
+    process->start(PYTHON_BIN, args);
     emit progressChanged(0, true);
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &StreamGet::readOutput);
-    timer->start(1000);
 }
 
 void StreamGet::readOutput()
 {
-    QByteArray output = process->readAllStandardError();
-    if (duration == 0) // read duration first
+    static QRegularExpression re("\\((\\d+)/(\\d+)\\)");
+    while (process->canReadLine())
     {
-        int i = output.indexOf("Duration: ");
-        if (i != -1)
+        QByteArray line = process->readLine();
+        QRegularExpressionMatch match = re.match(line);
+        if (match.hasMatch())
         {
-            int hh = output.mid(i+10, 2).toInt();
-            int mm = output.mid(i+13, 2).toInt();
-            int ss = output.mid(i+16, 2).toInt();
-            duration = hh * 3600 + mm * 60 + ss;
-        }
-    }
-    else
-    {
-        int i = output.lastIndexOf("time=");
-        if (i != -1)
-        {
-            int hh = output.mid(i+5, 2).toInt();
-            int mm = output.mid(i+8, 2).toInt();
-            int ss = output.mid(i+11, 2).toInt();
-            int time = hh * 3600 + mm * 60 + ss;
-            emit progressChanged(time * 100 / duration, true);
+            int i = match.captured(1).toInt();
+            int total = match.captured(2).toInt();
+            emit progressChanged(i * 100 / total, true);
         }
     }
 }
@@ -60,16 +48,8 @@ void StreamGet::pause()
 
 void StreamGet::stop()
 {
-    if (timer)
-    {
-        timer->stop();
-        timer->deleteLater();
-        timer = NULL;
-    }
     if (process)
     {
-        process->write("q");
-        process->waitForFinished(1000);
         if (process->state() == QProcess::Running)
             process->kill();
         process->deleteLater();
@@ -84,26 +64,13 @@ StreamGet::~StreamGet()
 
 void StreamGet::onProcFinished(int code)
 {
-    timer->stop();
     if (code) // Error
     {
         QByteArray errOutput = process->readAllStandardError();
-        // audio filter does not match
-        if (errOutput.contains("Error initializing bitstream filter: aac_adtstoasc"))
-        {
-            args.removeOne("-bsf:a");
-            args.removeOne("aac_adtstoasc");
-            process->start(ffmpegFilePath(), args);
-            timer->start(1000);
-            return;
-        }
-        else // Other error
-            qDebug("%s", errOutput.constData());
+        qDebug("%s", errOutput.constData());
     }
     emit finished(this, code);
     process->deleteLater();
     process = NULL;
-    timer->deleteLater();
-    timer = NULL;
 
 }
