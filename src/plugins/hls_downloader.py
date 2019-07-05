@@ -348,19 +348,32 @@ def download_hls(m3u8_url, name):
 def main():
     parser = argparse.ArgumentParser(description='HLS Downloader')
     parser.add_argument('-x', '--http-proxy', type=str, help='set proxy for http(s) transfer. default: no proxy')
+    parser.add_argument('-s', '--socks-proxy', type=str, help='set socks5 proxy. default: no proxy')
     parser.add_argument('-t', '--title', type=str, help='Title of the video')
     parser.add_argument('url', type=str, help='URL of hls stream')
     args = parser.parse_args()
+
     if args.title:
         title = args.title
     else:
         title = urlparse(args.url).path.split('/')[-1].split('.')[0]
+
     if args.http_proxy:
         opener = build_opener(ProxyHandler({
-            'http': args.http_proxy,
-            'https': args.http_proxy
+            'http': 'http://' + args.http_proxy,
+            'https': 'http://' + args.http_proxy
         }))
         install_opener(opener)
+        
+    elif args.socks_proxy:
+        try:
+            import socks
+            addr, port = args.socks_proxy.split(':')
+            socks.set_default_proxy(socks.SOCKS5, addr, int(port))
+            socket.socket = socks.socksocket
+        except:
+            print('Failed to set socks5 proxy. Please install PySocks.')
+            
     download_hls(args.url, title)
 
 if __name__ == "__main__":
