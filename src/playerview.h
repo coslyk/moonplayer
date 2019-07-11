@@ -29,9 +29,7 @@ public:
     ~PlayerView();
 
 protected:
-#ifdef Q_OS_MAC
     void changeEvent(QEvent *e);
-#endif
     void contextMenuEvent(QContextMenuEvent *e);
     void closeEvent(QCloseEvent *e);
     void dragEnterEvent(QDragEnterEvent *e);

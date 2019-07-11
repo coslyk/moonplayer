@@ -605,20 +605,36 @@ void PlayerView::setFullScreen()
     }
 }
 
-#ifdef Q_OS_MAC
 void PlayerView::changeEvent(QEvent *e)
 {
     if (e->type() == QEvent::WindowStateChange)
     {
         QWindowStateChangeEvent *ce = static_cast<QWindowStateChangeEvent*>(e);
+        if (isFullScreen())
+        {
+            leftBorder->setEnabled(false);
+            rightBorder->setEnabled(false);
+            bottomBorder->setEnabled(false);
+            bottomLeftBorder->setEnabled(false);
+            bottomRightBorder->setEnabled(false);
+        }
+        else
+        {
+            leftBorder->setEnabled(true);
+            rightBorder->setEnabled(true);
+            bottomBorder->setEnabled(true);
+            bottomLeftBorder->setEnabled(true);
+            bottomRightBorder->setEnabled(true);
+        }
+#ifdef Q_OS_MAC
         if ((ce->oldState() & Qt::WindowFullScreen) && !isFullScreen())
             setWindowFlag(Qt::FramelessWindowHint, true);
+#endif
         ce->accept();
         return;
     }
     QWidget::changeEvent(e);
 }
-#endif
 
 
 // add & select subtitle and set subtitle delay
