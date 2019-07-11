@@ -55,6 +55,8 @@ void ParserWebCatch::runParser(const QString &url)
     }
 
     // load url
+    QWebEngineHttpRequest request(url);
+    request.setHeader("Referer", url.toUtf8());
     webengineView->setUrl(QUrl(url));
     webengineView->show();
 }
