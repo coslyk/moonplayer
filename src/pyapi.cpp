@@ -12,7 +12,6 @@
 #include "parserwebcatch.h"
 #endif
 
-bool win_debug = false;
 
 /*****************************************
  ******** Some useful functions **********
@@ -21,34 +20,36 @@ bool win_debug = false;
 #define EXIT_IF_ERROR(retval)    if ((retval) == NULL){printPythonException(); exit(EXIT_FAILURE);}
 
 
-/************************************************
+/**********************************************
  ** Define get_content() function for python **
- ************************************************/
+ **********************************************/
 
-GetUrl *geturl_obj = NULL;
-PyObject *exc_GetUrlError = NULL;
+static QNetworkReply *reply = NULL;
 
-GetUrl::GetUrl(QObject *parent) : QObject(parent)
+bool PluginIsLoadingPage()
 {
-    reply = NULL;
-    callbackFunc = NULL;
-    data = NULL;
-    timer = new QTimer(this);
-    timer->setSingleShot(true);
-    connect(timer, SIGNAL(timeout()), this, SLOT(onTimeOut()));
-    exc_GetUrlError = PyErr_NewException("moonplayer.GetUrlError", NULL, NULL);
+    return reply != NULL;
 }
 
-void GetUrl::start(const char *url, PyObject *callback, PyObject *_data,
-                   const QByteArray &referer, const QByteArray &postData)
+static void get_post_content(const QUrl &url,
+                             PyObject *callback,
+                             PyObject *data,
+                             const QByteArray &referer = QByteArray(),
+                             const QByteArray &postData = QByteArray())
 {
-    //save callback function
-    callbackFunc = callback;
-    data = _data;
-    Py_IncRef(callbackFunc);
+    // another task is running?
+    if (reply)
+    {
+        QMessageBox::warning(NULL, "Error", "Another task is running, please wait");
+        return;
+    }
+
+    // inc ref
+    Py_IncRef(callback);
     Py_IncRef(data);
-    //start request
-    QNetworkRequest request = QNetworkRequest(QString::fromUtf8(url));
+
+    // start request
+    QNetworkRequest request(url);
     if (!referer.isEmpty())
         request.setRawHeader("Referer", referer);
     if (postData.isEmpty())
@@ -58,59 +59,43 @@ void GetUrl::start(const char *url, PyObject *callback, PyObject *_data,
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
         reply = access_manager->post(request, postData);
     }
-    connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
-    timer->start(10000);
-    // Set moonplayer.final_url in Python
-    PyObject *str = PyString_FromString(url);
-    PyObject_SetAttrString(apiModule, "final_url", str);
-    Py_DecRef(str);
-}
 
-void GetUrl::onTimeOut()
-{
-    Q_ASSERT(reply);
-    reply->abort();
-}
-
-void GetUrl::onFinished()
-{
-    timer->stop();
-    //check redirection
-    int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    if (status == 301 || status == 302)
-    {
-        reply->deleteLater();
-        QByteArray final_url = reply->rawHeader("Location");
-        PyObject *str = PyString_FromString(final_url.constData());
-        PyObject_SetAttrString(apiModule, "final_url", str);
-        Py_DecRef(str);
-        //start request
-        QNetworkRequest request = QNetworkRequest(QString::fromUtf8(final_url));
-        reply = access_manager->get(request);
-        connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
-        return;
-    }
-    PyObject *callback = callbackFunc;
-    PyObject *_data = data;
-    callbackFunc = NULL;
-    data = NULL;
-    QNetworkReply::NetworkError error = reply->error();
-    QByteArray barray = reply->readAll();
-    reply->deleteLater();
-    if (error != QNetworkReply::NoError)
-    {
+    // on reply
+    QObject::connect(reply, &QNetworkReply::finished, [callback, data, referer, postData]() {
         int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-        QString errStr = QString().sprintf("Network Error: %d\n%s\n", status, reply->errorString().toUtf8().constData());
-        QMessageBox::warning(NULL, "Error", errStr);
-        Py_DecRef(_data);
+        reply->deleteLater();
+
+        // redirection
+        if (status == 301 || status == 302)
+        {
+            QUrl final_url = QString::fromUtf8(reply->rawHeader("Location"));
+            reply = NULL;
+            get_post_content(final_url, callback, data, referer, postData);
+        }
+
+        // error
+        else if (reply->error() != QNetworkReply::NoError)
+        {
+            QString errStr = QString("Network Error: %1\n%2").arg(QString::number(status), reply->errorString());
+            QMessageBox::warning(NULL, "Error", errStr);
+            reply = NULL;
+        }
+
+        // call callback function
+        else
+        {
+            QByteArray barray = reply->readAll();
+            reply = NULL;
+            PyObject *retVal = PyObject_CallFunction(callback, "sO", barray.constData(), data);
+            if (retVal == NULL)
+                printPythonException();
+            else
+                Py_DecRef(retVal);
+
+        }
         Py_DecRef(callback);
-        return;
-    }
-    PyObject *retVal = PyObject_CallFunction(callback, "sO", barray.constData(), _data);
-    Py_DecRef(_data);
-    Py_DecRef(callback);
-    RETURN_IF_ERROR(retVal)
-    Py_DecRef(retVal);
+        Py_DecRef(data);
+    });
 }
 
 static PyObject *get_content(PyObject *, PyObject *args)
@@ -119,12 +104,7 @@ static PyObject *get_content(PyObject *, PyObject *args)
     const char *url, *referer = NULL;
     if (!PyArg_ParseTuple(args, "sOO|s", &url, &callback, &data, &referer))
         return NULL;
-    if (geturl_obj->hasTask())
-    {
-        PyErr_SetString(exc_GetUrlError, "Another task is running.");
-        return NULL;
-    }
-    geturl_obj->start(url, callback, data, referer, NULL);
+    get_post_content(QString::fromUtf8(url), callback, data, referer);
     Py_IncRef(Py_None);
     return Py_None;
 }
@@ -132,15 +112,10 @@ static PyObject *get_content(PyObject *, PyObject *args)
 static PyObject *post_content(PyObject *, PyObject *args)
 {
     PyObject *callback, *data;
-    const char *url, *post, *referer = NULL;
-    if (!PyArg_ParseTuple(args, "ssOO|s", &url, &post, &callback, &data, &referer))
+    const char *url, *postData, *referer = NULL;
+    if (!PyArg_ParseTuple(args, "ssOO|s", &url, &postData, &callback, &data, &referer))
         return NULL;
-    if (geturl_obj->hasTask())
-    {
-        PyErr_SetString(exc_GetUrlError, "Another task is running.");
-        return NULL;
-    }
-    geturl_obj->start(url, callback, data, referer, post);
+    get_post_content(QString::fromUtf8(url), callback, data, referer, postData);
     Py_IncRef(Py_None);
     return Py_None;
 }
@@ -315,7 +290,6 @@ void initPython()
     }
 
     //init module
-    geturl_obj = new GetUrl(qApp);
 #if PY_MAJOR_VERSION >= 3
     apiModule = PyModule_Create(&moonplayerModule);
     PyObject *modules = PySys_GetObject("modules");
@@ -325,8 +299,6 @@ void initPython()
 #endif
 
     PyModule_AddStringConstant(apiModule, "final_url", "");
-    Py_IncRef(exc_GetUrlError);
-    PyModule_AddObject(apiModule, "GetUrlError", exc_GetUrlError);
 
     // plugins' dir
     PyRun_SimpleString("import sys");

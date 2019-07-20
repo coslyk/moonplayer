@@ -74,7 +74,7 @@ ResLibrary::ResLibrary(QWidget *parent) :
 
 void ResLibrary::reSearch()
 {
-    if (geturl_obj->hasTask())
+    if (PluginIsLoadingPage())
     {
         QMessageBox::warning(this, "warning", tr("Another file is parsing. Please wait."));
         return;
@@ -92,7 +92,7 @@ void ResLibrary::reSearch()
 
 void ResLibrary::keySearch()
 {
-    if (geturl_obj->hasTask())
+    if (PluginIsLoadingPage())
     {
         QMessageBox::warning(this, "warning", tr("Another file is parsing. Please wait."));
         return;
@@ -107,7 +107,7 @@ void ResLibrary::keySearch()
 
 void ResLibrary::onItemDoubleClicked(QListWidgetItem *item)
 {
-    if (geturl_obj->hasTask())
+    if (PluginIsLoadingPage())
     {
         QMessageBox::warning(this, "warning", tr("Another file is parsing. Please wait."));
         return;
@@ -119,7 +119,7 @@ void ResLibrary::onItemDoubleClicked(QListWidgetItem *item)
 // Set page
 void ResLibrary::onPageChanged(int newPage)
 {
-    if (geturl_obj->hasTask())
+    if (PluginIsLoadingPage())
     {
         QMessageBox::warning(this, "warning", tr("Another file is parsing. Please wait."));
         return;
