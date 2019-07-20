@@ -173,31 +173,18 @@ static PyObject *question(PyObject *, PyObject *args)
  *******************/
 static PyObject *res_show(PyObject *, PyObject *args)
 {
-    PyObject *list = NULL;
-    if (!PyArg_ParseTuple(args, "O", &list))
+    PyObject *obj = NULL;
+    if (!PyArg_ParseTuple(args, "O", &obj))
         return NULL;
-    if (!PyList_Check(list))
+    if (!PyList_Check(obj))
         return NULL;
     res_library->clearItem();
-    int size = PyList_Size(list);
-    for (int i = 0; i < size; i++)
+
+    QVariantList list = PyObject_AsQVariant(obj).toList();
+    foreach (QVariant i, list)
     {
-        PyObject *dict = PyList_GetItem(list, i);
-        PyObject *name_obj, *pic_url_obj, *flag_obj;
-        QString name, pic_url, flag;
-        if (NULL == (name_obj = PyDict_GetItemString(dict, "name")))
-            return NULL;
-        if (NULL == (flag_obj = PyDict_GetItemString(dict, "url")))
-            return NULL;
-        if (NULL == (pic_url_obj = PyDict_GetItemString(dict, "pic_url")))
-            return NULL;
-        if ((name = PyString_AsQString(name_obj)).isNull())
-            return NULL;
-        if ((flag = PyString_AsQString(flag_obj)).isNull())
-            return NULL;
-        if ((pic_url = PyString_AsQString(pic_url_obj)).isNull())
-            return NULL;
-        res_library->addItem(name, pic_url, flag);
+        QVariantHash item = i.toHash();
+        res_library->addItem(item["name"].toString(), item["pic_url"].toString(), item["url"].toString());
     }
     Py_IncRef(Py_None);
     return Py_None;
@@ -297,8 +284,6 @@ void initPython()
 #else
     apiModule = Py_InitModule("moonplayer", methods);
 #endif
-
-    PyModule_AddStringConstant(apiModule, "final_url", "");
 
     // plugins' dir
     PyRun_SimpleString("import sys");
