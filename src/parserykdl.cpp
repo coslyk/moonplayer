@@ -1,4 +1,5 @@
 #include "parserykdl.h"
+#include "accessmanager.h"
 #include "platform/paths.h"
 #include "python_wrapper.h"
 #include "settings_network.h"
@@ -59,7 +60,7 @@ void ParserYkdl::runParser(const QString &url)
 
     QStringList args;
     args << (getAppPath() + "/plugins/ykdl_patched.py");
-    args << "-t" << "15" << "--json";
+    args << "--timeout" << "15" << "--user-agent" << DEFAULT_UA;
     if (!Settings::proxy.isEmpty() &&
             (Settings::proxyType == "http" || (Settings::proxyType == "http_unblockcn")))
         args << "--proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
