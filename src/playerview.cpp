@@ -1,6 +1,7 @@
 #include "playerview.h"
 #include "ui_playerview.h"
 #include "aboutdialog.h"
+#include "browser.h"
 #include "cutterbar.h"
 #include "downloader.h"
 #include "parserbase.h"
@@ -102,6 +103,9 @@ PlayerView::PlayerView(QWidget *parent) :
     volumeSlider->resize(QSize(20, 70));
     volumeSlider->move(2, 5);
 
+    // create browser for login
+    browser = new Browser;
+
     // create upgrader dialog
     upgraderDialog = new UpgraderDialog(this);
 
@@ -147,6 +151,7 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addMenu(open_menu);
     menu->addAction(tr("Playlist") + "\tL", this, SLOT(showPlaylist()));
     menu->addAction(tr("Online video") + "\tW", reslibrary, SLOT(show()));
+    menu->addAction(tr("Login"), browser, SLOT(show()));
     menu->addSeparator();
     menu->addMenu(video_menu);
     menu->addMenu(audio_menu);
@@ -251,6 +256,7 @@ void PlayerView::closeEvent(QCloseEvent *e)
         }
 
         reslibrary->close();
+        browser->close();
         no_play_next = true;
 
     // It's not safe to quit until mpv is stopped

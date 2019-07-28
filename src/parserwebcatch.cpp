@@ -21,7 +21,6 @@ ParserWebCatch::ParserWebCatch(QObject *parent) :
     // set profile
     QWebEngineProfile *profile = QWebEngineProfile::defaultProfile();
     profile->setHttpUserAgent(DEFAULT_UA);
-    profile->settings()->setAttribute(QWebEngineSettings::AutoLoadImages, false);
     profile->settings()->setAttribute(QWebEngineSettings::AutoLoadIconsForPage, false);
     connect(profile->cookieStore(), &QWebEngineCookieStore::cookieAdded, this, &ParserWebCatch::onCookieAdded);
     profile->cookieStore()->loadAllCookies();

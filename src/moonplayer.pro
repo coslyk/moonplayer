@@ -56,7 +56,8 @@ SOURCES += \
     upgraderdialog.cpp \
     utils.cpp \
     videocombiner.cpp \
-    platform/paths.cpp
+    platform/paths.cpp \
+    browser.cpp
 
 HEADERS  +=\
     aboutdialog.h \
@@ -94,7 +95,8 @@ HEADERS  +=\
     videocombiner.h \
     platform/application.h \
     platform/detectopengl.h \
-    platform/paths.h
+    platform/paths.h \
+    browser.h
 
 
 # Platform specific source codes
@@ -145,7 +147,8 @@ FORMS    += \
     selectiondialog.ui \
     playerview.ui \
     aboutdialog.ui \
-    upgraderdialog.ui
+    upgraderdialog.ui \
+    browser.ui
 
 
 RESOURCES += \
