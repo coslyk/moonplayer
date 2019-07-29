@@ -56,8 +56,7 @@ SOURCES += \
     upgraderdialog.cpp \
     utils.cpp \
     videocombiner.cpp \
-    platform/paths.cpp \
-    browser.cpp
+    platform/paths.cpp
 
 HEADERS  +=\
     aboutdialog.h \
@@ -95,8 +94,7 @@ HEADERS  +=\
     videocombiner.h \
     platform/application.h \
     platform/detectopengl.h \
-    platform/paths.h \
-    browser.h
+    platform/paths.h
 
 
 # Platform specific source codes
@@ -124,12 +122,15 @@ win32 {
 # QtWebEngine Support (Mainly used for parsing youku videos)
 equals(ENABLE_WEBENGINE, "yes") {
     QT += websockets webenginewidgets
-    HEADERS += chromiumdebugger.h \
+    HEADERS += browser.h \
+               chromiumdebugger.h \
                extractor.h \
                parserwebcatch.h
-    SOURCES += chromiumdebugger.cpp \
+    SOURCES += browser.cpp \
+               chromiumdebugger.cpp \
                extractor.cpp \
                parserwebcatch.cpp
+    FORMS   += browser.ui
     DEFINES += MP_ENABLE_WEBENGINE
 }
 
@@ -147,8 +148,7 @@ FORMS    += \
     selectiondialog.ui \
     playerview.ui \
     aboutdialog.ui \
-    upgraderdialog.ui \
-    browser.ui
+    upgraderdialog.ui
 
 
 RESOURCES += \
