@@ -1,5 +1,6 @@
 #include "parserykdl.h"
 #include "accessmanager.h"
+#include "cookiejar.h"
 #include "platform/paths.h"
 #include "python_wrapper.h"
 #include "settings_network.h"
@@ -64,6 +65,13 @@ void ParserYkdl::runParser(const QString &url)
     if (!Settings::proxy.isEmpty() &&
             (Settings::proxyType == "http" || (Settings::proxyType == "http_unblockcn")))
         args << "--proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
+
+    // export cookies
+    QString cookiesFile = QDir::temp().filePath("moonplayer_cookies.txt");
+    CookieJar *cookieJar = static_cast<CookieJar*>(access_manager->cookieJar());
+    if (cookieJar->exportNetscapeCookiesFile(cookiesFile))
+        args << "--cookies" << cookiesFile;
+
     args << url;
     process->start(PYTHON_BIN, args, QProcess::ReadOnly);
     msgWindow->show();
