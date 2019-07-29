@@ -17,8 +17,9 @@ bool CookieJar::exportNetscapeCookiesFile(const QString &filename)
     foreach (QNetworkCookie cookie, cookies) {
         // convert to mozilla's format
         QDateTime expirationDate = cookie.expirationDate();
-        content += QString("%1\tTRUE\t%2\t%3\t%4\t%5\t%6\n").arg(
+        content += QString("%1\t%2\t%3\t%4\t%5\t%6\t%7\n").arg(
                     cookie.domain(),
+                    cookie.domain().startsWith('.') ? "TRUE" : "FALSE",
                     cookie.path(),
                     cookie.isSecure() ? "TRUE" : "FALSE",
                     expirationDate.isValid() ? QString::number(expirationDate.toSecsSinceEpoch()) : "",
