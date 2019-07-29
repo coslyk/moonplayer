@@ -29,6 +29,7 @@ TEMPLATE = app
 SOURCES += \
     aboutdialog.cpp \
     accessmanager.cpp \
+    cookiejar.cpp \
     cutterbar.cpp \
     danmakudelaygetter.cpp \
     danmakuloader.cpp \
@@ -61,6 +62,7 @@ SOURCES += \
 HEADERS  +=\
     aboutdialog.h \
     accessmanager.h \
+    cookiejar.h \
     cutterbar.h \
     danmakudelaygetter.h \
     danmakuloader.h \
