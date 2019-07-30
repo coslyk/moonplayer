@@ -164,7 +164,7 @@ unix:!macx {
     isEmpty(BINDIR) {
         BINDIR = bin
     }
-    usr_share.files += plugins unblockcn translations
+    usr_share.files += plugins translations
     usr_share.path = $$PREFIX/share/moonplayer
     #icon
     icon.files += icons/*
@@ -185,7 +185,7 @@ unix:!macx {
 macx {
     FFMPEG.files = /usr/local/bin/ffmpeg
     FFMPEG.path = Contents/MacOS
-    RESFILES.files = plugins unblockcn translations
+    RESFILES.files = plugins translations
     RESFILES.path = Contents/Resources
     QT_TRANS.files = /usr/local/opt/qt/translations
     QT_TRANS.path = Contents/Resources/qt

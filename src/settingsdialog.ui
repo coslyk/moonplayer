@@ -320,11 +320,6 @@
          </item>
          <item>
           <property name="text">
-           <string>http_unblockcn</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
            <string>socks5</string>
           </property>
          </item>

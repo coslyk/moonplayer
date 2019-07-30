@@ -12,11 +12,6 @@ public:
     NetworkAccessManager(QObject *parent = NULL);
     QNetworkReply *get(const QNetworkRequest &request);
     void setProxy(const QString &proxyType, const QString &proxy, int port);
-
-private:
-    QStringList header_urls;
-    QStringList proxy_urls;
-    QNetworkAccessManager *amForUnblock;
 };
 
 extern NetworkAccessManager *access_manager;

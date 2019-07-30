@@ -30,40 +30,6 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent) :
     // Set cookie jar
     CookieJar *cookieJar = new CookieJar(this);
     setCookieJar(cookieJar);
-
-    amForUnblock = NULL;
-    // read header urls list
-    QString header_urls_file = getAppPath() + "/unblockcn/header_urls.txt";
-    if (QFile::exists(header_urls_file))
-    {
-        QFile f(header_urls_file);
-        if (f.open(QFile::ReadOnly | QFile::Text))
-        {
-            do
-            {
-                QString line = QString::fromUtf8(f.readLine().simplified());
-                if (!line.isEmpty())
-                    header_urls << line;
-            } while (!f.atEnd());
-            f.close();
-        }
-    }
-    // read proxy urls list
-    QString proxy_urls_file = getAppPath() + "/unblockcn/proxy_urls.txt";
-    if (QFile::exists(proxy_urls_file))
-    {
-        QFile f(proxy_urls_file);
-        if (f.open(QFile::ReadOnly | QFile::Text))
-        {
-            do
-            {
-                QString line = QString::fromUtf8(f.readLine().simplified());
-                if (!line.isEmpty())
-                    proxy_urls << line;
-            } while (!f.atEnd());
-            f.close();
-        }
-    }
 }
 
 
@@ -90,19 +56,6 @@ void NetworkAccessManager::setProxy(const QString &proxyType, const QString &pro
         QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
         qputenv("http_proxy", QString("http://%1:%2").arg(proxy, QString::number(port)).toUtf8());
     }
-    else if (proxyType == "http_unblockcn")
-    {
-        // this access manager does not use proxy
-        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
-        // QWebEngine uses proxy to parse videos
-        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
-        // libmpv does not use proxy
-        qunsetenv("http_proxy");
-        // access manager for unblocking
-        if (amForUnblock == NULL)
-            amForUnblock = new QNetworkAccessManager(this);
-        amForUnblock->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
-    }
 }
 
 
@@ -110,36 +63,7 @@ QNetworkReply *NetworkAccessManager::get(const QNetworkRequest &req)
 {
     // set user agent
     QNetworkRequest request = req;
-    QString url = request.url().toString();
     request.setHeader(QNetworkRequest::UserAgentHeader, generateUA(request.url()));
-
-    // unblock mode is disable
-    if (Settings::proxyType != "http_unblockcn")
-        return QNetworkAccessManager::get(request);
-
-    // unblock mode is enable
-    // check if the website can be unblocked by modifying headers
-    foreach (QString patt, header_urls)
-    {
-        if (url.contains(patt))
-        {
-            qInfo("[UnblockCN] Fake ip for: %s", url.toUtf8().constData());
-            request.setRawHeader("X-Forwarded-For", china_fake_ip.toUtf8());
-            request.setRawHeader("Client-IP", china_fake_ip.toUtf8());
-            return QNetworkAccessManager::get(request);
-        }
-    }
-
-    // check if the website can be unblocked by proxy
-    foreach (QString patt, proxy_urls)
-    {
-        if (url.contains(patt))
-        {
-            qInfo("[UnblockCN] Use proxy for: %s", url.toUtf8().constData());
-            return amForUnblock->get(request);
-        }
-    }
-    qInfo("[UnblockCN] access directly for: %s", url.toUtf8().constData());
     return QNetworkAccessManager::get(request);
 }
 

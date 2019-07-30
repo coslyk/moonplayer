@@ -62,8 +62,7 @@ void ParserYkdl::runParser(const QString &url)
     QStringList args;
     args << (getAppPath() + "/plugins/ykdl_patched.py");
     args << "--timeout" << "15" << "--user-agent" << DEFAULT_UA;
-    if (!Settings::proxy.isEmpty() &&
-            (Settings::proxyType == "http" || (Settings::proxyType == "http_unblockcn")))
+    if (!Settings::proxy.isEmpty() && Settings::proxyType == "http")
         args << "--proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
 
     // export cookies
