@@ -10,9 +10,9 @@ StreamGet::StreamGet(const QUrl &url, const QString &filename, QObject *parent) 
     DownloaderItem (filename, parent)
 {
     args << getAppPath() + "/plugins/hls_downloader.py";
-    if (Settings::proxyType == "http" && !Settings::proxy.isEmpty())
+    if (Settings::proxyType == "http" && !Settings::proxy.isEmpty() && !Settings::proxyOnlyForParsing)
         args << "--http-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
-    else if (Settings::proxyType == "socks5" && !Settings::proxy.isEmpty())
+    else if (Settings::proxyType == "socks5" && !Settings::proxy.isEmpty() && !Settings::proxyOnlyForParsing)
         args << "--socks-proxy" << (Settings::proxy + ':' + QString::number(Settings::port));
     args << "--title" << filename.section('.', 0, -2) << url.toString();
     process = NULL;

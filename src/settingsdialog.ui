@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>438</width>
-    <height>350</height>
+    <height>402</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -225,10 +225,54 @@
        <string>Internet</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="1" column="0">
-        <widget class="QLabel" name="proxyLabel">
+       <item row="9" column="0" colspan="4">
+        <widget class="QCheckBox" name="combineCheckBox">
          <property name="text">
-          <string>Mode</string>
+          <string>Combine video clips automatically after downloading</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="portLabel">
+         <property name="text">
+          <string>Port</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1" colspan="3">
+        <widget class="QSpinBox" name="maxTaskSpinBox">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="proxyEdit"/>
+       </item>
+       <item row="6" column="0" colspan="4">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Downloader&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="4">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Note: Due to the limitation of mpv, socks5 proxy is not supported by online playing.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1" colspan="3">
+        <widget class="QPushButton" name="dirButton"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="maxTaskLabel">
+         <property name="text">
+          <string>Max tasks</string>
          </property>
         </widget>
        </item>
@@ -239,13 +283,10 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="proxyEdit"/>
-       </item>
-       <item row="2" column="2">
-        <widget class="QLabel" name="portLabel">
+       <item row="1" column="0">
+        <widget class="QLabel" name="proxyLabel">
          <property name="text">
-          <string>Port</string>
+          <string>Mode</string>
          </property>
         </widget>
        </item>
@@ -265,46 +306,19 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="4">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="maxTaskLabel">
+       <item row="0" column="0" colspan="4">
+        <widget class="QLabel" name="label_12">
          <property name="text">
-          <string>Max tasks</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Proxy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="8" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>Save to:</string>
          </property>
         </widget>
-       </item>
-       <item row="8" column="0" colspan="4">
-        <widget class="QCheckBox" name="combineCheckBox">
-         <property name="text">
-          <string>Combine video clips automatically after downloading</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>2</height>
-          </size>
-         </property>
-        </spacer>
        </item>
        <item row="1" column="1" colspan="3">
         <widget class="QComboBox" name="proxyTypeComboBox">
@@ -325,37 +339,30 @@
          </item>
         </widget>
        </item>
-       <item row="3" column="0" colspan="4">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Note: Due to the limitation of mpv, socks5 proxy is not supported by online playing.</string>
+       <item row="10" column="0">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-         <property name="wordWrap">
-          <bool>true</bool>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>2</height>
+          </size>
          </property>
-        </widget>
-       </item>
-       <item row="6" column="1" colspan="3">
-        <widget class="QSpinBox" name="maxTaskSpinBox">
-         <property name="minimum">
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1" colspan="3">
-        <widget class="QPushButton" name="dirButton"/>
+        </spacer>
        </item>
        <item row="5" column="0" colspan="4">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Downloader&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="4">
-        <widget class="QLabel" name="label_12">
+       <item row="3" column="0" colspan="4">
+        <widget class="QCheckBox" name="proxyParsingOnlyCheckBox">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Proxy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>Use proxy only for parsing videos</string>
          </property>
         </widget>
        </item>

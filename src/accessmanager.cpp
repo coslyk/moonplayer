@@ -46,15 +46,26 @@ void NetworkAccessManager::setProxy(const QString &proxyType, const QString &pro
     }
     else if (proxyType == "socks5")
     {
-        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
-        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
+        if (Settings::proxyOnlyForParsing)
+            QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+        else
+            QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
         qunsetenv("http_proxy");
+        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
     }
     else if (proxyType == "http")
     {
-        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
+        if (Settings::proxyOnlyForParsing)
+        {
+            QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+            qunsetenv("http_proxy");
+        }
+        else
+        {
+            QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
+            qputenv("http_proxy", QString("http://%1:%2").arg(proxy, QString::number(port)).toUtf8());
+        }
         QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
-        qputenv("http_proxy", QString("http://%1:%2").arg(proxy, QString::number(port)).toUtf8());
     }
 }
 
