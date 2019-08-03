@@ -87,7 +87,7 @@ def main():
     
     if args.cookies:
         cookiejar = MozillaCookieJar(args.cookies)
-        cookiejar.load()
+        cookiejar.load(ignore_discard=True, ignore_expires=True)
         cookie_handler = HTTPCookieProcessor(cookiejar)
         handlers.append(cookie_handler)
 
