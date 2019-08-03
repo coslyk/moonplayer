@@ -107,7 +107,8 @@ PlayerView::PlayerView(QWidget *parent) :
 
     // create browser for login
 #ifdef MP_ENABLE_WEBENGINE
-    browser = new Browser;
+    browser = new Browser(this);
+    browser->setWindowFlags(browser->windowFlags() | Qt::Window);
 #endif
 
     // create upgrader dialog
