@@ -49,40 +49,39 @@
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans CJK SC&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Many thanks to all the people who help me develop the software, including:&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;1. The great works of the following open-source projects:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.qt.io&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt; (License: LGPLv3)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://mpv.io/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;libmpv&lt;/span&gt;&lt;/a&gt; (License: GPLv2 or later)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/coslyk/danmaku2ass&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;danmaku2ass&lt;/span&gt;&lt;/a&gt; (License: GPLv3)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/zhangn1985/ykdl&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;ykdl&lt;/span&gt;&lt;/a&gt; (License: MIT)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/rg3/youtube-dl&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;youtube-dl&lt;/span&gt;&lt;/a&gt; (License: Unlicense)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/lxqt/qtermwidget&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;qtermwidget&lt;/span&gt;&lt;/a&gt; (License: GPLv2 or later)&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2. People who maintain packages for Linux distributions:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ArchLinux: &lt;a href=&quot;https://github.com/levinit&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;@levinit&lt;/span&gt;&lt;/a&gt;, &lt;a href=&quot;https://github.com/heavysink&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;@heavysink&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;3. People who &lt;a href=&quot;https://github.com/coslyk/moonplayer/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;submit issues&lt;/span&gt;&lt;/a&gt; or suggestions.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Noto Sans CJK SC&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Many thanks to all the people who help me develop the software, including:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;1. The great works of the following open-source projects:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.qt.io&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; (License: LGPLv3)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://mpv.io/&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;libmpv&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; (License: GPLv2 or later)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/coslyk/danmaku2ass&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;danmaku2ass&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; (License: GPLv3)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/zhangn1985/ykdl&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;ykdl&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; (License: MIT)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/rg3/youtube-dl&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;youtube-dl&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; (License: Unlicense)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;2. People who maintain packages for Linux distributions:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;ArchLinux: &lt;/span&gt;&lt;a href=&quot;https://github.com/levinit&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;@levinit&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;https://github.com/heavysink&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;@heavysink&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;3. People who &lt;/span&gt;&lt;a href=&quot;https://github.com/coslyk/moonplayer/issues&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;submit issues&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; or suggestions.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aboutdialog.ui" line="166"/>
+        <location filename="../aboutdialog.ui" line="165"/>
         <source>Donate</source>
         <translation type="unfinished">捐助</translation>
     </message>
     <message>
-        <location filename="../aboutdialog.ui" line="172"/>
+        <location filename="../aboutdialog.ui" line="171"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;PayPal:  &lt;a href=&quot;https://www.paypal.me/YikunLiu&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click me&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aboutdialog.ui" line="182"/>
+        <location filename="../aboutdialog.ui" line="181"/>
         <source>Alipay:</source>
         <translation type="unfinished">支付宝：</translation>
     </message>
     <message>
-        <location filename="../aboutdialog.ui" line="189"/>
+        <location filename="../aboutdialog.ui" line="188"/>
         <source>Wechat Pay:</source>
         <translation type="unfinished">微信支付：</translation>
     </message>
@@ -105,6 +104,49 @@ p, li { white-space: pre-wrap; }
         <location filename="../aboutdialog.cpp" line="56"/>
         <source>Downloading plugins finished. Please relaunch MoonPlayer.</source>
         <translation type="unfinished">下载完成，请重启MoonPlayer。</translation>
+    </message>
+</context>
+<context>
+    <name>Browser</name>
+    <message>
+        <location filename="../browser.ui" line="14"/>
+        <source>MoonPlayer - Browser</source>
+        <translation type="unfinished">MoonPlayer - 浏览器</translation>
+    </message>
+    <message>
+        <location filename="../browser.ui" line="23"/>
+        <source>Go</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../browser.ui" line="30"/>
+        <source>Favorite</source>
+        <translation type="unfinished">收藏</translation>
+    </message>
+    <message>
+        <location filename="../browser.ui" line="38"/>
+        <source>about:blank</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../browser.ui" line="55"/>
+        <source>Add</source>
+        <translation type="unfinished">添加</translation>
+    </message>
+    <message>
+        <location filename="../browser.ui" line="68"/>
+        <source>Remove</source>
+        <translation type="unfinished">移除</translation>
+    </message>
+    <message>
+        <location filename="../browser.cpp" line="23"/>
+        <source>Title:</source>
+        <translation type="unfinished">标题：</translation>
+    </message>
+    <message>
+        <location filename="../browser.cpp" line="85"/>
+        <source>Are you sure to remove &quot;%1&quot;?</source>
+        <translation type="unfinished">确认要移除“%1”吗？</translation>
     </message>
 </context>
 <context>
@@ -333,7 +375,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ParserWebCatch</name>
     <message>
-        <location filename="../parserwebcatch.cpp" line="53"/>
+        <location filename="../parserwebcatch.cpp" line="52"/>
         <source>This URL is not supported now!</source>
         <translation type="unfinished">暂不支持该URL！</translation>
     </message>
@@ -341,12 +383,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ParserYkdl</name>
     <message>
-        <location filename="../parserykdl.cpp" line="48"/>
+        <location filename="../parserykdl.cpp" line="50"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="../parserykdl.cpp" line="55"/>
+        <location filename="../parserykdl.cpp" line="57"/>
         <source>Parsing with Ykdl...</source>
         <translation type="unfinished">使用Ykdl解析...</translation>
     </message>
@@ -354,17 +396,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ParserYoutubeDL</name>
     <message>
-        <location filename="../parseryoutubedl.cpp" line="40"/>
+        <location filename="../parseryoutubedl.cpp" line="41"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="../parseryoutubedl.cpp" line="48"/>
+        <location filename="../parseryoutubedl.cpp" line="49"/>
         <source>Parsing with Youtube-dl...</source>
         <translation type="unfinished">使用Youtube-dl解析...</translation>
     </message>
     <message>
-        <location filename="../parseryoutubedl.cpp" line="148"/>
+        <location filename="../parseryoutubedl.cpp" line="156"/>
         <source>The video of selected quality has no audio track. Please select another one.</source>
         <translation type="unfinished">所选画质的视频缺失声音信息。请选择其他画质。</translation>
     </message>
@@ -402,8 +444,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../playerview.ui" line="159"/>
-        <location filename="../playerview.cpp" line="115"/>
-        <location filename="../playerview.cpp" line="148"/>
+        <location filename="../playerview.cpp" line="124"/>
+        <location filename="../playerview.cpp" line="157"/>
         <source>Playlist</source>
         <translation type="unfinished">播放列表</translation>
     </message>
@@ -463,181 +505,186 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">饱和度</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="121"/>
-        <location filename="../playerview.cpp" line="144"/>
+        <location filename="../playerview.cpp" line="130"/>
+        <location filename="../playerview.cpp" line="153"/>
         <source>Default</source>
         <translation type="unfinished">默认</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="141"/>
+        <location filename="../playerview.cpp" line="150"/>
         <source>Speed</source>
         <translation type="unfinished">播放速度</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="142"/>
+        <location filename="../playerview.cpp" line="151"/>
         <source>Speed up</source>
         <translation type="unfinished">加速</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="143"/>
+        <location filename="../playerview.cpp" line="152"/>
         <source>Speed down</source>
         <translation type="unfinished">减速</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="117"/>
+        <location filename="../playerview.cpp" line="126"/>
         <source>Video</source>
         <translation type="unfinished">视频</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="112"/>
+        <location filename="../playerview.cpp" line="121"/>
         <source>Open</source>
         <translation type="unfinished">打开</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="113"/>
+        <location filename="../playerview.cpp" line="122"/>
         <source>File</source>
         <translation type="unfinished">文件</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="114"/>
+        <location filename="../playerview.cpp" line="123"/>
         <source>Url</source>
         <translation type="unfinished">网址</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="123"/>
+        <location filename="../playerview.cpp" line="132"/>
         <source>Equalizer</source>
         <translation type="unfinished">均衡器</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="125"/>
+        <location filename="../playerview.cpp" line="134"/>
         <source>Audio</source>
         <translation type="unfinished">音频</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="126"/>
+        <location filename="../playerview.cpp" line="135"/>
         <source>Stereo</source>
         <translation type="unfinished">立体声</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="127"/>
+        <location filename="../playerview.cpp" line="136"/>
         <source>Left channel</source>
         <translation type="unfinished">左声道</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="128"/>
+        <location filename="../playerview.cpp" line="137"/>
         <source>Right channel</source>
         <translation type="unfinished">右声道</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="129"/>
+        <location filename="../playerview.cpp" line="138"/>
         <source>Swap channel</source>
         <translation type="unfinished">交换声道</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="131"/>
+        <location filename="../playerview.cpp" line="140"/>
         <source>Select track</source>
         <translation type="unfinished">选择音轨</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="133"/>
-        <location filename="../playerview.cpp" line="139"/>
+        <location filename="../playerview.cpp" line="142"/>
+        <location filename="../playerview.cpp" line="148"/>
         <source>Delay</source>
         <translation type="unfinished">延时</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="135"/>
+        <location filename="../playerview.cpp" line="144"/>
         <source>Subtitle</source>
         <translation type="unfinished">字幕</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="136"/>
+        <location filename="../playerview.cpp" line="145"/>
         <source>Visible</source>
         <translation type="unfinished">可见</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="137"/>
+        <location filename="../playerview.cpp" line="146"/>
         <source>Select</source>
         <translation type="unfinished">选择</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="163"/>
+        <location filename="../playerview.cpp" line="160"/>
+        <source>Login</source>
+        <translation type="unfinished">登录</translation>
+    </message>
+    <message>
+        <location filename="../playerview.cpp" line="175"/>
         <source>Upgrade parsers</source>
         <translation type="unfinished">更新解析程序</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="132"/>
-        <location filename="../playerview.cpp" line="138"/>
+        <location filename="../playerview.cpp" line="141"/>
+        <location filename="../playerview.cpp" line="147"/>
         <source>Load from file</source>
         <translation type="unfinished">从文件加载</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="157"/>
+        <location filename="../playerview.cpp" line="169"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="158"/>
+        <location filename="../playerview.cpp" line="170"/>
         <source>Cut video</source>
         <translation type="unfinished">剪切视频</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="149"/>
+        <location filename="../playerview.cpp" line="158"/>
         <source>Online video</source>
         <translation type="unfinished">在线视频</translation>
     </message>
     <message>
         <location filename="../playerview.ui" line="88"/>
-        <location filename="../playerview.cpp" line="161"/>
+        <location filename="../playerview.cpp" line="173"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="162"/>
+        <location filename="../playerview.cpp" line="174"/>
         <source>Ext. for browser</source>
         <translation type="unfinished">浏览器扩展</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="164"/>
+        <location filename="../playerview.cpp" line="176"/>
         <source>About</source>
         <translation type="unfinished">关于</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="244"/>
+        <location filename="../playerview.cpp" line="256"/>
         <source>Some files are being downloaded. Do you still want to close?</source>
         <translation type="unfinished">一些文件正在下载中。确认关闭吗？</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="555"/>
+        <location filename="../playerview.cpp" line="570"/>
         <source>Only support cutting local videos!</source>
         <translation type="unfinished">只支持剪切本地视频！</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="629"/>
+        <location filename="../playerview.cpp" line="660"/>
         <source>Open subtitle file</source>
         <translation type="unfinished">打开字幕文件</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="636"/>
+        <location filename="../playerview.cpp" line="667"/>
         <source>Select subtitle:</source>
         <translation type="unfinished">选择字幕：</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="644"/>
+        <location filename="../playerview.cpp" line="675"/>
         <source>Subtitle delay (sec):</source>
         <translation type="unfinished">字幕延时（秒）：</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="654"/>
+        <location filename="../playerview.cpp" line="685"/>
         <source>Open audio track file</source>
         <translation type="unfinished">打开音轨文件</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="661"/>
+        <location filename="../playerview.cpp" line="692"/>
         <source>Select audio track:</source>
         <translation type="unfinished">选择音轨：</translation>
     </message>
     <message>
-        <location filename="../playerview.cpp" line="669"/>
+        <location filename="../playerview.cpp" line="700"/>
         <source>Audio delay (sec):</source>
         <translation type="unfinished">音频延时（秒）：</translation>
     </message>
@@ -814,17 +861,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">网络</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="323"/>
-        <source>http_unblockcn</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../settingsdialog.ui" line="248"/>
+        <location filename="../settingsdialog.ui" line="238"/>
         <source>Port</source>
         <translation type="unfinished">端口</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="292"/>
+        <location filename="../settingsdialog.ui" line="231"/>
         <source>Combine video clips automatically after downloading</source>
         <translation type="unfinished">下载后自动合并分段视频</translation>
     </message>
@@ -854,22 +896,22 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">该选项会使所有滤镜在硬件解码时正常工作，但会消耗更多资源。</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="313"/>
+        <location filename="../settingsdialog.ui" line="327"/>
         <source>no</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="318"/>
+        <location filename="../settingsdialog.ui" line="332"/>
         <source>http</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="328"/>
+        <location filename="../settingsdialog.ui" line="337"/>
         <source>socks5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="238"/>
+        <location filename="../settingsdialog.ui" line="282"/>
         <source>Address</source>
         <translation type="unfinished">地址</translation>
     </message>
@@ -909,78 +951,83 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">记住时间戳</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="231"/>
+        <location filename="../settingsdialog.ui" line="289"/>
         <source>Mode</source>
         <translation type="unfinished">模式</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="336"/>
+        <location filename="../settingsdialog.ui" line="262"/>
         <source>Note: Due to the limitation of mpv, socks5 proxy is not supported by online playing.</source>
         <translation type="unfinished">注意：由于mpv限制，在线播放不支持socks5。</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="356"/>
+        <location filename="../settingsdialog.ui" line="255"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Downloader&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;下载器&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="363"/>
+        <location filename="../settingsdialog.ui" line="312"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Proxy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;代理&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="371"/>
+        <location filename="../settingsdialog.ui" line="365"/>
+        <source>Use proxy only for parsing videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="373"/>
         <source>Danmaku</source>
         <translation type="unfinished">弹幕</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="377"/>
+        <location filename="../settingsdialog.ui" line="379"/>
         <source>Alpha:</source>
         <translation type="unfinished">透明度：</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="397"/>
+        <location filename="../settingsdialog.ui" line="399"/>
         <source>Font size:</source>
         <translation type="unfinished">字体大小：</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="404"/>
-        <location filename="../settingsdialog.ui" line="417"/>
+        <location filename="../settingsdialog.ui" line="406"/>
+        <location filename="../settingsdialog.ui" line="419"/>
         <source>0 means auto</source>
         <translation type="unfinished">0表示自动</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="424"/>
+        <location filename="../settingsdialog.ui" line="426"/>
         <source>Duration of scrolling comment display:</source>
         <translation type="unfinished">滚动弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="431"/>
+        <location filename="../settingsdialog.ui" line="433"/>
         <source>Duration of still comment display:</source>
         <translation type="unfinished">静止弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="458"/>
+        <location filename="../settingsdialog.ui" line="460"/>
         <source>Font:</source>
         <translation type="unfinished">字体：</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="278"/>
+        <location filename="../settingsdialog.ui" line="275"/>
         <source>Max tasks</source>
         <translation type="unfinished">最大任务数</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="285"/>
+        <location filename="../settingsdialog.ui" line="319"/>
         <source>Save to:</source>
         <translation type="unfinished">保存至：</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="118"/>
+        <location filename="../settingsdialog.cpp" line="120"/>
         <source>Remove all</source>
         <translation type="unfinished">删除全部</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="125"/>
+        <location filename="../settingsdialog.cpp" line="127"/>
         <source>Saved quality selections are shown below. Select to remove:</source>
         <translation type="unfinished">下面是已保存的视频质量选择。选择要移除的项：</translation>
     </message>
@@ -988,7 +1035,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>StreamGet</name>
     <message>
-        <location filename="../streamget.cpp" line="58"/>
+        <location filename="../streamget.cpp" line="48"/>
         <source>Cannot pause the download of stream medias</source>
         <translation type="unfinished">无法暂停流媒体的下载</translation>
     </message>
