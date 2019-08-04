@@ -9,7 +9,6 @@ class PlayerView;
 }
 class AboutDialog;
 class Border;
-class Browser;
 class CutterBar;
 class Playlist;
 class PlayerCore;
@@ -75,7 +74,6 @@ private:
     Border *bottomBorder;
     Border *bottomLeftBorder;
     Border *bottomRightBorder;
-    Browser *browser;
     CutterBar *cutterBar;
     Playlist *playlist;
     PlayerCore *core;

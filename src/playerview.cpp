@@ -24,9 +24,6 @@
 #include <QMimeData>
 #include <QResizeEvent>
 #include <QTimer>
-#ifdef MP_ENABLE_WEBENGINE
-#include "browser.h"
-#endif
 
 PlayerView::PlayerView(QWidget *parent) :
     QWidget(parent, Qt::FramelessWindowHint),
@@ -105,12 +102,6 @@ PlayerView::PlayerView(QWidget *parent) :
     volumeSlider->resize(QSize(20, 70));
     volumeSlider->move(2, 5);
 
-    // create browser for login
-#ifdef MP_ENABLE_WEBENGINE
-    browser = new Browser(this);
-    browser->setWindowFlags(browser->windowFlags() | Qt::Window);
-#endif
-
     // create upgrader dialog
     upgraderDialog = new UpgraderDialog(this);
 
@@ -156,9 +147,6 @@ PlayerView::PlayerView(QWidget *parent) :
     menu->addMenu(open_menu);
     menu->addAction(tr("Playlist") + "\tL", this, SLOT(showPlaylist()));
     menu->addAction(tr("Online video") + "\tW", reslibrary, SLOT(show()));
-#ifdef MP_ENABLE_WEBENGINE
-    menu->addAction(tr("Login"), browser, SLOT(show()));
-#endif
     menu->addSeparator();
     menu->addMenu(video_menu);
     menu->addMenu(audio_menu);
@@ -263,9 +251,6 @@ void PlayerView::closeEvent(QCloseEvent *e)
         }
 
         reslibrary->close();
-#ifdef MP_ENABLE_WEBENGINE
-        browser->close();
-#endif
         no_play_next = true;
 
     // It's not safe to quit until mpv is stopped

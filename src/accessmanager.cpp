@@ -1,5 +1,4 @@
 #include "accessmanager.h"
-#include "cookiejar.h"
 #include "platform/paths.h"
 #include "settings_network.h"
 #include <QFile>
@@ -27,9 +26,6 @@ QByteArray generateUA(const QUrl &url)
 NetworkAccessManager::NetworkAccessManager(QObject *parent) :
     QNetworkAccessManager(parent)
 {
-    // Set cookie jar
-    CookieJar *cookieJar = new CookieJar(this);
-    setCookieJar(cookieJar);
 }
 
 

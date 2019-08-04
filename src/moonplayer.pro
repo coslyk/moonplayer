@@ -29,7 +29,6 @@ TEMPLATE = app
 SOURCES += \
     aboutdialog.cpp \
     accessmanager.cpp \
-    cookiejar.cpp \
     cutterbar.cpp \
     danmakudelaygetter.cpp \
     danmakuloader.cpp \
@@ -62,7 +61,6 @@ SOURCES += \
 HEADERS  +=\
     aboutdialog.h \
     accessmanager.h \
-    cookiejar.h \
     cutterbar.h \
     danmakudelaygetter.h \
     danmakuloader.h \
@@ -124,15 +122,15 @@ win32 {
 # QtWebEngine Support (Mainly used for parsing youku videos)
 equals(ENABLE_WEBENGINE, "yes") {
     QT += websockets webenginewidgets
-    HEADERS += browser.h \
+    HEADERS += \
                chromiumdebugger.h \
                extractor.h \
                parserwebcatch.h
-    SOURCES += browser.cpp \
+    SOURCES += \
                chromiumdebugger.cpp \
                extractor.cpp \
                parserwebcatch.cpp
-    FORMS   += browser.ui
+    FORMS   +=
     DEFINES += MP_ENABLE_WEBENGINE
 }
 
