@@ -130,7 +130,6 @@ equals(ENABLE_WEBENGINE, "yes") {
                chromiumdebugger.cpp \
                extractor.cpp \
                parserwebcatch.cpp
-    FORMS   +=
     DEFINES += MP_ENABLE_WEBENGINE
 }
 

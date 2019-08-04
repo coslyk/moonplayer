@@ -49,7 +49,8 @@ VideoInfo.jsonlize = jsonlize
 # Run ykdl
 from ykdl.common import url_to_module
 from ykdl.compact import ProxyHandler, build_opener, install_opener
-from ykdl.util.html import default_proxy_handler, fake_headers
+from ykdl.util.html import default_proxy_handler, fake_headers, get_content
+from ykdl.util.match import match1
 from argparse import ArgumentParser
 import socket
 try:
@@ -61,9 +62,9 @@ except:
 
 def arg_parser():
     parser = ArgumentParser(description="Ykdl for MoonPlayer")
-    parser.add_argument('--proxy', type=str, default='no', help="set proxy HOST:PORT for http(s) transfer. default: no proxy")
+    parser.add_argument('--http-proxy', type=str, help="set proxy HOST:PORT for http(s) transfer. default: no proxy")
+    parser.add_argument('--socks-proxy', type=str, help="set socks proxy HOST:PORT. default: no proxy")
     parser.add_argument('-t', '--timeout', type=int, default=60, help="set socket timeout seconds, default 60s")
-    parser.add_argument('-c', '--cookies', type=str, help="Cookies file")
     parser.add_argument('-u', '--user-agent', type=str, help="Custom User-Agent")
     parser.add_argument('video_url', type=str, help="video url")
     return parser.parse_args()
@@ -78,18 +79,21 @@ def main():
     if args.user_agent:
         fake_headers['User-Agent'] = args.user_agent
 
-    if args.proxy != 'no':
+    if args.http_proxy:
         proxy_handler = ProxyHandler({
-            'http': args.proxy,
-            'https': args.proxy
+            'http': args.http_proxy,
+            'https': args.http_proxy
         })
         handlers.append(proxy_handler)
-    
-    if args.cookies:
-        cookiejar = MozillaCookieJar(args.cookies)
-        cookiejar.load(ignore_discard=True, ignore_expires=True)
-        cookie_handler = HTTPCookieProcessor(cookiejar)
-        handlers.append(cookie_handler)
+
+    elif args.socks_proxy:
+        try:
+            import socks
+            addr, port = args.socks_proxy.split(':')
+            socks.set_default_proxy(socks.SOCKS5, addr, int(port))
+            socket.socket = socks.socksocket
+        except:
+            print('Failed to set socks5 proxy. Please install PySocks.', file=sys.stderr)
 
     opener = build_opener(*handlers)
     install_opener(opener)
@@ -97,7 +101,14 @@ def main():
 
     m, u = url_to_module(args.video_url)
     info = m.parser(u)
-    print(json.dumps(info.jsonlize(), indent=4, sort_keys=True, ensure_ascii=False))
+
+    # Is a playlist?
+    if m.list_only():
+        video_list = m.prepare_list()
+        result = [ {'title': match1(get_content(url), r'<title>(.+?)</title>'), 'url': url} for url in video_list ]
+    else:
+        result = info.jsonlize()
+    print(json.dumps(result, indent=4, sort_keys=True, ensure_ascii=False))
 
 if __name__ == '__main__':
     main()

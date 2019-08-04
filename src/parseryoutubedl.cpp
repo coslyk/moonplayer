@@ -1,6 +1,5 @@
 #include "parseryoutubedl.h"
 #include "accessmanager.h"
-#include "cookiejar.h"
 #include "platform/paths.h"
 #include "python_wrapper.h"
 #include "settings_network.h"
@@ -59,12 +58,6 @@ void ParserYoutubeDL::runParser(const QString &url)
     else if (!Settings::proxy.isEmpty() && Settings::proxyType == "socks5")
         args << "--proxy" << QString("socks5://%1:%2/").arg(Settings::proxy, QString::number(Settings::port));
 
-    // export cookies
-    QString cookiesFile = QDir::temp().filePath("moonplayer_cookies.txt");
-    CookieJar *cookieJar = static_cast<CookieJar*>(access_manager->cookieJar());
-
-    if (cookieJar->exportNetscapeCookiesFile(cookiesFile))
-        args << "--cookies" << cookiesFile;
     args << url;
     process->start(PYTHON_BIN, args, QProcess::ReadOnly);
     msgWindow->show();

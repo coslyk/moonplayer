@@ -372,7 +372,7 @@ def main():
             socks.set_default_proxy(socks.SOCKS5, addr, int(port))
             socket.socket = socks.socksocket
         except:
-            print('Failed to set socks5 proxy. Please install PySocks.')
+            print('Failed to set socks5 proxy. Please install PySocks.', file=sys.stderr)
             
     download_hls(args.url, title)
 
