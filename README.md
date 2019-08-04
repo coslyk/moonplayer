@@ -30,11 +30,11 @@ Features:
 
 ### Easy to use and lightweight!
 
-![](https://github.com/coslyk/moonplayer/raw/master/screenshots/screenshot.png?raw=true)
+![](https://github.com/coslyk/moonplayer/blob/screenshot/screenshot.png?raw=true)
 
 ### Explore the Internet videos!
 
-![](https://github.com/coslyk/moonplayer/raw/master/screenshots/screenshot2.png?raw=true)
+![](https://github.com/coslyk/moonplayer/blob/screenshot/screenshot2.png?raw=true)
 
 ***
 ### Used open source projects
