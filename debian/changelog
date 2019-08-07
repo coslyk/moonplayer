@@ -1,3 +1,15 @@
+moonplayer (2.8-1~bionic) bionic; urgency=medium
+
+  * v2.8
+  * Add option: use proxy only for parsing
+  * Add socks5 proxy support for hls downloader and ykdl
+  * Add support for parsing playlist url
+  * Fix: The plugins path for FreeBSD
+  * Fix: Use proxy on local hosts
+  * Other bug fixes and improvements
+
+ -- YK Liu <cos.lyk@gmail.com>  Wed, 07 Aug 2019 17:42:53 +0200
+
 moonplayer (2.7-1~bionic) bionic; urgency=medium
 
   * v2.7
