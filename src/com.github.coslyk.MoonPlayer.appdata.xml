@@ -26,7 +26,7 @@
   </releases>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://github.com/coslyk/moonplayer/raw/master/screenshots/screenshot.png?raw=true</image>
+      <image type="source">https://github.com/coslyk/moonplayer/raw/screenshot/screenshot.png?raw=true</image>
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/coslyk/moonplayer</url>
