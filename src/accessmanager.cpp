@@ -1,10 +1,11 @@
 #include "accessmanager.h"
 #include "platform/paths.h"
+#include "proxyfactory.h"
 #include "settings_network.h"
 #include <QFile>
 #include <QNetworkProxy>
 
-const QString china_fake_ip = "220.181.111.63";
+
 NetworkAccessManager *access_manager = 0;
 QHash<QString,QByteArray> referer_table;
 QHash<QString,QByteArray> ua_table;
@@ -26,6 +27,14 @@ QByteArray generateUA(const QUrl &url)
 NetworkAccessManager::NetworkAccessManager(QObject *parent) :
     QNetworkAccessManager(parent)
 {
+    m_proxyFactory = new ProxyFactory;
+    m_webengineProxyFactory = new ProxyFactory;
+
+    setProxyFactory(m_proxyFactory);
+
+    // QWebEngine uses application proxy
+    // QWebEngine in MoonPlayer is used only for parsing videos
+    QNetworkProxyFactory::setApplicationProxyFactory(m_webengineProxyFactory);
 }
 
 
@@ -33,35 +42,32 @@ void NetworkAccessManager::setProxy(const QString &proxyType, const QString &pro
 {
     if (proxyType == "no" || proxy.isEmpty())
     {
-        // Set proxy for this access manager
-        QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
-        // QWebEngine uses application proxy
-        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::NoProxy));
-        // libmpv uses proxy from environment
-        qunsetenv("http_proxy");
+        m_proxyFactory->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+        m_webengineProxyFactory->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+        qunsetenv("http_proxy");    // libmpv uses proxy from environment
     }
     else if (proxyType == "socks5")
     {
         if (Settings::proxyOnlyForParsing)
-            QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+            m_proxyFactory->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
         else
-            QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
-        qunsetenv("http_proxy");
-        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
+            m_proxyFactory->setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
+        qunsetenv("http_proxy");    // libmpv does not support socks5 yet
+        m_webengineProxyFactory->setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxy, port));
     }
     else if (proxyType == "http")
     {
         if (Settings::proxyOnlyForParsing)
         {
-            QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+            m_proxyFactory->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
             qunsetenv("http_proxy");
         }
         else
         {
-            QNetworkAccessManager::setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
+            m_proxyFactory->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
             qputenv("http_proxy", QString("http://%1:%2").arg(proxy, QString::number(port)).toUtf8());
         }
-        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
+        m_webengineProxyFactory->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, proxy, port));
     }
 }
 

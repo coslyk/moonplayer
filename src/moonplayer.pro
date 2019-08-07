@@ -56,7 +56,8 @@ SOURCES += \
     upgraderdialog.cpp \
     utils.cpp \
     videocombiner.cpp \
-    platform/paths.cpp
+    platform/paths.cpp \
+    proxyfactory.cpp
 
 HEADERS  +=\
     aboutdialog.h \
@@ -94,7 +95,8 @@ HEADERS  +=\
     videocombiner.h \
     platform/application.h \
     platform/detectopengl.h \
-    platform/paths.h
+    platform/paths.h \
+    proxyfactory.h
 
 
 # Platform specific source codes
