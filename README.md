@@ -11,7 +11,7 @@ Latest version: v2.8 [Download](https://github.com/coslyk/moonplayer/wiki/Downlo
 Last update: 2019.08.07
 
 * [Browser extension](https://github.com/coslyk/moonplayer/wiki/BrowserExtension)
-* [Update log](https://github.com/coslyk/moonplayer/blob/master/src/debian/changelog)
+* [Update log](https://github.com/coslyk/moonplayer/blob/master/debian/changelog)
 
 Plugins：[Plugins page](https://github.com/coslyk/moonplayer-plugins)
 [How to write plugins](https://github.com/coslyk/moonplayer-plugins/wiki/PluginsTutorial)
