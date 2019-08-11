@@ -21,6 +21,9 @@ win32 {
 QT += core gui network xml widgets
 unix:!macx: QT += gui-private x11extras
 
+# Enable c++ lambda
+CONFIG += c++14
+
 macx:  TARGET = MoonPlayer
 !macx: TARGET = moonplayer
 TEMPLATE = app
