@@ -1,5 +1,5 @@
 #include "modernwindow.h"
-#include "ui_playerview.h"
+#include "ui_modernwindow.h"
 #include "playercore.h"
 #include "playlist.h"
 #include "reslibrary.h"
@@ -11,8 +11,8 @@
 #include <QTimer>
 
 ModernWindow::ModernWindow(QWidget *parent) :
-    PlayerView(parent),
-    ui(new Ui::PlayerView)
+    WindowBase(parent),
+    ui(new Ui::ModernWindow)
 {
     // init ui
     setWindowFlags(Qt::FramelessWindowHint);
@@ -311,7 +311,7 @@ void ModernWindow::keyPressEvent(QKeyEvent *e)
             setFullScreen();
         break;
     default:
-        PlayerView::keyPressEvent(e);
+        WindowBase::keyPressEvent(e);
         return;
     }
     e->accept();

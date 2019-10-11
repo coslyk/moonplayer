@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PlayerView</class>
- <widget class="QWidget" name="PlayerView">
+ <class>ModernWindow</class>
+ <widget class="QWidget" name="ModernWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -504,7 +504,7 @@ QSlider::add-page:horizontal{
   <connection>
    <sender>closeButton</sender>
    <signal>clicked()</signal>
-   <receiver>PlayerView</receiver>
+   <receiver>ModernWindow</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -520,7 +520,7 @@ QSlider::add-page:horizontal{
   <connection>
    <sender>minButton</sender>
    <signal>clicked()</signal>
-   <receiver>PlayerView</receiver>
+   <receiver>ModernWindow</receiver>
    <slot>showMinimized()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -392,7 +392,7 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>PlayerView</name>
+    <name>WindowBase</name>
     <message>
         <location filename="../playerview.ui" line="17"/>
         <source>MoonPlayer</source>

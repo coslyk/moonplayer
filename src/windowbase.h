@@ -14,13 +14,13 @@ class SelectionDialog;
 class SettingsDialog;
 class UpgraderDialog;
 
-class PlayerView : public QWidget
+class WindowBase : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit PlayerView(QWidget *parent = 0);
-    ~PlayerView();
+    explicit WindowBase(QWidget *parent = 0);
+    ~WindowBase();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *e);

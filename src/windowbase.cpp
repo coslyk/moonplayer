@@ -1,4 +1,4 @@
-#include "playerview.h"
+#include "windowbase.h"
 #include "aboutdialog.h"
 #include "cutterbar.h"
 #include "downloader.h"
@@ -23,7 +23,7 @@
 #include <QResizeEvent>
 #include <QTimer>
 
-PlayerView::PlayerView(QWidget *parent) :
+WindowBase::WindowBase(QWidget *parent) :
     QWidget(parent)
 {
     quit_requested = false;
@@ -124,29 +124,29 @@ PlayerView::PlayerView(QWidget *parent) :
     cutterBar->setWindowFlags(cutterBar->windowFlags() | Qt::Popup);
 
 
-    connect(core, &PlayerCore::sizeChanged, this, &PlayerView::onSizeChanged);
-    connect(core, &PlayerCore::stopped, this, &PlayerView::onStopped);
+    connect(core, &PlayerCore::sizeChanged, this, &WindowBase::onSizeChanged);
+    connect(core, &PlayerCore::stopped, this, &WindowBase::onStopped);
     connect(downloader, SIGNAL(newFile(QString,QString)), playlist, SLOT(addFile(QString,QString)));
     connect(downloader, SIGNAL(newPlay(QString,QString)), playlist, SLOT(addFileAndPlay(QString,QString)));
     connect(playlist, &Playlist::fileSelected, core, &PlayerCore::openFile);
     connect(volumeSlider, &QSlider::valueChanged, core, &PlayerCore::setVolume);
-    connect(volumeSlider, &QSlider::valueChanged, this, &PlayerView::saveVolume);
+    connect(volumeSlider, &QSlider::valueChanged, this, &WindowBase::saveVolume);
     connect(cutterBar, &CutterBar::newFrame, core, &PlayerCore::jumpTo);
 
     volumeSlider->setValue(Settings::volume);
 }
 
-PlayerView::~PlayerView()
+WindowBase::~WindowBase()
 {
 }
 
-void PlayerView::onStopButton()
+void WindowBase::onStopButton()
 {
     no_play_next = true;
     core->stop();
 }
 
-void PlayerView::onStopped()
+void WindowBase::onStopped()
 {
     if (quit_requested)
     {
@@ -159,7 +159,7 @@ void PlayerView::onStopped()
         playlist->playNext();
 }
 
-void PlayerView::closeEvent(QCloseEvent *e)
+void WindowBase::closeEvent(QCloseEvent *e)
 {
     if (downloader->hasTask())
         {
@@ -188,13 +188,13 @@ void PlayerView::closeEvent(QCloseEvent *e)
 }
 
 // Drag & drop files
-void PlayerView::dragEnterEvent(QDragEnterEvent *e)
+void WindowBase::dragEnterEvent(QDragEnterEvent *e)
 {
     if (e->mimeData()->hasUrls())
         e->acceptProposedAction();
 }
 
-void PlayerView::dropEvent(QDropEvent *e)
+void WindowBase::dropEvent(QDropEvent *e)
 {
     QList<QUrl> urls = e->mimeData()->urls();
     bool first = true;
@@ -222,7 +222,7 @@ void PlayerView::dropEvent(QDropEvent *e)
 }
 
 // Keyboard shortcuts
-void PlayerView::keyPressEvent(QKeyEvent *e)
+void WindowBase::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key())
     {
@@ -300,7 +300,7 @@ void PlayerView::keyPressEvent(QKeyEvent *e)
     e->accept();
 }
 
-void PlayerView::keyReleaseEvent(QKeyEvent *e)
+void WindowBase::keyReleaseEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Control)
         ctrl_pressed = false;
@@ -308,7 +308,7 @@ void PlayerView::keyReleaseEvent(QKeyEvent *e)
 }
 
 
-void PlayerView::contextMenuEvent(QContextMenuEvent *e)
+void WindowBase::contextMenuEvent(QContextMenuEvent *e)
 {
     menu->exec(QCursor::pos());
     e->accept();
@@ -316,7 +316,7 @@ void PlayerView::contextMenuEvent(QContextMenuEvent *e)
 
 
 
-void PlayerView::onSizeChanged(const QSize &sz)
+void WindowBase::onSizeChanged(const QSize &sz)
 {
     if (isFullScreen())
         return;
@@ -335,7 +335,7 @@ void PlayerView::onSizeChanged(const QSize &sz)
 }
 
 // show cutterbar
-void PlayerView::showCutterBar()
+void WindowBase::showCutterBar()
 {
     if (core->state == PlayerCore::STOPPING || core->state == PlayerCore::TV_PLAYING || cutterBar->isVisible())
         return;
@@ -352,14 +352,14 @@ void PlayerView::showCutterBar()
     cutterBar->show();
 }
 
-void PlayerView::saveVolume(int vol)
+void WindowBase::saveVolume(int vol)
 {
     Settings::volume = vol;
 }
 
 
 // add & select subtitle and set subtitle delay
-void PlayerView::addSubtitle()
+void WindowBase::addSubtitle()
 {
     QString videoFile = core->currentFile();
     QString dir = videoFile.startsWith('/') ? QFileInfo(videoFile).path() : QDir::homePath();
@@ -368,14 +368,14 @@ void PlayerView::addSubtitle()
         core->openSubtitle(subFile);
 }
 
-void PlayerView::selectSubtitle()
+void WindowBase::selectSubtitle()
 {
     int sid = selectionDialog->showDialog_Index(core->getSubtitleList(), tr("Select subtitle:"));
     if (sid != -1)
         core->setSid(sid);
 }
 
-void PlayerView::setSubDelay()
+void WindowBase::setSubDelay()
 {
     bool ok = false;
     double delay = QInputDialog::getDouble(this, "Input", tr("Subtitle delay (sec):"), core->getAudioDelay(), -100, 100, 1, &ok);
@@ -384,7 +384,7 @@ void PlayerView::setSubDelay()
 }
 
 // add audio track, select audio track and set audio delay
-void PlayerView::addAudioTrack()
+void WindowBase::addAudioTrack()
 {
     QString videoFile = core->currentFile();
     QString dir = videoFile.startsWith('/') ? QFileInfo(videoFile).path() : QDir::homePath();
@@ -393,14 +393,14 @@ void PlayerView::addAudioTrack()
         core->openAudioTrack(audioFile);
 }
 
-void PlayerView::selectAudioTrack()
+void WindowBase::selectAudioTrack()
 {
     int aid = selectionDialog->showDialog_Index(core->getAudioTracksList(), tr("Select audio track:"));
     if (aid != -1)
         core->setAid(aid);
 }
 
-void PlayerView::setAudioDelay()
+void WindowBase::setAudioDelay()
 {
     bool ok = false;
     double delay = QInputDialog::getDouble(this, "Input", tr("Audio delay (sec):"), core->getAudioDelay(), -100, 100, 1, &ok);
@@ -410,7 +410,7 @@ void PlayerView::setAudioDelay()
 
 
 //open extension page
-void PlayerView::openExtPage()
+void WindowBase::openExtPage()
 {
     static QUrl url("https://github.com/coslyk/moonplayer/wiki/BrowserExtension");
     QDesktopServices::openUrl(url);

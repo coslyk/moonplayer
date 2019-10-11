@@ -46,7 +46,6 @@ SOURCES += \
     parserykdl.cpp \
     parseryoutubedl.cpp \
     playercore.cpp \
-    playerview.cpp \
     playlist.cpp \
     pyapi.cpp \
     python_wrapper.cpp \
@@ -61,7 +60,8 @@ SOURCES += \
     videocombiner.cpp \
     platform/paths.cpp \
     proxyfactory.cpp \
-    modernwindow.cpp
+    modernwindow.cpp \
+    windowbase.cpp
 
 HEADERS  +=\
     aboutdialog.h \
@@ -79,7 +79,6 @@ HEADERS  +=\
     parserykdl.h \
     parseryoutubedl.h \
     playercore.h \
-    playerview.h \
     playlist.h \
     pyapi.h \
     python_wrapper.h \
@@ -101,7 +100,8 @@ HEADERS  +=\
     platform/detectopengl.h \
     platform/paths.h \
     proxyfactory.h \
-    modernwindow.h
+    modernwindow.h \
+    windowbase.h
 
 
 # Platform specific source codes
@@ -152,9 +152,9 @@ FORMS    += \
     detailview.ui \
     cutterbar.ui \
     selectiondialog.ui \
-    playerview.ui \
     aboutdialog.ui \
-    upgraderdialog.ui
+    upgraderdialog.ui \
+    modernwindow.ui
 
 
 RESOURCES += \

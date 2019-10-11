@@ -1,16 +1,16 @@
 #ifndef MODERNWINDOW_H
 #define MODERNWINDOW_H
 
-#include "playerview.h"
+#include "windowbase.h"
 #include <QPoint>
 
 namespace Ui {
-class PlayerView;
+class ModernWindow;
 }
 class Border;
 class QTimer;
 
-class ModernWindow : public PlayerView
+class ModernWindow : public WindowBase
 {
     Q_OBJECT
 public:
@@ -40,7 +40,7 @@ private slots:
 
 private:
     QPoint dPos;
-    Ui::PlayerView *ui;
+    Ui::ModernWindow *ui;
     QTimer *hideTimer;
     Border *leftBorder;
     Border *rightBorder;
