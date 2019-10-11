@@ -6,11 +6,11 @@
 #include <QDebug>
 #include <QDir>
 #include <QSettings>
+#include "modernwindow.h"
 #include "pyapi.h"
 #include "platform/application.h"
 #include "platform/detectopengl.h"
 #include "platform/paths.h"
-#include "playerview.h"
 #include "parserykdl.h"
 #include "parseryoutubedl.h"
 
@@ -74,8 +74,8 @@ int main(int argc, char *argv[])
         a.installTranslator(&translator);
 
     // Create window
-    PlayerView *player_view = new PlayerView;
-    player_view->show();
+    ModernWindow *window = new ModernWindow;
+    window->show();
 
     // Create video parsers
     parser_ykdl = new ParserYkdl(&a);
@@ -86,6 +86,6 @@ int main(int argc, char *argv[])
 
     a.exec();
     Py_Finalize();
-    delete player_view;
+    delete window;
     return 0;
 }

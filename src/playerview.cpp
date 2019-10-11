@@ -1,5 +1,4 @@
 #include "playerview.h"
-#include "ui_playerview.h"
 #include "aboutdialog.h"
 #include "cutterbar.h"
 #include "downloader.h"
@@ -10,9 +9,8 @@
 #include "selectiondialog.h"
 #include "settings_audio.h"
 #include "settingsdialog.h"
-#include "skin.h"
 #include "upgraderdialog.h"
-#include "utils.h"
+#include <QApplication>
 #include <QDesktopServices>
 #include <QDesktopWidget>
 #include <QFileDialog>
@@ -26,50 +24,8 @@
 #include <QTimer>
 
 PlayerView::PlayerView(QWidget *parent) :
-    QWidget(parent, Qt::FramelessWindowHint),
-    ui(new Ui::PlayerView)
+    QWidget(parent)
 {
-    // init ui
-    ui->setupUi(this);
-    ui->pauseButton->hide();
-    QPushButton *buttons[] = {ui->playButton, ui->pauseButton, ui->stopButton};
-    for (int i = 0; i < 3; i++)
-    {
-        buttons[i]->setIconSize(QSize(16, 16));
-        buttons[i]->setFixedSize(QSize(32, 32));
-    }
-    QPushButton *buttons2[] = {ui->playlistButton, ui->searchButton, ui->volumeButton, ui->settingsButton, ui->hideEqualizerButton};
-    for (int i = 0; i < 5; i++)
-    {
-        buttons2[i]->setIconSize(QSize(16, 16));
-        buttons2[i]->setFixedSize(QSize(24, 20));
-    }
-    ui->controllerWidget->setFixedSize(QSize(450, 70));
-    ui->equalizerWidget->setFixedSize(QSize(350, 180));
-    ui->equalizerWidget->hide();
-    ui->closeButton->setFixedSize(QSize(16, 16));
-    ui->minButton->setFixedSize(QSize(16, 16));
-    ui->maxButton->setFixedSize(QSize(16, 16));
-    ui->titleBar->setFixedHeight(24);
-    ui->titlebarLayout->setContentsMargins(QMargins(8, 4, 8, 4));
-    ui->titlebarLayout->setSpacing(4);
-    leftBorder = new Border(this, Border::LEFT);
-    rightBorder = new Border(this, Border::RIGHT);
-    bottomBorder = new Border(this, Border::BOTTOM);
-    bottomLeftBorder = new Border(this, Border::BOTTOMLEFT);
-    bottomRightBorder = new Border(this, Border::BOTTOMRIGHT);
-    QGridLayout *gridLayout = new QGridLayout(this);
-    gridLayout->addWidget(ui->titleBar, 0, 0, 1, 3);
-    gridLayout->addWidget(leftBorder, 1, 0, 1, 1);
-    gridLayout->addWidget(rightBorder, 1, 2, 1, 1);
-    gridLayout->addWidget(bottomBorder, 2, 1, 1, 1);
-    gridLayout->addWidget(bottomLeftBorder, 2, 0, 1, 1);
-    gridLayout->addWidget(bottomRightBorder, 2, 2, 1, 1);
-    gridLayout->setMargin(0);
-    gridLayout->setSpacing(0);
-    setAcceptDrops(true);
-    setMinimumSize(QSize(640, 360));
-
     quit_requested = false;
     no_play_next = false;
     ctrl_pressed = false;
@@ -120,7 +76,7 @@ PlayerView::PlayerView(QWidget *parent) :
     video_menu->addAction("16:10", core, SLOT(setRatio_16_10()));
     video_menu->addAction(tr("Default"), core, SLOT(setRatio_0()));
     video_menu->addSeparator();
-    video_menu->addAction(tr("Equalizer"), ui->equalizerWidget, SLOT(show()));
+    //video_menu->addAction(tr("Equalizer"), ui->equalizerWidget, SLOT(show()));
 
     QMenu *audio_menu = new QMenu(tr("Audio"));
     audio_menu->addAction(tr("Stereo"), core, SLOT(setChannel_Stereo()));
@@ -167,50 +123,21 @@ PlayerView::PlayerView(QWidget *parent) :
     cutterBar = new CutterBar(this);
     cutterBar->setWindowFlags(cutterBar->windowFlags() | Qt::Popup);
 
-    // create timer
-    hideTimer = new QTimer(this);
-    hideTimer->setSingleShot(true);
-    setMouseTracking(true);
 
-    connect(core, &PlayerCore::lengthChanged, this, &PlayerView::onLengthChanged);
     connect(core, &PlayerCore::sizeChanged, this, &PlayerView::onSizeChanged);
-    connect(core, &PlayerCore::timeChanged, this, &PlayerView::onTimeChanged);
-    connect(core, &PlayerCore::played, ui->pauseButton, &QPushButton::show);
-    connect(core, &PlayerCore::played, ui->playButton, &QPushButton::hide);
-    connect(core, &PlayerCore::paused, ui->playButton, &QPushButton::show);
-    connect(core, &PlayerCore::paused, ui->pauseButton, &QPushButton::hide);
     connect(core, &PlayerCore::stopped, this, &PlayerView::onStopped);
     connect(downloader, SIGNAL(newFile(QString,QString)), playlist, SLOT(addFile(QString,QString)));
     connect(downloader, SIGNAL(newPlay(QString,QString)), playlist, SLOT(addFileAndPlay(QString,QString)));
     connect(playlist, &Playlist::fileSelected, core, &PlayerCore::openFile);
-    connect(hideTimer, &QTimer::timeout, this, &PlayerView::hideElements);
     connect(volumeSlider, &QSlider::valueChanged, core, &PlayerCore::setVolume);
     connect(volumeSlider, &QSlider::valueChanged, this, &PlayerView::saveVolume);
     connect(cutterBar, &CutterBar::newFrame, core, &PlayerCore::jumpTo);
-    connect(ui->playlistButton, &QPushButton::clicked, this, &PlayerView::showPlaylist);
-    connect(ui->stopButton, &QPushButton::clicked, this, &PlayerView::onStopButton);
-    connect(ui->maxButton, &QPushButton::clicked, this, &PlayerView::onMaxButton);
-    connect(ui->playButton, &QPushButton::clicked, core, &PlayerCore::changeState);
-    connect(ui->pauseButton, &QPushButton::clicked, core, &PlayerCore::changeState);
-    connect(ui->volumeButton, &QPushButton::clicked, this, &PlayerView::showVolumeSlider);
-    connect(ui->settingsButton, &QPushButton::clicked, settingsDialog, &SettingsDialog::exec);
-    connect(ui->searchButton, &QPushButton::clicked, reslibrary, &ResLibrary::show);
-    connect(ui->timeSlider, &QSlider::sliderPressed, this, &PlayerView::onTimeSliderPressed);
-    connect(ui->timeSlider, &QSlider::valueChanged, this, &PlayerView::onTimeSliderValueChanged);
-    connect(ui->timeSlider, &QSlider::sliderReleased, this, &PlayerView::onTimeSliderReleased);
-
-    connect(ui->brightnessSlider, &QSlider::valueChanged, core, &PlayerCore::setBrightness);
-    connect(ui->contrastSlider, &QSlider::valueChanged, core, &PlayerCore::setContrast);
-    connect(ui->saturationSlider, &QSlider::valueChanged, core, &PlayerCore::setSaturation);
-    connect(ui->gammaSlider, &QSlider::valueChanged, core, &PlayerCore::setGamma);
-    connect(ui->hueSlider, &QSlider::valueChanged, core, &PlayerCore::setHue);
 
     volumeSlider->setValue(Settings::volume);
 }
 
 PlayerView::~PlayerView()
 {
-    delete ui;
 }
 
 void PlayerView::onStopButton()
@@ -227,11 +154,7 @@ void PlayerView::onStopped()
         close();
     }
     else if (no_play_next)
-    {
         no_play_next = false;
-        ui->playButton->show();
-        ui->pauseButton->hide();
-    }
     else
         playlist->playNext();
 }
@@ -298,35 +221,6 @@ void PlayerView::dropEvent(QDropEvent *e)
     e->accept();
 }
 
-// resize ui
-void PlayerView::resizeEvent(QResizeEvent *e)
-{
-    // resize player core
-    core->resize(e->size());
-
-    // move and resize controller
-    int c_x = (e->size().width() - ui->controllerWidget->width()) / 2;
-    int c_y = e->size().height() - 130;
-    ui->controllerWidget->move(c_x, c_y);
-    ui->controllerWidget->raise();
-
-    // move and resize equalizer
-    int e_x = (e->size().width() - ui->equalizerWidget->width()) / 2;
-    int e_y = (e->size().height() - ui->equalizerWidget->height()) / 2 - 30;
-    ui->equalizerWidget->move(e_x, e_y);
-    ui->equalizerWidget->raise();
-
-    // raise borders and titlebar
-    leftBorder->raise();
-    rightBorder->raise();
-    bottomBorder->raise();
-    bottomLeftBorder->raise();
-    bottomRightBorder->raise();
-    ui->titleBar->raise();
-
-    e->accept();
-}
-
 // Keyboard shortcuts
 void PlayerView::keyPressEvent(QKeyEvent *e)
 {
@@ -345,7 +239,7 @@ void PlayerView::keyPressEvent(QKeyEvent *e)
         core->switchDanmaku();
         break;
     case Qt::Key_L:
-        showPlaylist();
+        ////showPlaylist();
         break;
     case Qt::Key_O:
         if (ctrl_pressed)
@@ -370,13 +264,6 @@ void PlayerView::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Space:
         core->changeState();
         break;
-    case Qt::Key_Return:
-        setFullScreen();
-        break;
-    case Qt::Key_Escape:
-        if (isFullScreen())
-            setFullScreen();
-        break;
     case Qt::Key_R:
         core->speedSetToDefault();
         break;
@@ -392,14 +279,14 @@ void PlayerView::keyPressEvent(QKeyEvent *e)
         if (ctrl_pressed)
             core->speedDown();
         else
-            ui->timeSlider->setValue(ui->timeSlider->value() - 5);
+            core->seek(-5, false);
         break;
 
     case Qt::Key_Right:
         if (ctrl_pressed)
             core->speedUp();
         else
-            ui->timeSlider->setValue(ui->timeSlider->value() + 5);
+            core->seek(5, false);
         break;
 
     case Qt::Key_Up:
@@ -420,46 +307,6 @@ void PlayerView::keyReleaseEvent(QKeyEvent *e)
     e->accept();
 }
 
-void PlayerView::mouseDoubleClickEvent(QMouseEvent *e)
-{
-    /* On macOS, this event will be emitted without double-click when mouse
-     * is moved to screen edge.
-     * Is it a Qt's bug?
-     */
-    if (e->buttons() == Qt::LeftButton && QRect(0, 0, width(), height()).contains(e->pos(), true))
-        setFullScreen();
-    e->accept();
-}
-
-
-void PlayerView::mousePressEvent(QMouseEvent *e)
-{
-    if (e->button() == Qt::LeftButton)
-        dPos = e->pos();
-    e->accept();
-}
-
-void PlayerView::mouseMoveEvent(QMouseEvent *e)
-{
-    // move window
-    if (!dPos.isNull())
-        move(e->globalPos() - dPos);
-
-    // show controller, titlebar and cursor
-    hideTimer->stop();
-    ui->controllerWidget->show();
-    ui->titleBar->show();
-    setCursor(QCursor(Qt::ArrowCursor));
-    if (core->state == PlayerCore::VIDEO_PLAYING || core->state == PlayerCore::TV_PLAYING)
-        hideTimer->start(2000);
-    e->accept();
-}
-
-void PlayerView::mouseReleaseEvent(QMouseEvent *e)
-{
-    dPos = QPoint();
-    e->accept();
-}
 
 void PlayerView::contextMenuEvent(QContextMenuEvent *e)
 {
@@ -467,64 +314,7 @@ void PlayerView::contextMenuEvent(QContextMenuEvent *e)
     e->accept();
 }
 
-void PlayerView::hideElements()
-{
-    ui->titleBar->hide();
-    if (!ui->controllerWidget->geometry().contains(mapFromGlobal(QCursor::pos())) && !ui->equalizerWidget->isVisible())
-    {
-        // mouse is not in controller and equalizer is hidden
-        ui->controllerWidget->hide();
-        setCursor(QCursor(Qt::BlankCursor));
-    }
-}
 
-void PlayerView::onLengthChanged(int len)
-{
-    if (len == 0) //playing TV
-        ui->timeSlider->setEnabled(false);
-    else //playing video
-    {
-        ui->timeSlider->setEnabled(true);
-        ui->timeSlider->setMaximum(len);
-        ui->durationLabel->setText(secToTime(len));
-    }
-    activateWindow();
-    raise();
-}
-
-void PlayerView::onTimeChanged(int time)
-{
-    if (!ui->timeSlider->isSliderDown()) // Make slider easier to drag
-    {
-        ui->timeLabel->setText(secToTime(time));
-        ui->timeSlider->setValue(time);
-    }
-}
-
-void PlayerView::onTimeSliderPressed()
-{
-    if (core->state == PlayerCore::STOPPING)
-        return;
-    QString time = secToTime(ui->timeSlider->value());
-    ui->timeLabel->setText(time);
-}
-
-void PlayerView::onTimeSliderValueChanged(int time)
-{
-    if (core->state == PlayerCore::STOPPING)
-        return;
-    if (ui->timeSlider->isSliderDown()) // move by mouse
-        ui->timeLabel->setText(secToTime(time));
-    else // move by keyboard
-        core->setProgress(time);
-}
-
-void PlayerView::onTimeSliderReleased()
-{
-    if (core->state == PlayerCore::STOPPING)
-        return;
-    core->setProgress(ui->timeSlider->value());
-}
 
 void PlayerView::onSizeChanged(const QSize &sz)
 {
@@ -562,78 +352,9 @@ void PlayerView::showCutterBar()
     cutterBar->show();
 }
 
-// show playlist
-void PlayerView::showPlaylist()
-{
-    QPoint vbPos = ui->controllerWidget->mapToGlobal(ui->playlistButton->pos());
-    playlist->move(vbPos.x(), vbPos.y() - playlist->height());
-    playlist->show();
-}
-
-// show volume slider
-void PlayerView::showVolumeSlider()
-{
-    QWidget *volumePopup = volumeSlider->window();
-    QPoint vbPos = ui->controllerWidget->mapToGlobal(ui->volumeButton->pos());
-    volumePopup->move(vbPos.x(), vbPos.y() - volumePopup->height());
-    volumePopup->show();
-}
-
 void PlayerView::saveVolume(int vol)
 {
     Settings::volume = vol;
-}
-
-// show or exit fullscreen
-void PlayerView::setFullScreen()
-{
-    // avoid freezing
-    core->pauseRendering();
-    QTimer::singleShot(1500, core, SLOT(unpauseRendering()));
-
-    if (isFullScreen())
-        showNormal();
-    else
-    {
-#ifdef Q_OS_MAC
-        setWindowFlag(Qt::FramelessWindowHint, false);
-        show();
-        QTimer::singleShot(0, this, SLOT(showFullScreen()));
-#else
-        showFullScreen();
-#endif
-    }
-}
-
-void PlayerView::changeEvent(QEvent *e)
-{
-    if (e->type() == QEvent::WindowStateChange)
-    {
-        QWindowStateChangeEvent *ce = static_cast<QWindowStateChangeEvent*>(e);
-        if (isFullScreen())
-        {
-            leftBorder->setEnabled(false);
-            rightBorder->setEnabled(false);
-            bottomBorder->setEnabled(false);
-            bottomLeftBorder->setEnabled(false);
-            bottomRightBorder->setEnabled(false);
-        }
-        else
-        {
-            leftBorder->setEnabled(true);
-            rightBorder->setEnabled(true);
-            bottomBorder->setEnabled(true);
-            bottomLeftBorder->setEnabled(true);
-            bottomRightBorder->setEnabled(true);
-        }
-#ifdef Q_OS_MAC
-        if ((ce->oldState() & Qt::WindowFullScreen) && !isFullScreen())
-            setWindowFlag(Qt::FramelessWindowHint, true);
-#endif
-        ce->accept();
-        return;
-    }
-    QWidget::changeEvent(e);
 }
 
 
@@ -687,17 +408,6 @@ void PlayerView::setAudioDelay()
         core->setAudioDelay(delay);
 }
 
-
-// maximize or normalize window
-void PlayerView::onMaxButton()
-{
-    if (isFullScreen())
-        return;
-    else if (isMaximized())
-        showNormal();
-    else
-        showMaximized();
-}
 
 //open extension page
 void PlayerView::openExtPage()

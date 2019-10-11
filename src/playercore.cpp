@@ -365,7 +365,7 @@ bool PlayerCore::event(QEvent *e)
                 length = *(double*) prop->data;
                 emit lengthChanged(length);
                 if (unfinished_time.contains(file) && !unseekable_forced)
-                    setProgress(unfinished_time[file].toInt());
+                    seek(unfinished_time[file].toInt());
             }
             else if (propName == "width")
             {
@@ -641,14 +641,14 @@ void PlayerCore::setHue(int64_t v)
 }
 
 // set progress
-void PlayerCore::setProgress(int pos)
+void PlayerCore::seek(int pos, bool absolute)
 {
     if (state == STOPPING)
         return;
     if (pos != time)
     {
         QByteArray tmp = QByteArray::number(pos);
-        const char *args[] = {"seek", tmp.constData(), "absolute", NULL};
+        const char *args[] = {"seek", tmp.constData(), absolute ? "absolute" : "relative", NULL};
         mpv_command_async(mpv, 2, args);
     }
 }
@@ -659,7 +659,7 @@ void PlayerCore::jumpTo(int pos)
         return;
     if (state == VIDEO_PLAYING)
         changeState();
-    setProgress(pos);
+    seek(pos);
 }
 
 // danmaku

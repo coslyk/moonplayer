@@ -37,7 +37,7 @@ public slots:
     void stop(void);
     void changeState(void);
     void jumpTo(int pos);
-    void setProgress(int pos);
+    void seek(int pos, bool absolute = true);
     void setVolume(int volume);
     void openFile(const QString &file, const QString &danmaku = QString(), const QString &audioTrack = QString());
     void openSubtitle(const QString &subFile);

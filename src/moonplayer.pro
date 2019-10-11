@@ -60,7 +60,8 @@ SOURCES += \
     utils.cpp \
     videocombiner.cpp \
     platform/paths.cpp \
-    proxyfactory.cpp
+    proxyfactory.cpp \
+    modernwindow.cpp
 
 HEADERS  +=\
     aboutdialog.h \
@@ -99,7 +100,8 @@ HEADERS  +=\
     platform/application.h \
     platform/detectopengl.h \
     platform/paths.h \
-    proxyfactory.h
+    proxyfactory.h \
+    modernwindow.h
 
 
 # Platform specific source codes
