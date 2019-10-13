@@ -59,13 +59,12 @@ ModernWindow::ModernWindow(QWidget *parent) :
     setMinimumSize(QSize(640, 360));
 
     core->setParent(centralWidget());
+    centralWidget()->installEventFilter(this);
+    centralWidget()->setMouseTracking(true);
 
     // create timer
     hideTimer = new QTimer(this);
     hideTimer->setSingleShot(true);
-
-    setMouseTracking(true);
-
 
     connect(ui->playlistButton, &QPushButton::clicked, this, &ModernWindow::showPlaylist);
     connect(ui->stopButton, &QPushButton::clicked, this, &ModernWindow::onStopButton);
@@ -213,34 +212,41 @@ void ModernWindow::resizeEvent(QResizeEvent *e)
 }
 
 // Move Window
-void ModernWindow::mousePressEvent(QMouseEvent *e)
+bool ModernWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    if (e->button() == Qt::LeftButton)
-        dPos = e->pos();
-    e->accept();
+    Q_UNUSED(watched);
+
+    if (event->type() == QEvent::MouseButtonPress)
+    {
+        QMouseEvent *e = static_cast<QMouseEvent*>(event);
+        if (e->button() == Qt::LeftButton)
+            dPos = e->pos();
+        return true;
+    }
+    else if (event->type() == QEvent::MouseMove)
+    {
+        QMouseEvent *e = static_cast<QMouseEvent*>(event);
+        // move window
+        if (!dPos.isNull())
+            move(e->globalPos() - dPos);
+
+        // show controller, titlebar and cursor
+        hideTimer->stop();
+        ui->controllerWidget->show();
+        ui->titleBar->show();
+        setCursor(QCursor(Qt::ArrowCursor));
+        if (core->state == PlayerCore::VIDEO_PLAYING || core->state == PlayerCore::TV_PLAYING)
+            hideTimer->start(2000);
+        return true;
+    }
+    else if (event->type() == QEvent::MouseButtonRelease)
+    {
+        dPos = QPoint();
+        return true;
+    }
+    return false;
 }
 
-void ModernWindow::mouseMoveEvent(QMouseEvent *e)
-{
-    // move window
-    if (!dPos.isNull())
-        move(e->globalPos() - dPos);
-
-    // show controller, titlebar and cursor
-    hideTimer->stop();
-    ui->controllerWidget->show();
-    ui->titleBar->show();
-    setCursor(QCursor(Qt::ArrowCursor));
-    if (core->state == PlayerCore::VIDEO_PLAYING || core->state == PlayerCore::TV_PLAYING)
-        hideTimer->start(2000);
-    e->accept();
-}
-
-void ModernWindow::mouseReleaseEvent(QMouseEvent *e)
-{
-    dPos = QPoint();
-    e->accept();
-}
 
 // show playlist
 void ModernWindow::showPlaylist()

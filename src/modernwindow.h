@@ -22,9 +22,7 @@ protected:
     void keyPressEvent(QKeyEvent *e);
     void resizeEvent(QResizeEvent *e);
     void mouseDoubleClickEvent(QMouseEvent *e);
-    void mousePressEvent(QMouseEvent *e);
-    void mouseMoveEvent(QMouseEvent *e);
-    void mouseReleaseEvent(QMouseEvent *e);
+    bool eventFilter(QObject *watched, QEvent *event);
 
 private slots:
     void hideElements(void);
