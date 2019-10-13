@@ -6,6 +6,7 @@
 #include "settingsdialog.h"
 #include "skin.h"
 #include "utils.h"
+#include <QDesktopWidget>
 #include <QMouseEvent>
 #include <QResizeEvent>
 #include <QTimer>
@@ -45,7 +46,7 @@ ModernWindow::ModernWindow(QWidget *parent) :
     bottomBorder = new Border(this, Border::BOTTOM);
     bottomLeftBorder = new Border(this, Border::BOTTOMLEFT);
     bottomRightBorder = new Border(this, Border::BOTTOMRIGHT);
-    QGridLayout *gridLayout = new QGridLayout(this);
+    QGridLayout *gridLayout = new QGridLayout(centralWidget());
     gridLayout->addWidget(ui->titleBar, 0, 0, 1, 3);
     gridLayout->addWidget(leftBorder, 1, 0, 1, 1);
     gridLayout->addWidget(rightBorder, 1, 2, 1, 1);
@@ -56,6 +57,8 @@ ModernWindow::ModernWindow(QWidget *parent) :
     gridLayout->setSpacing(0);
     setAcceptDrops(true);
     setMinimumSize(QSize(640, 360));
+
+    core->setParent(centralWidget());
 
     // create timer
     hideTimer = new QTimer(this);
@@ -88,6 +91,7 @@ ModernWindow::ModernWindow(QWidget *parent) :
     connect(core, &PlayerCore::paused, ui->pauseButton, &QPushButton::hide);
     connect(core, &PlayerCore::stopped, ui->playButton, &QPushButton::show);
     connect(core, &PlayerCore::stopped, ui->pauseButton, &QPushButton::hide);
+    connect(core, &PlayerCore::sizeChanged, this, &ModernWindow::onSizeChanged);
     connect(core, &PlayerCore::lengthChanged, this, &ModernWindow::onLengthChanged);
     connect(core, &PlayerCore::timeChanged, this, &ModernWindow::onTimeChanged);
 
@@ -96,6 +100,7 @@ ModernWindow::ModernWindow(QWidget *parent) :
 
 ModernWindow::~ModernWindow()
 {
+    delete ui;
 }
 
 
@@ -157,6 +162,25 @@ void ModernWindow::onTimeSliderReleased()
     if (core->state == PlayerCore::STOPPING)
         return;
     core->seek(ui->timeSlider->value());
+}
+
+// resize
+void ModernWindow::onSizeChanged(const QSize &sz)
+{
+    if (isFullScreen())
+        return;
+    QRect available = QApplication::desktop()->availableGeometry(this);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+    if (sz.width() / devicePixelRatioF() > available.width() || sz.height()/ devicePixelRatioF() > available.height())
+        setGeometry(available);
+    else
+        resize(sz / devicePixelRatioF());
+#else
+    if (sz.width() > available.width() || sz.height() > available.height())
+        setGeometry(available);
+    else
+        resize(sz);
+#endif
 }
 
 // resize ui

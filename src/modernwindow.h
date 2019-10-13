@@ -30,6 +30,7 @@ private slots:
     void hideElements(void);
     void onMaxButton(void);
     void onLengthChanged(int len);
+    void onSizeChanged(const QSize &sz);
     void onTimeChanged(int time);
     void onTimeSliderPressed(void);
     void onTimeSliderValueChanged(int time);

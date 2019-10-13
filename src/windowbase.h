@@ -1,7 +1,7 @@
 #ifndef PLAYERVIEW_H
 #define PLAYERVIEW_H
 
-#include <QWidget>
+#include <QMainWindow>
 
 class AboutDialog;
 class CutterBar;
@@ -14,7 +14,7 @@ class SelectionDialog;
 class SettingsDialog;
 class UpgraderDialog;
 
-class WindowBase : public QWidget
+class WindowBase : public QMainWindow
 {
     Q_OBJECT
 
@@ -34,7 +34,6 @@ protected slots:
     void onStopButton(void);
 
 private slots:
-    void onSizeChanged(const QSize &sz);
     void onStopped(void);
     void addAudioTrack(void);
     void addSubtitle(void);

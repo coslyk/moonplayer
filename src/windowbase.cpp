@@ -12,7 +12,6 @@
 #include "upgraderdialog.h"
 #include <QApplication>
 #include <QDesktopServices>
-#include <QDesktopWidget>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QGridLayout>
@@ -24,15 +23,14 @@
 #include <QTimer>
 
 WindowBase::WindowBase(QWidget *parent) :
-    QWidget(parent)
+    QMainWindow(parent)
 {
     quit_requested = false;
     no_play_next = false;
     ctrl_pressed = false;
 
     // create player core
-    core = new PlayerCore(this);
-    core->move(0, 0);
+    core = new PlayerCore;
     core->setAttribute(Qt::WA_TransparentForMouseEvents);
 
     // create settings dialog
@@ -101,7 +99,7 @@ WindowBase::WindowBase(QWidget *parent) :
 
     menu = new QMenu(this);
     menu->addMenu(open_menu);
-    menu->addAction(tr("Playlist") + "\tL", this, SLOT(showPlaylist()));
+    //menu->addAction(tr("Playlist") + "\tL", this, SLOT(showPlaylist()));
     menu->addAction(tr("Online video") + "\tW", reslibrary, SLOT(show()));
     menu->addSeparator();
     menu->addMenu(video_menu);
@@ -123,8 +121,6 @@ WindowBase::WindowBase(QWidget *parent) :
     cutterBar = new CutterBar(this);
     cutterBar->setWindowFlags(cutterBar->windowFlags() | Qt::Popup);
 
-
-    connect(core, &PlayerCore::sizeChanged, this, &WindowBase::onSizeChanged);
     connect(core, &PlayerCore::stopped, this, &WindowBase::onStopped);
     connect(downloader, SIGNAL(newFile(QString,QString)), playlist, SLOT(addFile(QString,QString)));
     connect(downloader, SIGNAL(newPlay(QString,QString)), playlist, SLOT(addFileAndPlay(QString,QString)));
@@ -312,26 +308,6 @@ void WindowBase::contextMenuEvent(QContextMenuEvent *e)
 {
     menu->exec(QCursor::pos());
     e->accept();
-}
-
-
-
-void WindowBase::onSizeChanged(const QSize &sz)
-{
-    if (isFullScreen())
-        return;
-    QRect available = QApplication::desktop()->availableGeometry(this);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-    if (sz.width() / devicePixelRatioF() > available.width() || sz.height()/ devicePixelRatioF() > available.height())
-        setGeometry(available);
-    else
-        resize(sz / devicePixelRatioF());
-#else
-    if (sz.width() > available.width() || sz.height() > available.height())
-        setGeometry(available);
-    else
-        resize(sz);
-#endif
 }
 
 // show cutterbar
