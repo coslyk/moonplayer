@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QSettings>
+#include "classicwindow.h"
 #include "modernwindow.h"
 #include "pyapi.h"
 #include "platform/application.h"
@@ -74,7 +75,7 @@ int main(int argc, char *argv[])
         a.installTranslator(&translator);
 
     // Create window
-    ModernWindow *window = new ModernWindow;
+    ClassicWindow *window = new ClassicWindow;
     window->show();
 
     // Create video parsers

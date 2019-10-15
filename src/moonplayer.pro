@@ -40,6 +40,7 @@ SOURCES += \
     downloaderitem.cpp \
     httpget.cpp \
     main.cpp \
+    modernwindow.cpp \
     mybuttongroup.cpp \
     mylistwidget.cpp \
     parserbase.cpp \
@@ -47,6 +48,7 @@ SOURCES += \
     parseryoutubedl.cpp \
     playercore.cpp \
     playlist.cpp \
+    proxyfactory.cpp \
     pyapi.cpp \
     python_wrapper.cpp \
     reslibrary.cpp \
@@ -58,10 +60,9 @@ SOURCES += \
     upgraderdialog.cpp \
     utils.cpp \
     videocombiner.cpp \
+    windowbase.cpp \
     platform/paths.cpp \
-    proxyfactory.cpp \
-    modernwindow.cpp \
-    windowbase.cpp
+    classicwindow.cpp
 
 HEADERS  +=\
     aboutdialog.h \
@@ -73,6 +74,7 @@ HEADERS  +=\
     downloader.h \
     downloaderitem.h \
     httpget.h \
+    modernwindow.h \
     mybuttongroup.h \
     mylistwidget.h \
     parserbase.h \
@@ -80,6 +82,7 @@ HEADERS  +=\
     parseryoutubedl.h \
     playercore.h \
     playlist.h \
+    proxyfactory.h \
     pyapi.h \
     python_wrapper.h \
     reslibrary.h \
@@ -96,12 +99,11 @@ HEADERS  +=\
     upgraderdialog.h \
     utils.h \
     videocombiner.h \
+    windowbase.h \
     platform/application.h \
     platform/detectopengl.h \
     platform/paths.h \
-    proxyfactory.h \
-    modernwindow.h \
-    windowbase.h
+    classicwindow.h
 
 
 # Platform specific source codes
@@ -146,6 +148,7 @@ TRANSLATIONS += translations/moonplayer_zh_CN.ts
 
 
 FORMS    += \
+    classicwindow.ui \
     playlist.ui \
     settingsdialog.ui \
     reslibrary.ui \
