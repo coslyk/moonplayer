@@ -147,7 +147,7 @@
         <widget class="QPushButton" name="playlistButton">
          <property name="icon">
           <iconset resource="icons.qrc">
-           <normaloff>:/modern_ui/playlist.png</normaloff>:/modern_ui/playlist.png</iconset>
+           <normaloff>:/classic_ui/playlist.png</normaloff>:/classic_ui/playlist.png</iconset>
          </property>
          <property name="flat">
           <bool>true</bool>
