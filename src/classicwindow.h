@@ -17,6 +17,8 @@ public:
     ~ClassicWindow();
 
 protected:
+    void changeEvent(QEvent *e);
+    bool eventFilter(QObject *watched, QEvent *event);
     void keyPressEvent(QKeyEvent *e);
     void mouseDoubleClickEvent(QMouseEvent *e);
 

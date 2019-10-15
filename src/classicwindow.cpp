@@ -18,6 +18,10 @@ ClassicWindow::ClassicWindow(QWidget *parent) :
     ui->pauseButton->hide();
     ui->playerLayout->addWidget(core);
 
+    ui->toolbar->installEventFilter(this);
+    centralWidget()->installEventFilter(this);
+    centralWidget()->setMouseTracking(true);
+
     connect(ui->playlistButton, &QPushButton::clicked, this, &ClassicWindow::showPlaylist);
     connect(ui->stopButton, &QPushButton::clicked, this, &ClassicWindow::onStopButton);
     connect(ui->playButton, &QPushButton::clicked, core, &PlayerCore::changeState);
@@ -158,6 +162,46 @@ void ClassicWindow::setFullScreen()
         showNormal();
     else
         showFullScreen();
+}
+
+void ClassicWindow::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::WindowStateChange)
+    {
+        QWindowStateChangeEvent *ce = static_cast<QWindowStateChangeEvent*>(e);
+        if (isFullScreen())
+        {
+            menuBar()->hide();
+            ui->toolbar->hide();
+        }
+        else
+        {
+            menuBar()->show();
+            ui->toolbar->show();
+        }
+        ce->accept();
+        return;
+    }
+    QWidget::changeEvent(e);
+}
+
+// show / hide toolbar in fullscreen
+bool ClassicWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    if (!isFullScreen())
+        return false;
+    if (watched == centralWidget() && event->type() == QEvent::MouseMove)
+    {
+        QMouseEvent *e = static_cast<QMouseEvent*>(event);
+        if (e->y() > height() - ui->toolbar->height())
+            ui->toolbar->show();
+        return true;
+    }
+    else if (watched == ui->toolbar && event->type() == QEvent::Leave) {
+        ui->toolbar->hide();
+        return true;
+    }
+    return false;
 }
 
 // enter or exit fullscreen by key press
