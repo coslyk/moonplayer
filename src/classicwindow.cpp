@@ -1,9 +1,11 @@
 #include "classicwindow.h"
 #include "ui_classicwindow.h"
+#include "aboutdialog.h"
 #include "playercore.h"
 #include "playlist.h"
 #include "reslibrary.h"
 #include "settingsdialog.h"
+#include "upgraderdialog.h"
 #include "utils.h"
 #include "windowbase.h"
 #include <QDesktopWidget>
@@ -31,6 +33,17 @@ ClassicWindow::ClassicWindow(QWidget *parent) :
     connect(ui->timeSlider, &QSlider::sliderPressed, this, &ClassicWindow::onTimeSliderPressed);
     connect(ui->timeSlider, &QSlider::valueChanged, this, &ClassicWindow::onTimeSliderValueChanged);
     connect(ui->timeSlider, &QSlider::sliderReleased, this, &ClassicWindow::onTimeSliderReleased);
+
+    connect(ui->actionAbout, &QAction::triggered, aboutDialog, &QDialog::exec);
+    connect(ui->actionAdd_file_s, &QAction::triggered, playlist, &Playlist::onAddItem);
+    connect(ui->actionAdd_playlist, &QAction::triggered, playlist, &Playlist::onListItem);
+    connect(ui->actionAdd_url, &QAction::triggered, playlist, &Playlist::onNetItem);
+    connect(ui->actionBrowser_extension, &QAction::triggered, this, &ClassicWindow::openExtPage);
+    connect(ui->actionCut_video, &QAction::triggered, this, &ClassicWindow::showCutterBar);
+    connect(ui->actionOnline_videos, &QAction::triggered, reslibrary, &ResLibrary::show);
+    connect(ui->actionScreenshot, &QAction::triggered, core, &PlayerCore::screenShot);
+    connect(ui->actionSettings, &QAction::triggered, settingsDialog, &SettingsDialog::exec);
+    connect(ui->actionUpdate_plugins, &QAction::triggered, upgraderDialog, &UpgraderDialog::runUpgrader);
 
     /*connect(ui->brightnessSlider, &QSlider::valueChanged, core, &PlayerCore::setBrightness);
     connect(ui->contrastSlider, &QSlider::valueChanged, core, &PlayerCore::setContrast);

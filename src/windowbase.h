@@ -32,6 +32,8 @@ protected:
 
 protected slots:
     void onStopButton(void);
+    void openExtPage(void);
+    void showCutterBar(void);
 
 private slots:
     void onStopped(void);
@@ -42,8 +44,6 @@ private slots:
     void setAudioDelay(void);
     void setSubDelay(void);
     void saveVolume(int vol);
-    void showCutterBar(void);
-    void openExtPage(void);
 
 protected:
     AboutDialog *aboutDialog;

@@ -112,7 +112,7 @@ WindowBase::WindowBase(QWidget *parent) :
     menu->addAction(tr("Cut video") + "\tC", this, SLOT(showCutterBar()));
 
     menu->addSeparator();
-    menu->addAction(tr("Settings") + "\tCtrl+,", settingsDialog, SLOT(show()));
+    menu->addAction(tr("Settings") + "\tCtrl+,", settingsDialog, SLOT(exec()));
     menu->addAction(tr("Ext. for browser"), this, SLOT(openExtPage()));
     menu->addAction(tr("Upgrade parsers"), upgraderDialog, SLOT(runUpgrader()));
     menu->addAction(tr("About"), aboutDialog, SLOT(exec()));

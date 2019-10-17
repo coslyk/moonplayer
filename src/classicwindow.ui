@@ -182,16 +182,18 @@
     </property>
     <addaction name="actionOnline_videos"/>
     <addaction name="separator"/>
+    <addaction name="actionCut_video"/>
+    <addaction name="actionScreenshot"/>
+    <addaction name="separator"/>
+    <addaction name="actionUpdate_plugins"/>
     <addaction name="actionSettings"/>
    </widget>
    <widget class="QMenu" name="menuAbout_A">
     <property name="title">
      <string>About(&amp;A)</string>
     </property>
-    <addaction name="actionPlugins"/>
     <addaction name="actionBrowser_extension"/>
-    <addaction name="actionContribute"/>
-    <addaction name="actionHomepage"/>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuOpen"/>
    <addaction name="menuTools_T"/>
@@ -217,11 +219,6 @@
     <string>Online videos</string>
    </property>
   </action>
-  <action name="actionTranscoder">
-   <property name="text">
-    <string>Transcoder</string>
-   </property>
-  </action>
   <action name="actionSettings">
    <property name="text">
     <string>Settings</string>
@@ -232,19 +229,24 @@
     <string>Browser extension</string>
    </property>
   </action>
-  <action name="actionHomepage">
+  <action name="actionAbout">
    <property name="text">
-    <string>Homepage</string>
+    <string>About</string>
    </property>
   </action>
-  <action name="actionContribute">
+  <action name="actionUpdate_plugins">
    <property name="text">
-    <string>Contribute</string>
+    <string>Update plugins</string>
    </property>
   </action>
-  <action name="actionPlugins">
+  <action name="actionScreenshot">
    <property name="text">
-    <string>Plugins</string>
+    <string>Screenshot</string>
+   </property>
+  </action>
+  <action name="actionCut_video">
+   <property name="text">
+    <string>Cut video</string>
    </property>
   </action>
  </widget>
