@@ -202,7 +202,7 @@ void initSettings()
     hwdec = settings.value("Video/hwdec", "auto").toString();
     aout = settings.value("Audio/out", "auto").toString();
     volume = settings.value("Audio/volume", 10).toInt();
-    classicUI = settings.value("Player/classicUI", false).toBool();
+    classicUI = settings.value("Player/classic_ui", false).toBool();
     rememberUnfinished = settings.value("Player/remember_unfinished", true).toBool();
     urlOpenMode = (Settings::URLOpenMode) settings.value("Player/url_open_mode", 0).toInt();
     proxyType = settings.value("Net/proxy_type", "no").toString();
