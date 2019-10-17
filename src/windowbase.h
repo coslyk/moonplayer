@@ -34,6 +34,7 @@ protected slots:
     void onStopButton(void);
     void openExtPage(void);
     void showCutterBar(void);
+    virtual void showPlaylist(void) = 0;
 
 private slots:
     void onStopped(void);

@@ -24,6 +24,9 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *e);
     bool eventFilter(QObject *watched, QEvent *event);
 
+protected slots:
+    void showPlaylist(void);
+
 private slots:
     void hideElements(void);
     void onMaxButton(void);
@@ -34,7 +37,6 @@ private slots:
     void onTimeSliderValueChanged(int time);
     void onTimeSliderReleased(void);
     void setFullScreen(void);
-    void showPlaylist(void);
     void showVolumeSlider(void);
 
 private:

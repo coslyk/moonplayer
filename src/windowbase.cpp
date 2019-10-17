@@ -99,7 +99,7 @@ WindowBase::WindowBase(QWidget *parent) :
 
     menu = new QMenu(this);
     menu->addMenu(open_menu);
-    //menu->addAction(tr("Playlist") + "\tL", this, SLOT(showPlaylist()));
+    menu->addAction(tr("Playlist") + "\tL", this, SLOT(showPlaylist()));
     menu->addAction(tr("Online video") + "\tW", reslibrary, SLOT(show()));
     menu->addSeparator();
     menu->addMenu(video_menu);
@@ -235,7 +235,7 @@ void WindowBase::keyPressEvent(QKeyEvent *e)
         core->switchDanmaku();
         break;
     case Qt::Key_L:
-        ////showPlaylist();
+        showPlaylist();
         break;
     case Qt::Key_O:
         if (ctrl_pressed)

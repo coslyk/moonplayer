@@ -22,6 +22,9 @@ protected:
     void keyPressEvent(QKeyEvent *e);
     void mouseDoubleClickEvent(QMouseEvent *e);
 
+protected slots:
+    void showPlaylist(void);
+
 private slots:
     void onLengthChanged(int len);
     void onSizeChanged(const QSize &video_size);
@@ -30,7 +33,6 @@ private slots:
     void onTimeSliderValueChanged(int time);
     void onTimeSliderReleased(void);
     void setFullScreen(void);
-    void showPlaylist(void);
     void showVolumeSlider(void);
 
 private:
