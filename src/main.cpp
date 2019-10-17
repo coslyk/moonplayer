@@ -14,6 +14,7 @@
 #include "platform/paths.h"
 #include "parserykdl.h"
 #include "parseryoutubedl.h"
+#include "settings_player.h"
 
 #ifdef MP_ENABLE_WEBENGINE
 #include "parserwebcatch.h"
@@ -25,6 +26,7 @@
 
 int main(int argc, char *argv[])
 {
+    qputenv("LC_NUMERIC", "C");
     qputenv("QTWEBENGINE_REMOTE_DEBUGGING", "19260");
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
@@ -75,7 +77,11 @@ int main(int argc, char *argv[])
         a.installTranslator(&translator);
 
     // Create window
-    ClassicWindow *window = new ClassicWindow;
+    WindowBase *window;
+    if (Settings::classicUI)
+        window = new ClassicWindow;
+    else
+        window = new ModernWindow;
     window->show();
 
     // Create video parsers
