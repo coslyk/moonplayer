@@ -7,7 +7,7 @@ services:
 before_install:
   - curl -Ls -o Dockerfile-debian-stretch https://raw.githubusercontent.com/coslyk/docker-deb-builder/master/Dockerfile-debian-stretch
   - curl -Ls -o build https://github.com/coslyk/docker-deb-builder/raw/master/build
-  - curl -Ls -o build https://github.com/coslyk/docker-deb-builder/raw/master/build-helper.sh
+  - curl -Ls -o build-helper.sh https://github.com/coslyk/docker-deb-builder/raw/master/build-helper.sh
   - chmod +x build build-helper.sh
 
 install:
