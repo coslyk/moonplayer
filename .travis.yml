@@ -9,7 +9,9 @@ before_install:
   - curl -Ls -o build https://github.com/coslyk/docker-deb-builder/raw/master/build
   - chmod +x build
 
-script:
+install:
   - docker build -t docker-deb-builder:stretch -f Dockerfile-debian-stretch .
+
+script:
   - mkdir output
   - ./build -i docker-deb-builder:stretch -o output .
