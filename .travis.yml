@@ -1,0 +1,15 @@
+dist: xenial
+sudo: required
+language: bash
+services:
+  - docker
+  
+before_install:
+  - curl -Ls -o Dockerfile-debian-stretch https://raw.githubusercontent.com/coslyk/docker-deb-builder/master/Dockerfile-debian-stretch
+  - curl -Ls -o build https://github.com/coslyk/docker-deb-builder/raw/master/build
+  - chmod +x build
+
+script:
+  - docker build -t docker-deb-builder:stretch -f Dockerfile-ubuntu-stretch .
+  - mkdir output
+  - ./build -i docker-deb-builder:stretch -o output .
