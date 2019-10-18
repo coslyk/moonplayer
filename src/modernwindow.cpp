@@ -26,15 +26,13 @@ ModernWindow::ModernWindow(QWidget *parent) :
         buttons[i]->setIconSize(QSize(16, 16));
         buttons[i]->setFixedSize(QSize(32, 32));
     }
-    QPushButton *buttons2[] = {ui->playlistButton, ui->searchButton, ui->volumeButton, ui->settingsButton, ui->hideEqualizerButton};
-    for (int i = 0; i < 5; i++)
+    QPushButton *buttons2[] = {ui->playlistButton, ui->searchButton, ui->volumeButton, ui->settingsButton};
+    for (int i = 0; i < 4; i++)
     {
         buttons2[i]->setIconSize(QSize(16, 16));
         buttons2[i]->setFixedSize(QSize(24, 20));
     }
     ui->controllerWidget->setFixedSize(QSize(450, 70));
-    ui->equalizerWidget->setFixedSize(QSize(350, 180));
-    ui->equalizerWidget->hide();
     ui->closeButton->setFixedSize(QSize(16, 16));
     ui->minButton->setFixedSize(QSize(16, 16));
     ui->maxButton->setFixedSize(QSize(16, 16));
@@ -78,12 +76,6 @@ ModernWindow::ModernWindow(QWidget *parent) :
     connect(ui->timeSlider, &QSlider::valueChanged, this, &ModernWindow::onTimeSliderValueChanged);
     connect(ui->timeSlider, &QSlider::sliderReleased, this, &ModernWindow::onTimeSliderReleased);
 
-    connect(ui->brightnessSlider, &QSlider::valueChanged, core, &PlayerCore::setBrightness);
-    connect(ui->contrastSlider, &QSlider::valueChanged, core, &PlayerCore::setContrast);
-    connect(ui->saturationSlider, &QSlider::valueChanged, core, &PlayerCore::setSaturation);
-    connect(ui->gammaSlider, &QSlider::valueChanged, core, &PlayerCore::setGamma);
-    connect(ui->hueSlider, &QSlider::valueChanged, core, &PlayerCore::setHue);
-
     connect(core, &PlayerCore::played, ui->pauseButton, &QPushButton::show);
     connect(core, &PlayerCore::played, ui->playButton, &QPushButton::hide);
     connect(core, &PlayerCore::paused, ui->playButton, &QPushButton::show);
@@ -105,13 +97,16 @@ ModernWindow::~ModernWindow()
 
 void ModernWindow::hideElements()
 {
-    ui->titleBar->hide();
-    if (!ui->controllerWidget->geometry().contains(mapFromGlobal(QCursor::pos())) && !ui->equalizerWidget->isVisible())
-    {
-        // mouse is not in controller and equalizer is hidden
+    if (!ui->titleBar->geometry().contains(mapFromGlobal(QCursor::pos())))
+        // mouse is not in titlebar
+        ui->titleBar->hide();
+
+    if (!ui->controllerWidget->geometry().contains(mapFromGlobal(QCursor::pos())))
+        // mouse is not in controller
         ui->controllerWidget->hide();
+
+    if (ui->titleBar->isHidden() && ui->controllerWidget->isHidden())
         setCursor(QCursor(Qt::BlankCursor));
-    }
 }
 
 void ModernWindow::onLengthChanged(int len)
@@ -193,12 +188,6 @@ void ModernWindow::resizeEvent(QResizeEvent *e)
     int c_y = e->size().height() - 130;
     ui->controllerWidget->move(c_x, c_y);
     ui->controllerWidget->raise();
-
-    // move and resize equalizer
-    int e_x = (e->size().width() - ui->equalizerWidget->width()) / 2;
-    int e_y = (e->size().height() - ui->equalizerWidget->height()) / 2 - 30;
-    ui->equalizerWidget->move(e_x, e_y);
-    ui->equalizerWidget->raise();
 
     // raise borders and titlebar
     leftBorder->raise();

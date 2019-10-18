@@ -612,31 +612,26 @@ void PlayerCore::setSubDelay(double v)
 // set brightness, constrast, saturation, gamma and hue
 void PlayerCore::setBrightness(int64_t v)
 {
-    v *= 10;
     handleMpvError(mpv_set_property_async(mpv, 2, "brightness", MPV_FORMAT_INT64, &v));
 }
 
 void PlayerCore::setContrast(int64_t v)
 {
-    v *= 10;
     handleMpvError(mpv_set_property_async(mpv, 2, "contrast", MPV_FORMAT_INT64, &v));
 }
 
 void PlayerCore::setSaturation(int64_t v)
 {
-    v *= 10;
     handleMpvError(mpv_set_property_async(mpv, 2, "saturation", MPV_FORMAT_INT64, &v));
 }
 
 void PlayerCore::setGamma(int64_t v)
 {
-    v *= 10;
     handleMpvError(mpv_set_property_async(mpv, 2, "gamma", MPV_FORMAT_INT64, &v));
 }
 
 void PlayerCore::setHue(int64_t v)
 {
-    v *= 10;
     handleMpvError(mpv_set_property_async(mpv, 2, "hue", MPV_FORMAT_INT64, &v));
 }
 

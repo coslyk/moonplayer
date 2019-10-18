@@ -157,7 +157,8 @@ FORMS    += \
     selectiondialog.ui \
     aboutdialog.ui \
     upgraderdialog.ui \
-    modernwindow.ui
+    modernwindow.ui \
+    equalizer.ui
 
 
 RESOURCES += \

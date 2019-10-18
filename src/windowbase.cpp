@@ -10,6 +10,7 @@
 #include "settings_audio.h"
 #include "settingsdialog.h"
 #include "upgraderdialog.h"
+#include "ui_equalizer.h"
 #include <QApplication>
 #include <QDesktopServices>
 #include <QFileDialog>
@@ -62,6 +63,11 @@ WindowBase::WindowBase(QWidget *parent) :
     // create about dialog
     aboutDialog = new AboutDialog(this);
 
+    // create equalizer
+    equalizer = new QDialog(this);
+    equalizer_ui = new Ui::Equalizer;
+    equalizer_ui->setupUi(equalizer);
+
     // create menu
     QMenu *open_menu = new QMenu(tr("Open"));
     open_menu->addAction(tr("File") + "\tCtrl+O", playlist, SLOT(onAddItem()));
@@ -74,7 +80,7 @@ WindowBase::WindowBase(QWidget *parent) :
     video_menu->addAction("16:10", core, SLOT(setRatio_16_10()));
     video_menu->addAction(tr("Default"), core, SLOT(setRatio_0()));
     video_menu->addSeparator();
-    //video_menu->addAction(tr("Equalizer"), ui->equalizerWidget, SLOT(show()));
+    video_menu->addAction(tr("Equalizer"), equalizer, SLOT(exec()));
 
     QMenu *audio_menu = new QMenu(tr("Audio"));
     audio_menu->addAction(tr("Stereo"), core, SLOT(setChannel_Stereo()));
@@ -129,11 +135,18 @@ WindowBase::WindowBase(QWidget *parent) :
     connect(volumeSlider, &QSlider::valueChanged, this, &WindowBase::saveVolume);
     connect(cutterBar, &CutterBar::newFrame, core, &PlayerCore::jumpTo);
 
+    connect(equalizer_ui->brightnessSlider, &QSlider::valueChanged, core, &PlayerCore::setBrightness);
+    connect(equalizer_ui->contrastSlider, &QSlider::valueChanged, core, &PlayerCore::setContrast);
+    connect(equalizer_ui->saturationSlider, &QSlider::valueChanged, core, &PlayerCore::setSaturation);
+    connect(equalizer_ui->gammaSlider, &QSlider::valueChanged, core, &PlayerCore::setGamma);
+    connect(equalizer_ui->hueSlider, &QSlider::valueChanged, core, &PlayerCore::setHue);
+
     volumeSlider->setValue(Settings::volume);
 }
 
 WindowBase::~WindowBase()
 {
+    delete equalizer_ui;
 }
 
 void WindowBase::onStopButton()

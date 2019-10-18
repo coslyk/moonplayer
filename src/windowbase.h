@@ -14,6 +14,10 @@ class SelectionDialog;
 class SettingsDialog;
 class UpgraderDialog;
 
+namespace Ui {
+class Equalizer;
+}
+
 class WindowBase : public QMainWindow
 {
     Q_OBJECT
@@ -51,6 +55,8 @@ protected:
     CutterBar *cutterBar;
     Playlist *playlist;
     PlayerCore *core;
+    QDialog *equalizer;
+    Ui::Equalizer *equalizer_ui;
     QMenu *menu;
     QSlider *volumeSlider;
     ResLibrary *reslibrary;
