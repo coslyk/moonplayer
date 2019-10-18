@@ -54,6 +54,9 @@
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
+         <property name="toolTip">
+          <string>Play</string>
+         </property>
          <property name="icon">
           <iconset resource="icons.qrc">
            <normaloff>:/classic_ui/play.png</normaloff>:/classic_ui/play.png</iconset>
@@ -68,6 +71,9 @@
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
+         <property name="toolTip">
+          <string>Pause</string>
+         </property>
          <property name="icon">
           <iconset resource="icons.qrc">
            <normaloff>:/classic_ui/pause.png</normaloff>:/classic_ui/pause.png</iconset>
@@ -81,6 +87,9 @@
         <widget class="QPushButton" name="stopButton">
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="toolTip">
+          <string>Stop</string>
          </property>
          <property name="icon">
           <iconset resource="icons.qrc">
@@ -120,6 +129,9 @@
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
+         <property name="toolTip">
+          <string>Volume</string>
+         </property>
          <property name="icon">
           <iconset resource="icons.qrc">
            <normaloff>:/classic_ui/volume.png</normaloff>:/classic_ui/volume.png</iconset>
@@ -134,6 +146,9 @@
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
+         <property name="toolTip">
+          <string>Explore</string>
+         </property>
          <property name="icon">
           <iconset resource="icons.qrc">
            <normaloff>:/classic_ui/net.png</normaloff>:/classic_ui/net.png</iconset>
@@ -145,6 +160,12 @@
        </item>
        <item>
         <widget class="QPushButton" name="playlistButton">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="toolTip">
+          <string>Playlist</string>
+         </property>
          <property name="icon">
           <iconset resource="icons.qrc">
            <normaloff>:/classic_ui/playlist.png</normaloff>:/classic_ui/playlist.png</iconset>
