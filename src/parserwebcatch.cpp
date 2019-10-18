@@ -2,6 +2,7 @@
 #include <QNetworkCookieJar>
 #include <QNetworkReply>
 #include <QWebEngineCookieStore>
+#include <QWebEngineHttpRequest>
 #include <QWebEngineProfile>
 #include <QWebEngineSettings>
 #include <QWebEngineView>
