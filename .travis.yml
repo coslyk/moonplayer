@@ -10,6 +10,6 @@ before_install:
   - chmod +x build
 
 script:
-  - docker build -t docker-deb-builder:stretch -f Dockerfile-ubuntu-stretch .
+  - docker build -t docker-deb-builder:stretch -f Dockerfile-debian-stretch .
   - mkdir output
   - ./build -i docker-deb-builder:stretch -o output .
