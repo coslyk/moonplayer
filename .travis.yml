@@ -1,8 +1,12 @@
-dist: xenial
-sudo: required
-language: bash
-services:
-  - docker
+language: cpp
+
+jobs:
+  include:
+    - os: linux
+      sudo: required
+      services:
+        - docker
+    - os: osx
   
 before_install:
   - curl -Ls -o Dockerfile-debian-stretch https://raw.githubusercontent.com/coslyk/docker-deb-builder/master/Dockerfile-debian-stretch
@@ -11,8 +15,10 @@ before_install:
   - chmod +x build build-helper.sh
 
 install:
-  - docker build -t docker-deb-builder:stretch -f Dockerfile-debian-stretch .
+  - [ "$TRAVIS_OS_NAME" = "osx" ] && brew update
+  - [ "$TRAVIS_OS_NAME" = "osx" ] && brew install coslyk/mpv/mpv-lite
+  - [ "$TRAVIS_OS_NAME" = "linux" ] && docker build -t docker-deb-builder:stretch -f Dockerfile-debian-stretch .
 
 script:
-  - mkdir output
-  - ./build -i docker-deb-builder:stretch -o output .
+  - [ "$TRAVIS_OS_NAME" = "linux" ] && ./build -i docker-deb-builder:stretch -o . .
+  - [ "$TRAVIS_OS_NAME" = "osx" ] && qmake
