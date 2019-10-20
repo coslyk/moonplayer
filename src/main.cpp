@@ -26,7 +26,6 @@
 
 int main(int argc, char *argv[])
 {
-    qputenv("LC_NUMERIC", "C");
     qputenv("QTWEBENGINE_REMOTE_DEBUGGING", "19260");
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
@@ -56,6 +55,7 @@ int main(int argc, char *argv[])
 #endif
 
     //for mpv
+    qputenv("LC_NUMERIC", "C");
     setlocale(LC_NUMERIC, "C");
 
     //init

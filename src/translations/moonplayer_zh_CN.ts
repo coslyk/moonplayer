@@ -527,7 +527,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ParserWebCatch</name>
     <message>
-        <location filename="../parserwebcatch.cpp" line="52"/>
+        <location filename="../parserwebcatch.cpp" line="53"/>
         <source>This URL is not supported now!</source>
         <translation type="unfinished">暂不支持该URL！</translation>
     </message>
