@@ -51,6 +51,12 @@
        </property>
        <item>
         <widget class="QPushButton" name="playButton">
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
@@ -68,6 +74,12 @@
        </item>
        <item>
         <widget class="QPushButton" name="pauseButton">
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
@@ -85,6 +97,12 @@
        </item>
        <item>
         <widget class="QPushButton" name="stopButton">
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
@@ -126,6 +144,12 @@
        </item>
        <item>
         <widget class="QPushButton" name="volumeButton">
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
@@ -143,6 +167,12 @@
        </item>
        <item>
         <widget class="QPushButton" name="netButton">
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
@@ -160,6 +190,12 @@
        </item>
        <item>
         <widget class="QPushButton" name="playlistButton">
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
@@ -186,7 +222,7 @@
      <x>0</x>
      <y>0</y>
      <width>706</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOpen">
