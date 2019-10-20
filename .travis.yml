@@ -7,7 +7,24 @@ jobs:
       services:
         - docker
     - os: osx
-  
+
+addons:
+  homebrew:
+    taps: coslyk/mpv
+    packages:
+      - qt
+      - mpv-lite
+    update: true
+
+
+cache:
+  directories:
+    - $HOME/Library/Caches/Homebrew
+
+before_cache:
+  - brew cleanup
+
+
 before_install:
   - curl -Ls -o Dockerfile-debian-stretch https://raw.githubusercontent.com/coslyk/docker-deb-builder/master/Dockerfile-debian-stretch
   - curl -Ls -o build https://github.com/coslyk/docker-deb-builder/raw/master/build
@@ -15,16 +32,21 @@ before_install:
   - curl -Ls -o deploy.sh https://github.com/coslyk/macos-qt-deploy/raw/master/deploy.sh
   - chmod +x build build-helper.sh deploy.sh
 
+
 install:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install qt coslyk/mpv/mpv-lite ; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then docker build -t docker-deb-builder:stretch -f Dockerfile-debian-stretch . ; fi
+
   
 script:
+  - sed -i -e 's@bionic@stretch@g' debian/changelog
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./build -i docker-deb-builder:stretch -o . . ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then /usr/local/opt/qt/bin/qmake; make; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then /usr/local/opt/qt/bin/qmake ENABLE_WEBENGINE=no; make; fi
+
+
+before_deploy:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then mv src/MoonPlayer.app .; ./deploy.sh MoonPlayer.app; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then zip -9 -r MoonPlayer_macOS.zip MoonPlayer.app; fi
+
 
 deploy:
   - provider: releases
