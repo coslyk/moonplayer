@@ -12,7 +12,8 @@ before_install:
   - curl -Ls -o Dockerfile-debian-stretch https://raw.githubusercontent.com/coslyk/docker-deb-builder/master/Dockerfile-debian-stretch
   - curl -Ls -o build https://github.com/coslyk/docker-deb-builder/raw/master/build
   - curl -Ls -o build-helper.sh https://github.com/coslyk/docker-deb-builder/raw/master/build-helper.sh
-  - chmod +x build build-helper.sh
+  - curl -Ls -o deploy.sh https://github.com/coslyk/macos-qt-deploy/raw/master/deploy.sh
+  - chmod +x build build-helper.sh deploy.sh
 
 install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update ; fi
@@ -22,15 +23,16 @@ install:
 script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./build -i docker-deb-builder:stretch -o . . ; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then /usr/local/opt/qt/bin/qmake; make; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then mv src/MoonPlayer.app .; ./deploy.sh MoonPlayer.app; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then zip -9 -r MoonPlayer_macOS.zip MoonPlayer.app; fi
 
 deploy:
   - provider: releases
     skip_cleanup: true
     api_key:
       secure: D/oXrqI/M8RBR/GZU4io4rYo7PpLv5ixkX+HF9to8zxwbbdqySwFr11fQpNGrH0oISPziXqRWOVZpaKdyxCHh9OG5FSn1rCzBtUMiS6+LDGwX2l/rWcEr2TvBtKqQOML0pCCHZ4ZTfYDYvXpqib+hrSMeln2RfsdxS7iAc6JgoLwdArWo6+4r82VFwz4ON2BnorPg7o0p0QJO1WZVcte+JhmmqpgRyzg4Fal82MvCpEtmNM/X5he//OfQsijQ+jahKbHmZHIra6Hre+tyZpRUbQMVZJrg7S+POcge4e9pgm6Fxyy5BObeyjou523xhGitD66lwsw87Nmh3XUaFyGAfQ8lrxWr01JyiNmgBVzgWd+ZJIPUvkmlVtm+riE9BrP9TRq56nnjbWeA9oQJcQDBn8wMCo/ivEQt4lEJr1l7+fxqVvJqz7StMhBPV1pbSI9QKTgIBtDr/RuaWIgRQ9hYyD/+P8e7934rkB/bSYHEmzH7NKUmMRPbjzeO+WedKKaXOuJXLyHQcVY70KS+DWxmAgLUK7TEhgdGYYKlLuM8lFAHE0RbrYsPbsE6qalP8AeEevxdAlCpMThOzmnP3a9Hkni2PLn0E3YAHeN6GcJrfWrigdldLbCpwc54mJwOKuVWq1W1OFLsC3eXP1SHnh7IaGvJpSoDaogI4W+ldr96nw=
-    file: moonplayer*.deb
+    file: moonplayer_*.deb MoonPlayer_*.zip
     file_glob: true
     on:
       repo: coslyk/moonplayer
       tags: true
-      condition: "$TRAVIS_OS_NAME = linux"
