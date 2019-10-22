@@ -2,11 +2,20 @@ language: cpp
 
 jobs:
   include:
-    - os: linux
+    - name: Linux build (Debian 9 Stretch)
+      os: linux
       sudo: required
+      env: DEBIAN_RELEASE=stretch
       services:
         - docker
-    - os: osx
+    - name: Linux build (Debian 10 buster)
+      os: linux
+      sudo: required
+      env: DEBIAN_RELEASE=buster
+      services:
+        - docker
+    - name: macOS build
+      os: osx
 
 addons:
   homebrew:
@@ -26,7 +35,7 @@ before_cache:
 
 
 before_install:
-  - curl -Ls -o Dockerfile-debian-stretch https://raw.githubusercontent.com/coslyk/docker-deb-builder/master/Dockerfile-debian-stretch
+  - curl -Ls -o Dockerfile-debian-$DEBIAN_RELEASE https://github.com/coslyk/docker-deb-builder/raw/master/Dockerfile-debian-$DEBIAN_RELEASE
   - curl -Ls -o build https://github.com/coslyk/docker-deb-builder/raw/master/build
   - curl -Ls -o build-helper.sh https://github.com/coslyk/docker-deb-builder/raw/master/build-helper.sh
   - curl -Ls -o deploy.sh https://github.com/coslyk/macos-qt-deploy/raw/master/deploy.sh
@@ -34,12 +43,12 @@ before_install:
 
 
 install:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then docker build -t docker-deb-builder:stretch -f Dockerfile-debian-stretch . ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then docker build -t docker-deb-builder:$DEBIAN_RELEASE -f Dockerfile-debian-$DEBIAN_RELEASE . ; fi
 
   
 script:
-  - sed -i -e 's@bionic@stretch@g' debian/changelog
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./build -i docker-deb-builder:stretch -o . . ; fi
+  - sed -i -e "s@bionic@$DEBIAN_RELEASE@g" debian/changelog
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./build -i docker-deb-builder:$DEBIAN_RELEASE -o . . ; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then /usr/local/opt/qt/bin/qmake ENABLE_WEBENGINE=no; make; fi
 
 
