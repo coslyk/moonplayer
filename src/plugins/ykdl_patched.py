@@ -49,7 +49,7 @@ VideoInfo.jsonlize = jsonlize
 # Run ykdl
 from ykdl.common import url_to_module
 from ykdl.compact import ProxyHandler, build_opener, install_opener
-from ykdl.util.html import default_proxy_handler, fake_headers, get_content
+from ykdl.util.html import fake_headers, get_content
 from ykdl.util.match import match1
 from argparse import ArgumentParser
 import socket
@@ -97,7 +97,6 @@ def main():
 
     opener = build_opener(*handlers)
     install_opener(opener)
-    default_proxy_handler[:] = handlers
 
     m, u = url_to_module(args.video_url)
     info = m.parser(u)
