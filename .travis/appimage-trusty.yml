@@ -9,6 +9,7 @@ ingredients:
     - mc3man/testing6
   packages:
     - qt59base
+    - qt59quickcontrols
     - qt59quickcontrols2
     - qt59x11extras
     - libmpv1

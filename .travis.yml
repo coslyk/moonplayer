@@ -54,7 +54,7 @@ script:
   
 before_deploy:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make install DESTDIR=. ; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then .travis/pkg2appimage .travis/moonplayer-${UBUNTU_RELEASE}.yml ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then .travis/pkg2appimage .travis/appimage-${UBUNTU_RELEASE}.yml ; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then mv src/MoonPlayer.app .; .travis/macdeploy.sh MoonPlayer.app src/qml/ ; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then zip -9 -r MoonPlayer_${TRAVIS_TAG}_macOS.zip MoonPlayer.app ; fi
 
