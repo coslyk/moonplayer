@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/l10n">
+        <file>zh_CN.qm</file>
+    </qresource>
+</RCC>
