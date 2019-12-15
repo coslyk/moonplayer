@@ -1,0 +1,13 @@
+# KDevelop
+.kdev4/
+build/
+*.kdev4
+
+# QtCreator
+*.user*
+
+# macOS
+._*
+
+# libmpv for windows
+libmpv

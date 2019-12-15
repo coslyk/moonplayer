@@ -1,0 +1,72 @@
+ 
+language: cpp
+
+jobs:
+  include:
+    - name: Ubuntu 14.04 build
+      os: linux
+      dist: trusty
+      env: UBUNTU_RELEASE=trusty
+      
+    - name: Ubuntu 18.04 build
+      os: linux
+      dist: bionic
+      env: UBUNTU_RELEASE=bionic
+      
+    - name: macOS build
+      os: osx
+
+
+addons:
+  homebrew:
+    taps: coslyk/mpv
+    packages:
+      - cmake
+      - pkg-config
+      - qt
+      - mpv-lite
+    update: true
+
+
+cache:
+  directories:
+    - $HOME/Library/Caches/Homebrew
+
+before_cache:
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew cleanup; fi
+  
+before_install:
+  - if [ "$UBUNTU_RELEASE" = "trusty" ]; then sudo add-apt-repository -y ppa:beineri/opt-qt597-trusty ; fi
+  - if [ "$UBUNTU_RELEASE" = "trusty" ]; then sudo add-apt-repository -y ppa:mc3man/testing6 ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -q update ; fi
+  - if [ "$UBUNTU_RELEASE" = "trusty" ]; then sudo apt-get -y install build-essential cmake desktop-file-utils pkg-config libgl1-mesa-dev libglu1-mesa-dev qt59base qt59quickcontrols qt59quickcontrols2 qt59x11extras qt59tools libmpv-dev ; fi
+  - if [ "$UBUNTU_RELEASE" = "bionic" ]; then sudo apt-get -y install build-essential cmake desktop-file-utils pkg-config qtbase5-dev qtbase5-private-dev qtdeclarative5-dev qttools5-dev libqt5x11extras5-dev libmpv-dev ; fi
+
+install:
+  - chmod a+x .travis/pkg2appimage .travis/macdeploy.sh
+
+
+script:
+  - if [ "$UBUNTU_RELEASE" = "trusty" ]; then cmake -DCMAKE_PREFIX_PATH=/opt/qt59 . ; fi
+  - if [ "$UBUNTU_RELEASE" = "bionic" ]; then cmake . ; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then cmake -DCMAKE_PREFIX_PATH=/usr/local/opt/qt . ; fi
+  - make
+  
+before_deploy:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make install DESTDIR=. ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then .travis/pkg2appimage .travis/moonplayer-${UBUNTU_RELEASE}.yml ; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then mv src/MoonPlayer.app .; .travis/macdeploy.sh MoonPlayer.app src/qml/ ; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then zip -9 -r MoonPlayer_${TRAVIS_TAG}_macOS.zip MoonPlayer.app ; fi
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: D/oXrqI/M8RBR/GZU4io4rYo7PpLv5ixkX+HF9to8zxwbbdqySwFr11fQpNGrH0oISPziXqRWOVZpaKdyxCHh9OG5FSn1rCzBtUMiS6+LDGwX2l/rWcEr2TvBtKqQOML0pCCHZ4ZTfYDYvXpqib+hrSMeln2RfsdxS7iAc6JgoLwdArWo6+4r82VFwz4ON2BnorPg7o0p0QJO1WZVcte+JhmmqpgRyzg4Fal82MvCpEtmNM/X5he//OfQsijQ+jahKbHmZHIra6Hre+tyZpRUbQMVZJrg7S+POcge4e9pgm6Fxyy5BObeyjou523xhGitD66lwsw87Nmh3XUaFyGAfQ8lrxWr01JyiNmgBVzgWd+ZJIPUvkmlVtm+riE9BrP9TRq56nnjbWeA9oQJcQDBn8wMCo/ivEQt4lEJr1l7+fxqVvJqz7StMhBPV1pbSI9QKTgIBtDr/RuaWIgRQ9hYyD/+P8e7934rkB/bSYHEmzH7NKUmMRPbjzeO+WedKKaXOuJXLyHQcVY70KS+DWxmAgLUK7TEhgdGYYKlLuM8lFAHE0RbrYsPbsE6qalP8AeEevxdAlCpMThOzmnP3a9Hkni2PLn0E3YAHeN6GcJrfWrigdldLbCpwc54mJwOKuVWq1W1OFLsC3eXP1SHnh7IaGvJpSoDaogI4W+ldr96nw=
+  file:
+    - out/*.AppImage
+    - MoonPlayer_*.zip
+  file_glob: true
+  on:
+    repo: coslyk/moonplayer
+    tags: true
