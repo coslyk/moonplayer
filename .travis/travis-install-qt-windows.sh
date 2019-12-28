@@ -13,7 +13,7 @@ fi
 
 echo "Downloading the installer..."
 # https is of no use if it redirects to a http mirror...
-curl -vLo ~/qt_installer.exe "http://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe"
+curl -Lo ~/qt_installer.exe "http://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe"
 
 echo "Installing..."
 # Run installer and save the installer output. To avoid hitting the timeout,
