@@ -78,6 +78,10 @@ Controller.prototype.ReadyForInstallationPageCallback = function() {
     gui.clickButton(buttons.NextButton);
 };
 
+Controller.prototype.PerformInstallationPageCallback = function() {
+    console.log("Step: " + gui.currentPageWidget());
+}
+
 Controller.prototype.FinishedPageCallback = function() {
     console.log("Step: " + gui.currentPageWidget());
     // TODO somehow the installer crashes after this step.
@@ -88,5 +92,13 @@ Controller.prototype.FinishedPageCallback = function() {
     }
     gui.clickButton(buttons.FinishButton);
 };
+
+/// Question for tracking usage data, refuse it
+Controller.prototype.DynamicTelemetryPluginFormCallback = function() {
+    console.log("Step: " + gui.currentPageWidget());
+    var radioButtons = gui.currentPageWidget().TelemetryPluginForm.statisticGroupBox;
+    radioButtons.disableStatisticRadioButton.checked = true;
+    gui.clickButton(buttons.FinishButton);
+}
 
 // vim: set ft=javascript:
