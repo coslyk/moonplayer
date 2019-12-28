@@ -1,6 +1,7 @@
 #include "console.h"
 #include <QProcess>
 #include <QScrollBar>
+#include <QTextCodec>
 
 Console::Console(QWidget *parent) :
     QPlainTextEdit(parent),
@@ -29,17 +30,12 @@ Console::Console(QWidget *parent) :
         setWindowFlag(Qt::WindowCloseButtonHint, true);
         show();
     });
-    /*
-    QPalette p = palette();
-    p.setColor(QPalette::Base, Qt::black);
-    p.setColor(QPalette::Text, Qt::green);
-    setPalette(p);
-    */
 }
 
 void Console::putData(const QByteArray& data)
 {
-    insertPlainText(QString::fromUtf8(data));
+    QTextCodec *codec = QTextCodec::codecForLocale();
+    insertPlainText(codec->toUnicode(data));
     QScrollBar *bar = verticalScrollBar();
     bar->setValue(bar->maximum());
 }

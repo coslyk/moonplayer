@@ -126,7 +126,13 @@ void ParserBase::updateParser()
     if (c_console == nullptr)
         c_console = new Console;
     QStringList args;
+#ifdef Q_OS_WIN
+    args << "-ExecutionPolicy" << "RemoteSigned";
+    args << "-File" << (appResourcesPath() + "/update-parsers.ps1");
+    c_console->launchScript("powershell", args);
+#else
     args << appResourcesPath() + "/update-parsers.sh";
     c_console->launchScript("sh", args);
+#endif
 }
 
