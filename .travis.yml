@@ -55,7 +55,7 @@ before_install:
   # Install Qt and libmpv on Windows
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then .travis/travis-cache-windows.sh restore; fi
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then .travis/travis-install-qt-windows.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then curl -vLo ~/libmpv.zip https://github.com/coslyk/moonplayer/releases/download/2.9.2/libmpv_win_x64.zip; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then curl -vLo libmpv.zip https://github.com/coslyk/moonplayer/releases/download/2.9.2/libmpv_win_x64.zip; fi
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then unzip -o libmpv.zip -d libmpv; fi
 
 install:
