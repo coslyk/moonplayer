@@ -13,16 +13,7 @@ fi
 
 echo "Downloading the installer..."
 # https is of no use if it redirects to a http mirror...
-curl -vLo ~/qt-unified-windows-x86-online.exe http://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe
+travis_wait wget "http://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe" -q -O qt_installer.exe
 
 echo "Installing..."
-# Run installer and save the installer output. To avoid hitting the timeout,
-# periodically print some progress. On error, show the full log and abort.
-~/qt-unified-windows-x86-online.exe --verbose --script .travis/qt-installer-windows.qs |
-    tee ~/qt-installer-output.txt |
-    .travis/report-progress.sh ||
-    (cat ~/qt-installer-output.txt; exit 1)
-
-printf 'Installation size: '
-du -sm "$QT5_BASE_DIR" 2>&1 ||
-    (cat ~/qt-installer-output.txt; exit 1)
+travis_wait ./qt_installer.exe --verbose --script .travis/qt-installer-windows.qs
