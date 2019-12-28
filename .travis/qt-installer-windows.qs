@@ -98,7 +98,7 @@ Controller.prototype.DynamicTelemetryPluginFormCallback = function() {
     console.log("Step: " + gui.currentPageWidget());
     var radioButtons = gui.currentPageWidget().TelemetryPluginForm.statisticGroupBox;
     radioButtons.disableStatisticRadioButton.checked = true;
-    gui.clickButton(buttons.FinishButton);
+    gui.clickButton(buttons.NextButton);
 }
 
 // vim: set ft=javascript:
