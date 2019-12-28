@@ -5,7 +5,7 @@ import QtQuick.Controls 2.2
 Window
 {
     id: window
-    flags: Qt.FramelessWindowHint
+    flags: Qt.Window | Qt.FramelessWindowHint
     
     property alias mouseArea: mouseArea
     property alias titlebar: titlebar
