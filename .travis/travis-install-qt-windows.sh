@@ -13,7 +13,7 @@ fi
 
 echo "Downloading the installer..."
 # https is of no use if it redirects to a http mirror...
-travis_wait wget "http://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe" -q -O qt_installer.exe
+travis_wait curl -vLo qt_installer.exe "http://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe"
 
 echo "Installing..."
 travis_wait ./qt_installer.exe --verbose --script .travis/qt-installer-windows.qs
