@@ -23,15 +23,15 @@ elseif (WIN32)
     set(ICON_FILE ${RESOURCE_FOLDER}/${ICON_NAME}.ico)
 endif()
 
-#if (WIN32)
-#    configure_file("${PROJECT_SOURCE_DIR}/cmake/windows_metafile.rc.in"
-#      "windows_metafile.rc"
-#    )
-#    set(RES_FILES "windows_metafile.rc")
-#    set(CMAKE_RC_COMPILER_INIT windres)
-#    ENABLE_LANGUAGE(RC)
-#    SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
-#endif()
+if (WIN32)
+    configure_file("${PROJECT_SOURCE_DIR}/cmake/windows_metafile.rc.in"
+      "windows_metafile.rc"
+    )
+    set(RES_FILES "windows_metafile.rc")
+    set(CMAKE_RC_COMPILER_INIT windres)
+    ENABLE_LANGUAGE(RC)
+    #SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+endif()
 
 if (APPLE)
     set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
@@ -48,8 +48,8 @@ endif()
 
 if (APPLE)
     set(${FILES_TO_INCLUDE} ${ICON_FILE})
-#elseif (WIN32)
-#    set(${FILES_TO_INCLUDE} ${RES_FILES})
+elseif (WIN32)
+    set(${FILES_TO_INCLUDE} ${RES_FILES})
 endif()
 endmacro()
 
