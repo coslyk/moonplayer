@@ -8,4 +8,4 @@ windeployqt moonplayer/moonplayer.exe --qmldir src/qml
 pyinstaller -F src/scripts/hls_downloader.py --distpath moonplayer
 pyinstaller -F src/scripts/danmaku2ass.py --distpath moonplayer
 iscc .travis/win_installer.iss
-mv Output/mysetup.exe ./MoonPlayer_${TRAVIS_TAG}_win_x64.exe
+mv .travis/Output/mysetup.exe ./MoonPlayer_${TRAVIS_TAG}_win_x64.exe
