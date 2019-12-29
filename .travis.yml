@@ -102,13 +102,13 @@ script:
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cmake -A $PLATFORM -DCMAKE_BUILD_TYPE=Release $EXTRA_CMAKE_OPTS .; fi
   - if [ "$TRAVIS_OS_NAME" != "windows" ]; then cmake -DCMAKE_BUILD_TYPE=Release $EXTRA_CMAKE_OPTS .; fi
   - cmake --build . --config Release
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then .travis/windeploy.sh; fi
   
 before_deploy:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make install DESTDIR=. ; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then .travis/pkg2appimage .travis/appimage-${UBUNTU_RELEASE}.yml ; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then mv src/MoonPlayer.app .; .travis/macdeploy.sh MoonPlayer.app src/qml/ ; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then zip -9 -r MoonPlayer_${TRAVIS_TAG}_macOS.zip MoonPlayer.app ; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then .travis/windeploy.sh; fi
 
 
 deploy:
@@ -119,6 +119,7 @@ deploy:
   file:
     - out/*.AppImage
     - MoonPlayer_*.zip
+    - MoonPlayer_*.exe
   file_glob: true
   on:
     repo: coslyk/moonplayer
