@@ -62,6 +62,10 @@ except ImportError:
     can_decrypt_frag = False
 
 
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
+
 # Download functions
 fake_headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
