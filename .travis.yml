@@ -6,32 +6,71 @@ jobs:
     - name: Ubuntu 14.04 build
       os: linux
       dist: trusty
-      env: UBUNTU_RELEASE=trusty
+      env:
+        - UBUNTU_RELEASE: trusty
+        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=/opt/qt59
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:beineri/opt-qt597-trusty'
+            - sourceline: 'ppa:mc3man/testing6'
+          packages:
+            - build-essential
+            - cmake
+            - desktop-file-utils
+            - pkg-config
+            - libgl1-mesa-dev
+            - libglu1-mesa-dev
+            - qt59base
+            - qt59quickcontrols
+            - qt59quickcontrols2
+            - qt59x11extras
+            - qt59tools
+            - libmpv-dev
+          update: true
       
+
     - name: Ubuntu 18.04 build
       os: linux
       dist: bionic
-      env: UBUNTU_RELEASE=bionic
+      env: 
+        - UBUNTU_RELEASE: bionic
+      addons:
+        apt:
+          packages:
+            - build-essential
+            - cmake
+            - desktop-file-utils
+            - pkg-config
+            - qtbase5-dev
+            - qtbase5-private-dev
+            - qtdeclarative5-dev
+            - qttools5-dev
+            - libqt5x11extras5-dev
+            - libmpv-dev
+          update: true
       
+
     - name: macOS build
       os: osx
+      env:
+        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=/usr/local/opt/qt
     
     - name: Windows (VS2017 x64) build
       os: windows
       env:
         - PLATFORM: x64
         - QT5_BASE_DIR: C:/Qt/5.12.3/msvc2017_64
-
-
-addons:
-  homebrew:
-    taps: coslyk/mpv
-    packages:
-      - cmake
-      - pkg-config
-      - qt
-      - mpv-lite
-    update: true
+        - EXTRA_CMAKE_OPTS: -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/5.12.3/msvc2017_64
+      addons:
+        homebrew:
+          taps: coslyk/mpv
+          packages:
+            - cmake
+            - pkg-config
+            - qt
+            - mpv-lite
+          update: true
 
 
 cache:
@@ -43,15 +82,8 @@ before_cache:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew cleanup; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then .travis/travis-cache-windows.sh save; fi
   
-before_install:
-  # Install Qt5.9 and libmpv on Ubuntu 14.04
-  - if [ "$UBUNTU_RELEASE" = "trusty" ]; then sudo add-apt-repository -y ppa:beineri/opt-qt597-trusty ; fi
-  - if [ "$UBUNTU_RELEASE" = "trusty" ]; then sudo add-apt-repository -y ppa:mc3man/testing6 ; fi
 
-  # Install depencencies on linux
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -q update ; fi
-  - if [ "$UBUNTU_RELEASE" = "trusty" ]; then sudo apt-get -y install build-essential cmake desktop-file-utils pkg-config libgl1-mesa-dev libglu1-mesa-dev qt59base qt59quickcontrols qt59quickcontrols2 qt59x11extras qt59tools libmpv-dev ; fi
-  - if [ "$UBUNTU_RELEASE" = "bionic" ]; then sudo apt-get -y install build-essential cmake desktop-file-utils pkg-config qtbase5-dev qtbase5-private-dev qtdeclarative5-dev qttools5-dev libqt5x11extras5-dev libmpv-dev ; fi
+before_install:
   # Install Qt and libmpv on Windows
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then .travis/travis-cache-windows.sh restore; fi
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then .travis/travis-install-qt-windows.sh; fi
@@ -63,10 +95,7 @@ install:
 
 
 script:
-  - if [ "$UBUNTU_RELEASE" = "trusty" ]; then cmake -DCMAKE_PREFIX_PATH=/opt/qt59 . ; fi
-  - if [ "$UBUNTU_RELEASE" = "bionic" ]; then cmake . ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then cmake -DCMAKE_PREFIX_PATH=/usr/local/opt/qt . ; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cmake -A $PLATFORM -DCMAKE_PREFIX_PATH=$QT5_BASE_DIR .; fi
+  - cmake $EXTRA_CMAKE_OPTS .
   - cmake --build .
   
 before_deploy:
@@ -74,6 +103,7 @@ before_deploy:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then .travis/pkg2appimage .travis/appimage-${UBUNTU_RELEASE}.yml ; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then mv src/MoonPlayer.app .; .travis/macdeploy.sh MoonPlayer.app src/qml/ ; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then zip -9 -r MoonPlayer_${TRAVIS_TAG}_macOS.zip MoonPlayer.app ; fi
+
 
 deploy:
   provider: releases
