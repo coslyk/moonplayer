@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QProcess>
 #include <QSettings>
+#include <QTextCodec>
 #include "platform/paths.h"
 
 ParserYkdl ParserYkdl::s_instance;
@@ -79,6 +80,10 @@ void ParserYkdl::runParser(const QUrl &url)
 void ParserYkdl::parseOutput()
 {
     QByteArray output = m_process->readAllStandardOutput();
+#ifdef Q_OS_WIN
+    output = QTextCodec::codecForLocale()->toUnicode(output).toUtf8();
+#endif
+
     QJsonParseError json_error;
     QJsonDocument document = QJsonDocument::fromJson(output, &json_error);
 

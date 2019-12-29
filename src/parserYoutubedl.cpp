@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QProcess>
 #include <QSettings>
+#include <QTextCodec>
 #include "platform/paths.h"
 
 ParserYoutubeDL ParserYoutubeDL::s_instance;
@@ -56,6 +57,10 @@ void ParserYoutubeDL::runParser(const QUrl& url)
 void ParserYoutubeDL::parseOutput()
 {
     QByteArray output = process->readAllStandardOutput();
+#ifdef Q_OS_WIN
+    output = QTextCodec::codecForLocale()->toUnicode(output).toUtf8();
+#endif
+
     QJsonParseError json_error;
     QJsonObject obj = QJsonDocument::fromJson(output, &json_error).object();
     if (json_error.error != QJsonParseError::NoError)

@@ -70,7 +70,7 @@
 <context>
     <name>DownloaderHlsItem</name>
     <message>
-        <location filename="../downloaderHlsItem.cpp" line="65"/>
+        <location filename="../downloaderHlsItem.cpp" line="71"/>
         <source>Cannot pause the download of HLS streams.</source>
         <translation type="unfinished">无法暂停HLS视频流的下载。</translation>
     </message>
@@ -145,12 +145,12 @@
 <context>
     <name>ParserYkdl</name>
     <message>
-        <location filename="../parserYkdl.cpp" line="54"/>
+        <location filename="../parserYkdl.cpp" line="59"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="../parserYkdl.cpp" line="100"/>
+        <location filename="../parserYkdl.cpp" line="109"/>
         <source>Please select episode:</source>
         <translation type="unfinished">请选集：</translation>
     </message>
