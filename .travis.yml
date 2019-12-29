@@ -98,7 +98,7 @@ install:
 script:
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cmake -A $PLATFORM -DCMAKE_BUILD_TYPE=Release $EXTRA_CMAKE_OPTS .; fi
   - if [ "$TRAVIS_OS_NAME" != "windows" ]; then cmake -DCMAKE_BUILD_TYPE=Release $EXTRA_CMAKE_OPTS .; fi
-  - cmake --build .
+  - cmake --build . --config Release
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then .travis/windeploy.sh; fi
   
 before_deploy:
