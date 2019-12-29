@@ -55,13 +55,6 @@ jobs:
       os: osx
       env:
         - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=/usr/local/opt/qt
-    
-    - name: Windows (VS2017 x64) build
-      os: windows
-      env:
-        - PLATFORM: x64
-        - QT5_BASE_DIR: C:/Qt/5.12.3/msvc2017_64
-        - EXTRA_CMAKE_OPTS: -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/5.12.3/msvc2017_64
       addons:
         homebrew:
           taps: coslyk/mpv
@@ -71,6 +64,13 @@ jobs:
             - qt
             - mpv-lite
           update: true
+    
+    - name: Windows (VS2017 x64) build
+      os: windows
+      env:
+        - PLATFORM: x64
+        - QT5_BASE_DIR: C:/Qt/5.12.3/msvc2017_64
+        - EXTRA_CMAKE_OPTS: -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/5.12.3/msvc2017_64
 
 
 cache:
