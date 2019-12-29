@@ -13,10 +13,6 @@
 
 from __future__ import unicode_literals, division, print_function
 
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
 import argparse
 import calendar
 import gettext
@@ -27,9 +23,11 @@ import math
 import os
 import random
 import re
+import sys
 import time
 import xml.dom.minidom
-
+if sys.version_info[0] >= 3:
+    unicode = str
 
 gettext.install('danmaku2ass', os.path.join(os.path.dirname(os.path.abspath(os.path.realpath(sys.argv[0] or 'locale'))), 'locale'))
 
@@ -695,6 +693,8 @@ def ConvertType2(row, height, bottomReserved):
 
 
 def ConvertToFile(filename_or_file, *args, **kwargs):
+    if sys.version_info[0] >= 3:
+        kwargs['encoding'] = 'utf-8'
     if isinstance(filename_or_file, bytes):
         filename_or_file = str(bytes(filename_or_file).decode('utf-8', 'replace'))
     if isinstance(filename_or_file, str):
@@ -765,7 +765,7 @@ def ReadComments(input_files, input_format, font_size=25.0, progress_callback=No
             progress_callback(idx, len(input_files))
         with ConvertToFile(i, 'r') as f:
             s = f.read()
-            if type(s) is not unicode:
+            if hasattr(s, 'decode'):
                 s = s.decode('utf-8')
             str_io = io.StringIO(s)
             if input_format == 'autodetect':

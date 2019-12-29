@@ -61,6 +61,14 @@ void DanmakuLoader::onXmlDownloaded()
 {
     if (m_reply->error() == QNetworkReply::NoError)
     {
+        // write source to tempfile
+        QFile f(QDir::temp().filePath("danmaku_source"));
+        if (!f.open(QFile::WriteOnly))
+            return;
+        f.write(m_reply->readAll());
+        f.close();
+
+        // load settings
         QSettings settings;
         
         QStringList args;
@@ -120,11 +128,7 @@ void DanmakuLoader::onXmlDownloaded()
         args << "-a" << settings.value("danmaku/alpha").toString();
 
         // input
-#ifdef Q_OS_WIN
-        args << "CON";
-#else
-        args << "/dev/stdin";
-#endif
+        args << QDir::temp().filePath("danmaku_source");
 
         // run
 #ifdef Q_OS_WIN
