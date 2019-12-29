@@ -64,7 +64,9 @@ void DanmakuLoader::onXmlDownloaded()
         QSettings settings;
         
         QStringList args;
+#ifndef Q_OS_WIN
         args << appResourcesPath() + "/danmaku2ass.py";
+#endif
 
         // Output file
         m_outputFile = QDir::temp().filePath("moonplayer_danmaku.ass").toUtf8();
@@ -118,10 +120,18 @@ void DanmakuLoader::onXmlDownloaded()
         args << "-a" << settings.value("danmaku/alpha").toString();
 
         // input
+#ifdef Q_OS_WIN
+        args << "CON";
+#else
         args << "/dev/stdin";
+#endif
 
         // run
+#ifdef Q_OS_WIN
+        m_process->start(appResourcesPath() + "/danmaku2ass.exe", args);
+#else
         m_process->start("python", args);
+#endif
         m_process->waitForStarted(-1);
         m_process->write(m_reply->readAll());
         m_process->closeWriteChannel();

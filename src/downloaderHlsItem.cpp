@@ -23,7 +23,9 @@ DownloaderHlsItem::DownloaderHlsItem(const QString& filepath, const QUrl& url, Q
     setFilePath(newPath);
     
     QStringList args;
+#ifndef Q_OS_WIN
     args << appResourcesPath() + "/hls_downloader.py";
+#endif
     if (proxyType == NetworkAccessManager::HTTP_PROXY && !proxy.isEmpty() && !proxyOnlyForParsing)
         args << "--http-proxy" << proxy;
     else if (proxyType == NetworkAccessManager::SOCKS5_PROXY && !proxy.isEmpty() && !proxyOnlyForParsing)
@@ -34,7 +36,11 @@ DownloaderHlsItem::DownloaderHlsItem(const QString& filepath, const QUrl& url, Q
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &DownloaderHlsItem::onProcFinished);
     connect(m_process, &QProcess::readyReadStandardOutput, this, &DownloaderHlsItem::readOutput);
     m_process->setWorkingDirectory(QFileInfo(newPath).absolutePath());
+#ifdef Q_OS_WIN
+    m_process->start(appResourcesPath() + "/hls_downloader.exe", args, QProcess::ReadOnly);
+#else
     m_process->start("python", args, QProcess::ReadOnly);
+#endif
     setState(DOWNLOADING);
 }
 

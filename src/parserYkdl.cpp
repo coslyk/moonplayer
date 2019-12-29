@@ -31,7 +31,11 @@ ParserYkdl::~ParserYkdl()
 
 bool ParserYkdl::isSupported ( const QUrl& url )
 {
+#ifdef Q_OS_WIN
+    QString ykdlPath = userResourcesPath() + "/ykdl-moonplayer.exe";
+#else
     QString ykdlPath = userResourcesPath() + "/ykdl-moonplayer";
+#endif
     if (QFile::exists(ykdlPath))
     {
         QProcess process;
@@ -40,10 +44,10 @@ bool ParserYkdl::isSupported ( const QUrl& url )
         process.start(ykdlPath, args);
         process.waitForStarted(-1);
         process.waitForFinished(-1);
-        return !process.exitCode();
-    }
-    else
+        return process.readAllStandardOutput().simplified() == "Url is supported.";
+    } else {
         return false;
+    }
 }
 
 
