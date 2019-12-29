@@ -70,7 +70,7 @@ jobs:
       env:
         - PLATFORM: x64
         - QT5_BASE_DIR: C:/Qt/5.12.3/msvc2017_64
-        - EXTRA_CMAKE_OPTS: -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/5.12.3/msvc2017_64
+        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=C:/Qt/5.12.3/msvc2017_64 -A x64
 
 
 cache:
