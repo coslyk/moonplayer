@@ -9,5 +9,7 @@ pyinstaller -F src/scripts/hls_downloader.py --distpath moonplayer
 pyinstaller -F src/scripts/danmaku2ass.py --distpath moonplayer
 curl -Lo openssl.zip https://indy.fulgan.com/SSL/openssl-1.0.2u-x64_86-win64.zip
 unzip -o openssl.zip -d moonplayer
+curl -Lo ffmpeg.zip https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-4.2.1-win64-static.zip
+unzip -j ffmpeg.zip ffmpeg-4.2.1-win64-static/bin/ffmpeg.exe -d moonplayer
 iscc .travis/win_installer.iss
 mv .travis/Output/mysetup.exe ./MoonPlayer_${TRAVIS_TAG}_win_x64.exe

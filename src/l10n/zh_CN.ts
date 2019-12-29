@@ -158,12 +158,12 @@
 <context>
     <name>ParserYoutubeDL</name>
     <message>
-        <location filename="../parserYoutubedl.cpp" line="36"/>
+        <location filename="../parserYoutubedl.cpp" line="37"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="../parserYoutubedl.cpp" line="136"/>
+        <location filename="../parserYoutubedl.cpp" line="141"/>
         <source>The video of selected quality has no audio track. Please select another one.</source>
         <translation type="unfinished">所选画质的视频缺失声音信息。请选择其他画质。</translation>
     </message>
