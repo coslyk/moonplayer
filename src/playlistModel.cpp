@@ -36,7 +36,7 @@ void PlaylistModel::addItems(const QString& title, const QList<QUrl>& fileUrls, 
     {
         m_titles << (title + "_" + QString::number(i));
         m_fileUrls << fileUrls[i];
-        m_danmakuUrls << QUrl();
+        m_danmakuUrls << (i == 0 ? danmakuUrl : QUrl());
         m_audioTrackUrls << QUrl();
     }
     endInsertRows();
