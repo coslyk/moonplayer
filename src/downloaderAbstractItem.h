@@ -2,6 +2,7 @@
 #define DOWNLOADERABSTRACTITEM_H
 
 #include <QObject>
+#include <QUrl>
 
 class DownloaderAbstractItem : public QObject
 {
@@ -16,7 +17,7 @@ public:
     enum State {WAITING, PAUSED, DOWNLOADING, FINISHED, ERROR, CANCELED};
     Q_ENUM(State);
     
-    DownloaderAbstractItem(const QString &filepath, QObject *parent = nullptr);
+    DownloaderAbstractItem(const QString &filepath, const QUrl &danmakuUrl = QUrl(), QObject *parent = nullptr);
     virtual ~DownloaderAbstractItem();
     Q_INVOKABLE virtual void pause(void) = 0;
     Q_INVOKABLE virtual void start(void) = 0;
@@ -42,6 +43,7 @@ signals:
 private:
     QString m_name;
     QString m_filePath;
+    QUrl m_danmakuUrl;
     State m_state;
     int m_progress;
 };

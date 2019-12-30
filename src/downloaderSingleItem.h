@@ -13,7 +13,7 @@ class DownloaderSingleItem : public DownloaderAbstractItem
     Q_OBJECT
     
 public:
-    DownloaderSingleItem(const QString &filepath, const QUrl &url, QObject *parent = nullptr);
+    DownloaderSingleItem(const QString &filepath, const QUrl &url, const QUrl &danmakuUrl = QUrl(), QObject *parent = nullptr);
     virtual void pause(void);
     virtual void start(void);
     virtual void stop(bool continueWaiting = true);

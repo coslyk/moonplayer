@@ -8,8 +8,8 @@
 int DownloaderSingleItem::s_numOfRunning = 0;
 QList<DownloaderSingleItem*> DownloaderSingleItem::s_waitingItems;
 
-DownloaderSingleItem::DownloaderSingleItem(const QString& filepath, const QUrl& url, QObject* parent) :
-    DownloaderAbstractItem(filepath, parent), m_file(filepath), m_url(url), m_lastPos(0)
+DownloaderSingleItem::DownloaderSingleItem(const QString& filepath, const QUrl& url, const QUrl& danmakuUrl, QObject* parent) :
+    DownloaderAbstractItem(filepath, danmakuUrl, parent), m_file(filepath), m_url(url), m_lastPos(0)
 {
     // Open file
     m_reply = nullptr;

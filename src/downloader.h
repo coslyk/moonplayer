@@ -2,6 +2,7 @@
 #define DOWNLOADER_H
 
 #include <QObject>
+#include <QUrl>
 
 class Downloader : public QObject
 {
@@ -12,7 +13,7 @@ public:
     Downloader(QObject* parent = nullptr);
     ~Downloader();
     
-    void addTasks(const QString& name, const QList<QUrl>& urls, bool isDash = false);
+    void addTasks(const QString& name, const QList<QUrl>& urls, const QUrl& danmakuUrl = QUrl(), bool isDash = false);
     QList<QObject*> model(void);
     
 signals:

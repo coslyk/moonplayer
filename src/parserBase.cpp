@@ -72,7 +72,7 @@ void ParserBase::finishParsing()
     // Download
     if (m_download)
     {
-        Downloader::instance()->addTasks(result.title + '.' + result.container, result.urls, result.is_dash);
+        Downloader::instance()->addTasks(result.title + '.' + result.container, result.urls, result.danmaku_url, result.is_dash);
         emit downloadTasksAdded();
     }
 
@@ -93,8 +93,8 @@ void ParserBase::finishParsing()
 
 int ParserBase::selectQuality(const QStringList &stream_types)
 {
-    static SelectionDialog *selectionDialog = NULL;
-    if (selectionDialog == NULL)
+    static SelectionDialog *selectionDialog = nullptr;
+    if (selectionDialog == nullptr)
         selectionDialog = new SelectionDialog;
 
     // If there is only one quality, use it

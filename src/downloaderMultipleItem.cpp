@@ -5,8 +5,8 @@
 #include <QProcess>
 #include "platform/paths.h"
 
-DownloaderMultipleItem::DownloaderMultipleItem(const QString& filepath, const QList<QUrl>& urls, bool isDash, QObject* parent) :
-    DownloaderAbstractItem(filepath, parent),
+DownloaderMultipleItem::DownloaderMultipleItem(const QString& filepath, const QList<QUrl>& urls, const QUrl& danmkauUrl, bool isDash, QObject* parent) :
+    DownloaderAbstractItem(filepath, danmkauUrl, parent),
     m_finished(0),
     m_total(urls.length()),
     m_isDash(isDash),
@@ -25,7 +25,7 @@ DownloaderMultipleItem::DownloaderMultipleItem(const QString& filepath, const QL
     for (int i = 0; i < m_total; i++)
     {
         QString itemFilePath = m_tempDir.filePath(QString::number(i).rightJustified(3, '0')) + '.' + fileSuffix;
-        DownloaderSingleItem* item = new DownloaderSingleItem(itemFilePath, urls[i], this);
+        DownloaderSingleItem* item = new DownloaderSingleItem(itemFilePath, urls[i], QUrl(), this);
         m_items << item;
         connect(item, &DownloaderSingleItem::stateChanged, [=](){ this->onItemStateChanged(item); });
         connect(item, &DownloaderSingleItem::progressChanged, this, &DownloaderMultipleItem::onItemProgressChanged);

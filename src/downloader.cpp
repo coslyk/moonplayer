@@ -23,7 +23,7 @@ Downloader * Downloader::instance()
 }
 
 
-void Downloader::addTasks(const QString& filename, const QList<QUrl>& urls, bool isDash)
+void Downloader::addTasks(const QString& filename, const QList<QUrl>& urls, const QUrl& danmakuUrl, bool isDash)
 {
     QSettings settings;
     QDir dir(settings.value("downloader/save_to").toUrl().toLocalFile());
@@ -31,11 +31,11 @@ void Downloader::addTasks(const QString& filename, const QList<QUrl>& urls, bool
     DownloaderAbstractItem* item;
     
     if (urls[0].path().endsWith(".m3u8"))
-        item = new DownloaderHlsItem(filepath, urls[0], this);
+        item = new DownloaderHlsItem(filepath, urls[0], danmakuUrl, this);
     else if (urls.length() == 1)
-        item = new DownloaderSingleItem(filepath, urls[0], this);
+        item = new DownloaderSingleItem(filepath, urls[0], danmakuUrl, this);
     else
-        item = new DownloaderMultipleItem(filepath, urls, isDash, this);
+        item = new DownloaderMultipleItem(filepath, urls, danmakuUrl, isDash, this);
     m_model << item;
     emit modelUpdated();
 }

@@ -12,7 +12,7 @@ class DownloaderMultipleItem : public DownloaderAbstractItem
     Q_OBJECT
 
 public:
-    DownloaderMultipleItem(const QString &filepath, const QList<QUrl>& urls, bool isDash = false, QObject *parent = nullptr);
+    DownloaderMultipleItem(const QString &filepath, const QList<QUrl>& urls, const QUrl& danmakuUrl = QUrl(), bool isDash = false, QObject *parent = nullptr);
     virtual void pause(void);
     virtual void start(void);
     virtual void stop(bool continueWaiting = true);
