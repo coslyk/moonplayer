@@ -8,7 +8,7 @@ jobs:
       dist: trusty
       env:
         - UBUNTU_RELEASE: trusty
-        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=/opt/qt59 -DCMAKE_INSTALL_PREFIX=/usr
+        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=/opt/qt59
       addons:
         apt:
           sources:
@@ -72,7 +72,7 @@ jobs:
       env:
         - PLATFORM: x64
         - QT5_BASE_DIR: C:/Qt/5.12.3/msvc2017_64
-        - EXTRA_CMAKE_OPTS: -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/5.12.3/msvc2017_64
+        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=C:/Qt/5.12.3/msvc2017_64
         - PATH: /c/Python37:/c/Python37/Scripts:$PATH
 
 
@@ -101,7 +101,8 @@ install:
 
 
 script:
-  - sh -c "cmake -DCMAKE_BUILD_TYPE=Release $EXTRA_CMAKE_OPTS ."
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cmake -A $PLATFORM $EXTRA_CMAKE_OPTS .; fi
+  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then cmake -DCMAKE_BUILD_TYPE=Release $EXTRA_CMAKE_OPTS .; fi
   - cmake --build . --config Release
   
 before_deploy:
