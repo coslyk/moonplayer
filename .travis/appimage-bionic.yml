@@ -5,6 +5,7 @@ ingredients:
   sources:
     - deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
   packages:
+    - fcitx-frontend-qt5
     - ffmpeg
     - libmpv1
     - libqt5widgets5
@@ -20,6 +21,8 @@ ingredients:
     - libegl1
     - libpython2.7
     - python-talloc
+    - fcitx-module-dbus
+    - libfcitx-qt5-1
   script:
     - echo "${TRAVIS_TAG}-bionic" > VERSION
 
