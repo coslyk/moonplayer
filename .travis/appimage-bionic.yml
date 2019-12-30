@@ -27,7 +27,7 @@ ingredients:
     - echo "${TRAVIS_TAG}-bionic" > VERSION
 
 script:
-  - cp -rf ../../usr/local/* usr/
+  - cp -rf ../../usr/* usr/
   - cp usr/share/icons/com.github.coslyk.MoonPlayer.png .
   - cp usr/share/applications/com.github.coslyk.MoonPlayer.desktop .
   - mv ./usr/lib/x86_64-linux-gnu/samba/*.so* ./usr/lib/x86_64-linux-gnu/

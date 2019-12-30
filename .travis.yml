@@ -8,7 +8,7 @@ jobs:
       dist: trusty
       env:
         - UBUNTU_RELEASE: trusty
-        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=/opt/qt59
+        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=/opt/qt59 -DCMAKE_INSTALL_PREFIX=/usr
       addons:
         apt:
           sources:
@@ -35,10 +35,12 @@ jobs:
       dist: bionic
       env: 
         - UBUNTU_RELEASE: bionic
+        - EXTRA_CMAKE_OPTS: -DCMAKE_INSTALL_PREFIX=/usr
       addons:
         apt:
           packages:
             - build-essential
+            - checkinstall
             - cmake
             - desktop-file-utils
             - pkg-config
@@ -70,7 +72,7 @@ jobs:
       env:
         - PLATFORM: x64
         - QT5_BASE_DIR: C:/Qt/5.12.3/msvc2017_64
-        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=C:/Qt/5.12.3/msvc2017_64
+        - EXTRA_CMAKE_OPTS: -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/5.12.3/msvc2017_64
         - PATH: /c/Python37:/c/Python37/Scripts:$PATH
 
 
@@ -95,20 +97,15 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then pip install pyinstaller; fi
 
 install:
-  - chmod a+x .travis/pkg2appimage .travis/macdeploy.sh
+  - chmod a+x .travis/pkg2appimage .travis/*.sh
 
 
 script:
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cmake -A $PLATFORM -DCMAKE_BUILD_TYPE=Release $EXTRA_CMAKE_OPTS .; fi
-  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then cmake -DCMAKE_BUILD_TYPE=Release $EXTRA_CMAKE_OPTS .; fi
+  - sh -c "cmake -DCMAKE_BUILD_TYPE=Release $EXTRA_CMAKE_OPTS ."
   - cmake --build . --config Release
   
 before_deploy:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make install DESTDIR=. ; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then .travis/pkg2appimage .travis/appimage-${UBUNTU_RELEASE}.yml ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then mv src/MoonPlayer.app .; .travis/macdeploy.sh MoonPlayer.app src/qml/ ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then zip -9 -r MoonPlayer_${TRAVIS_TAG}_macOS.zip MoonPlayer.app ; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then .travis/windeploy.sh; fi
+  - .travis/deploy-${TRAVIS_OS_NAME}.sh
 
 
 deploy:
@@ -120,6 +117,7 @@ deploy:
     - out/*.AppImage
     - MoonPlayer_*.zip
     - MoonPlayer_*.exe
+    - *.deb
   file_glob: true
   on:
     repo: coslyk/moonplayer

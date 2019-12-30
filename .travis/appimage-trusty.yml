@@ -21,7 +21,7 @@ ingredients:
     - echo "${TRAVIS_TAG}-trusty" > VERSION
 
 script:
-  - cp -rf ../../usr/local/* usr/
+  - cp -rf ../../usr/* usr/
   - cp usr/share/icons/com.github.coslyk.MoonPlayer.png .
   - cp usr/share/applications/com.github.coslyk.MoonPlayer.desktop .
   - rm -rf usr/share/locale

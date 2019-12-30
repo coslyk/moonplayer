@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# Run macdeployqt
-/usr/local/opt/qt/bin/macdeployqt $1 -qmldir=$2
+# Move compiled bundle here
+mv src/MoonPlayer.app .
+
+# Bundle libraries
+/usr/local/opt/qt/bin/macdeployqt MoonPlayer.app -qmldir=src/qml/
 
 # Fix permissions
 chown $USER $1/Contents/MacOS/*
@@ -32,7 +35,5 @@ ls $1/Contents/Frameworks/*.dylib $1/Contents/MacOS/* | while read FILENAME; do
     fi
 done
 
-# Check again
-echo "Check: Empty is ok"
-otool -L $1/Contents/Frameworks/*.dylib $1/Contents/MacOS/* | grep /usr/local
-exit 0
+# Compress to zip file
+zip -9 -r MoonPlayer_${TRAVIS_TAG}_macOS.zip MoonPlayer.app
