@@ -5,6 +5,7 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QSurfaceFormat>
+#include <QTextCodec>
 #include <QTimer>
 #include <QUrl>
 
@@ -58,7 +59,7 @@ bool Application::parseArgs()
         else if (f.startsWith("file://"))
             f = QUrl::fromPercentEncoding(f.mid(7)).toUtf8();
         
-        m_files << QString::fromUtf8(f);
+        m_files << QTextCodec::codecForLocale()->toUnicode(f);
         
         // Online resource
         if (f.startsWith("http://") || f.startsWith("https://"))
