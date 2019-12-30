@@ -26,8 +26,13 @@ import re
 import sys
 import time
 import xml.dom.minidom
+
+# Setup coding
 if sys.version_info[0] >= 3:
     unicode = str
+else:
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 
 gettext.install('danmaku2ass', os.path.join(os.path.dirname(os.path.abspath(os.path.realpath(sys.argv[0] or 'locale'))), 'locale'))
 
