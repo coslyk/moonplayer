@@ -36,4 +36,4 @@ ls $1/Contents/Frameworks/*.dylib $1/Contents/MacOS/* | while read FILENAME; do
 done
 
 # Compress to zip file
-zip -9 -r MoonPlayer_${TRAVIS_TAG}_macOS.zip MoonPlayer.app
+zip -9 -r MoonPlayer_${TRAVIS_TAG#v}_macOS.zip MoonPlayer.app

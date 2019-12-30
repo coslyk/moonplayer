@@ -18,7 +18,7 @@ ingredients:
     - libpython2.7
     - python-talloc
   script:
-    - echo "${TRAVIS_TAG}-trusty" > VERSION
+    - echo "${TRAVIS_TAG#v}-trusty" > VERSION
 
 script:
   - cp -rf ../../usr/local/* usr/

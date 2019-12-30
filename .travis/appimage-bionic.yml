@@ -24,7 +24,7 @@ ingredients:
     - fcitx-module-dbus
     - libfcitx-qt5-1
   script:
-    - echo "${TRAVIS_TAG}-bionic" > VERSION
+    - echo "${TRAVIS_TAG#v}-bionic" > VERSION
 
 script:
   - cp -rf ../../usr/* usr/
