@@ -39,7 +39,7 @@
     <message>
         <location filename="../qml/Downloader.qml" line="47"/>
         <source>Error</source>
-        <translation type="unfinished">从错误</translation>
+        <translation type="unfinished">错误</translation>
     </message>
     <message>
         <location filename="../qml/Downloader.qml" line="48"/>
