@@ -117,7 +117,7 @@ deploy:
     - out/*.AppImage
     - MoonPlayer_*.zip
     - MoonPlayer_*.exe
-    - *.deb
+    - moonplayer_*.deb
   file_glob: true
   on:
     repo: coslyk/moonplayer
