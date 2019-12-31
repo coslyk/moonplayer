@@ -16,7 +16,9 @@ ingredients:
     - qml-module-qtquick-dialogs
     - qml-module-qtquick-layouts
     - qml-module-qtquick-window2
+    - qml-module-qt-labs-folderlistmodel
     - qml-module-qt-labs-settings
+    - wget
   exclude:
     - libegl1
     - libpython2.7
