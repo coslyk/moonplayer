@@ -18,14 +18,6 @@
 SET(_MPV_REQUIRED_VARS MPV_INCLUDE_DIR MPV_LIBRARY)
 
 #
-### MPV uses pkgconfig.
-#
-if(PKG_CONFIG_FOUND)
-  pkg_check_modules(PC_MPV QUIET mpv)
-endif(PKG_CONFIG_FOUND)
-
-
-#
 ### Look for the include files.
 #
 find_path(

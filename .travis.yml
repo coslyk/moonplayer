@@ -7,73 +7,49 @@ jobs:
       os: linux
       dist: trusty
       env:
-        - UBUNTU_RELEASE: trusty
-        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=/opt/qt59
-      addons:
-        apt:
-          sources:
-            - sourceline: 'ppa:beineri/opt-qt597-trusty'
-            - sourceline: 'ppa:mc3man/testing6'
-          packages:
-            - build-essential
-            - cmake
-            - desktop-file-utils
-            - pkg-config
-            - libgl1-mesa-dev
-            - libglu1-mesa-dev
-            - qt59base
-            - qt59quickcontrols
-            - qt59quickcontrols2
-            - qt59x11extras
-            - qt59tools
-            - libmpv-dev
-          update: true
-      
-
-    - name: Ubuntu 18.04 build
-      os: linux
-      dist: bionic
-      env: 
-        - UBUNTU_RELEASE: bionic
-        - EXTRA_CMAKE_OPTS: -DCMAKE_INSTALL_PREFIX=/usr
-      addons:
-        apt:
-          packages:
-            - build-essential
-            - checkinstall
-            - cmake
-            - desktop-file-utils
-            - pkg-config
-            - qtbase5-dev
-            - qtbase5-private-dev
-            - qtdeclarative5-dev
-            - qttools5-dev
-            - libqt5x11extras5-dev
-            - libmpv-dev
-          update: true
-      
+        - QT5_BASE_DIR: /opt/qt59
 
     - name: macOS build
       os: osx
       env:
-        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=/usr/local/opt/qt
-      addons:
-        homebrew:
-          taps: coslyk/mpv
-          packages:
-            - cmake
-            - pkg-config
-            - qt
-            - mpv-lite
-          update: true
+        - QT5_BASE_DIR: /usr/local/opt/qt
     
     - name: Windows (VS2017 x64) build
       os: windows
       env:
         - PLATFORM: x64
         - QT5_BASE_DIR: C:/Qt/5.12.3/msvc2017_64
-        - EXTRA_CMAKE_OPTS: -DCMAKE_PREFIX_PATH=C:/Qt/5.12.3/msvc2017_64
         - PATH: /c/Python37:/c/Python37/Scripts:$PATH
+
+
+# Install dependencies for linux and macOS
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:beineri/opt-qt597-trusty'
+      - sourceline: 'ppa:mc3man/testing6'
+    packages:
+      - build-essential
+      - cmake
+      - desktop-file-utils
+      - libgl1-mesa-dev
+      - libglu1-mesa-dev
+      - qt59base
+      - qt59quickcontrols
+      - qt59quickcontrols2
+      - qt59x11extras
+      - qt59tools
+      - libmpv-dev
+    update: true
+
+  homebrew:
+    taps: coslyk/mpv
+    packages:
+      - cmake
+      - pkg-config
+      - qt
+      - mpv-lite
+    update: true
 
 
 cache:
@@ -101,8 +77,8 @@ install:
 
 
 script:
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cmake -A $PLATFORM $EXTRA_CMAKE_OPTS .; fi
-  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then cmake -DCMAKE_BUILD_TYPE=Release $EXTRA_CMAKE_OPTS .; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cmake -A -DCMAKE_PREFIX_PATH=$QT5_BASE_DIR .; fi
+  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$QT5_BASE_DIR .; fi
   - cmake --build . --config Release
   
 before_deploy:
@@ -118,7 +94,6 @@ deploy:
     - out/*.AppImage
     - MoonPlayer_*.zip
     - MoonPlayer_*.exe
-    - moonplayer_*.deb
   file_glob: true
   on:
     repo: coslyk/moonplayer

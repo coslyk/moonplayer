@@ -33,14 +33,10 @@ include(QtCommon)
 fix_project_version()
 
 
-
 find_package(Qt5 REQUIRED COMPONENTS Gui Qml Quick Widgets Network LinguistTools)
 find_package(Qt5Gui REQUIRED)
-if (NOT WIN32)
-    find_package(PkgConfig)
-endif()
-find_package(MPV)
-#pkg_check_modules(MPV REQUIRED mpv)
+find_package(MPV REQUIRED)
+
 
 if (UNIX AND NOT APPLE)
     find_package(Qt5X11Extras REQUIRED)
