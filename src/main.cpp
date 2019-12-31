@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QDir>
 #include <QTranslator>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -11,6 +12,7 @@
 #include "playlistModel.h"
 #include "platform/application.h"
 #include "platform/detectOpengl.h"
+#include "platform/paths.h"
 #include "plugin.h"
 #include "utils.h"
 
@@ -61,7 +63,12 @@ int main(int argc, char *argv[])
     
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     
+    // Check updates
     Utils::checkUpdate();
+    
+    // Create user resources dir
+    if (!QDir(userResourcesPath()).exists())
+        QDir().mkpath(userResourcesPath());
     
     return app.exec();
 }
