@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
 
     detectOpenGLEarly();
     
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     Application app(argc, argv);
     app.setOrganizationName("coslyk");
     app.setOrganizationDomain("coslyk.github.io");

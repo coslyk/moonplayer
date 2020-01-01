@@ -2,6 +2,7 @@
 #define MPVRENDERER_H_
 
 #include <QtQuick/QQuickFramebufferObject>
+#include <QQuickWindow>
 
 #include <mpv/client.h>
 #include <mpv/opengl_cb.h>
@@ -35,7 +36,7 @@ public:
     virtual Renderer *createRenderer() const;
     
     // Access properties
-    inline QSize videoSize() { return QSize(m_videoWidth, m_videoHeight); }
+    inline QSize videoSize() { return QSize(m_videoWidth, m_videoHeight) / window()->effectiveDevicePixelRatio(); }
     inline State state() { return m_state; }
     inline qint64 duration() { return m_duration; }
     inline qint64 time() { return m_time; }
