@@ -14,6 +14,7 @@ ingredients:
     - qt59x11extras
     - libmpv1
     - ffmpeg
+    - wget
   exclude:
     - libpython2.7
     - python-talloc
