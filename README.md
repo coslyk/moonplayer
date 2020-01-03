@@ -4,17 +4,14 @@
 MoonPlayer is an interesting player that lets you to enjoy videos. It can play the video online, download it or just open the local videos.
 
 ***
-Latest version: v2.9.2 [Download](https://github.com/coslyk/moonplayer/wiki/Download)
+Latest version: v3.0 [Download](https://github.com/coslyk/moonplayer/releases)
 
 <a href='https://flathub.org/apps/details/com.github.coslyk.MoonPlayer'><img height='100' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a>
 
-Last update: 2019.12.04
+Last update: 2020.01.03
 
 * [Browser extension](https://github.com/coslyk/moonplayer/wiki/BrowserExtension)
-* [Update log](https://github.com/coslyk/moonplayer/blob/master/debian/changelog)
-
-Plugins：[Plugins page](https://github.com/coslyk/moonplayer-plugins)
-[How to write plugins](https://github.com/coslyk/moonplayer-plugins/wiki/PluginsTutorial)
+* [Plugins](https://github.com/coslyk/moonplayer-plugins)
 
 ***
 [Donation & Contribution](https://github.com/coslyk/moonplayer/wiki/Contribute)
@@ -23,10 +20,10 @@ Features:
 1. Cool
 1. Super cool
 1. Fuckingly cool
-1. Beautiful and lightweight, package size on Debian/Ubuntu is only about 500kb
+1. Beautiful and lightweight
 1. Based on MPV so it can play nearly all video formats
 1. Directly open video pages, like Youtube's url
-1. Support [plugins](https://github.com/coslyk/moonplayer-plugins), you can also [write plugins](https://github.com/coslyk/moonplayer-plugins/wiki/PluginsTutorialZH) for MoonPlayer ^_^
+1. Support [plugins](https://github.com/coslyk/moonplayer-plugins), you can also write plugins for MoonPlayer ^_^
 
 ### Easy to use and lightweight!
 
@@ -38,6 +35,7 @@ Features:
 
 ***
 ### Used open source projects
+[Qt](https://www.qt.io/)
 [libmpv](https://mpv.io)
 [danmaku2ass](https://github.com/coslyk/danmaku2ass)
 [ykdl](https://github.com/zhangn1985/ykdl)
