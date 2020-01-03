@@ -23,4 +23,4 @@ unzip -j ffmpeg.zip ffmpeg-4.2.1-win64-static/bin/ffmpeg.exe -d moonplayer
 
 # Create installer
 iscc .travis/win_installer.iss
-mv .travis/Output/mysetup.exe ./MoonPlayer_${TRAVIS_TAG}_win_x64.exe
+mv .travis/Output/mysetup.exe ./MoonPlayer_${TRAVIS_TAG#v}_win_x64.exe
