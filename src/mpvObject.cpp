@@ -341,6 +341,17 @@ void MpvObject::setSubVisible(bool subVisible)
     emit subVisibleChanged();
 }
 
+// Set subtitle id
+void MpvObject::setSid(int sid)
+{
+    if (m_sid == sid)
+        return;
+    m_sid = sid;
+    if (m_state != STOPPED && sid >= 0)
+        setProperty("sid", sid);
+    emit sidChanged();
+}
+
 
 // Set speed
 void MpvObject::setSpeed(double speed)
@@ -352,7 +363,7 @@ void MpvObject::setSpeed(double speed)
         mpv_set_option(mpv, "speed", MPV_FORMAT_DOUBLE, &m_speed);
     else
         setProperty("speed", m_speed);
-    showText(QString().sprintf("Speed: %lf", m_speed));
+    showText("Speed: " + QString::number(m_speed));
     emit speedChanged();
 }
 
@@ -537,16 +548,44 @@ void MpvObject::onMpvEvent()
                         showText("");
                 }
             }
+            
+            else if (propName == "track-list") // read tracks info
+            {
+                m_subtitles.clear();
+                mpv_node* node = static_cast<mpv_node*>(prop->data);
+                QVariantList trackList = mpv::qt::node_to_variant(node).toList();
+                foreach (QVariant i, trackList)
+                {
+                    QVariantHash item = i.toHash();
+                    if (item["type"].toString() == "sub")  // subtitle
+                    {
+                        int id = item["id"].toInt();
+                        QString title = item["title"].toString();
+                        if (m_subtitles.count() <= id)
+                        {
+                            for (int j = m_subtitles.count(); j < id; j++)
+                                m_subtitles.append('#' + QString::number(j));
+                            m_subtitles.append(title.isEmpty() ? '#' + QString::number(id) : title);
+                        }
+                        else
+                        {
+                            m_subtitles[id] = title.isEmpty() ? '#' + QString::number(id) : title;
+                        }
+                    }
+                }
+                emit subtitlesChanged();
+            }
 
-            /*
-            else if (propName == "sid") // set danmaku's delay
+            else if (propName == "sid") // subtitle id
             {
                 int sid = *(int64_t *) prop->data;
-                if (subtitleList[sid] == "moonplayer_danmaku.ass")
-                    handleMpvError(mpv_set_property_async(mpv, 2, "sub-delay", MPV_FORMAT_DOUBLE, &danmakuDelay));
-                else
-                    handleMpvError(mpv_set_property_async(mpv, 2, "sub-delay", MPV_FORMAT_DOUBLE, &subDelay));
+                if (m_sid != sid)
+                {
+                    m_sid = sid;
+                    emit sidChanged();
+                }
             }
+            /*
             else if (propName == "track-list") // read tracks info
             {
                 audioTracksList.clear();

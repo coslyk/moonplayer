@@ -8,6 +8,7 @@
         <file>qml/Downloader.qml</file>
         <file>qml/Explorer.qml</file>
         <file>qml/Playlist.qml</file>
+        <file>qml/SelectionDialog.qml</file>
         <file>qml/Settings.qml</file>
         <file>images/net.png</file>
         <file>images/pause.png</file>

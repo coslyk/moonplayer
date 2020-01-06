@@ -14,13 +14,15 @@ class MpvObject : public QQuickFramebufferObject
 {
     Q_OBJECT
     
-    Q_PROPERTY(State state      READ state                            NOTIFY stateChanged)
-    Q_PROPERTY(qint64 duration  READ duration                         NOTIFY durationChanged)
-    Q_PROPERTY(qint64 time      READ time                             NOTIFY timeChanged)
-    Q_PROPERTY(int volume       READ volume      WRITE setVolume      NOTIFY volumeChanged)
-    Q_PROPERTY(QSize videoSize  READ videoSize                        NOTIFY videoSizeChanged)
-    Q_PROPERTY(bool subVisible  READ subVisible  WRITE setSubVisible  NOTIFY subVisibleChanged)
-    Q_PROPERTY(double speed     READ speed       WRITE setSpeed       NOTIFY speedChanged)
+    Q_PROPERTY(State state            READ state                            NOTIFY stateChanged)
+    Q_PROPERTY(qint64 duration        READ duration                         NOTIFY durationChanged)
+    Q_PROPERTY(qint64 time            READ time                             NOTIFY timeChanged)
+    Q_PROPERTY(int sid                READ sid         WRITE setSid         NOTIFY sidChanged)
+    Q_PROPERTY(int volume             READ volume      WRITE setVolume      NOTIFY volumeChanged)
+    Q_PROPERTY(QSize videoSize        READ videoSize                        NOTIFY videoSizeChanged)
+    Q_PROPERTY(bool subVisible        READ subVisible  WRITE setSubVisible  NOTIFY subVisibleChanged)
+    Q_PROPERTY(double speed           READ speed       WRITE setSpeed       NOTIFY speedChanged)
+    Q_PROPERTY(QStringList subtitles  READ subtitles                        NOTIFY subtitlesChanged)
     
     friend class MpvRenderer;
 
@@ -43,10 +45,13 @@ public:
     inline double speed() { return m_speed; }
     inline bool subVisible() { return m_subVisible; }
     inline int volume() { return m_volume; }
+    inline int sid() { return m_sid; }
+    inline QStringList subtitles() { return m_subtitles; }
 
     void setVolume(int volume);
     void setSubVisible(bool subVisible);
     void setSpeed(double speed);
+    void setSid(int sid);
     
     
 public slots:
@@ -65,8 +70,10 @@ public slots:
 signals:
     void onUpdate(void);
     void stopped(bool stoppedByUser);
+    void sidChanged(void);
     void stateChanged(void);
     void speedChanged(void);
+    void subtitlesChanged(void);
     void subVisibleChanged(void);
     void durationChanged(void);
     void timeChanged(void);
@@ -93,10 +100,12 @@ private:
     qint64 m_duration;
     bool m_stopByUser;
     bool m_subVisible;
+    int m_sid;
     int m_volume;
     int m_videoWidth;
     int m_videoHeight;
     double m_speed;
+    QStringList m_subtitles;
     
     static MpvObject* s_instance;
 };

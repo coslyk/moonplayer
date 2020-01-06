@@ -58,6 +58,16 @@ CustomWindow
         }
     }
     
+    // Select subtitles
+    SelectionDialog {
+        id: subtitleSelectionDialog
+        title: qsTr("Select subtitles")
+        items: mpv.subtitles
+        x: (window.width - width) / 2
+        y: (window.height - height) / 2
+        onAccepted: mpv.sid = currentIndex
+    }
+    
     // Playlist
     Playlist {
         id: playlist
@@ -147,6 +157,7 @@ CustomWindow
         MenuItem { text: qsTr("Playlist"); onTriggered: playlist.open(); height: 25 }
         MenuSeparator { padding: 0 }
         MenuItem { text: qsTr("Show danmaku"); onTriggered: mpv.subVisible = !mpv.subVisible; height: 25 }
+        MenuItem { text: qsTr("Select subtitles"); onTriggered: subtitleSelectionDialog.open(); height: 25 }
         MenuItem { text: qsTr("Screenshot"); onTriggered: mpv.screenshot(); height: 25 }
         MenuSeparator { padding: 0 }
         MenuItem { text: qsTr("Downloader"); onTriggered: downloader.open(); height: 25 }
