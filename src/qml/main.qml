@@ -68,6 +68,15 @@ CustomWindow
         onAccepted: mpv.sid = currentIndex
     }
     
+    // Add subtitles
+    FileDialog {
+        id: addSubtitleDialog
+        title: qsTr("Please choose a file")
+        folder: shortcuts.home
+        onAccepted: mpv.addSubtitle(addSubtitleDialog.fileUrl)
+    }
+    
+    
     // Playlist
     Playlist {
         id: playlist
@@ -135,7 +144,7 @@ CustomWindow
     // Open file by Dialog
     FileDialog {
         id: fileDialog
-        title: "Please choose a file"
+        title: qsTr("Please choose a file")
         folder: shortcuts.home
         selectMultiple: true
         onAccepted: playlistModel.addLocalFiles(fileDialog.fileUrls)
@@ -157,6 +166,7 @@ CustomWindow
         MenuItem { text: qsTr("Playlist"); onTriggered: playlist.open(); height: 25 }
         MenuSeparator { padding: 0 }
         MenuItem { text: qsTr("Show danmaku"); onTriggered: mpv.subVisible = !mpv.subVisible; height: 25 }
+        MenuItem { text: qsTr("Add subtitle"); onTriggered: addSubtitleDialog.open(); height: 25 }
         MenuItem { text: qsTr("Select subtitles"); onTriggered: subtitleSelectionDialog.open(); height: 25 }
         MenuItem { text: qsTr("Screenshot"); onTriggered: mpv.screenshot(); height: 25 }
         MenuSeparator { padding: 0 }
