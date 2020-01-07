@@ -1,6 +1,6 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 import MoonPlayer 1.0
 
 Dialog {
@@ -16,7 +16,7 @@ Dialog {
         visible: plugins.length !== 0
         
         // Title
-        Text {
+        Label {
             text: qsTr("Explorer")
             font.pixelSize: 16
             font.bold: true
@@ -60,7 +60,7 @@ Dialog {
                     height: 30
                     width: parent.width
                     
-                    Text { text: modelData; anchors.fill: parent; verticalAlignment: Text.AlignVCenter }
+                    Label { text: modelData; anchors.fill: parent; verticalAlignment: Text.AlignVCenter }
                     
                     MouseArea {
                         anchors.fill: parent
@@ -72,7 +72,7 @@ Dialog {
                 }
             }
         }
-        Text { text: qsTr("Page: "); horizontalAlignment: Text.AlignRight; Layout.fillWidth: true; Layout.columnSpan: 2 }
+        Label { text: qsTr("Page: "); horizontalAlignment: Text.AlignRight; Layout.fillWidth: true; Layout.columnSpan: 2 }
         SpinBox {
             id: pageSpinBox
             from: 1
@@ -82,7 +82,7 @@ Dialog {
         }
     }
     
-    Text {
+    Label {
         text: qsTr("<p>No plugins found.</p><p><a href=\"moonplayer:plugin\">Download plugins</a></p>")
         visible: plugins.length === 0
         anchors.centerIn: parent

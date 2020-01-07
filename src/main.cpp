@@ -19,6 +19,8 @@
 int main(int argc, char *argv[])
 {
     qputenv("PYTHONIOENCODING", "utf-8");
+    qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", "Dense");
+    qputenv("QT_QUICK_CONTROLS_STYLE", "material");
 
     detectOpenGLEarly();
     

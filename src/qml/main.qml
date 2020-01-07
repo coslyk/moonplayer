@@ -1,8 +1,9 @@
-import QtQuick 2.7
-import QtQuick.Window 2.0
-import QtQuick.Controls 2.2
+import QtQuick 2.12
+import QtQuick.Window 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
 import QtQuick.Dialogs 1.0
-import QtQml 2.2
+import QtQml 2.12
 import MoonPlayer 1.0
 
 CustomWindow
@@ -11,6 +12,9 @@ CustomWindow
     visible: true
     minimumWidth: 800
     minimumHeight: 450
+    
+    Material.theme: settings.player.style == 1 ? Material.Dark : Material.Light
+    Material.accent: Material.Grey
     
     function toHHMMSS(seconds) {
         var hours = Math.floor(seconds / 3600);
@@ -159,22 +163,26 @@ CustomWindow
     
     // Menu
     contextMenu: Menu {
+        width: 150
         padding: 5
-        width: 120
-        MenuItem { text: qsTr("Open files"); onTriggered: fileDialog.open(); height: 25 }
-        MenuItem { text: qsTr("Open URL"); onTriggered: openUrlDialog.open(); height: 25 }
-        MenuItem { text: qsTr("Playlist"); onTriggered: playlist.open(); height: 25 }
+        Action { text: qsTr("Open files"); onTriggered: fileDialog.open() }
+        Action { text: qsTr("Open URL"); onTriggered: openUrlDialog.open() }
+        Action { text: qsTr("Playlist"); onTriggered: playlist.open() }
         MenuSeparator { padding: 0 }
-        MenuItem { text: qsTr("Show danmaku"); onTriggered: mpv.subVisible = !mpv.subVisible; height: 25 }
-        MenuItem { text: qsTr("Add subtitle"); onTriggered: addSubtitleDialog.open(); height: 25 }
-        MenuItem { text: qsTr("Select subtitles"); onTriggered: subtitleSelectionDialog.open(); height: 25 }
-        MenuItem { text: qsTr("Screenshot"); onTriggered: mpv.screenshot(); height: 25 }
+        Action { text: qsTr("Show danmaku"); onTriggered: mpv.subVisible = !mpv.subVisible }
+        Action { text: qsTr("Add subtitle"); onTriggered: addSubtitleDialog.open() }
+        Action { text: qsTr("Select subtitles"); onTriggered: subtitleSelectionDialog.open() }
+        Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
-        MenuItem { text: qsTr("Downloader"); onTriggered: downloader.open(); height: 25 }
-        MenuItem { text: qsTr("Settings"); onTriggered: settings.open(); height: 25 }
-        MenuItem { text: qsTr("Update plugins"); onTriggered: ykdl.updateParser(); height: 25 }
-        MenuItem { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://github.com/coslyk/moonplayer/wiki/BrowserExtension"); height: 25 }
-        MenuItem { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://github.com/coslyk/moonplayer"); height: 25 }
+        Action { text: qsTr("Downloader"); onTriggered: downloader.open() }
+        Action { text: qsTr("Settings"); onTriggered: settings.open() }
+        Action { text: qsTr("Update plugins"); onTriggered: ykdl.updateParser() }
+        Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://github.com/coslyk/moonplayer/wiki/BrowserExtension") }
+        Action { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://github.com/coslyk/moonplayer") }
+        
+        delegate: MenuItem {
+            height: 25
+        }
     }
     
     // Toolbar
@@ -265,7 +273,7 @@ CustomWindow
             onClicked: explorer.open()
         }
         
-        Text {
+        Label {
             id: timeText
             text: toHHMMSS(mpv.time)
             color: "lightgrey"
@@ -275,7 +283,7 @@ CustomWindow
             anchors.bottomMargin: 12
         }
         
-        Text {
+        Label {
             id: durationText
             text: toHHMMSS(mpv.duration)
             color: "lightgrey"

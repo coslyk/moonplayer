@@ -1,7 +1,7 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.2 as SystemDialog
-import QtQuick.Layouts 1.3
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Dialogs 1.3 as SystemDialog
+import QtQuick.Layouts 1.12
 import Qt.labs.settings 1.0 as QSettings
 
 Dialog {
@@ -20,6 +20,7 @@ Dialog {
     QSettings.Settings {
         id: playerSettings
         category: "player"
+        property alias style: styleComboBox.currentIndex
         property alias url_open_mode: openUrlComboBox.currentIndex
     }
      
@@ -76,7 +77,7 @@ Dialog {
         rowSpacing: 20
         
         // Title
-        Text {
+        Label {
             text: qsTr("Settings")
             font.bold: true
             font.pixelSize: 16
@@ -120,7 +121,14 @@ Dialog {
             GridLayout {
                 columns: 2
                 columnSpacing: 40
-                Text { text: qsTr("When opening an URL:") }
+                
+                Label { text: qsTr("Style:") }
+                ComboBox {
+                    id: styleComboBox
+                    model: [ "Light", "Dark" ]
+                }
+                
+                Label { text: qsTr("When opening an URL:") }
                 ComboBox {
                     id: openUrlComboBox
                     model: [ qsTr("Question"), qsTr("Play"), qsTr("Download") ]
@@ -131,7 +139,7 @@ Dialog {
             GridLayout {
                 columns: 2
                 columnSpacing: 40
-                Text { text: qsTr("Hardware decoding:") }
+                Label { text: qsTr("Hardware decoding:") }
                 ComboBox {
                     id: hwdecComboBox
                     model: [ "auto", "vaapi", "vdpau" ]
@@ -140,14 +148,14 @@ Dialog {
                     Layout.columnSpan: 2
                     Layout.fillHeight: false
                     currentIndex: hwdecComboBox.currentIndex
-                    Text { text: qsTr("Choose hardware decoder automatically.") }
-                    Text { text: qsTr("Intel hardware decoding on Linux.") }
-                    Text { text: qsTr("Nvidia hardware decoding on Linux.") }
+                    Label { text: qsTr("Choose hardware decoder automatically.") }
+                    Label { text: qsTr("Intel hardware decoding on Linux.") }
+                    Label { text: qsTr("Nvidia hardware decoding on Linux.") }
                 }
                 
                 MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
                 CheckBox { id: copyModeCheckBox; text: qsTr("Copy mode"); Layout.columnSpan: 2 }
-                Text {
+                Label {
                     text: qsTr("This option will make all video filters work under hardware decoding, but it will comsume more hardware resources.")
                     wrapMode: Text.WordWrap
                     Layout.maximumWidth: 400
@@ -159,7 +167,7 @@ Dialog {
             GridLayout {
                 columns: 2
                 columnSpacing: 40
-                Text { text: qsTr("Audio output:") }
+                Label { text: qsTr("Audio output:") }
                 ComboBox {
                     id: audioOutputComboBox
                     model: [ "auto" ]
@@ -171,7 +179,7 @@ Dialog {
                 columns: 2
                 columnSpacing: 20
                 
-                Text { text: qsTr("Font:") }
+                Label { text: qsTr("Font:") }
                 Button {
                     text: fontDialog.font.family
                     onClicked: fontDialog.open()
@@ -181,33 +189,33 @@ Dialog {
                     title: qsTr("Please choose a font for Danmaku")
                 }
                 
-                Text { text: qsTr("Font size:") + " (*)" }
+                Label { text: qsTr("Font size:") + " (*)" }
                 SpinBox { id: fontSizeSpinBox; from: 0; to: 100; value: 0 }
                 
-                Text { text: qsTr("Alpha (%):") }
+                Label { text: qsTr("Alpha (%):") }
                 SpinBox { id: alphaSpinBox; from: 0; to: 100; value: 100 }
                 
-                Text { text: qsTr("Duration of scrolling comment display:") + " (*)" }
+                Label { text: qsTr("Duration of scrolling comment display:") + " (*)" }
                 SpinBox { id: dmSpinBox; from: 0; to: 100; value: 0 }
                 
-                Text { text: qsTr("Duration of still comment display:") }
+                Label { text: qsTr("Duration of still comment display:") }
                 SpinBox { id: dsSpinBox; from: 0; to: 100; value: 6 }
                 
                 MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
-                Text { text: "(*): " + qsTr("Set to 0 to let MoonPlayer choose automatically."); Layout.columnSpan: 2 }
+                Label { text: "(*): " + qsTr("Set to 0 to let MoonPlayer choose automatically."); Layout.columnSpan: 2 }
             }
             
             // Network
             GridLayout {
                 columns: 2
                 columnSpacing: 20
-                Text { text: qsTr("Proxy mode:") }
+                Label { text: qsTr("Proxy mode:") }
                 ComboBox {
                     id: proxyModeComboBox
                     model: [ "no", "http", "socks5" ]
                 }
                 
-                Text { text: qsTr("Proxy:") }
+                Label { text: qsTr("Proxy:") }
                 CustomTextInput {
                     id: proxyInput
                     height: proxyModeComboBox.height
@@ -216,7 +224,7 @@ Dialog {
                     validator: RegExpValidator { regExp: /.+:\d+/ }
                 }
                 
-                Text {
+                Label {
                     text: qsTr("Note: Due to the limitation of mpv, socks5 proxy is not supported by online playing.")
                     wrapMode: Text.WordWrap
                     Layout.maximumWidth: 400
@@ -235,10 +243,10 @@ Dialog {
                 columns: 2
                 columnSpacing: 40
                 
-                Text { text: qsTr("Maximun number of threads:") }
+                Label { text: qsTr("Maximun number of threads:") }
                 SpinBox { id: maxThreadsSpinBox; from: 0; to: 100; value: 5 }
                 
-                Text { text: qsTr("Save to:") }
+                Label { text: qsTr("Save to:") }
                 Button {
                     text: fileDialog.folder.toString().replace("file://", "")
                     onClicked: fileDialog.open()
@@ -256,36 +264,36 @@ Dialog {
                 columns: 2
                 rowSpacing: 0
                 columnSpacing: 40
-                Text { text: "Left/Right" }
-                Text { text: qsTr("Navigation") }
-                Text { text: "Up/Down" }
-                Text { text: qsTr("Set volume") }
-                Text { text: "Space" }
-                Text { text: qsTr("Pause/continue") }
-                Text { text: "Return" }
-                Text { text: qsTr("Enter/exit fullscreen") }
-                Text { text: "Esc" }
-                Text { text: qsTr("Exit fullscreen") }
-                Text { text: "S" }
-                Text { text: qsTr("Screenshot") }
-                Text { text: "D" }
-                Text { text: qsTr("Switch on/off danmaku") }
-                Text { text: "L" }
-                Text { text: qsTr("Show playlist") }
-                Text { text: "U" }
-                Text { text: qsTr("Open URL") }
-                Text { text: "W" }
-                Text { text: qsTr("Open Explorer") }
-                Text { text: "R" }
-                Text { text: qsTr("Set speed to default") }
-                Text { text: "Ctrl+Left" }
-                Text { text: qsTr("Speed down") }
-                Text { text: "Ctrl+Right" }
-                Text { text: qsTr("Speed up") }
-                Text { text: "Ctrl+O" }
-                Text { text: qsTr("Open files") }
-                Text { text: "Ctrl+," }
-                Text { text: qsTr("Open settings") }
+                Label { text: "Left/Right" }
+                Label { text: qsTr("Navigation") }
+                Label { text: "Up/Down" }
+                Label { text: qsTr("Set volume") }
+                Label { text: "Space" }
+                Label { text: qsTr("Pause/continue") }
+                Label { text: "Return" }
+                Label { text: qsTr("Enter/exit fullscreen") }
+                Label { text: "Esc" }
+                Label { text: qsTr("Exit fullscreen") }
+                Label { text: "S" }
+                Label { text: qsTr("Screenshot") }
+                Label { text: "D" }
+                Label { text: qsTr("Switch on/off danmaku") }
+                Label { text: "L" }
+                Label { text: qsTr("Show playlist") }
+                Label { text: "U" }
+                Label { text: qsTr("Open URL") }
+                Label { text: "W" }
+                Label { text: qsTr("Open Explorer") }
+                Label { text: "R" }
+                Label { text: qsTr("Set speed to default") }
+                Label { text: "Ctrl+Left" }
+                Label { text: qsTr("Speed down") }
+                Label { text: "Ctrl+Right" }
+                Label { text: qsTr("Speed up") }
+                Label { text: "Ctrl+O" }
+                Label { text: qsTr("Open files") }
+                Label { text: "Ctrl+," }
+                Label { text: qsTr("Open settings") }
             }
         }
     }

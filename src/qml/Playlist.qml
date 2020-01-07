@@ -1,6 +1,6 @@
-import QtQuick 2.7
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.2
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
 
 Popup {
     id: playlistPopup
@@ -15,7 +15,7 @@ Popup {
         anchors.fill: parent
         columns: 3
         
-        Text {
+        Label {
             text: qsTr("Playlist")
             font.pixelSize: 16
             font.bold: true
@@ -33,7 +33,7 @@ Popup {
                 height: 20
                 radius: 4
                 color: index == listView.currentIndex ? "lightsteelblue" : (index == playlistModel.playingIndex ? "lightgrey" : "transparent")
-                Text {
+                Label {
                     text: title.length > 10 ? title.slice(0, 10) + "..." : title
                 }
                 MouseArea {

@@ -1,6 +1,6 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 import MoonPlayer 1.0
 
 Dialog {
@@ -11,7 +11,7 @@ Dialog {
     ListView {
         id: listView
         anchors.fill: parent
-        header: Text { text: qsTr("Downloader"); font.bold: true; font.pixelSize: 16 }
+        header: Label { text: qsTr("Downloader"); font.bold: true; font.pixelSize: 16 }
         model: downloaderModel
 
         onCountChanged: {
@@ -23,7 +23,7 @@ Dialog {
             height: 30
             width: parent.width
             
-            Text {
+            Label {
                 text: name
                 anchors.left: parent.left
                 anchors.leftMargin: 5
@@ -37,7 +37,7 @@ Dialog {
                 anchors.verticalCenter: parent.verticalCenter
             }
             
-            Text {
+            Label {
                 id: stateText
                 text: (
                     modelData.state === DownloaderItem.DOWNLOADING ? progress + "%" :
@@ -106,7 +106,7 @@ Dialog {
         }
     }
     
-    Text {
+    Label {
         textFormat: Text.RichText
         text: qsTr("<p>There is no files being downloaded now -_-</p>
         

@@ -1,6 +1,6 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 
 Dialog {
     id: selectionDialog
@@ -24,7 +24,7 @@ Dialog {
             width: parent.width
             color: index == listView.currentIndex ? "lightsteelblue" : "white"
             
-            Text {
+            Label {
                 text: modelData
                 anchors.fill: parent
             }
