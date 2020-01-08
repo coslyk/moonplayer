@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
 
 Popup {
     id: playlistPopup
@@ -22,24 +23,30 @@ Popup {
             Layout.columnSpan: 3
         }
         
-        ListView {
-            id: listView
+        ScrollView {
             Layout.columnSpan: 3
+            Layout.fillWidth: true
             Layout.fillHeight: true
             
-            model: playlistModel
-            delegate: Rectangle {
-                width: 150
-                height: 20
-                radius: 4
-                color: index == listView.currentIndex ? "lightsteelblue" : (index == playlistModel.playingIndex ? "lightgrey" : "transparent")
-                Label {
-                    text: title.length > 10 ? title.slice(0, 10) + "..." : title
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: listView.currentIndex = index
-                    onDoubleClicked: playlistModel.playItem(index)
+            ListView {
+                id: listView
+                
+                property color colorCurrent: Material.theme == Material.Dark ? "steelblue" : "lightsteelblue"
+                property color colorPlaying: Material.theme == Material.Dark ? "grey" : "lightgrey"
+                
+                model: playlistModel
+                delegate: Rectangle {
+                    width: 150
+                    height: 20
+                    radius: 4
+                    clip: true
+                    color: index == listView.currentIndex ? listView.colorCurrent : (index == playlistModel.playingIndex ? listView.colorPlaying : "transparent")
+                    Label { text: title }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: listView.currentIndex = index
+                        onDoubleClicked: playlistModel.playItem(index)
+                    }
                 }
             }
         }
@@ -47,7 +54,6 @@ Popup {
         Button {
             id: addButton
             text: qsTr("Add")
-            implicitHeight: 30
             implicitWidth: 50
             onClicked: {
                 addMenu.x = addButton.x
@@ -59,7 +65,6 @@ Popup {
         Button {
             id: delButton
             text: qsTr("Del")
-            implicitHeight: 30
             implicitWidth: 50
             onClicked: playlistModel.removeItem(listView.currentIndex)
         }
@@ -67,7 +72,6 @@ Popup {
         Button {
             id: clearButton
             text: qsTr("Clear")
-            implicitHeight: 30
             implicitWidth: 50
             onClicked: playlistModel.clear()
         }

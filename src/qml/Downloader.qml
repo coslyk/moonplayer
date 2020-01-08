@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import MoonPlayer 1.0
 
@@ -22,6 +23,7 @@ Dialog {
         delegate: Rectangle {
             height: 30
             width: parent.width
+            color: "transparent"
             
             Label {
                 text: name
@@ -57,8 +59,8 @@ Dialog {
                 anchors.fill: parent
                 hoverEnabled: true
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
-                onEntered: parent.color = "#eeeeee"
-                onExited: parent.color = "white"
+                onEntered: parent.color = Material.theme == Material.Dark ? "#888888" : "#eeeeee"
+                onExited: parent.color = "transparent"
                 
                 onClicked: {
                     if (mouse.button == Qt.RightButton)

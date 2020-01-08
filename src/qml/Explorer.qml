@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import MoonPlayer 1.0
 
@@ -32,7 +33,6 @@ Dialog {
         
         CustomTextInput {
             id: keywordInput
-            height: searchButton.height
             Layout.fillWidth: true
             onAccepted: {
                 currentPlugin.keyword = keywordInput.text;
@@ -59,14 +59,15 @@ Dialog {
                 delegate: Rectangle {
                     height: 30
                     width: parent.width
+                    color: "transparent"
                     
                     Label { text: modelData; anchors.fill: parent; verticalAlignment: Text.AlignVCenter }
                     
                     MouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
-                        onEntered: parent.color = "#eeeeee"
-                        onExited: parent.color = "white"
+                        onEntered: parent.color = Material.theme == Material.Dark ? "#888888" : "#eeeeee"
+                        onExited: parent.color = "transparent"
                         onDoubleClicked: currentPlugin.openItem(index)
                     }
                 }
@@ -78,6 +79,7 @@ Dialog {
             from: 1
             to: 100
             value: 1
+            implicitWidth: 120
             onValueChanged: currentPlugin.page = value
         }
     }

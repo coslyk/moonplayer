@@ -169,9 +169,14 @@ CustomWindow
         Action { text: qsTr("Open URL"); onTriggered: openUrlDialog.open() }
         Action { text: qsTr("Playlist"); onTriggered: playlist.open() }
         MenuSeparator { padding: 0 }
-        Action { text: qsTr("Show danmaku"); onTriggered: mpv.subVisible = !mpv.subVisible }
-        Action { text: qsTr("Add subtitle"); onTriggered: addSubtitleDialog.open() }
-        Action { text: qsTr("Select subtitles"); onTriggered: subtitleSelectionDialog.open() }
+        Menu {
+            title: qsTr("Subtitle")
+            width: 150
+            Action { text: qsTr("Visible"); onTriggered: mpv.subVisible = !mpv.subVisible }
+            Action { text: qsTr("Add"); onTriggered: addSubtitleDialog.open() }
+            Action { text: qsTr("Select"); onTriggered: subtitleSelectionDialog.open() }
+            delegate: MenuItem { height: 25 }
+        }
         Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Downloader"); onTriggered: downloader.open() }
@@ -180,9 +185,7 @@ CustomWindow
         Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://github.com/coslyk/moonplayer/wiki/BrowserExtension") }
         Action { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://github.com/coslyk/moonplayer") }
         
-        delegate: MenuItem {
-            height: 25
-        }
+        delegate: MenuItem { height: 25 }
     }
     
     // Toolbar
