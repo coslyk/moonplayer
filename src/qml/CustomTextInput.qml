@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtQuick.Controls.Material 2.12
 
 
 Rectangle {
@@ -6,7 +7,7 @@ Rectangle {
     property alias text: textInput.text
     property alias textColor: textInput.color
     property alias validator: textInput.validator
-    color: "#e6e6e6"
+    color: Material.theme == Material.Dark ? "#505050" : "#e6e6e6"
     TextInput {
         id: textInput
         anchors.left: parent.left

@@ -220,7 +220,7 @@ Dialog {
                     id: proxyInput
                     height: proxyModeComboBox.height
                     width: 300
-                    textColor: text.match(/^.+:\d+$/) ? "black" : "red"
+                    textColor: !text.match(/^.+:\d+$/) ? "red" : playerSettings.style == 1 ? "white" : "black"
                     validator: RegExpValidator { regExp: /.+:\d+/ }
                 }
                 
