@@ -188,6 +188,14 @@ CustomWindow
             Action { text: qsTr("Select"); onTriggered: subtitleSelectionDialog.open() }
             delegate: MenuItem { height: 25 }
         }
+        Menu {
+            title: qsTr("Speed")
+            width: 150
+            Action { text: qsTr("Up"); onTriggered: if (mpv.speed < 2) mpv.speed += 0.25 }
+            Action { text: qsTr("Down"); onTriggered: if (mpv.speed > 0.5) mpv.speed -= 0.25 }
+            Action { text: qsTr("Reset"); onTriggered: mpv.speed = 1 }
+            delegate: MenuItem { height: 25 }
+        }
         Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Downloader"); onTriggered: downloader.open() }
