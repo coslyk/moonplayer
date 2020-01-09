@@ -170,6 +170,17 @@ CustomWindow
         Action { text: qsTr("Playlist"); onTriggered: playlist.open() }
         MenuSeparator { padding: 0 }
         Menu {
+            title: qsTr("Video")
+            width: 150
+            Action { text: qsTr("Default"); onTriggered: mpv.aspect = MpvObject.ASPECT_DEFAULT }
+            Action { text: qsTr("4:3"); onTriggered: mpv.aspect = MpvObject.ASPECT_4_3 }
+            Action { text: qsTr("16:9"); onTriggered: mpv.aspect = MpvObject.ASPECT_16_9 }
+            Action { text: qsTr("16:10"); onTriggered: mpv.aspect = MpvObject.ASPECT_16_10 }
+            Action { text: qsTr("1.85:1"); onTriggered: mpv.aspect = MpvObject.ASPECT_185_100 }
+            Action { text: qsTr("2.35:1"); onTriggered: mpv.aspect = MpvObject.ASPECT_235_100 }
+            delegate: MenuItem { height: 25 }
+        }
+        Menu {
             title: qsTr("Subtitle")
             width: 150
             Action { text: qsTr("Visible"); onTriggered: mpv.subVisible = !mpv.subVisible }

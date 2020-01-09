@@ -15,6 +15,7 @@ class MpvObject : public QQuickFramebufferObject
     Q_OBJECT
     
     Q_PROPERTY(State state            READ state                            NOTIFY stateChanged)
+    Q_PROPERTY(Aspect aspect          READ aspect      WRITE setAspect      NOTIFY aspectChanged)
     Q_PROPERTY(qint64 duration        READ duration                         NOTIFY durationChanged)
     Q_PROPERTY(qint64 time            READ time                             NOTIFY timeChanged)
     Q_PROPERTY(int sid                READ sid         WRITE setSid         NOTIFY sidChanged)
@@ -28,8 +29,10 @@ class MpvObject : public QQuickFramebufferObject
 
 public:
     enum State {STOPPED, VIDEO_PLAYING, VIDEO_PAUSED, TV_PLAYING};
+    enum Aspect {ASPECT_DEFAULT, ASPECT_4_3, ASPECT_16_9, ASPECT_16_10, ASPECT_185_100, ASPECT_235_100};
     enum Hwdec {AUTO, VAAPI, VDPAU};
-    Q_ENUMS(State)
+    Q_ENUM(State)
+    Q_ENUM(Aspect)
     
     inline static MpvObject* instance() { return s_instance; }
     
@@ -40,6 +43,7 @@ public:
     // Access properties
     inline QSize videoSize() { return QSize(m_videoWidth, m_videoHeight) / window()->effectiveDevicePixelRatio(); }
     inline State state() { return m_state; }
+    inline Aspect aspect() { return m_aspect; }
     inline qint64 duration() { return m_duration; }
     inline qint64 time() { return m_time; }
     inline double speed() { return m_speed; }
@@ -48,6 +52,7 @@ public:
     inline int sid() { return m_sid; }
     inline QStringList subtitles() { return m_subtitles; }
 
+    void setAspect(Aspect aspect);
     void setVolume(int volume);
     void setSubVisible(bool subVisible);
     void setSpeed(double speed);
@@ -70,6 +75,7 @@ public slots:
 signals:
     void onUpdate(void);
     void stopped(bool stoppedByUser);
+    void aspectChanged(void);
     void sidChanged(void);
     void stateChanged(void);
     void speedChanged(void);
@@ -94,6 +100,7 @@ private:
     bool emit_stopped_when_idle;
     
     State m_state;
+    Aspect m_aspect;
     QUrl m_danmakuUrl;
     QUrl m_audioToBeAdded;
     qint64 m_time;

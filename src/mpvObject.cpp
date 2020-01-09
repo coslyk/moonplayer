@@ -388,6 +388,31 @@ void MpvObject::addSubtitle(const QUrl& url)
     command(args);
 }
 
+
+// Set video aspect
+void MpvObject::setAspect(MpvObject::Aspect aspect)
+{
+    fprintf(stderr, "Set aspect\n");
+    if (m_aspect == aspect)
+        return;
+    m_aspect = aspect;
+    if (m_state != STOPPED)
+    {
+        switch (aspect)
+        {
+            case ASPECT_DEFAULT: setProperty("video-aspect", 0); break;
+            case ASPECT_4_3: setProperty("video-aspect", 4.0 / 3.0); break;
+            case ASPECT_16_9: setProperty("video-aspect", 16.0 / 9.0); break;
+            case ASPECT_16_10: setProperty("video-aspect", 16.0 / 10.0); break;
+            case ASPECT_185_100: setProperty("video-aspect", 1.85); break;
+            case ASPECT_235_100: setProperty("video-aspect", 2.35); break;
+            default: break;
+        }
+    }
+    emit aspectChanged();
+}
+
+
 // Take screenshot
 void MpvObject::screenshot()
 {
@@ -423,6 +448,8 @@ void MpvObject::onMpvEvent()
             m_time = 0;
             m_subVisible = true;
             m_speed = 1;
+            m_aspect = ASPECT_DEFAULT;
+            emit aspectChanged();
             emit timeChanged();
             emit subVisibleChanged();
             emit speedChanged();
