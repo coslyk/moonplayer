@@ -7,10 +7,11 @@
 class DownloaderAbstractItem : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name      READ name      NOTIFY nameChanged);
-    Q_PROPERTY(QString filePath  READ filePath  NOTIFY filePathChanged);
-    Q_PROPERTY(State state       READ state     NOTIFY stateChanged);
-    Q_PROPERTY(int progress      READ progress  NOTIFY progressChanged);
+    Q_PROPERTY(QString name      READ name        NOTIFY nameChanged)
+    Q_PROPERTY(QString filePath  READ filePath    NOTIFY filePathChanged)
+    Q_PROPERTY(QUrl danmakuUrl   READ danmakuUrl  NOTIFY danmakuUrlChanged)
+    Q_PROPERTY(State state       READ state       NOTIFY stateChanged)
+    Q_PROPERTY(int progress      READ progress    NOTIFY progressChanged)
     
     
 public:
@@ -23,10 +24,11 @@ public:
     Q_INVOKABLE virtual void start(void) = 0;
     Q_INVOKABLE virtual void stop(bool continueWaiting = true) = 0;
     
-    QString name(void);
-    QString filePath(void);
-    State state(void);
-    int progress(void);
+    inline QString name() { return m_name; }
+    inline QString filePath() { return m_filePath; }
+    inline QUrl danmakuUrl() { return m_danmakuUrl; }
+    inline State state() { return m_state; }
+    inline int progress() { return m_progress; }
     
 protected:
     void setName(const QString& name);
@@ -35,6 +37,7 @@ protected:
     void setProgress(int progress);
     
 signals:
+    void danmakuUrlChanged(void);
     void nameChanged(void);
     void filePathChanged(void);
     void stateChanged(void);

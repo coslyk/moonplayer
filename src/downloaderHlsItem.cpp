@@ -99,12 +99,12 @@ void DownloaderHlsItem::onProcFinished(int code)
     }
     else
     {
-        setState(FINISHED);
         if (!QFile::exists(filePath()))  // has been converted to mp4
         {
             QString newPath = filePath().section('.', 0, -2) + ".mp4";
             setFilePath(newPath);
         }
+        setState(FINISHED);
     }
     m_process->deleteLater();
     m_process = nullptr;

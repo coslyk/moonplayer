@@ -15,25 +15,6 @@ DownloaderAbstractItem::~DownloaderAbstractItem()
 {
 }
 
-QString DownloaderAbstractItem::name()
-{
-    return m_name;
-}
-
-QString DownloaderAbstractItem::filePath()
-{
-    return m_filePath;
-}
-
-DownloaderAbstractItem::State DownloaderAbstractItem::state()
-{
-    return m_state;
-}
-
-int DownloaderAbstractItem::progress()
-{
-    return m_progress;
-}
 
 void DownloaderAbstractItem::setName(const QString& name)
 {

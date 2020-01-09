@@ -74,7 +74,7 @@ Dialog {
                 onDoubleClicked: {
                     if (modelData.state === DownloaderItem.FINISHED)
                     {
-                        playlistModel.addItem(name, filePath);
+                        playlistModel.addItem(name, filePath, danmakuUrl);
                         downloader.close();
                     }
                 }
