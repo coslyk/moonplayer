@@ -10,37 +10,54 @@ class ParserBase : public QObject
 public:
     explicit ParserBase(QObject *parent = nullptr);
     virtual ~ParserBase();
+    
     void parse(const QUrl &url, bool download);
     
     Q_INVOKABLE static void updateParser(void);
     
 signals:
+    // Emit it to show the Downloader
     void downloadTasksAdded(void);
-    void playlistParsed(const QStringList& titles, const QList<QUrl>& urls, bool download);
-
-protected slots:
-    void showErrorDialog(const QString &errMsg);
+    
+    // Emit it to show a QML dialog to select episode from an album
+    void albumParsed(const QStringList& titles, const QList<QUrl>& urls, bool download);
+    
+    // Emit it to show a QML dialog to select streams
+    void streamSelectionNeeded(const QStringList& stream_types);
+    
+public slots:
+    // Called from QML's dialog after a stream is selected
+    void finishStreamSelection(int index);  
 
 protected:
+    // Implemented in child class to run the parser
     virtual void runParser(const QUrl &url) = 0;
-
-    // following can be used in child class
-    void finishParsing(void);
-    int selectQuality(const QStringList &stream_types);
-    void selectEpisode(const QStringList& titles, const QList<QUrl>& urls);
-
-    // the following members should be filled in child class
-    struct Result
+    
+    // the member "result" should be filled in child class
+    struct Stream
     {
         QList<QUrl> urls;
-        QString title;
         QString container;
         QString referer;
         QString ua;
-        QUrl danmaku_url;
         bool seekable;
         bool is_dash;
+    };
+    struct Result
+    {
+        QString title;
+        QStringList stream_types;
+        QList<Stream> streams;
+        QUrl danmaku_url;
     } result;
+    
+    // Following functions can be used in child class
+    // Called after "result" is filled
+    void finishParsing(void);
+    // Request to select episode from album
+    void selectEpisode(const QStringList& titles, const QList<QUrl>& urls);
+    // Show error dialog
+    void showErrorDialog(const QString &errMsg);
 
 private:
     QUrl m_url;

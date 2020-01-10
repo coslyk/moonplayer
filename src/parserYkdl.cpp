@@ -111,43 +111,33 @@ void ParserYkdl::parseOutput()
     if (obj.contains("streams"))
     {
         result.title = obj["title"].toString();
-        QVariantHash streams = obj["streams"].toHash();
-        QVariantHash selectedItem;
+        result.danmaku_url = obj["danmaku_url"].toString();
         
-        // Select video quality
-        // get all available qualities
-        QStringList items;
+        // get all available streams
+        QVariantHash streams = obj["streams"].toHash();
         for (auto i = streams.constBegin(); i != streams.constEnd(); i++)
         {
             QString profile = i.value().toHash()["video_profile"].toString();
-            items << QString("%1 (%2)").arg(i.key(), profile);
+            result.stream_types << QString("%1 (%2)").arg(i.key(), profile);
+            
+            // Basic stream infos
+            QVariantHash item = i.value().toHash();
+            Stream stream;
+            stream.container = item["container"].toString();
+            stream.referer = obj["extra"].toHash()["referer"].toString();
+            stream.ua = obj["extra"].toHash()["ua"].toString();
+            stream.is_dash = false;
+            stream.seekable = false;
+            
+            // Write urls list
+            QVariantList urls = item["src"].toList();
+            if (urls.count() == 0)   // this stream is not available, skip it
+                continue;
+            for (int i = 0; i < urls.size(); i++)
+                stream.urls << urls[i].toUrl();
+            
+            result.streams << stream;
         }
-
-        // show dialog
-        int index = selectQuality(items);
-        if (index == -1)
-            return;
-        QString selected = items[index].section(" (", 0, 0);
-        selectedItem = streams[selected].toHash();
-
-        // Infos
-        result.container = selectedItem["container"].toString();
-        result.referer = obj["extra"].toHash()["referer"].toString();
-        result.ua = obj["extra"].toHash()["ua"].toString();
-        result.danmaku_url = obj["danmaku_url"].toString();
-        
-        // Write names-urls-list
-        QVariantList urls = selectedItem["src"].toList();
-
-        if (urls.count() == 0)
-        {
-            showErrorDialog(QString::fromUtf8(m_process->readAllStandardError()));
-            return;
-        }
-
-        // Make urls list
-        for (int i = 0; i < urls.size(); i++)
-            result.urls << urls[i].toUrl();
         finishParsing();
     }
     else

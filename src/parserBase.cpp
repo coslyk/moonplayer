@@ -28,82 +28,72 @@ void ParserBase::parse(const QUrl &url, bool download)
     m_url = url;
     m_download = download;
     result.title.clear();
-    result.container.clear();
+    result.stream_types.clear();
+    result.streams.clear();
     result.danmaku_url.clear();
-    result.urls.clear();
-    result.referer.clear();
-    result.ua.clear();
-    result.seekable = true;
-    result.is_dash = false;
     runParser(url);
 }
 
 
 void ParserBase::finishParsing()
 {
-    // Check if source is empty
-    if (result.urls.isEmpty())
-    {
-        showErrorDialog(tr("The video's url is empty. Maybe it is a VIP video and requires login."));
-        return;
-    }
-
-    // Bind referer and user-agent
-    if (!result.referer.isEmpty())
-    {
-        foreach (QUrl url, result.urls)
-            NetworkAccessManager::instance()->addReferer(url, result.referer.toUtf8());
-    }
-    if (!result.ua.isEmpty())
-    {
-        foreach (QUrl url, result.urls)
-            NetworkAccessManager::instance()->addUserAgent(url, result.ua.toUtf8());
-    }
-    if (!result.seekable)
-    {
-         foreach (QUrl url, result.urls)
-            NetworkAccessManager::instance()->addUnseekableHost(url.host());
-    }
-
     // replace illegal chars in title with .
     static QRegularExpression illegalChars("[\\\\/]");
     result.title.replace(illegalChars, ".");
+    
+    // Stream is empty
+    if (result.streams.isEmpty())
+        showErrorDialog(tr("The video has no streams. Maybe it is a VIP video and requires login."));
+
+    // Has only one stream, no selection needed
+    else if (result.streams.count() == 1)
+        finishStreamSelection(0);
+    
+    // More than one stream, selection is needed
+    else
+        emit streamSelectionNeeded(result.stream_types);
+}
+
+
+void ParserBase::finishStreamSelection(int index)
+{
+    Stream stream = result.streams[index];
+    
+    // Bind referer and user-agent
+    if (!stream.referer.isEmpty())
+    {
+        foreach (QUrl url, stream.urls)
+            NetworkAccessManager::instance()->addReferer(url, stream.referer.toUtf8());
+    }
+    if (!stream.ua.isEmpty())
+    {
+        foreach (QUrl url, stream.urls)
+            NetworkAccessManager::instance()->addUserAgent(url, stream.ua.toUtf8());
+    }
+    if (!stream.seekable)
+    {
+         foreach (QUrl url, stream.urls)
+            NetworkAccessManager::instance()->addUnseekableHost(url.host());
+    }
 
     // Download
     if (m_download)
     {
-        Downloader::instance()->addTasks(result.title + '.' + result.container, result.urls, result.danmaku_url, result.is_dash);
+        Downloader::instance()->addTasks(result.title + '.' + stream.container, stream.urls, result.danmaku_url, stream.is_dash);
         emit downloadTasksAdded();
     }
 
     // Play
     else
     {
-        PlaylistModel::instance()->addItems(result.title, result.urls, result.danmaku_url, result.is_dash);
+        PlaylistModel::instance()->addItems(result.title, stream.urls, result.danmaku_url, stream.is_dash);
     }
 }
 
 
 void ParserBase::selectEpisode(const QStringList& titles, const QList<QUrl>& urls)
 {
-    emit playlistParsed(titles, urls, m_download);
-}
-
-
-
-int ParserBase::selectQuality(const QStringList &stream_types)
-{
-    static SelectionDialog *selectionDialog = nullptr;
-    if (selectionDialog == nullptr)
-        selectionDialog = new SelectionDialog;
-
-    // If there is only one quality, use it
-    if (stream_types.length() == 1)
-        return 0;
-
-    // Select
-    int selected = selectionDialog->showDialog_Index(stream_types, tr("Please select a video quality:"));
-    return selected;
+    emit albumParsed(titles, urls, m_download);
 }
 
 
@@ -119,6 +109,7 @@ void ParserBase::showErrorDialog(const QString &errMsg)
     if (msgBox.clickedButton() == updateButton)
         updateParser();
 }
+
 
 void ParserBase::updateParser()
 {

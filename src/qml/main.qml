@@ -91,7 +91,7 @@ CustomWindow
         
         Connections {
             target: ykdl
-            onPlaylistParsed: {
+            onAlbumParsed: {
                 episodeSelectionDialog.items = titles;
                 episodeSelectionDialog.urls = urls;
                 episodeSelectionDialog.download = download;
@@ -99,6 +99,40 @@ CustomWindow
             }
         }
         onAccepted: playlistModel.addUrl(urls[currentIndex], download)
+    }
+    
+    // Select streams
+    SelectionDialog {
+        id: streamSelectionDialog
+        title: qsTr("Select streams")
+        x: (window.width - width) / 2
+        y: (window.height - height) / 2
+        property bool isYkdl: true
+        
+        Connections {
+            target: ykdl
+            onStreamSelectionNeeded: {
+                streamSelectionDialog.isYkdl = true;
+                streamSelectionDialog.items = stream_types;
+                streamSelectionDialog.open();
+            }
+        }
+        
+        Connections {
+            target: youtube_dl
+            onStreamSelectionNeeded: {
+                streamSelectionDialog.isYkdl = false;
+                streamSelectionDialog.items = stream_types;
+                streamSelectionDialog.open();
+            }
+        }
+        
+        onAccepted: {
+            if (isYkdl)
+                ykdl.finishStreamSelection(currentIndex);
+            else
+                youtube_dl.finishStreamSelection(currentIndex);
+        }
     }
     
     

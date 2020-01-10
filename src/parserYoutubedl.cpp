@@ -1,9 +1,7 @@
 #include "parserYoutubedl.h"
 #include "accessManager.h"
 #include <QDir>
-#include <QJsonArray>
 #include <QJsonDocument>
-#include <QJsonObject>
 #include <QJsonParseError>
 #include <QMessageBox>
 #include <QProcess>
@@ -62,27 +60,27 @@ void ParserYoutubeDL::parseOutput()
 #endif
 
     QJsonParseError json_error;
-    QJsonObject obj = QJsonDocument::fromJson(output, &json_error).object();
+    QVariantHash obj = QJsonDocument::fromJson(output, &json_error).toVariant().toHash();
     if (json_error.error != QJsonParseError::NoError)
     {
         showErrorDialog(QString::fromUtf8(process->readAllStandardError()));
         return;
     }
+    
     if (obj.contains("formats"))
     {
         result.title = obj["title"].toString();
-        QJsonArray formats = obj["formats"].toArray();
-        QHash<QString, QJsonObject> formatsHash;
-        QStringList formatsList;
-
-        // Select video quality
-        // get all available qualities
+        
+        // Get all available streams
+        QVariantList formats = obj["formats"].toList();
+        QVariantList streams;
         QString bestMp4Audio, bestWebmAudio;
         int bestMp4AudioSize = 0;
         int bestWebmAudioSize = 0;
         for (int i = 0; i < formats.size(); i++)
         {
-            QJsonObject item = formats[i].toObject();
+            QVariantHash item = formats[i].toHash();
+            
             // DASH Audio
             if (item["vcodec"].toString() == "none")
             {
@@ -97,51 +95,57 @@ void ParserYoutubeDL::parseOutput()
                     bestMp4AudioSize = item["filesize"].toInt();
                 }
             }
+            
             // Videos
             else
             {
                 QString formatName = QString("%1 (%2)").arg(item["format"].toString(), item["ext"].toString());
-                formatsList << formatName;
-                formatsHash[formatName] = item;
+                result.stream_types << formatName;
+                streams << item;
             }
         }
 
-        // show dialog
-        int index = selectQuality(formatsList);
-        if (index == -1)
-            return;
-        QString selected = formatsList[index];
-        QJsonObject selectedItem = formatsHash[selected];
-
-        // write info
-        result.container = selectedItem["protocol"].toString() == "m3u8" ? "m3u8" : selectedItem["ext"].toString();
-        result.referer = selectedItem["http_headers"].toObject()["Referer"].toString();
-        QString ua = selectedItem["http_headers"].toObject()["User-Agent"].toString();
-        
-        if (ua != DEFAULT_UA)
-            result.ua = ua;
-        
-        result.urls << selectedItem["url"].toString();
-
-        // Video has no audio track?
-        if (selectedItem["acodec"] == "none")
+        // Fill stream infos
+        foreach (QVariant i, streams)
         {
-            if (result.container == "webm" && !bestWebmAudio.isEmpty())
+            QVariantHash item = i.toHash();
+            Stream stream;
+            
+            // Basic stream infos
+            stream.container = item["protocol"].toString() == "m3u8" ? "m3u8" : item["ext"].toString();
+            stream.referer = item["http_headers"].toHash()["Referer"].toString();
+            stream.seekable = true;
+            stream.is_dash = false;
+            
+            QString ua = item["http_headers"].toHash()["User-Agent"].toString();
+            if (ua != DEFAULT_UA)
+                stream.ua = ua;
+            
+            // Urls
+            stream.urls << item["url"].toString();
+
+            // Video has no audio track? => Dash video, audio in seperate file
+            if (item["acodec"] == "none")
             {
-                result.is_dash = true;
-                result.urls << bestWebmAudio;
+                if (stream.container == "webm" && !bestWebmAudio.isEmpty())
+                {
+                    stream.is_dash = true;
+                    stream.urls << bestWebmAudio;
+                }
+                else if (stream.container == "mp4" && !bestMp4Audio.isEmpty())
+                {
+                    stream.is_dash = true;
+                    stream.urls << bestMp4Audio;
+                }
+                else
+                {
+                    continue;
+                }
             }
-            else if (result.container == "mp4" && !bestMp4Audio.isEmpty())
-            {
-                result.is_dash = true;
-                result.urls << bestMp4Audio;
-            }
-            else
-            {
-                showErrorDialog(tr("The video of selected quality has no audio track. Please select another one."));
-                return;
-            }
+            
+            result.streams << stream;
         }
+        
         finishParsing();
     }
     else
