@@ -26,7 +26,7 @@ public:
     PlaylistModel(QObject* parent = nullptr);
     
     Q_INVOKABLE void addItem(const QString& title, const QUrl& fileUrl, const QUrl& danmakuUrl = QUrl(), const QUrl& audioTrackUrl = QUrl());
-    Q_INVOKABLE void addItems(const QString& title, const QList<QUrl>& fileUrls, const QUrl& danmakuUrl = QUrl());
+    Q_INVOKABLE void addItems(const QString& title, const QList<QUrl>& fileUrls, const QUrl& danmakuUrl = QUrl(), bool isDash = false);
     Q_INVOKABLE void addLocalFiles(const QList<QUrl>& fileUrls);
     Q_INVOKABLE void addUrl(const QUrl& url, bool download);
     Q_INVOKABLE void removeItem(int index);

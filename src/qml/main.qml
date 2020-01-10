@@ -80,6 +80,27 @@ CustomWindow
         onAccepted: mpv.addSubtitle(addSubtitleDialog.fileUrl)
     }
     
+    // Select episode from playlist
+    SelectionDialog {
+        id: episodeSelectionDialog
+        title: qsTr("Select episode")
+        x: (window.width - width) / 2
+        y: (window.height - height) / 2
+        property var urls: []
+        property bool download: false
+        
+        Connections {
+            target: ykdl
+            onPlaylistParsed: {
+                episodeSelectionDialog.items = titles;
+                episodeSelectionDialog.urls = urls;
+                episodeSelectionDialog.download = download;
+                episodeSelectionDialog.open();
+            }
+        }
+        onAccepted: playlistModel.addUrl(urls[currentIndex], download)
+    }
+    
     
     // Playlist
     Playlist {

@@ -2,9 +2,7 @@
 #include "accessManager.h"
 #include <QDir>
 #include <QInputDialog>
-#include <QJsonArray>
 #include <QJsonDocument>
-#include <QJsonObject>
 #include <QJsonParseError>
 #include <QMessageBox>
 #include <QProcess>
@@ -93,45 +91,35 @@ void ParserYkdl::parseOutput()
         return;
     }
 
-    // select episode
+    // Select episode
     if (document.isArray())
     {
-        QJsonArray episodes = document.array();
+        QVariantList episodes = document.toVariant().toList();
         QStringList titles;
         QList<QUrl> urls;
-        foreach (QJsonValue item, episodes)
+        foreach (QVariant item, episodes)
         {
-            titles << item.toObject()["title"].toString();
-            urls << item.toObject()["url"].toString();
+            titles << item.toHash()["title"].toString();
+            urls << item.toHash()["url"].toString();
         }
-        bool ok = false;
-        QString selected = QInputDialog::getItem(NULL, "Select episode",
-                                             tr("Please select episode:"),
-                                             titles,
-                                             0,
-                                             false,
-                                             &ok);
-        if (!ok)
-            return;
-        QUrl url = urls[titles.indexOf(selected)];
-        runParser(url);
+        selectEpisode(titles, urls);
         return;
     }
 
-    QJsonObject obj = document.object();
+    // Video
+    QVariantHash obj = document.toVariant().toHash();
     if (obj.contains("streams"))
     {
         result.title = obj["title"].toString();
-        QJsonObject streams = obj["streams"].toObject();
-        QJsonObject selectedItem;
-        QJsonObject::const_iterator i;
-
+        QVariantHash streams = obj["streams"].toHash();
+        QVariantHash selectedItem;
+        
         // Select video quality
         // get all available qualities
         QStringList items;
-        for (i = streams.constBegin(); i != streams.constEnd(); i++)
+        for (auto i = streams.constBegin(); i != streams.constEnd(); i++)
         {
-            QString profile = i.value().toObject()["video_profile"].toString();
+            QString profile = i.value().toHash()["video_profile"].toString();
             items << QString("%1 (%2)").arg(i.key(), profile);
         }
 
@@ -140,24 +128,26 @@ void ParserYkdl::parseOutput()
         if (index == -1)
             return;
         QString selected = items[index].section(" (", 0, 0);
-        selectedItem = streams[selected].toObject();
+        selectedItem = streams[selected].toHash();
 
-        // Write names-urls-list
-        QJsonArray json_urls = selectedItem["src"].toArray();
+        // Infos
         result.container = selectedItem["container"].toString();
-        result.referer = obj["extra"].toObject()["referer"].toString();
-        result.ua = obj["extra"].toObject()["ua"].toString();
+        result.referer = obj["extra"].toHash()["referer"].toString();
+        result.ua = obj["extra"].toHash()["ua"].toString();
         result.danmaku_url = obj["danmaku_url"].toString();
+        
+        // Write names-urls-list
+        QVariantList urls = selectedItem["src"].toList();
 
-        if (json_urls.size() == 0)
+        if (urls.count() == 0)
         {
             showErrorDialog(QString::fromUtf8(m_process->readAllStandardError()));
             return;
         }
 
         // Make urls list
-        for (int i = 0; i < json_urls.size(); i++)
-            result.urls << json_urls[i].toString();
+        for (int i = 0; i < urls.size(); i++)
+            result.urls << urls[i].toUrl();
         finishParsing();
     }
     else

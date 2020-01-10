@@ -27,19 +27,32 @@ void PlaylistModel::addItem(const QString& title, const QUrl& fileUrl, const QUr
 }
 
 
-void PlaylistModel::addItems(const QString& title, const QList<QUrl>& fileUrls, const QUrl& danmakuUrl)
+void PlaylistModel::addItems(const QString& title, const QList<QUrl>& fileUrls, const QUrl& danmakuUrl, bool isDash)
 {
     int start = m_titles.count();
-    int count = fileUrls.count();
-    beginInsertRows(QModelIndex(), start, start + count - 1);
-    for (int i = 0; i < count; i++)
+    
+    if (isDash)  // Youtube's dash videos
     {
-        m_titles << (title + "_" + QString::number(i));
-        m_fileUrls << fileUrls[i];
-        m_danmakuUrls << (i == 0 ? danmakuUrl : QUrl());
-        m_audioTrackUrls << QUrl();
+        beginInsertRows(QModelIndex(), start, start);
+        m_titles << title;
+        m_fileUrls << fileUrls[0];   // First url is the video stream
+        m_danmakuUrls << danmakuUrl;
+        m_audioTrackUrls << fileUrls[1];  // Second url is the audio stream
+        endInsertRows();
     }
-    endInsertRows();
+    else    // Normal videos
+    {
+        int count = fileUrls.count();
+        beginInsertRows(QModelIndex(), start, start + count - 1);
+        for (int i = 0; i < count; i++)
+        {
+            m_titles << (title + "_" + QString::number(i));
+            m_fileUrls << fileUrls[i];
+            m_danmakuUrls << (i == 0 ? danmakuUrl : QUrl());
+            m_audioTrackUrls << QUrl();
+        }
+        endInsertRows();
+    }
     playItem(start);
 }
 

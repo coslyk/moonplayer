@@ -79,16 +79,16 @@ void ParserBase::finishParsing()
     // Play
     else
     {
-        if (result.is_dash)  // YouTube's dash stream
-        {
-            PlaylistModel::instance()->addItem(result.title, result.urls[0], result.danmaku_url, result.urls[1]);
-        }
-        else
-        {
-            PlaylistModel::instance()->addItems(result.title, result.urls, result.danmaku_url);
-        }
+        PlaylistModel::instance()->addItems(result.title, result.urls, result.danmaku_url, result.is_dash);
     }
 }
+
+
+void ParserBase::selectEpisode(const QStringList& titles, const QList<QUrl>& urls)
+{
+    emit playlistParsed(titles, urls, m_download);
+}
+
 
 
 int ParserBase::selectQuality(const QStringList &stream_types)

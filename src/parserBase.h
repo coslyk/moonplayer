@@ -8,7 +8,7 @@ class ParserBase : public QObject
 {
     Q_OBJECT
 public:
-    explicit ParserBase(QObject *parent = NULL);
+    explicit ParserBase(QObject *parent = nullptr);
     virtual ~ParserBase();
     void parse(const QUrl &url, bool download);
     
@@ -16,6 +16,7 @@ public:
     
 signals:
     void downloadTasksAdded(void);
+    void playlistParsed(const QStringList& titles, const QList<QUrl>& urls, bool download);
 
 protected slots:
     void showErrorDialog(const QString &errMsg);
@@ -26,6 +27,7 @@ protected:
     // following can be used in child class
     void finishParsing(void);
     int selectQuality(const QStringList &stream_types);
+    void selectEpisode(const QStringList& titles, const QList<QUrl>& urls);
 
     // the following members should be filled in child class
     struct Result
