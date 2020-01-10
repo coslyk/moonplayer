@@ -28,7 +28,6 @@ set(SOURCE_FILES
     parserYoutubedl.cpp
     playlistModel.cpp
     plugin.cpp
-    selectionDialog.cpp
     utils.cpp
 )
 

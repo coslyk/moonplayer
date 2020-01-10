@@ -10,7 +10,6 @@
 //#include "danmakudelaygetter.h"
 #include "downloader.h"
 #include "platform/paths.h"
-#include "selectionDialog.h"
 #include "playlistModel.h"
 
 ParserBase::ParserBase(QObject *parent) : QObject(parent)
