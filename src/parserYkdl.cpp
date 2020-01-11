@@ -127,7 +127,7 @@ void ParserYkdl::parseOutput()
             stream.referer = obj["extra"].toHash()["referer"].toString();
             stream.ua = obj["extra"].toHash()["ua"].toString();
             stream.is_dash = false;
-            stream.seekable = false;
+            stream.seekable = true;
             
             // Write urls list
             QVariantList urls = item["src"].toList();
