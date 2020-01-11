@@ -79,6 +79,16 @@ CustomWindow
         folder: shortcuts.home
         onAccepted: mpv.addSubtitle(addSubtitleDialog.fileUrl)
     }
+
+    // Select audio tracks
+    SelectionDialog {
+        id: audioTrackSelectionDialog
+        title: qsTr("Select audio tracks")
+        items: mpv.audioTracks
+        x: (window.width - width) / 2
+        y: (window.height - height) / 2
+        onAccepted: mpv.aid = currentIndex
+    }
     
     // Select episode from playlist
     SelectionDialog {
@@ -233,6 +243,12 @@ CustomWindow
             Action { text: qsTr("16:10"); onTriggered: mpv.aspect = MpvObject.ASPECT_16_10 }
             Action { text: qsTr("1.85:1"); onTriggered: mpv.aspect = MpvObject.ASPECT_185_100 }
             Action { text: qsTr("2.35:1"); onTriggered: mpv.aspect = MpvObject.ASPECT_235_100 }
+            delegate: MenuItem { height: 25 }
+        }
+        Menu {
+            title: qsTr("Audio")
+            width: 150
+            Action { text: qsTr("Select"); onTriggered: audioTrackSelectionDialog.open() }
             delegate: MenuItem { height: 25 }
         }
         Menu {

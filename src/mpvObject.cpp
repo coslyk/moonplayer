@@ -144,6 +144,7 @@ MpvObject::MpvObject(QQuickItem * parent) :
     mpv_observe_property(mpv, 0, "paused-for-cache", MPV_FORMAT_FLAG);
     mpv_observe_property(mpv, 0, "core-idle",        MPV_FORMAT_FLAG);
     mpv_observe_property(mpv, 0, "track-list",       MPV_FORMAT_NODE);
+    mpv_observe_property(mpv, 0, "aid",              MPV_FORMAT_INT64);
     mpv_observe_property(mpv, 0, "sid",              MPV_FORMAT_INT64);
     mpv_request_log_messages(mpv, "warn");
     
@@ -352,6 +353,17 @@ void MpvObject::setSid(int sid)
     emit sidChanged();
 }
 
+// Set audio track id
+void MpvObject::setAid(int aid)
+{
+    if (m_aid == aid)
+        return;
+    m_aid = aid;
+    if (m_state != STOPPED && aid >= 0)
+        setProperty("aid", aid);
+    emit aidChanged();
+}
+
 
 // Set speed
 void MpvObject::setSpeed(double speed)
@@ -392,7 +404,6 @@ void MpvObject::addSubtitle(const QUrl& url)
 // Set video aspect
 void MpvObject::setAspect(MpvObject::Aspect aspect)
 {
-    fprintf(stderr, "Set aspect\n");
     if (m_aspect == aspect)
         return;
     m_aspect = aspect;
@@ -576,15 +587,16 @@ void MpvObject::onMpvEvent()
                 }
             }
             
-            else if (propName == "track-list") // read tracks info
+            else if (propName == "track-list") // Read tracks info
             {
                 m_subtitles.clear();
+                m_audioTracks.clear();
                 mpv_node* node = static_cast<mpv_node*>(prop->data);
                 QVariantList trackList = mpv::qt::node_to_variant(node).toList();
                 foreach (QVariant i, trackList)
                 {
                     QVariantHash item = i.toHash();
-                    if (item["type"].toString() == "sub")  // subtitle
+                    if (item["type"].toString() == "sub")  // Subtitles
                     {
                         int id = item["id"].toInt();
                         QString title = item["title"].toString();
@@ -599,11 +611,28 @@ void MpvObject::onMpvEvent()
                             m_subtitles[id] = title.isEmpty() ? '#' + QString::number(id) : title;
                         }
                     }
+
+                    else if (item["type"].toString() == "audio")  // Audio tracks
+                    {
+                        int id = item["id"].toInt();
+                        QString title = item["title"].toString();
+                        if (m_audioTracks.count() <= id)
+                        {
+                            for (int j = m_audioTracks.count(); j < id; j++)
+                                m_audioTracks.append('#' + QString::number(j));
+                            m_audioTracks.append(title.isEmpty() ? '#' + QString::number(id) : title);
+                        }
+                        else
+                        {
+                            m_audioTracks[id] = title.isEmpty() ? '#' + QString::number(id) : title;
+                        }
+                    }
                 }
                 emit subtitlesChanged();
+                emit audioTracksChanged();
             }
 
-            else if (propName == "sid") // subtitle id
+            else if (propName == "sid") // Subtitle id
             {
                 int sid = *(int64_t *) prop->data;
                 if (m_sid != sid)
@@ -612,53 +641,16 @@ void MpvObject::onMpvEvent()
                     emit sidChanged();
                 }
             }
-            /*
-            else if (propName == "track-list") // read tracks info
+
+            else if (propName == "aid")  // Audio track id
             {
-                audioTracksList.clear();
-                subtitleList.clear();
-                mpv_node *node = (mpv_node *) prop->data;
-                for (int i = 0; i < node->u.list->num; i++)
+                int aid = *(int64_t *) prop->data;
+                if (m_aid != aid)
                 {
-                    mpv_node_list *item = node->u.list->values[i].u.list;
-                    QByteArray type;
-                    int id = 0;
-                    QString title;
-                    for (int n = 0; n < item->num; n++)
-                    {
-                        if (!strcmp(item->keys[n], "type"))
-                            type = item->values[n].u.string;
-                        else if (!strcmp(item->keys[n], "id"))
-                            id = item->values[n].u.int64;
-                        else if (!strcmp(item->keys[n], "title"))
-                            title = QString::fromUtf8(item->values[n].u.string);
-                    }
-                    // subtitles
-                    if (type == "sub")
-                    {
-                        if (subtitleList.size() <= id)
-                        {
-                            for (int j = subtitleList.size(); j < id; j++)
-                                subtitleList.append('#' + QString::number(j));
-                            subtitleList.append(title.isEmpty() ? '#' + QString::number(id) : title);
-                        }
-                        else
-                            subtitleList[id] = title.isEmpty() ? '#' + QString::number(id) : title;
-                    }
-                    // audio tracks
-                    if (type == "audio")
-                    {
-                        if (audioTracksList.size() <= id)
-                        {
-                            for (int j = audioTracksList.size(); j < id; j++)
-                                audioTracksList.append('#' + QString::number(j));
-                            audioTracksList.append(title.isEmpty() ? '#' + QString::number(id) : title);
-                        }
-                        else
-                            audioTracksList[id] = title.isEmpty() ? '#' + QString::number(id) : title;
-                    }
+                    m_aid = aid;
+                    emit aidChanged();
                 }
-            }*/
+            }
             break;
         }
         default: break;

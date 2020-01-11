@@ -14,16 +14,18 @@ class MpvObject : public QQuickFramebufferObject
 {
     Q_OBJECT
     
-    Q_PROPERTY(State state            READ state                            NOTIFY stateChanged)
-    Q_PROPERTY(Aspect aspect          READ aspect      WRITE setAspect      NOTIFY aspectChanged)
-    Q_PROPERTY(qint64 duration        READ duration                         NOTIFY durationChanged)
-    Q_PROPERTY(qint64 time            READ time                             NOTIFY timeChanged)
-    Q_PROPERTY(int sid                READ sid         WRITE setSid         NOTIFY sidChanged)
-    Q_PROPERTY(int volume             READ volume      WRITE setVolume      NOTIFY volumeChanged)
-    Q_PROPERTY(QSize videoSize        READ videoSize                        NOTIFY videoSizeChanged)
-    Q_PROPERTY(bool subVisible        READ subVisible  WRITE setSubVisible  NOTIFY subVisibleChanged)
-    Q_PROPERTY(double speed           READ speed       WRITE setSpeed       NOTIFY speedChanged)
-    Q_PROPERTY(QStringList subtitles  READ subtitles                        NOTIFY subtitlesChanged)
+    Q_PROPERTY(State state              READ state                            NOTIFY stateChanged)
+    Q_PROPERTY(Aspect aspect            READ aspect      WRITE setAspect      NOTIFY aspectChanged)
+    Q_PROPERTY(qint64 duration          READ duration                         NOTIFY durationChanged)
+    Q_PROPERTY(qint64 time              READ time                             NOTIFY timeChanged)
+    Q_PROPERTY(int aid                  READ aid         WRITE setAid         NOTIFY aidChanged)
+    Q_PROPERTY(int sid                  READ sid         WRITE setSid         NOTIFY sidChanged)
+    Q_PROPERTY(int volume               READ volume      WRITE setVolume      NOTIFY volumeChanged)
+    Q_PROPERTY(QSize videoSize          READ videoSize                        NOTIFY videoSizeChanged)
+    Q_PROPERTY(bool subVisible          READ subVisible  WRITE setSubVisible  NOTIFY subVisibleChanged)
+    Q_PROPERTY(double speed             READ speed       WRITE setSpeed       NOTIFY speedChanged)
+    Q_PROPERTY(QStringList audioTracks  READ audioTracks                      NOTIFY audioTracksChanged)
+    Q_PROPERTY(QStringList subtitles    READ subtitles                        NOTIFY subtitlesChanged)
     
     friend class MpvRenderer;
 
@@ -49,13 +51,16 @@ public:
     inline double speed() { return m_speed; }
     inline bool subVisible() { return m_subVisible; }
     inline int volume() { return m_volume; }
+    inline int aid() { return m_aid; }
     inline int sid() { return m_sid; }
+    inline QStringList audioTracks() { return m_audioTracks; }
     inline QStringList subtitles() { return m_subtitles; }
 
     void setAspect(Aspect aspect);
     void setVolume(int volume);
     void setSubVisible(bool subVisible);
     void setSpeed(double speed);
+    void setAid(int aid);
     void setSid(int sid);
     
     
@@ -76,6 +81,8 @@ signals:
     void onUpdate(void);
     void stopped(bool stoppedByUser);
     void aspectChanged(void);
+    void audioTracksChanged(void);
+    void aidChanged(void);
     void sidChanged(void);
     void stateChanged(void);
     void speedChanged(void);
@@ -107,11 +114,13 @@ private:
     qint64 m_duration;
     bool m_stopByUser;
     bool m_subVisible;
+    int m_aid;
     int m_sid;
     int m_volume;
     int m_videoWidth;
     int m_videoHeight;
     double m_speed;
+    QStringList m_audioTracks;
     QStringList m_subtitles;
     
     static MpvObject* s_instance;
