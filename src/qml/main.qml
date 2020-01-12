@@ -69,7 +69,7 @@ CustomWindow
         items: mpv.subtitles
         x: (window.width - width) / 2
         y: (window.height - height) / 2
-        onAccepted: mpv.sid = currentIndex
+        onAccepted: mpv.setProperty("sid", currentIndex)
     }
     
     // Add subtitles
@@ -87,7 +87,7 @@ CustomWindow
         items: mpv.audioTracks
         x: (window.width - width) / 2
         y: (window.height - height) / 2
-        onAccepted: mpv.aid = currentIndex
+        onAccepted: mpv.setProperty("aid", currentIndex)
     }
     
     // Select episode from playlist
@@ -177,8 +177,6 @@ CustomWindow
             snapMode: Slider.SnapAlways
             anchors.fill: parent
             orientation: Qt.Vertical
-            handle.implicitWidth: 20
-            handle.implicitHeight: 20
         }
     }
     
@@ -247,12 +245,12 @@ CustomWindow
             width: 150
             Action { text: qsTr("Options"); onTriggered: videoOptionsDialog.open() }
             MenuSeparator { padding: 0 }
-            Action { text: qsTr("Default"); onTriggered: mpv.aspect = MpvObject.ASPECT_DEFAULT }
-            Action { text: qsTr("4:3"); onTriggered: mpv.aspect = MpvObject.ASPECT_4_3 }
-            Action { text: qsTr("16:9"); onTriggered: mpv.aspect = MpvObject.ASPECT_16_9 }
-            Action { text: qsTr("16:10"); onTriggered: mpv.aspect = MpvObject.ASPECT_16_10 }
-            Action { text: qsTr("1.85:1"); onTriggered: mpv.aspect = MpvObject.ASPECT_185_100 }
-            Action { text: qsTr("2.35:1"); onTriggered: mpv.aspect = MpvObject.ASPECT_235_100 }
+            Action { text: qsTr("Default"); onTriggered: mpv.setProperty("video-aspect", 0) }
+            Action { text: qsTr("4:3"); onTriggered: mpv.setProperty("video-aspect", 4 / 3) }
+            Action { text: qsTr("16:9"); onTriggered: mpv.setProperty("video-aspect", 16 / 9) }
+            Action { text: qsTr("16:10"); onTriggered: mpv.setProperty("video-aspect", 16 / 10) }
+            Action { text: qsTr("1.85:1"); onTriggered: mpv.setProperty("video-aspect", 1.85) }
+            Action { text: qsTr("2.35:1"); onTriggered: mpv.setProperty("video-aspect", 2.35) }
             delegate: MenuItem { height: 25 }
         }
         Menu {

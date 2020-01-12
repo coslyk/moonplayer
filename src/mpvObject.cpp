@@ -144,8 +144,6 @@ MpvObject::MpvObject(QQuickItem * parent) :
     mpv_observe_property(mpv, 0, "paused-for-cache", MPV_FORMAT_FLAG);
     mpv_observe_property(mpv, 0, "core-idle",        MPV_FORMAT_FLAG);
     mpv_observe_property(mpv, 0, "track-list",       MPV_FORMAT_NODE);
-    mpv_observe_property(mpv, 0, "aid",              MPV_FORMAT_INT64);
-    mpv_observe_property(mpv, 0, "sid",              MPV_FORMAT_INT64);
     mpv_request_log_messages(mpv, "warn");
     
     
@@ -342,29 +340,6 @@ void MpvObject::setSubVisible(bool subVisible)
     emit subVisibleChanged();
 }
 
-// Set subtitle id
-void MpvObject::setSid(int sid)
-{
-    if (m_sid == sid)
-        return;
-    m_sid = sid;
-    if (m_state != STOPPED && sid >= 0)
-        setProperty("sid", sid);
-    emit sidChanged();
-}
-
-// Set audio track id
-void MpvObject::setAid(int aid)
-{
-    if (m_aid == aid)
-        return;
-    m_aid = aid;
-    if (m_state != STOPPED && aid >= 0)
-        setProperty("aid", aid);
-    emit aidChanged();
-}
-
-
 // Set speed
 void MpvObject::setSpeed(double speed)
 {
@@ -401,27 +376,6 @@ void MpvObject::addSubtitle(const QUrl& url)
 }
 
 
-// Set video aspect
-void MpvObject::setAspect(MpvObject::Aspect aspect)
-{
-    if (m_aspect == aspect)
-        return;
-    m_aspect = aspect;
-    if (m_state != STOPPED)
-    {
-        switch (aspect)
-        {
-            case ASPECT_DEFAULT: setProperty("video-aspect", 0); break;
-            case ASPECT_4_3: setProperty("video-aspect", 4.0 / 3.0); break;
-            case ASPECT_16_9: setProperty("video-aspect", 16.0 / 9.0); break;
-            case ASPECT_16_10: setProperty("video-aspect", 16.0 / 10.0); break;
-            case ASPECT_185_100: setProperty("video-aspect", 1.85); break;
-            case ASPECT_235_100: setProperty("video-aspect", 2.35); break;
-            default: break;
-        }
-    }
-    emit aspectChanged();
-}
 
 
 // Take screenshot
@@ -459,8 +413,6 @@ void MpvObject::onMpvEvent()
             m_time = 0;
             m_subVisible = true;
             m_speed = 1;
-            m_aspect = ASPECT_DEFAULT;
-            emit aspectChanged();
             emit timeChanged();
             emit subVisibleChanged();
             emit speedChanged();
@@ -630,26 +582,6 @@ void MpvObject::onMpvEvent()
                 }
                 emit subtitlesChanged();
                 emit audioTracksChanged();
-            }
-
-            else if (propName == "sid") // Subtitle id
-            {
-                int sid = *(int64_t *) prop->data;
-                if (m_sid != sid)
-                {
-                    m_sid = sid;
-                    emit sidChanged();
-                }
-            }
-
-            else if (propName == "aid")  // Audio track id
-            {
-                int aid = *(int64_t *) prop->data;
-                if (m_aid != aid)
-                {
-                    m_aid = aid;
-                    emit aidChanged();
-                }
             }
             break;
         }
