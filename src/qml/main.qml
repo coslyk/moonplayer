@@ -12,6 +12,7 @@ CustomWindow
     visible: true
     minimumWidth: 800
     minimumHeight: 450
+    useSystemFrame: settings.player.use_system_frame
     
     Material.theme: settings.player.style == 1 ? Material.Dark : Material.Light
     Material.accent: Material.Grey
@@ -428,10 +429,20 @@ CustomWindow
     
     onMouseMoved: {
         toolBar.visible = true;
-        titlebar.visible = true;
+        if (!useSystemFrame)
+            titlebar.visible = true;
         if (mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING)
         {
             timer.restart();
+        }
+    }
+    
+    Connections {
+        target: settings.player
+        onUse_system_frameChanged: {
+            if (settings.player.use_system_frame)
+                titlebar.visible = false;
+            window.show();
         }
     }
     

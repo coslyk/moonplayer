@@ -5,17 +5,21 @@ import QtQuick.Controls 2.12
 Window
 {
     id: window
-    flags: Qt.Window | Qt.FramelessWindowHint
     
     property alias mouseArea: mouseArea
     property alias titlebar: titlebar
     property var contextMenu
+    property bool useSystemFrame: false
+    
+    flags: Qt.Window | (useSystemFrame ? 0 : Qt.FramelessWindowHint)
     
     signal mouseMoved()
     
     // Set cursor shape
     onMouseMoved: {
-        if ((mouseArea.mouseX < 8 && mouseArea.mouseY < 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY > height - 8))
+        if (useSystemFrame)
+            mouseArea.cursorShape = Qt.ArrowCursor;
+        else if ((mouseArea.mouseX < 8 && mouseArea.mouseY < 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY > height - 8))
             mouseArea.cursorShape = Qt.SizeFDiagCursor;
         else if ((mouseArea.mouseX < 8 && mouseArea.mouseY > height - 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY < 8))
             mouseArea.cursorShape = Qt.SizeBDiagCursor;
@@ -37,10 +41,11 @@ Window
         property bool bottomBorderActived: false
         property bool leftBorderActived: false
         property bool rightBorderActived: false
-        property bool moveable: !topBorderActived && !bottomBorderActived && !leftBorderActived && !rightBorderActived
+        property bool moveable: false
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         
+        // ContextMenu
         onClicked: {
             if (mouse.button === Qt.RightButton)
             {
@@ -51,6 +56,8 @@ Window
         }
         
         onPressed: {
+            if (useSystemFrame)
+                return;
             lastMouseX = mouseX;
             lastMouseY = mouseY;
             leftBorderActived = (mouseX < 8);
@@ -111,6 +118,7 @@ Window
         color: "#E6404040"
         width: parent.width
         height: 24
+        visible: !useSystemFrame
         z: 100
         anchors.top: parent.top
         anchors.left: parent.left

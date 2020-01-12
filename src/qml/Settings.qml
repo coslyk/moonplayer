@@ -21,6 +21,7 @@ Dialog {
         id: playerSettings
         category: "player"
         property alias style: styleComboBox.currentIndex
+        property alias use_system_frame: systemFrameCheckBox.checked
         property alias url_open_mode: openUrlComboBox.currentIndex
     }
      
@@ -126,6 +127,12 @@ Dialog {
                 ComboBox {
                     id: styleComboBox
                     model: [ "Light", "Dark" ]
+                }
+                
+                CheckBox {
+                    id: systemFrameCheckBox
+                    text: qsTr("Use system window frame")
+                    Layout.columnSpan: 2
                 }
                 
                 Label { text: qsTr("When opening an URL:") }
