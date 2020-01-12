@@ -145,6 +145,14 @@ CustomWindow
         }
     }
     
+    // Video options
+    VideoOptionsDialog {
+        id: videoOptionsDialog
+        mpvObject: mpv
+        x: (window.width - width) / 2
+        y: (window.height - height) / 2
+    }
+    
     
     // Playlist
     Playlist {
@@ -237,6 +245,8 @@ CustomWindow
         Menu {
             title: qsTr("Video")
             width: 150
+            Action { text: qsTr("Options"); onTriggered: videoOptionsDialog.open() }
+            MenuSeparator { padding: 0 }
             Action { text: qsTr("Default"); onTriggered: mpv.aspect = MpvObject.ASPECT_DEFAULT }
             Action { text: qsTr("4:3"); onTriggered: mpv.aspect = MpvObject.ASPECT_4_3 }
             Action { text: qsTr("16:9"); onTriggered: mpv.aspect = MpvObject.ASPECT_16_9 }
