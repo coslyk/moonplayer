@@ -7,7 +7,7 @@ jobs:
       os: linux
       dist: trusty
       env:
-        - QT5_BASE_DIR: /opt/qt59
+        - QT5_BASE_DIR: /opt/qt512
 
     - name: macOS build
       os: osx
@@ -26,7 +26,7 @@ jobs:
 addons:
   apt:
     sources:
-      - sourceline: 'ppa:beineri/opt-qt597-trusty'
+      - sourceline: 'ppa:cos-lyk/qt512-trusty'
       - sourceline: 'ppa:mc3man/testing6'
     packages:
       - build-essential
@@ -34,11 +34,11 @@ addons:
       - desktop-file-utils
       - libgl1-mesa-dev
       - libglu1-mesa-dev
-      - qt59base
-      - qt59quickcontrols
-      - qt59quickcontrols2
-      - qt59x11extras
-      - qt59tools
+      - qt512base
+      - qt512quickcontrols
+      - qt512quickcontrols2
+      - qt512x11extras
+      - qt512tools
       - libmpv-dev
     update: true
 
