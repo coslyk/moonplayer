@@ -14,7 +14,7 @@ CustomWindow
     minimumHeight: 450
     useSystemFrame: settings.player.use_system_frame
     
-    Material.theme: settings.player.style == 1 ? Material.Dark : Material.Light
+    Material.theme: Color.theme === "Dark" ? Material.Dark : Material.Light
     Material.accent: Material.Grey
     
     function toHHMMSS(seconds) {
@@ -409,6 +409,7 @@ CustomWindow
             anchors.left: timeText.right
             anchors.right: durationText.left
             anchors.verticalCenter: timeText.verticalCenter
+            Material.theme: Color.theme === "Light" ? Material.Light : Material.Dark
             onPressedChanged: {
                 if (!pressed)  // released
                     mpv.seek(value);

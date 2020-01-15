@@ -127,7 +127,7 @@ Dialog {
                 Label { text: qsTr("Style:") }
                 ComboBox {
                     id: styleComboBox
-                    model: [ "Light", "Dark" ]
+                    model: [ "Mix", "Dark", "Light" ]
                     onCurrentTextChanged: Color.theme = currentText
                 }
                 
