@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import MoonPlayer 1.0
 
 Window
 {
@@ -115,7 +116,7 @@ Window
     // Titlebar
     Rectangle {
         id: titlebar
-        color: "#E6404040"
+        color: Color.titlebar
         width: parent.width
         height: 24
         visible: !useSystemFrame
@@ -129,7 +130,7 @@ Window
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: 5
-            background: Rectangle { color: "red"; radius: 6; anchors.fill: parent }
+            background: Rectangle { color: Color.closeButton; radius: 6; anchors.fill: parent }
             onClicked: window.close()
         }
         Button {
@@ -139,7 +140,7 @@ Window
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: closeButton.left
             anchors.rightMargin: 5
-            background: Rectangle { color: "green"; radius: 6; anchors.fill: parent }
+            background: Rectangle { color: Color.maxButton; radius: 6; anchors.fill: parent }
             onClicked: window.visibility == Window.Maximized ? window.showNormal() : window.showMaximized()
         }
         Button {
@@ -149,7 +150,7 @@ Window
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: maxButton.left
             anchors.rightMargin: 5
-            background: Rectangle { color: "yellow"; radius: 6; anchors.fill: parent }
+            background: Rectangle { color: Color.minButton; radius: 6; anchors.fill: parent }
             onClicked: window.showMinimized()
         }
     }

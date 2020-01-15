@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>qml/main.qml</file>
         <file>qml/CustomImageButton.qml</file>
-        <file>qml/CustomSlider.qml</file>
         <file>qml/CustomTextInput.qml</file>
         <file>qml/CustomWindow.qml</file>
         <file>qml/Downloader.qml</file>
@@ -19,5 +18,6 @@
         <file>images/stop.png</file>
         <file>images/volume.png</file>
         <file>qml/OpenUrlDialog.qml</file>
+        <file>qml/Color.qml</file>
     </qresource>
 </RCC>

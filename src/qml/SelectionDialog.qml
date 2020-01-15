@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
+import MoonPlayer 1.0
 
 Dialog {
     id: selectionDialog
@@ -25,13 +25,15 @@ Dialog {
             model: items
             
             delegate: Rectangle {
+                property bool hovered: false
                 height: 25
                 width: parent.width
-                color: index != listView.currentIndex ? "transparent" : Material.theme == Material.Dark ? "steelblue" : "lightsteelblue"
+                color: index == listView.currentIndex ? Color.listItemSelected : hovered ? Color.listItemHovered : "transparent"
                 
                 Label {
                     text: modelData
                     anchors.fill: parent
+                    verticalAlignment: Label.AlignVCenter
                 }
                 
                 MouseArea {
@@ -40,6 +42,8 @@ Dialog {
                     acceptedButtons: Qt.LeftButton
                     onClicked: listView.currentIndex = index
                     onDoubleClicked: selectionDialog.accept()
+                    onEntered: parent.hovered = true
+                    onExited: parent.hovered = false
                 }
             }
         }

@@ -1,6 +1,5 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import MoonPlayer 1.0
 
@@ -66,7 +65,7 @@ Dialog {
                     MouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
-                        onEntered: parent.color = Material.theme == Material.Dark ? "#888888" : "#eeeeee"
+                        onEntered: parent.color = Color.listItemHovered
                         onExited: parent.color = "transparent"
                         onDoubleClicked: currentPlugin.openItem(index)
                     }

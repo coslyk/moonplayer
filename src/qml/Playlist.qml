@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
+import MoonPlayer 1.0
 
 Popup {
     id: playlistPopup
@@ -31,16 +31,13 @@ Popup {
             ListView {
                 id: listView
                 
-                property color colorCurrent: Material.theme == Material.Dark ? "steelblue" : "lightsteelblue"
-                property color colorPlaying: Material.theme == Material.Dark ? "grey" : "lightgrey"
-                
                 model: playlistModel
                 delegate: Rectangle {
                     width: 150
                     height: 20
                     radius: 4
                     clip: true
-                    color: index == listView.currentIndex ? listView.colorCurrent : (index == playlistModel.playingIndex ? listView.colorPlaying : "transparent")
+                    color: index == listView.currentIndex ? Color.listItemSelected : (index == playlistModel.playingIndex ? Color.listItemCurrentActive : "transparent")
                     Label { text: title }
                     MouseArea {
                         anchors.fill: parent

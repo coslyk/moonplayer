@@ -293,7 +293,7 @@ CustomWindow
         width: 450
         height: 70
         radius: 8
-        color: "#E6303030"
+        color: Color.toolbar
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 50
@@ -378,7 +378,7 @@ CustomWindow
         Label {
             id: timeText
             text: toHHMMSS(mpv.time)
-            color: "lightgrey"
+            color: Color.toolbarText
             anchors.left: parent.left
             anchors.leftMargin: 16
             anchors.bottom: parent.bottom
@@ -388,14 +388,14 @@ CustomWindow
         Label {
             id: durationText
             text: toHHMMSS(mpv.duration)
-            color: "lightgrey"
+            color: Color.toolbarText
             anchors.right: parent.right
             anchors.rightMargin: 16
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 12
         }
         
-        CustomSlider {
+        Slider {
             id: timeSlider
             from: 0
             to: mpv.duration

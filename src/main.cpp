@@ -49,6 +49,7 @@ int main(int argc, char *argv[])
         app.installTranslator(&translator);
     
     qmlRegisterType<MpvObject>("MoonPlayer", 1, 0, "MpvObject");
+    qmlRegisterSingletonType(QUrl("qrc:/qml/Color.qml"), "MoonPlayer", 1, 0, "Color");
     qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", "Access to enums & flags only");
     
     QQmlApplicationEngine engine;

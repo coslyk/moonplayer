@@ -3,6 +3,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.3 as SystemDialog
 import QtQuick.Layouts 1.12
 import Qt.labs.settings 1.0 as QSettings
+import MoonPlayer 1.0
 
 Dialog {
     property alias player: playerSettings
@@ -127,6 +128,7 @@ Dialog {
                 ComboBox {
                     id: styleComboBox
                     model: [ "Light", "Dark" ]
+                    onCurrentTextChanged: Color.theme = currentText
                 }
                 
                 CheckBox {
@@ -197,16 +199,16 @@ Dialog {
                 }
                 
                 Label { text: qsTr("Font size:") + " (*)" }
-                SpinBox { id: fontSizeSpinBox; from: 0; to: 100; value: 0 }
+                SpinBox { id: fontSizeSpinBox; from: 0; to: 100; value: 0; implicitWidth: 140 }
                 
                 Label { text: qsTr("Alpha (%):") }
-                SpinBox { id: alphaSpinBox; from: 0; to: 100; value: 100 }
+                SpinBox { id: alphaSpinBox; from: 0; to: 100; value: 100; implicitWidth: 140 }
                 
                 Label { text: qsTr("Duration of scrolling comment display:") + " (*)" }
-                SpinBox { id: dmSpinBox; from: 0; to: 100; value: 0 }
+                SpinBox { id: dmSpinBox; from: 0; to: 100; value: 0; implicitWidth: 140 }
                 
                 Label { text: qsTr("Duration of still comment display:") }
-                SpinBox { id: dsSpinBox; from: 0; to: 100; value: 6 }
+                SpinBox { id: dsSpinBox; from: 0; to: 100; value: 6; implicitWidth: 140 }
                 
                 MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
                 Label { text: "(*): " + qsTr("Set to 0 to let MoonPlayer choose automatically."); Layout.columnSpan: 2 }
