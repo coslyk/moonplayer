@@ -10,14 +10,21 @@
         <file>qml/SelectionDialog.qml</file>
         <file>qml/Settings.qml</file>
         <file>qml/VideoOptionsDialog.qml</file>
-        <file>images/net.png</file>
-        <file>images/pause.png</file>
-        <file>images/play.png</file>
-        <file>images/playlist.png</file>
-        <file>images/settings.png</file>
-        <file>images/stop.png</file>
-        <file>images/volume.png</file>
+        <file>images/net_lightgrey.png</file>
+        <file>images/pause_lightgrey.png</file>
+        <file>images/play_lightgrey.png</file>
+        <file>images/playlist_lightgrey.png</file>
+        <file>images/settings_lightgrey.png</file>
+        <file>images/stop_lightgrey.png</file>
+        <file>images/volume_lightgrey.png</file>
         <file>qml/OpenUrlDialog.qml</file>
         <file>qml/Color.qml</file>
+        <file>images/net_grey.png</file>
+        <file>images/pause_grey.png</file>
+        <file>images/play_grey.png</file>
+        <file>images/playlist_grey.png</file>
+        <file>images/settings_grey.png</file>
+        <file>images/stop_grey.png</file>
+        <file>images/volume_grey.png</file>
     </qresource>
 </RCC>

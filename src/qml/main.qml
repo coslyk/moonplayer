@@ -28,11 +28,15 @@ CustomWindow
         if (seconds < 10) {seconds = "0"+seconds;}
         return hours+':'+minutes+':'+seconds;
     }
+
+    // Background color
+    color: Color.windowBackground
     
     // Mpv
     MpvObject {
         id: mpv
         anchors.fill: parent
+        visible: state !== MpvObject.STOPPED
         volume: volumeSlider.value
         onTimeChanged: {
             if (!timeSlider.pressed)
@@ -300,7 +304,9 @@ CustomWindow
         
         CustomImageButton {
             id: playPauseButton
-            image: (mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING) ? "qrc:/images/pause.png" : "qrc:/images/play.png"
+            image: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING ?
+                       (Color.theme === "Light" ? "qrc:/images/pause_grey.png" : "qrc:/images/pause_lightgrey.png") :
+                       (Color.theme === "Light" ? "qrc:/images/play_grey.png" : "qrc:/images/play_lightgrey.png")
             width: 16
             height: 16
             anchors.right: parent.horizontalCenter
@@ -312,7 +318,7 @@ CustomWindow
         
         CustomImageButton {
             id: stopButton
-            image: "qrc:/images/stop.png"
+            image: (Color.theme === "Light" ? "qrc:/images/stop_grey.png" : "qrc:/images/stop_lightgrey.png")
             width: 16
             height: 16
             anchors.left: parent.horizontalCenter
@@ -324,7 +330,7 @@ CustomWindow
         
         CustomImageButton {
             id: settingsButton
-            image: "qrc:/images/settings.png"
+            image: (Color.theme === "Light" ? "qrc:/images/settings_grey.png" : "qrc:/images/settings_lightgrey.png")
             width: 16
             height: 16
             anchors.left: parent.left
@@ -337,7 +343,7 @@ CustomWindow
         
         CustomImageButton {
             id: volumeButton
-            image: "qrc:/images/volume.png"
+            image: (Color.theme === "Light" ? "qrc:/images/volume_grey.png" : "qrc:/images/volume_lightgrey.png")
             width: 16
             height: 16
             anchors.left: settingsButton.right
@@ -353,7 +359,7 @@ CustomWindow
         
         CustomImageButton {
             id: playlistButton
-            image: "qrc:/images/playlist.png"
+            image: (Color.theme === "Light" ? "qrc:/images/playlist_grey.png" : "qrc:/images/playlist_lightgrey.png")
             width: 16
             height: 16
             anchors.right: parent.right
@@ -365,7 +371,7 @@ CustomWindow
         
         CustomImageButton {
             id: downloaderButton
-            image: "qrc:/images/net.png"
+            image: (Color.theme === "Light" ? "qrc:/images/net_grey.png" : "qrc:/images/net_lightgrey.png")
             width: 16
             height: 16
             anchors.right: playlistButton.left
