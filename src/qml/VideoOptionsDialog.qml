@@ -15,7 +15,6 @@ Dialog {
         anchors.fill: parent
         columns: 3
         rowSpacing: 0
-        columnSpacing: 0
         
         // Title
         Label { text: qsTr("Video options"); font.pixelSize: 16; font.bold: true; Layout.columnSpan: 3 }
@@ -30,6 +29,7 @@ Dialog {
             stepSize: 1
             snapMode: Slider.SnapAlways
             onValueChanged: mpvObject.setProperty("brightness", Math.floor(value))
+            Layout.fillWidth: true
         }
         Label { text: brightnessSlider.value }
         
@@ -43,6 +43,7 @@ Dialog {
             stepSize: 1
             snapMode: Slider.SnapAlways
             onValueChanged: mpvObject.setProperty("contrast", Math.floor(value))
+            Layout.fillWidth: true
         }
         Label { text: contrastSlider.value }
         
@@ -56,6 +57,7 @@ Dialog {
             stepSize: 1
             snapMode: Slider.SnapAlways
             onValueChanged: mpvObject.setProperty("saturation", Math.floor(value))
+            Layout.fillWidth: true
         }
         Label { text: saturationSlider.value }
         
@@ -69,6 +71,7 @@ Dialog {
             stepSize: 1
             snapMode: Slider.SnapAlways
             onValueChanged: mpvObject.setProperty("gamma", Math.floor(value))
+            Layout.fillWidth: true
         }
         Label { text: gammaSlider.value }
         
@@ -82,6 +85,7 @@ Dialog {
             stepSize: 1
             snapMode: Slider.SnapAlways
             onValueChanged: mpvObject.setProperty("hue", Math.floor(value))
+            Layout.fillWidth: true
         }
         Label { text: hueSlider.value }
     }
