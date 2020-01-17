@@ -94,7 +94,7 @@ Dialog {
         text: qsTr("<p>No plugins found.</p><p><a href=\"moonplayer:plugin\">Download plugins</a></p>")
         visible: plugins.length === 0
         anchors.centerIn: parent
-        onLinkActivated: ykdl.updateParser()
+        onLinkActivated: utils.updateParser()
     }
 }
 

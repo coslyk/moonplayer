@@ -61,6 +61,7 @@ int main(int argc, char *argv[])
     context->setContextProperty("plugins", QVariant::fromValue(Plugin::loadPlugins()));
     context->setContextProperty("ykdl", ParserYkdl::instance());
     context->setContextProperty("youtube_dl", ParserYoutubeDL::instance());
+    context->setContextProperty("utils", new Utils());
     
     // Update downloader model
     QObject::connect(downloader, &Downloader::modelUpdated, [=](){

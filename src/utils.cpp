@@ -1,10 +1,13 @@
 #include "utils.h"
-#include "accessManager.h"
 #include <QMessageBox>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QRegularExpression>
 #include <QUrl>
+#include "accessManager.h"
+#include "console.h"
+#include "platform/paths.h"
+
 
 void Utils::checkUpdate()
 {
@@ -21,5 +24,23 @@ void Utils::checkUpdate()
         }
         reply->deleteLater();
     });
+}
+
+
+
+void Utils::updateParser()
+{
+    static Console* c_console = nullptr;
+    if (c_console == nullptr)
+        c_console = new Console;
+    QStringList args;
+#ifdef Q_OS_WIN
+    args << "-ExecutionPolicy" << "RemoteSigned";
+    args << "-File" << (appResourcesPath() + "/update-parsers.ps1");
+    c_console->launchScript("powershell", args);
+#else
+    args << appResourcesPath() + "/update-parsers.sh";
+    c_console->launchScript("sh", args);
+#endif
 }
 

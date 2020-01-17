@@ -1,16 +1,12 @@
 #include "parserBase.h"
-#include <QDir>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QRegularExpression>
-#include <QSettings>
 #include <QUrl>
 #include "accessManager.h"
-#include "console.h"
-//#include "danmakudelaygetter.h"
 #include "downloader.h"
-#include "platform/paths.h"
 #include "playlistModel.h"
+#include "utils.h"
 
 ParserBase::ParserBase(QObject *parent) : QObject(parent)
 {
@@ -106,23 +102,6 @@ void ParserBase::showErrorDialog(const QString &errMsg)
     msgBox.addButton(QMessageBox::Cancel);
     msgBox.exec();
     if (msgBox.clickedButton() == updateButton)
-        updateParser();
-}
-
-
-void ParserBase::updateParser()
-{
-    static Console* c_console = nullptr;
-    if (c_console == nullptr)
-        c_console = new Console;
-    QStringList args;
-#ifdef Q_OS_WIN
-    args << "-ExecutionPolicy" << "RemoteSigned";
-    args << "-File" << (appResourcesPath() + "/update-parsers.ps1");
-    c_console->launchScript("powershell", args);
-#else
-    args << appResourcesPath() + "/update-parsers.sh";
-    c_console->launchScript("sh", args);
-#endif
+        Utils::updateParser();
 }
 

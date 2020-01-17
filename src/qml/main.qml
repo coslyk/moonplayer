@@ -282,7 +282,7 @@ CustomWindow
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Downloader"); onTriggered: downloader.open() }
         Action { text: qsTr("Settings"); onTriggered: settings.open() }
-        Action { text: qsTr("Update plugins"); onTriggered: ykdl.updateParser() }
+        Action { text: qsTr("Update plugins"); onTriggered: utils.updateParser() }
         Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://github.com/coslyk/moonplayer/wiki/BrowserExtension") }
         Action { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://github.com/coslyk/moonplayer") }
         

@@ -13,8 +13,6 @@ public:
     
     void parse(const QUrl &url, bool download);
     
-    Q_INVOKABLE static void updateParser(void);
-    
 signals:
     // Emit it to show the Downloader
     void downloadTasksAdded(void);
