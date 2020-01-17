@@ -1,12 +1,19 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import Qt.labs.settings 1.0 as QSettings
 import MoonPlayer 1.0
 
 Dialog {
     id: explorer
     width: 600
     height: 400
+    
+    // Remember the last used plugin
+    QSettings.Settings {
+        category: "explorer"
+        property alias last_plugin: pluginComboBox.currentIndex
+    }
     
     property QtObject currentPlugin: plugins[pluginComboBox.currentIndex]
     
