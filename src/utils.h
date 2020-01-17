@@ -13,6 +13,9 @@ public:
     
     // Update video parsers
     Q_INVOKABLE static void updateParser(void);
+    
+    // Get environment variable
+    Q_INVOKABLE static QString environmentVariable(const QString& env);
 };
 
 #endif  // UTILS_H

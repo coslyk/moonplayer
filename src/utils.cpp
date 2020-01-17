@@ -44,3 +44,9 @@ void Utils::updateParser()
 #endif
 }
 
+
+QString Utils::environmentVariable(const QString& env)
+{
+    return qgetenv(env.toUtf8().constData());
+}
+

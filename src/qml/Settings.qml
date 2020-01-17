@@ -258,6 +258,8 @@ Dialog {
                 Button {
                     text: fileDialog.folder.toString().replace("file://", "")
                     onClicked: fileDialog.open()
+                    // Flatpak version is sandboxed and has no permission to access other folders
+                    enabled: utils.environmentVariable("FLATPAK_SANDBOX_DIR") == ""
                 }
                 SystemDialog.FileDialog {
                     id: fileDialog
