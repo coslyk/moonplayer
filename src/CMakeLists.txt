@@ -77,6 +77,10 @@ if (APPLE)
         scripts/update-parsers.sh
     )
     file(COPY /usr/local/opt/ffmpeg-lite/bin/ffmpeg DESTINATION "${PROJECT_NAME}.app/Contents/MacOS/")
+
+    # Fix translation on macOS 10.14 Mojave and above
+    add_custom_target(build-time-make-directory ALL
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_NAME}.app/Contents/Resources/zh_CN.lproj")
 endif()
 
 
