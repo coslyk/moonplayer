@@ -7,11 +7,11 @@ mv src/MoonPlayer.app .
 /usr/local/opt/qt/bin/macdeployqt MoonPlayer.app -qmldir=src/qml/
 
 # Fix permissions
-chown $USER $1/Contents/MacOS/*
-chmod 755 $1/Contents/MacOS/*
+chown $USER MoonPlayer.app/Contents/MacOS/*
+chmod 755 MoonPlayer.app/Contents/MacOS/*
 
 # Fix dependencies of homebrewed libraries
-ls $1/Contents/Frameworks/*.dylib $1/Contents/MacOS/* | while read FILENAME; do
+ls MoonPlayer.app/Contents/Frameworks/*.dylib MoonPlayer.app/Contents/MacOS/* | while read FILENAME; do
     DEPLOYMENT=`otool -L "$FILENAME" | grep /usr/local`
     if [ -n "$DEPLOYMENT" ]; then
         echo "Parsing: $FILENAME"
@@ -20,7 +20,7 @@ ls $1/Contents/Frameworks/*.dylib $1/Contents/MacOS/* | while read FILENAME; do
             OLD_PATH=${OLD_PATH%% *}
             OLD_NAME=${OLD_PATH##*/}
             NEW_PATH="@executable_path/../Frameworks/$OLD_NAME"
-            REAL_PATH="$1/Contents/Frameworks/$OLD_NAME"
+            REAL_PATH="MoonPlayer.app/Contents/Frameworks/$OLD_NAME"
             echo "  Old path: $OLD_PATH"
             echo "  New path: $NEW_PATH"
             if [ -e "$REAL_PATH" ]; then
