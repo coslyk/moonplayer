@@ -101,4 +101,12 @@ Controller.prototype.DynamicTelemetryPluginFormCallback = function() {
     gui.clickButton(buttons.NextButton);
 }
 
+Controller.prototype.ObligationsPageCallback = function()
+{
+    var page = gui.pageWidgetByObjectName("ObligationsPage");
+    page.obligationsAgreement.setChecked(true);
+    page.completeChanged();
+    gui.clickButton(buttons.NextButton);
+}
+
 // vim: set ft=javascript:
