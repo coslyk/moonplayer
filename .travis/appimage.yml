@@ -1,12 +1,11 @@
 app: moonplayer
 
 ingredients:
-  dist: trusty
+  dist: xenial
   sources:
-    - deb http://archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
+    - deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
   ppas:
-    - cos-lyk/qt512-trusty
-    - mc3man/testing6
+    - beineri/opt-qt-5.12.6-xenial
   packages:
     - qt512base
     - qt512quickcontrols
