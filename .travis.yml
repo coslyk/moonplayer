@@ -34,6 +34,7 @@ addons:
       - desktop-file-utils
       - libgl1-mesa-dev
       - libglu1-mesa-dev
+      - libxkbcommon-x11-0
       - libmpv-dev
     update: true
 
