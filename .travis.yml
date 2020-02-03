@@ -80,7 +80,7 @@ script:
   - if [ "$TRAVIS_OS_NAME" != "windows" ]; then cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$QT5_BASE_DIR .; fi
   - cmake --build . --config Release
   
-before_deploy:
+after_success:
   - .travis/deploy-${TRAVIS_OS_NAME}.sh
 
 
