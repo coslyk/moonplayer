@@ -9,8 +9,8 @@ jobs:
       services:
         - xvfb
       env:
-        - QT5_BASE_DIR: /usr/local/Qt/5.12.6/gcc_64
-        - PATH: /usr/local/Qt/5.12.6/gcc_64/bin/:$PATH
+        - QT5_BASE_DIR: /usr/local/Qt/5.12.7/gcc_64
+        - PATH: /usr/local/Qt/5.12.7/gcc_64/bin/:$PATH
 
     - name: macOS build
       os: osx
@@ -21,7 +21,7 @@ jobs:
       os: windows
       env:
         - PLATFORM: x64
-        - QT5_BASE_DIR: C:/Qt/5.12.6/msvc2017_64
+        - QT5_BASE_DIR: C:/Qt/5.12.7/msvc2017_64
         - PATH: /c/Python37:/c/Python37/Scripts:$PATH
 
 
