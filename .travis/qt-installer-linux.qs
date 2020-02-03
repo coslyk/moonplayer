@@ -45,7 +45,7 @@ Controller.prototype.IntroductionPageCallback = function() {
 
 Controller.prototype.TargetDirectoryPageCallback = function() {
     console.log("Step: " + gui.currentPageWidget());
-    gui.currentPageWidget().TargetDirectoryLineEdit.setText("/usr/local/Qt");
+    //gui.currentPageWidget().TargetDirectoryLineEdit.setText("/usr/local/Qt");
     gui.clickButton(buttons.NextButton);
 };
 
