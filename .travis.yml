@@ -3,11 +3,12 @@ language: cpp
 
 jobs:
   include:
-    - name: Ubuntu 16.04 build
+    - name: Ubuntu 14.04 build
       os: linux
-      dist: xenial
+      dist: trusty
       env:
-        - QT5_BASE_DIR: /opt/qt512
+        - QT5_BASE_DIR: /usr/local/Qt/5.12.6/gcc_64
+        - PATH: /usr/local/Qt/5.12.6/gcc_64/bin/:$PATH
 
     - name: macOS build
       os: osx
@@ -26,18 +27,13 @@ jobs:
 addons:
   apt:
     sources:
-      - sourceline: 'ppa:beineri/opt-qt-5.12.6-xenial'
+      - sourceline: 'ppa:mc3man/testing6'
     packages:
       - build-essential
       - cmake
       - desktop-file-utils
       - libgl1-mesa-dev
       - libglu1-mesa-dev
-      - qt512base
-      - qt512quickcontrols
-      - qt512quickcontrols2
-      - qt512x11extras
-      - qt512tools
       - libmpv-dev
     update: true
 
@@ -60,8 +56,10 @@ before_cache:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew cleanup; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then .travis/travis-cache-windows.sh save; fi
   
-
 before_install:
+  - chmod a+x .travis/pkg2appimage .travis/*.sh
+
+install:
   # Install innosetup, zip, Qt and libmpv on Windows
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then .travis/travis-cache-windows.sh restore; fi
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then .travis/travis-install-qt-windows.sh; fi
@@ -71,8 +69,8 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install -y python --version 3.7.6; fi
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then pip install pyinstaller; fi
 
-install:
-  - chmod a+x .travis/pkg2appimage .travis/*.sh
+  # install Qt 5.12 on Linux
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then .travis/travis-install-qt-linux.sh; fi
 
 
 script:
