@@ -3,9 +3,11 @@ language: cpp
 
 jobs:
   include:
-    - name: Ubuntu 14.04 build
+    - name: Ubuntu 16.04 build
       os: linux
-      dist: trusty
+      dist: xenial
+      services:
+        - xvfb
       env:
         - QT5_BASE_DIR: /usr/local/Qt/5.12.6/gcc_64
         - PATH: /usr/local/Qt/5.12.6/gcc_64/bin/:$PATH
@@ -26,8 +28,6 @@ jobs:
 # Install dependencies for linux and macOS
 addons:
   apt:
-    sources:
-      - sourceline: 'ppa:mc3man/testing6'
     packages:
       - build-essential
       - cmake
