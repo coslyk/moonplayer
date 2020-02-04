@@ -11,7 +11,6 @@ class QLocalSocket;
 
 class Application : public QApplication
 {
-    Q_OBJECT
 public:
     Application(int &argc, char **argv);
     virtual ~Application();
@@ -20,10 +19,9 @@ public:
 protected:
     bool event(QEvent *e);
 
-private slots:
-    void onNewConnection(void);
-
 private:
+    
+    void onNewConnection(void);
     int m_argc;
     char **m_argv;
     QLocalServer *m_server;

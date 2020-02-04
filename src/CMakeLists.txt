@@ -56,9 +56,6 @@ if (WIN32)
     )
 endif()
 
-# AUTOMOC seems not able to find this file
-qt5_wrap_cpp(SOURCE_FILES platform/application.h TARGET ${PROJECT_NAME})
-
 
 # Create translations
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
