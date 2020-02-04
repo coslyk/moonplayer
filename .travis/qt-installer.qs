@@ -13,7 +13,9 @@
 // https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5123/Updates.xml
 // Unfortunately it is not possible to disable deps like qt.tools.qtcreator
 var INSTALL_COMPONENTS = [
-    "qt.qt5.5127.gcc_64"
+    installer.environmentVariable("TRAVIS_OS_NAME") == "windows" ?
+    "qt.qt5.5127.win64_msvc2017_64" :
+    "qt.qt5.5127.gcc_64",
 ];
 
 function Controller() {
@@ -45,7 +47,8 @@ Controller.prototype.IntroductionPageCallback = function() {
 
 Controller.prototype.TargetDirectoryPageCallback = function() {
     console.log("Step: " + gui.currentPageWidget());
-    //gui.currentPageWidget().TargetDirectoryLineEdit.setText("/usr/local/Qt");
+    // Keep default at "C:\Qt".
+    //gui.currentPageWidget().TargetDirectoryLineEdit.setText("E:\\Qt");
     gui.clickButton(buttons.NextButton);
 };
 
