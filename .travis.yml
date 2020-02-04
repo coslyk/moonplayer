@@ -72,7 +72,6 @@ before_cache:
 
 install:
   # install Qt 5.12 on Windows and Linux
-  - chmod a+x .travis/pkg2appimage .travis/*.sh
   - if [ "$TRAVIS_OS_NAME" != "osx" ]; then .travis/travis-install-qt.sh; fi
 
 
