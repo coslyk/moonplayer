@@ -17,6 +17,7 @@ if [ "$TRAVIS_OS_NAME" = "windows" ]; then
     QT_INSTALLER=~/qt_installer.exe
     curl -Lo $QT_INSTALLER "http://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe"
 else
+    export QT_QPA_PLATFORM=minimal  # No X server for Qt installer
     QT_INSTALLER=~/qt_installer.run
     curl -Lo $QT_INSTALLER "http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run"
     chmod +x $QT_INSTALLER
