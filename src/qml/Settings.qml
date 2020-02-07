@@ -170,6 +170,14 @@ Dialog {
                     Layout.maximumWidth: 400
                     Layout.columnSpan: 2
                 }
+                
+                MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
+                Label {
+                    text: qsTr("The settings above will be applied after restart.")
+                    wrapMode: Text.WordWrap
+                    Layout.maximumWidth: 400
+                    Layout.columnSpan: 2
+                }
             }
             
             // Audio
@@ -180,6 +188,14 @@ Dialog {
                 ComboBox {
                     id: audioOutputComboBox
                     model: [ "auto" ]
+                }
+                
+                MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
+                Label {
+                    text: qsTr("The settings above will be applied after restart.")
+                    wrapMode: Text.WordWrap
+                    Layout.maximumWidth: 400
+                    Layout.columnSpan: 2
                 }
             }
             

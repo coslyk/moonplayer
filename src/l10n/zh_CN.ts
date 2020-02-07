@@ -298,147 +298,153 @@
         <translation type="unfinished">该选项会使所有滤镜在硬件解码时正常工作，但会消耗更多资源。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="179"/>
+        <location filename="../qml/Settings.qml" line="176"/>
+        <location filename="../qml/Settings.qml" line="195"/>
+        <source>The settings above will be applied after restart.</source>
+        <translation type="unfinished">以上设置将在重启后生效。</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="187"/>
         <source>Audio output:</source>
         <translation type="unfinished">音频输出：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="191"/>
+        <location filename="../qml/Settings.qml" line="207"/>
         <source>Font:</source>
         <translation type="unfinished">字体：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="198"/>
+        <location filename="../qml/Settings.qml" line="214"/>
         <source>Please choose a font for Danmaku</source>
         <translation type="unfinished">选择弹幕字体</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="201"/>
+        <location filename="../qml/Settings.qml" line="217"/>
         <source>Font size:</source>
         <translation type="unfinished">字体大小：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="204"/>
+        <location filename="../qml/Settings.qml" line="220"/>
         <source>Alpha (%):</source>
         <translation type="unfinished">透明度 (%)：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="207"/>
+        <location filename="../qml/Settings.qml" line="223"/>
         <source>Duration of scrolling comment display:</source>
         <translation type="unfinished">滚动弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="210"/>
+        <location filename="../qml/Settings.qml" line="226"/>
         <source>Duration of still comment display:</source>
         <translation type="unfinished">静止弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="214"/>
+        <location filename="../qml/Settings.qml" line="230"/>
         <source>Set to 0 to let MoonPlayer choose automatically.</source>
         <translation type="unfinished">设置为0让MoonPlayer自动选择。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="221"/>
+        <location filename="../qml/Settings.qml" line="237"/>
         <source>Proxy mode:</source>
         <translation type="unfinished">代理模式：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="227"/>
+        <location filename="../qml/Settings.qml" line="243"/>
         <source>Proxy:</source>
         <translation type="unfinished">代理：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="236"/>
+        <location filename="../qml/Settings.qml" line="252"/>
         <source>Note: Due to the limitation of mpv, socks5 proxy is not supported by online playing.</source>
         <translation type="unfinished">注意：由于mpv限制，在线播放不支持socks5。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="244"/>
+        <location filename="../qml/Settings.qml" line="260"/>
         <source>Use proxy only for parsing videos</source>
         <translation type="unfinished">只在解析视频时使用代理</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="254"/>
+        <location filename="../qml/Settings.qml" line="270"/>
         <source>Maximun number of threads:</source>
         <translation type="unfinished">最大线程数：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="257"/>
+        <location filename="../qml/Settings.qml" line="273"/>
         <source>Save to:</source>
         <translation type="unfinished">保存至：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="278"/>
+        <location filename="../qml/Settings.qml" line="294"/>
         <source>Navigation</source>
         <translation type="unfinished">导航</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="280"/>
+        <location filename="../qml/Settings.qml" line="296"/>
         <source>Set volume</source>
         <translation type="unfinished">设置音量</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="282"/>
+        <location filename="../qml/Settings.qml" line="298"/>
         <source>Pause/continue</source>
         <translation type="unfinished">暂停/继续</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="284"/>
+        <location filename="../qml/Settings.qml" line="300"/>
         <source>Enter/exit fullscreen</source>
         <translation type="unfinished">进入/退出全屏</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="286"/>
+        <location filename="../qml/Settings.qml" line="302"/>
         <source>Exit fullscreen</source>
         <translation type="unfinished">退出全屏</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="288"/>
+        <location filename="../qml/Settings.qml" line="304"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="290"/>
+        <location filename="../qml/Settings.qml" line="306"/>
         <source>Switch on/off danmaku</source>
         <translation type="unfinished">开/关弹幕</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="292"/>
+        <location filename="../qml/Settings.qml" line="308"/>
         <source>Show playlist</source>
         <translation type="unfinished">显示播放列表</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="294"/>
+        <location filename="../qml/Settings.qml" line="310"/>
         <source>Open URL</source>
         <translation type="unfinished">打开URL</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="296"/>
+        <location filename="../qml/Settings.qml" line="312"/>
         <source>Open Explorer</source>
         <translation type="unfinished">打开探索页面</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="298"/>
+        <location filename="../qml/Settings.qml" line="314"/>
         <source>Set speed to default</source>
         <translation type="unfinished">设置播放速度为默认</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="300"/>
+        <location filename="../qml/Settings.qml" line="316"/>
         <source>Speed down</source>
         <translation type="unfinished">播放减速</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="302"/>
+        <location filename="../qml/Settings.qml" line="318"/>
         <source>Speed up</source>
         <translation type="unfinished">播放加速</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="304"/>
+        <location filename="../qml/Settings.qml" line="320"/>
         <source>Open files</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="306"/>
+        <location filename="../qml/Settings.qml" line="322"/>
         <source>Open settings</source>
         <translation type="unfinished">打开设置</translation>
     </message>
