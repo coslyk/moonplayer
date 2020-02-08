@@ -13,19 +13,8 @@
     <p xml:lang="zh-CN">Moon Player 是一个有趣的播放器，让您轻松享受观看视频的乐趣。配合浏览器扩展，可以轻松在线观看或下载来自Youtube、B站、优酷等诸多网站的视频。</p>
   </description>
   <releases>
+    <release version="3.1" date="2020-02-08"/>
     <release version="3.0" date="2020-01-03"/>
-    <release version="2.9.2" date="2019-12-04"/>
-    <release version="2.9" date="2019-10-23"/>
-    <release version="2.8" date="2019-08-07"/>
-    <release version="2.7" date="2019-04-28"/>
-    <release version="2.6" date="2019-03-13"/>
-    <release version="2.5.4" date="2019-02-10"/>
-    <release version="2.5.2" date="2019-02-09"/>
-    <release version="2.5" date="2019-01-27"/>
-    <release version="2.4" date="2019-01-04"/>
-    <release version="2.3" date="2018-12-02"/>
-    <release version="2.2" date="2018-11-17"/>
-    <release version="2.1.5" date="2018-11-11"/>
   </releases>
   <screenshots>
     <screenshot type="default">
