@@ -84,20 +84,17 @@ public:
 #ifdef Q_OS_LINUX
             if (QX11Info::isPlatformX11())  // X11
             {
-                params[2] = {
-                    .type = MPV_RENDER_PARAM_X11_DISPLAY,
-                    .data = QX11Info::display()
-                };
+                params[2].type = MPV_RENDER_PARAM_X11_DISPLAY;
+                params[2].data = QX11Info::display();
             } else {    // Wayland
-                params[2] = {
-                    .type = MPV_RENDER_PARAM_WL_DISPLAY,
-                    .data = QGuiApplication::platformNativeInterface()->nativeResourceForWindow("display", NULL)
-                };
+                params[2].type = MPV_RENDER_PARAM_WL_DISPLAY;
+                params[2].data = QGuiApplication::platformNativeInterface()->nativeResourceForWindow("display", NULL);
             }
 #endif
         
             if (mpv_render_context_create(&obj->mpv_gl, obj->mpv, params) < 0)
                 throw std::runtime_error("failed to initialize mpv GL context");
+            
             mpv_render_context_set_update_callback(obj->mpv_gl, [](void *ctx) {
                 MpvObject *obj = reinterpret_cast<MpvObject*>(ctx);
                 QMetaObject::invokeMethod(obj, "update", Qt::QueuedConnection);
@@ -112,10 +109,11 @@ public:
 
         QOpenGLFramebufferObject *fbo = framebufferObject();
         mpv_opengl_fbo mpfbo {
-            .fbo = static_cast<int>(fbo->handle()),
-            .w = fbo->width(),
-            .h = fbo->height(),
-            .internal_format = 0};
+            static_cast<int>(fbo->handle()),
+            fbo->width(),
+            fbo->height(),
+            0
+        };
         int flip_y = 0;
 
         mpv_render_param params[] = {
