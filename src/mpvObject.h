@@ -5,7 +5,7 @@
 #include <QQuickWindow>
 
 #include <mpv/client.h>
-#include <mpv/opengl_cb.h>
+#include <mpv/render_gl.h>
 #include <mpv/qthelper.hpp>
 
 class MpvRenderer;
@@ -67,7 +67,6 @@ public slots:
     void showText(const QString& text);
     
 signals:
-    void onUpdate(void);
     void stopped(bool stoppedByUser);
     void audioTracksChanged(void);
     void stateChanged(void);
@@ -78,9 +77,6 @@ signals:
     void timeChanged(void);
     void volumeChanged(void);
     void videoSizeChanged(void);
-
-private slots:
-    void doUpdate();
     
 private:
     static void on_update(void *ctx);
@@ -88,7 +84,7 @@ private:
     void handleMpvError(int code);
     
     mpv::qt::Handle mpv;
-    mpv_opengl_cb_context *mpv_gl;
+    mpv_render_context *mpv_gl;
     bool no_emit_stopped;
     bool emit_stopped_when_idle;
     
