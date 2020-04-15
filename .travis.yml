@@ -38,7 +38,8 @@ jobs:
 addons:
   apt:
     sources:
-      - sourceline: 'ppa:mc3man/testing6'
+      - sourceline: 'ppa:cran/ffmpeg-4'
+      - sourceline: 'ppa:cos-lyk/libmpv-trusty'
     packages:
       - build-essential
       - cmake
