@@ -7,8 +7,8 @@ jobs:
       os: linux
       dist: trusty
       env:
-        - QT5_BASE_DIR: $HOME/Qt/5.12.7/gcc_64
-        - PATH: $HOME/Qt/5.12.7/gcc_64/bin/:$PATH
+        - QT5_BASE_DIR: $HOME/Qt/5.12.8/gcc_64
+        - PATH: $HOME/Qt/5.12.8/gcc_64/bin/:$PATH
 
 
     - name: macOS build
@@ -21,14 +21,14 @@ jobs:
       os: windows
       env:
         - PLATFORM: x64
-        - QT5_BASE_DIR: C:/Qt/5.12.7/msvc2017_64
-        - PATH: /c/Python37:/c/Python37/Scripts:/c/Qt/5.12.7/msvc2017_64/bin:$PATH
+        - QT5_BASE_DIR: C:/Qt/5.12.8/msvc2017_64
+        - PATH: /c/Python37:/c/Python37/Scripts:/c/Qt/5.12.8/msvc2017_64/bin:$PATH
       before_install:
         # Install libmpv, innosetup and pyinstaller
         - .travis/travis-cache-windows.sh restore
         - curl -Lo libmpv.zip https://github.com/coslyk/moonplayer/releases/download/2.9.2/libmpv_win_x64.zip
         - unzip -o libmpv.zip -d libmpv
-        - choco install -y zip innosetup
+        - choco install -y zip innosetup 7zip
         - choco install -y python --version 3.7.6
         - pip install pyinstaller
         
