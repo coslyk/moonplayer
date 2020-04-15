@@ -30,6 +30,7 @@ curl -Lo declarative.7z "$Declarative_URL"
 curl -Lo imageformats.7z "$ImageFormats_URL"
 curl -Lo quickcontrols.7z "$QuickControls_URL"
 curl -Lo quickcontrols2.7z "$QuickControls2_URL"
+curl -Lo tools.7z "$Tools_URL"
 
 # Extract
 [ -d $DESTDIR ] || mkdir $DESTDIR
@@ -38,6 +39,7 @@ curl -Lo quickcontrols2.7z "$QuickControls2_URL"
 7z x -o$DESTDIR imageformats.7z
 7z x -o$DESTDIR quickcontrols.7z
 7z x -o$DESTDIR quickcontrols2.7z
+7z x -o$DESTDIR tools.7z
 
 # Linux specific
 if [ "$TRAVIS_OS_NAME" = "linux" ]; then

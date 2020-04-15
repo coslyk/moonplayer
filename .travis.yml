@@ -48,6 +48,7 @@ addons:
       - libglu1-mesa-dev
       - libxkbcommon-x11-0
       - libmpv-dev
+      - p7zip-full
     update: true
 
   homebrew:
