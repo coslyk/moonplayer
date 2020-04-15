@@ -22,6 +22,7 @@ else
     QuickControls2_URL="http://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5128/qt.qt5.5128.gcc_64/5.12.8-0-202004051456qtquickcontrols2-Linux-RHEL_7_4-GCC-Linux-RHEL_7_4-X86_64.7z"
     Tools_URL="http://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5128/qt.qt5.5128.gcc_64/5.12.8-0-202004051456qttools-Linux-RHEL_7_4-GCC-Linux-RHEL_7_4-X86_64.7z"
     X11Extras_URL="http://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5128/qt.qt5.5128.gcc_64/5.12.8-0-202004051456qtx11extras-Linux-RHEL_7_4-GCC-Linux-RHEL_7_4-X86_64.7z"
+    ICU_URL="http://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5128/qt.qt5.5128.gcc_64/5.12.8-0-202004051456icu-linux-Rhel7.2-x64.7z"
 fi
 
 # Download
@@ -44,5 +45,7 @@ curl -Lo tools.7z "$Tools_URL"
 # Linux specific
 if [ "$TRAVIS_OS_NAME" = "linux" ]; then
     curl -Lo x11extras.7z "$X11Extras_URL"
+    curl -Lo icu.7z "$ICU_URL"
     7z x -o$DESTDIR x11extras.7z
+    7z x -o$DESTDIR icu.7z
 fi
