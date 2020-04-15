@@ -64,7 +64,7 @@ addons:
 cache:
   directories:
     - $HOME/Library/Caches/Homebrew
-    - $HOME/Qt/5.12.7/gcc_64
+    - $HOME/Qt/5.12.8/gcc_64
     - travis-cache
 
 before_cache:

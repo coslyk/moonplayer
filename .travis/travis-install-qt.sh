@@ -48,4 +48,7 @@ if [ "$TRAVIS_OS_NAME" = "linux" ]; then
     curl -Lo icu.7z "$ICU_URL"
     7z x -o$DESTDIR x11extras.7z
     7z x -o$DESTDIR icu.7z
+
+    QT_VERSION=`ls $DESTDIR`
+    printf "[Paths]\nPrefix = $DESTDIR/$QT_VERSION/gcc_64" > $DESTDIR/$QT_VERSION/gcc_64/bin/qt.conf
 fi
