@@ -10,6 +10,7 @@ MimeType=video/x-theora+ogg;video/x-ogm+ogg;video/x-msvideo;video/x-msvideo;vide
 Name[zh_CN]=MoonPlayer
 Name=MoonPlayer
 StartupNotify=true
+StartupWMClass=MoonPlayer
 Terminal=false
 Type=Application
 X-KDE-SubstituteUID=false
