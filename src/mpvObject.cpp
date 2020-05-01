@@ -167,10 +167,10 @@ MpvObject::MpvObject(QQuickItem * parent) :
     mpv_set_option_string(mpv, "screenshot-directory", QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).toUtf8().constData());
     mpv_set_option_string(mpv, "reset-on-next-file", "speed,video-aspect,af,sub-visibility,audio-delay");
     
-    mpv_observe_property(mpv, 0, "duration",         MPV_FORMAT_DOUBLE);
+    mpv_observe_property(mpv, 0, "duration",         MPV_FORMAT_INT64);
     mpv_observe_property(mpv, 0, "width",            MPV_FORMAT_INT64);
     mpv_observe_property(mpv, 0, "height",           MPV_FORMAT_INT64);
-    mpv_observe_property(mpv, 0, "playback-time",    MPV_FORMAT_DOUBLE);
+    mpv_observe_property(mpv, 0, "playback-time",    MPV_FORMAT_INT64);
     mpv_observe_property(mpv, 0, "paused-for-cache", MPV_FORMAT_FLAG);
     mpv_observe_property(mpv, 0, "core-idle",        MPV_FORMAT_FLAG);
     mpv_observe_property(mpv, 0, "track-list",       MPV_FORMAT_NODE);
@@ -473,7 +473,7 @@ void MpvObject::onMpvEvent()
 
             if (propName == "playback-time")
             {
-                qint64 newTime = *(double*) prop->data;
+                qint64 newTime = *(qint64*) prop->data;
                 if (newTime != m_time)
                 {
                     m_time = newTime;
@@ -483,7 +483,7 @@ void MpvObject::onMpvEvent()
 
             else if (propName == "duration")
             {
-                m_duration = *(double*) prop->data;
+                m_duration = *(qint64*) prop->data;
                 emit durationChanged();
             }
 
