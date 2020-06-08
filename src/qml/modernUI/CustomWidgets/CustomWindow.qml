@@ -10,17 +10,14 @@ Window
     property alias mouseArea: mouseArea
     property alias titlebar: titlebar
     property var contextMenu
-    property bool useSystemFrame: false
     
-    flags: Qt.Window | (useSystemFrame ? 0 : Qt.FramelessWindowHint)
+    flags: Qt.Window | Qt.FramelessWindowHint
     
     signal mouseMoved()
     
     // Set cursor shape
     onMouseMoved: {
-        if (useSystemFrame)
-            mouseArea.cursorShape = Qt.ArrowCursor;
-        else if ((mouseArea.mouseX < 8 && mouseArea.mouseY < 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY > height - 8))
+        if ((mouseArea.mouseX < 8 && mouseArea.mouseY < 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY > height - 8))
             mouseArea.cursorShape = Qt.SizeFDiagCursor;
         else if ((mouseArea.mouseX < 8 && mouseArea.mouseY > height - 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY < 8))
             mouseArea.cursorShape = Qt.SizeBDiagCursor;
@@ -57,8 +54,6 @@ Window
         }
         
         onPressed: {
-            if (useSystemFrame)
-                return;
             lastMouseX = mouseX;
             lastMouseY = mouseY;
             leftBorderActived = (mouseX < 8);
@@ -119,7 +114,6 @@ Window
         color: Color.titlebar
         width: parent.width
         height: 24
-        visible: !useSystemFrame
         z: 100
         anchors.top: parent.top
         anchors.left: parent.left

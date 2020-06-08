@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     QTranslator translator;
     if (translator.load(QLocale::system().name(), ":/l10n"))
         app.installTranslator(&translator);
-    
+
     qmlRegisterType<MpvObject>("MoonPlayer", 1, 0, "MpvObject");
     qmlRegisterSingletonType(QUrl("qrc:/qml/Color.qml"), "MoonPlayer", 1, 0, "Color");
     qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", "Access to enums & flags only");
@@ -62,6 +62,9 @@ int main(int argc, char *argv[])
     context->setContextProperty("ykdl", ParserYkdl::instance());
     context->setContextProperty("youtube_dl", ParserYoutubeDL::instance());
     context->setContextProperty("utils", new Utils());
+    
+    // Add qml import path
+    engine.addImportPath("qrc:/qml/modernUI");
     
     // Update downloader model
     QObject::connect(downloader, &Downloader::modelUpdated, [=](){

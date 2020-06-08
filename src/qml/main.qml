@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Dialogs 1.3
 import QtQuick.Window 2.2
 import MoonPlayer 1.0
+import CustomWidgets 1.0
 
 CustomWindow
 {
@@ -11,7 +12,6 @@ CustomWindow
     visible: true
     minimumWidth: 800
     minimumHeight: 450
-    useSystemFrame: settings.player.use_system_frame
     
     Material.theme: Color.theme === "Dark" ? Material.Dark : Material.Light
     Material.accent: Material.Grey
@@ -435,20 +435,10 @@ CustomWindow
     
     onMouseMoved: {
         toolBar.visible = true;
-        if (!useSystemFrame)
-            titlebar.visible = true;
+        titlebar.visible = true;
         if (mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING)
         {
             timer.restart();
-        }
-    }
-    
-    Connections {
-        target: settings.player
-        onUse_system_frameChanged: {
-            if (settings.player.use_system_frame)
-                titlebar.visible = false;
-            window.show();
         }
     }
     

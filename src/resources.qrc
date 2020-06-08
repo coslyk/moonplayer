@@ -1,15 +1,18 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
+        <file>qml/Color.qml</file>
         <file>qml/CustomImageButton.qml</file>
         <file>qml/CustomTextInput.qml</file>
-        <file>qml/CustomWindow.qml</file>
         <file>qml/Downloader.qml</file>
         <file>qml/Explorer.qml</file>
+        <file>qml/OpenUrlDialog.qml</file>
         <file>qml/Playlist.qml</file>
         <file>qml/SelectionDialog.qml</file>
         <file>qml/Settings.qml</file>
         <file>qml/VideoOptionsDialog.qml</file>
+        <file>qml/modernUI/CustomWidgets/qmldir</file>
+        <file>qml/modernUI/CustomWidgets/CustomWindow.qml</file>
         <file>images/net_lightgrey.png</file>
         <file>images/pause_lightgrey.png</file>
         <file>images/play_lightgrey.png</file>
@@ -17,8 +20,6 @@
         <file>images/settings_lightgrey.png</file>
         <file>images/stop_lightgrey.png</file>
         <file>images/volume_lightgrey.png</file>
-        <file>qml/OpenUrlDialog.qml</file>
-        <file>qml/Color.qml</file>
         <file>images/net_grey.png</file>
         <file>images/pause_grey.png</file>
         <file>images/play_grey.png</file>

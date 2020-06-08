@@ -1,0 +1,2 @@
+module CustomWidgets
+CustomWindow 1.0 CustomWindow.qml
