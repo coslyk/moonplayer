@@ -11,6 +11,8 @@
         <file>qml/SelectionDialog.qml</file>
         <file>qml/Settings.qml</file>
         <file>qml/VideoOptionsDialog.qml</file>
+        <file>qml/classicUI/CustomWidgets/qmldir</file>
+        <file>qml/classicUI/CustomWidgets/CustomWindow.qml</file>
         <file>qml/modernUI/CustomWidgets/qmldir</file>
         <file>qml/modernUI/CustomWidgets/CustomWindow.qml</file>
         <file>images/net_lightgrey.png</file>

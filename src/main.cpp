@@ -3,6 +3,7 @@
 #include <QTranslator>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QSettings>
 #include <clocale>
 #include "accessManager.h"
 #include "downloader.h"
@@ -20,8 +21,6 @@
 int main(int argc, char *argv[])
 {
     qputenv("PYTHONIOENCODING", "utf-8");
-    qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", "Dense");
-    qputenv("QT_QUICK_CONTROLS_STYLE", "material");
 
     detectOpenGLEarly();
     
@@ -53,6 +52,20 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", "Access to enums & flags only");
     
     QQmlApplicationEngine engine;
+
+    // Set UI style
+    if (QSettings().value("player/use_system_frame").toBool())
+    {
+        engine.addImportPath("qrc:/qml/classicUI");
+        qputenv("QT_QUICK_CONTROLS_STYLE", "fusion");
+    }
+    else
+    {
+        engine.addImportPath("qrc:/qml/modernUI");
+        qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", "Dense");
+        qputenv("QT_QUICK_CONTROLS_STYLE", "material");
+    }
+
     QQmlContext* context = engine.rootContext();
     Downloader* downloader = Downloader::instance();
     context->setContextProperty("accessManager", NetworkAccessManager::instance());
@@ -62,9 +75,6 @@ int main(int argc, char *argv[])
     context->setContextProperty("ykdl", ParserYkdl::instance());
     context->setContextProperty("youtube_dl", ParserYoutubeDL::instance());
     context->setContextProperty("utils", new Utils());
-    
-    // Add qml import path
-    engine.addImportPath("qrc:/qml/modernUI");
     
     // Update downloader model
     QObject::connect(downloader, &Downloader::modelUpdated, [=](){

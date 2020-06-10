@@ -426,7 +426,7 @@ CustomWindow
             {
                 toolBar.visible = false;
             }
-            if (!titlebar.contains(titlebar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
+            if (titlebar !== undefined && !titlebar.contains(titlebar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
             {
                 titlebar.visible = false;
             }
@@ -435,7 +435,8 @@ CustomWindow
     
     onMouseMoved: {
         toolBar.visible = true;
-        titlebar.visible = true;
+        if (this.titlebar !== undefined)
+            titlebar.visible = true;
         if (mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING)
         {
             timer.restart();
