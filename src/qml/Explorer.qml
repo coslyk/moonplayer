@@ -37,7 +37,7 @@ Dialog {
             textRole: "name"
         }
         
-        CustomTextInput {
+        TextField {
             id: keywordInput
             Layout.fillWidth: true
             onAccepted: {

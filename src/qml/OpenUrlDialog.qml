@@ -28,7 +28,7 @@ Dialog {
     ColumnLayout {
         anchors.fill: parent
 
-        CustomTextInput {
+        TextField {
             id: openUrlInput
             Layout.fillWidth: true
             height: 30

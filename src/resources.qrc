@@ -3,7 +3,6 @@
         <file>qml/main.qml</file>
         <file>qml/Color.qml</file>
         <file>qml/CustomImageButton.qml</file>
-        <file>qml/CustomTextInput.qml</file>
         <file>qml/Downloader.qml</file>
         <file>qml/Explorer.qml</file>
         <file>qml/OpenUrlDialog.qml</file>
