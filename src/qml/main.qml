@@ -16,18 +16,6 @@ CustomWindow
     
     Material.theme: Color.theme === "Dark" ? Material.Dark : Material.Light
     Material.accent: Material.Grey
-    
-    function toHHMMSS(seconds) {
-        var hours = Math.floor(seconds / 3600);
-        seconds -= hours*3600;
-        var minutes = Math.floor(seconds / 60);
-        seconds -= minutes*60;
-
-        if (hours   < 10) {hours   = "0"+hours;}
-        if (minutes < 10) {minutes = "0"+minutes;}
-        if (seconds < 10) {seconds = "0"+seconds;}
-        return hours+':'+minutes+':'+seconds;
-    }
 
     // Background color
     color: Color.windowBackground
@@ -286,131 +274,20 @@ CustomWindow
     }
     
     // Toolbar
-    toolbar: Rectangle {
-        id: toolBar
-        color: Color.toolbar
-        radius: 8
-        
-        CustomImageButton {
-            id: playPauseButton
-            image: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING ?
-                       (Color.theme === "Light" ? "qrc:/images/pause_grey.png" : "qrc:/images/pause_lightgrey.png") :
-                       (Color.theme === "Light" ? "qrc:/images/play_grey.png" : "qrc:/images/play_lightgrey.png")
-            width: 16
-            height: 16
-            anchors.right: parent.horizontalCenter
-            anchors.rightMargin: 8
-            anchors.top: parent.top
-            anchors.topMargin: 16
-            onClicked: mpv.state == MpvObject.VIDEO_PLAYING ? mpv.pause() : mpv.play()
-        }
-        
-        CustomImageButton {
-            id: stopButton
-            image: (Color.theme === "Light" ? "qrc:/images/stop_grey.png" : "qrc:/images/stop_lightgrey.png")
-            width: 16
-            height: 16
-            anchors.left: parent.horizontalCenter
-            anchors.leftMargin: 8
-            anchors.top: parent.top
-            anchors.topMargin: 16
-            onClicked: mpv.stop()
-        }
-        
-        CustomImageButton {
-            id: settingsButton
-            image: (Color.theme === "Light" ? "qrc:/images/settings_grey.png" : "qrc:/images/settings_lightgrey.png")
-            width: 16
-            height: 16
-            anchors.left: parent.left
-            anchors.leftMargin: 8
-            anchors.top: parent.top
-            anchors.topMargin: 16
-            onClicked: settings.open()
-        }
-        
-        
-        CustomImageButton {
-            id: volumeButton
-            image: (Color.theme === "Light" ? "qrc:/images/volume_grey.png" : "qrc:/images/volume_lightgrey.png")
-            width: 16
-            height: 16
-            anchors.left: settingsButton.right
-            anchors.leftMargin: 8
-            anchors.top: parent.top
-            anchors.topMargin: 16
-            onClicked: {
-                volumePopup.x = mpv.mapFromItem(volumeButton, 0, 0).x;
-                volumePopup.y = mpv.mapFromItem(volumeButton, 0, 0).y - volumePopup.height;
-                volumePopup.open();
-            }
-        }
-        
-        CustomImageButton {
-            id: playlistButton
-            image: (Color.theme === "Light" ? "qrc:/images/playlist_grey.png" : "qrc:/images/playlist_lightgrey.png")
-            width: 16
-            height: 16
-            anchors.right: parent.right
-            anchors.rightMargin: 8
-            anchors.top: parent.top
-            anchors.topMargin: 16
-            onClicked: playlist.open()
-        }
-        
-        CustomImageButton {
-            id: downloaderButton
-            image: (Color.theme === "Light" ? "qrc:/images/net_grey.png" : "qrc:/images/net_lightgrey.png")
-            width: 16
-            height: 16
-            anchors.right: playlistButton.left
-            anchors.rightMargin: 8
-            anchors.top: parent.top
-            anchors.topMargin: 16
-            onClicked: explorer.open()
-        }
-        
-        Label {
-            id: timeText
-            text: toHHMMSS(mpv.time)
-            color: Color.toolbarText
-            anchors.left: parent.left
-            anchors.leftMargin: 16
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 12
-        }
-
-        Connections {
-            target: mpv
-            onTimeChanged: {
-                if (!timeSlider.pressed)
-                    timeSlider.value = mpv.time;
-            }
-        }
-        
-        Label {
-            id: durationText
-            text: toHHMMSS(mpv.duration)
-            color: Color.toolbarText
-            anchors.right: parent.right
-            anchors.rightMargin: 16
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 12
-        }
-        
-        Slider {
-            id: timeSlider
-            from: 0
-            to: mpv.duration
-            focusPolicy: Qt.NoFocus
-            anchors.left: timeText.right
-            anchors.right: durationText.left
-            anchors.verticalCenter: timeText.verticalCenter
-            Material.theme: Color.theme === "Light" ? Material.Light : Material.Dark
-            onPressedChanged: {
-                if (!pressed)  // released
-                    mpv.seek(value);
-            }
+    toolbar: ToolBar {
+        isPlaying: mpv.state == mpv.VIDEO_PLAYING || mpv.state == mpv.TV_PLAYING
+        time: mpv.time
+        duration: mpv.duration
+        onPlayPauseButtonClicked: mpv.state == MpvObject.VIDEO_PLAYING ? mpv.pause() : mpv.play()
+        onStopButtonClicked: mpv.stop()
+        onSettingsButtonClicked: settings.open()
+        onPlaylistButtonClicked: playlist.open()
+        onExplorerButtonClicked: explorer.open()
+        onSeekRequested: mpv.seek(time);
+        onVolumeButtonClicked: {
+            volumePopup.x = mpv.mapFromItem(volumeButton, 0, 0).x;
+            volumePopup.y = mpv.mapFromItem(volumeButton, 0, 0).y - volumePopup.height;
+            volumePopup.open();
         }
     }
     

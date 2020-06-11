@@ -66,7 +66,6 @@ Window
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: 70
         z: 100
     }
 }

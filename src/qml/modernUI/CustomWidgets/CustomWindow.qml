@@ -178,8 +178,6 @@ Window
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 50
-        width: 450
-        height: 70
         z: 100
     }
 }
