@@ -1,12 +1,11 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import MoonPlayer 1.0
 
 Rectangle {
     id: toolBar
-    color: Color.toolbar
-    height: 32
+    color: "#f2f2f2"
+    height: 40
     
     signal playPauseButtonClicked()
     signal stopButtonClicked()
@@ -34,11 +33,14 @@ Rectangle {
     }
 
     RowLayout {
+        spacing: 10
+        anchors.fill: parent
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
+
         CustomImageButton {
             id: playPauseButton
-            image: isPlaying ?
-                   (Color.theme === "Light" ? "qrc:/images/pause_grey.png" : "qrc:/images/pause_lightgrey.png") :
-                   (Color.theme === "Light" ? "qrc:/images/play_grey.png" : "qrc:/images/play_lightgrey.png")
+            image: isPlaying ? "qrc:/images/pause_grey.png" : "qrc:/images/play_grey.png"
             width: 16
             height: 16
             onClicked: playPauseButtonClicked()
@@ -46,23 +48,15 @@ Rectangle {
 
         CustomImageButton {
             id: stopButton
-            image: (Color.theme === "Light" ? "qrc:/images/stop_grey.png" : "qrc:/images/stop_lightgrey.png")
+            image: "qrc:/images/stop_grey.png"
             width: 16
             height: 16
             onClicked: stopButtonClicked()
         }
 
         CustomImageButton {
-            id: settingsButton
-            image: (Color.theme === "Light" ? "qrc:/images/settings_grey.png" : "qrc:/images/settings_lightgrey.png")
-            width: 16
-            height: 16
-            onClicked: settingsButtonClicked()
-        }
-
-        CustomImageButton {
             id: volumeButton
-            image: (Color.theme === "Light" ? "qrc:/images/volume_grey.png" : "qrc:/images/volume_lightgrey.png")
+            image: "qrc:/images/volume_grey.png"
             width: 16
             height: 16
             onClicked: volumeButtonClicked()
@@ -71,7 +65,7 @@ Rectangle {
         Label {
             id: timeText
             text: toHHMMSS(time)
-            color: Color.toolbarText
+            color: "black"
         }
         
         Slider {
@@ -79,6 +73,7 @@ Rectangle {
             from: 0
             to: duration
             focusPolicy: Qt.NoFocus
+            Layout.fillWidth: true
             onPressedChanged: {
                 if (!pressed)  // released
                     seekRequested(value);
@@ -88,23 +83,31 @@ Rectangle {
         Label {
             id: durationText
             text: toHHMMSS(duration)
-            color: Color.toolbarText
-        }
-
-        CustomImageButton {
-            id: playlistButton
-            image: (Color.theme === "Light" ? "qrc:/images/playlist_grey.png" : "qrc:/images/playlist_lightgrey.png")
-            width: 16
-            height: 16
-            onClicked: playlistButtonClicked()
+            color: "black"
         }
 
         CustomImageButton {
             id: explorerButton
-            image: (Color.theme === "Light" ? "qrc:/images/net_grey.png" : "qrc:/images/net_lightgrey.png")
+            image: "qrc:/images/net_grey.png"
             width: 16
             height: 16
             onClicked: explorerButtonClicked()
+        }
+
+        CustomImageButton {
+            id: settingsButton
+            image: "qrc:/images/settings_grey.png"
+            width: 16
+            height: 16
+            onClicked: settingsButtonClicked()
+        }
+
+        CustomImageButton {
+            id: playlistButton
+            image: "qrc:/images/playlist_grey.png"
+            width: 16
+            height: 16
+            onClicked: playlistButtonClicked()
         }
     }
 

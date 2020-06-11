@@ -30,6 +30,9 @@ Window
         toolbarLoader.item.visible = true;
         if (autoHideBars)
             timer.restart();
+
+        // Show cursor
+        mouseArea.cursorShape = Qt.ArrowCursor;
     }
 
     // Handle window's resizing and moving
