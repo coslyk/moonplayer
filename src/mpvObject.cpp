@@ -185,18 +185,15 @@ MpvObject::MpvObject(QQuickItem * parent) :
     switch (hwdec)
     {
         case AUTO:
-            mpv_set_option_string(mpv, "hwdec-preload", "auto");
-            mpv_set_option_string(mpv, "opengl-hwdec-interop", "auto");
+            mpv_set_option_string(mpv, "gpu-hwdec-interop", "auto");
             mpv_set_option_string(mpv, "hwdec", hwdecCopy ? "auto-copy" : "auto");
             break;
         case VAAPI:
-            mpv_set_option_string(mpv, "hwdec-preload", "vaapi-egl");
-            mpv_set_option_string(mpv, "opengl-hwdec-interop", "vaapi-egl");
+            mpv_set_option_string(mpv, "gpu-hwdec-interop", "vaapi-egl");
             mpv_set_option_string(mpv, "hwdec", hwdecCopy ? "vaapi-copy" : "vaapi");
             break;
         case VDPAU:
-            mpv_set_option_string(mpv, "hwdec-preload", "vdpau-glx");
-            mpv_set_option_string(mpv, "opengl-hwdec-interop", "vdpau-glx");
+            mpv_set_option_string(mpv, "gpu-hwdec-interop", "vdpau-glx");
             mpv_set_option_string(mpv, "hwdec", hwdecCopy ? "vdpau-copy" : "vdpau");
             break;
         default: break;
