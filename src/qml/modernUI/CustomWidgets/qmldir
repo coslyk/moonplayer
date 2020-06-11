@@ -1,2 +1,3 @@
 module CustomWidgets
+CustomTabDialog 1.0 CustomTabDialog.qml
 CustomWindow 1.0 CustomWindow.qml

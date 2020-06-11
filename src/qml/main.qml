@@ -187,8 +187,6 @@ CustomWindow
     // Settings
     Settings {
         id: settings
-        x: (window.width - settings.width) / 2;
-        y: (window.height - settings.height) / 2;
     }
     
     // Explorer
