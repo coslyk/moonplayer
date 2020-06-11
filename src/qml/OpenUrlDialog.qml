@@ -4,8 +4,8 @@ import QtQuick.Layouts 1.3
 
 Dialog {
     id: openUrlDialog
-    width: 300
-    height: 200
+    width: 350
+    height: 210
     title: qsTr("Enter URL to parse")
     standardButtons: Dialog.Ok | Dialog.Cancel
 
