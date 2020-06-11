@@ -275,7 +275,7 @@ CustomWindow
     
     // Toolbar
     toolbar: ToolBar {
-        isPlaying: mpv.state == mpv.VIDEO_PLAYING || mpv.state == mpv.TV_PLAYING
+        isPlaying: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
         time: mpv.time
         duration: mpv.duration
         onPlayPauseButtonClicked: mpv.state == MpvObject.VIDEO_PLAYING ? mpv.pause() : mpv.play()
