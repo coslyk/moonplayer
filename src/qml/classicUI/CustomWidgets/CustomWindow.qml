@@ -4,12 +4,34 @@ import QtQuick.Window 2.2
 Window
 {
     id: window
-    
-    property alias mouseArea: mouseArea
+
     property var contextMenu
+    property bool autoHideBars: false
+    property alias toolbar: toolbarLoader.sourceComponent
     
     signal mouseMoved()
     
+    // Auto hide mouse cursor and toolbar
+    
+    Timer {
+        id: timer
+        interval: 3000
+        onTriggered: {
+            mouseArea.cursorShape = Qt.BlankCursor;
+            if (!toolbarLoader.item.contains(toolbarLoader.item.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
+            {
+                toolbarLoader.item.visible = false;
+            }
+        }
+    }
+
+    onMouseMoved: {
+        // Show toolbar
+        toolbarLoader.item.visible = true;
+        if (autoHideBars)
+            timer.restart();
+    }
+
     // Handle window's resizing and moving
     MouseArea {
         id: mouseArea
@@ -36,5 +58,15 @@ Window
 
         onMouseXChanged: window.mouseMoved()
         onMouseYChanged: window.mouseMoved()
+    }
+
+    // Toolbar
+    Loader {
+        id: toolbarLoader
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: 70
+        z: 100
     }
 }

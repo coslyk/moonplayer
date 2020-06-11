@@ -6,17 +6,34 @@ import MoonPlayer 1.0
 Window
 {
     id: window
-    
-    property alias mouseArea: mouseArea
-    property alias titlebar: titlebar
+
     property var contextMenu
-    
-    flags: Qt.Window | Qt.FramelessWindowHint
-    
+    property bool autoHideBars: false
+    property alias toolbar: toolbarLoader.sourceComponent
+
     signal mouseMoved()
     
-    // Set cursor shape
+    flags: Qt.Window | Qt.FramelessWindowHint
+
+    // Auto hide mouse cursor, titlebar and toolbar
+    Timer {
+        id: timer
+        interval: 3000
+        onTriggered: {
+            mouseArea.cursorShape = Qt.BlankCursor;
+            if (!toolbarLoader.item.contains(toolbarLoader.item.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
+            {
+                toolbarLoader.item.visible = false;
+            }
+            if (!titlebar.contains(titlebar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
+            {
+                titlebar.visible = false;
+            }
+        }
+    }
+    
     onMouseMoved: {
+        // Set cursor shape
         if ((mouseArea.mouseX < 8 && mouseArea.mouseY < 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY > height - 8))
             mouseArea.cursorShape = Qt.SizeFDiagCursor;
         else if ((mouseArea.mouseX < 8 && mouseArea.mouseY > height - 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY < 8))
@@ -27,6 +44,12 @@ Window
             mouseArea.cursorShape = Qt.SizeVerCursor;
         else
             mouseArea.cursorShape = Qt.ArrowCursor;
+
+        // Show titlebar and toolbar
+        toolbarLoader.item.visible = true;
+        titlebar.visible = true;
+        if (autoHideBars)
+            timer.restart();
     }
     
     // Handle window's resizing and moving
@@ -147,5 +170,16 @@ Window
             background: Rectangle { color: Color.minButton; radius: 6; anchors.fill: parent }
             onClicked: window.showMinimized()
         }
+    }
+
+    // Toolbar
+    Loader {
+        id: toolbarLoader
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 50
+        width: 450
+        height: 70
+        z: 100
     }
 }

@@ -12,6 +12,7 @@ CustomWindow
     visible: true
     minimumWidth: 800
     minimumHeight: 450
+    autoHideBars: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
     
     Material.theme: Color.theme === "Dark" ? Material.Dark : Material.Light
     Material.accent: Material.Grey
@@ -37,10 +38,6 @@ CustomWindow
         anchors.fill: parent
         visible: state !== MpvObject.STOPPED
         volume: volumeSlider.value
-        onTimeChanged: {
-            if (!timeSlider.pressed)
-                timeSlider.value = time;
-        }
         onStopped: {
             if (!stoppedByUser)
                 playlistModel.playNextItem();
@@ -289,15 +286,10 @@ CustomWindow
     }
     
     // Toolbar
-    Rectangle {
+    toolbar: Rectangle {
         id: toolBar
-        width: 450
-        height: 70
-        radius: 8
         color: Color.toolbar
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 50
+        radius: 8
         
         CustomImageButton {
             id: playPauseButton
@@ -387,6 +379,14 @@ CustomWindow
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 12
         }
+
+        Connections {
+            target: mpv
+            onTimeChanged: {
+                if (!timeSlider.pressed)
+                    timeSlider.value = mpv.time;
+            }
+        }
         
         Label {
             id: durationText
@@ -411,33 +411,6 @@ CustomWindow
                 if (!pressed)  // released
                     mpv.seek(value);
             }
-        }
-    }
-    
-    // Auto hide mouse cursor, titlebar and toolbar
-    Timer {
-        id: timer
-        interval: 3000
-        onTriggered: {
-            mouseArea.cursorShape = Qt.BlankCursor;
-            if (!toolBar.contains(toolBar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
-            {
-                toolBar.visible = false;
-            }
-            if (titlebar !== undefined && !titlebar.contains(titlebar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
-            {
-                titlebar.visible = false;
-            }
-        }
-    }
-    
-    onMouseMoved: {
-        toolBar.visible = true;
-        if (this.titlebar !== undefined)
-            titlebar.visible = true;
-        if (mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING)
-        {
-            timer.restart();
         }
     }
     
