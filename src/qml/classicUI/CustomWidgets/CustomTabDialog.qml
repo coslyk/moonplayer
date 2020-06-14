@@ -10,13 +10,12 @@ Dialog {
     property alias currentIndex: tabBar.currentIndex
     property alias content: loader.sourceComponent
     
-    ColumnLayout {
-        anchors.fill: parent
-
+    contentItem: ColumnLayout {
         // Tab bar
         TabBar {
             id: tabBar
             Layout.fillWidth: true
+            Layout.margins: 5
             Repeater {
                 id: repeater
                 TabButton {
@@ -29,7 +28,8 @@ Dialog {
             id: loader
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.margins: 10
+            Layout.leftMargin: 20
+            Layout.rightMargin: 20
         }
     }
 }

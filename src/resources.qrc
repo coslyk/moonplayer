@@ -10,11 +10,13 @@
         <file>qml/Settings.qml</file>
         <file>qml/VideoOptionsDialog.qml</file>
         <file>qml/classicUI/CustomWidgets/qmldir</file>
+        <file>qml/classicUI/CustomWidgets/CustomDialog.qml</file>
         <file>qml/classicUI/CustomWidgets/CustomImageButton.qml</file>
         <file>qml/classicUI/CustomWidgets/CustomTabDialog.qml</file>
         <file>qml/classicUI/CustomWidgets/CustomWindow.qml</file>
         <file>qml/classicUI/CustomWidgets/ToolBar.qml</file>
         <file>qml/modernUI/CustomWidgets/qmldir</file>
+        <file>qml/modernUI/CustomWidgets/CustomDialog.qml</file>
         <file>qml/modernUI/CustomWidgets/CustomImageButton.qml</file>
         <file>qml/modernUI/CustomWidgets/CustomTabDialog.qml</file>
         <file>qml/modernUI/CustomWidgets/CustomWindow.qml</file>

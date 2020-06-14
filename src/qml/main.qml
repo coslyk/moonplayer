@@ -26,10 +26,12 @@ CustomWindow
         anchors.fill: parent
         visible: state !== MpvObject.STOPPED
         volume: volumeSlider.value
+
         onStopped: {
             if (!stoppedByUser)
                 playlistModel.playNextItem();
         }
+
         onVideoSizeChanged: {
             if (window.visibility == Window.FullScreen)
                 return;
@@ -49,6 +51,10 @@ CustomWindow
             window.x = (Screen.width - window.width) / 2;
             window.y = (Screen.height - window.height) / 2;
         }
+        onStateChanged: {
+            if (mpv.state === MpvObject.VIDEO_PLAYING || mpv.state === MpvObject.TV_PLAYING)
+                explorer.close();
+        }
     }
     
     // Select subtitles
@@ -56,8 +62,6 @@ CustomWindow
         id: subtitleSelectionDialog
         title: qsTr("Select subtitles")
         items: mpv.subtitles
-        x: (window.width - width) / 2
-        y: (window.height - height) / 2
         onAccepted: mpv.setProperty("sid", currentIndex)
     }
     
@@ -74,8 +78,6 @@ CustomWindow
         id: audioTrackSelectionDialog
         title: qsTr("Select audio tracks")
         items: mpv.audioTracks
-        x: (window.width - width) / 2
-        y: (window.height - height) / 2
         onAccepted: mpv.setProperty("aid", currentIndex)
     }
     
@@ -83,8 +85,6 @@ CustomWindow
     SelectionDialog {
         id: episodeSelectionDialog
         title: qsTr("Select episode")
-        x: (window.width - width) / 2
-        y: (window.height - height) / 2
         property var urls: []
         property bool download: false
         
@@ -104,8 +104,6 @@ CustomWindow
     SelectionDialog {
         id: streamSelectionDialog
         title: qsTr("Select streams")
-        x: (window.width - width) / 2
-        y: (window.height - height) / 2
         property bool isYkdl: true
         
         Connections {
@@ -138,8 +136,6 @@ CustomWindow
     VideoOptionsDialog {
         id: videoOptionsDialog
         mpvObject: mpv
-        x: (window.width - width) / 2
-        y: (window.height - height) / 2
     }
     
     
@@ -177,22 +173,16 @@ CustomWindow
     // Explorer
     Explorer {
         id: explorer
-        x: (window.width - width) / 2
-        y: (window.height - height) / 2
     }
     
     // Downloader
     Downloader {
         id: downloader
-        x: (window.width - width) / 2
-        y: (window.height - height) / 2
     }
 
     // Open url by Dialog
     OpenUrlDialog {
         id: openUrlDialog
-        x: (window.width - width) / 2
-        y: (window.height - height) / 2
     
         Connections {
             target: playlistModel

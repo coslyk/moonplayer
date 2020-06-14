@@ -2,22 +2,22 @@ import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import MoonPlayer 1.0
+import CustomWidgets 1.0
 
-Dialog {
+CustomDialog {
     id: videoOptionsDialog
     
     property MpvObject mpvObject: null
     
     width: 400
     height: 300
+    title: qsTr("Video options")
     
     GridLayout {
         anchors.fill: parent
+        anchors.margins: 15
         columns: 3
         rowSpacing: 0
-        
-        // Title
-        Label { text: qsTr("Video options"); font.pixelSize: 16; font.bold: true; Layout.columnSpan: 3 }
         
         // Brightness
         Label { text: qsTr("Brightness") }
