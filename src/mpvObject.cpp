@@ -168,8 +168,6 @@ MpvObject::MpvObject(QQuickItem * parent) :
     mpv_set_option_string(mpv, "reset-on-next-file", "speed,video-aspect,af,sub-visibility,audio-delay");
     
     mpv_observe_property(mpv, 0, "duration",         MPV_FORMAT_INT64);
-    mpv_observe_property(mpv, 0, "width",            MPV_FORMAT_INT64);
-    mpv_observe_property(mpv, 0, "height",           MPV_FORMAT_INT64);
     mpv_observe_property(mpv, 0, "playback-time",    MPV_FORMAT_INT64);
     mpv_observe_property(mpv, 0, "paused-for-cache", MPV_FORMAT_FLAG);
     mpv_observe_property(mpv, 0, "core-idle",        MPV_FORMAT_FLAG);
@@ -452,6 +450,21 @@ void MpvObject::onMpvEvent()
             }
             break;
 
+        case MPV_EVENT_VIDEO_RECONFIG:
+            if (!m_audioToBeAdded.isEmpty())
+            {
+                addAudioTrack(m_audioToBeAdded);
+                m_audioToBeAdded = QUrl();
+            }
+            mpv_get_property(mpv, "dwidth", MPV_FORMAT_INT64, &m_videoWidth);
+            mpv_get_property(mpv, "dheight", MPV_FORMAT_INT64, &m_videoHeight);
+            emit videoSizeChanged();
+
+            // Load danmaku
+            if (!m_danmakuUrl.isEmpty())
+                DanmakuLoader::instance()->start(m_danmakuUrl, m_videoWidth, m_videoHeight);
+            break;
+
         case MPV_EVENT_LOG_MESSAGE:
         {
             mpv_event_log_message *msg = static_cast<mpv_event_log_message*>(event->data);
@@ -482,34 +495,6 @@ void MpvObject::onMpvEvent()
             {
                 m_duration = *(qint64*) prop->data;
                 emit durationChanged();
-            }
-
-            else if (propName == "width")
-            {
-                if (!m_audioToBeAdded.isEmpty())
-                {
-                    addAudioTrack(m_audioToBeAdded);
-                    m_audioToBeAdded = QUrl();
-                }
-                m_videoWidth = *(int64_t*) prop->data;
-                if (m_videoWidth && m_videoHeight)  // videoSize is valid?
-                {
-                    emit videoSizeChanged();
-                    // Load danmaku
-                    if (!m_danmakuUrl.isEmpty())
-                        DanmakuLoader::instance()->start(m_danmakuUrl, m_videoWidth, m_videoHeight);
-                }
-            }
-
-            else if (propName == "height")
-            {
-                m_videoHeight = *(int64_t*) prop->data;
-                if (m_videoWidth && m_videoHeight)
-                {
-                    emit videoSizeChanged();
-                    if (!m_danmakuUrl.isEmpty())
-                        DanmakuLoader::instance()->start(m_danmakuUrl, m_videoWidth, m_videoHeight);
-                }
             }
 
             else if (propName == "paused-for-cache")
