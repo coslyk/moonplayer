@@ -6,6 +6,9 @@ build/
 # QtCreator
 *.user*
 
+# VSCode
+.vscode
+
 # macOS
 ._*
 
