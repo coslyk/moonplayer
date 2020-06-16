@@ -13,6 +13,7 @@ CustomWindow
     minimumWidth: 800
     minimumHeight: 450
     autoHideBars: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
+    title: "MoonPlayer"
     
     Material.theme: Color.theme === "Dark" ? Material.Dark : Material.Light
     Material.accent: Material.Grey
@@ -215,7 +216,7 @@ CustomWindow
         padding: 5
         Action { text: qsTr("Open files"); onTriggered: fileDialog.open() }
         Action { text: qsTr("Open URL"); onTriggered: openUrlDialog.open() }
-        Action { text: qsTr("Playlist"); onTriggered: playlist.open() }
+        Action { text: qsTr("Explorer"); onTriggered: explorer.open() }
         MenuSeparator { padding: 0 }
         Menu {
             title: qsTr("Video")

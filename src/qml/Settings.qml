@@ -86,17 +86,22 @@ CustomTabDialog {
             columns: 2
             columnSpacing: 40
             
-            Label { text: qsTr("Style:") }
-            ComboBox {
-                id: styleComboBox
-                model: [ "Mix", "Dark", "Light" ]
-                onCurrentTextChanged: Color.theme = currentText
-            }
             
             CheckBox {
                 id: systemFrameCheckBox
-                text: qsTr("Use system window frame")
+                text: qsTr("Use classic UI (Restart needed)")
                 Layout.columnSpan: 2
+            }
+
+            Label {
+                text: qsTr("Style:")
+                enabled: !systemFrameCheckBox.checked
+            }
+            ComboBox {
+                id: styleComboBox
+                model: [ "Mix", "Dark", "Light" ]
+                enabled: !systemFrameCheckBox.checked
+                onCurrentTextChanged: Color.theme = currentText
             }
             
             Label { text: qsTr("When opening an URL:") }
