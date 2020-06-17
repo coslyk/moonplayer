@@ -40,6 +40,7 @@ CustomDialog {
                 onAccepted: {
                     currentPlugin.keyword = keywordInput.text;
                     pageSpinBox.value = 1;
+                    resultArea.currentIndex = 1;
                 }
             }
             Button {
@@ -49,43 +50,71 @@ CustomDialog {
                 onClicked: {
                     currentPlugin.keyword = keywordInput.text;
                     pageSpinBox.value = 1;
+                    resultArea.currentIndex = 1;
                 }
             }
 
-            // Search result
-            ScrollView {
+            StackLayout {
+                id: resultArea
                 Layout.columnSpan: 3
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                clip: true
-            
-                ListView {
-                    model: currentPlugin.resultModel
-                    delegate: Rectangle {
-                        height: 30
-                        width: parent.width
-                        color: "transparent"
+
+                // Description
+                Label {
+                    id: descriptionLabel
+                    text: currentPlugin.description
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    onLinkActivated: {
+                        keywordInput.text = link;
+                        currentPlugin.keyword = link;
+                        pageSpinBox.value = 1;
+                        resultArea.currentIndex = 1;
+                    }
+                }
+
+                // Search result
+                ScrollView {
+                    clip: true
+                    ListView {
+                        model: currentPlugin.resultModel
+                        delegate: Rectangle {
+                            height: 30
+                            width: parent.width
+                            color: "transparent"
                     
-                        Label { text: modelData; anchors.fill: parent; verticalAlignment: Text.AlignVCenter }
+                            Label { text: modelData; anchors.fill: parent; verticalAlignment: Text.AlignVCenter }
                     
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onEntered: parent.color = Color.listItemHovered
-                            onExited: parent.color = "transparent"
-                            onDoubleClicked: currentPlugin.openItem(index)
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: parent.color = Color.listItemHovered
+                                onExited: parent.color = "transparent"
+                                onDoubleClicked: currentPlugin.openItem(index)
+                            }
                         }
                     }
                 }
             }
-            Label { text: qsTr("Page: "); horizontalAlignment: Text.AlignRight; Layout.fillWidth: true; Layout.columnSpan: 2 }
+
+            Button {
+                text: qsTr("Back")
+                enabled: resultArea.currentIndex === 1
+                onClicked: resultArea.currentIndex = 0
+            }
+            
+            Label { text: qsTr("Page: "); horizontalAlignment: Text.AlignRight; Layout.fillWidth: true }
             SpinBox {
                 id: pageSpinBox
                 from: 1
                 to: 100
                 value: 1
                 implicitWidth: 120
-                onValueChanged: currentPlugin.page = value
+                onValueChanged: {
+                    currentPlugin.page = value;
+                    resultArea.currentIndex = 1;
+                }
             }
         }
     

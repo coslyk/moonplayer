@@ -11,6 +11,7 @@ class Plugin : public QObject {
     Q_OBJECT
     
     Q_PROPERTY(QString name             READ name                       NOTIFY nameChanged)
+    Q_PROPERTY(QString description      READ description                NOTIFY descriptionChanged)
     Q_PROPERTY(QString keyword          READ keyword  WRITE setKeyword  NOTIFY keywordChanged)
     Q_PROPERTY(int page                 READ page     WRITE setPage     NOTIFY pageChanged)
     Q_PROPERTY(QStringList resultModel  READ resultModel                NOTIFY resultModelChanged)
@@ -23,6 +24,7 @@ public:
     
     // Access properties
     inline QString name() { return m_name; }
+    inline QString description() { return m_description; }
     inline QString keyword() { return m_keyword; }
     inline int page() { return m_page; }
     inline QStringList resultModel() { return m_titles; }
@@ -32,6 +34,7 @@ public:
     
 signals:
     void nameChanged(void);
+    void descriptionChanged(void);
     void keywordChanged(void);
     void pageChanged(void);
     void resultModelChanged(void);
@@ -45,6 +48,7 @@ private:
     QByteArray m_script;
     QJSValue m_searchFunc;
     QString m_name;
+    QString m_description;
     QString m_keyword;
     int m_page;
     QStringList m_titles;

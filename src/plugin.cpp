@@ -57,10 +57,13 @@ Plugin::Plugin(const QString& filepath, QObject* parent) :
         throw std::runtime_error("Cannot init plugin!");
     }
     
-    //get name
+    // get name
     m_name = m_engine->globalObject().property("website_name").toString();
+
+    // get description
+    m_description = m_engine->globalObject().property("website_description").toString();
     
-    //get search() function
+    // get search() function
     m_searchFunc = m_engine->globalObject().property("search");
 }
 
