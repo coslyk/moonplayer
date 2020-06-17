@@ -162,6 +162,7 @@ MpvObject::MpvObject(QQuickItem * parent) :
         throw std::runtime_error("could not create mpv context");
 
     // set mpv options
+    mpv_set_option_string(mpv, "vo", "libmpv");           // Force to use libmpv
     mpv_set_option_string(mpv, "softvol", "yes");         // mpv handles the volume
     mpv_set_option_string(mpv, "ytdl", "no");             // We handle video url parsing
     mpv_set_option_string(mpv, "screenshot-directory", QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).toUtf8().constData());
