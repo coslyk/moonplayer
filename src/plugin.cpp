@@ -61,7 +61,9 @@ Plugin::Plugin(const QString& filepath, QObject* parent) :
     m_name = m_engine->globalObject().property("website_name").toString();
 
     // get description
-    m_description = m_engine->globalObject().property("website_description").toString();
+    QJSValue descValue = m_engine->globalObject().property("website_description");
+    if (!descValue.isUndefined())
+        m_description = descValue.toString();
     
     // get search() function
     m_searchFunc = m_engine->globalObject().property("search");
