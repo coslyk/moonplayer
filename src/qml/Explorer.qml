@@ -36,6 +36,7 @@ CustomDialog {
         
             TextField {
                 id: keywordInput
+                selectByMouse: true
                 Layout.fillWidth: true
                 onAccepted: {
                     currentPlugin.keyword = keywordInput.text;

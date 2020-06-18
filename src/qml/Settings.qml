@@ -210,6 +210,7 @@ CustomTabDialog {
             Label { text: qsTr("Proxy:") }
             TextField {
                 id: proxyInput
+                selectByMouse: true
                 width: 300
                 color: !text.match(/^.+:\d+$/) ? "red" : playerSettings.style == 1 ? "white" : "black"
                 validator: RegExpValidator { regExp: /.+:\d+/ }

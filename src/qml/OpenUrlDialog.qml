@@ -32,6 +32,7 @@ CustomDialog {
 
         TextField {
             id: openUrlInput
+            selectByMouse: true
             Layout.fillWidth: true
             height: 30
             onAccepted: openUrlDialog.accept()
