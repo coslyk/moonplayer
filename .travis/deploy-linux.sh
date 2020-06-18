@@ -2,7 +2,7 @@
 
 # Run make install
 make install DESTDIR=appdir
-find appdir/
+cp /usr/bin/ffmpeg ./appdir/usr/bin/
 
 # Create appimage
 export VERSION=${TRAVIS_TAG#v}
