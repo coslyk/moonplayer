@@ -96,17 +96,22 @@
         <translation type="unfinished">探索</translation>
     </message>
     <message>
-        <location filename="../qml/Explorer.qml" line="47"/>
+        <location filename="../qml/Explorer.qml" line="48"/>
         <source>Search</source>
         <translation type="unfinished">搜索</translation>
     </message>
     <message>
-        <location filename="../qml/Explorer.qml" line="93"/>
+        <location filename="../qml/Explorer.qml" line="102"/>
+        <source>Back</source>
+        <translation type="unfinished">返回</translation>
+    </message>
+    <message>
+        <location filename="../qml/Explorer.qml" line="122"/>
         <source>&lt;p&gt;No plugins found.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;moonplayer:plugin&quot;&gt;Download plugins&lt;/a&gt;&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;未找到插件。&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;moonplayer:plugin&quot;&gt;下载插件&lt;/a&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../qml/Explorer.qml" line="81"/>
+        <location filename="../qml/Explorer.qml" line="107"/>
         <source>Page: </source>
         <translation type="unfinished">页码： </translation>
     </message>
