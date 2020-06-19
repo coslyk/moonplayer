@@ -44,6 +44,7 @@ addons:
       - build-essential
       - cmake
       - desktop-file-utils
+      - ffmpeg
       - libgl1-mesa-dev
       - libglu1-mesa-dev
       - libxkbcommon-x11-0
