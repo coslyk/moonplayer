@@ -187,10 +187,10 @@ CustomTabDialog {
             Label { text: qsTr("Alpha (%):") }
             SpinBox { id: alphaSpinBox; from: 0; to: 100; value: 100; implicitWidth: 140 }
             
-            Label { text: qsTr("Duration of scrolling comment display:") + " (*)" }
+            Label { text: qsTr("Duration of scrolling comment:") + " (*)" }
             SpinBox { id: dmSpinBox; from: 0; to: 100; value: 0; implicitWidth: 140 }
             
-            Label { text: qsTr("Duration of still comment display:") }
+            Label { text: qsTr("Duration of still comment:") }
             SpinBox { id: dsSpinBox; from: 0; to: 100; value: 6; implicitWidth: 140 }
             
             MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
@@ -211,7 +211,7 @@ CustomTabDialog {
             TextField {
                 id: proxyInput
                 selectByMouse: true
-                width: 300
+                Layout.minimumWidth: 200
                 color: !text.match(/^.+:\d+$/) ? "red" : playerSettings.style == 1 ? "white" : "black"
                 validator: RegExpValidator { regExp: /.+:\d+/ }
             }
