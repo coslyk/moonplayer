@@ -90,6 +90,7 @@ CustomTabDialog {
             CheckBox {
                 id: systemFrameCheckBox
                 text: qsTr("Use classic UI (Restart needed)")
+                visible: Qt.platform.os !== "osx"
                 Layout.columnSpan: 2
             }
 
