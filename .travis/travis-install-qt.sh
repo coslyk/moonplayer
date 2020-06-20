@@ -51,4 +51,9 @@ if [ "$TRAVIS_OS_NAME" = "linux" ]; then
 
     QT_VERSION=`ls $DESTDIR`
     printf "[Paths]\nPrefix = $DESTDIR/$QT_VERSION/gcc_64" > $DESTDIR/$QT_VERSION/gcc_64/bin/qt.conf
+
+# Windows specific
+elif [ "$TRAVIS_OS_NAME" = "windows" ]; then
+    QT_VERSION=`ls /c/Qt`
+    printf "[Paths]\nPrefix = .." > /c/Qt/$QT_VERSION/msvc2017_64/bin/qt.conf
 fi
