@@ -118,7 +118,8 @@ bool Application::parseArgs()
     // Open files after player is loaded
     if (m_argc > 1)
     {
-        QTimer::singleShot(0, [=]() {
+        // Wait 0.5s to ensure that OpenGL is loaded
+        QTimer::singleShot(500, [=]() {
             if (m_isLocalFiles)
             {
                 QList<QUrl> fileUrls;
