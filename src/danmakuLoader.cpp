@@ -125,7 +125,7 @@ void DanmakuLoader::onXmlDownloaded()
         args << "-ds" << settings.value("danmaku/ds").toString();
 
         // text opacity
-        args << "-a" << settings.value("danmaku/alpha").toString();
+        args << "-a" << QString::number(settings.value("danmaku/alpha").toFloat() / 100.0);
 
         // input
         args << QDir::temp().filePath("danmaku_source");
