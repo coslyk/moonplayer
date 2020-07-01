@@ -68,10 +68,14 @@ CustomDialog {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     onLinkActivated: {
-                        keywordInput.text = link;
-                        currentPlugin.keyword = link;
-                        pageSpinBox.value = 1;
-                        resultArea.currentIndex = 1;
+                        if (link.startsWith('http://') || link.startsWith('https://')) {
+                            Qt.openUrlExternally(link);
+                        } else {
+                            keywordInput.text = link;
+                            currentPlugin.keyword = link;
+                            pageSpinBox.value = 1;
+                            resultArea.currentIndex = 1;
+                        }
                     }
                 }
 

@@ -1,10 +1,12 @@
 #include "jsapiObject.h"
 #include "accessManager.h"
+#include <QInputDialog>
 #include <QMessageBox>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QSettings>
 
-JSAPIObject::JSAPIObject(QObject* parent) : QObject(parent)
+JSAPIObject::JSAPIObject(const QString &id, QObject* parent) : QObject(parent), m_id(id)
 {
 }
 
@@ -62,17 +64,42 @@ void JSAPIObject::post_content(const QString& url, const QByteArray& postData, c
     get_post_content(url, postData, callbackFunc);
 }
 
+// Dialogs
 void JSAPIObject::warning(const QString& msg)
 {
-    QMessageBox::warning(nullptr, "Warning", msg);
+    QMessageBox::warning(nullptr, tr("Warning"), msg);
 }
 
 bool JSAPIObject::question(const QString& msg)
 {
-    return QMessageBox::question(nullptr, "Question", msg, QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes;
+    return QMessageBox::question(nullptr, tr("Question"), msg, QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes;
 }
 
+QString JSAPIObject::get_text(const QString &msg)
+{
+    return QInputDialog::getText(nullptr, tr("Please input"), msg);
+}
+
+QString JSAPIObject::get_item(const QString &msg, const QStringList &items)
+{
+    return QInputDialog::getItem(nullptr, tr("Please select"), msg, items);
+}
+
+// Show result
 void JSAPIObject::show_result(const QVariant& result)
 {
     emit showResultRequested(result);
+}
+
+// Configurations
+QVariant JSAPIObject::get_configuration(const QString &name)
+{
+    QString key = QStringLiteral("plugin-%1/%2").arg(m_id, name);
+    return QSettings().value(key);
+}
+
+void JSAPIObject::set_configuration(const QString &name, const QVariant &value)
+{
+    QString key = QStringLiteral("plugin-%1/%2").arg(m_id, name);
+    QSettings().setValue(key, value);
 }

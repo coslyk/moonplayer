@@ -29,10 +29,11 @@ QList<QObject *> Plugin::loadPlugins()
 Plugin::Plugin(const QString& filepath, QObject* parent) :
     QObject(parent),
     m_engine(new QJSEngine(this)),
+    m_id(QFileInfo(filepath).baseName()),
     m_page(1)
 {
     // install api
-    JSAPIObject *apiObject = new JSAPIObject(this);
+    JSAPIObject *apiObject = new JSAPIObject(m_id, this);
     connect(apiObject, &JSAPIObject::showResultRequested, this, &Plugin::updateResult);
     connect(apiObject, &JSAPIObject::jsError, this, &Plugin::printJSError);
     QJSValue api = m_engine->newQObject(apiObject);

@@ -50,6 +50,7 @@ private:
     QString m_name;
     QString m_description;
     QString m_keyword;
+    QString m_id;
     int m_page;
     QStringList m_titles;
     QList<QUrl> m_urls;
