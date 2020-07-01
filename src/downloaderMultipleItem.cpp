@@ -150,7 +150,7 @@ void DownloaderMultipleItem::concatVideos()
         }
         foreach (QString filename, filelist)
         {
-            file.write(QString("file '%1'\n").arg(filename).toUtf8());
+            file.write(QStringLiteral("file '%1'\n").arg(filename).toUtf8());
         }
         file.close();
     

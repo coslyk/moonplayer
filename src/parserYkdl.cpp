@@ -118,7 +118,7 @@ void ParserYkdl::parseOutput()
         for (auto i = streams.constBegin(); i != streams.constEnd(); i++)
         {
             QString profile = i.value().toHash()["video_profile"].toString();
-            result.stream_types << QString("%1 (%2)").arg(i.key(), profile);
+            result.stream_types << QStringLiteral("%1 (%2)").arg(i.key(), profile);
             
             // Basic stream infos
             QVariantHash item = i.value().toHash();

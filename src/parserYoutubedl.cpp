@@ -45,7 +45,7 @@ void ParserYoutubeDL::runParser(const QUrl& url)
     if (!proxy.isEmpty() && proxyType == NetworkAccessManager::HTTP_PROXY)
         args << "--proxy" << proxy;
     else if (!proxy.isEmpty() && proxyType == NetworkAccessManager::SOCKS5_PROXY)
-        args << "--proxy" << QString("socks5://%1/").arg(proxy);
+        args << "--proxy" << QStringLiteral("socks5://%1/").arg(proxy);
 
     args << url.toString();
     process->start(userResourcesPath() + "/youtube-dl", args, QProcess::ReadOnly);
@@ -99,7 +99,7 @@ void ParserYoutubeDL::parseOutput()
             // Videos
             else
             {
-                QString formatName = QString("%1 (%2)").arg(item["format"].toString(), item["ext"].toString());
+                QString formatName = QStringLiteral("%1 (%2)").arg(item["format"].toString(), item["ext"].toString());
                 result.stream_types << formatName;
                 streams << item;
             }
