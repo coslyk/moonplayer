@@ -199,7 +199,7 @@ MpvObject::MpvObject(QQuickItem * parent) :
     }
     
 #elif defined(Q_OS_MAC)
-    mpv_set_option_string(mpv, "opengl-hwdec-interop", "videotoolbox");
+    mpv_set_option_string(mpv, "gpu-hwdec-interop", "videotoolbox");
     mpv_set_option_string(mpv, "hwdec", hwdecCopy ? "videotoolbox-copy" : "videotoolbox");
     
 #elif defined(Q_OS_WIN)
