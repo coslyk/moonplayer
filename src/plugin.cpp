@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QFile>
 #include <QJSEngine>
+#include <QLocale>
 
 // Load all plugins
 QList<QObject *> Plugin::loadPlugins()
@@ -59,12 +60,22 @@ Plugin::Plugin(const QString& filepath, QObject* parent) :
     }
     
     // get name
-    m_name = m_engine->globalObject().property("website_name").toString();
+    m_name = m_engine->globalObject().property("website_name_" + QLocale::system().name()).toString();
+    if (m_name == "undefined")
+    {
+        m_name = m_engine->globalObject().property("website_name").toString();
+    }
 
     // get description
-    QJSValue descValue = m_engine->globalObject().property("website_description");
-    if (!descValue.isUndefined())
-        m_description = descValue.toString();
+    m_description = m_engine->globalObject().property("website_description_" + QLocale::system().name()).toString();
+    if (m_description == "undefined")
+    {
+        m_description = m_engine->globalObject().property("website_description").toString();
+        if (m_description == "undefined")
+        {
+            m_description.clear();
+        }
+    }
     
     // get search() function
     m_searchFunc = m_engine->globalObject().property("search");
