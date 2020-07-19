@@ -1,43 +1,70 @@
-[中文主页](https://github.com/coslyk/moonplayer/wiki/HomePageZH)
-
 # MoonPlayer
+
 MoonPlayer is an interesting player that lets you to enjoy videos. It can play the video online, download it or just open the local videos.
 
 ***
-Latest version: v3.3 [Download](https://github.com/coslyk/moonplayer/releases/latest)
 
-<a href='https://flathub.org/apps/details/com.github.coslyk.MoonPlayer'><img height='100' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a>
+### Homepage
 
-Last update: 2020.07.05
+The homepage of MoonPlayer is here: https://coslyk.github.io/moonplayer/
 
-* [Browser extension](https://github.com/coslyk/moonplayer/wiki/BrowserExtension)
-* [Plugins](https://github.com/coslyk/moonplayer-plugins)
-* [Update log](https://github.com/coslyk/moonplayer/wiki/UpdateLog)
+Here is the development page of this project. For the program usage information, please visit the homepage.
 
-***
-[Donation & Contribution](https://github.com/coslyk/moonplayer/wiki/Contribute)
-***
-Features:
-1. Cool
-1. Super cool
-1. Fuckingly cool
-1. Beautiful and lightweight
-1. Based on MPV so it can play nearly all video formats
-1. Directly open video pages, like Youtube's url
-1. Support [plugins](https://github.com/coslyk/moonplayer-plugins), you can also write plugins for MoonPlayer ^_^
+### Compile
 
-### Easy to use and lightweight!
+Following packages are essential for compiling MoonPlayer.
 
-![](https://github.com/coslyk/moonplayer/blob/screenshot/screenshot.png?raw=true)
+On ArchLinux:
 
-### Explore the Internet videos!
+```
+    - cmake
+    - ffmpeg
+    - mpv
+    - python
+    - qt5-base
+    - qt5-declarative
+    - qt5-quickcontrols
+    - qt5-quickcontrols2
+    - qt5-tools
+    - qt5-x11extras
+    - wget / curl
+```
 
-![](https://github.com/coslyk/moonplayer/blob/screenshot/screenshot2.png?raw=true)
+On Debian:
 
-***
-### Used open source projects
-[Qt](https://www.qt.io/)
-[libmpv](https://mpv.io)
-[danmaku2ass](https://github.com/coslyk/danmaku2ass)
-[ykdl](https://github.com/zhangn1985/ykdl)
-[youtube-dl](https://github.com/rg3/youtube-dl)
+```
+For building:
+    - build-essential
+    - cmake
+    - qtbase5-dev
+    - qtbase5-private-dev
+    - qtdeclarative5-dev
+    - qttools5-dev
+    - libqt5x11extras5-dev
+    - libmpv-dev
+For running:
+    - ffmpeg
+    - libmpv1
+    - libqt5widgets5
+    - libqt5network5
+    - libqt5x11extras5
+    - python
+    - qml-module-qtquick2
+    - qml-module-qtquick-controls2
+    - qml-module-qtquick-dialogs
+    - qml-module-qtquick-layouts
+    - qml-module-qtquick-window2
+    - qml-module-qt-labs-folderlistmodel
+    - qml-module-qt-labs-settings
+    - wget / curl
+```
+
+Other Linux: Please diy.
+
+Download the source code, then run:
+
+```bash
+cmake -DCMAKE_INSTALL_PREFIX=/usr .
+make
+sudo make install
+```
