@@ -20,12 +20,16 @@
   </releases>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://github.com/coslyk/moonplayer/raw/screenshot/screenshot.png?raw=true</image>
+      <image type="source">https://coslyk.github.io/moonplayer/files/screenshot-play.png</image>
+      <image type="source">https://coslyk.github.io/moonplayer/files/screenshot-explorer.png</image>
+      <image type="source">https://coslyk.github.io/moonplayer/files/screenshot-url.png</image>
+      <image type="source">https://coslyk.github.io/moonplayer/files/screenshot-danmaku.png</image>
+      <image type="source">https://coslyk.github.io/moonplayer/files/screenshot-download.png</image>
     </screenshot>
   </screenshots>
-  <url type="homepage">https://github.com/coslyk/moonplayer</url>
+  <url type="homepage">https://coslyk.github.io/moonplayer/</url>
   <url type="bugtracker">https://github.com/coslyk/moonplayer/issues</url>
-  <url type="donation">https://github.com/coslyk/moonplayer/wiki/Contribute</url>
+  <url type="donation">https://coslyk.github.io/moonplayer/donate.html</url>
   <project_group>coslyk</project_group>
   <update_contact>cos.lyk_AT_gmail.com</update_contact>
   <content_rating type="oars-1.1" />

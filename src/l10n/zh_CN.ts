@@ -54,12 +54,12 @@
         
             &lt;p&gt;Add some urls to start download!&lt;/p&gt;
         
-            &lt;p&gt;Try our &lt;a href=&quot;https://github.com/coslyk/moonplayer/wiki/BrowserExtension&quot;&gt;Browser extensions&lt;/a&gt;&lt;/p&gt;</source>
+            &lt;p&gt;Try our &lt;a href=&quot;https://coslyk.github.io/moonplayer/browser_ext.html&quot;&gt;Browser extensions&lt;/a&gt;&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;当前没有正在下载的视频 -_-&lt;/p&gt;
         
         &lt;p&gt;添加些URL开始下载吧！&lt;/p&gt;
         
-        &lt;p&gt;欢迎尝试 &lt;a href=&quot;https://github.com/coslyk/moonplayer/wiki/BrowserExtension&quot;&gt;浏览器扩展&lt;/a&gt;&lt;/p&gt;</translation>
+        &lt;p&gt;欢迎尝试 &lt;a href=&quot;https://coslyk.github.io/moonplayer/browser_ext_cn.html&quot;&gt;浏览器扩展&lt;/a&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../qml/Downloader.qml" line="100"/>

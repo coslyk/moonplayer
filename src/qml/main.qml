@@ -258,8 +258,8 @@ CustomWindow
         Action { text: qsTr("Downloader"); onTriggered: downloader.open() }
         Action { text: qsTr("Settings"); onTriggered: settings.open() }
         Action { text: qsTr("Update plugins"); onTriggered: utils.updateParser() }
-        Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://github.com/coslyk/moonplayer/wiki/BrowserExtension") }
-        Action { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://github.com/coslyk/moonplayer") }
+        Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer/browser_ext.html") }
+        Action { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer/") }
         
         delegate: MenuItem { height: 25 }
     }
