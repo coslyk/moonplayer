@@ -26,10 +26,10 @@ int main(int argc, char *argv[])
     
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     Application app(argc, argv);
-    app.setOrganizationName("coslyk");
-    app.setOrganizationDomain("coslyk.github.io");
-    app.setApplicationName("MoonPlayer");
-    app.setApplicationVersion(MOONPLAYER_VERSION);
+    app.setOrganizationName(QStringLiteral("coslyk"));
+    app.setOrganizationDomain(QStringLiteral("coslyk.github.io"));
+    app.setApplicationName(QStringLiteral("MoonPlayer"));
+    app.setApplicationVersion(QStringLiteral(MOONPLAYER_VERSION));
     
     detectOpenGLLate();
     
@@ -44,30 +44,30 @@ int main(int argc, char *argv[])
     
     // Translate
     QTranslator translator;
-    if (translator.load(QLocale::system().name(), ":/l10n"))
+    if (translator.load(QLocale::system().name(), QStringLiteral(":/l10n")))
         app.installTranslator(&translator);
 
     qmlRegisterType<MpvObject>("MoonPlayer", 1, 0, "MpvObject");
-    qmlRegisterSingletonType(QUrl("qrc:/qml/Color.qml"), "MoonPlayer", 1, 0, "Color");
-    qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", "Access to enums & flags only");
+    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/qml/Color.qml")), "MoonPlayer", 1, 0, "Color");
+    qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", QStringLiteral("Access to enums & flags only"));
     
     QQmlApplicationEngine engine;
 
     // Set UI style
 #ifdef Q_OS_MAC
     // Disable Classic UI on macOS
-    engine.addImportPath("qrc:/qml/modernUI");
+    engine.addImportPath(QStringLiteral("qrc:/qml/modernUI"));
     qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", "Dense");
     qputenv("QT_QUICK_CONTROLS_STYLE", "material");
 #else
-    if (QSettings().value("player/use_system_frame").toBool())
+    if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
     {
-        engine.addImportPath("qrc:/qml/classicUI");
+        engine.addImportPath(QStringLiteral("qrc:/qml/classicUI"));
         qputenv("QT_QUICK_CONTROLS_STYLE", "fusion");
     }
     else
     {
-        engine.addImportPath("qrc:/qml/modernUI");
+        engine.addImportPath(QStringLiteral("qrc:/qml/modernUI"));
         qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", "Dense");
         qputenv("QT_QUICK_CONTROLS_STYLE", "material");
     }
@@ -75,19 +75,19 @@ int main(int argc, char *argv[])
 
     QQmlContext* context = engine.rootContext();
     Downloader* downloader = Downloader::instance();
-    context->setContextProperty("accessManager", NetworkAccessManager::instance());
-    context->setContextProperty("downloaderModel", QVariant::fromValue(downloader->model()));
-    context->setContextProperty("playlistModel", PlaylistModel::instance());
-    context->setContextProperty("plugins", QVariant::fromValue(Plugin::loadPlugins()));
-    context->setContextProperty("ykdl", ParserYkdl::instance());
-    context->setContextProperty("youtube_dl", ParserYoutubeDL::instance());
-    context->setContextProperty("utils", new Utils());
+    context->setContextProperty(QStringLiteral("accessManager"), NetworkAccessManager::instance());
+    context->setContextProperty(QStringLiteral("downloaderModel"), QVariant::fromValue(downloader->model()));
+    context->setContextProperty(QStringLiteral("playlistModel"), PlaylistModel::instance());
+    context->setContextProperty(QStringLiteral("plugins"), QVariant::fromValue(Plugin::loadPlugins()));
+    context->setContextProperty(QStringLiteral("ykdl"), ParserYkdl::instance());
+    context->setContextProperty(QStringLiteral("youtube_dl"), ParserYoutubeDL::instance());
+    context->setContextProperty(QStringLiteral("utils"), new Utils());
     
     // Update downloader model
-    QObject::connect(downloader, &Downloader::modelUpdated, [=](){
-        context->setContextProperty("downloaderModel", QVariant::fromValue(downloader->model()));
+    QObject::connect(downloader, &Downloader::modelUpdated, [=]() {
+        context->setContextProperty(QStringLiteral("downloaderModel"), QVariant::fromValue(downloader->model()));
     });
-    
+
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     
     // Check updates

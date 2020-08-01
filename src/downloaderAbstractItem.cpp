@@ -54,7 +54,7 @@ void DownloaderAbstractItem::setState(DownloaderAbstractItem::State state)
         // Write danmaku url
         if (state == FINISHED && !m_danmakuUrl.isEmpty())
         {
-            QFile f(m_filePath + ".danmaku");
+            QFile f(m_filePath + QStringLiteral(".danmaku"));
             if (f.open(QFile::WriteOnly))
             {
                 f.write(m_danmakuUrl.toString().toUtf8());

@@ -15,7 +15,7 @@ static QString probeHwdecInterop()
     QString result;
     mpv_handle *mpv = mpv_create();
     if (!mpv)
-        return "";
+        return QString();
     mpv_set_option_string(mpv, "hwdec-preload", "auto");
     mpv_set_option_string(mpv, "opengl-hwdec-interop", "auto");
     // Actually creating a window is required. There is currently no way to keep
@@ -26,12 +26,12 @@ static QString probeHwdecInterop()
     mpv_set_option_string(mpv, "geometry", "1x1+0+0");
     mpv_set_option_string(mpv, "border", "no");
     if (mpv_initialize(mpv) < 0)
-        return "";
+        return QString();
     char *str = mpv_get_property_string(mpv, "hwdec-interop");
     if (str)
     {
         printf("Detected OpenGL backend: %s\n", str);
-        result = str;
+        result = QString::fromLatin1(str);
         mpv_free(str);
     }
     mpv_terminate_destroy(mpv);
@@ -40,14 +40,14 @@ static QString probeHwdecInterop()
 
 void detectOpenGLEarly()
 {
-    MpvObject::Hwdec hwdec = (MpvObject::Hwdec) QSettings("coslyk", "MoonPlayer").value("video/hwdec").toInt();
+    MpvObject::Hwdec hwdec = (MpvObject::Hwdec) QSettings(QStringLiteral("coslyk"), QStringLiteral("MoonPlayer")).value(QStringLiteral("video/hwdec")).toInt();
     if (hwdec == MpvObject::VAAPI)
     {
         qputenv("QT_XCB_GL_INTEGRATION", "xcb_egl");
     }
     else if (hwdec == MpvObject::AUTO)
     {
-        if (probeHwdecInterop() == "vaapi-egl")
+        if (probeHwdecInterop() == QStringLiteral("vaapi-egl"))
         {
             qputenv("QT_XCB_GL_INTEGRATION", "xcb_egl");
         }

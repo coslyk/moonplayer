@@ -14,32 +14,32 @@ DownloaderHlsItem::DownloaderHlsItem(const QString& filepath, const QUrl& url, c
 {
     // Read proxy settings
     QSettings settings;
-    NetworkAccessManager::ProxyType proxyType = (NetworkAccessManager::ProxyType) settings.value("network/proxy_type").toInt();
-    QString proxy = settings.value("network/proxy").toString();
-    bool proxyOnlyForParsing = settings.value("network/proxy_only_for_parsing").toBool();
+    auto proxyType = (NetworkAccessManager::ProxyType) settings.value(QStringLiteral("network/proxy_type")).toInt();
+    auto proxy = settings.value(QStringLiteral("network/proxy")).toString();
+    bool proxyOnlyForParsing = settings.value(QStringLiteral("network/proxy_only_for_parsing")).toBool();
     
     // Set new filePath
-    QString newPath = filepath.section('.', 0, -2) + ".ts";
+    QString newPath = filepath.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".ts");
     setFilePath(newPath);
     
     QStringList args;
 #ifndef Q_OS_WIN
-    args << appResourcesPath() + "/hls_downloader.py";
+    args << appResourcesPath() + QStringLiteral("/hls_downloader.py");
 #endif
     if (proxyType == NetworkAccessManager::HTTP_PROXY && !proxy.isEmpty() && !proxyOnlyForParsing)
-        args << "--http-proxy" << proxy;
+        args << QStringLiteral("--http-proxy") << proxy;
     else if (proxyType == NetworkAccessManager::SOCKS5_PROXY && !proxy.isEmpty() && !proxyOnlyForParsing)
-        args << "--socks-proxy" << proxy;
-    args << "--title" << name().section('.', 0, -2) << url.toString();
+        args << QStringLiteral("--socks-proxy") << proxy;
+    args << QStringLiteral("--title") << name().section(QLatin1Char('.'), 0, -2) << url.toString();
     
     // Run
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &DownloaderHlsItem::onProcFinished);
     connect(m_process, &QProcess::readyReadStandardOutput, this, &DownloaderHlsItem::readOutput);
     m_process->setWorkingDirectory(QFileInfo(newPath).absolutePath());
 #ifdef Q_OS_WIN
-    m_process->start(appResourcesPath() + "/hls_downloader.exe", args, QProcess::ReadOnly);
+    m_process->start(appResourcesPath() + QStringLiteral("/hls_downloader.exe"), args, QProcess::ReadOnly);
 #else
-    m_process->start("python", args, QProcess::ReadOnly);
+    m_process->start(QStringLiteral("python"), args, QProcess::ReadOnly);
 #endif
     setState(DOWNLOADING);
 }
@@ -47,11 +47,11 @@ DownloaderHlsItem::DownloaderHlsItem(const QString& filepath, const QUrl& url, c
 // Get progress
 void DownloaderHlsItem::readOutput()
 {
-    static QRegularExpression re("\\((\\d+)/(\\d+)\\)");
+    static QRegularExpression re(QStringLiteral("\\((\\d+)/(\\d+)\\)"));
     while (m_process->canReadLine())
     {
         QByteArray line = m_process->readLine();
-        QRegularExpressionMatch match = re.match(line);
+        QRegularExpressionMatch match = re.match(QString::fromLatin1(line));
         if (match.hasMatch())
         {
             int i = match.captured(1).toInt();
@@ -68,7 +68,7 @@ void DownloaderHlsItem::start()
 
 void DownloaderHlsItem::pause()
 {
-    QMessageBox::warning(nullptr, "Error", tr("Cannot pause the download of HLS streams."));
+    QMessageBox::warning(nullptr, tr("Error"), tr("Cannot pause the download of HLS streams."));
 }
 
 void DownloaderHlsItem::stop(bool continueWaiting)
@@ -101,7 +101,7 @@ void DownloaderHlsItem::onProcFinished(int code)
     {
         if (!QFile::exists(filePath()))  // has been converted to mp4
         {
-            QString newPath = filePath().section('.', 0, -2) + ".mp4";
+            QString newPath = filePath().section(QLatin1Char('.'), 0, -2) + QStringLiteral(".mp4");
             setFilePath(newPath);
         }
         setState(FINISHED);

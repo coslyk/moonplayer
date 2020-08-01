@@ -13,7 +13,7 @@ DownloaderMultipleItem::DownloaderMultipleItem(const QString& filepath, const QL
     m_process(nullptr)
 {
     // Create tempdir
-    QString tempPath = QDir::tempPath() + '/'  + name();
+    QString tempPath = QDir::tempPath() + QLatin1Char('/')  + name();
     m_tempDir = QDir(tempPath);
     if (!m_tempDir.exists())
     {
@@ -21,10 +21,10 @@ DownloaderMultipleItem::DownloaderMultipleItem(const QString& filepath, const QL
     }
     
     // Start task
-    QString fileSuffix = filepath.section('.', -1);
+    QString fileSuffix = filepath.section(QLatin1Char('.'), -1);
     for (int i = 0; i < m_total; i++)
     {
-        QString itemFilePath = m_tempDir.filePath(QString::number(i).rightJustified(3, '0')) + '.' + fileSuffix;
+        QString itemFilePath = m_tempDir.filePath(QString::number(i).rightJustified(3, QLatin1Char('0'))) + QLatin1Char('.') + fileSuffix;
         DownloaderSingleItem* item = new DownloaderSingleItem(itemFilePath, urls[i], QUrl(), this);
         m_items << item;
         connect(item, &DownloaderSingleItem::stateChanged, [=](){ this->onItemStateChanged(item); });
@@ -129,23 +129,24 @@ void DownloaderMultipleItem::concatVideos()
     // Youtube's dash videos?
     if (m_isDash)
     {
-        args << "-y" << "-i" << filelist[0] << "-i" << filelist[1] << "-c:v" << "copy";
-        if (filelist[0].endsWith(".mp4"))
-            args << "-c:a" << "aac";
-        else if (filelist[0].endsWith(".webm"))
-            args << "-c:a" << "vorbis";
-        args << "-strict" << "experimental" << filePath();
+        args << QStringLiteral("-y") << QStringLiteral("-i") << filelist[0] << QStringLiteral("-i") << filelist[1];
+        args << QStringLiteral("-c:v") << QStringLiteral("copy");
+        if (filelist[0].endsWith(QStringLiteral(".mp4")))
+            args << QStringLiteral("-c:a") << QStringLiteral("aac");
+        else if (filelist[0].endsWith(QStringLiteral(".webm")))
+            args << QStringLiteral("-c:a") << QStringLiteral("vorbis");
+        args << QStringLiteral("-strict") << QStringLiteral("experimental") << filePath();
     }
 
     // Video clips
     else
     {
         // Write list file
-        QFile file(m_tempDir.filePath("filelist.txt"));
+        QFile file(m_tempDir.filePath(QStringLiteral("filelist.txt")));
         if (!file.open(QFile::WriteOnly))
         {
             setState(ERROR);
-            QMessageBox::warning(nullptr, "Error", tr("Failed to write: ") + file.fileName());
+            QMessageBox::warning(nullptr, tr("Error"), tr("Failed to write: ") + file.fileName());
             return;
         }
         foreach (QString filename, filelist)
@@ -154,8 +155,17 @@ void DownloaderMultipleItem::concatVideos()
         }
         file.close();
     
-        // Set arguments
-        args << "-y" << "-f" << "concat" << "-safe" << "0" << "-i" << "filelist.txt" << "-c" << "copy" << filePath();
+        // Set mode to concat
+        args << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("concat");
+
+        // Set save level
+        args << QStringLiteral("-safe") << QStringLiteral("0");
+
+        // Set input
+        args << QStringLiteral("-i") << QStringLiteral("filelist.txt");
+        
+        // Set output
+        args << QStringLiteral("-c") << QStringLiteral("copy") << filePath();
     }
 
     // Run FFMPEG
@@ -182,7 +192,7 @@ void DownloaderMultipleItem::onConcatFinished(int status)
     else
     {
         setState(ERROR);
-        QMessageBox::warning(nullptr, "Error", tr("Failed to concat: ") + filePath());
+        QMessageBox::warning(nullptr, tr("Error"), tr("Failed to concat: ") + filePath());
         qDebug("FFmpeg ERROR:\n%s", m_process->readAllStandardError().constData());
     }
     m_process->deleteLater();

@@ -19,7 +19,7 @@ Application::Application(int &argc, char **argv) :
     m_client = nullptr;
 
     // force 32-bit color surface
-    if (platformName().contains("wayland")) {
+    if (platformName().contains(QStringLiteral("wayland"))) {
         QSurfaceFormat sf(QSurfaceFormat::defaultFormat());
         sf.setBlueBufferSize(8);
         sf.setGreenBufferSize(8);
@@ -68,7 +68,7 @@ bool Application::parseArgs()
     
     // Check whether another MoonPlayer instance is running
     QLocalSocket socket;
-    socket.connectToServer("MoonPlayer_0817", QLocalSocket::WriteOnly);
+    socket.connectToServer(QStringLiteral("MoonPlayer_0817"), QLocalSocket::WriteOnly);
     socket.waitForConnected();
     
     // Is already running?
@@ -86,16 +86,16 @@ bool Application::parseArgs()
         else if (m_isLocalFiles)
         {
             QVariantHash msg;
-            msg["action"] = "addLocalFiles";
-            msg["files"] = m_files;
+            msg[QStringLiteral("action")] = QStringLiteral("addLocalFiles");
+            msg[QStringLiteral("files")] = m_files;
             socket.write(QJsonDocument::fromVariant(msg).toJson());
         }
         
         else
         {
             QVariantHash msg;
-            msg["action"] = "addUrl";
-            msg["url"] = m_files[0];
+            msg[QStringLiteral("action")] = QStringLiteral("addUrl");
+            msg[QStringLiteral("url")] = m_files[0];
             socket.write(QJsonDocument::fromVariant(msg).toJson());
         }
         socket.flush();
@@ -108,9 +108,9 @@ bool Application::parseArgs()
     // This is the first instance, create server
     // His birthday 1926.08.17
     // +1s
-    QLocalServer::removeServer("MoonPlayer_0817");
+    QLocalServer::removeServer(QStringLiteral("MoonPlayer_0817"));
     m_server = new QLocalServer(this);
-    if (m_server->listen("MoonPlayer_0817"))
+    if (m_server->listen(QStringLiteral("MoonPlayer_0817")))
         connect(m_server, &QLocalServer::newConnection, this, &Application::onNewConnection);
     else
         qDebug("Fails to create server.");
@@ -147,17 +147,17 @@ void Application::onNewConnection()
         m_client->close();
         m_client->deleteLater();
         m_client = nullptr;
-        if (msg["action"] == "addLocalFiles")
+        if (msg[QStringLiteral("action")] == QStringLiteral("addLocalFiles"))
         {
-            QStringList files = msg["files"].toStringList();
+            QStringList files = msg[QStringLiteral("files")].toStringList();
             QList<QUrl> fileUrls;
             foreach (QString file, files)
                 fileUrls << QUrl::fromLocalFile(file);
             PlaylistModel::instance()->addLocalFiles(fileUrls);
         }
-        else if (msg["action"] == "addUrl")
+        else if (msg[QStringLiteral("action")] == QStringLiteral("addUrl"))
         {
-            PlaylistModel::instance()->addUrl(msg["url"].toUrl());
+            PlaylistModel::instance()->addUrl(msg[QStringLiteral("url")].toUrl());
         }
     });
 }

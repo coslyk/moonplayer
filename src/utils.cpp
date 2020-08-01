@@ -11,16 +11,16 @@
 
 void Utils::checkUpdate()
 {
-    QUrl url("https://raw.githubusercontent.com/coslyk/moonplayer/develop/CMakeLists.txt");
+    QUrl url(QStringLiteral("https://raw.githubusercontent.com/coslyk/moonplayer/develop/CMakeLists.txt"));
     QNetworkReply* reply = NetworkAccessManager::instance()->get(QNetworkRequest(url));
     QObject::connect(reply, &QNetworkReply::finished, [=]() {
-        static QRegularExpression re("project\\(moonplayer VERSION (\\d+\\.\\d+)\\)");
+        static QRegularExpression re(QStringLiteral("project\\(moonplayer VERSION (\\d+\\.\\d+)\\)"));
         if (reply->error() == QNetworkReply::NoError)
         {
-            QString data = reply->readAll();
+            QString data = QString::fromLatin1(reply->readAll());
             QString latestVersion = re.match(data).captured(1);
-            if (latestVersion != MOONPLAYER_VERSION)
-                QMessageBox::information(nullptr, "Update", "New version of MoonPlayer is available.");
+            if (latestVersion != QStringLiteral(MOONPLAYER_VERSION))
+                QMessageBox::information(nullptr, tr("Update"), tr("New version of MoonPlayer is available."));
         }
         reply->deleteLater();
     });
@@ -39,14 +39,14 @@ void Utils::updateParser()
     args << "-File" << (appResourcesPath() + "/update-parsers.ps1");
     c_console->launchScript("powershell", args);
 #else
-    args << appResourcesPath() + "/update-parsers.sh";
-    c_console->launchScript("sh", args);
+    args << appResourcesPath() + QStringLiteral("/update-parsers.sh");
+    c_console->launchScript(QStringLiteral("sh"), args);
 #endif
 }
 
 
 QString Utils::environmentVariable(const QString& env)
 {
-    return qgetenv(env.toUtf8().constData());
+    return QString::fromUtf8(qgetenv(env.toUtf8().constData()));
 }
 

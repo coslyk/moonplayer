@@ -26,11 +26,11 @@ Downloader * Downloader::instance()
 void Downloader::addTasks(const QString& filename, const QList<QUrl>& urls, const QUrl& danmakuUrl, bool isDash)
 {
     QSettings settings;
-    QDir dir(settings.value("downloader/save_to").toUrl().toLocalFile());
+    QDir dir(settings.value(QStringLiteral("downloader/save_to")).toUrl().toLocalFile());
     QString filepath = dir.filePath(filename);
     DownloaderAbstractItem* item;
     
-    if (urls[0].path().endsWith(".m3u8"))
+    if (urls[0].path().endsWith(QStringLiteral(".m3u8")))
         item = new DownloaderHlsItem(filepath, urls[0], danmakuUrl, this);
     else if (urls.length() == 1)
         item = new DownloaderSingleItem(filepath, urls[0], danmakuUrl, this);

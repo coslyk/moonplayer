@@ -177,10 +177,10 @@ MpvObject::MpvObject(QQuickItem * parent) :
     
     
     // Configure hardware decoding
-    bool hwdecCopy = settings.value("video/hwdec_copy_mode", false).toBool();
+    bool hwdecCopy = settings.value(QStringLiteral("video/hwdec_copy_mode"), false).toBool();
     
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
-    Hwdec hwdec = (Hwdec) settings.value("video/hwdec", 0).toInt();
+    Hwdec hwdec = (Hwdec) settings.value(QStringLiteral("video/hwdec"), 0).toInt();
     switch (hwdec)
     {
         case AUTO:
@@ -197,7 +197,7 @@ MpvObject::MpvObject(QQuickItem * parent) :
             break;
         default: break;
     }
-    
+
 #elif defined(Q_OS_MAC)
     mpv_set_option_string(mpv, "gpu-hwdec-interop", "videotoolbox");
     mpv_set_option_string(mpv, "hwdec", hwdecCopy ? "videotoolbox-copy" : "videotoolbox");
@@ -227,8 +227,6 @@ void MpvObject::open(const QUrl& fileUrl, const QUrl& danmakuUrl, const QUrl& au
 {
     if (m_state != STOPPED)
         no_emit_stopped = true;
-    
-    QStringList args;
     
     // set network parameters
     if (!fileUrl.isLocalFile())
@@ -260,7 +258,8 @@ void MpvObject::open(const QUrl& fileUrl, const QUrl& danmakuUrl, const QUrl& au
         mpv_set_option_string(mpv, "force-seekable", "no");
     }
     
-    args << "loadfile" << (fileUrl.isLocalFile() ? fileUrl.toLocalFile() : fileUrl.toString());
+    QByteArray fileuri_str = (fileUrl.isLocalFile() ? fileUrl.toLocalFile() : fileUrl.toString()).toUtf8();
+    const char *args[] = {"loadfile", fileuri_str.constData(), nullptr};
     command(args);
     m_danmakuUrl = danmakuUrl;
     m_audioToBeAdded = audioTrack;
@@ -288,8 +287,7 @@ void MpvObject::stop()
 {
     if (m_state != STOPPED)
     {
-        QStringList args;
-        args << "stop";
+        const char *args[] = {"stop", nullptr};
         command(args);
         m_stopByUser = true;
     }
@@ -300,8 +298,8 @@ void MpvObject::seek ( qint64 time, bool absolute )
 {
     if (m_state != STOPPED && time != m_time)
     {
-        QStringList args;
-        args << "seek" << QString::number(time) << (absolute ? "absolute" : "relative");
+        QByteArray time_str = QByteArray::number(time);
+        const char *args[] = {"seek", time_str.constData(), (absolute ? "absolute" : "relative"), nullptr};
         command(args);
     }
 }
@@ -321,7 +319,7 @@ void MpvObject::setVolume(int volume)
     else
     {
         setProperty("volume", vol);
-        showText("Volume: " + QString::number(volume));
+        showText(QByteArrayLiteral("Volume: ") + QByteArray::number(volume));
     }
     
     m_volume = volume;
@@ -351,7 +349,7 @@ void MpvObject::setSpeed(double speed)
         mpv_set_option(mpv, "speed", MPV_FORMAT_DOUBLE, &m_speed);
     else
         setProperty("speed", m_speed);
-    showText("Speed: " + QString::number(m_speed));
+    showText(QByteArrayLiteral("Speed: ") + QByteArray::number(m_speed));
     emit speedChanged();
 }
 
@@ -361,8 +359,8 @@ void MpvObject::addAudioTrack(const QUrl& url)
 {
     if (m_state == STOPPED)
         return;
-    QStringList args;
-    args << "audio-add" << (url.isLocalFile() ? url.toLocalFile() : url.toString()) << "select";
+    QByteArray uri_str = (url.isLocalFile() ? url.toLocalFile() : url.toString()).toUtf8();
+    const char *args[] = {"audio-add", uri_str.constData(), "select", nullptr};
     command(args);
 }
 
@@ -371,8 +369,8 @@ void MpvObject::addSubtitle(const QUrl& url)
 {
     if (m_state == STOPPED)
         return;
-    QStringList args;
-    args << "sub-add" << (url.isLocalFile() ? url.toLocalFile() : url.toString()) << "select";
+    QByteArray uri_str = (url.isLocalFile() ? url.toLocalFile() : url.toString()).toUtf8();
+    const char *args[] = {"sub-add", uri_str.constData(), "select", nullptr};
     command(args);
 }
 
@@ -384,8 +382,7 @@ void MpvObject::screenshot()
 {
     if (m_state == STOPPED)
         return;
-    QStringList args;
-    args << "osd-msg" << "screenshot";
+    const char *args[] = {"osd-msg", "screenshot", nullptr};
     command(args);
 }
 
@@ -529,35 +526,35 @@ void MpvObject::onMpvEvent()
                 foreach (QVariant i, trackList)
                 {
                     QVariantHash item = i.toHash();
-                    if (item["type"].toString() == "sub")  // Subtitles
+                    if (item[QStringLiteral("type")].toString() == QStringLiteral("sub"))  // Subtitles
                     {
-                        int id = item["id"].toInt();
-                        QString title = item["title"].toString();
+                        int id = item[QStringLiteral("id")].toInt();
+                        QString title = item[QStringLiteral("title")].toString();
                         if (m_subtitles.count() <= id)
                         {
                             for (int j = m_subtitles.count(); j < id; j++)
-                                m_subtitles.append('#' + QString::number(j));
-                            m_subtitles.append(title.isEmpty() ? '#' + QString::number(id) : title);
+                                m_subtitles.append(QLatin1Char('#') + QString::number(j));
+                            m_subtitles.append(title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title);
                         }
                         else
                         {
-                            m_subtitles[id] = title.isEmpty() ? '#' + QString::number(id) : title;
+                            m_subtitles[id] = title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title;
                         }
                     }
 
-                    else if (item["type"].toString() == "audio")  // Audio tracks
+                    else if (item[QStringLiteral("type")].toString() == QStringLiteral("audio"))  // Audio tracks
                     {
-                        int id = item["id"].toInt();
-                        QString title = item["title"].toString();
+                        int id = item[QStringLiteral("id")].toInt();
+                        QString title = item[QStringLiteral("title")].toString();
                         if (m_audioTracks.count() <= id)
                         {
                             for (int j = m_audioTracks.count(); j < id; j++)
-                                m_audioTracks.append('#' + QString::number(j));
-                            m_audioTracks.append(title.isEmpty() ? '#' + QString::number(id) : title);
+                                m_audioTracks.append(QLatin1Char('#') + QString::number(j));
+                            m_audioTracks.append(title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title);
                         }
                         else
                         {
-                            m_audioTracks[id] = title.isEmpty() ? '#' + QString::number(id) : title;
+                            m_audioTracks[id] = title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title;
                         }
                     }
                 }
@@ -572,30 +569,20 @@ void MpvObject::onMpvEvent()
 }
 
 
-
-void MpvObject::command(const QStringList& params)
-{
-    // convert QStringList => array of char*
-    const char **args = (const char**) calloc(params.length() + 1, sizeof(char*));
-    for (int i = 0; i < params.length(); i++)
-    {
-        args[i] = strdup(params[i].toUtf8().constData());
-    }
-    args[params.length()] = nullptr;
-    
+void MpvObject::command(const char *args[])
+{   
     // command
     mpv_command_async(mpv, 2, args);
-    
-    // free
-    for (int i = 0; i < params.length(); i++)
-    {
-        free((void*) args[i]);
-    }
-    free(args);
 }
+
 
 // set property
 void MpvObject::setProperty(const QString& name, const QVariant& value)
+{
+    setProperty(name.toUtf8().constData(), value);
+}
+
+void MpvObject::setProperty(const char *name, const QVariant &value)
 {
     int retVal;
     switch ((int) value.type())
@@ -603,7 +590,7 @@ void MpvObject::setProperty(const QString& name, const QVariant& value)
         case (int) QMetaType::Bool:
         {
             int v = value.toInt();
-            retVal = mpv_set_property_async(mpv, 2, name.toUtf8().constData(), MPV_FORMAT_FLAG, &v);
+            retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_FLAG, &v);
             break;
         }
         case (int) QMetaType::Int:
@@ -611,26 +598,26 @@ void MpvObject::setProperty(const QString& name, const QVariant& value)
         case (int) QMetaType::LongLong:
         {
             qint64 v = value.toLongLong();
-            retVal = mpv_set_property_async(mpv, 2, name.toUtf8().constData(), MPV_FORMAT_INT64, &v);
+            retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_INT64, &v);
             break;
         }
         case (int) QMetaType::Float:
         case (int) QMetaType::Double:
         {
             double v = value.toDouble();
-            retVal = mpv_set_property_async(mpv, 2, name.toUtf8().constData(), MPV_FORMAT_DOUBLE, &v);
+            retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_DOUBLE, &v);
             break;
         }
         case (int) QMetaType::QByteArray:
         {
             QByteArray v = value.toByteArray();
-            retVal = mpv_set_property_async(mpv, 2, name.toUtf8().constData(), MPV_FORMAT_STRING, v.data());
+            retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_STRING, v.data());
             break;
         }
         case (int) QMetaType::QString:
         {
             QByteArray v = value.toString().toUtf8();
-            retVal = mpv_set_property_async(mpv, 2, name.toUtf8().constData(), MPV_FORMAT_STRING, v.data());
+            retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_STRING, v.data());
             break;
         }
     }
@@ -646,10 +633,9 @@ void MpvObject::handleMpvError ( int code )
     }
 }
 
-void MpvObject::showText(const QString& text)
+void MpvObject::showText(const QByteArray& text)
 {
-    QStringList args;
-    args << "show-text" << text;
+    const char *args[] = {"show-text", text.constData(), nullptr};
     command(args);
 }
 

@@ -19,7 +19,7 @@ void JSAPIObject::get_post_content(const QString& url, const QByteArray& postDat
         reply = NetworkAccessManager::instance()->get(request);
     else
     {
-        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+        request.setHeader(QNetworkRequest::ContentTypeHeader, QByteArrayLiteral("application/x-www-form-urlencoded"));
         reply = NetworkAccessManager::instance()->post(request, postData);
     }
 
@@ -40,7 +40,7 @@ void JSAPIObject::get_post_content(const QString& url, const QByteArray& postDat
         {
             int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
             QString errStr = QString().sprintf("Network Error: %d\n%s\n", status, reply->errorString().toUtf8().constData());
-            QMessageBox::warning(NULL, "Error", errStr);
+            QMessageBox::warning(NULL, tr("Error"), errStr);
             return;
         }
 

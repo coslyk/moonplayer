@@ -19,7 +19,11 @@ public:
         // Ignore localhost
         QList<QNetworkProxy> proxies;
         QString host = query.peerHostName();
-        if (host == "localhost" || host == "ip6-localhost" || host == "ip6-loopback" || host == "127.0.0.1" || host == "::1")
+        if (host == QStringLiteral("localhost") ||
+            host == QStringLiteral("ip6-localhost") ||
+            host == QStringLiteral("ip6-loopback") ||
+            host == QStringLiteral("127.0.0.1") ||
+            host == QStringLiteral("::1"))
             proxies << QNetworkProxy(QNetworkProxy::NoProxy);
         else
             proxies << m_proxy;
@@ -61,8 +65,8 @@ QNetworkReply *NetworkAccessManager::get(const QNetworkRequest &req)
 
 void NetworkAccessManager::setupProxy(NetworkAccessManager::ProxyType proxyType, const QString& proxy, bool proxyOnlyForParsing)
 {
-    QString ip = proxy.section(':', 0, 0);
-    int port = proxy.section(':', -1).toInt();
+    QString ip = proxy.section(QLatin1Char(':'), 0, 0);
+    int port = proxy.section(QLatin1Char(':'), -1).toInt();
     
     // Setup proxy
     if (proxyType == NO_PROXY || ip.isEmpty() || proxyOnlyForParsing)
@@ -78,6 +82,6 @@ void NetworkAccessManager::setupProxy(NetworkAccessManager::ProxyType proxyType,
     else
     {
         m_proxyFactory->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, ip, port));
-        qputenv("http_proxy", ("http://" + proxy).toUtf8());
+        qputenv("http_proxy", (QStringLiteral("http://") + proxy).toUtf8());
     }
 }

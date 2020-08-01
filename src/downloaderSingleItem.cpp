@@ -27,7 +27,7 @@ DownloaderSingleItem::DownloaderSingleItem(const QString& filepath, const QUrl& 
 
 void DownloaderSingleItem::continueWaitingTasks()
 {
-    int maxThreads = QSettings().value("downloader/max_threads", 5).toInt();
+    int maxThreads = QSettings().value(QStringLiteral("downloader/max_threads"), 5).toInt();
     while (s_numOfRunning < maxThreads && !s_waitingItems.isEmpty())
     {
         s_numOfRunning++;

@@ -10,10 +10,10 @@ QString appResourcesPath()
     if (path.isNull())
     {
         QString appPath = QCoreApplication::applicationDirPath();
-        if (appPath.endsWith("/bin"))
-            path = appPath.replace("/bin", "/share/moonplayer");
+        if (appPath.endsWith(QStringLiteral("/bin")))
+            path = appPath.replace(QStringLiteral("/bin"), QStringLiteral("/share/moonplayer"));
         else
-            path = "/usr/local/share/moonplayer";
+            path = QStringLiteral("/usr/local/share/moonplayer");
     }
     return path;
 }
@@ -25,7 +25,7 @@ QString userResourcesPath()
     if (path.isNull())
     {
         const char *dataPath = getenv("XDG_DATA_HOME");
-        path = dataPath ? QString::fromUtf8(dataPath) + "/moonplayer" : QDir::homePath() + "/.local/share/moonplayer";
+        path = dataPath ? QString::fromUtf8(dataPath) + QStringLiteral("/moonplayer") : QDir::homePath() + QStringLiteral("/.local/share/moonplayer");
     }
     return path;
 }
@@ -34,5 +34,5 @@ QString userResourcesPath()
 //get ffmpeg's file path
 QString ffmpegFilePath()
 {
-    return "ffmpeg";
+    return QStringLiteral("ffmpeg");
 }

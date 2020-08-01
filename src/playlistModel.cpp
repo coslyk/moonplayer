@@ -46,7 +46,7 @@ void PlaylistModel::addItems(const QString& title, const QList<QUrl>& fileUrls, 
         beginInsertRows(QModelIndex(), start, start + count - 1);
         for (int i = 0; i < count; i++)
         {
-            m_titles << (title + "_" + QString::number(i));
+            m_titles << (title + QLatin1Char('_') + QString::number(i));
             m_fileUrls << fileUrls[i];
             m_danmakuUrls << (i == 0 ? danmakuUrl : QUrl());
             m_audioTrackUrls << QUrl();
@@ -66,7 +66,7 @@ void PlaylistModel::addLocalFiles(const QList<QUrl>& fileUrls)
         m_titles << QFileInfo(fileUrls[i].toLocalFile()).fileName();
         m_fileUrls << fileUrls[i];
         m_audioTrackUrls << QUrl();
-        QFile danmakuFile(fileUrls[i].toLocalFile() + ".danmaku");
+        QFile danmakuFile(fileUrls[i].toLocalFile() + QStringLiteral(".danmaku"));
         if (danmakuFile.open(QFile::ReadOnly | QFile::Text))
         {
             m_danmakuUrls << QString::fromUtf8(danmakuFile.readAll());
@@ -95,7 +95,7 @@ void PlaylistModel::addUrl ( const QUrl& url, bool download )
 void PlaylistModel::addUrl(const QUrl& url)
 {
     QSettings settings;
-    OpenUrlAction action = static_cast<OpenUrlAction>(settings.value("player/url_open_mode").toInt());
+    OpenUrlAction action = static_cast<OpenUrlAction>(settings.value(QStringLiteral("player/url_open_mode")).toInt());
     if (action == QUESTION)
         emit urlDialogRequested(url);
     else

@@ -11,13 +11,13 @@
 QList<QObject *> Plugin::loadPlugins()
 {
     QList<QObject*> result;
-    QDir pluginsDir = QDir(userResourcesPath() + "/plugins");
+    QDir pluginsDir = QDir(userResourcesPath() + QStringLiteral("/plugins"));
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
 
     while (!list.isEmpty())
     {
         QString filename = list.takeFirst();
-        if (filename.endsWith(".js"))
+        if (filename.endsWith(QStringLiteral(".js")))
         {
             result << new Plugin(pluginsDir.filePath(filename));
         }
@@ -38,7 +38,7 @@ Plugin::Plugin(const QString& filepath, QObject* parent) :
     connect(apiObject, &JSAPIObject::showResultRequested, this, &Plugin::updateResult);
     connect(apiObject, &JSAPIObject::jsError, this, &Plugin::printJSError);
     QJSValue api = m_engine->newQObject(apiObject);
-    m_engine->globalObject().setProperty("moonplayer", api);
+    m_engine->globalObject().setProperty(QStringLiteral("moonplayer"), api);
     m_engine->installExtensions(QJSEngine::ConsoleExtension);
     
     // open file
@@ -60,25 +60,25 @@ Plugin::Plugin(const QString& filepath, QObject* parent) :
     }
     
     // get name
-    m_name = m_engine->globalObject().property("website_name_" + QLocale::system().name()).toString();
-    if (m_name == "undefined")
+    m_name = m_engine->globalObject().property(QStringLiteral("website_name_") + QLocale::system().name()).toString();
+    if (m_name == QStringLiteral("undefined"))
     {
-        m_name = m_engine->globalObject().property("website_name").toString();
+        m_name = m_engine->globalObject().property(QStringLiteral("website_name")).toString();
     }
 
     // get description
-    m_description = m_engine->globalObject().property("website_description_" + QLocale::system().name()).toString();
-    if (m_description == "undefined")
+    m_description = m_engine->globalObject().property(QStringLiteral("website_description_") + QLocale::system().name()).toString();
+    if (m_description == QStringLiteral("undefined"))
     {
-        m_description = m_engine->globalObject().property("website_description").toString();
-        if (m_description == "undefined")
+        m_description = m_engine->globalObject().property(QStringLiteral("website_description")).toString();
+        if (m_description == QStringLiteral("undefined"))
         {
             m_description.clear();
         }
     }
     
     // get search() function
-    m_searchFunc = m_engine->globalObject().property("search");
+    m_searchFunc = m_engine->globalObject().property(QStringLiteral("search"));
 }
 
 // Set keyword
@@ -134,8 +134,8 @@ void Plugin::updateResult(const QVariant& result)
     QVariantList list = result.toList();
     foreach (QVariant item, list)
     {
-        m_titles << item.toHash()["title"].toString();
-        m_urls << item.toHash()["url"].toUrl();
+        m_titles << item.toHash()[QStringLiteral("title")].toString();
+        m_urls << item.toHash()[QStringLiteral("url")].toUrl();
     }
     emit resultModelChanged();
 }
@@ -149,8 +149,8 @@ void Plugin::openItem(int index)
 
 void Plugin::printJSError(const QJSValue& errValue)
 {
-    QString filename = errValue.property("fileName").toString();
-    int lineNumber = errValue.property("lineNumber").toInt();
+    QString filename = errValue.property(QStringLiteral("fileName")).toString();
+    int lineNumber = errValue.property(QStringLiteral("lineNumber")).toInt();
     QByteArray line = m_script.split('\n')[lineNumber - 1];
     qDebug("In file \"%s\", line %i:\n  %s\n%s",
            filename.toUtf8().constData(),

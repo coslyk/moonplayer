@@ -51,8 +51,10 @@ public:
     void setVolume(int volume);
     void setSubVisible(bool subVisible);
     void setSpeed(double speed);
-    
-    
+
+    void setProperty(const char *name, const QVariant &value);
+    void command(const char *args[]);
+
 public slots:
     void open(const QUrl& fileUrl, const QUrl& danmakuUrl = QUrl(), const QUrl& audioTrackUrl = QUrl());
     void play(void);
@@ -62,10 +64,9 @@ public slots:
     void screenshot(void);
     void addAudioTrack(const QUrl& url);
     void addSubtitle(const QUrl& url);
-    void command(const QStringList& params);
     void setProperty(const QString& name, const QVariant& value);
-    void showText(const QString& text);
-    
+    void showText(const QByteArray &text);
+
 signals:
     void stopped(bool stoppedByUser);
     void audioTracksChanged(void);

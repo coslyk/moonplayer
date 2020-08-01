@@ -33,8 +33,8 @@ void ParserBase::parse(const QUrl &url, bool download)
 void ParserBase::finishParsing()
 {
     // replace illegal chars in title with .
-    static QRegularExpression illegalChars("[\\\\/]");
-    result.title.replace(illegalChars, ".");
+    static QRegularExpression illegalChars(QStringLiteral("[\\\\/]"));
+    result.title.replace(illegalChars, QStringLiteral("."));
     
     // Stream is empty
     if (result.streams.isEmpty())
@@ -74,7 +74,7 @@ void ParserBase::finishStreamSelection(int index)
     // Download
     if (m_download)
     {
-        Downloader::instance()->addTasks(result.title + '.' + stream.container, stream.urls, result.danmaku_url, stream.is_dash);
+        Downloader::instance()->addTasks(result.title + QLatin1Char('.') + stream.container, stream.urls, result.danmaku_url, stream.is_dash);
         emit downloadTasksAdded();
     }
 
@@ -95,9 +95,9 @@ void ParserBase::selectEpisode(const QStringList& titles, const QList<QUrl>& url
 void ParserBase::showErrorDialog(const QString &errMsg)
 {
     QMessageBox msgBox;
-    msgBox.setText("Error");
-    msgBox.setInformativeText("Parse failed!\nURL:" + m_url.toString());
-    msgBox.setDetailedText("URL: " + m_url.toString() + "\n\n" + errMsg);
+    msgBox.setText(tr("Error"));
+    msgBox.setInformativeText(QStringLiteral("Parse failed!\nURL:") + m_url.toString());
+    msgBox.setDetailedText(QStringLiteral("URL: ") + m_url.toString() + QStringLiteral("\n\n") + errMsg);
     QPushButton *updateButton = msgBox.addButton(tr("Upgrade parser"), QMessageBox::ActionRole);
     msgBox.addButton(QMessageBox::Cancel);
     msgBox.exec();

@@ -62,7 +62,7 @@ void DanmakuLoader::onXmlDownloaded()
     if (m_reply->error() == QNetworkReply::NoError)
     {
         // write source to tempfile
-        QFile f(QDir::temp().filePath("danmaku_source"));
+        QFile f(QDir::temp().filePath(QStringLiteral("danmaku_source")));
         if (!f.open(QFile::WriteOnly))
             return;
         f.write(m_reply->readAll());
@@ -73,68 +73,68 @@ void DanmakuLoader::onXmlDownloaded()
         
         QStringList args;
 #ifndef Q_OS_WIN
-        args << appResourcesPath() + "/danmaku2ass.py";
+        args << appResourcesPath() + QStringLiteral("/danmaku2ass.py");
 #endif
 
         // Output file
-        m_outputFile = QDir::temp().filePath("moonplayer_danmaku.ass").toUtf8();
-        args << "-o" << m_outputFile;
+        m_outputFile = QDir::temp().filePath(QStringLiteral("moonplayer_danmaku.ass"));
+        args << QStringLiteral("-o") << m_outputFile;
 
         // Size
-        args << "-s" << QString().sprintf("%dx%d", m_width, m_height);
+        args << QStringLiteral("-s") << QString().sprintf("%dx%d", m_width, m_height);
 
         // Font
-        QString fontName = settings.value("danmaku/font").value<QFont>().family();
+        QString fontName = settings.value(QStringLiteral("danmaku/font")).value<QFont>().family();
 #ifdef Q_OS_MAC
-        args << "-fn" << (fontName.isEmpty() ? "PingFang SC" : fontName);
+        args << QStringLiteral("-fn") << (fontName.isEmpty() ? QStringLiteral("PingFang SC") : fontName);
 #else
-        args << "-fn" << (fontName.isEmpty() ? "sans-serif" : fontName);
+        args << QStringLiteral("-fn") << (fontName.isEmpty() ? QStringLiteral("sans-serif") : fontName);
 #endif
         
         // Font size
-        args << "-fs";
-        int fontSize = settings.value("danmaku/font_size").toInt();
+        args << QStringLiteral("-fs");
+        int fontSize = settings.value(QStringLiteral("danmaku/font_size")).toInt();
         if (fontSize)
             args << QString::number(fontSize);
         else
         {
             if (m_width > 960)
-                args << "36";
+                args << QStringLiteral("36");
             else if (m_width > 640)
-                args << "32";
+                args << QStringLiteral("32");
             else
-                args << "28";
+                args << QStringLiteral("28");
         }
 
         // Duration of comment display
-        args << "-dm";
-        int dm = settings.value("danmaku/dm").toInt();
+        args << QStringLiteral("-dm");
+        int dm = settings.value(QStringLiteral("danmaku/dm")).toInt();
         if (dm)
             args << QString::number(dm);
         else
         {
             if (m_width > 960)
-                args << "10";
+                args << QStringLiteral("10");
             else if (m_width > 640)
-                args << "8";
+                args << QStringLiteral("8");
             else
-                args << "6";
+                args << QStringLiteral("6");
         }
 
         // Duration of still danmaku
-        args << "-ds" << settings.value("danmaku/ds").toString();
+        args << QStringLiteral("-ds") << settings.value(QStringLiteral("danmaku/ds")).toString();
 
         // text opacity
-        args << "-a" << QString::number(settings.value("danmaku/alpha").toFloat() / 100.0);
+        args << QStringLiteral("-a") << QString::number(settings.value(QStringLiteral("danmaku/alpha")).toFloat() / 100.0);
 
         // input
-        args << QDir::temp().filePath("danmaku_source");
+        args << QDir::temp().filePath(QStringLiteral("danmaku_source"));
 
         // run
 #ifdef Q_OS_WIN
         m_process->start(appResourcesPath() + "/danmaku2ass.exe", args);
 #else
-        m_process->start("python", args);
+        m_process->start(QStringLiteral("python"), args);
 #endif
         m_process->waitForStarted(-1);
         m_process->write(m_reply->readAll());

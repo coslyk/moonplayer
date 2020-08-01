@@ -27,6 +27,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Include Qt basic functions
 include(QtCommon)
 
+# Disables automatic conversions from 8-bit strings to unicode QStrings
+add_definitions(-DQT_NO_CAST_FROM_ASCII)
 
 
 # Set PROJECT_VERSION_PATCH and PROJECT_VERSION_TWEAK to 0 if not present, needed by add_project_meta

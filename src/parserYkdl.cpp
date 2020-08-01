@@ -31,15 +31,15 @@ ParserYkdl::~ParserYkdl()
 bool ParserYkdl::isSupported ( const QUrl& url )
 {
 #ifdef Q_OS_WIN
-    QString ykdlPath = userResourcesPath() + "/ykdl-moonplayer.exe";
+    QString ykdlPath = userResourcesPath() + QStringLiteral("/ykdl-moonplayer.exe");
 #else
-    QString ykdlPath = userResourcesPath() + "/ykdl-moonplayer";
+    QString ykdlPath = userResourcesPath() + QStringLiteral("/ykdl-moonplayer");
 #endif
     if (QFile::exists(ykdlPath))
     {
         QProcess process;
         QStringList args;
-        args << "--check-support" << url.toString();
+        args << QStringLiteral("--check-support") << url.toString();
         process.start(ykdlPath, args);
         process.waitForStarted(-1);
         process.waitForFinished(-1);
@@ -54,24 +54,24 @@ void ParserYkdl::runParser(const QUrl &url)
 {
     if (m_process->state() == QProcess::Running)
     {
-        QMessageBox::warning(nullptr, "Error", tr("Another file is being parsed."));
+        QMessageBox::warning(nullptr, tr("Error"), tr("Another file is being parsed."));
         return;
     }
 
     QSettings settings;
-    NetworkAccessManager::ProxyType proxyType = (NetworkAccessManager::ProxyType) settings.value("network/proxy_type").toInt();
-    QString proxy = settings.value("network/proxy").toString();
+    NetworkAccessManager::ProxyType proxyType = (NetworkAccessManager::ProxyType) settings.value(QStringLiteral("network/proxy_type")).toInt();
+    QString proxy = settings.value(QStringLiteral("network/proxy")).toString();
     
     QStringList args;
-    args << "--timeout" << "15" << "--user-agent" << DEFAULT_UA;
+    args << QStringLiteral("--timeout") << QStringLiteral("15") << QStringLiteral("--user-agent") << QStringLiteral(DEFAULT_UA);
     
     if (!proxy.isEmpty() && proxyType == NetworkAccessManager::HTTP_PROXY)
-        args << "--http-proxy" << proxy;
+        args << QStringLiteral("--http-proxy") << proxy;
     else if (!proxy.isEmpty() && proxyType == NetworkAccessManager::SOCKS5_PROXY)
-        args << "--socks-proxy" << proxy;
+        args << QStringLiteral("--socks-proxy") << proxy;
     
     args << url.toString();
-    m_process->start(userResourcesPath() + "/ykdl-moonplayer", args, QProcess::ReadOnly);
+    m_process->start(userResourcesPath() + QStringLiteral("/ykdl-moonplayer"), args, QProcess::ReadOnly);
 }
 
 
@@ -99,8 +99,8 @@ void ParserYkdl::parseOutput()
         QList<QUrl> urls;
         foreach (QVariant item, episodes)
         {
-            titles << item.toHash()["title"].toString();
-            urls << item.toHash()["url"].toString();
+            titles << item.toHash()[QStringLiteral("title")].toString();
+            urls << item.toHash()[QStringLiteral("url")].toString();
         }
         selectEpisode(titles, urls);
         return;
@@ -108,29 +108,29 @@ void ParserYkdl::parseOutput()
 
     // Video
     QVariantHash obj = document.toVariant().toHash();
-    if (obj.contains("streams"))
+    if (obj.contains(QStringLiteral("streams")))
     {
-        result.title = obj["title"].toString();
-        result.danmaku_url = obj["danmaku_url"].toString();
+        result.title = obj[QStringLiteral("title")].toString();
+        result.danmaku_url = obj[QStringLiteral("danmaku_url")].toString();
         
         // get all available streams
-        QVariantHash streams = obj["streams"].toHash();
+        QVariantHash streams = obj[QStringLiteral("streams")].toHash();
         for (auto i = streams.constBegin(); i != streams.constEnd(); i++)
         {
-            QString profile = i.value().toHash()["video_profile"].toString();
+            QString profile = i.value().toHash()[QStringLiteral("video_profile")].toString();
             result.stream_types << QStringLiteral("%1 (%2)").arg(i.key(), profile);
             
             // Basic stream infos
             QVariantHash item = i.value().toHash();
             Stream stream;
-            stream.container = item["container"].toString();
-            stream.referer = obj["extra"].toHash()["referer"].toString();
-            stream.ua = obj["extra"].toHash()["ua"].toString();
+            stream.container = item[QStringLiteral("container")].toString();
+            stream.referer = obj[QStringLiteral("extra")].toHash()[QStringLiteral("referer")].toString();
+            stream.ua = obj[QStringLiteral("extra")].toHash()[QStringLiteral("ua")].toString();
             stream.is_dash = false;
             stream.seekable = true;
             
             // Write urls list
-            QVariantList urls = item["src"].toList();
+            QVariantList urls = item[QStringLiteral("src")].toList();
             if (urls.count() == 0)   // this stream is not available, skip it
                 continue;
             for (int i = 0; i < urls.size(); i++)
