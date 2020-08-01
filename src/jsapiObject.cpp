@@ -39,7 +39,7 @@ void JSAPIObject::get_post_content(const QString& url, const QByteArray& postDat
         if (reply->error() != QNetworkReply::NoError)
         {
             int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-            QString errStr = QString().sprintf("Network Error: %d\n%s\n", status, reply->errorString().toUtf8().constData());
+            QString errStr = QStringLiteral("Network Error: %1\n%2\n").arg(QString::number(status), reply->errorString());
             QMessageBox::warning(NULL, tr("Error"), errStr);
             return;
         }

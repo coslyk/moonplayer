@@ -81,7 +81,7 @@ void DanmakuLoader::onXmlDownloaded()
         args << QStringLiteral("-o") << m_outputFile;
 
         // Size
-        args << QStringLiteral("-s") << QString().sprintf("%dx%d", m_width, m_height);
+        args << QStringLiteral("-s") << QStringLiteral("%1x%2").arg(QString::number(m_width), QString::number(m_height));
 
         // Font
         QString fontName = settings.value(QStringLiteral("danmaku/font")).value<QFont>().family();
