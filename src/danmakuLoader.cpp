@@ -132,7 +132,7 @@ void DanmakuLoader::onXmlDownloaded()
 
         // run
 #ifdef Q_OS_WIN
-        m_process->start(appResourcesPath() + "/danmaku2ass.exe", args);
+        m_process->start(appResourcesPath() + QStringLiteral("/danmaku2ass.exe"), args);
 #else
         m_process->start(QStringLiteral("python"), args);
 #endif

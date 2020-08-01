@@ -25,10 +25,10 @@ bool Application::event(QEvent *e)
         if (file.isEmpty()) //url
         {
             QUrl url = openEvent->url();
-            if (url.scheme() == "moonplayer")
-                url.setScheme("http");
-            else if (url.scheme() == "moonplayers")
-                url.setScheme("https");
+            if (url.scheme() == QStringLiteral("moonplayer"))
+                url.setScheme(QStringLiteral("http"));
+            else if (url.scheme() == QStringLiteral("moonplayers"))
+                url.setScheme(QStringLiteral("https"));
             PlaylistModel::instance()->addUrl(url);
         }
         else

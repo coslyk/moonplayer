@@ -35,9 +35,9 @@ void Utils::updateParser()
         c_console = new Console;
     QStringList args;
 #ifdef Q_OS_WIN
-    args << "-ExecutionPolicy" << "RemoteSigned";
-    args << "-File" << (appResourcesPath() + "/update-parsers.ps1");
-    c_console->launchScript("powershell", args);
+    args << QStringLiteral("-ExecutionPolicy") << QStringLiteral("RemoteSigned");
+    args << QStringLiteral("-File") << (appResourcesPath() + QStringLiteral("/update-parsers.ps1"));
+    c_console->launchScript(QStringLiteral("powershell"), args);
 #else
     args << appResourcesPath() + QStringLiteral("/update-parsers.sh");
     c_console->launchScript(QStringLiteral("sh"), args);

@@ -13,7 +13,7 @@ QString userResourcesPath()
 {
     static QString path;
     if (path.isNull())
-        path = QDir::homePath() + "/AppData/Local/MoonPlayer";
+        path = QDir::homePath() + QStringLiteral("/AppData/Local/MoonPlayer");
     return path;
 }
 
@@ -22,6 +22,6 @@ QString ffmpegFilePath()
 {
     static QString filename;
     if (filename.isNull())
-        filename = QCoreApplication::applicationDirPath() + "/ffmpeg.exe";
+        filename = QCoreApplication::applicationDirPath() + QStringLiteral("/ffmpeg.exe");
     return filename;
 }

@@ -204,7 +204,7 @@ MpvObject::MpvObject(QQuickItem * parent) :
     
 #elif defined(Q_OS_WIN)
     mpv_set_option_string(mpv, "gpu-context", "angle");
-    if (QSysInfo::productVersion() == "8.1" && QSysInfo::productVersion() == "10")
+    if (QSysInfo::productVersion() == QStringLiteral("8.1") && QSysInfo::productVersion() == QStringLiteral("10"))
         mpv_set_option_string(mpv, "hwdec", hwdecCopy ? "d3d11va-copy" : "d3d11va");
     else
         mpv_set_option_string(mpv, "hwdec", hwdecCopy ? "dxva2-copy" : "dxva2");
