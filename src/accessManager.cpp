@@ -58,7 +58,7 @@ QNetworkReply *NetworkAccessManager::get(const QNetworkRequest &req)
     QNetworkRequest request = req;
     request.setHeader(QNetworkRequest::UserAgentHeader, userAgentOf(request.url()));
     if (!refererOf(request.url()).isEmpty())
-        request.setRawHeader("Referer", refererOf(request.url()));
+        request.setRawHeader(QByteArrayLiteral("Referer"), refererOf(request.url()));
     return QNetworkAccessManager::get(request);
 }
 

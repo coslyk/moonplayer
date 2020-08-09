@@ -169,7 +169,7 @@ QVariant PlaylistModel::data(const QModelIndex& index, int role) const
 QHash<int, QByteArray> PlaylistModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[TitleRole] = "title";
+    roles[TitleRole] = QByteArrayLiteral("title");
     return roles;
 }
 

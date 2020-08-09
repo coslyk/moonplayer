@@ -50,7 +50,7 @@ void DownloaderSingleItem::start()
     // Continue from the last position
     QNetworkRequest request(m_url);
     if (m_lastPos)
-        request.setRawHeader("Range", "bytes=" + QByteArray::number(m_file.size()) + '-');
+        request.setRawHeader(QByteArrayLiteral("Range"), QByteArrayLiteral("bytes=") + QByteArray::number(m_file.size()) + '-');
     
     // Start download
     m_reply = NetworkAccessManager::instance()->get(request);
@@ -112,7 +112,7 @@ void DownloaderSingleItem::onFinished()
         m_reply = nullptr;
         m_file.seek(0);
         m_lastPos = 0;
-        m_url = QString::fromUtf8(m_reply->rawHeader("Location"));
+        m_url = QString::fromUtf8(m_reply->rawHeader(QByteArrayLiteral("Location")));
         setState(PAUSED);
         start();
     }

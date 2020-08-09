@@ -30,7 +30,7 @@ void JSAPIObject::get_post_content(const QString& url, const QByteArray& postDat
         // redirection
         if (status == 301 || status == 302)
         {
-            QByteArray final_url = reply->rawHeader("Location");
+            QByteArray final_url = reply->rawHeader(QByteArrayLiteral("Location"));
             get_post_content(QString::fromUtf8(final_url), postData, callbackFunc);
             return;
         }

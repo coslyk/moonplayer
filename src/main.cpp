@@ -20,7 +20,7 @@
 
 int main(int argc, char *argv[])
 {
-    qputenv("PYTHONIOENCODING", "utf-8");
+    qputenv("PYTHONIOENCODING", QByteArrayLiteral("utf-8"));
 
     detectOpenGLEarly();
     
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     // Qt sets the locale in the QGuiApplication constructor, but libmpv
     // requires the LC_NUMERIC category to be set to "C", so change it back.
     std::setlocale(LC_NUMERIC, "C");
-    qputenv("LC_NUMERIC", "C");
+    qputenv("LC_NUMERIC", QByteArrayLiteral("C"));
     
     // Translate
     QTranslator translator;
@@ -57,19 +57,19 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_MAC
     // Disable Classic UI on macOS
     engine.addImportPath(QStringLiteral("qrc:/qml/modernUI"));
-    qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", "Dense");
-    qputenv("QT_QUICK_CONTROLS_STYLE", "material");
+    qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
+    qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("material"));
 #else
     if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
     {
         engine.addImportPath(QStringLiteral("qrc:/qml/classicUI"));
-        qputenv("QT_QUICK_CONTROLS_STYLE", "fusion");
+        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("fusion"));
     }
     else
     {
         engine.addImportPath(QStringLiteral("qrc:/qml/modernUI"));
-        qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", "Dense");
-        qputenv("QT_QUICK_CONTROLS_STYLE", "material");
+        qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
+        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("material"));
     }
 #endif
 

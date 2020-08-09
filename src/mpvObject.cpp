@@ -88,7 +88,7 @@ public:
                 params[2].data = QX11Info::display();
             } else {    // Wayland
                 params[2].type = MPV_RENDER_PARAM_WL_DISPLAY;
-                params[2].data = QGuiApplication::platformNativeInterface()->nativeResourceForWindow("display", NULL);
+                params[2].data = QGuiApplication::platformNativeInterface()->nativeResourceForWindow(QByteArrayLiteral("display"), NULL);
             }
 #endif
         

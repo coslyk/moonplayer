@@ -13,7 +13,7 @@ void detectOpenGLLate()
         return;
 
     // Workaround for broken QSGDefaultDistanceFieldGlyphCache::resizeTexture in ES 3 mode
-    qputenv("QML_USE_GLYPHCACHE_WORKAROUND", "1");
+    qputenv("QML_USE_GLYPHCACHE_WORKAROUND", QByteArrayLiteral("1"));
 
     QList<int> versions = { 3, 2 };
     for (auto version : versions)
