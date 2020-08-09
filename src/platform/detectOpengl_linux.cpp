@@ -12,7 +12,7 @@
 // but quite effective and without having to duplicate too much GLX/EGL code.
 static QByteArray probeHwdecInterop()
 {
-    QString result;
+    QByteArray result;
     mpv_handle *mpv = mpv_create();
     if (!mpv)
         return QByteArray();
