@@ -54,12 +54,12 @@
         
             &lt;p&gt;Add some urls to start download!&lt;/p&gt;
         
-            &lt;p&gt;Try our &lt;a href=&quot;https://coslyk.github.io/moonplayer/browser_ext.html&quot;&gt;Browser extensions&lt;/a&gt;&lt;/p&gt;</source>
+            &lt;p&gt;Try our &lt;a href=&quot;https://coslyk.github.io/moonplayer.html#browser_extension&quot;&gt;Browser extensions&lt;/a&gt;&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;当前没有正在下载的视频 -_-&lt;/p&gt;
         
         &lt;p&gt;添加些URL开始下载吧！&lt;/p&gt;
         
-        &lt;p&gt;欢迎尝试 &lt;a href=&quot;https://coslyk.github.io/moonplayer/browser_ext_cn.html&quot;&gt;浏览器扩展&lt;/a&gt;&lt;/p&gt;</translation>
+        &lt;p&gt;欢迎尝试 &lt;a href=&quot;https://coslyk.github.io/moonplayer.html#browser_extension&quot;&gt;浏览器扩展&lt;/a&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../qml/Downloader.qml" line="100"/>
@@ -74,16 +74,27 @@
         <source>Cannot pause the download of HLS streams.</source>
         <translation type="unfinished">无法暂停HLS视频流的下载。</translation>
     </message>
+    <message>
+        <location filename="../downloaderHlsItem.cpp" line="71"/>
+        <source>Error</source>
+        <translation type="unfinished">错误</translation>
+    </message>
 </context>
 <context>
     <name>DownloaderMultipleItem</name>
     <message>
-        <location filename="../downloaderMultipleItem.cpp" line="148"/>
+        <location filename="../downloaderMultipleItem.cpp" line="149"/>
         <source>Failed to write: </source>
         <translation type="unfinished">无法写入： </translation>
     </message>
     <message>
-        <location filename="../downloaderMultipleItem.cpp" line="185"/>
+        <location filename="../downloaderMultipleItem.cpp" line="149"/>
+        <location filename="../downloaderMultipleItem.cpp" line="195"/>
+        <source>Error</source>
+        <translation type="unfinished">错误</translation>
+    </message>
+    <message>
+        <location filename="../downloaderMultipleItem.cpp" line="195"/>
         <source>Failed to concat: </source>
         <translation type="unfinished">无法合并： </translation>
     </message>
@@ -119,9 +130,14 @@
 <context>
     <name>JSAPIObject</name>
     <message>
+        <location filename="../jsapiObject.cpp" line="43"/>
+        <source>Error</source>
+        <translation type="unfinished">错误</translation>
+    </message>
+    <message>
         <location filename="../jsapiObject.cpp" line="70"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">警告</translation>
     </message>
     <message>
         <location filename="../jsapiObject.cpp" line="75"/>
@@ -160,6 +176,11 @@
         <translation type="unfinished">未找到该视频的播放地址。可能这是一个VIP视频，需要登录。</translation>
     </message>
     <message>
+        <location filename="../parserBase.cpp" line="98"/>
+        <source>Error</source>
+        <translation type="unfinished">错误</translation>
+    </message>
+    <message>
         <location filename="../parserBase.cpp" line="101"/>
         <source>Upgrade parser</source>
         <translation type="unfinished">更新解析程序</translation>
@@ -172,6 +193,11 @@
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
+    <message>
+        <location filename="../parserYkdl.cpp" line="57"/>
+        <source>Error</source>
+        <translation type="unfinished">错误</translation>
+    </message>
 </context>
 <context>
     <name>ParserYoutubeDL</name>
@@ -179,6 +205,11 @@
         <location filename="../parserYoutubedl.cpp" line="35"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
+    </message>
+    <message>
+        <location filename="../parserYoutubedl.cpp" line="35"/>
+        <source>Error</source>
+        <translation type="unfinished">错误</translation>
     </message>
 </context>
 <context>
@@ -475,6 +506,19 @@
         <location filename="../qml/Settings.qml" line="291"/>
         <source>Open settings</source>
         <translation type="unfinished">打开设置</translation>
+    </message>
+</context>
+<context>
+    <name>Utils</name>
+    <message>
+        <location filename="../utils.cpp" line="23"/>
+        <source>Update</source>
+        <translation type="unfinished">更新</translation>
+    </message>
+    <message>
+        <location filename="../utils.cpp" line="23"/>
+        <source>New version of MoonPlayer is available.</source>
+        <translation type="unfinished">有新版本可用。</translation>
     </message>
 </context>
 <context>

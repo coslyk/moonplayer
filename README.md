@@ -6,7 +6,7 @@ MoonPlayer is an interesting player that lets you to enjoy videos. It can play t
 
 ### Homepage
 
-The homepage of MoonPlayer is here: https://coslyk.github.io/moonplayer/
+The homepage of MoonPlayer is here: https://coslyk.github.io/moonplayer.html
 
 Here is the development page of this project. For the program usage information, please visit the homepage.
 

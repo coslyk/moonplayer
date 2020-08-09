@@ -116,7 +116,7 @@ CustomDialog {
         
             <p>Add some urls to start download!</p>
         
-            <p>Try our <a href=\"https://coslyk.github.io/moonplayer/browser_ext.html\">Browser extensions</a></p>")
+            <p>Try our <a href=\"https://coslyk.github.io/moonplayer.html#browser_extension\">Browser extensions</a></p>")
         
             anchors.centerIn: parent
             visible: downloaderModel.length === 0
