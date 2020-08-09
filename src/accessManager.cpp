@@ -73,15 +73,19 @@ void NetworkAccessManager::setupProxy(NetworkAccessManager::ProxyType proxyType,
     {
         m_proxyFactory->setProxy(QNetworkProxy(QNetworkProxy::NoProxy));
         qunsetenv("http_proxy");    // libmpv uses proxy from environment
+        qunsetenv("https_proxy");
     }
     else if (proxyType == SOCKS5_PROXY)
     {
         m_proxyFactory->setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, ip, port));
         qunsetenv("http_proxy");    // libmpv does not support socks5 yet
+        qunsetenv("https_proxy");
     }
     else
     {
         m_proxyFactory->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy, ip, port));
-        qputenv("http_proxy", (QStringLiteral("http://") + proxy).toUtf8());
+        QByteArray proxy_str = (QStringLiteral("http://") + proxy).toUtf8();
+        qputenv("http_proxy", proxy_str);
+        qputenv("https_proxy", proxy_str);
     }
 }
