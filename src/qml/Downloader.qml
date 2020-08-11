@@ -87,7 +87,7 @@ CustomDialog {
                             text: qsTr("Play")
                             enabled: modelData.state === DownloaderItem.FINISHED
                             onTriggered: {
-                                playlistModel.addItem(name, filePath);
+                                playlistModel.addItem(name, filePath, danmakuUrl);
                                 downloader.close();
                             }
                         }
