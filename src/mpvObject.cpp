@@ -605,7 +605,6 @@ void MpvObject::setProperty(const char *name, const char *value)
 // setProperty() exposed to QML
 void MpvObject::setProperty(const QString &name, const QVariant &value)
 {
-    int retVal;
     switch ((int) value.type())
     {
         case (int) QMetaType::Bool:
