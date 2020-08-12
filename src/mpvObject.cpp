@@ -577,20 +577,41 @@ void MpvObject::command(const char *args[])
 
 
 // set property
-void MpvObject::setProperty(const QString& name, const QVariant& value)
+void MpvObject::setProperty(const char *name, bool value)
 {
-    setProperty(name.toUtf8().constData(), value);
+    int v = value;
+    int retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_FLAG, &v);
+    handleMpvError(retVal);
 }
 
-void MpvObject::setProperty(const char *name, const QVariant &value)
+void MpvObject::setProperty(const char *name, int64_t value)
+{
+    int retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_INT64, &value);
+    handleMpvError(retVal);
+}
+
+void MpvObject::setProperty(const char *name, double value)
+{
+    int retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_DOUBLE, &value);
+    handleMpvError(retVal);
+}
+
+void MpvObject::setProperty(const char *name, const char *value)
+{
+    int retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_STRING, &value);
+    handleMpvError(retVal);
+}
+
+// setProperty() exposed to QML
+void MpvObject::setProperty(const QString &name, const QVariant &value)
 {
     int retVal;
     switch ((int) value.type())
     {
         case (int) QMetaType::Bool:
         {
-            int v = value.toInt();
-            retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_FLAG, &v);
+            bool v = value.toBool();
+            setProperty(name.toLatin1().constData(), v);
             break;
         }
         case (int) QMetaType::Int:
@@ -598,31 +619,29 @@ void MpvObject::setProperty(const char *name, const QVariant &value)
         case (int) QMetaType::LongLong:
         {
             qint64 v = value.toLongLong();
-            retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_INT64, &v);
+            setProperty(name.toLatin1().constData(), (int64_t) v);
             break;
         }
         case (int) QMetaType::Float:
         case (int) QMetaType::Double:
         {
             double v = value.toDouble();
-            retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_DOUBLE, &v);
+            setProperty(name.toLatin1().constData(), v);
             break;
         }
         case (int) QMetaType::QByteArray:
         {
             QByteArray v = value.toByteArray();
-            retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_STRING, v.data());
+            setProperty(name.toLatin1().constData(), v.constData());
             break;
         }
         case (int) QMetaType::QString:
         {
             QByteArray v = value.toString().toUtf8();
-            retVal = mpv_set_property_async(mpv, 2, name, MPV_FORMAT_STRING, v.data());
+            setProperty(name.toLatin1().constData(), v.constData());
             break;
         }
     }
-    // Error check
-    handleMpvError(retVal);
 }
 
 void MpvObject::handleMpvError ( int code )

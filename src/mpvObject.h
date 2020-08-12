@@ -52,7 +52,11 @@ public:
     void setSubVisible(bool subVisible);
     void setSpeed(double speed);
 
-    void setProperty(const char *name, const QVariant &value);
+    void setProperty(const char *name, bool value);
+    void setProperty(const char *name, int64_t value);
+    void setProperty(const char *name, double value);
+    void setProperty(const char *name, const char *value);
+
     void command(const char *args[]);
 
 public slots:
