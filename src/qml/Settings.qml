@@ -213,8 +213,8 @@ CustomTabDialog {
                 id: proxyInput
                 selectByMouse: true
                 Layout.minimumWidth: 200
-                color: !text.match(/^.+:\d+$/) ? "red" : playerSettings.style == 1 ? "white" : "black"
-                validator: RegExpValidator { regExp: /.+:\d+/ }
+                color: !text.match(/^[A-Za-z0-9\.]+:\d+$/) ? "red" : playerSettings.style == 1 ? "white" : "black"
+                validator: RegExpValidator { regExp: /^[A-Za-z0-9\.]+:\d+$/ }
             }
             
             Label {
