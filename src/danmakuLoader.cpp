@@ -6,9 +6,8 @@
 #include <QFont>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QProcess>
 #include <QSettings>
-#include "platform/paths.h"
+#include <danmaku2ass.h>
 #include "mpvObject.h"
 
 
@@ -17,9 +16,8 @@ DanmakuLoader DanmakuLoader::s_instance;
 
 DanmakuLoader::DanmakuLoader(QObject *parent) :
     QObject(parent)
-, m_reply(nullptr), m_process(new QProcess(this))
+, m_reply(nullptr)
 {
-    connect(m_process, SIGNAL(finished(int)), this, SLOT(onProcessFinished()));
 }
 
 
@@ -62,7 +60,8 @@ void DanmakuLoader::onXmlDownloaded()
     if (m_reply->error() == QNetworkReply::NoError)
     {
         // write source to tempfile
-        QFile f(QDir::temp().filePath(QStringLiteral("danmaku_source")));
+        QString inputFile = QDir::temp().filePath(QStringLiteral("danmaku_source"));
+        QFile f(inputFile);
         if (!f.open(QFile::WriteOnly))
             return;
         f.write(m_reply->readAll());
@@ -70,82 +69,72 @@ void DanmakuLoader::onXmlDownloaded()
 
         // load settings
         QSettings settings;
-        
-        QStringList args;
-#ifndef Q_OS_WIN
-        args << appResourcesPath() + QStringLiteral("/danmaku2ass.py");
-#endif
 
         // Output file
-        m_outputFile = QDir::temp().filePath(QStringLiteral("moonplayer_danmaku.ass"));
-        args << QStringLiteral("-o") << m_outputFile;
-
-        // Size
-        args << QStringLiteral("-s") << QStringLiteral("%1x%2").arg(QString::number(m_width), QString::number(m_height));
+        QString outputFile = QDir::temp().filePath(QStringLiteral("moonplayer_danmaku.ass"));
 
         // Font
         QString fontName = settings.value(QStringLiteral("danmaku/font")).value<QFont>().family();
+        if (fontName.isEmpty())
+        {
 #ifdef Q_OS_MAC
-        args << QStringLiteral("-fn") << (fontName.isEmpty() ? QStringLiteral("PingFang SC") : fontName);
+            fontName = QStringLiteral("PingFang SC");
 #else
-        args << QStringLiteral("-fn") << (fontName.isEmpty() ? QStringLiteral("sans-serif") : fontName);
+            fontName = QStringLiteral("sans-serif");
 #endif
+        }
         
         // Font size
-        args << QStringLiteral("-fs");
         int fontSize = settings.value(QStringLiteral("danmaku/font_size")).toInt();
-        if (fontSize)
-            args << QString::number(fontSize);
-        else
+        if (fontSize == 0)
         {
             if (m_width > 960)
-                args << QStringLiteral("36");
+                fontSize = 36;
             else if (m_width > 640)
-                args << QStringLiteral("32");
+                fontSize = 32;
             else
-                args << QStringLiteral("28");
+                fontSize = 28;
         }
 
         // Duration of comment display
-        args << QStringLiteral("-dm");
         int dm = settings.value(QStringLiteral("danmaku/dm")).toInt();
-        if (dm)
-            args << QString::number(dm);
-        else
+        if (dm == 0)
         {
             if (m_width > 960)
-                args << QStringLiteral("10");
+                dm = 10;
             else if (m_width > 640)
-                args << QStringLiteral("8");
+                dm = 8;
             else
-                args << QStringLiteral("6");
+                dm = 6;
         }
 
         // Duration of still danmaku
-        args << QStringLiteral("-ds") << settings.value(QStringLiteral("danmaku/ds")).toString();
+        int ds = settings.value(QStringLiteral("danmaku/ds")).toInt();
 
         // text opacity
-        args << QStringLiteral("-a") << QString::number(settings.value(QStringLiteral("danmaku/alpha")).toFloat() / 100.0);
-
-        // input
-        args << QDir::temp().filePath(QStringLiteral("danmaku_source"));
+        float alpha = settings.value(QStringLiteral("danmaku/alpha")).toFloat() / 100.0;
 
         // run
-#ifdef Q_OS_WIN
-        m_process->start(appResourcesPath() + QStringLiteral("/danmaku2ass.exe"), args);
-#else
-        m_process->start(QStringLiteral("python"), args);
-#endif
-        m_process->waitForStarted(-1);
-        m_process->write(m_reply->readAll());
-        m_process->closeWriteChannel();
+        danmaku2ass(
+            inputFile.toLocal8Bit().constData(),  // infile
+            outputFile.toLocal8Bit().constData(), // outfile
+            m_width,                              // width
+            m_height,                             // height
+            fontName.toUtf8().constData(),        // font
+            fontSize,                             // fontsize
+            alpha,                                // alpha
+            dm,                                   // duration_marquee
+            ds                                    // duration_still
+        );
+
+        // success?
+        if (QFile::exists(outputFile))
+        {
+            MpvObject::instance()->addSubtitle(QUrl::fromLocalFile(outputFile));
+        } else {
+            qDebug("Fails to parse danmaku!");
+        }
     }
     m_reply->deleteLater();
     m_reply = nullptr;
-}
-
-void DanmakuLoader::onProcessFinished()
-{
-    qDebug("%s", m_process->readAllStandardError().constData());
-    MpvObject::instance()->addSubtitle(QUrl::fromLocalFile(m_outputFile));
 }

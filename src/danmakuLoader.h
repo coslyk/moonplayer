@@ -3,7 +3,6 @@
 
 #include <QObject>
 class QNetworkReply;
-class QProcess;
 
 class DanmakuLoader : public QObject
 {
@@ -16,12 +15,9 @@ public:
 
 private slots:
     void onXmlDownloaded(void);
-    void onProcessFinished(void);
 
 private:
     QNetworkReply *m_reply;
-    QProcess *m_process;
-    QString m_outputFile;
     int m_width;
     int m_height;
     

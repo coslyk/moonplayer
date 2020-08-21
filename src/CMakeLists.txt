@@ -10,6 +10,9 @@ if (UNIX AND NOT APPLE)
     include_directories(${Qt5X11Extras_INCLUDE_DIRS})
 endif()
 
+#include danmaku2ass
+include_directories(${PROJECT_SOURCE_DIR}/3rdparty/danmaku2ass_native)
+
 # Add source files
 set(SOURCE_FILES
     accessManager.cpp
@@ -87,7 +90,15 @@ add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE d
 
 fix_win_compiler()
 
-target_link_libraries(${PROJECT_NAME} Qt5::Qml Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Network ${Qt5X11Extras_LIBRARIES} ${MPV_LIBRARY})
+target_link_libraries(${PROJECT_NAME}
+    Qt5::Qml
+    Qt5::Quick
+    Qt5::Gui
+    Qt5::Widgets
+    Qt5::Network
+    ${Qt5X11Extras_LIBRARIES}
+    ${MPV_LIBRARY}
+    danmaku2ass)
 
 
 # Install on Linux
