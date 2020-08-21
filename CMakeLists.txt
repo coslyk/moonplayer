@@ -45,4 +45,5 @@ if (UNIX AND NOT APPLE)
 endif()
 
 
+add_subdirectory(3rdparty)
 add_subdirectory(src)

@@ -45,8 +45,10 @@ addons:
       - cmake
       - desktop-file-utils
       - ffmpeg
+      - libcurl4-openssl-dev
       - libgl1-mesa-dev
       - libglu1-mesa-dev
+      - libssl-dev
       - libxkbcommon-x11-0
       - libmpv-dev
       - p7zip-full

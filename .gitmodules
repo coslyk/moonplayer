@@ -1,0 +1,3 @@
+[submodule "3rdparty/hlsdl"]
+	path = 3rdparty/hlsdl
+	url = https://github.com/selsta/hlsdl
