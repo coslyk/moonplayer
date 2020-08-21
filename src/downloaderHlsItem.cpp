@@ -1,6 +1,8 @@
 #include "downloaderHlsItem.h"
 #include <QFile>
 #include <QFileInfo>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QMessageBox>
 #include <QProcess>
 #include <QRegularExpression>
@@ -21,42 +23,59 @@ DownloaderHlsItem::DownloaderHlsItem(const QString& filepath, const QUrl& url, c
     // Set new filePath
     QString newPath = filepath.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".ts");
     setFilePath(newPath);
+
+    // Delete file if it exists
+    if (QFile::exists(newPath))
+    {
+        QFile::remove(newPath);
+    }
     
     QStringList args;
-#ifndef Q_OS_WIN
-    args << appResourcesPath() + QStringLiteral("/hls_downloader.py");
-#endif
+
+    // Choose best quality
+    args << QStringLiteral("-b");
+
+    // Set proxy
     if (proxyType == NetworkAccessManager::HTTP_PROXY && !proxy.isEmpty() && !proxyOnlyForParsing)
-        args << QStringLiteral("--http-proxy") << proxy;
+    {
+        args << QStringLiteral("-p") << (QStringLiteral("http://") + proxy);
+    }
     else if (proxyType == NetworkAccessManager::SOCKS5_PROXY && !proxy.isEmpty() && !proxyOnlyForParsing)
-        args << QStringLiteral("--socks-proxy") << proxy;
-    args << QStringLiteral("--title") << name().section(QLatin1Char('.'), 0, -2) << url.toString();
+    {
+        args << QStringLiteral("-p") << (QStringLiteral("socks5://") + proxy);
+    }
+
+    // Output file
+    args << QStringLiteral("-o") << (name().section(QLatin1Char('.'), 0, -2) + QStringLiteral(".ts"));
+
+    // Url of m3u8 file
+    args << url.toString();
     
     // Run
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &DownloaderHlsItem::onProcFinished);
     connect(m_process, &QProcess::readyReadStandardOutput, this, &DownloaderHlsItem::readOutput);
     m_process->setWorkingDirectory(QFileInfo(newPath).absolutePath());
-#ifdef Q_OS_WIN
-    m_process->start(appResourcesPath() + QStringLiteral("/hls_downloader.exe"), args, QProcess::ReadOnly);
-#else
-    m_process->start(QStringLiteral("python"), args, QProcess::ReadOnly);
-#endif
+    m_process->setReadChannelMode(QProcess::MergedChannels);
+    m_process->start(QStringLiteral("moonplayer-hlsdl"), args, QProcess::ReadOnly);
     setState(DOWNLOADING);
 }
 
 // Get progress
 void DownloaderHlsItem::readOutput()
 {
-    static QRegularExpression re(QStringLiteral("\\((\\d+)/(\\d+)\\)"));
     while (m_process->canReadLine())
     {
         QByteArray line = m_process->readLine();
-        QRegularExpressionMatch match = re.match(QString::fromLatin1(line));
-        if (match.hasMatch())
+        QJsonDocument info = QJsonDocument::fromJson(line);
+        if (info.isObject())
         {
-            int i = match.captured(1).toInt();
-            int total = match.captured(2).toInt();
-            setProgress(i * 100 / total);
+            QJsonObject obj = info.object();
+            int i = obj[QStringLiteral("d_d")].toInt();
+            int total = obj[QStringLiteral("t_d")].toInt();
+            if (total)
+            {
+                setProgress(i * 100 / total);
+            }
         }
     }
 }
@@ -99,9 +118,34 @@ void DownloaderHlsItem::onProcFinished(int code)
     }
     else
     {
-        if (!QFile::exists(filePath()))  // has been converted to mp4
+        // Convert file to mp4
+        // First, make a ffmpeg dry run to check the audio format
+        QProcess proc;
+        QStringList args;
+        args << QStringLiteral("-y") << QStringLiteral("-i") << filePath();
+        proc.start(QStringLiteral("ffmpeg"), args, QProcess::ReadOnly);
+        proc.waitForFinished();
+        QString output = QString::fromUtf8(proc.readAllStandardError());
+
+        static QRegularExpression re(QStringLiteral(R"delimiter(Stream\s*#\d+:\d+(?:\[0x[0-9a-f]+\])?(?:\([a-z]{3}\))?:\s*Audio:\s*([0-9a-z]+))delimiter"));
+        QRegularExpressionMatch match = re.match(output);
+        QString audioFormat = match.captured(1);
+
+        // Then, convert to mp4
+        QString newPath = filePath().chopped(3) + QStringLiteral(".mp4");
+        args << QStringLiteral("-c") << QStringLiteral("copy") << QStringLiteral("-f") << QStringLiteral("mp4");
+        if (audioFormat == QStringLiteral("aac"))
         {
-            QString newPath = filePath().section(QLatin1Char('.'), 0, -2) + QStringLiteral(".mp4");
+            args << QStringLiteral("-bsf:a") << QStringLiteral("aac_adtstoasc");
+        }
+        args << newPath;
+        proc.start(QStringLiteral("ffmpeg"), args, QProcess::ReadOnly);
+        proc.waitForFinished();
+
+        if (QFile::exists(newPath))  // has been converted to mp4
+        {
+            // Delete original .ts file
+            QFile::remove(filePath());
             setFilePath(newPath);
         }
         setState(FINISHED);
