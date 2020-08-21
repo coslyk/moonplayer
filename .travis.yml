@@ -58,6 +58,7 @@ addons:
     taps: coslyk/mpv
     packages:
       - cmake
+      - openssl
       - pkg-config
       - qt
       - mpv-lite

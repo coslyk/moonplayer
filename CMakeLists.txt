@@ -18,6 +18,8 @@ set(COMPANY "coslyk")
 set(COPYRIGHT "Copyright (c) 2019 coslyk. All rights reserved.")
 set(IDENTIFIER "io.github.coslyk")
 
+# Set C/C++ standard
+set(CMAKE_C_STANDARD 99)
 
 # Add folder where are supportive functions
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)

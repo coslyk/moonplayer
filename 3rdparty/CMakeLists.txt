@@ -15,7 +15,7 @@ if (UNIX)
         hlsdl/src/mpegts.c)
 
     target_include_directories(moonplayer-hlsdl PRIVATE ${OPENSSL_INCLUDE_DIR} ${CURL_INCLUDE_DIRS})
-    target_link_libraries(moonplayer-hlsdl PRIVATE OpenSSL::Crypto CURL::libcurl Threads::Threads)
+    target_link_libraries(moonplayer-hlsdl PRIVATE ${OPENSSL_CRYPTO_LIBRARY} ${CURL_LIBRARIES} Threads::Threads)
 
     if (NOT APPLE)
         install(TARGETS moonplayer-hlsdl RUNTIME DESTINATION bin)
