@@ -1,4 +1,7 @@
 
+#### danmaku2ass ####
+add_subdirectory(danmaku2ass_native)
+
 #### hlsdl ####
 if (UNIX)
     find_package(OpenSSL REQUIRED)
