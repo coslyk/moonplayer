@@ -9,10 +9,6 @@ cp src/Release/moonplayer.exe src/scripts/update-parsers.ps1 libmpv/mpv-1.dll mo
 # Bundle Qt
 windeployqt moonplayer/moonplayer.exe --qmldir src/qml
 
-# Compile python scripts
-pyinstaller -F src/scripts/hls_downloader.py --distpath moonplayer
-pyinstaller -F src/scripts/danmaku2ass.py --distpath moonplayer
-
 # Bundle OpenSSL
 curl -Lo openssl.zip https://indy.fulgan.com/SSL/openssl-1.0.2u-x64_86-win64.zip
 unzip -o openssl.zip -d moonplayer

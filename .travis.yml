@@ -29,8 +29,6 @@ jobs:
         - curl -Lo libmpv.zip https://github.com/coslyk/moonplayer/releases/download/2.9.2/libmpv_win_x64.zip
         - unzip -o libmpv.zip -d libmpv
         - choco install -y zip innosetup 7zip
-        - choco install -y python --version 3.7.6
-        - pip install pyinstaller
         
 
 

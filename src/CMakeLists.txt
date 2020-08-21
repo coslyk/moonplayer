@@ -68,12 +68,10 @@ configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
 add_project_meta(META_FILES_TO_INCLUDE)
 if (APPLE)
     set_source_files_properties(
-        scripts/danmaku2ass.py
         scripts/update-parsers.sh
         PROPERTIES
         MACOSX_PACKAGE_LOCATION Resources)
     list(APPEND META_FILES_TO_INCLUDE
-        scripts/danmaku2ass.py
         scripts/update-parsers.sh
     )
     file(COPY /usr/local/opt/ffmpeg-lite/bin/ffmpeg DESTINATION "${PROJECT_NAME}.app/Contents/MacOS/")
