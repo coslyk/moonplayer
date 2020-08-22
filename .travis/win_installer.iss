@@ -4,7 +4,7 @@
 #define MyAppName "MoonPlayer"
 #define MyAppVersion "3.3"
 #define MyAppPublisher "coslyk"
-#define MyAppURL "https://coslyk.github.io/moonplayer/"
+#define MyAppURL "https://coslyk.github.io/moonplayer.html"
 #define MyAppExeName "moonplayer.exe"
 
 [Setup]
