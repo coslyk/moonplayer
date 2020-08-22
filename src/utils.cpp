@@ -39,7 +39,14 @@ void Utils::updateParser()
     args << QStringLiteral("-File") << (appResourcesPath() + QStringLiteral("/update-parsers.ps1"));
     c_console->launchScript(QStringLiteral("powershell"), args);
 #else
-    args << appResourcesPath() + QStringLiteral("/update-parsers.sh");
+    static QString shell;
+    if (shell.isNull())
+    {
+        QFile f(QStringLiteral(":/scripts/update-parsers.sh"));
+        f.open(QFile::ReadOnly);
+        shell = QString::fromLatin1(f.readAll());
+    }
+    args << QStringLiteral("-c") << shell;
     c_console->launchScript(QStringLiteral("sh"), args);
 #endif
 }

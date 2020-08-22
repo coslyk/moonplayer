@@ -22,7 +22,7 @@ jobs:
       env:
         - PLATFORM: x64
         - QT5_BASE_DIR: C:/Qt/5.12.8/msvc2017_64
-        - PATH: /c/Python37:/c/Python37/Scripts:/c/Qt/5.12.8/msvc2017_64/bin:$PATH
+        - PATH: /c/Qt/5.12.8/msvc2017_64/bin:$PATH
       before_install:
         # Install libmpv, innosetup and pyinstaller
         - .travis/travis-cache-windows.sh restore

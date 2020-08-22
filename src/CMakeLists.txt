@@ -67,13 +67,6 @@ configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
 # Add MacOS bundle files
 add_project_meta(META_FILES_TO_INCLUDE)
 if (APPLE)
-    set_source_files_properties(
-        scripts/update-parsers.sh
-        PROPERTIES
-        MACOSX_PACKAGE_LOCATION Resources)
-    list(APPEND META_FILES_TO_INCLUDE
-        scripts/update-parsers.sh
-    )
     file(COPY /usr/local/opt/ffmpeg-lite/bin/ffmpeg DESTINATION "${PROJECT_NAME}.app/Contents/MacOS/")
 
     # Fix translation on macOS 10.14 Mojave and above
@@ -102,7 +95,6 @@ target_link_libraries(${PROJECT_NAME}
 # Install on Linux
 if (UNIX AND NOT APPLE)
     install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
-    install(DIRECTORY scripts/ DESTINATION share/moonplayer)
     install(DIRECTORY ../res/icons/ DESTINATION share/icons)
     install(FILES ../res/com.github.coslyk.MoonPlayer.appdata.xml DESTINATION share/metainfo)
     install(FILES ../res/com.github.coslyk.MoonPlayer.desktop DESTINATION share/applications)

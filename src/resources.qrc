@@ -21,6 +21,7 @@
         <file>qml/modernUI/CustomWidgets/CustomTabDialog.qml</file>
         <file>qml/modernUI/CustomWidgets/CustomWindow.qml</file>
         <file>qml/modernUI/CustomWidgets/ToolBar.qml</file>
+        <file>scripts/update-parsers.sh</file>
         <file>images/net_lightgrey.png</file>
         <file>images/pause_lightgrey.png</file>
         <file>images/play_lightgrey.png</file>
