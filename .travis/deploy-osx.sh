@@ -2,6 +2,8 @@
 
 # Move compiled bundle here
 mv src/MoonPlayer.app .
+mv 3rdparty/moonplayer-hlsdl MoonPlayer.app/Contents/MacOS/
+cp /usr/local/opt/ffmpeg-lite/bin/ffmpeg MoonPlayer.app/Contents/MacOS/
 
 # Bundle libraries
 /usr/local/opt/qt/bin/macdeployqt MoonPlayer.app -qmldir=src/qml/
