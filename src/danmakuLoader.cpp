@@ -112,7 +112,7 @@ void DanmakuLoader::onXmlDownloaded()
         int ds = settings.value(QStringLiteral("danmaku/ds")).toInt();
 
         // text opacity
-        float alpha = settings.value(QStringLiteral("danmaku/alpha")).toFloat() / 100.0;
+        double alpha = settings.value(QStringLiteral("danmaku/alpha")).toDouble() / 100.0;
 
         // run
         danmaku2ass(
