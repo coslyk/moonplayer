@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <QCoreApplication>
 #include <QMessageBox>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -6,7 +7,6 @@
 #include <QUrl>
 #include "accessManager.h"
 #include "console.h"
-#include "platform/paths.h"
 
 
 void Utils::checkUpdate()
@@ -36,7 +36,7 @@ void Utils::updateParser()
     QStringList args;
 #ifdef Q_OS_WIN
     args << QStringLiteral("-ExecutionPolicy") << QStringLiteral("RemoteSigned");
-    args << QStringLiteral("-File") << (appResourcesPath() + QStringLiteral("/update-parsers.ps1"));
+    args << QStringLiteral("-File") << (QCoreApplication::applicationDirPath() + QStringLiteral("/update-parsers.ps1"));
     c_console->launchScript(QStringLiteral("powershell"), args);
 #else
     static QString shell;

@@ -56,7 +56,7 @@ DownloaderHlsItem::DownloaderHlsItem(const QString& filepath, const QUrl& url, c
     connect(m_process, &QProcess::readyReadStandardOutput, this, &DownloaderHlsItem::readOutput);
     m_process->setWorkingDirectory(QFileInfo(newPath).absolutePath());
     m_process->setReadChannelMode(QProcess::MergedChannels);
-    m_process->start(QStringLiteral("moonplayer-hlsdl"), args, QProcess::ReadOnly);
+    m_process->start(hlsdlFilePath(), args, QProcess::ReadOnly);
     setState(DOWNLOADING);
 }
 
@@ -123,7 +123,7 @@ void DownloaderHlsItem::onProcFinished(int code)
         QProcess proc;
         QStringList args;
         args << QStringLiteral("-y") << QStringLiteral("-i") << filePath();
-        proc.start(QStringLiteral("ffmpeg"), args, QProcess::ReadOnly);
+        proc.start(ffmpegFilePath(), args, QProcess::ReadOnly);
         proc.waitForFinished();
         QString output = QString::fromUtf8(proc.readAllStandardError());
 
@@ -139,7 +139,7 @@ void DownloaderHlsItem::onProcFinished(int code)
             args << QStringLiteral("-bsf:a") << QStringLiteral("aac_adtstoasc");
         }
         args << newPath;
-        proc.start(QStringLiteral("ffmpeg"), args, QProcess::ReadOnly);
+        proc.start(ffmpegFilePath(), args, QProcess::ReadOnly);
         proc.waitForFinished();
 
         if (QFile::exists(newPath))  // has been converted to mp4

@@ -3,13 +3,12 @@
 
 #include <QString>
 
-QString appResourcesPath(void);
 QString userResourcesPath(void);
 
-// Get FFmpeg's file path
+// FFmpeg's file path
 QString ffmpegFilePath(void);
 
-// parser upgrader
-QString parserUpgraderPath(void);
+// Hlsdl's file path
+QString hlsdlFilePath(void);
 
 #endif // PATHS_H

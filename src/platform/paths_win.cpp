@@ -3,11 +3,6 @@
 #include <QCoreApplication>
 #include <QStandardPaths>
 
-QString appResourcesPath()
-{
-    return QCoreApplication::applicationDirPath();
-}
-
 
 QString userResourcesPath()
 {
@@ -17,11 +12,20 @@ QString userResourcesPath()
     return path;
 }
 
-//get ffmpeg's file path
+// FFmpeg's file path
 QString ffmpegFilePath()
 {
     static QString filename;
     if (filename.isNull())
         filename = QCoreApplication::applicationDirPath() + QStringLiteral("/ffmpeg.exe");
+    return filename;
+}
+
+// hlsdl's file path
+QString hlsdlFilePath()
+{
+    static QString filename;
+    if (filename.isNull())
+        filename = QCoreApplication::applicationDirPath() + QStringLiteral("/hlsdl.exe");
     return filename;
 }

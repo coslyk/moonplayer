@@ -4,20 +4,6 @@
 #include <QLibraryInfo>
 #include <QStandardPaths>
 
-QString appResourcesPath()
-{
-    static QString path;
-    if (path.isNull())
-    {
-        QString appPath = QCoreApplication::applicationDirPath();
-        if (appPath.endsWith(QStringLiteral("/bin")))
-            path = appPath.replace(QStringLiteral("/bin"), QStringLiteral("/share/moonplayer"));
-        else
-            path = QStringLiteral("/usr/local/share/moonplayer");
-    }
-    return path;
-}
-
 
 QString userResourcesPath()
 {
@@ -31,8 +17,14 @@ QString userResourcesPath()
 }
 
 
-//get ffmpeg's file path
+// FFmpeg's file path
 QString ffmpegFilePath()
 {
     return QStringLiteral("ffmpeg");
+}
+
+// hlsdl's file path
+QString ffmpegFilePath()
+{
+    return QStringLiteral("moonplayer-hlsdl");
 }

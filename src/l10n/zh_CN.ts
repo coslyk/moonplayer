@@ -70,12 +70,12 @@
 <context>
     <name>DownloaderHlsItem</name>
     <message>
-        <location filename="../downloaderHlsItem.cpp" line="71"/>
+        <location filename="../downloaderHlsItem.cpp" line="90"/>
         <source>Cannot pause the download of HLS streams.</source>
         <translation type="unfinished">无法暂停HLS视频流的下载。</translation>
     </message>
     <message>
-        <location filename="../downloaderHlsItem.cpp" line="71"/>
+        <location filename="../downloaderHlsItem.cpp" line="90"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>

@@ -6,7 +6,7 @@ class QLocalServer;
 class QLocalSocket;
 
 /* MacOS handles file opening in a different way.
- * It don't use arguments, but FileOpenEvent.
+ * It doesn't use arguments, but FileOpenEvent.
  */
 
 class Application : public QApplication
