@@ -24,7 +24,7 @@ QString ffmpegFilePath()
 }
 
 // hlsdl's file path
-QString ffmpegFilePath()
+QString hlsdlFilePath()
 {
     return QStringLiteral("moonplayer-hlsdl");
 }

@@ -55,7 +55,7 @@ DownloaderHlsItem::DownloaderHlsItem(const QString& filepath, const QUrl& url, c
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &DownloaderHlsItem::onProcFinished);
     connect(m_process, &QProcess::readyReadStandardOutput, this, &DownloaderHlsItem::readOutput);
     m_process->setWorkingDirectory(QFileInfo(newPath).absolutePath());
-    m_process->setReadChannelMode(QProcess::MergedChannels);
+    m_process->setProcessChannelMode(QProcess::MergedChannels);
     m_process->start(hlsdlFilePath(), args, QProcess::ReadOnly);
     setState(DOWNLOADING);
 }
