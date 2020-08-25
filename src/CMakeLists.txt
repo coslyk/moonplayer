@@ -35,23 +35,19 @@ set(SOURCE_FILES
 )
 
 # Add platform specific source files
-if (UNIX AND NOT APPLE)
-    list(APPEND SOURCE_FILES
-        platform/application_no_mac.cpp
-        platform/detectOpengl_linux.cpp
-        platform/paths_linux.cpp
-    )
-endif()
-
 if (APPLE)
     list(APPEND SOURCE_FILES
         platform/application_mac.cpp
         platform/detectOpengl_mac.cpp
         platform/paths_mac.cpp
     )
-endif()
-
-if (WIN32)
+elseif (UNIX AND NOT APPLE)
+    list(APPEND SOURCE_FILES
+        platform/application_no_mac.cpp
+        platform/detectOpengl_linux.cpp
+        platform/paths_linux.cpp
+    )
+elseif (WIN32)
     list(APPEND SOURCE_FILES
         platform/application_no_mac.cpp
         platform/detectOpengl_win.cpp
@@ -64,6 +60,14 @@ endif()
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
 configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
 
+# Compile Qt resource file
+if (COMPILE_QML)
+    qtquick_compiler_add_resources(QML_FILES qmls.qrc)
+else()
+    qt5_add_resources(QML_FILES qmls.qrc)
+endif()
+
+
 # Add MacOS bundle files
 add_project_meta(META_FILES_TO_INCLUDE)
 if (APPLE)
@@ -75,7 +79,12 @@ endif()
 
 # Create excutable
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
-    ${SOURCE_FILES} ${META_FILES_TO_INCLUDE} ${CMAKE_BINARY_DIR}/src/l10n.qrc ${QM_FILES} resources.qrc)
+    ${SOURCE_FILES}
+    ${QM_FILES}
+    ${QML_FILES}
+    resources.qrc
+    ${CMAKE_BINARY_DIR}/src/l10n.qrc
+    ${META_FILES_TO_INCLUDE})
 
 fix_win_compiler()
 

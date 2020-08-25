@@ -18,6 +18,11 @@ set(COMPANY "coslyk")
 set(COPYRIGHT "Copyright (c) 2019 coslyk. All rights reserved.")
 set(IDENTIFIER "io.github.coslyk")
 
+
+# Options
+option(COMPILE_QML "Compile QML to machine code" ON)
+
+
 # Set C/C++ standard
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 11)
@@ -42,6 +47,9 @@ find_package(Qt5 REQUIRED COMPONENTS Gui Qml Quick Widgets Network LinguistTools
 find_package(Qt5Gui REQUIRED)
 find_package(MPV REQUIRED)
 
+if (COMPILE_QML)
+    find_package(Qt5QuickCompiler REQUIRED)
+endif()
 
 if (UNIX AND NOT APPLE)
     find_package(Qt5X11Extras REQUIRED)

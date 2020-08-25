@@ -74,7 +74,7 @@ macro(init_qt)
 # Let's do the CMake job for us
 set(CMAKE_AUTOMOC ON) # For meta object compiler
 set(CMAKE_AUTORCC ON) # Resource files
-set(CMAKE_AUTOUIC ON) # UI files
+# set(CMAKE_AUTOUIC ON) # UI files
 endmacro()
 
 init_os_bundle()
