@@ -1,11 +1,11 @@
 
 #### danmaku2ass ####
-add_subdirectory(danmaku2ass_native)
+add_subdirectory(danmaku2ass_cpp)
 
 #### hlsdl ####
 if (UNIX)
     if(APPLE AND NOT OPENSSL_ROOT_DIR)
-        EXECUTE_PROCESS(COMMAND brew --prefix openssl OUTPUT_VARIABLE OPENSSL_ROOT_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+        set(OPENSSL_ROOT_DIR /usr/local/opt/openssl)
     endif()
     find_package(OpenSSL REQUIRED)
     find_package(CURL REQUIRED)

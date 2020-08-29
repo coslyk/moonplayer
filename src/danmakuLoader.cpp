@@ -7,7 +7,8 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSettings>
-#include <danmaku2ass.h>
+#include <Danmaku2ASS/CommentParser.h>
+#include <sstream>
 #include "mpvObject.h"
 
 
@@ -59,14 +60,6 @@ void DanmakuLoader::onXmlDownloaded()
 {
     if (m_reply->error() == QNetworkReply::NoError)
     {
-        // write source to tempfile
-        QString inputFile = QDir::temp().filePath(QStringLiteral("danmaku_source"));
-        QFile f(inputFile);
-        if (!f.open(QFile::WriteOnly))
-            return;
-        f.write(m_reply->readAll());
-        f.close();
-
         // load settings
         QSettings settings;
 
@@ -114,25 +107,22 @@ void DanmakuLoader::onXmlDownloaded()
         // text opacity
         double alpha = settings.value(QStringLiteral("danmaku/alpha")).toDouble() / 100.0;
 
-        // run
-        danmaku2ass(
-            inputFile.toLocal8Bit().constData(),  // infile
-            outputFile.toLocal8Bit().constData(), // outfile
-            m_width,                              // width
-            m_height,                             // height
-            fontName.toUtf8().constData(),        // font
-            fontSize,                             // fontsize
-            alpha,                                // alpha
-            dm,                                   // duration_marquee
-            ds                                    // duration_still
-        );
+        // Create parser
+        QByteArray source = m_reply->readAll();
+        std::stringstream input(source.toStdString());
 
-        // success?
-        if (QFile::exists(outputFile))
+        Danmaku2ASS::CommentParser parser(input);
+        parser.setResolution(m_width, m_height);
+        parser.setFont(fontName.toUtf8().toStdString(), fontSize);
+        parser.setDuration(dm, ds);
+        parser.setAlpha(alpha);
+
+        // Convert
+        auto assBuilder = parser.convert();
+        if (assBuilder != nullptr)
         {
+            assBuilder->exportAssToFile(outputFile.toUtf8().toStdString());
             MpvObject::instance()->addSubtitle(QUrl::fromLocalFile(outputFile));
-        } else {
-            qDebug("Fails to parse danmaku!");
         }
     }
     m_reply->deleteLater();

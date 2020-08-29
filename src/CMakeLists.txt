@@ -11,7 +11,7 @@ if (UNIX AND NOT APPLE)
 endif()
 
 #include danmaku2ass
-include_directories(${PROJECT_SOURCE_DIR}/3rdparty/danmaku2ass_native)
+include_directories(${PROJECT_SOURCE_DIR}/3rdparty/danmaku2ass_cpp/include)
 
 # Add source files
 set(SOURCE_FILES
@@ -96,7 +96,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Network
     ${Qt5X11Extras_LIBRARIES}
     ${MPV_LIBRARY}
-    danmaku2ass)
+    Danmaku2AssCPP)
 
 
 # Install on Linux

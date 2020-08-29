@@ -1,6 +1,6 @@
 [submodule "3rdparty/hlsdl"]
 	path = 3rdparty/hlsdl
 	url = https://github.com/selsta/hlsdl
-[submodule "3rdparty/danmaku2ass_native"]
-	path = 3rdparty/danmaku2ass_native
-	url = https://github.com/coslyk/danmaku2ass_native
+[submodule "3rdparty/danmaku2ass_cpp"]
+	path = 3rdparty/danmaku2ass_cpp
+	url = https://github.com/coslyk/danmaku2ass_cpp
