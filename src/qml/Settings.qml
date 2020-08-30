@@ -272,6 +272,8 @@ CustomTabDialog {
             Label { text: "S" }
             Label { text: qsTr("Screenshot") }
             Label { text: "D" }
+            Label { text: qsTr("Danmaku options") }
+            Label { text: "H" }
             Label { text: qsTr("Switch on/off danmaku") }
             Label { text: "L" }
             Label { text: qsTr("Show playlist") }

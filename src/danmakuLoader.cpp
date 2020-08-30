@@ -63,9 +63,6 @@ void DanmakuLoader::onXmlDownloaded()
         // load settings
         QSettings settings;
 
-        // Output file
-        QString outputFile = QDir::temp().filePath(QStringLiteral("moonplayer_danmaku.ass"));
-
         // Font
         QString fontName = settings.value(QStringLiteral("danmaku/font")).value<QFont>().family();
         if (fontName.isEmpty())
@@ -118,12 +115,7 @@ void DanmakuLoader::onXmlDownloaded()
         parser.setAlpha(alpha);
 
         // Convert
-        auto assBuilder = parser.convert();
-        if (assBuilder != nullptr)
-        {
-            assBuilder->exportAssToFile(outputFile.toUtf8().toStdString());
-            MpvObject::instance()->addSubtitle(QUrl::fromLocalFile(outputFile));
-        }
+        MpvObject::instance()->addDanmaku(parser.convert());
     }
     m_reply->deleteLater();
     m_reply = nullptr;

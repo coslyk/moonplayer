@@ -138,6 +138,12 @@ CustomWindow
         id: videoOptionsDialog
         mpvObject: mpv
     }
+
+    // Danmaku options
+    DanmakuOptionsDialog {
+        id: danmakuOptionsDialog
+        mpvObject: mpv
+    }
     
     
     // Playlist
@@ -325,7 +331,12 @@ CustomWindow
 
     Shortcut {
         sequence: "D"
-        onActivated: mpv.subVisible = !mpv.subVisible;
+        onActivated: danmakuOptionsDialog.open()
+    }
+
+    Shortcut {
+        sequence: "H"
+        onActivated: mpv.subVisible = !mpv.subVisible
     }
     
     Shortcut {

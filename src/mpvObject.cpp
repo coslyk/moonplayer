@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <clocale>
 
+#include <QDir>
 #include <QOpenGLContext>
 #include <QGuiApplication>
 #include <QSettings>
@@ -144,6 +145,7 @@ MpvObject::MpvObject(QQuickItem * parent) :
     m_subVisible(true),
     m_videoWidth(0),
     m_videoHeight(0),
+    m_danmakuDisallowMode(0),
     m_speed(1)
 {
     Q_ASSERT(s_instance == nullptr);
@@ -374,8 +376,53 @@ void MpvObject::addSubtitle(const QUrl& url)
     command(args);
 }
 
+// Add danmaku
+void MpvObject::addDanmaku(const Danmaku2ASS::AssBuilder::Ptr& danmakuAss)
+{
+    m_danmakuAss = danmakuAss;
+    if (danmakuAss != nullptr)
+    {
+        QString outputFile = QDir::temp().filePath(QStringLiteral("moonplayer_danmaku.ass"));
+        qDebug("Disallow mode: %d", m_danmakuDisallowMode);
+        danmakuAss->setDisallowMode(m_danmakuDisallowMode);
+        danmakuAss->exportAssToFile(outputFile.toStdString());
+        addSubtitle(QUrl::fromLocalFile(outputFile));
+    }
+}
 
+// Reload danmaku
+void MpvObject::reloadDanmaku(bool top, bool bottom, bool scrolling)
+{
+    qDebug("reloadDanmaku");
+    // Reset disallow mode
+    m_danmakuDisallowMode = 0;
+    if (!top)
+    {
+        m_danmakuDisallowMode |= Danmaku2ASS::DISALLOW_TOP;
+    }
+    if (!bottom)
+    {
+        m_danmakuDisallowMode |= Danmaku2ASS::DISALLOW_BOTTOM;
+    }
+    if (!scrolling)
+    {
+        m_danmakuDisallowMode |= Danmaku2ASS::DISALLOW_SCROLL;
+    }
 
+    // Reload danmaku
+    if (m_danmakuAss != nullptr && m_state != STOPPED)
+    {
+        m_danmakuAss->setDisallowMode(m_danmakuDisallowMode);
+
+        // Export ass file
+        QString outputFile = QDir::temp().filePath(QStringLiteral("moonplayer_danmaku.ass"));
+        m_danmakuAss->exportAssToFile(outputFile.toStdString());
+
+        // Reload ass file
+        const char *args[] = {"sub-reload", "1", nullptr};
+        command(args);
+    }
+}
 
 // Take screenshot
 void MpvObject::screenshot()
