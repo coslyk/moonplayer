@@ -8,9 +8,9 @@
 #include <QLocale>
 
 // Load all plugins
-QList<QObject *> Plugin::loadPlugins()
+QObjectList Plugin::loadPlugins()
 {
-    QList<QObject*> result;
+    QObjectList result;
     QDir pluginsDir = QDir(userResourcesPath() + QStringLiteral("/plugins"));
     QStringList list = pluginsDir.entryList(QDir::Files, QDir::Name);
 

@@ -40,7 +40,7 @@ void Downloader::addTasks(const QString& filename, const QList<QUrl>& urls, cons
     emit modelUpdated();
 }
 
-QList<QObject *> Downloader::model()
+QObjectList Downloader::model()
 {
     return m_model;
 }

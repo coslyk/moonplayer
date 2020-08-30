@@ -14,13 +14,13 @@ public:
     ~Downloader();
     
     void addTasks(const QString& name, const QList<QUrl>& urls, const QUrl& danmakuUrl = QUrl(), bool isDash = false);
-    QList<QObject*> model(void);
+    QObjectList model(void);
     
 signals:
     void modelUpdated(void);
     
 private:
-    QList<QObject*> m_model;
+    QObjectList m_model;
 };
 
 #endif // DOWNLOADER_H

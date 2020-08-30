@@ -18,7 +18,7 @@ class Plugin : public QObject {
     
 public:
     Plugin(const QString& filepath, QObject* parent = nullptr);
-    static QList<QObject*> loadPlugins(void);
+    static QObjectList loadPlugins(void);
     
     Q_INVOKABLE void openItem(int index);
     
