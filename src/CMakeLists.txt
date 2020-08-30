@@ -60,7 +60,7 @@ endif()
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
 configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
 
-# Compile Qt resource file
+# Compile QML files
 if (COMPILE_QML)
     qtquick_compiler_add_resources(QML_FILES qmls.qrc)
 else()
@@ -97,6 +97,8 @@ target_link_libraries(${PROJECT_NAME}
     ${Qt5X11Extras_LIBRARIES}
     ${MPV_LIBRARY}
     Danmaku2AssCPP)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
 
 
 # Install on Linux
