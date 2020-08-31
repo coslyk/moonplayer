@@ -22,5 +22,5 @@ curl -Lo hlsdl.7z https://rwijnsma.home.xs4all.nl/files/hlsdl/hlsdl-0.26-2bc52ab
 7z e hlsdl.7z -omoonplayer hlsdl.exe
 
 # Create installer
-iscc .travis/win_installer.iss
-mv .travis/Output/mysetup.exe ./MoonPlayer_${TRAVIS_TAG#v}_win_x64.exe
+iscc scripts/win_installer.iss
+mv scripts/Output/mysetup.exe ./MoonPlayer_${TRAVIS_TAG#v}_win_x64.exe

@@ -25,7 +25,7 @@ jobs:
         - PATH: /c/Qt/5.12.8/msvc2017_64/bin:$PATH
       before_install:
         # Install libmpv, innosetup and pyinstaller
-        - .travis/travis-cache-windows.sh restore
+        - scripts/travis-cache-windows.sh restore
         - curl -Lo libmpv.zip https://github.com/coslyk/moonplayer/releases/download/2.9.2/libmpv_win_x64.zip
         - unzip -o libmpv.zip -d libmpv
         - choco install -y zip innosetup 7zip
@@ -72,12 +72,12 @@ cache:
 before_cache:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew cleanup; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then find /usr/local/Homebrew \! -regex ".+\.git.+" -delete; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then .travis/travis-cache-windows.sh save; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then scripts/travis-cache-windows.sh save; fi
 
 
 install:
   # install Qt 5.12 on Windows and Linux
-  - if [ "$TRAVIS_OS_NAME" != "osx" ]; then .travis/travis-install-qt.sh; fi
+  - if [ "$TRAVIS_OS_NAME" != "osx" ]; then scripts/travis-install-qt.sh; fi
 
 
 script:
@@ -87,7 +87,7 @@ script:
 
 
 before_deploy:
-  - .travis/deploy-${TRAVIS_OS_NAME}.sh
+  - scripts/deploy-${TRAVIS_OS_NAME}.sh
 
 deploy:
   provider: releases
