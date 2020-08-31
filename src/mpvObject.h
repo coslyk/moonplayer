@@ -71,7 +71,7 @@ public slots:
     void addAudioTrack(const QUrl& url);
     void addDanmaku(const Danmaku2ASS::AssBuilder::Ptr& danmakuAss);
     void addSubtitle(const QUrl& url);
-    void reloadDanmaku(bool top, bool bottom, bool scrolling);
+    void reloadDanmaku(bool top, bool bottom, bool scrolling, const QStringList& blockWords);
     void setProperty(const QString& name, const QVariant& value);
     void showText(const QByteArray &text);
 
@@ -98,20 +98,21 @@ private:
     bool emit_stopped_when_idle;
     
     State m_state;
-    QUrl m_danmakuUrl;
-    QUrl m_audioToBeAdded;
-    int64_t m_time;
-    int64_t m_duration;
     bool m_stopByUser;
     bool m_subVisible;
     int m_volume;
+    int m_danmakuDisallowMode;
+    int64_t m_time;
+    int64_t m_duration;
     int64_t m_videoWidth;
     int64_t m_videoHeight;
-    int m_danmakuDisallowMode;
     double m_speed;
+    QUrl m_danmakuUrl;
+    QUrl m_audioToBeAdded;
     QStringList m_audioTracks;
     QStringList m_subtitles;
     Danmaku2ASS::AssBuilder::Ptr m_danmakuAss;
+    std::vector<std::string> m_blockWords;
     
     static MpvObject* s_instance;
 };
