@@ -7,6 +7,15 @@ cp /usr/local/opt/ffmpeg-lite/bin/ffmpeg MoonPlayer.app/Contents/MacOS/
 
 # Bundle libraries
 /usr/local/opt/qt/bin/macdeployqt MoonPlayer.app -qmldir=src/qml/
+cp /usr/local/opt/openssl/lib/libcrypto.1.1.dylib MoonPlayer.app/Contents/Frameworks/
+
+# Cut Qt size
+rm -rf MoonPlayer.app/Contents/Frameworks/QtPdf.framework
+rm -rf MoonPlayer.app/Contents/Frameworks/QtRemoteObjects.framework
+rm -rf MoonPlayer.app/Contents/Frameworks/QtVirtualKeyboard.framework
+rm -rf MoonPlayer.app/Contents/PlugIns/platforminputcontexts
+rm -rf MoonPlayer.app/Contents/PlugIns/printsupport
+rm -rf MoonPlayer.app/Contents/PlugIns/virtualkeyboard
 
 # Fix permissions
 chown $USER MoonPlayer.app/Contents/MacOS/*
