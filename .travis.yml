@@ -16,11 +16,11 @@ jobs:
       env:
         - QT5_BASE_DIR: /usr/local/opt/qt
       before_install:
-        # Delete all packages since updating outdated packages takes too much time
+        # Delete all packages since updating them takes too much time
         - brew remove --force $(brew list) --ignore-dependencies
         - brew tap coslyk/mpv
         - brew update
-        - brew install cmake qt openssl mpv-lite
+        - brew install cmake qt openssl mpv-lite md5deep
 
     
     - name: Windows (VS2017 x64) build
