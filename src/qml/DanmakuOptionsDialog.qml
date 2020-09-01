@@ -49,13 +49,14 @@ CustomDialog {
         }
 
         Label {
-            text: qsTr("Bottom reserved height")
+            text: qsTr("Bottom reserved area")
             font.bold: true
         }
 
         ComboBox {
             id: reserveSpinBox
             model: ["0 %", "10 %", "20 %", "30 %"]
+            onActivated: reloadDanmaku()
         }
 
         Label {
@@ -112,6 +113,7 @@ CustomDialog {
             topCheckBox.checked,
             bottomCheckBox.checked,
             scrollingCheckBox.checked,
+            reserveSpinBox.currentIndex / 10.0,
             blockWords
         );
     }

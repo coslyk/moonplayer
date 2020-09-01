@@ -71,7 +71,7 @@ public slots:
     void addAudioTrack(const QUrl& url);
     void addDanmaku(const Danmaku2ASS::AssBuilder::Ptr& danmakuAss);
     void addSubtitle(const QUrl& url);
-    void reloadDanmaku(bool top, bool bottom, bool scrolling, const QStringList& blockWords);
+    void reloadDanmaku(bool top, bool bottom, bool scrolling, double reservedArea, const QStringList& blockWords);
     void setProperty(const QString& name, const QVariant& value);
     void showText(const QByteArray &text);
 
@@ -107,6 +107,7 @@ private:
     int64_t m_videoWidth;
     int64_t m_videoHeight;
     double m_speed;
+    double m_reservedArea;
     QUrl m_danmakuUrl;
     QUrl m_audioToBeAdded;
     QStringList m_audioTracks;

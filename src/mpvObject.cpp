@@ -146,7 +146,8 @@ MpvObject::MpvObject(QQuickItem * parent) :
     m_danmakuDisallowMode(0),
     m_videoWidth(0),
     m_videoHeight(0),
-    m_speed(1)
+    m_speed(1),
+    m_reservedArea(0)
 {
     Q_ASSERT(s_instance == nullptr);
     s_instance = this;
@@ -383,17 +384,20 @@ void MpvObject::addDanmaku(const Danmaku2ASS::AssBuilder::Ptr& danmakuAss)
     if (danmakuAss != nullptr)
     {
         QString outputFile = QDir::temp().filePath(QStringLiteral("moonplayer_danmaku.ass"));
-        qDebug("Disallow mode: %d", m_danmakuDisallowMode);
         danmakuAss->setDisallowMode(m_danmakuDisallowMode);
         danmakuAss->setBlockWords(m_blockWords);
+        danmakuAss->setReservedArea(m_reservedArea);
         danmakuAss->exportAssToFile(outputFile.toStdString());
         addSubtitle(QUrl::fromLocalFile(outputFile));
     }
 }
 
 // Reload danmaku
-void MpvObject::reloadDanmaku(bool top, bool bottom, bool scrolling, const QStringList& blockWords)
+void MpvObject::reloadDanmaku(bool top, bool bottom, bool scrolling, double reservedArea, const QStringList& blockWords)
 {
+    // Reserved area
+    m_reservedArea = reservedArea;
+
     // Reset disallow mode
     m_danmakuDisallowMode = 0;
     if (!top)
@@ -421,6 +425,7 @@ void MpvObject::reloadDanmaku(bool top, bool bottom, bool scrolling, const QStri
     {
         m_danmakuAss->setDisallowMode(m_danmakuDisallowMode);
         m_danmakuAss->setBlockWords(m_blockWords);
+        m_danmakuAss->setReservedArea(m_reservedArea);
 
         // Export ass file
         QString outputFile = QDir::temp().filePath(QStringLiteral("moonplayer_danmaku.ass"));
