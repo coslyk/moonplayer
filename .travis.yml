@@ -42,7 +42,6 @@ jobs:
 addons:
   apt:
     sources:
-      - sourceline: 'ppa:cran/ffmpeg-4'
       - sourceline: 'ppa:cos-lyk/libmpv-trusty'
     packages:
       - build-essential
