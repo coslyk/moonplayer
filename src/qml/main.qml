@@ -259,6 +259,7 @@ CustomWindow
             Action { text: qsTr("Reset"); onTriggered: mpv.speed = 1 }
             delegate: MenuItem { height: 25 }
         }
+        Action { text: qsTr("Danmaku"); onTriggered: danmakuOptionsDialog.open() }
         Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Downloader"); onTriggered: downloader.open() }

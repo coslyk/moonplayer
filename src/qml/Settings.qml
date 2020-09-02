@@ -10,7 +10,7 @@ CustomTabDialog {
     
     id: window
     width: 600
-    height: 400
+    height: 420
     title: qsTr("Settings")
 
     model: ListModel {

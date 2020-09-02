@@ -69,6 +69,14 @@ CustomDialog {
             id: blockWordInput
             selectByMouse: true
             Layout.fillWidth: true
+            onAccepted: {
+                if (blockWordInput.text.length !== 0) {
+                    blockWords.push(blockWordInput.text);
+                    blockWordInput.text = "";
+                    blockWordsComboBox.model = blockWords;
+                    reloadDanmaku();
+                }
+            }
         }
 
         ComboBox {
