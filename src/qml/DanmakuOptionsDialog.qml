@@ -24,7 +24,6 @@ CustomDialog {
 
         Label {
             text: qsTr("Shown comment type")
-            font.bold: true
         }
 
         CheckBox {
@@ -50,7 +49,6 @@ CustomDialog {
 
         Label {
             text: qsTr("Bottom reserved area")
-            font.bold: true
         }
 
         ComboBox {
@@ -61,7 +59,6 @@ CustomDialog {
 
         Label {
             text: qsTr("Blocked words")
-            font.bold: true
             Layout.columnSpan: 2
         }
 
