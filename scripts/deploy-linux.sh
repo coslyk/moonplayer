@@ -1,11 +1,5 @@
 #!/bin/sh
 
-# Use curl-slim to reduce AppImage size
-sudo apt-get -y remove curl libcurl4-openssl-dev libcurl3-gnutls libcurl3-nss libcurl3
-wget 'https://launchpad.net/~djcj/+archive/ubuntu/libcurl-slim/+files/curl_7.59.0-1~xenial2_amd64.deb'
-wget 'https://launchpad.net/~djcj/+archive/ubuntu/libcurl-slim/+files/libcurl3_7.59.0-1~xenial2_amd64.deb'
-sudo apt-get -y install ./*.deb
-
 # Run make install
 make install DESTDIR=appdir
 cp /usr/bin/ffmpeg ./appdir/usr/bin/
