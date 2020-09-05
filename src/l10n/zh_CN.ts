@@ -14,37 +14,37 @@
         <translation type="unfinished">显示弹幕类型</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="32"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="31"/>
         <source>Top</source>
         <translation type="unfinished">顶部</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="39"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="38"/>
         <source>Bottom</source>
         <translation type="unfinished">底部</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="46"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="45"/>
         <source>Scrolling</source>
         <translation type="unfinished">滚动</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="52"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="51"/>
         <source>Bottom reserved area</source>
         <translation type="unfinished">底部保留空间</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="63"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="61"/>
         <source>Blocked words</source>
         <translation type="unfinished">屏蔽词</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="92"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="89"/>
         <source>Add</source>
         <translation type="unfinished">添加</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="106"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="103"/>
         <source>Remove</source>
         <translation type="unfinished">删除</translation>
     </message>

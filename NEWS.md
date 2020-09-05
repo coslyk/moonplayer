@@ -1,3 +1,10 @@
+### version 3.4 (2020.09.05)
+
+1. Performance improvements
+2. Warn users if the proxy format is incorrect
+3. Add options to hide specific danmaku comments
+4. Reduce App size
+
 ### version 3.3 (2020.07.05)
 
 1. Add new plugin APIs to show dialogs and store configurations
