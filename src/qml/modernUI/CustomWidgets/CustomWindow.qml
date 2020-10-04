@@ -136,38 +136,38 @@ Window
         id: titlebar
         color: Color.titlebar
         width: parent.width
-        height: 24
+        height: 28
         z: 100
         anchors.top: parent.top
         anchors.left: parent.left
         Button {
             id: closeButton
-            width: 12
-            height: 12
+            width: 14
+            height: 14
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
-            anchors.rightMargin: 5
-            background: Rectangle { color: Color.closeButton; radius: 6; anchors.fill: parent }
+            anchors.rightMargin: 8
+            background: Rectangle { color: Color.closeButton; radius: 7; anchors.fill: parent }
             onClicked: window.close()
         }
         Button {
             id: maxButton
-            width: 12
-            height: 12
+            width: 14
+            height: 14
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: closeButton.left
-            anchors.rightMargin: 5
-            background: Rectangle { color: Color.maxButton; radius: 6; anchors.fill: parent }
+            anchors.rightMargin: 8
+            background: Rectangle { color: Color.maxButton; radius: 7; anchors.fill: parent }
             onClicked: window.visibility == Window.Maximized ? window.showNormal() : window.showMaximized()
         }
         Button {
             id: minButton
-            width: 12
-            height: 12
+            width: 14
+            height: 14
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: maxButton.left
-            anchors.rightMargin: 5
-            background: Rectangle { color: Color.minButton; radius: 6; anchors.fill: parent }
+            anchors.rightMargin: 8
+            background: Rectangle { color: Color.minButton; radius: 7; anchors.fill: parent }
             onClicked: window.showMinimized()
         }
     }
