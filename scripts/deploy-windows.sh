@@ -10,12 +10,12 @@ cp src/Release/moonplayer.exe src/scripts/update-parsers.ps1 libmpv/mpv-1.dll mo
 windeployqt moonplayer/moonplayer.exe --qmldir src/qml
 
 # Bundle OpenSSL
-curl -Lo openssl.zip https://indy.fulgan.com/SSL/openssl-1.0.2u-x64_86-win64.zip
+curl -Lo openssl.zip https://indy.fulgan.com/SSL/Archive/openssl-1.0.0r-x64_86-win64.zip
 unzip -o openssl.zip -d moonplayer
 
 # Bundle ffmpeg
-curl -Lo ffmpeg.zip https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-4.2.1-win64-static.zip
-unzip -j ffmpeg.zip ffmpeg-4.2.1-win64-static/bin/ffmpeg.exe -d moonplayer
+curl -Lo ffmpeg.7z https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.3.1-2020-10-01-essentials_build.7z
+7z e ffmpeg.7z -omoonplayer ffmpeg-4.3.1-2020-10-01-essentials_build/bin/ffmpeg.exe
 
 # Bundle hlsdl
 curl -Lo hlsdl.7z https://rwijnsma.home.xs4all.nl/files/hlsdl/hlsdl-0.26-2bc52ab-win32-static-xpmod-sse.7z
