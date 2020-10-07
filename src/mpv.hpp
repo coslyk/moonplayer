@@ -91,7 +91,7 @@ namespace Mpv {
         inline T get_property(const char *name) const
         {
             static_assert(!std::is_same<bool, T>(), "Type can't be bool, use int instead.");
-            T v;
+            T v = 0;
             mpv_get_property(m_handle, name, to_mpv_format(v), &v);
             return v;
         }

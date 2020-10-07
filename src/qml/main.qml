@@ -28,22 +28,17 @@ CustomWindow
         visible: state !== MpvObject.STOPPED
         volume: volumeSlider.value
 
-        onStopped: {
-            if (!stoppedByUser)
-                playlistModel.playNextItem();
-        }
-
         onVideoSizeChanged: {
             if (window.visibility == Window.FullScreen)
                 return;
             window.showNormal();
-            if (videoSize.width != 0) {
+            if (videoSize.width > 0) {
                 if (videoSize.width > Screen.desktopAvailableWidth)
                     window.width = Screen.desktopAvailableWidth;
                 else
                     window.width = videoSize.width;
             }
-            if (videoSize.height != 0) {
+            if (videoSize.height > 0) {
                 if (videoSize.height > Screen.desktopAvailableHeight)
                     window.height = Screen.desktopAvailableHeight;
                 else

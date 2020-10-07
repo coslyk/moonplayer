@@ -66,7 +66,6 @@ public slots:
     void showText(const QByteArray &text);
 
 signals:
-    void stopped(bool stoppedByUser);
     void audioTracksChanged(void);
     void stateChanged(void);
     void speedChanged(void);
@@ -83,11 +82,9 @@ private:
     void handleMpvError(int code);
     
     Mpv::Handle m_mpv;
-    bool no_emit_stopped;
-    bool emit_stopped_when_idle;
     
     State m_state = STOPPED;
-    bool m_stopByUser;
+    mpv_end_file_reason m_endFileReason = MPV_END_FILE_REASON_STOP;
     bool m_subVisible = true;
     int m_volume;
     int m_danmakuDisallowMode = 0;

@@ -17,6 +17,7 @@
 
 #include "accessManager.h"
 #include "danmakuLoader.h"
+#include "playlistModel.h"
 
 
 // Workaround for some gl.h headers
@@ -136,8 +137,6 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
     Q_ASSERT(s_instance == nullptr);
     s_instance = this;
     
-    no_emit_stopped = emit_stopped_when_idle = false;
-    m_stopByUser = false;
     m_time = m_duration = 0;
     m_volume = 100;
     
@@ -210,9 +209,6 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
 void MpvObject::open(const QUrl& fileUrl, const QUrl& danmakuUrl, const QUrl& audioTrack)
 {
     Q_ASSERT(NetworkAccessManager::instance() != nullptr);
-
-    if (m_state != STOPPED)
-        no_emit_stopped = true;
     
     // set network parameters
     if (!fileUrl.isLocalFile())
@@ -275,7 +271,6 @@ void MpvObject::stop()
     {
         const char *args[] = {"stop", nullptr};
         m_mpv.command_async(args);
-        m_stopByUser = true;
     }
 }
 
@@ -448,25 +443,24 @@ void MpvObject::onMpvEvent()
         {
             mpv_event_end_file *ef = static_cast<mpv_event_end_file*>(event->data);
             handleMpvError(ef->error);
-            if (no_emit_stopped)  // switch to new file when playing
-                no_emit_stopped = false;
+            m_endFileReason = static_cast<mpv_end_file_reason>(ef->reason);
+            break;
+        }
+        
+        case MPV_EVENT_IDLE:
+        {
+            if (m_endFileReason == MPV_END_FILE_REASON_EOF)
+            {
+                Q_ASSERT(PlaylistModel::instance() != nullptr);
+                PlaylistModel::instance()->playNextItem();
+            }
             else
             {
                 m_state = STOPPED;
-                emit_stopped_when_idle = true;
+                emit stateChanged();
             }
             break;
         }
-
-        case MPV_EVENT_IDLE:
-            if (emit_stopped_when_idle)
-            {
-                emit_stopped_when_idle = false;
-                emit stateChanged();
-                emit stopped(m_stopByUser);
-                m_stopByUser = false;
-            }
-            break;
 
         case MPV_EVENT_VIDEO_RECONFIG:
             if (!m_audioToBeAdded.isEmpty())
@@ -480,7 +474,10 @@ void MpvObject::onMpvEvent()
 
             // Load danmaku
             if (!m_danmakuUrl.isEmpty())
+            {
+                Q_ASSERT(DanmakuLoader::instance() != nullptr);
                 DanmakuLoader::instance()->start(m_danmakuUrl, m_videoWidth, m_videoHeight);
+            }
             break;
 
         case MPV_EVENT_LOG_MESSAGE:
