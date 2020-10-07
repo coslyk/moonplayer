@@ -107,7 +107,7 @@ void PlaylistModel::addUrl(const QUrl& url)
 
 void PlaylistModel::removeItem(int index)
 {
-    if (index < 0)
+    if (index < 0 || index >= m_titles.length())
         return;
     beginRemoveRows(QModelIndex(), index, index);
     m_titles.removeAt(index);
@@ -133,8 +133,8 @@ void PlaylistModel::clear()
 void PlaylistModel::playItem(int index)
 {
     Q_ASSERT(MpvObject::instance() != nullptr);
-    
-    if (index < m_titles.count())
+
+    if (index >= 0 && index < m_titles.count())
     {
         MpvObject::instance()->open(m_fileUrls[index], m_danmakuUrls[index], m_audioTrackUrls[index]);
     }
