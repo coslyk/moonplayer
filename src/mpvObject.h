@@ -4,9 +4,9 @@
 #include <QtQuick/QQuickFramebufferObject>
 #include <QQuickWindow>
 
+#include "mpv.hpp"
 #include <mpv/client.h>
 #include <mpv/render_gl.h>
-#include <mpv/qthelper.hpp>
 
 #include <Danmaku2ASS/AssBuilder.h>
 
@@ -54,13 +54,6 @@ public:
     void setSubVisible(bool subVisible);
     void setSpeed(double speed);
 
-    void setProperty(const char *name, bool value);
-    void setProperty(const char *name, int64_t value);
-    void setProperty(const char *name, double value);
-    void setProperty(const char *name, const char *value);
-
-    void command(const char *args[]);
-
 public slots:
     void open(const QUrl& fileUrl, const QUrl& danmakuUrl = QUrl(), const QUrl& audioTrackUrl = QUrl());
     void play(void);
@@ -92,7 +85,7 @@ private:
     Q_INVOKABLE void onMpvEvent(void);
     void handleMpvError(int code);
     
-    mpv::qt::Handle mpv;
+    Mpv::Handle m_mpv;
     mpv_render_context *mpv_gl;
     bool no_emit_stopped;
     bool emit_stopped_when_idle;
