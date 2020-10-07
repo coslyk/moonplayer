@@ -7,8 +7,8 @@ jobs:
       os: linux
       dist: trusty
       env:
-        - QT5_BASE_DIR: $HOME/Qt/5.12.8/gcc_64
-        - PATH: $HOME/Qt/5.12.8/gcc_64/bin/:$PATH
+        - QT5_BASE_DIR: $HOME/Qt/5.15.1/gcc_64
+        - PATH: $HOME/Qt/5.15.1/gcc_64/bin/:$PATH
 
 
     - name: macOS build
@@ -62,7 +62,7 @@ cache:
   directories:
     - $HOME/Library/Caches/Homebrew
     - /usr/local/Homebrew
-    - $HOME/Qt/5.12.8/gcc_64
+    - $HOME/Qt/5.15.1/gcc_64
     - travis-cache
 
 before_cache:
