@@ -3,8 +3,7 @@
 
 #include <QObject>
 #include <QJSValue>
-
-class QJSEngine;
+#include <QJSEngine>
 
 class Plugin : public QObject {
     
@@ -44,7 +43,7 @@ private slots:
     void printJSError(const QJSValue &errValue);
     
 private:
-    QJSEngine* m_engine;
+    QJSEngine m_engine;
     QByteArray m_script;
     QJSValue m_searchFunc;
     QString m_name;

@@ -29,7 +29,6 @@ QObjectList Plugin::loadPlugins()
 
 Plugin::Plugin(const QString& filepath, QObject* parent) :
     QObject(parent),
-    m_engine(new QJSEngine(this)),
     m_id(QFileInfo(filepath).baseName()),
     m_page(1)
 {
@@ -37,9 +36,9 @@ Plugin::Plugin(const QString& filepath, QObject* parent) :
     JSAPIObject *apiObject = new JSAPIObject(m_id, this);
     connect(apiObject, &JSAPIObject::showResultRequested, this, &Plugin::updateResult);
     connect(apiObject, &JSAPIObject::jsError, this, &Plugin::printJSError);
-    QJSValue api = m_engine->newQObject(apiObject);
-    m_engine->globalObject().setProperty(QStringLiteral("moonplayer"), api);
-    m_engine->installExtensions(QJSEngine::ConsoleExtension);
+    QJSValue api = m_engine.newQObject(apiObject);
+    m_engine.globalObject().setProperty(QStringLiteral("moonplayer"), api);
+    m_engine.installExtensions(QJSEngine::ConsoleExtension);
     
     // open file
     QFile file(filepath);
@@ -52,7 +51,7 @@ Plugin::Plugin(const QString& filepath, QObject* parent) :
     m_script = file.readAll();
     file.close();
     QString content = QString::fromUtf8(m_script);
-    QJSValue result = m_engine->evaluate(content, filepath);
+    QJSValue result = m_engine.evaluate(content, filepath);
     if (result.isError())
     {
         printJSError(result);
@@ -60,17 +59,17 @@ Plugin::Plugin(const QString& filepath, QObject* parent) :
     }
     
     // get name
-    m_name = m_engine->globalObject().property(QStringLiteral("website_name_") + QLocale::system().name()).toString();
+    m_name = m_engine.globalObject().property(QStringLiteral("website_name_") + QLocale::system().name()).toString();
     if (m_name == QStringLiteral("undefined"))
     {
-        m_name = m_engine->globalObject().property(QStringLiteral("website_name")).toString();
+        m_name = m_engine.globalObject().property(QStringLiteral("website_name")).toString();
     }
 
     // get description
-    m_description = m_engine->globalObject().property(QStringLiteral("website_description_") + QLocale::system().name()).toString();
+    m_description = m_engine.globalObject().property(QStringLiteral("website_description_") + QLocale::system().name()).toString();
     if (m_description == QStringLiteral("undefined"))
     {
-        m_description = m_engine->globalObject().property(QStringLiteral("website_description")).toString();
+        m_description = m_engine.globalObject().property(QStringLiteral("website_description")).toString();
         if (m_description == QStringLiteral("undefined"))
         {
             m_description.clear();
@@ -78,7 +77,7 @@ Plugin::Plugin(const QString& filepath, QObject* parent) :
     }
     
     // get search() function
-    m_searchFunc = m_engine->globalObject().property(QStringLiteral("search"));
+    m_searchFunc = m_engine.globalObject().property(QStringLiteral("search"));
 }
 
 // Set keyword
