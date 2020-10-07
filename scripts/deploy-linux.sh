@@ -6,7 +6,7 @@ cp /usr/bin/ffmpeg ./appdir/usr/bin/
 
 # Create appimage
 export VERSION=${TRAVIS_TAG#v}
-EXTRA_PLUGINS="platforms/libqwayland-egl.so,platform/libqwayland-generic.so,platform/libqwayland-xcomposite-egl.so,platform/libqwayland-xcomposite-glx.so,wayland-decoration-client,wayland-graphics-integration-client,wayland-shell-integration"
+EXTRA_PLUGINS="platforms/libqwayland-egl.so,platforms/libqwayland-generic.so,platforms/libqwayland-xcomposite-egl.so,platforms/libqwayland-xcomposite-glx.so,wayland-decoration-client,wayland-graphics-integration-client,wayland-shell-integration"
 
 curl -Lo linuxdeployqt.AppImage "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
 chmod a+x linuxdeployqt.AppImage

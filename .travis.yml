@@ -52,6 +52,11 @@ addons:
       - libgl1-mesa-dev
       - libglu1-mesa-dev
       - libssl-dev
+      - libxcb-icccm4
+      - libxcb-image0
+      - libxcb-keysyms1
+      - libxcb-render-util0
+      - libxcb-xinerama0
       - libxkbcommon-x11-0
       - libmpv-dev
       - p7zip-full
