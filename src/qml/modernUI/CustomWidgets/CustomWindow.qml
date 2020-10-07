@@ -156,7 +156,7 @@ Window
             height: 14
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: closeButton.left
-            anchors.rightMargin: 8
+            anchors.rightMargin: 6
             background: Rectangle { color: Color.maxButton; radius: 7; anchors.fill: parent }
             onClicked: window.visibility == Window.Maximized ? window.showNormal() : window.showMaximized()
         }
@@ -166,7 +166,7 @@ Window
             height: 14
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: maxButton.left
-            anchors.rightMargin: 8
+            anchors.rightMargin: 6
             background: Rectangle { color: Color.minButton; radius: 7; anchors.fill: parent }
             onClicked: window.showMinimized()
         }
