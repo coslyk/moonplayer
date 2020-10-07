@@ -26,6 +26,9 @@ DanmakuLoader::DanmakuLoader(QObject *parent) :
 // Start
 void DanmakuLoader::start(const QUrl& srcUrl, int width, int height)
 {
+    Q_ASSERT(QApplication::desktop() != nullptr);
+    Q_ASSERT(NetworkAccessManager::instance() != nullptr);
+
     // Set video size
     if (height > QApplication::desktop()->height())
     {
@@ -44,7 +47,7 @@ void DanmakuLoader::start(const QUrl& srcUrl, int width, int height)
     }
     
     //another task is running?
-    if (m_reply) 
+    if (m_reply != nullptr)
     {
         m_reply->disconnect();
         m_reply->abort();
@@ -58,6 +61,9 @@ void DanmakuLoader::start(const QUrl& srcUrl, int width, int height)
 
 void DanmakuLoader::onXmlDownloaded()
 {
+    Q_ASSERT(m_reply != nullptr);
+    Q_ASSERT(MpvObject::instance() != nullptr);
+
     if (m_reply->error() == QNetworkReply::NoError)
     {
         // load settings

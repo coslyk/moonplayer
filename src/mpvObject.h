@@ -90,17 +90,17 @@ private:
     bool no_emit_stopped;
     bool emit_stopped_when_idle;
     
-    State m_state;
+    State m_state = STOPPED;
     bool m_stopByUser;
-    bool m_subVisible;
+    bool m_subVisible = true;
     int m_volume;
-    int m_danmakuDisallowMode;
+    int m_danmakuDisallowMode = 0;
     int64_t m_time;
     int64_t m_duration;
-    int64_t m_videoWidth;
-    int64_t m_videoHeight;
-    double m_speed;
-    double m_reservedArea;
+    int64_t m_videoWidth = 0;
+    int64_t m_videoHeight = 0;
+    double m_speed = 1;
+    double m_reservedArea = 0;
     QUrl m_danmakuUrl;
     QUrl m_audioToBeAdded;
     QStringList m_audioTracks;

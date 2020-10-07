@@ -52,6 +52,10 @@ void ParserBase::finishParsing()
 
 void ParserBase::finishStreamSelection(int index)
 {
+    Q_ASSERT(NetworkAccessManager::instance() != nullptr);
+    Q_ASSERT(Downloader::instance() != nullptr);
+    Q_ASSERT(PlaylistModel::instance() != nullptr);
+
     Stream stream = result.streams[index];
     
     // Bind referer and user-agent

@@ -14,17 +14,16 @@ ParserYkdl ParserYkdl::s_instance;
 
 ParserYkdl::ParserYkdl(QObject *parent) : ParserBase(parent)
 {
-    m_process = new QProcess(this);
-    connect(m_process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
-    connect(m_process, &QProcess::errorOccurred, [=](){ showErrorDialog(m_process->errorString()); });
+    connect(&m_process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
+    connect(&m_process, &QProcess::errorOccurred, [&](){ showErrorDialog(m_process.errorString()); });
 }
 
 ParserYkdl::~ParserYkdl()
 {
-    if (m_process->state() == QProcess::Running)
+    if (m_process.state() == QProcess::Running)
     {
-        m_process->kill();
-        m_process->waitForFinished();
+        m_process.kill();
+        m_process.waitForFinished();
     }
 }
 
@@ -52,7 +51,7 @@ bool ParserYkdl::isSupported ( const QUrl& url )
 
 void ParserYkdl::runParser(const QUrl &url)
 {
-    if (m_process->state() == QProcess::Running)
+    if (m_process.state() == QProcess::Running)
     {
         QMessageBox::warning(nullptr, tr("Error"), tr("Another file is being parsed."));
         return;
@@ -71,13 +70,13 @@ void ParserYkdl::runParser(const QUrl &url)
         args << QStringLiteral("--socks-proxy") << proxy;
     
     args << url.toString();
-    m_process->start(userResourcesPath() + QStringLiteral("/ykdl-moonplayer"), args, QProcess::ReadOnly);
+    m_process.start(userResourcesPath() + QStringLiteral("/ykdl-moonplayer"), args, QProcess::ReadOnly);
 }
 
 
 void ParserYkdl::parseOutput()
 {
-    QByteArray output = m_process->readAllStandardOutput();
+    QByteArray output = m_process.readAllStandardOutput();
 #ifdef Q_OS_WIN
     output = QTextCodec::codecForLocale()->toUnicode(output).toUtf8();
 #endif
@@ -87,7 +86,7 @@ void ParserYkdl::parseOutput()
 
     if (json_error.error != QJsonParseError::NoError)
     {
-        showErrorDialog(QString::fromUtf8(m_process->readAllStandardError()));
+        showErrorDialog(QString::fromUtf8(m_process.readAllStandardError()));
         return;
     }
 
@@ -141,7 +140,7 @@ void ParserYkdl::parseOutput()
         finishParsing();
     }
     else
-        showErrorDialog(QString::fromUtf8(m_process->readAllStandardError()));
+        showErrorDialog(QString::fromUtf8(m_process.readAllStandardError()));
 }
 
 

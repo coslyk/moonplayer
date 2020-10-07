@@ -85,6 +85,8 @@ void PlaylistModel::addLocalFiles(const QList<QUrl>& fileUrls)
 
 void PlaylistModel::addUrl ( const QUrl& url, bool download )
 {
+    Q_ASSERT(ParserYkdl::instance() != nullptr && ParserYoutubeDL::instance() != nullptr);
+
     if (ParserYkdl::isSupported(url))
         ParserYkdl::instance()->parse(url, download);
     else
@@ -130,6 +132,8 @@ void PlaylistModel::clear()
 
 void PlaylistModel::playItem(int index)
 {
+    Q_ASSERT(MpvObject::instance() != nullptr);
+    
     if (index < m_titles.count())
     {
         MpvObject::instance()->open(m_fileUrls[index], m_danmakuUrls[index], m_audioTrackUrls[index]);

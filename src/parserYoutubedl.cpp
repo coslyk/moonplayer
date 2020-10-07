@@ -13,24 +13,23 @@ ParserYoutubeDL ParserYoutubeDL::s_instance;
 
 ParserYoutubeDL::ParserYoutubeDL(QObject *parent) : ParserBase(parent)
 {
-    process = new QProcess(this);
-    connect(process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
-    connect(process, &QProcess::errorOccurred, [=](){ showErrorDialog(process->errorString()); });
+    connect(&m_process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
+    connect(&m_process, &QProcess::errorOccurred, [&](){ showErrorDialog(m_process.errorString()); });
 }
 
 ParserYoutubeDL::~ParserYoutubeDL()
 {
-    if (process->state() == QProcess::Running)
+    if (m_process.state() == QProcess::Running)
     {
-        process->kill();
-        process->waitForFinished();
+        m_process.kill();
+        m_process.waitForFinished();
     }
 }
 
 
 void ParserYoutubeDL::runParser(const QUrl& url)
 {
-    if (process->state() == QProcess::Running)
+    if (m_process.state() == QProcess::Running)
     {
         QMessageBox::warning(nullptr, tr("Error"), tr("Another file is being parsed."));
         return;
@@ -48,13 +47,13 @@ void ParserYoutubeDL::runParser(const QUrl& url)
         args << QStringLiteral("--proxy") << QStringLiteral("socks5://%1/").arg(proxy);
 
     args << url.toString();
-    process->start(userResourcesPath() + QStringLiteral("/youtube-dl"), args, QProcess::ReadOnly);
+    m_process.start(userResourcesPath() + QStringLiteral("/youtube-dl"), args, QProcess::ReadOnly);
 }
 
 
 void ParserYoutubeDL::parseOutput()
 {
-    QByteArray output = process->readAllStandardOutput();
+    QByteArray output = m_process.readAllStandardOutput();
 #ifdef Q_OS_WIN
     output = QTextCodec::codecForLocale()->toUnicode(output).toUtf8();
 #endif
@@ -63,7 +62,7 @@ void ParserYoutubeDL::parseOutput()
     QVariantHash obj = QJsonDocument::fromJson(output, &json_error).toVariant().toHash();
     if (json_error.error != QJsonParseError::NoError)
     {
-        showErrorDialog(QString::fromUtf8(process->readAllStandardError()));
+        showErrorDialog(QString::fromUtf8(m_process.readAllStandardError()));
         return;
     }
     
@@ -149,5 +148,5 @@ void ParserYoutubeDL::parseOutput()
         finishParsing();
     }
     else
-        showErrorDialog(QString::fromUtf8(process->readAllStandardError()));
+        showErrorDialog(QString::fromUtf8(m_process.readAllStandardError()));
 }

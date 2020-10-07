@@ -2,7 +2,7 @@
 #define PARSERYOUTUBEDL_H
 
 #include "parserBase.h"
-class QProcess;
+#include <QProcess>
 
 class ParserYoutubeDL : public ParserBase
 {
@@ -19,7 +19,7 @@ private slots:
     void parseOutput(void);
 
 private:
-    QProcess *process;
+    QProcess m_process;
     
     static ParserYoutubeDL s_instance;
 };

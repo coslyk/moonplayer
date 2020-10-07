@@ -2,8 +2,7 @@
 #define CONSOLE_H
 
 #include <QPlainTextEdit>
-
-class QProcess;
+#include <QProcess>
 
 
 /* Open a console window and launch scripts */
@@ -17,7 +16,7 @@ public:
     
 private:
     void putData(const QByteArray& data);
-    QProcess* m_process;
+    QProcess m_process;
 };
 
 #endif // CONSOLE_H

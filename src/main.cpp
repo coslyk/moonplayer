@@ -75,6 +75,10 @@ int main(int argc, char *argv[])
 
     QQmlContext* context = engine.rootContext();
     Downloader* downloader = Downloader::instance();
+
+    Q_ASSERT(context != nullptr);
+    Q_ASSERT(downloader != nullptr);
+    
     context->setContextProperty(QStringLiteral("accessManager"), NetworkAccessManager::instance());
     context->setContextProperty(QStringLiteral("downloaderModel"), QVariant::fromValue(downloader->model()));
     context->setContextProperty(QStringLiteral("playlistModel"), PlaylistModel::instance());

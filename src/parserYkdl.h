@@ -4,7 +4,7 @@
 
 #include <QObject>
 #include "parserBase.h"
-class QProcess;
+#include <QProcess>
 
 class ParserYkdl : public ParserBase
 {
@@ -22,7 +22,7 @@ private slots:
     void parseOutput(void);
 
 private:
-    QProcess *m_process;
+    QProcess m_process;
     
     static ParserYkdl s_instance;
 };

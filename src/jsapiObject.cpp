@@ -13,6 +13,8 @@ JSAPIObject::JSAPIObject(const QString &id, QObject* parent) : QObject(parent), 
 
 void JSAPIObject::get_post_content(const QString& url, const QByteArray& postData, const QJSValue& callbackFunc)
 {
+    Q_ASSERT(NetworkAccessManager::instance() != nullptr);
+
     QNetworkRequest request = QNetworkRequest(url);
     QNetworkReply *reply;
     if (postData.isEmpty())

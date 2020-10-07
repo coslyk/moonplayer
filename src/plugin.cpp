@@ -84,6 +84,8 @@ Plugin::Plugin(const QString& filepath, QObject* parent) :
 // Set keyword
 void Plugin::setKeyword(const QString& keyword)
 {
+    Q_ASSERT(!m_searchFunc.isNull());
+
     if (m_keyword == keyword)
         return;
     m_keyword = keyword;
@@ -108,6 +110,8 @@ void Plugin::setKeyword(const QString& keyword)
 // Set page
 void Plugin::setPage(int page)
 {
+    Q_ASSERT(!m_searchFunc.isNull());
+
     if (m_page == page)
         return;
     m_page = page;
@@ -132,7 +136,7 @@ void Plugin::updateResult(const QVariant& result)
     m_titles.clear();
     m_urls.clear();
     QVariantList list = result.toList();
-    foreach (QVariant item, list)
+    for (const auto& item : list)
     {
         m_titles << item.toHash()[QStringLiteral("title")].toString();
         m_urls << item.toHash()[QStringLiteral("url")].toUrl();
@@ -143,6 +147,7 @@ void Plugin::updateResult(const QVariant& result)
 // Open item
 void Plugin::openItem(int index)
 {
+    Q_ASSERT(PlaylistModel::instance() != nullptr);
     PlaylistModel::instance()->addUrl(m_urls[index]);
 }
 

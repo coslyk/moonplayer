@@ -12,7 +12,7 @@
 #include "platform/paths.h"
 
 DownloaderHlsItem::DownloaderHlsItem(const QString& filepath, const QUrl& url, const QUrl& danmakuUrl, QObject* parent) :
-    DownloaderAbstractItem(filepath, danmakuUrl, parent), m_process(new QProcess(this))
+    DownloaderAbstractItem(filepath, danmakuUrl, parent)
 {
     // Read proxy settings
     QSettings settings;
@@ -52,20 +52,20 @@ DownloaderHlsItem::DownloaderHlsItem(const QString& filepath, const QUrl& url, c
     args << url.toString();
     
     // Run
-    connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &DownloaderHlsItem::onProcFinished);
-    connect(m_process, &QProcess::readyReadStandardOutput, this, &DownloaderHlsItem::readOutput);
-    m_process->setWorkingDirectory(QFileInfo(newPath).absolutePath());
-    m_process->setProcessChannelMode(QProcess::MergedChannels);
-    m_process->start(hlsdlFilePath(), args, QProcess::ReadOnly);
+    connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &DownloaderHlsItem::onProcFinished);
+    connect(&m_process, &QProcess::readyReadStandardOutput, this, &DownloaderHlsItem::readOutput);
+    m_process.setWorkingDirectory(QFileInfo(newPath).absolutePath());
+    m_process.setProcessChannelMode(QProcess::MergedChannels);
+    m_process.start(hlsdlFilePath(), args, QProcess::ReadOnly);
     setState(DOWNLOADING);
 }
 
 // Get progress
 void DownloaderHlsItem::readOutput()
 {
-    while (m_process->canReadLine())
+    while (m_process.canReadLine())
     {
-        QByteArray line = m_process->readLine();
+        QByteArray line = m_process.readLine();
         QJsonDocument info = QJsonDocument::fromJson(line);
         if (info.isObject())
         {
@@ -93,13 +93,9 @@ void DownloaderHlsItem::pause()
 void DownloaderHlsItem::stop(bool continueWaiting)
 {
     Q_UNUSED(continueWaiting)
-    if (m_process)
+    if (m_process.state() == QProcess::Running)
     {
-        m_process->disconnect();
-        if (m_process->state() == QProcess::Running)
-            m_process->kill();
-        m_process->deleteLater();
-        m_process = nullptr;
+        m_process.kill();
         setState(CANCELED);
     }
 }
@@ -113,7 +109,7 @@ void DownloaderHlsItem::onProcFinished(int code)
 {
     if (code) // Error
     {
-        qDebug() << m_process->readAllStandardError();
+        qDebug() << m_process.readAllStandardError();
         setState(ERROR);
     }
     else
@@ -150,8 +146,6 @@ void DownloaderHlsItem::onProcFinished(int code)
         }
         setState(FINISHED);
     }
-    m_process->deleteLater();
-    m_process = nullptr;
 }
 
 

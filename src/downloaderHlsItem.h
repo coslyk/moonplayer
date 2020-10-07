@@ -2,8 +2,7 @@
 #define DOWNLAODERHLSITEM_H
 
 #include "downloaderAbstractItem.h"
-
-class QProcess;
+#include <QProcess>
 
 class DownloaderHlsItem : public DownloaderAbstractItem
 {
@@ -17,7 +16,7 @@ public:
     virtual void stop(bool continueWaiting = true);
 
 private:
-    QProcess* m_process;
+    QProcess m_process;
 
 private slots:
     void readOutput(void);

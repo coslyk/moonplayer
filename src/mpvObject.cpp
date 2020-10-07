@@ -51,10 +51,10 @@ static void *get_proc_address_mpv(void *ctx, const char *name) {
 
 class MpvRenderer : public QQuickFramebufferObject::Renderer
 {
-    MpvObject *obj;
+    MpvObject *m_obj;
     
 public:
-    MpvRenderer(MpvObject *obj) : obj(obj)
+    MpvRenderer(MpvObject *obj) : m_obj(obj)
     {
     }
 
@@ -62,8 +62,11 @@ public:
     // This happens on the initial frame.
     QOpenGLFramebufferObject * createFramebufferObject(const QSize & size)
     {
+        Q_ASSERT(QGuiApplication::platformNativeInterface() != nullptr);
+        Q_ASSERT(m_obj != nullptr);
+
         // init mpv_gl
-        if (obj->mpv_gl == nullptr)
+        if (m_obj->mpv_gl == nullptr)
         {
             mpv_opengl_init_params gl_init_params{get_proc_address_mpv, nullptr, nullptr};
             mpv_render_param params[]{
@@ -84,23 +87,28 @@ public:
                 params[2].data = QGuiApplication::platformNativeInterface()->nativeResourceForWindow(QByteArrayLiteral("display"), NULL);
             }
 #endif
-        
-            if (mpv_render_context_create(&obj->mpv_gl, obj->m_mpv.get_raw_handle(), params) < 0)
+
+            if (mpv_render_context_create(&m_obj->mpv_gl, m_obj->m_mpv.get_raw_handle(), params) < 0)
                 throw std::runtime_error("failed to initialize mpv GL context");
             
-            mpv_render_context_set_update_callback(obj->mpv_gl, [](void *ctx) {
+            mpv_render_context_set_update_callback(m_obj->mpv_gl, [](void *ctx) {
                 MpvObject *obj = reinterpret_cast<MpvObject*>(ctx);
                 QMetaObject::invokeMethod(obj, "update", Qt::QueuedConnection);
-            }, obj);
+            }, m_obj);
         }
         return QQuickFramebufferObject::Renderer::createFramebufferObject(size);
     }
 
     void render()
     {
-        obj->window()->resetOpenGLState();
+        Q_ASSERT(m_obj != nullptr);
+        Q_ASSERT(m_obj->window() != nullptr);
+
+        m_obj->window()->resetOpenGLState();
 
         QOpenGLFramebufferObject *fbo = framebufferObject();
+        Q_ASSERT(fbo != nullptr);
+
         mpv_opengl_fbo mpfbo {
             static_cast<int>(fbo->handle()),
             fbo->width(),
@@ -121,9 +129,9 @@ public:
         };
         // See render_gl.h on what OpenGL environment mpv expects, and
         // other API details.
-        mpv_render_context_render(obj->mpv_gl, params);
+        mpv_render_context_render(m_obj->mpv_gl, params);
 
-        obj->window()->resetOpenGLState();
+        m_obj->window()->resetOpenGLState();
     }
 };
 
@@ -132,14 +140,7 @@ MpvObject* MpvObject::s_instance = nullptr;
 
 MpvObject::MpvObject(QQuickItem * parent) :
     QQuickFramebufferObject(parent),
-    mpv_gl(nullptr),
-    m_state(STOPPED),
-    m_subVisible(true),
-    m_danmakuDisallowMode(0),
-    m_videoWidth(0),
-    m_videoHeight(0),
-    m_speed(1),
-    m_reservedArea(0)
+    mpv_gl(nullptr)
 {
     Q_ASSERT(s_instance == nullptr);
     s_instance = this;
@@ -223,6 +224,8 @@ MpvObject::~MpvObject()
 // Open file
 void MpvObject::open(const QUrl& fileUrl, const QUrl& danmakuUrl, const QUrl& audioTrack)
 {
+    Q_ASSERT(NetworkAccessManager::instance() != nullptr);
+
     if (m_state != STOPPED)
         no_emit_stopped = true;
     
@@ -674,6 +677,8 @@ void MpvObject::showText(const QByteArray& text)
 
 QQuickFramebufferObject::Renderer *MpvObject::createRenderer() const
 {
+    Q_ASSERT(window() != nullptr);
+
     window()->setPersistentOpenGLContext(true);
     window()->setPersistentSceneGraph(true);
     return new MpvRenderer(const_cast<MpvObject*>(this));
