@@ -2,6 +2,8 @@
 // C++ Wrapper for libmpv
 
 #include <mpv/client.h>
+#include <mpv/render.h>
+#include <mpv/render_gl.h>
 
 namespace Mpv {
 
@@ -13,7 +15,8 @@ namespace Mpv {
 
     class Handle {
         private:
-        mpv_handle *m_handle;
+        mpv_handle *m_handle = nullptr;
+        mpv_render_context *m_rctx = nullptr;
 
         public:
         inline Handle()
@@ -23,14 +26,17 @@ namespace Mpv {
 
         inline ~Handle()
         {
+            if (m_rctx)
+            {
+                mpv_render_context_set_update_callback(m_rctx, nullptr, nullptr);
+            }
             mpv_set_wakeup_callback(m_handle, nullptr, nullptr);
-            mpv_terminate_destroy(m_handle);
-        }
 
-        // Get the raw mpv_handle* pointer
-        inline mpv_handle* get_raw_handle() const
-        {
-            return m_handle;
+            if (m_rctx)
+            {
+                mpv_render_context_free(m_rctx);
+            }
+            mpv_terminate_destroy(m_handle);
         }
 
         inline int initialize() const
@@ -106,7 +112,7 @@ namespace Mpv {
         }
 
         // Set wake up callback
-        inline void set_wakeup_callback(void (*callback)(void *userdata), void *userdata)
+        inline void set_wakeup_callback(void (*callback)(void *userdata), void *userdata) const
         {
             mpv_set_wakeup_callback(m_handle, callback, userdata);
         }
@@ -115,6 +121,30 @@ namespace Mpv {
         inline int request_log_messages(const char* min_level) const
         {
             return mpv_request_log_messages(m_handle, min_level);
+        }
+
+        // Check renderer initialized
+        inline bool renderer_initialized() const
+        {
+            return m_rctx != nullptr;
+        }
+
+        // Init renderer
+        inline int renderer_initialize(mpv_render_param* params)
+        {
+            return mpv_render_context_create(&m_rctx, m_handle, params);
+        }
+
+        // Set renderer callback
+        inline void set_render_callback(mpv_render_update_fn callback, void *userdata) const
+        {
+            mpv_render_context_set_update_callback(m_rctx, callback, userdata);
+        }
+
+        // Render
+        inline void render(mpv_render_param* params) const
+        {
+            mpv_render_context_render(m_rctx, params);
         }
     };
 }

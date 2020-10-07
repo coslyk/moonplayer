@@ -66,7 +66,7 @@ public:
         Q_ASSERT(m_obj != nullptr);
 
         // init mpv_gl
-        if (m_obj->mpv_gl == nullptr)
+        if (!m_obj->m_mpv.renderer_initialized())
         {
             mpv_opengl_init_params gl_init_params{get_proc_address_mpv, nullptr, nullptr};
             mpv_render_param params[]{
@@ -88,10 +88,10 @@ public:
             }
 #endif
 
-            if (mpv_render_context_create(&m_obj->mpv_gl, m_obj->m_mpv.get_raw_handle(), params) < 0)
+            if (m_obj->m_mpv.renderer_initialize(params) < 0)
                 throw std::runtime_error("failed to initialize mpv GL context");
             
-            mpv_render_context_set_update_callback(m_obj->mpv_gl, [](void *ctx) {
+            m_obj->m_mpv.set_render_callback([](void *ctx) {
                 MpvObject *obj = reinterpret_cast<MpvObject*>(ctx);
                 QMetaObject::invokeMethod(obj, "update", Qt::QueuedConnection);
             }, m_obj);
@@ -118,18 +118,11 @@ public:
         int flip_y = 0;
 
         mpv_render_param params[] = {
-            // Specify the default framebuffer (0) as target. This will
-            // render onto the entire screen. If you want to show the video
-            // in a smaller rectangle or apply fancy transformations, you'll
-            // need to render into a separate FBO and draw it manually.
             {MPV_RENDER_PARAM_OPENGL_FBO, &mpfbo},
-            // Flip rendering (needed due to flipped GL coordinate system).
             {MPV_RENDER_PARAM_FLIP_Y, &flip_y},
             {MPV_RENDER_PARAM_INVALID, nullptr}
         };
-        // See render_gl.h on what OpenGL environment mpv expects, and
-        // other API details.
-        mpv_render_context_render(m_obj->mpv_gl, params);
+        m_obj->m_mpv.render(params);
 
         m_obj->window()->resetOpenGLState();
     }
@@ -138,9 +131,7 @@ public:
 
 MpvObject* MpvObject::s_instance = nullptr;
 
-MpvObject::MpvObject(QQuickItem * parent) :
-    QQuickFramebufferObject(parent),
-    mpv_gl(nullptr)
+MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
 {
     Q_ASSERT(s_instance == nullptr);
     s_instance = this;
@@ -212,12 +203,6 @@ MpvObject::MpvObject(QQuickItem * parent) :
         MpvObject *obj = reinterpret_cast<MpvObject *>(ctx);
         QMetaObject::invokeMethod(obj, "onMpvEvent", Qt::QueuedConnection);
     }, this);
-}
-
-MpvObject::~MpvObject()
-{
-    if (mpv_gl)
-        mpv_render_context_free(mpv_gl);
 }
 
 

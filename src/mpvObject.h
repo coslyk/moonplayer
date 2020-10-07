@@ -5,8 +5,6 @@
 #include <QQuickWindow>
 
 #include "mpv.hpp"
-#include <mpv/client.h>
-#include <mpv/render_gl.h>
 
 #include <Danmaku2ASS/AssBuilder.h>
 
@@ -36,7 +34,6 @@ public:
     inline static MpvObject* instance() { return s_instance; }
     
     MpvObject(QQuickItem * parent = nullptr);
-    virtual ~MpvObject();
     virtual Renderer *createRenderer() const;
     
     // Access properties
@@ -86,7 +83,6 @@ private:
     void handleMpvError(int code);
     
     Mpv::Handle m_mpv;
-    mpv_render_context *mpv_gl;
     bool no_emit_stopped;
     bool emit_stopped_when_idle;
     
