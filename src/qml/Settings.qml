@@ -1,8 +1,8 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.3
-import QtQuick.Dialogs 1.3 as SystemDialog
-import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0 as QSettings
+import Qt.labs.platform 1.0
+import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.3
 import MoonPlayer 1.0
 import CustomWidgets 1.0
 
@@ -77,7 +77,7 @@ CustomTabDialog {
         QSettings.Settings {
             id: downloaderSettings
             category: "downloader"
-            property alias save_to: fileDialog.folder
+            property alias save_to: folderDialog.folder
             property alias max_threads: maxThreadsSpinBox.value
         }
         
@@ -177,7 +177,7 @@ CustomTabDialog {
                 text: fontDialog.font.family
                 onClicked: fontDialog.open()
             }
-            SystemDialog.FontDialog {
+            FontDialog {
                 id: fontDialog
                 title: qsTr("Please choose a font for Danmaku")
             }
@@ -241,16 +241,14 @@ CustomTabDialog {
             
             Label { text: qsTr("Save to:") }
             Button {
-                text: fileDialog.folder.toString().replace("file://", "")
-                onClicked: fileDialog.open()
+                text: folderDialog.folder.toString().replace("file://", "")
+                onClicked: folderDialog.open()
                 // Flatpak version is sandboxed and has no permission to access other folders
                 enabled: utils.environmentVariable("FLATPAK_SANDBOX_DIR") == ""
             }
-            SystemDialog.FileDialog {
-                id: fileDialog
+            FolderDialog {
+                id: folderDialog
                 title: "Please choose a folder"
-                folder: shortcuts.movies
-                selectFolder: true
             }
         }
         

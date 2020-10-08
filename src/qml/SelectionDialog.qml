@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import MoonPlayer 1.0
 import CustomWidgets 1.0
 
-CustomDialog {
+Dialog {
     id: selectionDialog
     
     property var items: []
@@ -17,7 +17,6 @@ CustomDialog {
     
     ScrollView {
         anchors.fill: parent
-        anchors.margins: 15
         clip: true
     
         ListView {

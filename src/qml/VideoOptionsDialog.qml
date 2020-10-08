@@ -4,18 +4,17 @@ import QtQuick.Layouts 1.3
 import MoonPlayer 1.0
 import CustomWidgets 1.0
 
-CustomDialog {
+Dialog {
     id: videoOptionsDialog
     
     property MpvObject mpvObject: null
     
     width: 400
-    height: 300
+    height: 320
     title: qsTr("Video options")
     
     GridLayout {
         anchors.fill: parent
-        anchors.margins: 15
         columns: 3
         rowSpacing: 0
         

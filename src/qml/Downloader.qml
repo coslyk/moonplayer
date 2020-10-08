@@ -4,17 +4,16 @@ import QtQuick.Layouts 1.3
 import MoonPlayer 1.0
 import CustomWidgets 1.0
 
-CustomDialog {
+Dialog {
     id: downloader
     width: 600
     height: 400
     title: qsTr("Downloader")
     
-    contentItem: Item {
+    Item {
         ListView {
             id: listView
             anchors.fill: parent
-            anchors.margins: 10
             model: downloaderModel
 
             onCountChanged: {

@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import CustomWidgets 1.0
 
-CustomDialog {
+Dialog {
     id: openUrlDialog
     width: 350
     height: 210
@@ -28,7 +28,6 @@ CustomDialog {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 15
 
         TextField {
             id: openUrlInput

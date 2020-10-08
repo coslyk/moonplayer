@@ -1,7 +1,7 @@
 import QtQuick 2.7
+import Qt.labs.platform 1.0
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
-import QtQuick.Dialogs 1.3
 import QtQuick.Window 2.2
 import MoonPlayer 1.0
 import CustomWidgets 1.0
@@ -56,6 +56,11 @@ CustomWindow
     // Select subtitles
     SelectionDialog {
         id: subtitleSelectionDialog
+        
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+
         title: qsTr("Select subtitles")
         items: mpv.subtitles
         onAccepted: mpv.setProperty("sid", currentIndex)
@@ -65,13 +70,18 @@ CustomWindow
     FileDialog {
         id: addSubtitleDialog
         title: qsTr("Please choose a file")
-        folder: shortcuts.home
-        onAccepted: mpv.addSubtitle(addSubtitleDialog.fileUrl)
+        fileMode: FileDialog.OpenFiles
+        onAccepted: mpv.addSubtitle(addSubtitleDialog.currentFiles)
     }
 
     // Select audio tracks
     SelectionDialog {
         id: audioTrackSelectionDialog
+        
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+
         title: qsTr("Select audio tracks")
         items: mpv.audioTracks
         onAccepted: mpv.setProperty("aid", currentIndex)
@@ -80,6 +90,11 @@ CustomWindow
     // Select episode from playlist
     SelectionDialog {
         id: episodeSelectionDialog
+        
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+
         title: qsTr("Select episode")
         property var urls: []
         property bool download: false
@@ -99,6 +114,11 @@ CustomWindow
     // Select streams
     SelectionDialog {
         id: streamSelectionDialog
+        
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+
         title: qsTr("Select streams")
         property bool isYkdl: true
         
@@ -131,12 +151,22 @@ CustomWindow
     // Video options
     VideoOptionsDialog {
         id: videoOptionsDialog
+        
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+
         mpvObject: mpv
     }
 
     // Danmaku options
     DanmakuOptionsDialog {
         id: danmakuOptionsDialog
+        
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+
         mpvObject: mpv
     }
     
@@ -170,21 +200,39 @@ CustomWindow
     // Settings
     Settings {
         id: settings
+        
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
     }
     
     // Explorer
     Explorer {
         id: explorer
+        
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
     }
     
     // Downloader
     Downloader {
         id: downloader
+        
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+
     }
 
     // Open url by Dialog
     OpenUrlDialog {
         id: openUrlDialog
+        
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+
     
         Connections {
             target: playlistModel
@@ -199,9 +247,7 @@ CustomWindow
     FileDialog {
         id: fileDialog
         title: qsTr("Please choose a file")
-        folder: shortcuts.home
-        selectMultiple: true
-        onAccepted: playlistModel.addLocalFiles(fileDialog.fileUrls)
+        onAccepted: playlistModel.addLocalFiles(fileDialog.currentFiles)
     }
 
     // Open file by drag

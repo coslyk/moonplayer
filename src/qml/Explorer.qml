@@ -5,7 +5,7 @@ import Qt.labs.settings 1.0 as QSettings
 import MoonPlayer 1.0
 import CustomWidgets 1.0
 
-CustomDialog {
+Dialog {
     id: explorer
     width: 600
     height: 400
@@ -25,7 +25,6 @@ CustomDialog {
             columns: 3
             visible: plugins.length !== 0
             anchors.fill: parent
-            anchors.margins: 10
         
             // Search input
             ComboBox {
