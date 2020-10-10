@@ -10,7 +10,7 @@ Dialog {
     height: 400
     title: qsTr("Downloader")
     
-    Item {
+    contentItem: Item {
         ListView {
             id: listView
             anchors.fill: parent
