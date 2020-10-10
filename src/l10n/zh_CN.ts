@@ -9,42 +9,42 @@
         <translation type="unfinished">弹幕选项</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="26"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="25"/>
         <source>Shown comment type</source>
         <translation type="unfinished">显示弹幕类型</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="31"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="30"/>
         <source>Top</source>
         <translation type="unfinished">顶部</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="38"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="37"/>
         <source>Bottom</source>
         <translation type="unfinished">底部</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="45"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="44"/>
         <source>Scrolling</source>
         <translation type="unfinished">滚动</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="51"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="50"/>
         <source>Bottom reserved area</source>
         <translation type="unfinished">底部保留空间</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="61"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="60"/>
         <source>Blocked words</source>
         <translation type="unfinished">屏蔽词</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="89"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="88"/>
         <source>Add</source>
         <translation type="unfinished">添加</translation>
     </message>
     <message>
-        <location filename="../qml/DanmakuOptionsDialog.qml" line="103"/>
+        <location filename="../qml/DanmakuOptionsDialog.qml" line="102"/>
         <source>Remove</source>
         <translation type="unfinished">删除</translation>
     </message>
@@ -57,47 +57,47 @@
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="../qml/Downloader.qml" line="48"/>
+        <location filename="../qml/Downloader.qml" line="47"/>
         <source>Waiting</source>
         <translation type="unfinished">等待中</translation>
     </message>
     <message>
-        <location filename="../qml/Downloader.qml" line="49"/>
+        <location filename="../qml/Downloader.qml" line="48"/>
         <source>Paused</source>
         <translation type="unfinished">已暂停</translation>
     </message>
     <message>
-        <location filename="../qml/Downloader.qml" line="50"/>
+        <location filename="../qml/Downloader.qml" line="49"/>
         <source>Finished</source>
         <translation type="unfinished">完成</translation>
     </message>
     <message>
-        <location filename="../qml/Downloader.qml" line="51"/>
+        <location filename="../qml/Downloader.qml" line="50"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
     <message>
-        <location filename="../qml/Downloader.qml" line="52"/>
+        <location filename="../qml/Downloader.qml" line="51"/>
         <source>Canceled</source>
         <translation type="unfinished">已取消</translation>
     </message>
     <message>
-        <location filename="../qml/Downloader.qml" line="87"/>
+        <location filename="../qml/Downloader.qml" line="86"/>
         <source>Play</source>
         <translation type="unfinished">播放</translation>
     </message>
     <message>
-        <location filename="../qml/Downloader.qml" line="95"/>
+        <location filename="../qml/Downloader.qml" line="94"/>
         <source>Continue</source>
         <translation type="unfinished">继续</translation>
     </message>
     <message>
-        <location filename="../qml/Downloader.qml" line="105"/>
+        <location filename="../qml/Downloader.qml" line="104"/>
         <source>Stop</source>
         <translation type="unfinished">停止</translation>
     </message>
     <message>
-        <location filename="../qml/Downloader.qml" line="115"/>
+        <location filename="../qml/Downloader.qml" line="114"/>
         <source>&lt;p&gt;There is no files being downloaded now -_-&lt;/p&gt;
         
             &lt;p&gt;Add some urls to start download!&lt;/p&gt;
@@ -110,7 +110,7 @@
         &lt;p&gt;欢迎尝试 &lt;a href=&quot;https://coslyk.github.io/moonplayer.html#browser_extension&quot;&gt;浏览器扩展&lt;/a&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../qml/Downloader.qml" line="100"/>
+        <location filename="../qml/Downloader.qml" line="99"/>
         <source>Pause</source>
         <translation type="unfinished">暂停</translation>
     </message>
@@ -155,22 +155,22 @@
         <translation type="unfinished">探索</translation>
     </message>
     <message>
-        <location filename="../qml/Explorer.qml" line="49"/>
+        <location filename="../qml/Explorer.qml" line="48"/>
         <source>Search</source>
         <translation type="unfinished">搜索</translation>
     </message>
     <message>
-        <location filename="../qml/Explorer.qml" line="107"/>
+        <location filename="../qml/Explorer.qml" line="106"/>
         <source>Back</source>
         <translation type="unfinished">返回</translation>
     </message>
     <message>
-        <location filename="../qml/Explorer.qml" line="127"/>
+        <location filename="../qml/Explorer.qml" line="126"/>
         <source>&lt;p&gt;No plugins found.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;moonplayer:plugin&quot;&gt;Download plugins&lt;/a&gt;&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;未找到插件。&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;moonplayer:plugin&quot;&gt;下载插件&lt;/a&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../qml/Explorer.qml" line="112"/>
+        <location filename="../qml/Explorer.qml" line="111"/>
         <source>Page: </source>
         <translation type="unfinished">页码： </translation>
     </message>
@@ -178,27 +178,27 @@
 <context>
     <name>JSAPIObject</name>
     <message>
-        <location filename="../jsapiObject.cpp" line="43"/>
+        <location filename="../jsapiObject.cpp" line="45"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
     <message>
-        <location filename="../jsapiObject.cpp" line="70"/>
+        <location filename="../jsapiObject.cpp" line="72"/>
         <source>Warning</source>
         <translation type="unfinished">警告</translation>
     </message>
     <message>
-        <location filename="../jsapiObject.cpp" line="75"/>
+        <location filename="../jsapiObject.cpp" line="77"/>
         <source>Question</source>
         <translation type="unfinished">询问</translation>
     </message>
     <message>
-        <location filename="../jsapiObject.cpp" line="80"/>
+        <location filename="../jsapiObject.cpp" line="82"/>
         <source>Please input</source>
         <translation type="unfinished">请输入</translation>
     </message>
     <message>
-        <location filename="../jsapiObject.cpp" line="85"/>
+        <location filename="../jsapiObject.cpp" line="87"/>
         <source>Please select</source>
         <translation type="unfinished">请选择</translation>
     </message>
@@ -211,7 +211,7 @@
         <translation type="unfinished">请输入网址</translation>
     </message>
     <message>
-        <location filename="../qml/OpenUrlDialog.qml" line="43"/>
+        <location filename="../qml/OpenUrlDialog.qml" line="42"/>
         <source>Download video</source>
         <translation type="unfinished">下载视频</translation>
     </message>
@@ -224,12 +224,12 @@
         <translation type="unfinished">未找到该视频的播放地址。可能这是一个VIP视频，需要登录。</translation>
     </message>
     <message>
-        <location filename="../parserBase.cpp" line="98"/>
+        <location filename="../parserBase.cpp" line="102"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
     <message>
-        <location filename="../parserBase.cpp" line="101"/>
+        <location filename="../parserBase.cpp" line="105"/>
         <source>Upgrade parser</source>
         <translation type="unfinished">更新解析程序</translation>
     </message>
@@ -237,12 +237,12 @@
 <context>
     <name>ParserYkdl</name>
     <message>
-        <location filename="../parserYkdl.cpp" line="57"/>
+        <location filename="../parserYkdl.cpp" line="56"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="../parserYkdl.cpp" line="57"/>
+        <location filename="../parserYkdl.cpp" line="56"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
@@ -250,12 +250,12 @@
 <context>
     <name>ParserYoutubeDL</name>
     <message>
-        <location filename="../parserYoutubedl.cpp" line="35"/>
+        <location filename="../parserYoutubedl.cpp" line="34"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="../parserYoutubedl.cpp" line="35"/>
+        <location filename="../parserYoutubedl.cpp" line="34"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
@@ -480,82 +480,82 @@
         <translation type="unfinished">保存至：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="263"/>
+        <location filename="../qml/Settings.qml" line="261"/>
         <source>Navigation</source>
         <translation type="unfinished">导航</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="265"/>
+        <location filename="../qml/Settings.qml" line="263"/>
         <source>Set volume</source>
         <translation type="unfinished">设置音量</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="267"/>
+        <location filename="../qml/Settings.qml" line="265"/>
         <source>Pause/continue</source>
         <translation type="unfinished">暂停/继续</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="269"/>
+        <location filename="../qml/Settings.qml" line="267"/>
         <source>Enter/exit fullscreen</source>
         <translation type="unfinished">进入/退出全屏</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="271"/>
+        <location filename="../qml/Settings.qml" line="269"/>
         <source>Exit fullscreen</source>
         <translation type="unfinished">退出全屏</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="273"/>
+        <location filename="../qml/Settings.qml" line="271"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="275"/>
+        <location filename="../qml/Settings.qml" line="273"/>
         <source>Danmaku options</source>
         <translation type="unfinished">弹幕选项</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="277"/>
+        <location filename="../qml/Settings.qml" line="275"/>
         <source>Switch on/off danmaku</source>
         <translation type="unfinished">开/关弹幕</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="279"/>
+        <location filename="../qml/Settings.qml" line="277"/>
         <source>Show playlist</source>
         <translation type="unfinished">显示播放列表</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="281"/>
+        <location filename="../qml/Settings.qml" line="279"/>
         <source>Open URL</source>
         <translation type="unfinished">打开URL</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="283"/>
+        <location filename="../qml/Settings.qml" line="281"/>
         <source>Open Explorer</source>
         <translation type="unfinished">打开探索页面</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="285"/>
+        <location filename="../qml/Settings.qml" line="283"/>
         <source>Set speed to default</source>
         <translation type="unfinished">设置播放速度为默认</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="287"/>
+        <location filename="../qml/Settings.qml" line="285"/>
         <source>Speed down</source>
         <translation type="unfinished">播放减速</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="289"/>
+        <location filename="../qml/Settings.qml" line="287"/>
         <source>Speed up</source>
         <translation type="unfinished">播放加速</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="291"/>
+        <location filename="../qml/Settings.qml" line="289"/>
         <source>Open files</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="293"/>
+        <location filename="../qml/Settings.qml" line="291"/>
         <source>Open settings</source>
         <translation type="unfinished">打开设置</translation>
     </message>
@@ -581,27 +581,27 @@
         <translation type="unfinished">视频选项</translation>
     </message>
     <message>
-        <location filename="../qml/VideoOptionsDialog.qml" line="23"/>
+        <location filename="../qml/VideoOptionsDialog.qml" line="22"/>
         <source>Brightness</source>
         <translation type="unfinished">亮度</translation>
     </message>
     <message>
-        <location filename="../qml/VideoOptionsDialog.qml" line="37"/>
+        <location filename="../qml/VideoOptionsDialog.qml" line="36"/>
         <source>Contrast</source>
         <translation type="unfinished">对比度</translation>
     </message>
     <message>
-        <location filename="../qml/VideoOptionsDialog.qml" line="51"/>
+        <location filename="../qml/VideoOptionsDialog.qml" line="50"/>
         <source>Saturation</source>
         <translation type="unfinished">饱和度</translation>
     </message>
     <message>
-        <location filename="../qml/VideoOptionsDialog.qml" line="65"/>
+        <location filename="../qml/VideoOptionsDialog.qml" line="64"/>
         <source>Gamma</source>
         <translation type="unfinished">灰度</translation>
     </message>
     <message>
-        <location filename="../qml/VideoOptionsDialog.qml" line="79"/>
+        <location filename="../qml/VideoOptionsDialog.qml" line="78"/>
         <source>Hue</source>
         <translation type="unfinished">色调</translation>
     </message>
@@ -609,7 +609,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="223"/>
+        <location filename="../qml/main.qml" line="264"/>
         <source>Open files</source>
         <translation type="unfinished">打开文件</translation>
     </message>
@@ -620,153 +620,153 @@
     </message>
     <message>
         <location filename="../qml/main.qml" line="72"/>
-        <location filename="../qml/main.qml" line="206"/>
+        <location filename="../qml/main.qml" line="249"/>
         <source>Please choose a file</source>
         <translation type="unfinished">请选择文件</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="80"/>
+        <location filename="../qml/main.qml" line="85"/>
         <source>Select audio tracks</source>
         <translation type="unfinished">选择音轨</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="88"/>
+        <location filename="../qml/main.qml" line="98"/>
         <source>Select episode</source>
         <translation type="unfinished">选集</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="107"/>
+        <location filename="../qml/main.qml" line="122"/>
         <source>Select streams</source>
         <translation type="unfinished">选择视频流</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="224"/>
+        <location filename="../qml/main.qml" line="265"/>
         <source>Open URL</source>
         <translation type="unfinished">打开URL</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="225"/>
+        <location filename="../qml/main.qml" line="266"/>
         <source>Explorer</source>
         <translation type="unfinished">探索</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="228"/>
+        <location filename="../qml/main.qml" line="269"/>
         <source>Video</source>
         <translation type="unfinished">视频</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="230"/>
+        <location filename="../qml/main.qml" line="271"/>
         <source>Options</source>
         <translation type="unfinished">选项</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="232"/>
+        <location filename="../qml/main.qml" line="273"/>
         <source>Default</source>
         <translation type="unfinished">默认</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="233"/>
+        <location filename="../qml/main.qml" line="274"/>
         <source>4:3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="234"/>
+        <location filename="../qml/main.qml" line="275"/>
         <source>16:9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="235"/>
+        <location filename="../qml/main.qml" line="276"/>
         <source>16:10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="236"/>
+        <location filename="../qml/main.qml" line="277"/>
         <source>1.85:1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="237"/>
+        <location filename="../qml/main.qml" line="278"/>
         <source>2.35:1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="241"/>
+        <location filename="../qml/main.qml" line="282"/>
         <source>Audio</source>
         <translation type="unfinished">音频</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="247"/>
+        <location filename="../qml/main.qml" line="288"/>
         <source>Subtitle</source>
         <translation type="unfinished">字幕</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="249"/>
+        <location filename="../qml/main.qml" line="290"/>
         <source>Visible</source>
         <translation type="unfinished">可见</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="250"/>
+        <location filename="../qml/main.qml" line="291"/>
         <source>Add</source>
         <translation type="unfinished">添加</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="243"/>
-        <location filename="../qml/main.qml" line="251"/>
+        <location filename="../qml/main.qml" line="284"/>
+        <location filename="../qml/main.qml" line="292"/>
         <source>Select</source>
         <translation type="unfinished">选择</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="255"/>
+        <location filename="../qml/main.qml" line="296"/>
         <source>Speed</source>
         <translation type="unfinished">速度</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="257"/>
+        <location filename="../qml/main.qml" line="298"/>
         <source>Up</source>
         <translation type="unfinished">加速</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="258"/>
+        <location filename="../qml/main.qml" line="299"/>
         <source>Down</source>
         <translation type="unfinished">减速</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="259"/>
+        <location filename="../qml/main.qml" line="300"/>
         <source>Reset</source>
         <translation type="unfinished">重置</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="262"/>
+        <location filename="../qml/main.qml" line="303"/>
         <source>Danmaku</source>
         <translation type="unfinished">弹幕</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="263"/>
+        <location filename="../qml/main.qml" line="304"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="265"/>
+        <location filename="../qml/main.qml" line="306"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="266"/>
+        <location filename="../qml/main.qml" line="307"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="267"/>
+        <location filename="../qml/main.qml" line="308"/>
         <source>Update plugins</source>
         <translation type="unfinished">更新插件</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="268"/>
+        <location filename="../qml/main.qml" line="309"/>
         <source>Browser Ext.</source>
         <translation type="unfinished">浏览器扩展</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="269"/>
+        <location filename="../qml/main.qml" line="310"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
