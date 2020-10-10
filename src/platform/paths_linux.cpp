@@ -16,15 +16,20 @@ QString userResourcesPath()
     return path;
 }
 
-
 // FFmpeg's file path
 QString ffmpegFilePath()
 {
-    return QStringLiteral("ffmpeg");
+    static QString filename;
+    if (filename.isNull())
+        filename = QCoreApplication::applicationDirPath() + QStringLiteral("/ffmpeg");
+    return filename;
 }
 
 // hlsdl's file path
 QString hlsdlFilePath()
 {
-    return QStringLiteral("moonplayer-hlsdl");
+    static QString filename;
+    if (filename.isNull())
+        filename = QCoreApplication::applicationDirPath() + QStringLiteral("/moonplayer-hlsdl");
+    return filename;
 }
