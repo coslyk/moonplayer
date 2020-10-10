@@ -54,6 +54,10 @@ DownloaderHlsItem::DownloaderHlsItem(const QString& filepath, const QUrl& url, c
     // Run
     connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &DownloaderHlsItem::onProcFinished);
     connect(&m_process, &QProcess::readyReadStandardOutput, this, &DownloaderHlsItem::readOutput);
+    connect(&m_process, &QProcess::errorOccurred, [&]() {
+        qDebug() <<"Fails to run hlsdl!\n" << m_process.errorString();
+    });
+    
     m_process.setWorkingDirectory(QFileInfo(newPath).absolutePath());
     m_process.setProcessChannelMode(QProcess::MergedChannels);
     m_process.start(hlsdlFilePath(), args, QProcess::ReadOnly);
