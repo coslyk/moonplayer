@@ -21,7 +21,10 @@ QString ffmpegFilePath()
 {
     static QString filename;
     if (filename.isNull())
-        filename = QCoreApplication::applicationDirPath() + QStringLiteral("/ffmpeg");
+    {
+        QString appPath = QCoreApplication::applicationDirPath();
+        filename = appPath.endsWith(QStringLiteral("/bin")) ? appPath + QStringLiteral("/ffmpeg") : QStringLiteral("/ffmpeg");
+    }
     return filename;
 }
 
@@ -30,6 +33,9 @@ QString hlsdlFilePath()
 {
     static QString filename;
     if (filename.isNull())
-        filename = QCoreApplication::applicationDirPath() + QStringLiteral("/moonplayer-hlsdl");
+    {
+        QString appPath = QCoreApplication::applicationDirPath();
+        filename = appPath.endsWith(QStringLiteral("/bin")) ? appPath + QStringLiteral("/moonplayer-hlsdl") : QStringLiteral("/moonplayer-hlsdl");
+    }
     return filename;
 }
