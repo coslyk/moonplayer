@@ -23,7 +23,6 @@ On ArchLinux:
     - python
     - qt5-base
     - qt5-declarative
-    - qt5-quickcontrols
     - qt5-quickcontrols2
     - qt5-tools
     - qt5-x11extras
@@ -51,10 +50,9 @@ For running:
     - python
     - qml-module-qtquick2
     - qml-module-qtquick-controls2
-    - qml-module-qtquick-dialogs
     - qml-module-qtquick-layouts
     - qml-module-qtquick-window2
-    - qml-module-qt-labs-folderlistmodel
+    - qml-module-qt-labs-platform
     - qml-module-qt-labs-settings
     - wget / curl
 ```
