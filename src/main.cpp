@@ -54,12 +54,6 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     // Set UI style
-#ifdef Q_OS_MAC
-    // Disable Classic UI on macOS
-    engine.addImportPath(QStringLiteral("qrc:/qml/modernUI"));
-    qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
-    qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("material"));
-#else
     if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
     {
         engine.addImportPath(QStringLiteral("qrc:/qml/classicUI"));
@@ -71,7 +65,6 @@ int main(int argc, char *argv[])
         qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("material"));
     }
-#endif
 
     QQmlContext* context = engine.rootContext();
     Downloader* downloader = Downloader::instance();
