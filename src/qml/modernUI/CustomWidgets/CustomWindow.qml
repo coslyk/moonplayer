@@ -55,15 +55,12 @@ Window
     // Handle window's resizing and moving
     MouseArea {
         id: mouseArea
-        anchors.fill: parent
         property real lastMouseX: 0
         property real lastMouseY: 0
-        property bool topBorderActived: false
-        property bool bottomBorderActived: false
-        property bool leftBorderActived: false
-        property bool rightBorderActived: false
+        property int activeEdges: 0
         property bool moveable: false
         hoverEnabled: true
+        anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         
         // ContextMenu
@@ -75,29 +72,71 @@ Window
                 contextMenu.open();
             }
         }
-        
-        onPressed: {
-            lastMouseX = mouseX;
-            lastMouseY = mouseY;
-            leftBorderActived = (mouseX < 8);
-            rightBorderActived = (mouseX > window.width - 8);
-            topBorderActived = (mouseY < 8);
-            bottomBorderActived = (mouseY > window.height - 8);
-            moveable = (!topBorderActived && !bottomBorderActived && !leftBorderActived && !rightBorderActived);
-        }
-        onReleased: {
-            leftBorderActived = rightBorderActived = topBorderActived = bottomBorderActived = false;
+
+        // Enter/exit fullscreen
+        onDoubleClicked: {
+            if (window.visibility == Window.FullScreen) {
+                window.showNormal();
+            } else {
+                window.showFullScreen();
+            }
+            // macOS fix
             moveable = false;
         }
+        
+        onPressed: {
+            if (mouse.button !== Qt.LeftButton ||
+                window.visibility == Window.Maximized ||
+                window.visibility == Window.FullScreen)
+            {
+                return;
+            }
+
+            // Set active edges
+            activeEdges = 0;
+            if (mouseX < 8) activeEdges |= Qt.LeftEdge;
+            if (mouseY < 8) activeEdges |= Qt.TopEdge;
+            if (mouseX > window.width - 8) activeEdges |= Qt.RightEdge;
+            if (mouseY > window.height - 8) activeEdges |= Qt.BottomEdge;
+
+            // Use system native move & resize on Qt >= 5.15
+            if (window.startSystemMove !== undefined && Qt.platform.os !== "osx") {
+                if (activeEdges === 0) {
+                    window.startSystemMove();
+                } else {
+                    window.startSystemResize(activeEdges);
+                }
+            }
+            // Use software move & resize on Qt < 5.15
+            else {
+                lastMouseX = mouseX;
+                lastMouseY = mouseY;
+                moveable = (activeEdges === 0);
+            }
+        }
+
+        onReleased: {
+            activeEdges = 0;
+            moveable = false;
+        }
+
         onMouseXChanged: {
             window.mouseMoved();
-            if (window.visibility == Window.Maximized || window.visibility == Window.FullScreen || !pressed)
+
+            // Use system native move & resize on Qt >= 5.15
+            if (window.startSystemMove !== undefined && Qt.platform.os !== "osx") {
                 return;
-            if (leftBorderActived) {
+            }
+
+            if (window.visibility == Window.Maximized || window.visibility == Window.FullScreen || !pressed) {
+                return;
+            }
+
+            if (activeEdges & Qt.LeftEdge !== 0) {
                 window.width -= (mouseX - lastMouseX);
                 window.x += (mouseX - lastMouseX);
             }
-            else if (rightBorderActived) {
+            else if (activeEdges & Qt.RightEdge !== 0) {
                 window.width += (mouseX - lastMouseX);
                 lastMouseX = mouseX;
             }
@@ -107,27 +146,27 @@ Window
         }
         onMouseYChanged: {
             window.mouseMoved();
-            if (window.visibility == Window.Maximized || window.visibility == Window.FullScreen || !pressed)
+
+            // Use system native move & resize on Qt >= 5.15
+            if (window.startSystemMove !== undefined && Qt.platform.os !== "osx") {
                 return;
-            if (topBorderActived) {
+            }
+
+            if (window.visibility == Window.Maximized || window.visibility == Window.FullScreen || !pressed) {
+                return;
+            }
+
+            if (activeEdges & Qt.TopEdge !== 0) {
                 window.height -= (mouseY - lastMouseY);
                 window.y += (mouseY - lastMouseY);
             }
-            else if (bottomBorderActived) {
+            else if (activeEdges & Qt.BottomEdge !== 0) {
                 window.height += (mouseY - lastMouseY);
                 lastMouseY = mouseY;
             }
             else if (moveable) {
                 window.y += (mouseY - lastMouseY);
             }
-        }
-        onDoubleClicked: {
-            if (window.visibility == Window.FullScreen)
-                window.showNormal();
-            else
-                window.showFullScreen();
-            // macOS fix
-            moveable = false;
         }
     }
     
