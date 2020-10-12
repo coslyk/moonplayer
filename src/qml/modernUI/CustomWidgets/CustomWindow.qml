@@ -20,11 +20,17 @@ Window
         id: timer
         interval: 3000
         onTriggered: {
+            if (mouseArea.pressed === true) {
+                return;
+            }
+
             mouseArea.cursorShape = Qt.BlankCursor;
+
             if (!toolbarLoader.item.contains(toolbarLoader.item.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
             {
                 toolbarLoader.item.visible = false;
             }
+            
             if (!titlebar.contains(titlebar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
             {
                 titlebar.visible = false;
@@ -33,23 +39,29 @@ Window
     }
     
     onMouseMoved: {
-        // Set cursor shape
-        if ((mouseArea.mouseX < 8 && mouseArea.mouseY < 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY > height - 8))
-            mouseArea.cursorShape = Qt.SizeFDiagCursor;
-        else if ((mouseArea.mouseX < 8 && mouseArea.mouseY > height - 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY < 8))
-            mouseArea.cursorShape = Qt.SizeBDiagCursor;
-        else if (mouseArea.mouseX < 8 || mouseArea.mouseX > width - 8)
-            mouseArea.cursorShape = Qt.SizeHorCursor;
-        else if (mouseArea.mouseY < 8 || mouseArea.mouseY > height - 8)
-            mouseArea.cursorShape = Qt.SizeVerCursor;
-        else
-            mouseArea.cursorShape = Qt.ArrowCursor;
-
         // Show titlebar and toolbar
         toolbarLoader.item.visible = true;
         titlebar.visible = true;
-        if (autoHideBars)
+        if (autoHideBars) {
             timer.restart();
+        }
+
+        if (mouseArea.pressed === true) {
+            return;
+        }
+
+        // Set cursor shape
+        if ((mouseArea.mouseX < 8 && mouseArea.mouseY < 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY > height - 8)) {
+            mouseArea.cursorShape = Qt.SizeFDiagCursor;
+        } else if ((mouseArea.mouseX < 8 && mouseArea.mouseY > height - 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY < 8)) {
+            mouseArea.cursorShape = Qt.SizeBDiagCursor;
+        } else if (mouseArea.mouseX < 8 || mouseArea.mouseX > width - 8) {
+            mouseArea.cursorShape = Qt.SizeHorCursor;
+        } else if (mouseArea.mouseY < 8 || mouseArea.mouseY > height - 8) {
+            mouseArea.cursorShape = Qt.SizeVerCursor;
+        } else {
+            mouseArea.cursorShape = Qt.ArrowCursor;
+        }
     }
     
     // Handle window's resizing and moving
@@ -132,11 +144,11 @@ Window
                 return;
             }
 
-            if (activeEdges & Qt.LeftEdge !== 0) {
+            if (activeEdges & Qt.LeftEdge) {
                 window.width -= (mouseX - lastMouseX);
                 window.x += (mouseX - lastMouseX);
             }
-            else if (activeEdges & Qt.RightEdge !== 0) {
+            else if (activeEdges & Qt.RightEdge) {
                 window.width += (mouseX - lastMouseX);
                 lastMouseX = mouseX;
             }
@@ -156,11 +168,11 @@ Window
                 return;
             }
 
-            if (activeEdges & Qt.TopEdge !== 0) {
+            if (activeEdges & Qt.TopEdge) {
                 window.height -= (mouseY - lastMouseY);
                 window.y += (mouseY - lastMouseY);
             }
-            else if (activeEdges & Qt.BottomEdge !== 0) {
+            else if (activeEdges & Qt.BottomEdge) {
                 window.height += (mouseY - lastMouseY);
                 lastMouseY = mouseY;
             }
