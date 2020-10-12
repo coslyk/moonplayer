@@ -70,8 +70,7 @@ CustomWindow
     FileDialog {
         id: addSubtitleDialog
         title: qsTr("Please choose a file")
-        fileMode: FileDialog.OpenFiles
-        onAccepted: mpv.addSubtitle(addSubtitleDialog.currentFiles)
+        onAccepted: mpv.addSubtitle(addSubtitleDialog.currentFile)
     }
 
     // Select audio tracks
@@ -247,6 +246,7 @@ CustomWindow
     FileDialog {
         id: fileDialog
         title: qsTr("Please choose a file")
+        fileMode: FileDialog.OpenFiles
         onAccepted: playlistModel.addLocalFiles(fileDialog.currentFiles)
     }
 
