@@ -1,7 +1,6 @@
 #include "parserYkdl.h"
 #include "accessManager.h"
-#include <QDir>
-#include <QInputDialog>
+#include <QFile>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QMessageBox>
@@ -9,6 +8,8 @@
 #include <QSettings>
 #include <QTextCodec>
 #include "platform/paths.h"
+#include "dialogs.h"
+#include "playlistModel.h"
 
 ParserYkdl ParserYkdl::s_instance;
 
@@ -96,12 +97,18 @@ void ParserYkdl::parseOutput()
         QVariantList episodes = document.toVariant().toList();
         QStringList titles;
         QList<QUrl> urls;
+
         foreach (QVariant item, episodes)
         {
             titles << item.toHash()[QStringLiteral("title")].toString();
             urls << item.toHash()[QStringLiteral("url")].toString();
         }
-        selectEpisode(titles, urls);
+
+        Dialogs::instance()->selectionDialog(tr("Select episode"), titles, [=](int index) {
+            Q_ASSERT(PlaylistModel::instance() != nullptr);
+            PlaylistModel::instance()->addUrl(urls[index], m_download);
+        });
+        
         return;
     }
 

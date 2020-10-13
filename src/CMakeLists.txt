@@ -18,6 +18,7 @@ set(SOURCE_FILES
     accessManager.cpp
     console.cpp
     danmakuLoader.cpp
+    dialogs.cpp
     downloader.cpp
     downloaderAbstractItem.cpp
     downloaderHlsItem.cpp

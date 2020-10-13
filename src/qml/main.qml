@@ -52,6 +52,26 @@ CustomWindow
                 explorer.close();
         }
     }
+
+    // Selection dialog
+    SelectionDialog {
+        id: selectionDialog
+
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+
+        Connections {
+            target: Dialogs
+            onSelectionDialogRequested: {
+                selectionDialog.title = title;
+                selectionDialog.items = items;
+                selectionDialog.open();
+            }
+        }
+
+        onAccepted: Dialogs.selectionDialogCallback(currentIndex)
+    }
     
     // Select subtitles
     SelectionDialog {
@@ -84,67 +104,6 @@ CustomWindow
         title: qsTr("Select audio tracks")
         items: mpv.audioTracks
         onAccepted: mpv.setProperty("aid", currentIndex)
-    }
-    
-    // Select episode from playlist
-    SelectionDialog {
-        id: episodeSelectionDialog
-        
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
-
-        title: qsTr("Select episode")
-        property var urls: []
-        property bool download: false
-        
-        Connections {
-            target: ykdl
-            onAlbumParsed: {
-                episodeSelectionDialog.items = titles;
-                episodeSelectionDialog.urls = urls;
-                episodeSelectionDialog.download = download;
-                episodeSelectionDialog.open();
-            }
-        }
-        onAccepted: playlistModel.addUrl(urls[currentIndex], download)
-    }
-    
-    // Select streams
-    SelectionDialog {
-        id: streamSelectionDialog
-        
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
-
-        title: qsTr("Select streams")
-        property bool isYkdl: true
-        
-        Connections {
-            target: ykdl
-            onStreamSelectionNeeded: {
-                streamSelectionDialog.isYkdl = true;
-                streamSelectionDialog.items = stream_types;
-                streamSelectionDialog.open();
-            }
-        }
-        
-        Connections {
-            target: youtube_dl
-            onStreamSelectionNeeded: {
-                streamSelectionDialog.isYkdl = false;
-                streamSelectionDialog.items = stream_types;
-                streamSelectionDialog.open();
-            }
-        }
-        
-        onAccepted: {
-            if (isYkdl)
-                ykdl.finishStreamSelection(currentIndex);
-            else
-                youtube_dl.finishStreamSelection(currentIndex);
-        }
     }
     
     // Video options

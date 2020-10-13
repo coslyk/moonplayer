@@ -6,6 +6,7 @@
 #include <QSettings>
 #include <clocale>
 #include "accessManager.h"
+#include "dialogs.h"
 #include "downloader.h"
 #include "downloaderAbstractItem.h"
 #include "mpvObject.h"
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<MpvObject>("MoonPlayer", 1, 0, "MpvObject");
     qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/qml/Color.qml")), "MoonPlayer", 1, 0, "Color");
     qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", QStringLiteral("Access to enums & flags only"));
+    qmlRegisterSingletonType<Dialogs>("MoonPlayer", 1, 0, "Dialogs", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Dialogs(); });
     
     QQmlApplicationEngine engine;
 
