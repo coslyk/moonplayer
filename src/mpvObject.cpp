@@ -90,7 +90,7 @@ public:
                 throw std::runtime_error("failed to initialize mpv GL context");
             
             m_obj->m_mpv.set_render_callback([](void *ctx) {
-                MpvObject *obj = reinterpret_cast<MpvObject*>(ctx);
+                MpvObject *obj = static_cast<MpvObject*>(ctx);
                 QMetaObject::invokeMethod(obj, "update", Qt::QueuedConnection);
             }, m_obj);
         }
@@ -196,7 +196,7 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
 
     // Set update callback
     m_mpv.set_wakeup_callback([](void *ctx) {
-        MpvObject *obj = reinterpret_cast<MpvObject *>(ctx);
+        MpvObject *obj = static_cast<MpvObject *>(ctx);
         QMetaObject::invokeMethod(obj, "onMpvEvent", Qt::QueuedConnection);
     }, this);
 }
