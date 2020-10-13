@@ -2,7 +2,6 @@
 #include "accessManager.h"
 #include <QApplication>
 #include <QDesktopWidget>
-#include <QDir>
 #include <QFont>
 #include <QNetworkReply>
 #include <QNetworkRequest>

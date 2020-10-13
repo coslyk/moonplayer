@@ -1,6 +1,5 @@
 #include "parserYoutubedl.h"
 #include "accessManager.h"
-#include <QDir>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QMessageBox>

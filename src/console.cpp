@@ -1,5 +1,4 @@
 #include "console.h"
-#include <QProcess>
 #include <QScrollBar>
 #include <QTextCodec>
 

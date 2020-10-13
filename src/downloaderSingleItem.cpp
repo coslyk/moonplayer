@@ -1,5 +1,4 @@
 #include "downloaderSingleItem.h"
-#include <QFileInfo>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSettings>

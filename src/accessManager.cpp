@@ -1,8 +1,5 @@
 #include "accessManager.h"
-#include <QCoreApplication>
-#include <QFile>
 #include <QNetworkProxy>
-#include <QSettings>
 
 
 // Proxy factory

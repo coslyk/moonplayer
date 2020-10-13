@@ -5,7 +5,6 @@
 #include <QFile>
 #include <QUrl>
 
-class QFile;
 class QNetworkReply;
 
 class DownloaderSingleItem : public DownloaderAbstractItem

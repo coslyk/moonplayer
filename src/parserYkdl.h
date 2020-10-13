@@ -2,7 +2,6 @@
 #define PARSERYKDL_H
 
 
-#include <QObject>
 #include "parserBase.h"
 #include <QProcess>
 

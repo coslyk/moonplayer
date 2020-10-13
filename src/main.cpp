@@ -10,8 +10,6 @@
 #include "downloader.h"
 #include "downloaderAbstractItem.h"
 #include "mpvObject.h"
-#include "parserYkdl.h"
-#include "parserYoutubedl.h"
 #include "playlistModel.h"
 #include "platform/application.h"
 #include "platform/detectOpengl.h"
@@ -78,8 +76,6 @@ int main(int argc, char *argv[])
     context->setContextProperty(QStringLiteral("downloaderModel"), QVariant::fromValue(downloader->model()));
     context->setContextProperty(QStringLiteral("playlistModel"), PlaylistModel::instance());
     context->setContextProperty(QStringLiteral("plugins"), QVariant::fromValue(Plugin::loadPlugins()));
-    context->setContextProperty(QStringLiteral("ykdl"), ParserYkdl::instance());
-    context->setContextProperty(QStringLiteral("youtube_dl"), ParserYoutubeDL::instance());
     context->setContextProperty(QStringLiteral("utils"), new Utils());
     
     // Update downloader model

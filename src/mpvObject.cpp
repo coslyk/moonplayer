@@ -12,9 +12,6 @@
 
 #include <QtGui/QOpenGLFramebufferObject>
 
-#include <QtQuick/QQuickWindow>
-#include <QtQuick/QQuickView>
-
 #include "accessManager.h"
 #include "danmakuLoader.h"
 #include "playlistModel.h"
