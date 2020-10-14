@@ -3,8 +3,7 @@
 #include <QDir>
 #include <QSettings>
 #include "downloaderHlsItem.h"
-#include "downloaderMultipleItem.h"
-#include "downloaderSingleItem.h"
+#include "downloaderItem.h"
 
 Downloader::Downloader(QObject* parent) : QObject(parent)
 {
@@ -31,11 +30,13 @@ void Downloader::addTasks(const QString& filename, const QList<QUrl>& urls, cons
     DownloaderAbstractItem* item;
     
     if (urls[0].path().endsWith(QStringLiteral(".m3u8")))
+    {
         item = new DownloaderHlsItem(filepath, urls[0], danmakuUrl, this);
-    else if (urls.length() == 1)
-        item = new DownloaderSingleItem(filepath, urls[0], danmakuUrl, this);
+    }
     else
-        item = new DownloaderMultipleItem(filepath, urls, danmakuUrl, isDash, this);
+    {
+        item = new DownloaderItem(filepath, urls, danmakuUrl, isDash, this);
+    }
     m_model << item;
     emit modelUpdated();
 }

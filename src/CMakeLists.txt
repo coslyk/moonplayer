@@ -22,8 +22,8 @@ set(SOURCE_FILES
     downloader.cpp
     downloaderAbstractItem.cpp
     downloaderHlsItem.cpp
-    downloaderMultipleItem.cpp
-    downloaderSingleItem.cpp
+    downloaderItem.cpp
+    fileDownloader.cpp
     jsapiObject.cpp
     main.cpp
     mpvObject.cpp
