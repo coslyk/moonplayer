@@ -28,7 +28,7 @@ class MpvObject : public QQuickFramebufferObject
 
 public:
     enum State {STOPPED, VIDEO_PLAYING, VIDEO_PAUSED, TV_PLAYING};
-    enum Hwdec {AUTO, VAAPI, VDPAU};
+    enum Hwdec {AUTO, VAAPI, VDPAU, NVDEC};
     Q_ENUM(State)
     
     inline static MpvObject* instance() { return s_instance; }

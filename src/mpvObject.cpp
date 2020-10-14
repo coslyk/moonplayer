@@ -176,6 +176,9 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
             m_mpv.set_option_string("gpu-hwdec-interop", "vdpau-glx");
             m_mpv.set_option_string("hwdec", hwdecCopy ? "vdpau-copy" : "vdpau");
             break;
+        case NVDEC:
+            m_mpv.set_option_string("hwdec", hwdecCopy ? "nvdec-copy" : "nvdec");
+            break;
         default: break;
     }
 

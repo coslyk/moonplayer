@@ -118,7 +118,7 @@ CustomTabDialog {
             Label { text: qsTr("Hardware decoding:") }
             ComboBox {
                 id: hwdecComboBox
-                model: [ "auto", "vaapi", "vdpau" ]
+                model: [ "auto", "vaapi", "vdpau", "nvdec" ]
             }
             StackLayout {
                 Layout.columnSpan: 2
@@ -126,6 +126,7 @@ CustomTabDialog {
                 currentIndex: hwdecComboBox.currentIndex
                 Label { text: qsTr("Choose hardware decoder automatically.") }
                 Label { text: qsTr("Intel hardware decoding on Linux.") }
+                Label { text: qsTr("Nvidia hardware decoding on Linux (deprecated).") }
                 Label { text: qsTr("Nvidia hardware decoding on Linux.") }
             }
             
