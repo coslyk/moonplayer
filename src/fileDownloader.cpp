@@ -21,20 +21,6 @@ FileDownloader::~FileDownloader()
     stop();
 }
 
-/*
-void DownloaderSingleItem::continueWaitingTasks()
-{
-    int maxThreads = QSettings().value(QStringLiteral("downloader/max_threads"), 5).toInt();
-    while (s_numOfRunning < maxThreads && !s_waitingItems.isEmpty())
-    {
-        s_numOfRunning++;
-        DownloaderSingleItem* item = s_waitingItems.takeFirst();
-        item->setState(PAUSED);
-        item->start();
-    }
-}*/
-
-
 
 //start a request
 void FileDownloader::start()
