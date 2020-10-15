@@ -3,12 +3,12 @@ language: cpp
 
 jobs:
   include:
-    - name: Ubuntu 16.04 build
+    - name: Ubuntu 14.04 build
       os: linux
-      dist: xenial
+      dist: trusty
       env:
-        - QT5_BASE_DIR: $HOME/Qt/5.15.1/gcc_64
-        - PATH: $HOME/Qt/5.15.1/gcc_64/bin/:$PATH
+        - QT5_BASE_DIR: $HOME/Qt/5.12.9/gcc_64
+        - PATH: $HOME/Qt/5.12.9/gcc_64/bin/:$PATH
 
 
     - name: macOS build
@@ -27,8 +27,8 @@ jobs:
       os: windows
       env:
         - PLATFORM: x64
-        - QT5_BASE_DIR: C:/Qt/5.12.8/msvc2017_64
-        - PATH: /c/Qt/5.12.8/msvc2017_64/bin:$PATH
+        - QT5_BASE_DIR: C:/Qt/5.12.9/msvc2017_64
+        - PATH: /c/Qt/5.12.9/msvc2017_64/bin:$PATH
       before_install:
         # Install libmpv, innosetup and pyinstaller
         - curl -Lo libmpv.zip https://github.com/coslyk/moonplayer/releases/download/2.9.2/libmpv_win_x64.zip
@@ -41,7 +41,7 @@ jobs:
 addons:
   apt:
     sources:
-      - sourceline: 'ppa:cos-lyk/libmpv-xenial'
+      - sourceline: 'ppa:cos-lyk/libmpv-trusty'
     packages:
       - build-essential
       - cmake
@@ -51,11 +51,6 @@ addons:
       - libgl1-mesa-dev
       - libglu1-mesa-dev
       - libssl-dev
-      - libxcb-icccm4
-      - libxcb-image0
-      - libxcb-keysyms1
-      - libxcb-render-util0
-      - libxcb-xinerama0
       - libxkbcommon-x11-0
       - libmpv-dev
       - p7zip-full
@@ -66,8 +61,8 @@ cache:
   directories:
     - $HOME/Library/Caches/Homebrew
     - /usr/local/Homebrew
-    - $HOME/Qt/5.15.1/gcc_64
-    - /C/Qt/5.12.8
+    - $HOME/Qt/5.12.9/gcc_64
+    - /C/Qt/5.12.9
 
 before_cache:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew cleanup; fi
