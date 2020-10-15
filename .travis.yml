@@ -82,7 +82,8 @@ script:
 
 after_success:
   - scripts/deploy-${TRAVIS_OS_NAME}.sh
-  - bash scripts/upload.sh MoonPlayer*
+  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+  - bash upload.sh MoonPlayer*
 
 branches:
   except:
