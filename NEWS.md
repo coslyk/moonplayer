@@ -1,3 +1,11 @@
+### version 3.5 (2020.10.15)
+
+1. Make titlebar larger ([#98](https://github.com/coslyk/moonplayer/issues/98))
+2. Modern UI now fully supports Wayland (Requires Qt >= 5.15)
+3. Classic UI now supports macOS
+4. Support nvdec hardware decoding
+5. Fix AppImage cannot call ffmpeg
+
 ### version 3.4 (2020.09.05)
 
 1. Performance improvements
