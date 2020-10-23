@@ -16,18 +16,18 @@ public:
     virtual ~Application();
     bool parseArgs(void);
     
+#ifdef Q_OS_MAC
 protected:
     bool event(QEvent *e);
-
-private:
     
+#else
+private:
     void onNewConnection(void);
     int m_argc;
     char **m_argv;
     QLocalServer *m_server;
     QLocalSocket *m_client;
-    QStringList m_files;
-    bool m_isLocalFiles;
+#endif
 };
 
 #endif // APPLICATION_H
