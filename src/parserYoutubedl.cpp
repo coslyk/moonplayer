@@ -1,6 +1,8 @@
 #include "parserYoutubedl.h"
 #include "accessManager.h"
+#include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QJsonParseError>
 #include <QMessageBox>
 #include <QProcess>
@@ -58,27 +60,28 @@ void ParserYoutubeDL::parseOutput()
 #endif
 
     QJsonParseError json_error;
-    QVariantHash obj = QJsonDocument::fromJson(output, &json_error).toVariant().toHash();
+    QJsonObject root = QJsonDocument::fromJson(output, &json_error).object();
     if (json_error.error != QJsonParseError::NoError)
     {
         showErrorDialog(QString::fromUtf8(m_process.readAllStandardError()));
         return;
     }
     
-    if (obj.contains(QStringLiteral("formats")))
+    if (root.contains(QStringLiteral("formats")))
     {
-        result.title = obj[QStringLiteral("title")].toString();
+        result.title = root[QStringLiteral("title")].toString();
         
-        // Get all available streams
-        QVariantList formats = obj[QStringLiteral("formats")].toList();
-        QVariantList streams;
+        // Get all available videos
+        QJsonArray formats = root[QStringLiteral("formats")].toArray();
+        QJsonArray videos;
         QString bestMp4Audio, bestWebmAudio;
         int bestMp4AudioSize = 0;
         int bestWebmAudioSize = 0;
-        for (int i = 0; i < formats.size(); i++)
+
+        for (const auto& format : formats)
         {
-            QVariantHash item = formats[i].toHash();
-            
+            QJsonObject item = format.toObject();
+
             // DASH Audio
             if (item[QStringLiteral("vcodec")].toString() == QStringLiteral("none"))
             {
@@ -99,23 +102,23 @@ void ParserYoutubeDL::parseOutput()
             {
                 QString formatName = QStringLiteral("%1 (%2)").arg(item[QStringLiteral("format")].toString(), item[QStringLiteral("ext")].toString());
                 result.stream_types << formatName;
-                streams << item;
+                videos << item;
             }
         }
 
         // Fill stream infos
-        foreach (QVariant i, streams)
+        for (const auto& video : videos)
         {
-            QVariantHash item = i.toHash();
+            QJsonObject item = video.toObject();
             Stream stream;
             
             // Basic stream infos
             stream.container = item[QStringLiteral("protocol")].toString() == QStringLiteral("m3u8") ? QStringLiteral("m3u8") : item[QStringLiteral("ext")].toString();
-            stream.referer = item[QStringLiteral("http_headers")].toHash()[QStringLiteral("Referer")].toString();
+            stream.referer = item[QStringLiteral("http_headers")].toObject()[QStringLiteral("Referer")].toString();
             stream.seekable = true;
             stream.is_dash = false;
             
-            QString ua = item[QStringLiteral("http_headers")].toHash()[QStringLiteral("User-Agent")].toString();
+            QString ua = item[QStringLiteral("http_headers")].toObject()[QStringLiteral("User-Agent")].toString();
             if (ua != QStringLiteral(DEFAULT_UA))
                 stream.ua = ua;
             
