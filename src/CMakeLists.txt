@@ -89,6 +89,7 @@ add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE d
 
 fix_win_compiler()
 
+# Link libraries
 target_link_libraries(${PROJECT_NAME}
     Qt5::Qml
     Qt5::Quick
@@ -99,8 +100,15 @@ target_link_libraries(${PROJECT_NAME}
     ${MPV_LIBRARY}
     Danmaku2AssCPP)
 
+# Enable Automoc and Autorcc for Qt
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
 
+# Enable all compilation warnings
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
+else()
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic)
+endif()
 
 # Install on Linux
 if (UNIX AND NOT APPLE)

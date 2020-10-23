@@ -7,11 +7,11 @@
 
 namespace Mpv {
 
-    constexpr mpv_format to_mpv_format(int v) { return MPV_FORMAT_FLAG; }
-    constexpr mpv_format to_mpv_format(int64_t v) { return MPV_FORMAT_INT64; }
-    constexpr mpv_format to_mpv_format(double v) { return MPV_FORMAT_DOUBLE; }
-    constexpr mpv_format to_mpv_format(const char *v) { return MPV_FORMAT_STRING; }
-    constexpr mpv_format to_mpv_format(mpv_node* v) { return MPV_FORMAT_NODE; }
+    constexpr mpv_format to_mpv_format(int) { return MPV_FORMAT_FLAG; }
+    constexpr mpv_format to_mpv_format(int64_t) { return MPV_FORMAT_INT64; }
+    constexpr mpv_format to_mpv_format(double) { return MPV_FORMAT_DOUBLE; }
+    constexpr mpv_format to_mpv_format(const char*) { return MPV_FORMAT_STRING; }
+    constexpr mpv_format to_mpv_format(mpv_node*) { return MPV_FORMAT_NODE; }
 
     class Handle {
         private:
@@ -101,7 +101,7 @@ namespace Mpv {
         inline int observe_property(const char *name, uint64_t reply_userdata = 0) const
         {
             static_assert(!std::is_same<bool, T>(), "Type can't be bool, use int instead.");
-            T tmp;
+            T tmp = 0;
             return mpv_observe_property(m_handle, reply_userdata, name, to_mpv_format(tmp));
         }
 

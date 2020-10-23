@@ -13,10 +13,10 @@ std::atomic<int> DownloaderItem::s_threadCount(0);
 
 DownloaderItem::DownloaderItem(const QString& filepath, const QList<QUrl>& urls, const QUrl& danmkauUrl, bool isDash, QObject* parent) :
     DownloaderAbstractItem(filepath, danmkauUrl, parent),
+    m_process(nullptr),
     m_finished(0),
     m_total(urls.length()),
-    m_isDash(isDash),
-    m_process(nullptr)
+    m_isDash(isDash)
 {
     // Create tempdir
     QString tempPath = QDir::tempPath() + QLatin1Char('/')  + name();

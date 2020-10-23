@@ -7,7 +7,7 @@
 class PlaylistModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(int playingIndex MEMBER m_playingIndex NOTIFY playingIndexChanged);
+    Q_PROPERTY(int playingIndex MEMBER m_playingIndex NOTIFY playingIndexChanged)
     
     enum OpenUrlAction {
         QUESTION,

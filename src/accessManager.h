@@ -20,7 +20,7 @@ class NetworkAccessManager : public QNetworkAccessManager
     Q_OBJECT
 public:
     enum ProxyType {NO_PROXY, HTTP_PROXY, SOCKS5_PROXY};
-    Q_ENUMS(ProxyType);
+    Q_ENUM(ProxyType)
     
     NetworkAccessManager(QObject *parent = nullptr);
     
