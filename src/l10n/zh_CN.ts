@@ -131,18 +131,18 @@
 <context>
     <name>DownloaderItem</name>
     <message>
-        <location filename="../downloaderItem.cpp" line="206"/>
-        <location filename="../downloaderItem.cpp" line="252"/>
+        <location filename="../downloaderItem.cpp" line="204"/>
+        <location filename="../downloaderItem.cpp" line="250"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
     <message>
-        <location filename="../downloaderItem.cpp" line="206"/>
+        <location filename="../downloaderItem.cpp" line="204"/>
         <source>Failed to write: </source>
         <translation type="unfinished">无法写入： </translation>
     </message>
     <message>
-        <location filename="../downloaderItem.cpp" line="252"/>
+        <location filename="../downloaderItem.cpp" line="250"/>
         <source>Failed to concat: </source>
         <translation type="unfinished">无法合并： </translation>
     </message>

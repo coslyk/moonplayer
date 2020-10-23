@@ -127,10 +127,8 @@ void DownloaderItem::pause()
 }
 
 // Stop
-void DownloaderItem::stop(bool continueWaiting)
-{
-    Q_UNUSED(continueWaiting);
-    
+void DownloaderItem::stop()
+{   
     if (state() != DOWNLOADING && state() != PAUSED)
         return;
     

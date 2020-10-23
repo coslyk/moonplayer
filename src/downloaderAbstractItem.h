@@ -22,7 +22,7 @@ public:
     virtual ~DownloaderAbstractItem();
     Q_INVOKABLE virtual void pause(void) = 0;
     Q_INVOKABLE virtual void start(void) = 0;
-    Q_INVOKABLE virtual void stop(bool continueWaiting = true) = 0;
+    Q_INVOKABLE virtual void stop(void) = 0;
     
     inline QString name() { return m_name; }
     inline QString filePath() { return m_filePath; }

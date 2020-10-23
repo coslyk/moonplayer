@@ -11,9 +11,9 @@ class DownloaderHlsItem : public DownloaderAbstractItem
 public:
     DownloaderHlsItem(const QString& filepath, const QUrl& url, const QUrl& danmakuUrl = QUrl(), QObject* parent = nullptr);
     ~DownloaderHlsItem();
-    virtual void pause(void);
-    virtual void start(void);
-    virtual void stop(bool continueWaiting = true);
+    virtual void pause(void) override;
+    virtual void start(void) override;
+    virtual void stop(void) override;
 
 private:
     QProcess m_process;

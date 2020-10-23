@@ -14,9 +14,9 @@ class DownloaderItem : public DownloaderAbstractItem
 
 public:
     DownloaderItem(const QString &filepath, const QList<QUrl>& urls, const QUrl& danmakuUrl = QUrl(), bool isDash = false, QObject *parent = nullptr);
-    virtual void pause(void);
-    virtual void start(void);
-    virtual void stop(bool continueWaiting = true);
+    virtual void pause(void) override;
+    virtual void start(void) override;
+    virtual void stop(void) override;
     
 private:
     static QList<FileDownloader*> s_waiting;

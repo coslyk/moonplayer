@@ -94,9 +94,8 @@ void DownloaderHlsItem::pause()
     QMessageBox::warning(nullptr, tr("Error"), tr("Cannot pause the download of HLS streams."));
 }
 
-void DownloaderHlsItem::stop(bool continueWaiting)
+void DownloaderHlsItem::stop()
 {
-    Q_UNUSED(continueWaiting)
     if (m_process.state() == QProcess::Running)
     {
         m_process.kill();
