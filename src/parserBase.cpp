@@ -68,18 +68,24 @@ void ParserBase::finishStreamSelection(int index)
     // Bind referer and user-agent
     if (!stream.referer.isEmpty())
     {
-        foreach (QUrl url, stream.urls)
+        for (const auto& url : stream.urls)
+        {
             NetworkAccessManager::instance()->addReferer(url, stream.referer.toUtf8());
+        }
     }
     if (!stream.ua.isEmpty())
     {
-        foreach (QUrl url, stream.urls)
+        for (const auto& url : stream.urls)
+        {
             NetworkAccessManager::instance()->addUserAgent(url, stream.ua.toUtf8());
+        }
     }
     if (!stream.seekable)
     {
-         foreach (QUrl url, stream.urls)
+        for (const auto& url : stream.urls)
+        {
             NetworkAccessManager::instance()->addUnseekableHost(url.host());
+        }
     }
 
     // Download

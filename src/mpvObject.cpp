@@ -554,7 +554,7 @@ void MpvObject::onMpvEvent()
                 m_audioTracks.clear();
                 mpv_node* node = static_cast<mpv_node*>(prop->data);
                 QVariantList trackList = mpv::qt::node_to_variant(node).toList();
-                foreach (QVariant i, trackList)
+                for (const auto& i : trackList)
                 {
                     QVariantHash item = i.toHash();
                     if (item[QStringLiteral("type")].toString() == QStringLiteral("sub"))  // Subtitles

@@ -204,7 +204,7 @@ void DownloaderItem::concatVideos()
             QMessageBox::warning(nullptr, tr("Error"), tr("Failed to write: ") + file.fileName());
             return;
         }
-        foreach (QString filename, filelist)
+        for (const auto& filename : filelist)
         {
             file.write(QStringLiteral("file '%1'\n").arg(filename).toUtf8());
         }
@@ -237,7 +237,7 @@ void DownloaderItem::onConcatFinished(int status)
     {
         setState(FINISHED);
         QStringList filelist = m_tempDir.entryList(QDir::Files, QDir::Name);
-        foreach (QString file, filelist)
+        for (const auto& file : filelist)
         {
             m_tempDir.remove(file);
         }
