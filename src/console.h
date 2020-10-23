@@ -15,7 +15,7 @@ public:
     void launchScript(const QString& filePath, const QStringList& args = QStringList());
     
 private:
-    void putData(const QByteArray& data);
+    void putData(const QByteArray& _data);
     QProcess m_process;
 };
 

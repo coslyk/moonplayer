@@ -31,11 +31,11 @@ Console::Console(QWidget *parent) :
     });
 }
 
-void Console::putData(const QByteArray& data)
+void Console::putData(const QByteArray& _data)
 {
     QTextCodec *codec = QTextCodec::codecForLocale();
     Q_ASSERT(codec != nullptr);
-    insertPlainText(codec->toUnicode(data));
+    insertPlainText(codec->toUnicode(_data));
 
     QScrollBar *bar = verticalScrollBar();
     Q_ASSERT(bar != nullptr);
