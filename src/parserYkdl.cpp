@@ -1,7 +1,9 @@
 #include "parserYkdl.h"
 #include "accessManager.h"
 #include <QFile>
+#include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QJsonParseError>
 #include <QMessageBox>
 #include <QProcess>
@@ -94,14 +96,14 @@ void ParserYkdl::parseOutput()
     // Select episode
     if (document.isArray())
     {
-        QVariantList episodes = document.toVariant().toList();
+        QJsonArray episodes = document.array();
         QStringList titles;
         QList<QUrl> urls;
 
-        foreach (QVariant item, episodes)
+        for (const auto& item : episodes)
         {
-            titles << item.toHash()[QStringLiteral("title")].toString();
-            urls << item.toHash()[QStringLiteral("url")].toString();
+            titles << item.toObject()[QStringLiteral("title")].toString();
+            urls << item.toObject()[QStringLiteral("url")].toString();
         }
 
         Dialogs::instance()->selectionDialog(tr("Select episode"), titles, [=](int index) {
@@ -113,34 +115,40 @@ void ParserYkdl::parseOutput()
     }
 
     // Video
-    QVariantHash obj = document.toVariant().toHash();
-    if (obj.contains(QStringLiteral("streams")))
+    QJsonObject root = document.object();
+    if (root.contains(QStringLiteral("streams")))
     {
-        result.title = obj[QStringLiteral("title")].toString();
-        result.danmaku_url = obj[QStringLiteral("danmaku_url")].toString();
+        result.title = root[QStringLiteral("title")].toString();
+        result.danmaku_url = root[QStringLiteral("danmaku_url")].toString();
         
         // get all available streams
-        QVariantHash streams = obj[QStringLiteral("streams")].toHash();
+        QJsonObject streams = root[QStringLiteral("streams")].toObject();
         for (auto i = streams.constBegin(); i != streams.constEnd(); i++)
         {
-            QString profile = i.value().toHash()[QStringLiteral("video_profile")].toString();
-            result.stream_types << QStringLiteral("%1 (%2)").arg(i.key(), profile);
+            QJsonObject item = i.value().toObject();
             
             // Basic stream infos
-            QVariantHash item = i.value().toHash();
             Stream stream;
             stream.container = item[QStringLiteral("container")].toString();
-            stream.referer = obj[QStringLiteral("extra")].toHash()[QStringLiteral("referer")].toString();
-            stream.ua = obj[QStringLiteral("extra")].toHash()[QStringLiteral("ua")].toString();
+            stream.referer = root[QStringLiteral("extra")].toObject()[QStringLiteral("referer")].toString();
+            stream.ua = root[QStringLiteral("extra")].toObject()[QStringLiteral("ua")].toString();
             stream.is_dash = false;
             stream.seekable = true;
             
             // Write urls list
-            QVariantList urls = item[QStringLiteral("src")].toList();
+            QJsonArray urls = item[QStringLiteral("src")].toArray();
             if (urls.count() == 0)   // this stream is not available, skip it
+            {
                 continue;
-            for (int i = 0; i < urls.size(); i++)
-                stream.urls << urls[i].toUrl();
+            }
+
+            for (const auto& url : urls)
+            {
+                stream.urls << QUrl(url.toString());
+            }
+
+            QString profile = item[QStringLiteral("video_profile")].toString();
+            result.stream_types << QStringLiteral("%1 (%2)").arg(i.key(), profile);
             
             result.streams << stream;
         }
