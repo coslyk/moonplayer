@@ -41,7 +41,3 @@ bool Application::event(QEvent *e)
     return QApplication::event(e);
 }
 
-void Application::onNewConnection()
-{
-}
-
