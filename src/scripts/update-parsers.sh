@@ -57,29 +57,17 @@ save_version_info() {
 echo "\n-------- Checking youtube-dl's updates -------"
 
 # Get latest youtube-dl version
-LATEST_VERSION=$(get_latest_version "ytdl-org/youtube-dl")
-if [ -n "$LATEST_VERSION" ]; then
-    echo "Latest version: $LATEST_VERSION"
-else
-    echo 'Error: Cannot get the latest version of youtube-dl. Please try again later.'
-    exit 0
-fi
+cat << EOF
+Temporarily the youtube-dl is not awailable due to DCMA takedown. See
 
-# Get current youtube-dl version
-CURRENT_VERSION=$(get_current_version "youtube-dl")
-echo "Current version: $CURRENT_VERSION"
-if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
-    echo "Youtube-dl already up-to-date."
-else
-    # Download latest version
-    echo "\n ------------ Updating youtube-dl -------------"
-    echo "Downloading latest version..."
-    rm -f youtube-dl
-    downloader youtube-dl "https://github.com/ytdl-org/youtube-dl/releases/download/$LATEST_VERSION/youtube-dl"
-    chmod a+x youtube-dl
-    save_version_info "youtube-dl" "$LATEST_VERSION"
-fi
+    https://github.com/ytdl-org/youtube-dl/
 
+for more information.
+
+To use youtube-dl, you can download it manually and put it into system's
+PATH, or install it with the package manager.
+
+EOF
 
 
 ### Update ykdl
