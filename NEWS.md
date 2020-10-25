@@ -1,3 +1,7 @@
+### version 3.5.2 (2020.10.25)
+
+1. Remove built-in youtube-dl due to DCMA takedown ([#100](https://github.com/coslyk/moonplayer/issues/100))
+
 ### version 3.5 (2020.10.15)
 
 1. Make titlebar larger ([#98](https://github.com/coslyk/moonplayer/issues/98))
