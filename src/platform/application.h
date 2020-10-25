@@ -18,7 +18,7 @@
 #define APPLICATION_H
 
 #include <QApplication>
-    class QLocalServer;
+class QLocalServer;
 class QLocalSocket;
 
 /* MacOS handles file opening in a different way.

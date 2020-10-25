@@ -20,8 +20,8 @@
 #include <QPlainTextEdit>
 #include <QProcess>
 
-    /* Open a console window and launch scripts */
-    class Console : public QPlainTextEdit
+/* Open a console window and launch scripts */
+class Console : public QPlainTextEdit
 {
     Q_OBJECT
 

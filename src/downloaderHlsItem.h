@@ -20,7 +20,7 @@
 #include "downloaderAbstractItem.h"
 #include <QProcess>
 
-    class DownloaderHlsItem : public DownloaderAbstractItem
+class DownloaderHlsItem : public DownloaderAbstractItem
 {
     Q_OBJECT
     

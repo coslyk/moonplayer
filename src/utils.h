@@ -19,7 +19,7 @@
 
 #include <QObject>
 
-    class Utils : public QObject
+class Utils : public QObject
 {
     Q_OBJECT
     

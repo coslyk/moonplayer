@@ -20,7 +20,7 @@
 #include <QObject>
 #include <QUrl>
 
-    class Downloader : public QObject
+class Downloader : public QObject
 {
     Q_OBJECT
 

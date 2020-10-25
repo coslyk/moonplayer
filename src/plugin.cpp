@@ -23,9 +23,8 @@
 #include <QJSEngine>
 #include <QLocale>
 
-    // Load all plugins
-    QObjectList
-    Plugin::loadPlugins()
+// Load all plugins
+QObjectList Plugin::loadPlugins()
 {
     QObjectList result;
     QDir pluginsDir = QDir(userResourcesPath() + QStringLiteral("/plugins"));

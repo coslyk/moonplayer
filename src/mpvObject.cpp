@@ -51,10 +51,10 @@
 #include <qpa/qplatformnativeinterface.h>
 #endif
 
-    /* MPV Renderer */
 
-    static void *
-    get_proc_address_mpv(void *ctx, const char *name) {
+/* MPV Renderer */
+static void *get_proc_address_mpv(void *ctx, const char *name)
+{
     Q_UNUSED(ctx)
     
     QOpenGLContext *glctx = QOpenGLContext::currentContext();

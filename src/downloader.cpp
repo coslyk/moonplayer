@@ -21,7 +21,7 @@
 #include "downloaderHlsItem.h"
 #include "downloaderItem.h"
 
-    Downloader::Downloader(QObject *parent) : QObject(parent)
+Downloader::Downloader(QObject *parent) : QObject(parent)
 {
 }
 

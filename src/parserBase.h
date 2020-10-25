@@ -20,7 +20,7 @@
 #include <QObject>
 #include <QUrl>
 
-    class ParserBase : public QObject
+class ParserBase : public QObject
 {
     Q_OBJECT
 public:

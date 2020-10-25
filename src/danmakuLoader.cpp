@@ -26,12 +26,11 @@
 #include <sstream>
 #include "mpvObject.h"
 
-    DanmakuLoader DanmakuLoader::s_instance;
+DanmakuLoader DanmakuLoader::s_instance;
 
 
 DanmakuLoader::DanmakuLoader(QObject *parent) :
-    QObject(parent)
-, m_reply(nullptr)
+    QObject(parent), m_reply(nullptr)
 {
 }
 

@@ -26,7 +26,7 @@
 #include <QTimer>
 #include <QUrl>
 
-    Application::Application(int &argc, char **argv) : QApplication(argc, argv)
+Application::Application(int &argc, char **argv) : QApplication(argc, argv)
 {
     m_argc = argc;
     m_argv = argv;

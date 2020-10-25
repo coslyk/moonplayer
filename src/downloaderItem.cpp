@@ -22,8 +22,7 @@
 #include <QSettings>
 #include "platform/paths.h"
 
-    QList <FileDownloader *>
-        DownloaderItem::s_waiting;
+QList <FileDownloader *> DownloaderItem::s_waiting;
 std::atomic<int> DownloaderItem::s_threadCount(0);
 
 

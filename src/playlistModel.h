@@ -20,7 +20,7 @@
 #include <QAbstractListModel>
 #include <QUrl>
 
-    class PlaylistModel : public QAbstractListModel
+class PlaylistModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int playingIndex MEMBER m_playingIndex NOTIFY playingIndexChanged)

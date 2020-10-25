@@ -20,8 +20,9 @@
 #include <QObject>
 #include <QJSValue>
 
-    /* API for plugins */
-    class JSAPIObject : public QObject {
+/* API for plugins */
+class JSAPIObject : public QObject
+{
     Q_OBJECT
 public:
     JSAPIObject(const QString &id, QObject* parent);

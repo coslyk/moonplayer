@@ -21,7 +21,7 @@
 #include "parserBase.h"
 #include <QProcess>
 
-    class ParserYkdl : public ParserBase
+class ParserYkdl : public ParserBase
 {
     Q_OBJECT
 public:

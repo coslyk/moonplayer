@@ -18,7 +18,7 @@
 #include <QScrollBar>
 #include <QTextCodec>
 
-    Console::Console(QWidget *parent) : QPlainTextEdit(parent)
+Console::Console(QWidget *parent) : QPlainTextEdit(parent)
 {
     // Show as a window
     setWindowFlag(Qt::Window, true);

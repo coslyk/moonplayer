@@ -19,8 +19,7 @@
 #include <QOpenGLContext>
 #include <QSurfaceFormat>
 
-    void
-    detectOpenGLEarly()
+void detectOpenGLEarly()
 {
 }
 

@@ -24,7 +24,7 @@
 
 #include <Danmaku2ASS/AssBuilder.h>
 
-    class MpvRenderer;
+class MpvRenderer;
 
 class MpvObject : public QQuickFramebufferObject
 {

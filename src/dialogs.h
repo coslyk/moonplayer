@@ -20,8 +20,8 @@
 #include <QObject>
 #include <functional>
 
-    // Show dialogs in QML
-    class Dialogs : public QObject
+// Show dialogs in QML
+class Dialogs : public QObject
 {
     Q_OBJECT
 

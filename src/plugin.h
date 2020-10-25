@@ -21,8 +21,8 @@
 #include <QJSValue>
 #include <QJSEngine>
 
-    class Plugin : public QObject {
-    
+class Plugin : public QObject
+{    
     Q_OBJECT
     
     Q_PROPERTY(QString name             READ name                       NOTIFY nameChanged)

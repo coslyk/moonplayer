@@ -19,8 +19,7 @@
 #include <QSurfaceFormat>
 #include <QSettings>
 
-    void
-    detectOpenGLEarly()
+void detectOpenGLEarly()
 {
     // Request OpenGL 4.1 if possible on OSX, otherwise it defaults to 2.0
     // This needs to be done before we create the QGuiApplication

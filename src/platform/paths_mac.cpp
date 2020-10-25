@@ -19,8 +19,7 @@
 #include <QCoreApplication>
 #include <QStandardPaths>
 
-    QString
-    userResourcesPath()
+QString userResourcesPath()
 {
     static QString path;
     if (path.isNull())

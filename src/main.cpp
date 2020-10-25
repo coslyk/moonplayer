@@ -33,7 +33,7 @@
 #include "plugin.h"
 #include "utils.h"
 
-    int main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     qputenv("PYTHONIOENCODING", QByteArrayLiteral("utf-8"));
 

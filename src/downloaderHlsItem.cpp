@@ -27,7 +27,7 @@
 #include "accessManager.h"
 #include "platform/paths.h"
 
-    DownloaderHlsItem::DownloaderHlsItem(const QString &filepath, const QUrl &url, const QUrl &danmakuUrl, QObject *parent) : DownloaderAbstractItem(filepath, danmakuUrl, parent)
+DownloaderHlsItem::DownloaderHlsItem(const QString &filepath, const QUrl &url, const QUrl &danmakuUrl, QObject *parent) : DownloaderAbstractItem(filepath, danmakuUrl, parent)
 {
     // Read proxy settings
     QSettings settings;

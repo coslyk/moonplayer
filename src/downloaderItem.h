@@ -21,7 +21,7 @@
 #include <QDir>
 #include <atomic>
 
-    class QProcess;
+class QProcess;
 class FileDownloader;
 
 class DownloaderItem : public DownloaderAbstractItem

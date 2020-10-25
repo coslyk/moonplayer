@@ -24,8 +24,7 @@
 #include "accessManager.h"
 #include "console.h"
 
-    void
-    Utils::checkUpdate()
+void Utils::checkUpdate()
 {
     QUrl url(QStringLiteral("https://raw.githubusercontent.com/coslyk/moonplayer/develop/CMakeLists.txt"));
     QNetworkReply* reply = NetworkAccessManager::instance()->get(QNetworkRequest(url));

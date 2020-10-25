@@ -20,7 +20,7 @@
 #include <QFile>
 #include <QUrl>
 
-    class QNetworkReply;
+class QNetworkReply;
 
 class FileDownloader : public QObject
 {

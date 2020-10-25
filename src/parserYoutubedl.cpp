@@ -25,7 +25,7 @@
 #include <QSettings>
 #include <QTextCodec>
 
-    ParserYoutubeDL ParserYoutubeDL::s_instance;
+ParserYoutubeDL ParserYoutubeDL::s_instance;
 
 ParserYoutubeDL::ParserYoutubeDL(QObject *parent) : ParserBase(parent)
 {

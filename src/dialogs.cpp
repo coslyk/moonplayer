@@ -16,7 +16,7 @@
 
 #include "dialogs.h"
 
-    Dialogs *Dialogs::s_instance = nullptr;
+Dialogs *Dialogs::s_instance = nullptr;
 
 Dialogs::Dialogs(QObject* parent) : QObject(parent)
 {

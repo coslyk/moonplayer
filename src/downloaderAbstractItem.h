@@ -20,7 +20,7 @@
 #include <QObject>
 #include <QUrl>
 
-    class DownloaderAbstractItem : public QObject
+class DownloaderAbstractItem : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name      READ name        NOTIFY nameChanged)

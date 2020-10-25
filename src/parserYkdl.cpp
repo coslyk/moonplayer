@@ -29,7 +29,7 @@
 #include "dialogs.h"
 #include "playlistModel.h"
 
-    ParserYkdl ParserYkdl::s_instance;
+ParserYkdl ParserYkdl::s_instance;
 
 ParserYkdl::ParserYkdl(QObject *parent) : ParserBase(parent)
 {

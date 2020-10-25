@@ -21,7 +21,7 @@
 #include <QFileInfo>
 #include <QSettings>
 
-    PlaylistModel PlaylistModel::s_instance;
+PlaylistModel PlaylistModel::s_instance;
 
 PlaylistModel::PlaylistModel(QObject* parent) :
     QAbstractListModel(parent), m_playingIndex(-1)

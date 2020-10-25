@@ -25,7 +25,7 @@
 #include "playlistModel.h"
 #include "utils.h"
 
-    ParserBase::ParserBase(QObject *parent) : QObject(parent)
+ParserBase::ParserBase(QObject *parent) : QObject(parent)
 {
 }
 

@@ -22,11 +22,10 @@
 #include <cstdio>
 #include "../mpvObject.h"
 
-    // Attempt to reuse mpv's code for detecting whether we want GLX or EGL (which
-    // is tricky to do because of hardware decoding concerns). This is not pretty,
-    // but quite effective and without having to duplicate too much GLX/EGL code.
-    static QByteArray
-    probeHwdecInterop()
+// Attempt to reuse mpv's code for detecting whether we want GLX or EGL (which
+// is tricky to do because of hardware decoding concerns). This is not pretty,
+// but quite effective and without having to duplicate too much GLX/EGL code.
+static QByteArray probeHwdecInterop()
 {
     QByteArray result;
     mpv_handle *mpv = mpv_create();

@@ -19,8 +19,7 @@
 
 #include <QString>
 
-    QString
-    userResourcesPath(void);
+QString userResourcesPath(void);
 
 // FFmpeg's file path
 QString ffmpegFilePath(void);

@@ -18,7 +18,7 @@
 #define DANMAKULOADER_H
 
 #include <QObject>
-    class QNetworkReply;
+class QNetworkReply;
 
 class DanmakuLoader : public QObject
 {

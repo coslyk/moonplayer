@@ -22,7 +22,7 @@
 #include <QNetworkReply>
 #include <QSettings>
 
-    JSAPIObject::JSAPIObject(const QString &id, QObject *parent) : QObject(parent), m_id(id)
+JSAPIObject::JSAPIObject(const QString &id, QObject *parent) : QObject(parent), m_id(id)
 {
 }
 
