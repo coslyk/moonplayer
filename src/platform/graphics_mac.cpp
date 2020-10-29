@@ -14,12 +14,10 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "detectOpengl.h"
-#include <mpv/client.h>
+#include "graphics.h"
 #include <QSurfaceFormat>
-#include <QSettings>
 
-void detectOpenGLEarly()
+void Graphics::detectOpenGLEarly()
 {
     // Request OpenGL 4.1 if possible on OSX, otherwise it defaults to 2.0
     // This needs to be done before we create the QGuiApplication
@@ -31,6 +29,19 @@ void detectOpenGLEarly()
     QSurfaceFormat::setDefaultFormat(format);
 }
 
-void detectOpenGLLate()
+
+void Graphics::detectOpenGLLate()
 {
+}
+
+
+void *Graphics::x11Display()
+{
+    return nullptr;
+}
+
+
+void *Graphics::waylandDisplay()
+{
+    return nullptr;
 }

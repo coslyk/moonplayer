@@ -14,16 +14,16 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "detectOpengl.h"
+#include "graphics.h"
 #include <QCoreApplication>
 #include <QOpenGLContext>
 #include <QSurfaceFormat>
 
-void detectOpenGLEarly()
+void Graphics::detectOpenGLEarly()
 {
 }
 
-void detectOpenGLLate()
+void Graphics::detectOpenGLLate()
 {
     if (!QCoreApplication::testAttribute(Qt::AA_UseOpenGLES))
         return;
@@ -47,4 +47,16 @@ void detectOpenGLLate()
             break;
         }
     }
+}
+
+
+void *Graphics::x11Display()
+{
+    return nullptr;
+}
+
+
+void *Graphics::waylandDisplay()
+{
+    return nullptr;
 }

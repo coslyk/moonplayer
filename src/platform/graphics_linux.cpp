@@ -14,46 +14,49 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "detectOpengl.h"
+#include "graphics.h"
 #include <mpv/client.h>
 #include <QApplication>
-#include <QSurfaceFormat>
 #include <QSettings>
-#include <cstdio>
+#include <QGuiApplication>
+#include <QX11Info>
+#include <qpa/qplatformnativeinterface.h>
 #include "../mpvObject.h"
+
 
 // Attempt to reuse mpv's code for detecting whether we want GLX or EGL (which
 // is tricky to do because of hardware decoding concerns). This is not pretty,
 // but quite effective and without having to duplicate too much GLX/EGL code.
-static QByteArray probeHwdecInterop()
+static std::string probeHwdecInterop()
 {
-    QByteArray result;
-    mpv_handle *mpv = mpv_create();
-    if (!mpv)
-        return QByteArray();
-    mpv_set_option_string(mpv, "hwdec-preload", "auto");
-    mpv_set_option_string(mpv, "opengl-hwdec-interop", "auto");
+    std::string result;
+    Mpv::Handle mpv;
+
+    mpv.set_option_string("gpu-hwdec-interop", "auto");
+
     // Actually creating a window is required. There is currently no way to keep
     // this window hidden or invisible.
-    mpv_set_option_string(mpv, "force-window", "yes");
+    mpv.set_option_string("force-window", "yes");
+
     // As a mitigation, put the window in the top/right corner, and make it as
     // small as possible by forcing 1x1 size and removing window borders.
-    mpv_set_option_string(mpv, "geometry", "1x1+0+0");
-    mpv_set_option_string(mpv, "border", "no");
-    if (mpv_initialize(mpv) < 0)
-        return QByteArray();
-    char *str = mpv_get_property_string(mpv, "hwdec-interop");
-    if (str)
+    mpv.set_option_string("geometry", "1x1+0+0");
+    mpv.set_option_string("border", "no");
+    if (mpv.initialize() < 0)
     {
-        printf("Detected OpenGL backend: %s\n", str);
-        result = str;
-        mpv_free(str);
+        return std::string();
     }
-    mpv_terminate_destroy(mpv);
+
+    result = mpv.get_property_string("hwdec-interop");
+    if (!result.empty())
+    {
+        qInfo("Detected OpenGL backend: %s\n", result.c_str());
+    }
     return result;
 }
 
-void detectOpenGLEarly()
+
+void Graphics::detectOpenGLEarly()
 {
     MpvObject::Hwdec hwdec = (MpvObject::Hwdec) QSettings(QStringLiteral("coslyk"), QStringLiteral("MoonPlayer")).value(QStringLiteral("video/hwdec")).toInt();
     if (hwdec == MpvObject::VAAPI)
@@ -69,6 +72,28 @@ void detectOpenGLEarly()
     }
 }
 
-void detectOpenGLLate()
+
+void Graphics::detectOpenGLLate()
 {
+}
+
+
+void* Graphics::x11Display()
+{
+    if (QX11Info::isPlatformX11())
+    {
+        return QX11Info::display();
+    }
+    return nullptr;
+}
+
+
+void* Graphics::waylandDisplay()
+{
+    if (!QX11Info::isPlatformX11())
+    {
+        Q_ASSERT(QGuiApplication::platformNativeInterface() != nullptr);
+        return QGuiApplication::platformNativeInterface()->nativeResourceForWindow(QByteArrayLiteral("display"), NULL);
+    }
+    return nullptr;
 }

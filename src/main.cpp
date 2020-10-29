@@ -28,7 +28,7 @@
 #include "mpvObject.h"
 #include "playlistModel.h"
 #include "platform/application.h"
-#include "platform/detectOpengl.h"
+#include "platform/graphics.h"
 #include "platform/paths.h"
 #include "plugin.h"
 #include "utils.h"
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 {
     qputenv("PYTHONIOENCODING", QByteArrayLiteral("utf-8"));
 
-    detectOpenGLEarly();
+    Graphics::detectOpenGLEarly();
     
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     Application app(argc, argv);
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     app.setApplicationName(QStringLiteral("MoonPlayer"));
     app.setApplicationVersion(QStringLiteral(MOONPLAYER_VERSION));
     
-    detectOpenGLLate();
+    Graphics::detectOpenGLLate();
     
     if (!app.parseArgs())
         return 0;

@@ -17,7 +17,20 @@
 #ifndef DETECTOPENGL_H
 #define DETECTOPENGL_H
 
+namespace Graphics {
+
+// Run before QApplication
 void detectOpenGLEarly(void);
+
+// Run after QApplication
 void detectOpenGLLate(void);
+
+// X11 display
+void* x11Display(void);
+
+// Wayland display
+void* waylandDisplay(void);
+
+}
 
 #endif // DETECTOPENGL_H

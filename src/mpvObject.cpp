@@ -21,7 +21,6 @@
 
 #include <QDir>
 #include <QOpenGLContext>
-#include <QGuiApplication>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QMetaType>
@@ -31,25 +30,7 @@
 #include "accessManager.h"
 #include "danmakuLoader.h"
 #include "playlistModel.h"
-
-
-// Workaround for some gl.h headers
-#ifndef GLAPIENTRY
-#ifdef APIENTRY
-#define GLAPIENTRY APIENTRY
-#elif defined(Q_OS_WIN)
-#define GLAPIENTRY __stdcall
-#else
-#define GLAPIENTRY
-#endif
-#endif
-
-// Linux display server
-#ifdef Q_OS_LINUX
-#include <QGuiApplication>
-#include <QX11Info>
-#include <qpa/qplatformnativeinterface.h>
-#endif
+#include "platform/graphics.h"
 
 
 /* MPV Renderer */
@@ -77,31 +58,19 @@ public:
     // This happens on the initial frame.
     QOpenGLFramebufferObject * createFramebufferObject(const QSize & size)
     {
-        Q_ASSERT(QGuiApplication::platformNativeInterface() != nullptr);
         Q_ASSERT(m_obj != nullptr);
 
         // init mpv_gl
         if (!m_obj->m_mpv.renderer_initialized())
         {
-            mpv_opengl_init_params gl_init_params{get_proc_address_mpv, nullptr, nullptr};
-            mpv_render_param params[]{
-                {MPV_RENDER_PARAM_API_TYPE, const_cast<char *>(MPV_RENDER_API_TYPE_OPENGL)},
-                {MPV_RENDER_PARAM_OPENGL_INIT_PARAMS, &gl_init_params},
-                {MPV_RENDER_PARAM_INVALID, nullptr},  // Placeholder for Linux display parameters
-                {MPV_RENDER_PARAM_INVALID, nullptr}
+            mpv_opengl_init_params gl_init_params{ get_proc_address_mpv, nullptr, nullptr };
+            mpv_render_param params[] {
+                { MPV_RENDER_PARAM_API_TYPE,           const_cast<char *>(MPV_RENDER_API_TYPE_OPENGL) },
+                { MPV_RENDER_PARAM_OPENGL_INIT_PARAMS, &gl_init_params},
+                { MPV_RENDER_PARAM_X11_DISPLAY,        Graphics::x11Display() },
+                { MPV_RENDER_PARAM_WL_DISPLAY,         Graphics::waylandDisplay() },
+                { MPV_RENDER_PARAM_INVALID, nullptr}
             };
-        
-            // Set Linux display
-#ifdef Q_OS_LINUX
-            if (QX11Info::isPlatformX11())  // X11
-            {
-                params[2].type = MPV_RENDER_PARAM_X11_DISPLAY;
-                params[2].data = QX11Info::display();
-            } else {    // Wayland
-                params[2].type = MPV_RENDER_PARAM_WL_DISPLAY;
-                params[2].data = QGuiApplication::platformNativeInterface()->nativeResourceForWindow(QByteArrayLiteral("display"), NULL);
-            }
-#endif
 
             if (m_obj->m_mpv.renderer_initialize(params) < 0)
                 throw std::runtime_error("failed to initialize mpv GL context");

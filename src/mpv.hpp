@@ -111,6 +111,15 @@ namespace Mpv {
             return v;
         }
 
+        // Get mpv property in string.
+        inline std::string get_property_string(const char *name) const
+        {
+            char *s = mpv_get_property_string(m_handle, name);
+            std::string result = s ? s : std::string();
+            if (s) mpv_free(s);
+            return result;
+        }
+
         // Observe mpv property. T must be: int, int64_t, double, const char* or mpv_node*
         template <class T>
         inline int observe_property(const char *name, uint64_t reply_userdata = 0) const
