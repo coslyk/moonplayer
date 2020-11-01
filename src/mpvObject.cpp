@@ -15,7 +15,6 @@
  */
 
 #include "mpvObject.h"
-#include <mpv/qthelper.hpp>
 #include <stdexcept>
 #include <clocale>
 
@@ -139,7 +138,7 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
     m_mpv.observe_property<int>("paused-for-cache");
     m_mpv.observe_property<int>("core-idle");
     m_mpv.observe_property<int>("pause");
-    m_mpv.observe_property<mpv_node*>("track-list");
+    m_mpv.observe_property<Mpv::Node*>("track-list");
     m_mpv.request_log_messages("warn");
     
     
@@ -538,42 +537,48 @@ void MpvObject::onMpvEvent()
             {
                 m_subtitles.clear();
                 m_audioTracks.clear();
-                mpv_node* node = static_cast<mpv_node*>(prop->data);
-                QVariantList trackList = mpv::qt::node_to_variant(node).toList();
-                for (const auto& i : trackList)
+                Mpv::Node* trackList = static_cast<Mpv::Node*>(prop->data);
+                for (const auto& track : *trackList)
                 {
-                    QVariantHash item = i.toHash();
-                    if (item[QStringLiteral("type")].toString() == QStringLiteral("sub"))  // Subtitles
+                    try
                     {
-                        int id = item[QStringLiteral("id")].toInt();
-                        QString title = item[QStringLiteral("title")].toString();
-                        if (m_subtitles.count() <= id)
+                        if (track["type"] == "sub") // Subtitles
                         {
-                            for (int j = m_subtitles.count(); j < id; j++)
-                                m_subtitles.append(QLatin1Char('#') + QString::number(j));
-                            m_subtitles.append(title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title);
+                            int64_t id = track["id"].value<int64_t>();
+                            QString title = QString::fromUtf8(track["title"].value<const char *>());
+                            if (m_subtitles.count() <= id)
+                            {
+                                for (int j = m_subtitles.count(); j < id; j++)
+                                    m_subtitles.append(QLatin1Char('#') + QString::number(j));
+                                m_subtitles.append(title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title);
+                            }
+                            else
+                            {
+                                m_subtitles[id] = title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title;
+                            }
                         }
-                        else
-                        {
-                            m_subtitles[id] = title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title;
-                        }
-                    }
 
-                    else if (item[QStringLiteral("type")].toString() == QStringLiteral("audio"))  // Audio tracks
-                    {
-                        int id = item[QStringLiteral("id")].toInt();
-                        QString title = item[QStringLiteral("title")].toString();
-                        if (m_audioTracks.count() <= id)
+                        else if (track["type"] == "audio") // Audio tracks
                         {
-                            for (int j = m_audioTracks.count(); j < id; j++)
-                                m_audioTracks.append(QLatin1Char('#') + QString::number(j));
-                            m_audioTracks.append(title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title);
-                        }
-                        else
-                        {
-                            m_audioTracks[id] = title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title;
+                            int64_t id = track["id"].value<int64_t>();
+                            QString title = QString::fromUtf8(track["title"].value<const char *>());
+                            if (m_audioTracks.count() <= id)
+                            {
+                                for (int j = m_audioTracks.count(); j < id; j++)
+                                    m_audioTracks.append(QLatin1Char('#') + QString::number(j));
+                                m_audioTracks.append(title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title);
+                            }
+                            else
+                            {
+                                m_audioTracks[id] = title.isEmpty() ? QLatin1Char('#') + QString::number(id) : title;
+                            }
                         }
                     }
+                    catch(const std::exception&)
+                    {
+                        continue;
+                    }
+                    
                 }
                 emit subtitlesChanged();
                 emit audioTracksChanged();
