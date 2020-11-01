@@ -500,7 +500,7 @@ void MpvObject::onMpvEvent()
                 {
                     m_state = VIDEO_PAUSED;
                 }
-                else if (m_state == VIDEO_PAUSED)
+                else if (!pause && m_state == VIDEO_PAUSED)
                 {
                     m_state = VIDEO_PLAYING;
                 }
