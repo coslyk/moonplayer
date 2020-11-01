@@ -33,17 +33,6 @@
 
 
 /* MPV Renderer */
-static void *get_proc_address_mpv(void *ctx, const char *name)
-{
-    Q_UNUSED(ctx)
-    
-    QOpenGLContext *glctx = QOpenGLContext::currentContext();
-    if (!glctx)
-        return nullptr;
-    return reinterpret_cast<void *>(glctx->getProcAddress(QByteArray(name)));
-}
-
-
 class MpvRenderer : public QQuickFramebufferObject::Renderer
 {
     MpvObject *m_obj;
@@ -62,7 +51,14 @@ public:
         // init mpv_gl
         if (!m_obj->m_mpv.renderer_initialized())
         {
-            mpv_opengl_init_params gl_init_params{ get_proc_address_mpv, nullptr, nullptr };
+            mpv_opengl_init_params gl_init_params {
+                [](void *, const char *name) -> void* {
+                    QOpenGLContext *glctx = QOpenGLContext::currentContext();
+                    return glctx ? reinterpret_cast<void *>(glctx->getProcAddress(QByteArray(name))) : nullptr;
+                },
+                nullptr, nullptr
+            };
+
             mpv_render_param params[] {
                 { MPV_RENDER_PARAM_API_TYPE,           const_cast<char *>(MPV_RENDER_API_TYPE_OPENGL) },
                 { MPV_RENDER_PARAM_OPENGL_INIT_PARAMS, &gl_init_params},
@@ -135,9 +131,9 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
     
     m_mpv.observe_property<int64_t>("duration");
     m_mpv.observe_property<int64_t>("playback-time");
-    m_mpv.observe_property<int>("paused-for-cache");
-    m_mpv.observe_property<int>("core-idle");
-    m_mpv.observe_property<int>("pause");
+    m_mpv.observe_property<bool>("paused-for-cache");
+    m_mpv.observe_property<bool>("core-idle");
+    m_mpv.observe_property<bool>("pause");
     m_mpv.observe_property<Mpv::Node*>("track-list");
     m_mpv.request_log_messages("warn");
     
@@ -238,7 +234,7 @@ void MpvObject::play()
 {
     if (m_state == VIDEO_PAUSED)
     {
-        m_mpv.set_property_async("pause", 0);
+        m_mpv.set_property_async("pause", false);
     }
 }
 
@@ -246,7 +242,7 @@ void MpvObject::pause()
 {
     if (m_state == VIDEO_PLAYING)
     {
-        m_mpv.set_property_async("pause", 1);
+        m_mpv.set_property_async("pause", true);
     }
 }
 
@@ -291,7 +287,7 @@ void MpvObject::setSubVisible(bool subVisible)
     if (m_subVisible == subVisible)
         return;
     m_subVisible = subVisible;
-    m_mpv.set_property_async("sub-visibility", static_cast<int>(m_subVisible));
+    m_mpv.set_property_async("sub-visibility", m_subVisible);
     emit subVisibleChanged();
 }
 
@@ -578,13 +574,13 @@ void MpvObject::onMpvEvent()
                     {
                         continue;
                     }
-                    
                 }
                 emit subtitlesChanged();
                 emit audioTracksChanged();
             }
             break;
         }
+        
         default: break;
         }
     }
@@ -598,7 +594,7 @@ void MpvObject::setProperty(const QString &name, const QVariant &value)
     {
         case (int) QMetaType::Bool:
         {
-            int v = value.toInt();
+            bool v = value.toBool();
             m_mpv.set_property_async (name.toLatin1().constData(), v);
             break;
         }

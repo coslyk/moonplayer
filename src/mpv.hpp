@@ -25,13 +25,15 @@ namespace Mpv
 {
     class Node;
 
+    constexpr mpv_format to_mpv_format(bool) { return MPV_FORMAT_FLAG; }
     constexpr mpv_format to_mpv_format(int) { return MPV_FORMAT_FLAG; }
     constexpr mpv_format to_mpv_format(int64_t) { return MPV_FORMAT_INT64; }
     constexpr mpv_format to_mpv_format(double) { return MPV_FORMAT_DOUBLE; }
     constexpr mpv_format to_mpv_format(const char*) { return MPV_FORMAT_STRING; }
     constexpr mpv_format to_mpv_format(Node*) { return MPV_FORMAT_NODE; }
 
-    constexpr bool node_to_value(const mpv_node* node, bool) { return node->u.flag; }
+    constexpr bool node_to_value(const mpv_node *node, bool) { return node->u.flag; }
+    constexpr int64_t node_to_value(const mpv_node *node, int) { return node->u.flag; }
     constexpr int64_t node_to_value(const mpv_node* node, int64_t) { return node->u.int64; }
     constexpr double node_to_value(const mpv_node* node, double) { return node->u.double_; }
     constexpr const char* node_to_value(const mpv_node* node, const char*) { return node->u.string; }
@@ -72,24 +74,10 @@ namespace Mpv
             return mpv_initialize(m_handle);
         }
 
-        // Set mpv option. T must be: int, int64_t, double, const char* or mpv_node*
-        template <class T>
-        inline int set_option(const char *name, T data) const noexcept
-        {
-            static_assert(!std::is_same<bool, T>(), "Type can't be bool, use int instead.");
-            return mpv_set_option(m_handle, name, to_mpv_format(data), &data);
-        }
-
         // Set option with string value
         inline int set_option_string(const char *name, const char *data) const noexcept
         {
             return mpv_set_option_string(m_handle, name, data);
-        }
-
-        // Mpv command
-        inline int command(const char **args) const noexcept
-        {
-            return mpv_command(m_handle, args);
         }
 
         // Async mpv command
@@ -98,27 +86,26 @@ namespace Mpv
             return mpv_command_async(m_handle, reply_userdata, args);
         }
 
-        // Set mpv property. T must be: int, int64_t, double, const char* or mpv_node*
-        template <class T>
-        inline int set_property(const char *name, T data) const noexcept
+        // Set mpv property with boolean type
+        inline int set_property_async(const char *name, bool data, uint64_t reply_userdata = 0) const noexcept
         {
-            static_assert(!std::is_same<bool, T>(), "Type can't be bool, use int instead.");
-            return mpv_set_property(m_handle, name, to_mpv_format(data), &data);
+            int tmp = data;
+            return mpv_set_property_async(m_handle, reply_userdata, name, MPV_FORMAT_FLAG, &tmp);
         }
 
-        // Set mpv property asynchronally. T must be: int, int64_t, double, const char* or mpv_node*
+        // Set mpv property asynchronally. T must be: int64_t, double, const char* or Mpv::Node*
         template <class T>
         inline int set_property_async(const char *name, T data, uint64_t reply_userdata = 0) const noexcept
         {
-            static_assert(!std::is_same<bool, T>(), "Type can't be bool, use int instead.");
+            static_assert(!std::is_same<bool, T>() && !std::is_same<int, T>(), "Type can't be bool or int.");
             return mpv_set_property_async(m_handle, reply_userdata, name, to_mpv_format(data), &data);
         }
 
-        // Get mpv property. T must be: int, int64_t, double, const char* or mpv_node*
+        // Get mpv property. T must be: int64_t, double, const char* or Mpv::Node*
         template <class T>
         inline T get_property(const char *name) const noexcept
         {
-            static_assert(!std::is_same<bool, T>(), "Type can't be bool, use int instead.");
+            static_assert(!std::is_same<bool, T>() && !std::is_same<int, T>(), "Type can't be bool or int.");
             T v = 0;
             mpv_get_property(m_handle, name, to_mpv_format(v), &v);
             return v;
@@ -133,11 +120,11 @@ namespace Mpv
             return result;
         }
 
-        // Observe mpv property. T must be: int, int64_t, double, const char* or mpv_node*
+        // Observe mpv property. T must be: bool, int64_t, double, const char* or Mpv::Node*
         template <class T>
         inline int observe_property(const char *name, uint64_t reply_userdata = 0) const noexcept
         {
-            static_assert(!std::is_same<bool, T>(), "Type can't be bool, use int instead.");
+            static_assert(!std::is_same<int, T>(), "Type can't be int.");
             T tmp = 0;
             return mpv_observe_property(m_handle, reply_userdata, name, to_mpv_format(tmp));
         }
