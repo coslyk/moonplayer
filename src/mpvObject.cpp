@@ -122,19 +122,19 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
     QSettings settings;
 
     // set mpv options
-    m_mpv.set_option_string("pause", "no");
-    m_mpv.set_option_string("vo", "libmpv");           // Force to use libmpv
-    m_mpv.set_option_string("softvol", "yes");         // mpv handles the volume
-    m_mpv.set_option_string("ytdl", "no");             // We handle video url parsing
-    m_mpv.set_option_string("screenshot-directory", QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).toUtf8().constData());
-    m_mpv.set_option_string("reset-on-next-file", "speed,video-aspect,af,sub-visibility,audio-delay,pause");
+    m_mpv.set_option("ytdl", false);           // We handle video url parsing
+    m_mpv.set_option("pause", false);          // Always play when a new file is opened
+    m_mpv.set_option("softvol", true);         // mpv handles the volume
+    m_mpv.set_option("vo", "libmpv");          // Force to use libmpv
+    m_mpv.set_option("screenshot-directory", QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).toUtf8().constData());
+    m_mpv.set_option("reset-on-next-file", "speed,video-aspect,af,sub-visibility,audio-delay,pause");
     
-    m_mpv.observe_property<int64_t>("duration");
-    m_mpv.observe_property<int64_t>("playback-time");
-    m_mpv.observe_property<bool>("paused-for-cache");
-    m_mpv.observe_property<bool>("core-idle");
-    m_mpv.observe_property<bool>("pause");
-    m_mpv.observe_property<Mpv::Node*>("track-list");
+    m_mpv.observe_property("duration");
+    m_mpv.observe_property("playback-time");
+    m_mpv.observe_property("paused-for-cache");
+    m_mpv.observe_property("core-idle");
+    m_mpv.observe_property("pause");
+    m_mpv.observe_property("track-list");
     m_mpv.request_log_messages("warn");
     
     
@@ -146,33 +146,33 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
     switch (hwdec)
     {
         case AUTO:
-            m_mpv.set_option_string("gpu-hwdec-interop", "auto");
-            m_mpv.set_option_string("hwdec", hwdecCopy ? "auto-copy" : "auto");
+            m_mpv.set_option("gpu-hwdec-interop", "auto");
+            m_mpv.set_option("hwdec", hwdecCopy ? "auto-copy" : "auto");
             break;
         case VAAPI:
-            m_mpv.set_option_string("gpu-hwdec-interop", "vaapi-egl");
-            m_mpv.set_option_string("hwdec", hwdecCopy ? "vaapi-copy" : "vaapi");
+            m_mpv.set_option("gpu-hwdec-interop", "vaapi-egl");
+            m_mpv.set_option("hwdec", hwdecCopy ? "vaapi-copy" : "vaapi");
             break;
         case VDPAU:
-            m_mpv.set_option_string("gpu-hwdec-interop", "vdpau-glx");
-            m_mpv.set_option_string("hwdec", hwdecCopy ? "vdpau-copy" : "vdpau");
+            m_mpv.set_option("gpu-hwdec-interop", "vdpau-glx");
+            m_mpv.set_option("hwdec", hwdecCopy ? "vdpau-copy" : "vdpau");
             break;
         case NVDEC:
-            m_mpv.set_option_string("hwdec", hwdecCopy ? "nvdec-copy" : "nvdec");
+            m_mpv.set_option("hwdec", hwdecCopy ? "nvdec-copy" : "nvdec");
             break;
         default: break;
     }
 
 #elif defined(Q_OS_MAC)
-    m_mpv.set_option_string("gpu-hwdec-interop", "videotoolbox");
-    m_mpv.set_option_string("hwdec", hwdecCopy ? "videotoolbox-copy" : "videotoolbox");
+    m_mpv.set_option("gpu-hwdec-interop", "videotoolbox");
+    m_mpv.set_option("hwdec", hwdecCopy ? "videotoolbox-copy" : "videotoolbox");
     
 #elif defined(Q_OS_WIN)
-    m_mpv.set_option_string("gpu-context", "angle");
+    m_mpv.set_option("gpu-context", "angle");
     if (QSysInfo::productVersion() == QStringLiteral("8.1") || QSysInfo::productVersion() == QStringLiteral("10"))
-        m_mpv.set_option_string("hwdec", hwdecCopy ? "d3d11va-copy" : "d3d11va");
+        m_mpv.set_option("hwdec", hwdecCopy ? "d3d11va-copy" : "d3d11va");
     else
-        m_mpv.set_option_string("hwdec", hwdecCopy ? "dxva2-copy" : "dxva2");
+        m_mpv.set_option("hwdec", hwdecCopy ? "dxva2-copy" : "dxva2");
 #endif
     
     if (m_mpv.initialize() < 0)
@@ -195,10 +195,10 @@ void MpvObject::open(const QUrl& fileUrl, const QUrl& danmakuUrl, const QUrl& au
     if (!fileUrl.isLocalFile())
     {
         // set referer
-        m_mpv.set_option_string("referrer", NetworkAccessManager::instance()->refererOf(fileUrl));
+        m_mpv.set_option("referrer", NetworkAccessManager::instance()->refererOf(fileUrl).constData());
 
         // set user-agent
-        m_mpv.set_option_string("user-agent", NetworkAccessManager::instance()->userAgentOf(fileUrl));
+        m_mpv.set_option("user-agent", NetworkAccessManager::instance()->userAgentOf(fileUrl).constData());
 
         /* Some websites does not allow "Range" option in http request header.
          * To hack these websites, we force ffmpeg/libav to set the stream unseekable.
@@ -206,19 +206,19 @@ void MpvObject::open(const QUrl& fileUrl, const QUrl& danmakuUrl, const QUrl& au
          */
         if (NetworkAccessManager::instance()->urlIsUnseekable(fileUrl))
         {
-            m_mpv.set_option_string("stream-lavf-o", "seekable=0");
-            m_mpv.set_option_string("force-seekable", "yes");
+            m_mpv.set_option("stream-lavf-o", "seekable=0");
+            m_mpv.set_option("force-seekable", true);
         }
         else
         {
-            m_mpv.set_option_string("stream-lavf-o", "");
-            m_mpv.set_option_string("force-seekable", "no");
+            m_mpv.set_option("stream-lavf-o", "");
+            m_mpv.set_option("force-seekable", false);
         }
     }
     else
     {
-        m_mpv.set_option_string("stream-lavf-o", "");
-        m_mpv.set_option_string("force-seekable", "no");
+        m_mpv.set_option("stream-lavf-o", "");
+        m_mpv.set_option("force-seekable", false);
     }
     
     QByteArray fileuri_str = (fileUrl.isLocalFile() ? fileUrl.toLocalFile() : fileUrl.toString()).toUtf8();
@@ -272,12 +272,10 @@ void MpvObject::setVolume(int volume)
 {
     if (m_volume == volume)
         return;
-    
-    double vol = volume;
-    m_mpv.set_property_async("volume", vol);
-    showText(QByteArrayLiteral("Volume: ") + QByteArray::number(volume));
-    
+
     m_volume = volume;
+    m_mpv.set_property_async("volume", static_cast<double>(volume));
+    showText(QByteArrayLiteral("Volume: ") + QByteArray::number(volume));
     emit volumeChanged();
 }
 
@@ -397,7 +395,7 @@ void MpvObject::onMpvEvent()
 {
     while (true)
     {
-        mpv_event *event = m_mpv.wait_event();
+        const mpv_event *event = m_mpv.wait_event();
         if (event == NULL)
             break;
         if (event->event_id == MPV_EVENT_NONE)
@@ -449,8 +447,8 @@ void MpvObject::onMpvEvent()
                 addAudioTrack(m_audioToBeAdded);
                 m_audioToBeAdded = QUrl();
             }
-            m_videoWidth = m_mpv.get_property<int64_t>("dwidth");
-            m_videoHeight = m_mpv.get_property<int64_t>("dheight");
+            m_videoWidth = m_mpv.get_property("dwidth");
+            m_videoHeight = m_mpv.get_property("dheight");
             emit videoSizeChanged();
 
             // Load danmaku
@@ -473,13 +471,20 @@ void MpvObject::onMpvEvent()
             mpv_event_property *prop = (mpv_event_property*) event->data;
 
             if (prop->data == nullptr)
+            {
                 break;
+            }
 
             QByteArray propName = prop->name;
+            const Mpv::Node &propValue = *static_cast<Mpv::Node*>(prop->data);
+            if (propValue.type() == MPV_FORMAT_NONE)
+            {
+                break;
+            }
 
             if (propName == "playback-time")
             {
-                qint64 newTime = *(qint64*) prop->data;
+                int64_t newTime = static_cast<double>(propValue);  // It's double in mpv
                 if (newTime != m_time)
                 {
                     m_time = newTime;
@@ -489,18 +494,17 @@ void MpvObject::onMpvEvent()
 
             else if (propName == "duration")
             {
-                m_duration = *(qint64*) prop->data;
+                m_duration = static_cast<double>(propValue);  // It's double in mpv
                 emit durationChanged();
             }
 
             else if (propName == "pause")
             {
-                int pause = *(int*) prop->data;
-                if (pause && m_state == VIDEO_PLAYING)
+                if (propValue && m_state == VIDEO_PLAYING)
                 {
                     m_state = VIDEO_PAUSED;
                 }
-                else if (!pause && m_state == VIDEO_PAUSED)
+                else if (!propValue && m_state == VIDEO_PAUSED)
                 {
                     m_state = VIDEO_PLAYING;
                 }
@@ -509,23 +513,25 @@ void MpvObject::onMpvEvent()
 
             else if (propName == "paused-for-cache")
             {
-                if (prop->format == MPV_FORMAT_FLAG)
+                if (propValue && m_state != STOPPED)
                 {
-                    if ((bool)*(unsigned*)prop->data && m_state != STOPPED)
-                        showText("Network is slow...");
-                    else
-                        showText("");
+                    showText("Network is slow...");
+                }
+                else
+                {
+                    showText("");
                 }
             }
 
             else if (propName == "core-idle")
             {
-                if(prop->format == MPV_FORMAT_FLAG)
+                if (propValue && m_state == VIDEO_PLAYING)
                 {
-                    if( *(unsigned*)prop->data && m_state == VIDEO_PLAYING)
-                        showText("Buffering...");
-                    else
-                        showText("");
+                    showText("Buffering...");
+                }
+                else
+                {
+                    showText("");
                 }
             }
             
@@ -533,15 +539,14 @@ void MpvObject::onMpvEvent()
             {
                 m_subtitles.clear();
                 m_audioTracks.clear();
-                Mpv::Node* trackList = static_cast<Mpv::Node*>(prop->data);
-                for (const auto& track : *trackList)
+                for (const auto& track : propValue)
                 {
                     try
                     {
                         if (track["type"] == "sub") // Subtitles
                         {
-                            int64_t id = track["id"].value<int64_t>();
-                            QString title = QString::fromUtf8(track["title"].value<const char *>());
+                            int64_t id = track["id"];
+                            QString title = QString::fromUtf8(track["title"]);
                             if (m_subtitles.count() <= id)
                             {
                                 for (int j = m_subtitles.count(); j < id; j++)
@@ -556,8 +561,8 @@ void MpvObject::onMpvEvent()
 
                         else if (track["type"] == "audio") // Audio tracks
                         {
-                            int64_t id = track["id"].value<int64_t>();
-                            QString title = QString::fromUtf8(track["title"].value<const char *>());
+                            int64_t id = track["id"];
+                            QString title = QString::fromUtf8(track["title"]);
                             if (m_audioTracks.count() <= id)
                             {
                                 for (int j = m_audioTracks.count(); j < id; j++)

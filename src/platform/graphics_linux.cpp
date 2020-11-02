@@ -32,16 +32,16 @@ static std::string probeHwdecInterop()
     std::string result;
     Mpv::Handle mpv;
 
-    mpv.set_option_string("gpu-hwdec-interop", "auto");
+    mpv.set_option("gpu-hwdec-interop", "auto");
 
     // Actually creating a window is required. There is currently no way to keep
     // this window hidden or invisible.
-    mpv.set_option_string("force-window", "yes");
+    mpv.set_option("force-window", true);
 
     // As a mitigation, put the window in the top/right corner, and make it as
     // small as possible by forcing 1x1 size and removing window borders.
-    mpv.set_option_string("geometry", "1x1+0+0");
-    mpv.set_option_string("border", "no");
+    mpv.set_option("geometry", "1x1+0+0");
+    mpv.set_option("border", false);
     if (mpv.initialize() < 0)
     {
         return std::string();
