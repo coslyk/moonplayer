@@ -211,7 +211,7 @@ namespace Mpv
         // Set option
         inline int set_option(const char *name, const Node& data) const noexcept
         {
-            return mpv_set_option(m_handle, name, MPV_FORMAT_NODE, (void*) &data);
+            return mpv_set_option(m_handle, name, MPV_FORMAT_NODE, const_cast<Node*>(&data));
         }
 
         // Async mpv command
@@ -223,7 +223,7 @@ namespace Mpv
         // Set mpv property
         inline int set_property_async(const char *name, const Node& data, uint64_t reply_userdata = 0) const noexcept
         {
-            return mpv_set_property_async(m_handle, reply_userdata, name, MPV_FORMAT_NODE, (void*) &data);
+            return mpv_set_property_async(m_handle, reply_userdata, name, MPV_FORMAT_NODE, const_cast<Node*>(&data));
         }
 
         // Get mpv property

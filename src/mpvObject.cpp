@@ -482,7 +482,7 @@ void MpvObject::onMpvEvent()
                 break;
             }
 
-            if (propName == "playback-time")
+            if (propName == QByteArrayLiteral("playback-time"))
             {
                 int64_t newTime = static_cast<double>(propValue);  // It's double in mpv
                 if (newTime != m_time)
@@ -492,13 +492,13 @@ void MpvObject::onMpvEvent()
                 }
             }
 
-            else if (propName == "duration")
+            else if (propName == QByteArrayLiteral("duration"))
             {
                 m_duration = static_cast<double>(propValue);  // It's double in mpv
                 emit durationChanged();
             }
 
-            else if (propName == "pause")
+            else if (propName == QByteArrayLiteral("pause"))
             {
                 if (propValue && m_state == VIDEO_PLAYING)
                 {
@@ -511,15 +511,15 @@ void MpvObject::onMpvEvent()
                 emit stateChanged();
             }
 
-            else if (propName == "paused-for-cache")
+            else if (propName == QByteArrayLiteral("paused-for-cache"))
             {
                 if (propValue && m_state != STOPPED)
                 {
-                    showText("Network is slow...");
+                    showText(QByteArrayLiteral("Network is slow..."));
                 }
                 else
                 {
-                    showText("");
+                    showText(QByteArrayLiteral(""));
                 }
             }
 
@@ -527,15 +527,15 @@ void MpvObject::onMpvEvent()
             {
                 if (propValue && m_state == VIDEO_PLAYING)
                 {
-                    showText("Buffering...");
+                    showText(QByteArrayLiteral("Buffering..."));
                 }
                 else
                 {
-                    showText("");
+                    showText(QByteArrayLiteral(""));
                 }
             }
             
-            else if (propName == "track-list") // Read tracks info
+            else if (propName == QByteArrayLiteral("track-list")) // Read tracks info
             {
                 m_subtitles.clear();
                 m_audioTracks.clear();
