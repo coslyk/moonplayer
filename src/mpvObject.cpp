@@ -442,22 +442,32 @@ void MpvObject::onMpvEvent()
         }
 
         case MPV_EVENT_VIDEO_RECONFIG:
-            if (!m_audioToBeAdded.isEmpty())
-            {
-                addAudioTrack(m_audioToBeAdded);
-                m_audioToBeAdded = QUrl();
-            }
-            m_videoWidth = m_mpv.get_property("dwidth");
-            m_videoHeight = m_mpv.get_property("dheight");
-            emit videoSizeChanged();
+        {
+            Mpv::Node width = m_mpv.get_property("dwidth");
+            Mpv::Node height = m_mpv.get_property("dheight");
 
-            // Load danmaku
-            if (!m_danmakuUrl.isEmpty())
+            if (width.type() != MPV_FORMAT_NONE)
             {
-                Q_ASSERT(DanmakuLoader::instance() != nullptr);
-                DanmakuLoader::instance()->start(m_danmakuUrl, m_videoWidth, m_videoHeight);
+                m_videoWidth = width;
+                m_videoHeight = height;
+                emit videoSizeChanged();
+
+                // Load audio track
+                if (!m_audioToBeAdded.isEmpty())
+                {
+                    addAudioTrack(m_audioToBeAdded);
+                    m_audioToBeAdded = QUrl();
+                }
+
+                // Load danmaku
+                if (!m_danmakuUrl.isEmpty())
+                {
+                    Q_ASSERT(DanmakuLoader::instance() != nullptr);
+                    DanmakuLoader::instance()->start(m_danmakuUrl, m_videoWidth, m_videoHeight);
+                }
             }
             break;
+        }
 
         case MPV_EVENT_LOG_MESSAGE:
         {
