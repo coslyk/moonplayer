@@ -533,7 +533,7 @@ void MpvObject::onMpvEvent()
                 }
             }
 
-            else if (propName == "core-idle")
+            else if (propName == QByteArrayLiteral("core-idle"))
             {
                 if (propValue && m_state == VIDEO_PLAYING)
                 {
