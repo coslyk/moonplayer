@@ -280,7 +280,7 @@ CustomWindow
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Downloader"); onTriggered: downloader.open() }
         Action { text: qsTr("Settings"); onTriggered: settings.open() }
-        Action { text: qsTr("Update plugins"); onTriggered: utils.updateParser() }
+        Action { text: qsTr("Update plugins"); onTriggered: Utils.updateParser() }
         Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html#browser_extension") }
         Action { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html") }
         
@@ -395,4 +395,6 @@ CustomWindow
         sequence: "Ctrl+,"
         onActivated: settings.open()
     }
+
+    Component.onCompleted: Utils.checkUpdate()
 }

@@ -260,7 +260,7 @@ CustomTabDialog {
                 text: folderDialog.folder.toString().replace("file://", "")
                 onClicked: folderDialog.open()
                 // Flatpak version is sandboxed and has no permission to access other folders
-                enabled: utils.environmentVariable("FLATPAK_SANDBOX_DIR") == ""
+                enabled: Utils.environmentVariable("FLATPAK_SANDBOX_DIR") == ""
             }
             FolderDialog {
                 id: folderDialog

@@ -64,8 +64,9 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<MpvObject>("MoonPlayer", 1, 0, "MpvObject");
     qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/qml/Color.qml")), "MoonPlayer", 1, 0, "Color");
-    qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", QStringLiteral("Access to enums & flags only"));
     qmlRegisterSingletonType<Dialogs>("MoonPlayer", 1, 0, "Dialogs", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Dialogs(); });
+    qmlRegisterSingletonType<Utils>("MoonPlayer", 1, 0, "Utils", [](QQmlEngine *, QJSEngine *) -> QObject * { return new Utils(); });
+    qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", QStringLiteral("Access to enums & flags only"));
     
     QQmlApplicationEngine engine;
 
@@ -92,7 +93,6 @@ int main(int argc, char *argv[])
     context->setContextProperty(QStringLiteral("downloaderModel"), QVariant::fromValue(downloader->model()));
     context->setContextProperty(QStringLiteral("playlistModel"), PlaylistModel::instance());
     context->setContextProperty(QStringLiteral("plugins"), QVariant::fromValue(Plugin::loadPlugins()));
-    context->setContextProperty(QStringLiteral("utils"), new Utils());
     
     // Update downloader model
     QObject::connect(downloader, &Downloader::modelUpdated, [=]() {
@@ -100,9 +100,6 @@ int main(int argc, char *argv[])
     });
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
-    
-    // Check updates
-    Utils::checkUpdate();
     
     // Create user resources dir
     if (!QDir(userResourcesPath()).exists())
