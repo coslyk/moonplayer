@@ -109,24 +109,16 @@ void FileDownloader::onFinished()
     {
         QNetworkReply::NetworkError reason = m_reply->error();
         
-        // Pause
-        if (reason == QNetworkReply::OperationCanceledError)
-        {
-            m_lastPos = m_file.size();
-            m_reply->deleteLater();
-            m_reply = nullptr;
-            emit paused();
-        }
-        
-        // Error
-        else
+        // Error?
+        if (reason != QNetworkReply::OperationCanceledError)
         {
             qDebug() << (QStringLiteral("Http status code: %1\n%2\n").arg(QString::number(status), m_reply->errorString()));
-            m_lastPos = m_file.size();
-            m_reply->deleteLater();
-            m_reply = nullptr;
-            emit paused();
         }
+        
+        m_lastPos = m_file.size();
+        m_reply->deleteLater();
+        m_reply = nullptr;
+        emit paused();
     }
 
     // Finished
