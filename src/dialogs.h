@@ -18,26 +18,36 @@
 #define DIALOGS_H
 
 #include <QObject>
+#include <QProcess>
 #include <functional>
 
 // Show dialogs in QML
 class Dialogs : public QObject
 {
     Q_OBJECT
-
-signals:
-    void selectionDialogRequested(const QString& title, const QStringList& items);
+    Q_PROPERTY(QStringList consoleOutputs MEMBER m_consoleOutputs NOTIFY consoleOutputsChanged)
 
 public:
     Dialogs(QObject* parent = nullptr);
     virtual ~Dialogs();
     static inline Dialogs* instance() { return s_instance; }
 
+    // Console dialog
+    void consoleDialog(const QString& title, const QString& program, const QStringList& args);
+
     // Selection dialog
     void selectionDialog(const QString& title, const QStringList& items, std::function<void(int)> callback);
     Q_INVOKABLE void selectionDialogCallback(int index);
 
+signals:
+    void consoleStarted(const QString& title);
+    void consoleFinished(void);
+    void consoleOutputsChanged(void);
+    void selectionDialogRequested(const QString &title, const QStringList &items);
+
 private:
+    QProcess m_process;
+    QStringList m_consoleOutputs;
     std::function<void(int)> m_selectionCb;
 
     static Dialogs* s_instance;

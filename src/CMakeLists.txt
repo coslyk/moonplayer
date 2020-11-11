@@ -16,7 +16,6 @@ include_directories(${PROJECT_SOURCE_DIR}/3rdparty/danmaku2ass_cpp/include)
 # Add source files
 set(SOURCE_FILES
     accessManager.cpp
-    console.cpp
     danmakuLoader.cpp
     dialogs.cpp
     downloader.cpp

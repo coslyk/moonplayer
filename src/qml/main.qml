@@ -69,6 +69,15 @@ CustomWindow
         }
     }
 
+    // Console dialog
+    ConsoleDialog {
+        id: consoleDialog
+
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+    }
+
     // Selection dialog
     SelectionDialog {
         id: selectionDialog

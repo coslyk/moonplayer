@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>qml/main.qml</file>
         <file>qml/Color.qml</file>
+        <file>qml/ConsoleDialog.qml</file>
         <file>qml/DanmakuOptionsDialog.qml</file>
         <file>qml/Downloader.qml</file>
         <file>qml/Explorer.qml</file>

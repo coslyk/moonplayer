@@ -16,13 +16,14 @@
 
 #include "utils.h"
 #include <QCoreApplication>
+#include <QFile>
 #include <QMessageBox>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QRegularExpression>
 #include <QUrl>
 #include "accessManager.h"
-#include "console.h"
+#include "dialogs.h"
 
 void Utils::checkUpdate()
 {
@@ -45,9 +46,7 @@ void Utils::checkUpdate()
 
 void Utils::updateParser()
 {
-    static Console* c_console = nullptr;
-    if (c_console == nullptr)
-        c_console = new Console;
+    Q_ASSERT(Dialogs::instance() != nullptr);
     QStringList args;
 #ifdef Q_OS_WIN
     args << QStringLiteral("-ExecutionPolicy") << QStringLiteral("RemoteSigned");
@@ -62,7 +61,7 @@ void Utils::updateParser()
         shell = QString::fromLatin1(f.readAll());
     }
     args << QStringLiteral("-c") << shell;
-    c_console->launchScript(QStringLiteral("sh"), args);
+    Dialogs::instance()->consoleDialog(tr("Update plugins"), QStringLiteral("sh"), args);
 #endif
 }
 
