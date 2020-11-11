@@ -24,12 +24,13 @@
 #include <QProcess>
 #include <QSettings>
 #include <QTextCodec>
+#include "platform/paths.h"
 
 ParserYoutubeDL ParserYoutubeDL::s_instance;
 
 ParserYoutubeDL::ParserYoutubeDL(QObject *parent) : ParserBase(parent)
 {
-    connect(&m_process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
+    connect(&m_process, QOverload<int>::of(&QProcess::finished), this, &ParserYoutubeDL::parseOutput);
     connect(&m_process, &QProcess::errorOccurred, [&](){ showErrorDialog(m_process.errorString()); });
 }
 
@@ -63,7 +64,7 @@ void ParserYoutubeDL::runParser(const QUrl& url)
         args << QStringLiteral("--proxy") << QStringLiteral("socks5://%1/").arg(proxy);
 
     args << url.toString();
-    m_process.start(QStringLiteral("youtube-dl"), args, QProcess::ReadOnly);
+    m_process.start(userResourcesPath() + QStringLiteral("/youtube-dl"), args, QProcess::ReadOnly);
 }
 
 

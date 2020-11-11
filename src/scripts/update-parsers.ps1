@@ -15,7 +15,7 @@
 
 
 # Define functions to check version
-function Get-Latest-Version {
+function Get-Latest-Version-Github {
     param (
         $repo
     )
@@ -30,7 +30,22 @@ function Get-Latest-Version {
     }
 }
 
-function Get_Current_Version {
+function Get-Latest-Version-Pypi {
+    param (
+        $package
+    )
+    $url = "https://pypi.org/pypi/$package/json"
+    try {
+        $response = Invoke-WebRequest $url -ErrorAction Stop
+        return (ConvertFrom-Json -InputObject $response).info.version
+    }
+    catch {
+        Write-Output "Cannot get the latest version."
+        Exit
+    }
+}
+
+function Get-Current-Version {
     param (
         $plugin_name
     )
@@ -42,7 +57,7 @@ function Get_Current_Version {
     }
 }
 
-function Save_Version_Info {
+function Save-Version-Info {
     param (
         $plugin_name,
         $version
@@ -55,11 +70,11 @@ function Save_Version_Info {
 Write-Output "-------- Checking youtube-dl's updates -------"
 
 # Get latest youtube-dl version
-$latest_version = Get-Latest-Version "ytdl-org/youtube-dl"
+$latest_version = Get-Latest-Version-Pypi "youtube_dl"
 Write-Output "Latest version: $latest_version"
 
 # Get current youtube-dl version
-$current_version = Get_Current_Version "youtube-dl"
+$current_version = Get-Current-Version "youtube-dl"
 Write-Output "Current version: $current_version"
 
 # Check if the version is latest
@@ -69,10 +84,10 @@ if ($latest_version -eq $current_version) {
     Write-Output ""
     Write-Output "------------ Updating youtube-dl -------------"
     Write-Output "Downloading latest version..."
-    $url = "https://github.com/ytdl-org/youtube-dl/releases/download/$latest_version/youtube-dl.exe"
+    $url = "https://yt-dl.org/downloads/latest/youtube-dl.exe"
     $output = "$env:LOCALAPPDATA\MoonPlayer\youtube-dl.exe"
     (New-Object System.Net.WebClient).DownloadFile($url, $output)
-    Save_Version_Info "youtube-dl" $latest_version
+    Save-Version-Info "youtube-dl" $latest_version
 }
 
 ### Update ykdl
@@ -80,11 +95,11 @@ Write-Output ""
 Write-Output "---------- Checking ykdl's updates ---------"
 
 # Get latest ykdl version
-$latest_version = Get-Latest-Version "coslyk/moonplayer-plugins"
+$latest_version = Get-Latest-Version-Github "coslyk/moonplayer-plugins"
 Write-Output "Latest version: $latest_version"
 
 # Get current ykdl version
-$current_version = Get_Current_Version "ykdl"
+$current_version = Get-Current-Version "ykdl"
 Write-Output "Current version: $current_version"
 
 # Check if the version is latest
@@ -97,7 +112,7 @@ if ($latest_version -eq $current_version) {
     $url = "https://github.com/coslyk/moonplayer-plugins/releases/download/$latest_version/ykdl-moonplayer.exe"
     $output = "$env:LOCALAPPDATA\MoonPlayer\ykdl-moonplayer.exe"
     (New-Object System.Net.WebClient).DownloadFile($url, $output)
-    Save_Version_Info "ykdl" $latest_version
+    Save-Version-Info "ykdl" $latest_version
     
     Write-Output ""
     Write-Output "-------------- Updating plugins --------------"

@@ -53,10 +53,16 @@ fi
 
 
 # Define functions to check version
-get_latest_version() {
+get_latest_version_github() {
     export PYTHONIOENCODING=utf8
     fetcher "https://api.github.com/repos/$1/releases/latest" | \
     $PYTHON -c "import sys, json; sys.stdout.write(json.load(sys.stdin)['tag_name'])"
+}
+
+get_latest_version_pypi() {
+    export PYTHONIOENCODING=utf8
+    fetcher "https://pypi.org/pypi/$1/json" | \
+    $PYTHON -c "import sys, json; sys.stdout.write(json.load(sys.stdin)['info']['version'])"
 }
 
 get_current_version() {
@@ -74,17 +80,28 @@ save_version_info() {
 echo "\n-------- Checking youtube-dl's updates -------"
 
 # Get latest youtube-dl version
-cat << EOF
-Temporarily the youtube-dl is not awailable due to DCMA takedown. See
+CURRENT_VERSION=$(get_current_version "youtube-dl")
+echo "Current version: $CURRENT_VERSION"
 
-    https://github.com/ytdl-org/youtube-dl/
+LATEST_VERSION=$(get_latest_version_pypi "youtube_dl")
+if [ -n "$LATEST_VERSION" ]; then
+    echo "Latest version: $LATEST_VERSION"
+else
+    echo 'Error: Cannot get the latest version of youtube-dl. Please try again later.'
+    exit 0
+fi
 
-for more information.
-
-To use youtube-dl, you can download it manually and put it into system's
-PATH, or install it with the package manager.
-
-EOF
+if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
+    echo "Youtube-dl already up-to-date."
+else
+    # Download latest version
+    echo "\n ------------ Updating youtube-dl -------------"
+    echo "Downloading latest version..."
+    rm -f youtube-dl
+    downloader youtube-dl "https://yt-dl.org/downloads/latest/youtube-dl"
+    chmod a+x youtube-dl
+    save_version_info "youtube-dl" "$LATEST_VERSION"
+fi
 
 
 ### Update ykdl
@@ -95,7 +112,7 @@ CURRENT_VERSION=$(get_current_version "ykdl")
 echo "Current version: $CURRENT_VERSION"
 
 # Get latest ykdl version
-LATEST_VERSION=$(get_latest_version "coslyk/moonplayer-plugins")
+LATEST_VERSION=$(get_latest_version_github "coslyk/moonplayer-plugins")
 if [ -n "$LATEST_VERSION" ]; then
     echo "Latest version: $LATEST_VERSION"
 else
