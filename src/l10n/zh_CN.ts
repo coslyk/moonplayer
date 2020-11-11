@@ -131,18 +131,18 @@
 <context>
     <name>DownloaderItem</name>
     <message>
-        <location filename="../downloaderItem.cpp" line="220"/>
-        <location filename="../downloaderItem.cpp" line="266"/>
+        <location filename="../downloaderItem.cpp" line="219"/>
+        <location filename="../downloaderItem.cpp" line="265"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
     <message>
-        <location filename="../downloaderItem.cpp" line="220"/>
+        <location filename="../downloaderItem.cpp" line="219"/>
         <source>Failed to write: </source>
         <translation type="unfinished">无法写入： </translation>
     </message>
     <message>
-        <location filename="../downloaderItem.cpp" line="266"/>
+        <location filename="../downloaderItem.cpp" line="265"/>
         <source>Failed to concat: </source>
         <translation type="unfinished">无法合并： </translation>
     </message>
@@ -260,12 +260,12 @@
 <context>
     <name>ParserYoutubeDL</name>
     <message>
-        <location filename="../parserYoutubedl.cpp" line="50"/>
+        <location filename="../parserYoutubedl.cpp" line="51"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
     </message>
     <message>
-        <location filename="../parserYoutubedl.cpp" line="50"/>
+        <location filename="../parserYoutubedl.cpp" line="51"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
@@ -578,12 +578,12 @@
 <context>
     <name>Utils</name>
     <message>
-        <location filename="../utils.cpp" line="39"/>
+        <location filename="../utils.cpp" line="38"/>
         <source>Update</source>
         <translation type="unfinished">更新</translation>
     </message>
     <message>
-        <location filename="../utils.cpp" line="39"/>
+        <location filename="../utils.cpp" line="38"/>
         <source>New version of MoonPlayer is available.</source>
         <translation type="unfinished">有新版本可用。</translation>
     </message>

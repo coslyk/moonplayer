@@ -33,7 +33,7 @@ ParserYkdl ParserYkdl::s_instance;
 
 ParserYkdl::ParserYkdl(QObject *parent) : ParserBase(parent)
 {
-    connect(&m_process, SIGNAL(finished(int)),this, SLOT(parseOutput()));
+    connect(&m_process, QOverload<int>::of(&QProcess::finished), this, &ParserYkdl::parseOutput);
     connect(&m_process, &QProcess::errorOccurred, [&](){ showErrorDialog(m_process.errorString()); });
 }
 
@@ -48,17 +48,11 @@ ParserYkdl::~ParserYkdl()
 
 bool ParserYkdl::isSupported ( const QUrl& url )
 {
-#ifdef Q_OS_WIN
-    QString ykdlPath = userResourcesPath() + QStringLiteral("/ykdl-moonplayer.exe");
-#else
     QString ykdlPath = userResourcesPath() + QStringLiteral("/ykdl-moonplayer");
-#endif
     if (QFile::exists(ykdlPath))
     {
         QProcess process;
-        QStringList args;
-        args << QStringLiteral("--check-support") << url.toString();
-        process.start(ykdlPath, args);
+        process.start(ykdlPath, { QStringLiteral("--check-support"), url.toString() });
         process.waitForStarted(-1);
         process.waitForFinished(-1);
         return process.readAllStandardOutput().simplified() == "Url is supported.";
