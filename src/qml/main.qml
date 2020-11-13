@@ -231,14 +231,14 @@ CustomWindow
         id: fileDialog
         title: qsTr("Please choose a file")
         fileMode: FileDialog.OpenFiles
-        onAccepted: playlistModel.addLocalFiles(fileDialog.currentFiles)
+        onAccepted: PlaylistModel.addLocalFiles(fileDialog.currentFiles)
     }
 
     // Open file by drag
     DropArea {
         id: dropArea
         anchors.fill: parent
-        onDropped: playlistModel.addLocalFiles(drop.urls)
+        onDropped: PlaylistModel.addLocalFiles(drop.urls)
     }
     
     // Menu

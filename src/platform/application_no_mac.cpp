@@ -137,6 +137,7 @@ bool Application::parseArgs()
     {
         // Wait 0.5s to ensure that OpenGL is loaded
         QTimer::singleShot(500, [=]() {
+            Q_ASSERT(PlaylistModel::instance() != nullptr);
             if (isLocalFiles)
             {
                 QList<QUrl> fileUrls;
@@ -162,6 +163,7 @@ void Application::onNewConnection()
 {
     m_client = m_server->nextPendingConnection();
     connect(m_client, &QLocalSocket::readChannelFinished, [=]() {
+        Q_ASSERT(PlaylistModel::instance() != nullptr);
         QJsonObject msg = QJsonDocument::fromJson(m_client->readAll()).object();
         m_client->close();
         m_client->deleteLater();

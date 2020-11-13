@@ -47,18 +47,18 @@ Popup {
             ListView {
                 id: listView
                 
-                model: playlistModel
+                model: PlaylistModel
                 delegate: Rectangle {
                     width: 150
                     height: 20
                     radius: 4
                     clip: true
-                    color: index == listView.currentIndex ? Color.listItemSelected : (index == playlistModel.playingIndex ? Color.listItemCurrentActive : "transparent")
+                    color: index == listView.currentIndex ? Color.listItemSelected : (index == PlaylistModel.playingIndex ? Color.listItemCurrentActive : "transparent")
                     Label { text: title }
                     MouseArea {
                         anchors.fill: parent
                         onClicked: listView.currentIndex = index
-                        onDoubleClicked: playlistModel.playItem(index)
+                        onDoubleClicked: PlaylistModel.playItem(index)
                     }
                 }
             }
@@ -79,14 +79,14 @@ Popup {
             id: delButton
             text: qsTr("Del")
             implicitWidth: 50
-            onClicked: playlistModel.removeItem(listView.currentIndex)
+            onClicked: PlaylistModel.removeItem(listView.currentIndex)
         }
         
         Button {
             id: clearButton
             text: qsTr("Clear")
             implicitWidth: 50
-            onClicked: playlistModel.clear()
+            onClicked: PlaylistModel.clear()
         }
     }
     

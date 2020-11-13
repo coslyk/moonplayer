@@ -37,7 +37,7 @@ public:
     };
 
 public:
-    inline static PlaylistModel* instance(void) { return &s_instance; };
+    inline static PlaylistModel* instance(void) { return s_instance; };
     
     PlaylistModel(QObject* parent = nullptr);
     
@@ -65,7 +65,7 @@ private:
     QList<QUrl> m_audioTrackUrls;
     int m_playingIndex;
     
-    static PlaylistModel s_instance;
+    static PlaylistModel *s_instance;
 };
 
 #endif // PLAYLISTMODEL_H

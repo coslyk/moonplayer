@@ -28,7 +28,7 @@ Dialog {
 
     onAccepted: {
         if (openUrlInput.text !== "")
-            playlistModel.addUrl(openUrlInput.text, downloadCheckBox.checked);
+            PlaylistModel.addUrl(openUrlInput.text, downloadCheckBox.checked);
         openUrlInput.text = "";
     }
 

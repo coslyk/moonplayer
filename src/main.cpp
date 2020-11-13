@@ -65,6 +65,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<MpvObject>("MoonPlayer", 1, 0, "MpvObject");
     qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/qml/Color.qml")), "MoonPlayer", 1, 0, "Color");
     qmlRegisterSingletonType<Dialogs>("MoonPlayer", 1, 0, "Dialogs", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Dialogs(); });
+    qmlRegisterSingletonType<PlaylistModel>("MoonPlayer", 1, 0, "PlaylistModel", [](QQmlEngine *, QJSEngine *) -> QObject * { return new PlaylistModel(); });
     qmlRegisterSingletonType<Utils>("MoonPlayer", 1, 0, "Utils", [](QQmlEngine *, QJSEngine *) -> QObject * { return new Utils(); });
     qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", QStringLiteral("Access to enums & flags only"));
     
@@ -91,7 +92,6 @@ int main(int argc, char *argv[])
     
     context->setContextProperty(QStringLiteral("accessManager"), NetworkAccessManager::instance());
     context->setContextProperty(QStringLiteral("downloaderModel"), QVariant::fromValue(downloader->model()));
-    context->setContextProperty(QStringLiteral("playlistModel"), PlaylistModel::instance());
     context->setContextProperty(QStringLiteral("plugins"), QVariant::fromValue(Plugin::loadPlugins()));
     
     // Update downloader model

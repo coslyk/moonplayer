@@ -35,6 +35,7 @@ bool Application::parseArgs()
 bool Application::event(QEvent *e)
 {
     if (e->type() == QEvent::FileOpen) {
+        Q_ASSERT(PlaylistModel::instance() != nullptr);
         QFileOpenEvent *openEvent = static_cast<QFileOpenEvent *>(e);
         QString file = openEvent->file();
         if (file.isEmpty()) //url

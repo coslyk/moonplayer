@@ -22,11 +22,13 @@
 #include "parserYkdl.h"
 #include "parserYoutubedl.h"
 
-PlaylistModel PlaylistModel::s_instance;
+PlaylistModel* PlaylistModel::s_instance = nullptr;
 
 PlaylistModel::PlaylistModel(QObject* parent) :
     QAbstractListModel(parent), m_playingIndex(-1)
 {
+    Q_ASSERT(s_instance == nullptr);
+    s_instance = this;
 }
 
 

@@ -90,7 +90,7 @@ Dialog {
                     onDoubleClicked: {
                         if (modelData.state === DownloaderItem.FINISHED)
                         {
-                            playlistModel.addItem(name, filePath, danmakuUrl);
+                            PlaylistModel.addItem(name, filePath, danmakuUrl);
                             downloader.close();
                         }
                     }
@@ -101,7 +101,7 @@ Dialog {
                             text: qsTr("Play")
                             enabled: modelData.state === DownloaderItem.FINISHED
                             onTriggered: {
-                                playlistModel.addItem(name, filePath, danmakuUrl);
+                                PlaylistModel.addItem(name, filePath, danmakuUrl);
                                 downloader.close();
                             }
                         }
