@@ -60,7 +60,7 @@ void Dialogs::consoleDialog(const QString& title, const QString& program, const 
 void Dialogs::selectionDialog(const QString &title, const QStringList& items, std::function<void(int)> callback)
 {
     m_selectionCb = callback;
-    emit selectionDialogRequested(title, items);
+    emit selectionStarted(title, items);
 }
 
 void Dialogs::selectionDialogCallback(int index)

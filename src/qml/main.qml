@@ -88,7 +88,7 @@ CustomWindow
 
         Connections {
             target: Dialogs
-            onSelectionDialogRequested: {
+            onSelectionStarted: {
                 selectionDialog.title = title;
                 selectionDialog.items = items;
                 selectionDialog.open();
@@ -218,8 +218,8 @@ CustomWindow
 
     
         Connections {
-            target: playlistModel
-            onUrlDialogRequested: {
+            target: Dialogs
+            onOpenUrlStarted: {
                 window.raise();
                 window.requestActivate();
             }

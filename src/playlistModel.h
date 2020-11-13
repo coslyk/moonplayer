@@ -57,7 +57,6 @@ public:
     
 signals:
     void playingIndexChanged(void);
-    void urlDialogRequested(const QUrl& url);
 
 private:
     QStringList m_titles;

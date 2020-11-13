@@ -15,11 +15,12 @@
  */
 
 #include "playlistModel.h"
+#include <QFileInfo>
+#include <QSettings>
+#include "dialogs.h"
 #include "mpvObject.h"
 #include "parserYkdl.h"
 #include "parserYoutubedl.h"
-#include <QFileInfo>
-#include <QSettings>
 
 PlaylistModel PlaylistModel::s_instance;
 
@@ -112,10 +113,11 @@ void PlaylistModel::addUrl ( const QUrl& url, bool download )
 
 void PlaylistModel::addUrl(const QUrl& url)
 {
+    Q_ASSERT(Dialogs::instance() != nullptr);
     QSettings settings;
     OpenUrlAction action = static_cast<OpenUrlAction>(settings.value(QStringLiteral("player/url_open_mode")).toInt());
     if (action == QUESTION)
-        emit urlDialogRequested(url);
+        Dialogs::instance()->openUrlDialog(url);
     else
         addUrl(url, action == DOWNLOAD);
 }

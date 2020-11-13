@@ -17,7 +17,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import CustomWidgets 1.0
+import MoonPlayer 1.0
 
 Dialog {
     id: openUrlDialog
@@ -35,8 +35,8 @@ Dialog {
     onRejected: openUrlInput.text = ""
     
     Connections {
-        target: playlistModel
-        onUrlDialogRequested: {
+        target: Dialogs
+        onOpenUrlStarted: {
             openUrlInput.text = url
             openUrlDialog.open()
         }
