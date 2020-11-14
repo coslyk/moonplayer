@@ -112,10 +112,10 @@ CustomWindow
     }
     
     // Add subtitles
-    FileDialog {
+    FileOpenDialog {
         id: addSubtitleDialog
         title: qsTr("Please choose a file")
-        onAccepted: mpv.addSubtitle(addSubtitleDialog.currentFile)
+        onAccepted: mpv.addSubtitle(addSubtitleDialog.fileUrl)
     }
 
     // Select audio tracks
@@ -227,11 +227,11 @@ CustomWindow
     }
 
     // Open file by Dialog
-    FileDialog {
+    FileOpenDialog {
         id: fileDialog
         title: qsTr("Please choose a file")
-        fileMode: FileDialog.OpenFiles
-        onAccepted: PlaylistModel.addLocalFiles(fileDialog.currentFiles)
+        selectMultiple: true
+        onAccepted: PlaylistModel.addLocalFiles(fileDialog.fileUrls)
     }
 
     // Open file by drag

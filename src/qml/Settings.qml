@@ -93,7 +93,7 @@ CustomTabDialog {
         QSettings.Settings {
             id: downloaderSettings
             category: "downloader"
-            property alias save_to: folderDialog.folder
+            property alias save_to: folderDialog.fileUrl
             property alias max_threads: maxThreadsSpinBox.value
         }
         
@@ -257,14 +257,15 @@ CustomTabDialog {
             
             Label { text: qsTr("Save to:") }
             Button {
-                text: folderDialog.folder.toString().replace("file://", "")
+                text: folderDialog.fileUrl.toString().replace("file://", "")
                 onClicked: folderDialog.open()
                 // Flatpak version is sandboxed and has no permission to access other folders
                 enabled: Utils.environmentVariable("FLATPAK_SANDBOX_DIR") == ""
             }
-            FolderDialog {
+            FileOpenDialog {
                 id: folderDialog
                 title: "Please choose a folder"
+                selectFolder: true
             }
         }
         

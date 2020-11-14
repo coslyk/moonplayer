@@ -23,6 +23,7 @@ set(SOURCE_FILES
     downloaderHlsItem.cpp
     downloaderItem.cpp
     fileDownloader.cpp
+    fileOpenDialog.cpp
     jsapiObject.cpp
     main.cpp
     mpvObject.cpp
