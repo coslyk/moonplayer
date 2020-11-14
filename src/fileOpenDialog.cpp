@@ -5,7 +5,7 @@
 // File open dialog without dependency on QtWidgets
 // Original code: https://github.com/kullo/qml-file-dialog-demo
 
-#include "fileopendialog.h"
+#include "fileOpenDialog.h"
 
 #include <QDebug>
 #include <QQuickWindow>

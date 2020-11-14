@@ -25,7 +25,7 @@ Dialogs::Dialogs(QObject* parent) : QObject(parent)
 
     // Init QProcess for the console dialog
     m_process.setProcessChannelMode(QProcess::MergedChannels);
-    connect(&m_process, QOverload<int>::of(&QProcess::finished), this, &Dialogs::consoleFinished);
+    connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &Dialogs::consoleFinished);
     connect(&m_process, &QProcess::errorOccurred, this, &Dialogs::consoleFinished);
     connect(&m_process, &QProcess::readyReadStandardOutput, [this]() {
         while (m_process.canReadLine())

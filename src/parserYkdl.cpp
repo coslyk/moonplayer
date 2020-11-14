@@ -32,7 +32,7 @@ ParserYkdl ParserYkdl::s_instance;
 
 ParserYkdl::ParserYkdl(QObject *parent) : ParserBase(parent)
 {
-    connect(&m_process, QOverload<int>::of(&QProcess::finished), this, &ParserYkdl::parseOutput);
+    connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &ParserYkdl::parseOutput);
     connect(&m_process, &QProcess::errorOccurred, [&](){ showErrorDialog(m_process.errorString()); });
 }
 

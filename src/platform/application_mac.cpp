@@ -54,6 +54,6 @@ bool Application::event(QEvent *e)
             PlaylistModel::instance()->addLocalFiles(files);
         }
     }
-    return QApplication::event(e);
+    return QGuiApplication::event(e);
 }
 

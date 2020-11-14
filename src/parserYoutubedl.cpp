@@ -30,7 +30,7 @@ ParserYoutubeDL ParserYoutubeDL::s_instance;
 
 ParserYoutubeDL::ParserYoutubeDL(QObject *parent) : ParserBase(parent)
 {
-    connect(&m_process, QOverload<int>::of(&QProcess::finished), this, &ParserYoutubeDL::parseOutput);
+    connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &ParserYoutubeDL::parseOutput);
     connect(&m_process, &QProcess::errorOccurred, [&](){ showErrorDialog(m_process.errorString()); });
 }
 
