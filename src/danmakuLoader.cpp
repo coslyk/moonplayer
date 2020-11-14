@@ -16,11 +16,11 @@
 
 #include "danmakuLoader.h"
 #include "accessManager.h"
-#include <QApplication>
-#include <QDesktopWidget>
 #include <QFont>
+#include <QGuiApplication>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QScreen>
 #include <QSettings>
 #include <Danmaku2ASS/CommentParser.h>
 #include <sstream>
@@ -39,19 +39,22 @@ DanmakuLoader::DanmakuLoader(QObject *parent) :
 // Start
 void DanmakuLoader::start(const QUrl& srcUrl, int width, int height)
 {
-    Q_ASSERT(QApplication::desktop() != nullptr);
-    Q_ASSERT(NetworkAccessManager::instance() != nullptr);
+    QScreen *screen = QGuiApplication::primaryScreen();
+    Q_ASSERT(screen != nullptr);
+    QRect screenGeometry = screen->geometry();
+    int screenWidth = screenGeometry.width();
+    int screenHeight = screenGeometry.height();
 
     // Set video size
-    if (height > QApplication::desktop()->height())
+    if (height > screenHeight)
     {
-        m_height = QApplication::desktop()->height();
-        m_width = width * QApplication::desktop()->height() / height;
+        m_height = screenHeight;
+        m_width = width * screenHeight / height;
     }
-    else if (width > QApplication::desktop()->width())
+    else if (width > screenWidth)
     {
-        m_height = height * QApplication::desktop()->width() / width;
-        m_width = QApplication::desktop()->width();
+        m_height = height * screenWidth / width;
+        m_width = screenWidth;
     }
     else
     {

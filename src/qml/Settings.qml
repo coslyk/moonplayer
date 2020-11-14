@@ -16,7 +16,6 @@
  
 import QtQuick 2.7
 import Qt.labs.settings 1.0 as QSettings
-import Qt.labs.platform 1.0
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import MoonPlayer 1.0
@@ -73,7 +72,7 @@ CustomTabDialog {
             property alias alpha: alphaSpinBox.value
             property alias dm: dmSpinBox.value
             property alias ds: dsSpinBox.value
-            property alias font: fontDialog.font
+            //property alias font: fontDialog.font
             property alias font_size: fontSizeSpinBox.value
         }
     
@@ -187,7 +186,7 @@ CustomTabDialog {
         GridLayout {
             columns: 2
             columnSpacing: 20
-            
+            /*
             Label { text: qsTr("Font:") }
             Button {
                 text: fontDialog.font.family
@@ -196,7 +195,7 @@ CustomTabDialog {
             FontDialog {
                 id: fontDialog
                 title: qsTr("Please choose a font for Danmaku")
-            }
+            }*/
                 
             Label { text: qsTr("Font size:") + " (*)" }
             SpinBox { id: fontSizeSpinBox; from: 0; to: 100; value: 0; implicitWidth: 140 }

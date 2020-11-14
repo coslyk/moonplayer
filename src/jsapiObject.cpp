@@ -16,7 +16,7 @@
 
 #include "jsapiObject.h"
 #include "accessManager.h"
-#include <QInputDialog>
+//#include <QInputDialog>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSettings>
@@ -87,6 +87,7 @@ void JSAPIObject::warning(const QString& msg)
     Dialogs::instance()->messageDialog(tr("Warning"), msg);
 }
 
+/*
 QString JSAPIObject::get_text(const QString &msg)
 {
     return QInputDialog::getText(nullptr, tr("Please input"), msg);
@@ -95,7 +96,7 @@ QString JSAPIObject::get_text(const QString &msg)
 QString JSAPIObject::get_item(const QString &msg, const QStringList &items)
 {
     return QInputDialog::getItem(nullptr, tr("Please select"), msg, items);
-}
+}*/
 
 // Show result
 void JSAPIObject::show_result(const QVariant& result)

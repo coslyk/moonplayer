@@ -94,7 +94,6 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Qml
     Qt5::Quick
     Qt5::Gui
-    Qt5::Widgets
     Qt5::Network
     ${Qt5X11Extras_LIBRARIES}
     ${MPV_LIBRARY}

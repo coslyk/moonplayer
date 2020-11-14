@@ -43,7 +43,7 @@ add_definitions(-DQT_NO_CAST_FROM_ASCII)
 fix_project_version()
 
 
-find_package(Qt5 REQUIRED COMPONENTS Gui Qml Quick Widgets Network LinguistTools)
+find_package(Qt5 REQUIRED COMPONENTS Gui Qml Quick Network LinguistTools)
 find_package(Qt5Gui REQUIRED)
 find_package(MPV REQUIRED)
 

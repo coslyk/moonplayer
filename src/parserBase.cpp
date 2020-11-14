@@ -15,7 +15,6 @@
  */
 
 #include "parserBase.h"
-#include <QPushButton>
 #include <QRegularExpression>
 #include <QUrl>
 #include "accessManager.h"

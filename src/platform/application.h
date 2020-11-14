@@ -17,7 +17,7 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include <QApplication>
+#include <QGuiApplication>
 class QLocalServer;
 class QLocalSocket;
 
@@ -25,7 +25,7 @@ class QLocalSocket;
  * It doesn't use arguments, but FileOpenEvent.
  */
 
-class Application : public QApplication
+class Application : public QGuiApplication
 {
 public:
     Application(int &argc, char **argv);
