@@ -16,7 +16,6 @@
 
 #include "graphics.h"
 #include <mpv/client.h>
-#include <QApplication>
 #include <QSettings>
 #include <QGuiApplication>
 #include <QX11Info>
@@ -58,7 +57,7 @@ static std::string probeHwdecInterop()
 
 void Graphics::detectOpenGLEarly()
 {
-    MpvObject::Hwdec hwdec = (MpvObject::Hwdec) QSettings(QStringLiteral("coslyk"), QStringLiteral("MoonPlayer")).value(QStringLiteral("video/hwdec")).toInt();
+    MpvObject::Hwdec hwdec = (MpvObject::Hwdec) QSettings().value(QStringLiteral("video/hwdec")).toInt();
     if (hwdec == MpvObject::VAAPI)
     {
         qputenv("QT_XCB_GL_INTEGRATION", QByteArrayLiteral("xcb_egl"));

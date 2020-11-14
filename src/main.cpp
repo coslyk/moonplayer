@@ -14,7 +14,7 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QDir>
 #include <QTranslator>
 #include <QQmlApplicationEngine>
@@ -37,16 +37,14 @@
 int main(int argc, char *argv[])
 {
     qputenv("PYTHONIOENCODING", QByteArrayLiteral("utf-8"));
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setOrganizationName(QStringLiteral("coslyk"));
+    QCoreApplication::setOrganizationDomain(QStringLiteral("coslyk.github.io"));
+    QCoreApplication::setApplicationName(QStringLiteral("MoonPlayer"));
+    QCoreApplication::setApplicationVersion(QStringLiteral(MOONPLAYER_VERSION));
 
     Graphics::detectOpenGLEarly();
-    
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     Application app(argc, argv);
-    app.setOrganizationName(QStringLiteral("coslyk"));
-    app.setOrganizationDomain(QStringLiteral("coslyk.github.io"));
-    app.setApplicationName(QStringLiteral("MoonPlayer"));
-    app.setApplicationVersion(QStringLiteral(MOONPLAYER_VERSION));
-    
     Graphics::detectOpenGLLate();
     
     if (!app.parseArgs())
