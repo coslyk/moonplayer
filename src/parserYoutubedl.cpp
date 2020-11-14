@@ -20,10 +20,10 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
-#include <QMessageBox>
 #include <QProcess>
 #include <QSettings>
 #include <QTextCodec>
+#include "dialogs.h"
 #include "platform/paths.h"
 
 ParserYoutubeDL ParserYoutubeDL::s_instance;
@@ -48,7 +48,7 @@ void ParserYoutubeDL::runParser(const QUrl& url)
 {
     if (m_process.state() == QProcess::Running)
     {
-        QMessageBox::warning(nullptr, tr("Error"), tr("Another file is being parsed."));
+        Dialogs::instance()->messageDialog(tr("Error"), tr("Another file is being parsed."));
         return;
     }
     

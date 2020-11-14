@@ -19,12 +19,12 @@
 #include <QFileInfo>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QMessageBox>
 #include <QProcess>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QSettings>
 #include "accessManager.h"
+#include "dialogs.h"
 #include "platform/paths.h"
 
 DownloaderHlsItem::DownloaderHlsItem(const QString &filepath, const QUrl &url, const QUrl &danmakuUrl, QObject *parent) : DownloaderAbstractItem(filepath, danmakuUrl, parent)
@@ -106,7 +106,7 @@ void DownloaderHlsItem::start()
 
 void DownloaderHlsItem::pause()
 {
-    QMessageBox::warning(nullptr, tr("Error"), tr("Cannot pause the download of HLS streams."));
+    Dialogs::instance()->messageDialog(tr("Error"), tr("Cannot pause the download of HLS streams."));
 }
 
 void DownloaderHlsItem::stop()

@@ -15,7 +15,6 @@
  */
  
 import QtQuick 2.7
-import Qt.labs.platform 1.0
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
 import QtQuick.Window 2.2
@@ -72,6 +71,15 @@ CustomWindow
     // Console dialog
     ConsoleDialog {
         id: consoleDialog
+
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+    }
+
+    // Message dialog
+    MessageDialog {
+        id: messageDialog
 
         // Center in parent
         x: (parent.width - width) / 2;

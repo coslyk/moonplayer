@@ -15,7 +15,6 @@
  */
 
 #include "parserBase.h"
-#include <QMessageBox>
 #include <QPushButton>
 #include <QRegularExpression>
 #include <QUrl>
@@ -23,7 +22,6 @@
 #include "dialogs.h"
 #include "downloader.h"
 #include "playlistModel.h"
-#include "utils.h"
 
 ParserBase::ParserBase(QObject *parent) : QObject(parent)
 {
@@ -121,14 +119,8 @@ void ParserBase::finishStreamSelection(int index)
 
 void ParserBase::showErrorDialog(const QString &errMsg)
 {
-    QMessageBox msgBox;
-    msgBox.setText(tr("Error"));
-    msgBox.setInformativeText(QStringLiteral("Parse failed!\nURL:") + m_url.toString());
-    msgBox.setDetailedText(QStringLiteral("URL: ") + m_url.toString() + QStringLiteral("\n\n") + errMsg);
-    QPushButton *updateButton = msgBox.addButton(tr("Upgrade parser"), QMessageBox::ActionRole);
-    msgBox.addButton(QMessageBox::Cancel);
-    msgBox.exec();
-    if (msgBox.clickedButton() == updateButton)
-        Utils::updateParser();
+    QString msg = tr("Parse failed!\nURL:") + m_url.toString();
+    msg += tr("Please try updating plugins.\n\nError output:\n") + errMsg;
+    Dialogs::instance()->messageDialog(tr("Error"), msg);
 }
 

@@ -35,6 +35,11 @@ public:
     // Console dialog
     void consoleDialog(const QString& title, const QString& program, const QStringList& args);
 
+    // Message dialog
+    inline void messageDialog(const QString &title, const QString &message) {
+        emit messageStarted(title, message);
+    }
+
     // Open URL dialog
     inline void openUrlDialog(const QUrl& url) { emit openUrlStarted(url); }
 
@@ -46,6 +51,7 @@ signals:
     void consoleStarted(const QString& title);
     void consoleFinished(void);
     void consoleOutputsChanged(void);
+    void messageStarted(const QString& title, const QString& message);
     void openUrlStarted(const QUrl& url);
     void selectionStarted(const QString &title, const QStringList &items);
 

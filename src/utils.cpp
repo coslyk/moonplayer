@@ -17,7 +17,6 @@
 #include "utils.h"
 #include <QCoreApplication>
 #include <QFile>
-#include <QMessageBox>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QRegularExpression>
@@ -36,7 +35,7 @@ void Utils::checkUpdate()
             QString data = QString::fromLatin1(reply->readAll());
             QString latestVersion = re.match(data).captured(1);
             if (latestVersion != QStringLiteral(MOONPLAYER_VERSION))
-                QMessageBox::information(nullptr, tr("Update"), tr("New version of MoonPlayer is available."));
+                Dialogs::instance()->messageDialog(tr("Update"), tr("New version of MoonPlayer is available."));
         }
         reply->deleteLater();
     });

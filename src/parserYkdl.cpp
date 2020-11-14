@@ -21,7 +21,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
-#include <QMessageBox>
 #include <QProcess>
 #include <QSettings>
 #include <QTextCodec>
@@ -66,7 +65,7 @@ void ParserYkdl::runParser(const QUrl &url)
 {
     if (m_process.state() == QProcess::Running)
     {
-        QMessageBox::warning(nullptr, tr("Error"), tr("Another file is being parsed."));
+        Dialogs::instance()->messageDialog(tr("Error"), tr("Another file is being parsed."));
         return;
     }
 

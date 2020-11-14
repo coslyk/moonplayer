@@ -17,9 +17,9 @@
 #include "downloaderItem.h"
 #include "fileDownloader.h"
 #include <QDebug>
-#include <QMessageBox>
 #include <QProcess>
 #include <QSettings>
+#include "dialogs.h"
 #include "platform/paths.h"
 
 QList <FileDownloader *> DownloaderItem::s_waiting;
@@ -216,7 +216,7 @@ void DownloaderItem::concatVideos()
         if (!file.open(QFile::WriteOnly))
         {
             setState(ERROR);
-            QMessageBox::warning(nullptr, tr("Error"), tr("Failed to write: ") + file.fileName());
+            Dialogs::instance()->messageDialog(tr("Error"), tr("Failed to write: ") + file.fileName());
             return;
         }
         for (const auto& filename : filelist)
@@ -262,7 +262,7 @@ void DownloaderItem::onConcatFinished(int status)
     else
     {
         setState(ERROR);
-        QMessageBox::warning(nullptr, tr("Error"), tr("Failed to concat: ") + filePath());
+        Dialogs::instance()->messageDialog(tr("Error"), tr("Failed to concat: ") + filePath());
         qDebug("FFmpeg ERROR:\n%s", m_process->readAllStandardError().constData());
     }
     m_process->deleteLater();

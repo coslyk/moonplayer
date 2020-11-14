@@ -33,7 +33,6 @@ public:
 
     // Dialogs
     Q_INVOKABLE void warning(const QString &msg);
-    Q_INVOKABLE bool question(const QString &msg);
     Q_INVOKABLE QString get_text(const QString &msg);
     Q_INVOKABLE QString get_item(const QString &msg, const QStringList &items);
 

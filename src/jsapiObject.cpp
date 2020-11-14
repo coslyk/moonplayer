@@ -17,10 +17,10 @@
 #include "jsapiObject.h"
 #include "accessManager.h"
 #include <QInputDialog>
-#include <QMessageBox>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSettings>
+#include "dialogs.h"
 
 JSAPIObject::JSAPIObject(const QString &id, QObject *parent) : QObject(parent), m_id(id)
 {
@@ -57,7 +57,7 @@ void JSAPIObject::get_post_content(const QString& url, const QByteArray& postDat
         if (reply->error() != QNetworkReply::NoError)
         {
             QString errStr = QStringLiteral("Network Error: %1\n%2\n").arg(QString::number(status), reply->errorString());
-            QMessageBox::warning(NULL, tr("Error"), errStr);
+            Dialogs::instance()->messageDialog(tr("Error"), errStr);
             return;
         }
 
@@ -84,12 +84,7 @@ void JSAPIObject::post_content(const QString& url, const QByteArray& postData, c
 // Dialogs
 void JSAPIObject::warning(const QString& msg)
 {
-    QMessageBox::warning(nullptr, tr("Warning"), msg);
-}
-
-bool JSAPIObject::question(const QString& msg)
-{
-    return QMessageBox::question(nullptr, tr("Question"), msg, QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes;
+    Dialogs::instance()->messageDialog(tr("Warning"), msg);
 }
 
 QString JSAPIObject::get_text(const QString &msg)
