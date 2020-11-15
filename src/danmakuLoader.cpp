@@ -86,15 +86,11 @@ void DanmakuLoader::onXmlDownloaded()
         QSettings settings;
 
         // Font
-        QString fontName = settings.value(QStringLiteral("danmaku/font")).value<QFont>().family();
-        if (fontName.isEmpty())
-        {
 #ifdef Q_OS_MAC
-            fontName = QStringLiteral("PingFang SC");
+        QString fontName = settings.value(QStringLiteral("danmaku/font_family"), QStringLiteral("PingFang SC")).toString();
 #else
-            fontName = QStringLiteral("sans-serif");
+        QString fontName = settings.value(QStringLiteral("danmaku/font_family"), QStringLiteral("sans-serif")).toString();
 #endif
-        }
         
         // Font size
         int fontSize = settings.value(QStringLiteral("danmaku/font_size")).toInt();

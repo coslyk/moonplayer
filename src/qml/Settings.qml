@@ -72,7 +72,7 @@ CustomTabDialog {
             property alias alpha: alphaSpinBox.value
             property alias dm: dmSpinBox.value
             property alias ds: dsSpinBox.value
-            //property alias font: fontDialog.font
+            property alias font_family: fontButton.text
             property alias font_size: fontSizeSpinBox.value
         }
     
@@ -186,16 +186,18 @@ CustomTabDialog {
         GridLayout {
             columns: 2
             columnSpacing: 20
-            /*
+            
             Label { text: qsTr("Font:") }
             Button {
-                text: fontDialog.font.family
+                id: fontButton
                 onClicked: fontDialog.open()
             }
-            FontDialog {
+            SelectionDialog {
                 id: fontDialog
                 title: qsTr("Please choose a font for Danmaku")
-            }*/
+                items: Qt.fontFamilies()
+                onAccepted: fontButton.text = items[currentIndex]
+            }
                 
             Label { text: qsTr("Font size:") + " (*)" }
             SpinBox { id: fontSizeSpinBox; from: 0; to: 100; value: 0; implicitWidth: 140 }
