@@ -39,4 +39,8 @@ QtObject {
     property color listItemHovered: theme == "Dark" ? "#888888" : "#eeeeee"
     property color listItemSelected: theme == "Dark" ? "steelblue" : "lightsteelblue"
     property color listItemCurrentActive: theme == "Dark" ? "grey" : "lightgrey"
+
+    // Colors for file dialog
+    property color fileItem: theme == "Dark" ? "grey" : "lightgrey"
+    property color folderItem: theme == "Dark" ? "darkgoldenrod" : "wheat"
 }

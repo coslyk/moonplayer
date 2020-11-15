@@ -20,7 +20,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QRegularExpression>
-#include <QUrl>
+#include <QStandardPaths>
 #include "accessManager.h"
 #include "dialogs.h"
 
@@ -70,3 +70,30 @@ QString Utils::environmentVariable(const QString& env)
     return QString::fromUtf8(qgetenv(env.toUtf8().constData()));
 }
 
+
+// Locations
+
+QUrl Utils::desktopLocation()
+{
+    return QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
+}
+
+QUrl Utils::downloadLocation()
+{
+    return QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+}
+
+QUrl Utils::homeLocation()
+{
+    return QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+}
+
+QUrl Utils::movieLocation()
+{
+    return QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+}
+
+QUrl Utils::musicLocation()
+{
+    return QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::MusicLocation));
+}

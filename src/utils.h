@@ -18,6 +18,7 @@
 #define UTILS_H
 
 #include <QObject>
+#include <QUrl>
 
 class Utils : public QObject
 {
@@ -32,6 +33,13 @@ public:
     
     // Get environment variable
     Q_INVOKABLE static QString environmentVariable(const QString& env);
+
+    // Paths
+    Q_INVOKABLE static QUrl homeLocation(void);
+    Q_INVOKABLE static QUrl movieLocation(void);
+    Q_INVOKABLE static QUrl musicLocation(void);
+    Q_INVOKABLE static QUrl desktopLocation(void);
+    Q_INVOKABLE static QUrl downloadLocation(void);
 };
 
 #endif  // UTILS_H
