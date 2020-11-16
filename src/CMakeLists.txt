@@ -24,6 +24,7 @@ set(SOURCE_FILES
     downloaderItem.cpp
     fileDownloader.cpp
     fileOpenDialog.cpp
+    fontDialog.cpp
     jsapiObject.cpp
     main.cpp
     mpvObject.cpp

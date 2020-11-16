@@ -26,6 +26,7 @@
 #include "downloader.h"
 #include "downloaderAbstractItem.h"
 #include "fileOpenDialog.h"
+#include "fontDialog.h"
 #include "mpvObject.h"
 #include "playlistModel.h"
 #include "platform/application.h"
@@ -62,10 +63,17 @@ int main(int argc, char *argv[])
         app.installTranslator(&translator);
 
     qmlRegisterType<MpvObject>("MoonPlayer", 1, 0, "MpvObject");
+
     if (FileOpenDialog::hasNativeSupport())
     {
         qmlRegisterType<FileOpenDialog>("MoonPlayer", 1, 0, "FileOpenDialog");
     }
+
+    if (FontDialog::hasNativeSupport())
+    {
+        qmlRegisterType<FontDialog>("MoonPlayer", 1, 0, "FontDialog");
+    }
+
     qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/qml/Color.qml")), "MoonPlayer", 1, 0, "Color");
     qmlRegisterSingletonType<Dialogs>("MoonPlayer", 1, 0, "Dialogs", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Dialogs(); });
     qmlRegisterSingletonType<PlaylistModel>("MoonPlayer", 1, 0, "PlaylistModel", [](QQmlEngine *, QJSEngine *) -> QObject * { return new PlaylistModel(); });
