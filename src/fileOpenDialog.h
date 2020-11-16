@@ -38,21 +38,18 @@ signals:
     void selectMultipleChanged();
     void selectFolderChanged();
 
-protected:
+private slots:
+    void accept();
+    void reject();
+
+private:
     QPlatformFileDialogHelper *init_helper();
 
-protected:
     QPlatformFileDialogHelper *m_dlgHelper;
     QSharedPointer<QFileDialogOptions> m_options;
 
-protected Q_SLOTS:
-    virtual void accept();
-    virtual void reject();
-
-private:
     QUrl fileUrl_;
     QList<QUrl> fileUrls_;
-    QString filename_;
     QString title_;
     bool selectMultiple_ = false;
     bool selectFolder_ = false;
