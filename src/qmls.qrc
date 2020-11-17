@@ -7,6 +7,7 @@
         <file>qml/Downloader.qml</file>
         <file>qml/Explorer.qml</file>
         <file>qml/FileOpenDialog.qml</file>
+        <file>qml/FontDialog.qml</file>
         <file>qml/MessageDialog.qml</file>
         <file>qml/OpenUrlDialog.qml</file>
         <file>qml/Playlist.qml</file>
