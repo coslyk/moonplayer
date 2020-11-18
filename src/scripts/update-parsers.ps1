@@ -30,21 +30,6 @@ function Get-Latest-Version-Github {
     }
 }
 
-function Get-Latest-Version-Pypi {
-    param (
-        $package
-    )
-    $url = "https://pypi.org/pypi/$package/json"
-    try {
-        $response = Invoke-WebRequest $url -ErrorAction Stop
-        return (ConvertFrom-Json -InputObject $response).info.version
-    }
-    catch {
-        Write-Output "Cannot get the latest version."
-        Exit
-    }
-}
-
 function Get-Current-Version {
     param (
         $plugin_name
@@ -70,7 +55,7 @@ function Save-Version-Info {
 Write-Output "-------- Checking youtube-dl's updates -------"
 
 # Get latest youtube-dl version
-$latest_version = Get-Latest-Version-Pypi "youtube_dl"
+$latest_version = Get-Latest-Version-Github "ytdl-org/youtube-dl"
 Write-Output "Latest version: $latest_version"
 
 # Get current youtube-dl version
@@ -84,7 +69,7 @@ if ($latest_version -eq $current_version) {
     Write-Output ""
     Write-Output "------------ Updating youtube-dl -------------"
     Write-Output "Downloading latest version..."
-    $url = "https://yt-dl.org/downloads/latest/youtube-dl.exe"
+    $url = "https://github.com/ytdl-org/youtube-dl/releases/download/$latest_version/youtube-dl.exe"
     $output = "$env:LOCALAPPDATA\MoonPlayer\youtube-dl.exe"
     (New-Object System.Net.WebClient).DownloadFile($url, $output)
     Save-Version-Info "youtube-dl" $latest_version

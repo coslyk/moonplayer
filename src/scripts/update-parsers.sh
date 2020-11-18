@@ -37,7 +37,7 @@ if which wget > /dev/null; then
     alias downloader="wget -q -O"
     alias fetcher="wget -q -O -"
 else
-    alias downloader="curl -L -o"
+    alias downloader="curl -s -L -o"
     alias fetcher="curl -s"
 fi
 
@@ -59,12 +59,6 @@ get_latest_version_github() {
     $PYTHON -c "import sys, json; sys.stdout.write(json.load(sys.stdin)['tag_name'])"
 }
 
-get_latest_version_pypi() {
-    export PYTHONIOENCODING=utf8
-    fetcher "https://pypi.org/pypi/$1/json" | \
-    $PYTHON -c "import sys, json; sys.stdout.write(json.load(sys.stdin)['info']['version'])"
-}
-
 get_current_version() {
     if [ -e "$DEST_DIR/version-$1.txt" ]; then
         cat "$DEST_DIR/version-$1.txt"
@@ -83,7 +77,7 @@ echo "\n-------- Checking youtube-dl's updates -------"
 CURRENT_VERSION=$(get_current_version "youtube-dl")
 echo "Current version: $CURRENT_VERSION"
 
-LATEST_VERSION=$(get_latest_version_pypi "youtube_dl")
+LATEST_VERSION=$(get_latest_version_github "ytdl-org/youtube-dl")
 if [ -n "$LATEST_VERSION" ]; then
     echo "Latest version: $LATEST_VERSION"
 else
@@ -98,7 +92,7 @@ else
     echo "\n ------------ Updating youtube-dl -------------"
     echo "Downloading latest version..."
     rm -f youtube-dl
-    downloader youtube-dl "https://yt-dl.org/downloads/latest/youtube-dl"
+    downloader youtube-dl "https://github.com/ytdl-org/youtube-dl/releases/download/$LATEST_VERSION/youtube-dl"
     chmod a+x youtube-dl
     save_version_info "youtube-dl" "$LATEST_VERSION"
 fi
