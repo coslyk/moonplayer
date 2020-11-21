@@ -69,6 +69,7 @@ void ParserYkdl::runParser(const QUrl &url)
 {
     if (m_process.state() == QProcess::Running)
     {
+        Q_ASSERT(Dialogs::instance() != nullptr);
         Dialogs::instance()->messageDialog(tr("Error"), tr("Another file is being parsed."));
         return;
     }
@@ -119,6 +120,7 @@ void ParserYkdl::parseOutput()
             urls << item.toObject()[QStringLiteral("url")].toString();
         }
 
+        Q_ASSERT(Dialogs::instance() != nullptr);
         Dialogs::instance()->selectionDialog(tr("Select episode"), titles, [=](int index) {
             Q_ASSERT(PlaylistModel::instance() != nullptr);
             PlaylistModel::instance()->addUrl(urls[index], m_download);

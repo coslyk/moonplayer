@@ -48,10 +48,11 @@ void ParserYoutubeDL::runParser(const QUrl& url)
 {
     if (m_process.state() == QProcess::Running)
     {
+        Q_ASSERT(Dialogs::instance() != nullptr);
         Dialogs::instance()->messageDialog(tr("Error"), tr("Another file is being parsed."));
         return;
     }
-    
+
     QSettings settings;
     auto proxyType = (NetworkAccessManager::ProxyType) settings.value(QStringLiteral("network/proxy_type")).toInt();
     auto proxy = settings.value(QStringLiteral("network/proxy")).toString();

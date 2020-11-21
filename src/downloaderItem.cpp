@@ -216,6 +216,7 @@ void DownloaderItem::concatVideos()
         if (!file.open(QFile::WriteOnly))
         {
             setState(ERROR);
+            Q_ASSERT(Dialogs::instance() != nullptr);
             Dialogs::instance()->messageDialog(tr("Error"), tr("Failed to write: ") + file.fileName());
             return;
         }
@@ -262,6 +263,7 @@ void DownloaderItem::onConcatFinished(int status)
     else
     {
         setState(ERROR);
+        Q_ASSERT(Dialogs::instance() != nullptr);
         Dialogs::instance()->messageDialog(tr("Error"), tr("Failed to concat: ") + filePath());
         qDebug("FFmpeg ERROR:\n%s", m_process->readAllStandardError().constData());
     }

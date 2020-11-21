@@ -106,6 +106,7 @@ void DownloaderHlsItem::start()
 
 void DownloaderHlsItem::pause()
 {
+    Q_ASSERT(Dialogs::instance() != nullptr);
     Dialogs::instance()->messageDialog(tr("Error"), tr("Cannot pause the download of HLS streams."));
 }
 

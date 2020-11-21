@@ -35,7 +35,10 @@ void Utils::checkUpdate()
             QString data = QString::fromLatin1(reply->readAll());
             QString latestVersion = re.match(data).captured(1);
             if (latestVersion != QStringLiteral(MOONPLAYER_VERSION))
+            {
+                Q_ASSERT(Dialogs::instance() != nullptr);
                 Dialogs::instance()->messageDialog(tr("Update"), tr("New version of MoonPlayer is available."));
+            }
         }
         reply->deleteLater();
     });
