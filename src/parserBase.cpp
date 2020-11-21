@@ -118,8 +118,8 @@ void ParserBase::finishStreamSelection(int index)
 
 void ParserBase::showErrorDialog(const QString &errMsg)
 {
-    QString msg = tr("Parse failed!\nURL:") + m_url.toString();
-    msg += tr("Please try updating plugins.\n\nError output:\n") + errMsg;
+    QString msg = tr("Parse failed!\nURL: %1\n\nPlease try updating plugins.").arg(m_url.toString());
     Dialogs::instance()->messageDialog(tr("Error"), msg);
+    qDebug("%s", errMsg.toUtf8().constData());
 }
 
