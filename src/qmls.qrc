@@ -13,6 +13,7 @@
         <file>qml/Playlist.qml</file>
         <file>qml/SelectionDialog.qml</file>
         <file>qml/Settings.qml</file>
+        <file>qml/TextInputDialog.qml</file>
         <file>qml/VideoOptionsDialog.qml</file>
         <file>qml/classicUI/CustomWidgets/CustomImageButton.qml</file>
         <file>qml/classicUI/CustomWidgets/CustomTabDialog.qml</file>

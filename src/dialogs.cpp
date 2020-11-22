@@ -59,11 +59,23 @@ void Dialogs::consoleDialog(const QString& title, const QString& program, const 
 // Selection dialog
 void Dialogs::selectionDialog(const QString &title, const QStringList& items, std::function<void(int)> callback)
 {
-    m_selectionCb = callback;
+    m_selectionCb = std::move(callback);
     emit selectionStarted(title, items);
 }
 
-void Dialogs::selectionDialogCallback(int index)
+void Dialogs::selectionCallback(int index)
 {
     m_selectionCb(index);
+}
+
+// Text input dialog
+void Dialogs::textInputDialog(const QString &title, std::function<void(const QString &)> callback, const QString &defaultValue)
+{
+    m_textInputCb = std::move(callback);
+    emit textInputStarted(title, defaultValue);
+}
+
+void Dialogs::textInputCallback(const QString& text)
+{
+    m_textInputCb(text);
 }

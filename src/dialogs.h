@@ -45,7 +45,11 @@ public:
 
     // Selection dialog
     void selectionDialog(const QString& title, const QStringList& items, std::function<void(int)> callback);
-    Q_INVOKABLE void selectionDialogCallback(int index);
+    Q_INVOKABLE void selectionCallback(int index);
+
+    // Text input dialog
+    void textInputDialog(const QString& title, std::function<void(const QString&)> callback, const QString& defaultValue);
+    Q_INVOKABLE void textInputCallback(const QString& text);
 
 signals:
     void consoleStarted(const QString& title);
@@ -53,12 +57,14 @@ signals:
     void consoleOutputsChanged(void);
     void messageStarted(const QString& title, const QString& message);
     void openUrlStarted(const QUrl& url);
-    void selectionStarted(const QString &title, const QStringList &items);
+    void selectionStarted(const QString& title, const QStringList& items);
+    void textInputStarted(const QString& title, const QString& defaultValue);
 
 private:
     QProcess m_process;
     QStringList m_consoleOutputs;
     std::function<void(int)> m_selectionCb;
+    std::function<void(const QString&)> m_textInputCb;
 
     static Dialogs* s_instance;
 };

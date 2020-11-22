@@ -103,7 +103,16 @@ CustomWindow
             }
         }
 
-        onAccepted: Dialogs.selectionDialogCallback(currentIndex)
+        onAccepted: Dialogs.selectionCallback(currentIndex)
+    }
+
+    // Text input dialog
+    TextInputDialog {
+        id: textInputDialog
+
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
     }
     
     // Select subtitles
