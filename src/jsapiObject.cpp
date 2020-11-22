@@ -83,9 +83,20 @@ void JSAPIObject::post_content(const QString& url, const QByteArray& postData, c
 // Dialogs
 void JSAPIObject::warning(const QString& msg)
 {
+    Q_ASSERT(Dialogs::instance() != nullptr);
     Dialogs::instance()->messageDialog(tr("Warning"), msg);
 }
 
+void JSAPIObject::get_text(const QString& msg, const QString& defaultValue, const QJSValue& callbackFunc)
+{
+    Q_ASSERT(Dialogs::instance() != nullptr);
+    Dialogs::instance()->textInputDialog(msg, [=](const QString& text) {
+        QJSValue retVal = QJSValue(callbackFunc).call({ text });
+        if (retVal.isError()) {
+            emit jsError(retVal);
+        }
+    }, defaultValue);
+}
 
 // Show result
 void JSAPIObject::show_result(const QVariant& result)

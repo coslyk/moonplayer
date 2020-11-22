@@ -33,6 +33,7 @@ public:
 
     // Dialogs
     Q_INVOKABLE void warning(const QString &msg);
+    Q_INVOKABLE void get_text(const QString &msg, const QString &defaultValue, const QJSValue &callbackFunc);
 
     // Show result
     Q_INVOKABLE void show_result(const QVariant &result);
