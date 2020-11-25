@@ -22,8 +22,8 @@ import MoonPlayer 1.0
 Dialog {
     id: messageDialog
     
-    width: 400
-    height: 200
+    width: 360
+    height: 180
     standardButtons: Dialog.Ok
     modal: true
     closePolicy: Popup.NoAutoClose
