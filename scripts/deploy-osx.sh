@@ -6,8 +6,7 @@ mv 3rdparty/moonplayer-hlsdl MoonPlayer.app/Contents/MacOS/
 cp /usr/local/opt/ffmpeg-lite/bin/ffmpeg MoonPlayer.app/Contents/MacOS/
 
 # Bundle libraries
-/usr/local/opt/qt/bin/macdeployqt MoonPlayer.app -qmldir=src/qml/
-cp /usr/local/opt/openssl/lib/libcrypto.1.1.dylib MoonPlayer.app/Contents/Frameworks/
+/usr/local/opt/qt/bin/macdeployqt MoonPlayer.app -qmldir=src/qml/ -executable=MoonPlayer.app/Contents/MacOS/moonplayer-hlsdl
 
 # Cut Qt size
 rm -rf MoonPlayer.app/Contents/Frameworks/QtPdf.framework
