@@ -37,6 +37,17 @@
 
 int main(int argc, char *argv[])
 {
+    // Check Qt version
+    if (strcmp(qVersion(), QT_VERSION_STR) != 0)
+    {
+        qWarning(
+            "The program is compiled against Qt %s but running on Qt %s,"
+            "which may lead to unexpected behaviors.",
+            QT_VERSION_STR,
+            qVersion()
+        );
+    }
+
     qputenv("PYTHONIOENCODING", QByteArrayLiteral("utf-8"));
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QCoreApplication::setOrganizationName(QStringLiteral("coslyk"));
