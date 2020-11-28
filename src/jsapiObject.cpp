@@ -81,6 +81,12 @@ void JSAPIObject::post_content(const QString& url, const QByteArray& postData, c
 }
 
 // Dialogs
+void JSAPIObject::information(const QString &msg)
+{
+    Q_ASSERT(Dialogs::instance() != nullptr);
+    Dialogs::instance()->messageDialog(tr("Information"), msg);
+}
+
 void JSAPIObject::warning(const QString& msg)
 {
     Q_ASSERT(Dialogs::instance() != nullptr);

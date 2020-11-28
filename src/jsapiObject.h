@@ -32,6 +32,7 @@ public:
     Q_INVOKABLE void post_content(const QString &url, const QByteArray &postData, const QJSValue &callbackFunc);
 
     // Dialogs
+    Q_INVOKABLE void information(const QString &msg);
     Q_INVOKABLE void warning(const QString &msg);
     Q_INVOKABLE void get_text(const QString &msg, const QString &defaultValue, const QJSValue &callbackFunc);
 
