@@ -1,3 +1,10 @@
+### version 3.6 (2020.11.25)
+
+1. Youtube-dl is back
+1. Fix sometimes pause/play doesn't work
+1. Remove dependency on QtWidgets
+1. Performance optimization
+
 ### version 3.5.2 (2020.10.25)
 
 1. Remove built-in youtube-dl due to DCMA takedown ([#100](https://github.com/coslyk/moonplayer/issues/100))

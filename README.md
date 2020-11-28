@@ -10,11 +10,17 @@ The homepage of MoonPlayer is here: https://coslyk.github.io/moonplayer.html
 
 Here is the development page of this project. For the introduction and usage information, please visit the homepage.
 
+[Update log](https://github.com/coslyk/moonplayer/blob/develop/NEWS.md)
+
 ## Installation
 
 #### Windows / macOS / Linux (AppImage)
 
 Download from [GitHub Releases](https://github.com/coslyk/MoonPlayer/releases) and install it.
+
+**Note:**
+1. Windows version only support x64.
+2. AppImage version does not support hardware decoding.
 
 #### Linux (Flatpak)
 
