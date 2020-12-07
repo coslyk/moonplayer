@@ -266,6 +266,7 @@ CustomTabDialog {
                 id: folderDialog
                 title: "Please choose a folder"
                 selectFolder: true
+                fileUrl: Utils.movieLocation()
             }
         }
         
