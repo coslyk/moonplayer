@@ -29,6 +29,7 @@ set(SOURCE_FILES
     main.cpp
     mpvObject.cpp
     parserBase.cpp
+    parserGtv.cpp
     parserYkdl.cpp
     parserYoutubedl.cpp
     playlistModel.cpp

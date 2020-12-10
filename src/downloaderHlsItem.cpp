@@ -38,6 +38,7 @@ DownloaderHlsItem::DownloaderHlsItem(const QString &filepath, const QUrl &url, c
     // Set new filePath
     QString newPath = filepath.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".ts");
     setFilePath(newPath);
+    setName(QFileInfo(newPath).fileName());
 
     // Delete file if it exists
     if (QFile::exists(newPath))

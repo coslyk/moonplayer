@@ -19,6 +19,7 @@
 #include <QSettings>
 #include "dialogs.h"
 #include "mpvObject.h"
+#include "parserGtv.h"
 #include "parserYkdl.h"
 #include "parserYoutubedl.h"
 
@@ -108,6 +109,8 @@ void PlaylistModel::addUrl ( const QUrl& url, bool download )
 
     if (ParserYkdl::isSupported(url))
         ParserYkdl::instance()->parse(url, download);
+    else if (ParserGTV::isSupported(url))
+        ParserGTV::instance()->parse(url, download);
     else
         ParserYoutubeDL::instance()->parse(url, download);
 }
