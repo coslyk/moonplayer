@@ -104,6 +104,10 @@ target_link_libraries(${PROJECT_NAME}
 # Enable Automoc and Autorcc for Qt
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
 
+if (UNIX AND NOT APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-Wl,-z,lazy")
+endif()
+
 # Enable all compilation warnings
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4)
