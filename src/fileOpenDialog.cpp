@@ -15,8 +15,7 @@
 FileOpenDialog::FileOpenDialog(QQuickItem *parent) :
     QQuickItem(parent),
     m_dlgHelper(init_helper()),
-    m_options(QFileDialogOptions::create()),
-    fileUrl_(QUrl::fromLocalFile(QDir::homePath()))
+    m_options(QFileDialogOptions::create())
 {
     Q_ASSERT(m_dlgHelper != nullptr);
     connect(m_dlgHelper, &QPlatformFileDialogHelper::accept,
