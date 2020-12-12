@@ -80,6 +80,9 @@ CustomTabDialog {
         QSettings.Settings {
             id: networkSettings
             category: "network"
+            property alias limit_cache: limitCacheCheckBox.checked
+            property alias forward_cache: forwardCacheSpinBox.value
+            property alias backward_cache: backwardCacheSpinBox.value
             property alias proxy_type: proxyModeComboBox.currentIndex
             property alias proxy: proxyInput.text
             property alias proxy_only_for_parsing: proxyParsingOnlyCheckBox.checked
@@ -217,7 +220,23 @@ CustomTabDialog {
         // Network
         GridLayout {
             columns: 2
+            rowSpacing: 2
             columnSpacing: 20
+
+            CheckBox {
+                id: limitCacheCheckBox
+                text: qsTr("Limit cache size (Requires restart)")
+                Layout.columnSpan: 2
+            }
+
+            Label { text: qsTr("Forward cache (MB):"); enabled: limitCacheCheckBox.checked }
+            SpinBox { id: forwardCacheSpinBox; from: 1; to: 200; value: 50; enabled: limitCacheCheckBox.checked }
+
+            Label { text: qsTr("Backward cache (MB):"); enabled: limitCacheCheckBox.checked }
+            SpinBox { id: backwardCacheSpinBox; from: 1; to: 200; value: 50; enabled: limitCacheCheckBox.checked }
+
+            MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
+
             Label { text: qsTr("Proxy mode:") }
             ComboBox {
                 id: proxyModeComboBox

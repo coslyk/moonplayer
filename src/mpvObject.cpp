@@ -136,7 +136,15 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
     m_mpv.observe_property("pause");
     m_mpv.observe_property("track-list");
     m_mpv.request_log_messages("warn");
-    
+
+    // Configure cache
+    if (settings.value(QStringLiteral("network/limit_cache"), false).toBool())
+    {
+        int64_t forwardBytes = settings.value(QStringLiteral("network/forward_cache")).toLongLong() << 20;
+        int64_t backwardBytes = settings.value(QStringLiteral("network/backward_cache")).toLongLong() << 20;
+        m_mpv.set_option("demuxer-max-bytes", forwardBytes);
+        m_mpv.set_option("demuxer-max-back-bytes", backwardBytes);
+    }
     
     // Configure hardware decoding
     bool hwdecCopy = settings.value(QStringLiteral("video/hwdec_copy_mode"), false).toBool();
@@ -485,14 +493,13 @@ void MpvObject::onMpvEvent()
                 break;
             }
 
-            QByteArray propName = prop->name;
             const Mpv::Node &propValue = *static_cast<Mpv::Node*>(prop->data);
             if (propValue.type() == MPV_FORMAT_NONE)
             {
                 break;
             }
 
-            if (propName == QByteArrayLiteral("playback-time"))
+            if (strcmp(prop->name, "playback-time") == 0)
             {
                 int64_t newTime = static_cast<double>(propValue);  // It's double in mpv
                 if (newTime != m_time)
@@ -502,13 +509,13 @@ void MpvObject::onMpvEvent()
                 }
             }
 
-            else if (propName == QByteArrayLiteral("duration"))
+            else if (strcmp(prop->name, "duration") == 0)
             {
                 m_duration = static_cast<double>(propValue);  // It's double in mpv
                 emit durationChanged();
             }
 
-            else if (propName == QByteArrayLiteral("pause"))
+            else if (strcmp(prop->name, "pause") == 0)
             {
                 if (propValue && m_state == VIDEO_PLAYING)
                 {
@@ -521,7 +528,7 @@ void MpvObject::onMpvEvent()
                 emit stateChanged();
             }
 
-            else if (propName == QByteArrayLiteral("paused-for-cache"))
+            else if (strcmp(prop->name,"paused-for-cache") == 0)
             {
                 if (propValue && m_state != STOPPED)
                 {
@@ -533,7 +540,7 @@ void MpvObject::onMpvEvent()
                 }
             }
 
-            else if (propName == QByteArrayLiteral("core-idle"))
+            else if (strcmp(prop->name, "core-idle") == 0)
             {
                 if (propValue && m_state == VIDEO_PLAYING)
                 {
@@ -545,7 +552,7 @@ void MpvObject::onMpvEvent()
                 }
             }
             
-            else if (propName == QByteArrayLiteral("track-list")) // Read tracks info
+            else if (strcmp(prop->name, "track-list") == 0) // Read tracks info
             {
                 m_subtitles.clear();
                 m_audioTracks.clear();
