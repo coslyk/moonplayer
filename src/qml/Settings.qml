@@ -119,7 +119,15 @@ CustomTabDialog {
                 id: styleComboBox
                 model: [ "Mix", "Dark", "Light" ]
                 enabled: !systemFrameCheckBox.checked
-                onCurrentTextChanged: Color.theme = currentText
+                onCurrentTextChanged: {
+                    if (Utils.environmentVariable("QT_QUICK_CONTROLS_STYLE") === "fusion") {
+                        // classic UI
+                        Color.theme = palette.window.hsvValue < 0.3 ? "Dark" : "Mix";
+                    } else {
+                        // modern UI
+                        Color.theme = currentText;
+                    }
+                }
             }
             
             Label { text: qsTr("When opening an URL:") }

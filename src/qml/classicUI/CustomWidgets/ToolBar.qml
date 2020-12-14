@@ -18,10 +18,12 @@ import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 
-Rectangle {
+Control {
     id: toolBar
-    color: "#f2f2f2"
-    height: 40
+    background: Rectangle {
+        implicitHeight: 40
+        color: palette.window
+    }
     
     signal playPauseButtonClicked()
     signal stopButtonClicked()
@@ -32,6 +34,7 @@ Rectangle {
     signal seekRequested(int time)
 
     property bool isPlaying: false
+    property bool isDarkTheme: palette.window.hsvValue < 0.3
     property int time: 0
     property int duration: 0
     property alias volumeButton: volumeButton
@@ -56,7 +59,9 @@ Rectangle {
 
         CustomImageButton {
             id: playPauseButton
-            image: isPlaying ? "qrc:/images/pause_grey.png" : "qrc:/images/play_grey.png"
+            image: isPlaying ?
+                       (isDarkTheme ? "qrc:/images/pause_lightgrey.png" : "qrc:/images/pause_grey.png") :
+                       (isDarkTheme ? "qrc:/images/play_lightgrey.png" : "qrc:/images/play_grey.png")
             width: 16
             height: 16
             onClicked: playPauseButtonClicked()
@@ -64,7 +69,7 @@ Rectangle {
 
         CustomImageButton {
             id: stopButton
-            image: "qrc:/images/stop_grey.png"
+            image: isDarkTheme ? "qrc:/images/stop_lightgrey.png" : "qrc:/images/stop_grey.png"
             width: 16
             height: 16
             onClicked: stopButtonClicked()
@@ -72,7 +77,7 @@ Rectangle {
 
         CustomImageButton {
             id: volumeButton
-            image: "qrc:/images/volume_grey.png"
+            image: isDarkTheme ? "qrc:/images/volume_lightgrey.png" : "qrc:/images/volume_grey.png"
             width: 16
             height: 16
             onClicked: volumeButtonClicked()
@@ -81,7 +86,6 @@ Rectangle {
         Label {
             id: timeText
             text: toHHMMSS(time)
-            color: "black"
         }
         
         Slider {
@@ -99,12 +103,11 @@ Rectangle {
         Label {
             id: durationText
             text: toHHMMSS(duration)
-            color: "black"
         }
 
         CustomImageButton {
             id: explorerButton
-            image: "qrc:/images/net_grey.png"
+            image: isDarkTheme ? "qrc:/images/net_lightgrey.png" : "qrc:/images/net_grey.png"
             width: 16
             height: 16
             onClicked: explorerButtonClicked()
@@ -112,7 +115,7 @@ Rectangle {
 
         CustomImageButton {
             id: settingsButton
-            image: "qrc:/images/settings_grey.png"
+            image: isDarkTheme ? "qrc:/images/settings_lightgrey.png" : "qrc:/images/settings_grey.png"
             width: 16
             height: 16
             onClicked: settingsButtonClicked()
@@ -120,7 +123,7 @@ Rectangle {
 
         CustomImageButton {
             id: playlistButton
-            image: "qrc:/images/playlist_grey.png"
+            image: isDarkTheme ? "qrc:/images/playlist_lightgrey.png" : "qrc:/images/playlist_grey.png"
             width: 16
             height: 16
             onClicked: playlistButtonClicked()
