@@ -49,7 +49,9 @@ public:
     Q_INVOKABLE void clear(void);
     Q_INVOKABLE void playItem(int index);
     Q_INVOKABLE void playNextItem(void);
+
     void addUrl(const QUrl& url);   // Load "download" option from settings or open a dialog to question
+    inline bool hasNextItem() { return m_playingIndex + 1 < m_fileUrls.count(); }
     
     int rowCount(const QModelIndex & parent) const override;
     QHash<int, QByteArray> roleNames() const override;

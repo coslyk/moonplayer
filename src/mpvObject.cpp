@@ -436,9 +436,9 @@ void MpvObject::onMpvEvent()
         
         case MPV_EVENT_IDLE:
         {
-            if (m_endFileReason == MPV_END_FILE_REASON_EOF)
+            Q_ASSERT(PlaylistModel::instance() != nullptr);
+            if (m_endFileReason == MPV_END_FILE_REASON_EOF && PlaylistModel::instance()->hasNextItem())
             {
-                Q_ASSERT(PlaylistModel::instance() != nullptr);
                 PlaylistModel::instance()->playNextItem();
             }
             else
