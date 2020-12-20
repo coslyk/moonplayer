@@ -3,9 +3,9 @@ language: cpp
 
 jobs:
   include:
-    - name: Ubuntu 14.04 build
+    - name: Ubuntu 16.04 build
       os: linux
-      dist: trusty
+      dist: xenial
       env:
         - QT5_BASE_DIR=$HOME/Qt/5.12.9/gcc_64
         - PATH=$HOME/Qt/5.12.9/gcc_64/bin/:$PATH
@@ -45,7 +45,7 @@ jobs:
 addons:
   apt:
     sources:
-      - sourceline: 'ppa:cos-lyk/libmpv-trusty'
+      - sourceline: 'ppa:cos-lyk/libmpv-xenial'
     packages:
       - build-essential
       - cmake
