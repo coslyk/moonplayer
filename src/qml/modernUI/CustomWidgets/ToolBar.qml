@@ -16,6 +16,7 @@
  
 import QtQuick 2.7
 import QtQuick.Controls 2.3
+import QtQuick.Controls.Material 2.3
 import MoonPlayer 1.0
 
 Rectangle {
@@ -153,6 +154,7 @@ Rectangle {
         anchors.left: timeText.right
         anchors.right: durationText.left
         anchors.verticalCenter: timeText.verticalCenter
+        Material.theme: Color.theme === "Light" ? Material.Light : Material.Dark
         onPressedChanged: {
             if (!pressed)  // released
                 seekRequested(value);
