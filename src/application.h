@@ -18,8 +18,9 @@
 #define APPLICATION_H
 
 #include <QGuiApplication>
-class QLocalServer;
-class QLocalSocket;
+#include <QLocalServer>
+#include <QLocalSocket>
+#include <memory>
 
 /* MacOS handles file opening in a different way.
  * It doesn't use arguments, but FileOpenEvent.
@@ -29,21 +30,23 @@ class Application : public QGuiApplication
 {
 public:
     Application(int &argc, char **argv);
-    virtual ~Application();
-    bool parseArgs(void);
-    
-#ifdef Q_OS_MAC
+
+    bool connectAnotherInstance(void);
+    void sendFileLists(void);
+    void createServer(void);
+    void processFileLists(void);
+    void processFileLists(const QByteArrayList& fileList);
+
 protected:
     bool event(QEvent *e);
-    
-#else
-private:
+
+private slots:
     void onNewConnection(void);
-    int m_argc;
-    char **m_argv;
-    QLocalServer *m_server;
-    QLocalSocket *m_client;
-#endif
+
+private:
+    QByteArrayList m_fileList;
+    std::unique_ptr<QLocalServer> m_server;
+    std::unique_ptr<QLocalSocket> m_client;
 };
 
 #endif // APPLICATION_H

@@ -16,12 +16,14 @@
 
 #include <QCoreApplication>
 #include <QDir>
+#include <QTimer>
 #include <QTranslator>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QSettings>
 #include <clocale>
 #include "accessManager.h"
+#include "application.h"
 #include "dialogs.h"
 #include "downloader.h"
 #include "downloaderAbstractItem.h"
@@ -29,7 +31,6 @@
 #include "fontDialog.h"
 #include "mpvObject.h"
 #include "playlistModel.h"
-#include "platform/application.h"
 #include "platform/graphics.h"
 #include "platform/paths.h"
 #include "plugin.h"
@@ -48,31 +49,46 @@ int main(int argc, char *argv[])
         );
     }
 
-    qputenv("PYTHONIOENCODING", QByteArrayLiteral("utf-8"));
+    // Set application attributes
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QCoreApplication::setOrganizationName(QStringLiteral("coslyk"));
     QCoreApplication::setOrganizationDomain(QStringLiteral("coslyk.github.io"));
     QCoreApplication::setApplicationName(QStringLiteral("MoonPlayer"));
     QCoreApplication::setApplicationVersion(QStringLiteral(MOONPLAYER_VERSION));
 
+    // Detect OpenGL, stage 1
     Graphics::detectOpenGLEarly();
+
+    // Create application instance
     Application app(argc, argv);
-    Graphics::detectOpenGLLate();
-    
-    if (!app.parseArgs())
+
+    // Check whether another instance is running
+    if (app.connectAnotherInstance())
+    {
+        app.sendFileLists();
         return 0;
-    
-    
+    }
+
+    // Create and listen local server
+    app.createServer();
+
+    // Detect OpenGL, stage 2
+    Graphics::detectOpenGLLate();
+
     // Qt sets the locale in the QGuiApplication constructor, but libmpv
     // requires the LC_NUMERIC category to be set to "C", so change it back.
     std::setlocale(LC_NUMERIC, "C");
     qputenv("LC_NUMERIC", QByteArrayLiteral("C"));
-    
+    qputenv("PYTHONIOENCODING", QByteArrayLiteral("utf-8"));
+
     // Translate
     QTranslator translator;
     if (translator.load(QLocale::system().name(), QStringLiteral(":/l10n")))
+    {
         app.installTranslator(&translator);
+    }
 
+    // Register QML Types
     qmlRegisterType<MpvObject>("MoonPlayer", 1, 0, "MpvObject");
 
     if (FileOpenDialog::hasNativeSupport())
@@ -126,6 +142,12 @@ int main(int argc, char *argv[])
     // Create user resources dir
     if (!QDir(userResourcesPath()).exists())
         QDir().mkpath(userResourcesPath());
+
+    // Open files from arguments
+    // Wait 0.5s to ensure OpenGL is loaded
+    QTimer::singleShot(500, [&]() {
+        app.processFileLists();
+    });
     
     return app.exec();
 }

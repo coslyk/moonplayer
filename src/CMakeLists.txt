@@ -16,6 +16,7 @@ include_directories(${PROJECT_SOURCE_DIR}/3rdparty/danmaku2ass_cpp/include)
 # Add source files
 set(SOURCE_FILES
     accessManager.cpp
+    application.cpp
     danmakuLoader.cpp
     dialogs.cpp
     downloader.cpp
@@ -39,19 +40,16 @@ set(SOURCE_FILES
 # Add platform specific source files
 if (APPLE)
     list(APPEND SOURCE_FILES
-        platform/application_mac.cpp
         platform/graphics_mac.cpp
         platform/paths_mac.cpp
     )
 elseif (UNIX AND NOT APPLE)
     list(APPEND SOURCE_FILES
-        platform/application_no_mac.cpp
         platform/graphics_linux.cpp
         platform/paths_linux.cpp
     )
 elseif (WIN32)
     list(APPEND SOURCE_FILES
-        platform/application_no_mac.cpp
         platform/graphics_win.cpp
         platform/paths_win.cpp
     )

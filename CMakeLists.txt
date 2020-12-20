@@ -25,7 +25,7 @@ option(COMPILE_QML "Compile QML to machine code" ON)
 
 # Set C/C++ standard
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 # Add folder where are supportive functions
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
