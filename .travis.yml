@@ -51,6 +51,8 @@ addons:
       - desktop-file-utils
       - ffmpeg
       - libcurl4-openssl-dev
+      - libgl1-mesa-dev
+      - libglu1-mesa-dev
       - libmpv-dev
       - qt515base
       - qt515declarative
