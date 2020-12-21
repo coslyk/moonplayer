@@ -15,6 +15,7 @@
  */
 
 #include "fileDownloader.h"
+#include <QDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "accessManager.h"

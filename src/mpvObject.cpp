@@ -18,6 +18,7 @@
 #include <stdexcept>
 #include <clocale>
 
+#include <QDebug>
 #include <QDir>
 #include <QOpenGLContext>
 #include <QSettings>

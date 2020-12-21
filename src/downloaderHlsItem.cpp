@@ -15,6 +15,7 @@
  */
 
 #include "downloaderHlsItem.h"
+#include <QDebug>
 #include <QFile>
 #include <QFileInfo>
 #include <QJsonDocument>
