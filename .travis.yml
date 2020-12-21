@@ -7,8 +7,8 @@ jobs:
       os: linux
       dist: xenial
       env:
-        - QT5_BASE_DIR=$HOME/Qt/5.12.9/gcc_64
-        - PATH=$HOME/Qt/5.12.9/gcc_64/bin/:$PATH
+        - QT5_BASE_DIR=/opt/qt515
+        - PATH=/opt/qt515/bin/:$PATH
         - UPLOADTOOL_ISPRERELEASE=true
 
 
@@ -46,18 +46,17 @@ addons:
   apt:
     sources:
       - sourceline: 'ppa:cos-lyk/libmpv-xenial'
+      - sourceline: 'ppa:cos-lyk/qt-lite'
     packages:
-      - build-essential
-      - cmake
       - desktop-file-utils
       - ffmpeg
       - libcurl4-openssl-dev
-      - libgl1-mesa-dev
-      - libglu1-mesa-dev
-      - libssl-dev
-      - libxkbcommon-x11-0
       - libmpv-dev
-      - p7zip-full
+      - qt515base
+      - qt515declarative
+      - qt515quickcontrols2
+      - qt515tools
+      - qt515x11extras
     update: true
 
 
@@ -65,7 +64,6 @@ cache:
   directories:
     - $HOME/Library/Caches/Homebrew
     - /usr/local/Homebrew
-    - $HOME/Qt/5.12.9/gcc_64
     - /C/Qt/5.12.9
 
 before_cache:
@@ -75,7 +73,7 @@ before_cache:
 
 install:
   # install Qt 5.12 on Windows and Linux
-  - if [ "$TRAVIS_OS_NAME" != "osx" ]; then scripts/travis-install-qt.sh; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then scripts/travis-install-qt.sh; fi
 
 
 script:
