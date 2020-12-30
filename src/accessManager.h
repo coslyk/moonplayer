@@ -42,7 +42,8 @@ public:
     static NetworkAccessManager *instance(void); // Singleton
     
     QNetworkReply *get(const QNetworkRequest &request);
-    
+    QNetworkReply *post(const QNetworkRequest &request, const QByteArray &data);
+
     Q_INVOKABLE void setupProxy(ProxyType proxyType, const QString& proxy = QString(), bool proxyOnlyForParsing = false);
     
     inline void addUnseekableHost(const QString& host) { m_unseekableHosts << host; }

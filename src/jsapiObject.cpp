@@ -26,17 +26,19 @@ JSAPIObject::JSAPIObject(const QString &id, QObject *parent) : QObject(parent), 
 }
 
 
-void JSAPIObject::get_post_content(const QString& url, const QByteArray& postData, const QJSValue& callbackFunc)
+void JSAPIObject::get_post_content(const QString& url, const QByteArray &contentType, const QByteArray& postData, const QJSValue& callbackFunc)
 {
     Q_ASSERT(NetworkAccessManager::instance() != nullptr);
 
     QNetworkRequest request = QNetworkRequest(url);
     QNetworkReply *reply;
     if (postData.isEmpty())
+    {
         reply = NetworkAccessManager::instance()->get(request);
+    }
     else
     {
-        request.setHeader(QNetworkRequest::ContentTypeHeader, QByteArrayLiteral("application/x-www-form-urlencoded"));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, contentType);
         reply = NetworkAccessManager::instance()->post(request, postData);
     }
 
@@ -48,7 +50,7 @@ void JSAPIObject::get_post_content(const QString& url, const QByteArray& postDat
         if (status == 301 || status == 302)
         {
             QByteArray final_url = reply->rawHeader(QByteArrayLiteral("Location"));
-            get_post_content(QString::fromUtf8(final_url), postData, callbackFunc);
+            get_post_content(QString::fromUtf8(final_url), contentType, postData, callbackFunc);
             return;
         }
 
@@ -61,10 +63,8 @@ void JSAPIObject::get_post_content(const QString& url, const QByteArray& postDat
         }
 
         // Call callback function
-        QJSValueList args;
-        args << QString::fromUtf8(reply->readAll());
         QJSValue func = callbackFunc;
-        QJSValue retVal = func.call(args);
+        QJSValue retVal = func.call({ QString::fromUtf8(reply->readAll()) });
         if (retVal.isError())
             emit jsError(retVal);
     });
@@ -72,12 +72,12 @@ void JSAPIObject::get_post_content(const QString& url, const QByteArray& postDat
 
 void JSAPIObject::get_content(const QString& url, const QJSValue& callbackFunc)
 {
-    get_post_content(url, QByteArray(), callbackFunc);
+    get_post_content(url, QByteArray(), QByteArray(), callbackFunc);
 }
 
-void JSAPIObject::post_content(const QString& url, const QByteArray& postData, const QJSValue& callbackFunc)
+void JSAPIObject::post_content(const QString &url, const QByteArray &contentType, const QByteArray &postData, const QJSValue &callbackFunc)
 {
-    get_post_content(url, postData, callbackFunc);
+    get_post_content(url, contentType, postData, callbackFunc);
 }
 
 // Dialogs

@@ -64,7 +64,6 @@ NetworkAccessManager * NetworkAccessManager::instance()
 }
 
 
-
 QNetworkReply *NetworkAccessManager::get(const QNetworkRequest &req)
 {
     // set user agent
@@ -75,6 +74,15 @@ QNetworkReply *NetworkAccessManager::get(const QNetworkRequest &req)
     return QNetworkAccessManager::get(request);
 }
 
+QNetworkReply *NetworkAccessManager::post(const QNetworkRequest &req, const QByteArray &data)
+{
+    // set user agent
+    QNetworkRequest request = req;
+    request.setHeader(QNetworkRequest::UserAgentHeader, userAgentOf(request.url()));
+    if (!refererOf(request.url()).isEmpty())
+        request.setRawHeader(QByteArrayLiteral("Referer"), refererOf(request.url()));
+    return QNetworkAccessManager::post(request, data);
+}
 
 void NetworkAccessManager::setupProxy(NetworkAccessManager::ProxyType proxyType, const QString& proxy, bool proxyOnlyForParsing)
 {

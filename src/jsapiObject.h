@@ -29,7 +29,7 @@ public:
 
     // Networking
     Q_INVOKABLE void get_content(const QString &url, const QJSValue &callbackFunc);
-    Q_INVOKABLE void post_content(const QString &url, const QByteArray &postData, const QJSValue &callbackFunc);
+    Q_INVOKABLE void post_content(const QString &url, const QByteArray &contentType, const QByteArray &postData, const QJSValue &callbackFunc);
 
     // Dialogs
     Q_INVOKABLE void information(const QString &msg);
@@ -48,7 +48,7 @@ signals:
     void jsError(const QJSValue& error);
     
 private:
-    void get_post_content(const QString &url, const QByteArray &postData, const QJSValue &callbackFunc);
+    void get_post_content(const QString &url, const QByteArray &contentType, const QByteArray &postData, const QJSValue &callbackFunc);
     QString m_id;
 };
 
