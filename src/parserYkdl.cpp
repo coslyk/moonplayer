@@ -121,7 +121,7 @@ void ParserYkdl::parseOutput()
         }
 
         Q_ASSERT(Dialogs::instance() != nullptr);
-        Dialogs::instance()->selectionDialog(tr("Select episode"), titles, [=](int index) {
+        Dialogs::instance()->selectionDialog(tr("Select episode"), titles, [this, urls = std::move(urls)](int index) {
             Q_ASSERT(PlaylistModel::instance() != nullptr);
             PlaylistModel::instance()->addUrl(urls[index], m_download);
         });
