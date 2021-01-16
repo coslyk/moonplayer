@@ -1,3 +1,10 @@
+### version 3.7 (2021.01.16)
+
+1. New logo
+1. Add dark theme support for classic UI (requires Qt >= 5.15)
+1. Add cache size settings
+1. Fix video cannot be downloaded in Flatpak version
+
 ### version 3.6 (2020.11.25)
 
 1. Youtube-dl is back
