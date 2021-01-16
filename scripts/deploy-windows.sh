@@ -14,11 +14,11 @@ curl -Lo openssl.7z http://download.qt.io/online/qtsdkrepository/windows_x86/des
 7z e openssl.7z -omoonplayer Tools/OpenSSL/Win_x64/bin/*.dll
 
 # Bundle ffmpeg
-curl -Lo ffmpeg.7z https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.3.1-2020-11-08-essentials_build.7z
-7z e ffmpeg.7z -omoonplayer ffmpeg-4.3.1-2020-11-08-essentials_build/bin/ffmpeg.exe
+curl -Lo ffmpeg.7z https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.3.1-2021-01-01-essentials_build.7z
+7z e ffmpeg.7z -omoonplayer ffmpeg-4.3.1-2021-01-01-essentials_build/bin/ffmpeg.exe
 
 # Bundle hlsdl
-curl -Lo hlsdl.7z https://rwijnsma.home.xs4all.nl/files/hlsdl/hlsdl-0.26-2bc52ab-win32-static-xpmod-sse.7z
+curl -Lo hlsdl.7z https://rwijnsma.home.xs4all.nl/files/hlsdl/hlsdl-0.27-e9420c4-win32-static-xpmod-sse.7z
 7z e hlsdl.7z -omoonplayer hlsdl.exe
 
 # Create installer
