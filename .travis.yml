@@ -36,7 +36,7 @@ jobs:
       before_install:
         # Install libmpv, qt and innosetup
         - choco install -y zip innosetup 7zip
-        - scripts/travis-install-mpv.sh
+        - scripts/travis-install-mpv.bat
         - scripts/travis-install-qt.sh
         
 
