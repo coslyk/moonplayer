@@ -233,7 +233,7 @@ CustomTabDialog {
 
             CheckBox {
                 id: limitCacheCheckBox
-                text: qsTr("Limit cache size (Requires restart)")
+                text: qsTr("Limit cache size (Restart needed)")
                 Layout.columnSpan: 2
             }
 

@@ -118,12 +118,12 @@
 <context>
     <name>DownloaderHlsItem</name>
     <message>
-        <location filename="../downloaderHlsItem.cpp" line="110"/>
+        <location filename="../downloaderHlsItem.cpp" line="111"/>
         <source>Cannot pause the download of HLS streams.</source>
         <translation type="unfinished">无法暂停HLS视频流的下载。</translation>
     </message>
     <message>
-        <location filename="../downloaderHlsItem.cpp" line="110"/>
+        <location filename="../downloaderHlsItem.cpp" line="111"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
@@ -204,7 +204,7 @@
 <context>
     <name>JSAPIObject</name>
     <message>
-        <location filename="../jsapiObject.cpp" line="59"/>
+        <location filename="../jsapiObject.cpp" line="61"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
@@ -376,223 +376,238 @@ URL: %1
         <translation type="unfinished">快捷键</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="107"/>
+        <location filename="../qml/Settings.qml" line="110"/>
         <source>Use classic UI (Restart needed)</source>
         <translation type="unfinished">使用传统界面（重启生效）</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="112"/>
+        <location filename="../qml/Settings.qml" line="115"/>
         <source>Style:</source>
         <translation type="unfinished">风格：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="122"/>
+        <location filename="../qml/Settings.qml" line="133"/>
         <source>When opening an URL:</source>
         <translation type="unfinished">打开URL时：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="125"/>
+        <location filename="../qml/Settings.qml" line="136"/>
         <source>Question</source>
         <translation type="unfinished">询问</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="125"/>
+        <location filename="../qml/Settings.qml" line="136"/>
         <source>Play</source>
         <translation type="unfinished">播放</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="125"/>
+        <location filename="../qml/Settings.qml" line="136"/>
         <source>Download</source>
         <translation type="unfinished">下载</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="133"/>
+        <location filename="../qml/Settings.qml" line="144"/>
         <source>Hardware decoding:</source>
         <translation type="unfinished">硬件解码：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="142"/>
+        <location filename="../qml/Settings.qml" line="153"/>
         <source>Choose hardware decoder automatically.</source>
         <translation type="unfinished">自动选择。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="143"/>
+        <location filename="../qml/Settings.qml" line="154"/>
         <source>Intel hardware decoding on Linux.</source>
         <translation type="unfinished">Linux下的Intel显卡硬件解码。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="144"/>
+        <location filename="../qml/Settings.qml" line="155"/>
         <source>Nvidia hardware decoding on Linux (deprecated).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="145"/>
+        <location filename="../qml/Settings.qml" line="156"/>
         <source>Nvidia hardware decoding on Linux.</source>
         <translation type="unfinished">Linux下的Nvidia显卡硬件解码。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="149"/>
+        <location filename="../qml/Settings.qml" line="160"/>
         <source>Copy mode</source>
         <translation type="unfinished">复制模式</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="151"/>
+        <location filename="../qml/Settings.qml" line="162"/>
         <source>This option will make all video filters work under hardware decoding, but it will comsume more hardware resources.</source>
         <translation type="unfinished">该选项会使所有滤镜在硬件解码时正常工作，但会消耗更多资源。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="159"/>
-        <location filename="../qml/Settings.qml" line="178"/>
+        <location filename="../qml/Settings.qml" line="170"/>
+        <location filename="../qml/Settings.qml" line="189"/>
         <source>The settings above will be applied after restart.</source>
         <translation type="unfinished">以上设置将在重启后生效。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="170"/>
+        <location filename="../qml/Settings.qml" line="181"/>
         <source>Audio output:</source>
         <translation type="unfinished">音频输出：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="190"/>
+        <location filename="../qml/Settings.qml" line="201"/>
         <source>Font:</source>
         <translation type="unfinished">字体：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="198"/>
+        <location filename="../qml/Settings.qml" line="209"/>
         <source>Please choose a font for Danmaku</source>
         <translation type="unfinished">选择弹幕字体</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="201"/>
+        <location filename="../qml/Settings.qml" line="212"/>
         <source>Font size:</source>
         <translation type="unfinished">字体大小：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="204"/>
+        <location filename="../qml/Settings.qml" line="215"/>
         <source>Alpha (%):</source>
         <translation type="unfinished">透明度 (%)：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="207"/>
+        <location filename="../qml/Settings.qml" line="218"/>
         <source>Duration of scrolling comment:</source>
         <translation type="unfinished">滚动弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="210"/>
+        <location filename="../qml/Settings.qml" line="221"/>
         <source>Duration of still comment:</source>
         <translation type="unfinished">静止弹幕持续时间：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="214"/>
+        <location filename="../qml/Settings.qml" line="225"/>
         <source>Set to 0 to let MoonPlayer choose automatically.</source>
         <translation type="unfinished">设置为0让MoonPlayer自动选择。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="221"/>
+        <location filename="../qml/Settings.qml" line="236"/>
+        <source>Limit cache size (Restart needed)</source>
+        <translation type="unfinished">限制缓存大小（需要重启）</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="240"/>
+        <source>Forward cache (MB):</source>
+        <translation type="unfinished">向前缓存 (MB):</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="243"/>
+        <source>Backward cache (MB):</source>
+        <translation type="unfinished">向后缓存 (MB):</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="248"/>
         <source>Proxy mode:</source>
         <translation type="unfinished">代理模式：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="227"/>
+        <location filename="../qml/Settings.qml" line="254"/>
         <source>Proxy:</source>
         <translation type="unfinished">代理：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="237"/>
+        <location filename="../qml/Settings.qml" line="264"/>
         <source>Note: Due to the limitation of mpv, socks5 proxy is not supported by online playing.</source>
         <translation type="unfinished">注意：由于mpv限制，在线播放不支持socks5。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="245"/>
+        <location filename="../qml/Settings.qml" line="272"/>
         <source>Use proxy only for parsing videos</source>
         <translation type="unfinished">只在解析视频时使用代理</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="255"/>
+        <location filename="../qml/Settings.qml" line="282"/>
         <source>Maximun number of threads:</source>
         <translation type="unfinished">最大线程数：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="258"/>
+        <location filename="../qml/Settings.qml" line="285"/>
         <source>Save to:</source>
         <translation type="unfinished">保存至：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="278"/>
+        <location filename="../qml/Settings.qml" line="306"/>
         <source>Navigation</source>
         <translation type="unfinished">导航</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="280"/>
+        <location filename="../qml/Settings.qml" line="308"/>
         <source>Set volume</source>
         <translation type="unfinished">设置音量</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="282"/>
+        <location filename="../qml/Settings.qml" line="310"/>
         <source>Pause/continue</source>
         <translation type="unfinished">暂停/继续</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="284"/>
+        <location filename="../qml/Settings.qml" line="312"/>
         <source>Enter/exit fullscreen</source>
         <translation type="unfinished">进入/退出全屏</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="286"/>
+        <location filename="../qml/Settings.qml" line="314"/>
         <source>Exit fullscreen</source>
         <translation type="unfinished">退出全屏</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="288"/>
+        <location filename="../qml/Settings.qml" line="316"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="290"/>
+        <location filename="../qml/Settings.qml" line="318"/>
         <source>Danmaku options</source>
         <translation type="unfinished">弹幕选项</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="292"/>
+        <location filename="../qml/Settings.qml" line="320"/>
         <source>Switch on/off danmaku</source>
         <translation type="unfinished">开/关弹幕</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="294"/>
+        <location filename="../qml/Settings.qml" line="322"/>
         <source>Show playlist</source>
         <translation type="unfinished">显示播放列表</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="296"/>
+        <location filename="../qml/Settings.qml" line="324"/>
         <source>Open URL</source>
         <translation type="unfinished">打开URL</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="298"/>
+        <location filename="../qml/Settings.qml" line="326"/>
         <source>Open Explorer</source>
         <translation type="unfinished">打开探索页面</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="300"/>
+        <location filename="../qml/Settings.qml" line="328"/>
         <source>Set speed to default</source>
         <translation type="unfinished">设置播放速度为默认</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="302"/>
+        <location filename="../qml/Settings.qml" line="330"/>
         <source>Speed down</source>
         <translation type="unfinished">播放减速</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="304"/>
+        <location filename="../qml/Settings.qml" line="332"/>
         <source>Speed up</source>
         <translation type="unfinished">播放加速</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="306"/>
+        <location filename="../qml/Settings.qml" line="334"/>
         <source>Open files</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="308"/>
+        <location filename="../qml/Settings.qml" line="336"/>
         <source>Open settings</source>
         <translation type="unfinished">打开设置</translation>
     </message>
