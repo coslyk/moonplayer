@@ -92,8 +92,8 @@ void ParserYoutubeDL::parseOutput()
         QJsonArray formats = root[QStringLiteral("formats")].toArray();
         QJsonArray videos;
         QString bestMp4Audio, bestWebmAudio;
-        int bestMp4AudioSize = 0;
-        int bestWebmAudioSize = 0;
+        int bestMp4AudioAsr = 0;
+        int bestWebmAudioAsr = 0;
 
         for (const auto& format : formats)
         {
@@ -102,15 +102,15 @@ void ParserYoutubeDL::parseOutput()
             // DASH Audio
             if (item[QStringLiteral("vcodec")].toString() == QStringLiteral("none"))
             {
-                if (item[QStringLiteral("ext")].toString() == QStringLiteral("webm") && item[QStringLiteral("filesize")].toInt() > bestWebmAudioSize)
+                if (item[QStringLiteral("ext")].toString() == QStringLiteral("webm") && item[QStringLiteral("asr")].toInt() > bestWebmAudioAsr)
                 {
                     bestWebmAudio = item[QStringLiteral("url")].toString();
-                    bestWebmAudioSize = item[QStringLiteral("filesize")].toInt();
+                    bestWebmAudioAsr = item[QStringLiteral("asr")].toInt();
                 }
-                else if (item[QStringLiteral("ext")].toString() == QStringLiteral("m4a") && item[QStringLiteral("filesize")].toInt() > bestMp4AudioSize)
+                else if (item[QStringLiteral("ext")].toString() == QStringLiteral("m4a") && item[QStringLiteral("asr")].toInt() > bestMp4AudioAsr)
                 {
                     bestMp4Audio = item[QStringLiteral("url")].toString();
-                    bestMp4AudioSize = item[QStringLiteral("filesize")].toInt();
+                    bestMp4AudioAsr = item[QStringLiteral("asr")].toInt();
                 }
             }
             
