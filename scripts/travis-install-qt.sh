@@ -6,10 +6,10 @@ if [ -e "$QT5_BASE_DIR/bin/moc.exe" ]; then
 fi
 
 DESTDIR="C:\\Qt"
-Base_URL="http://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5129/qt.qt5.5129.win64_msvc2017_64/5.12.9-0-202006121743qtbase-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86_64.7z"
-Declarative_URL="http://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5129/qt.qt5.5129.win64_msvc2017_64/5.12.9-0-202006121743qtdeclarative-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86_64.7z"
-QuickControls2_URL="http://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5129/qt.qt5.5129.win64_msvc2017_64/5.12.9-0-202006121743qtquickcontrols2-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86_64.7z"
-Tools_URL="http://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5129/qt.qt5.5129.win64_msvc2017_64/5.12.9-0-202006121743qttools-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86_64.7z"
+Base_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_51210/qt.qt5.51210.win64_msvc2017_64/5.12.10-0-202011040843qtbase-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86_64.7z"
+Declarative_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_51210/qt.qt5.51210.win64_msvc2017_64/5.12.10-0-202011040843qtdeclarative-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86_64.7z"
+QuickControls2_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_51210/qt.qt5.51210.win64_msvc2017_64/5.12.10-0-202011040843qtquickcontrols2-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86_64.7z"
+Tools_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_51210/qt.qt5.51210.win64_msvc2017_64/5.12.10-0-202011040843qttools-Windows-Windows_10-MSVC2017-Windows-Windows_10-X86_64.7z"
 
 # Download
 curl -Lo base.7z "$Base_URL"

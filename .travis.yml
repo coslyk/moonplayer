@@ -30,8 +30,8 @@ jobs:
       os: windows
       env:
         - PLATFORM=x64
-        - QT5_BASE_DIR=C:/Qt/5.12.9/msvc2017_64
-        - PATH=/c/Qt/5.12.9/msvc2017_64/bin:$PATH
+        - QT5_BASE_DIR=C:/Qt/5.12.10/msvc2017_64
+        - PATH=/c/Qt/5.12.10/msvc2017_64/bin:$PATH
         - UPLOADTOOL_ISPRERELEASE=true
       before_install:
         # Install libmpv, qt and innosetup
@@ -66,7 +66,7 @@ cache:
   directories:
     - $HOME/Library/Caches/Homebrew
     - /usr/local/Homebrew
-    - /C/Qt/5.12.9
+    - /C/Qt/5.12.10
 
 before_cache:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew cleanup; fi
