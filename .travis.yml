@@ -23,7 +23,7 @@ jobs:
         - brew remove --force $(brew list) --ignore-dependencies
         - brew tap coslyk/mpv
         - brew update
-        - brew install cmake qt openssl mpv-lite md5deep
+        - brew install cmake qt openssl mpv-moonplayer md5deep
 
     
     - name: Windows (VS2017 x64) build
