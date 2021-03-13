@@ -70,7 +70,11 @@ QNetworkReply *NetworkAccessManager::get(const QNetworkRequest &req)
     QNetworkRequest request = req;
     request.setHeader(QNetworkRequest::UserAgentHeader, userAgentOf(request.url()));
     if (!refererOf(request.url()).isEmpty())
+    {
         request.setRawHeader(QByteArrayLiteral("Referer"), refererOf(request.url()));
+    }
+
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::ManualRedirectPolicy);
     return QNetworkAccessManager::get(request);
 }
 
@@ -80,7 +84,11 @@ QNetworkReply *NetworkAccessManager::post(const QNetworkRequest &req, const QByt
     QNetworkRequest request = req;
     request.setHeader(QNetworkRequest::UserAgentHeader, userAgentOf(request.url()));
     if (!refererOf(request.url()).isEmpty())
+    {
         request.setRawHeader(QByteArrayLiteral("Referer"), refererOf(request.url()));
+    }
+
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::ManualRedirectPolicy);
     return QNetworkAccessManager::post(request, data);
 }
 
