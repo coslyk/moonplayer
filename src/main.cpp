@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
         qmlRegisterType<FontDialog>("MoonPlayer", 1, 0, "FontDialog");
     }
 
-    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/qml/Color.qml")), "MoonPlayer", 1, 0, "SkinColor");
+    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/qml/SkinColor.qml")), "MoonPlayer", 1, 0, "SkinColor");
     qmlRegisterSingletonType<Dialogs>("MoonPlayer", 1, 0, "Dialogs", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Dialogs(); });
     qmlRegisterSingletonType<PlaylistModel>("MoonPlayer", 1, 0, "PlaylistModel", [](QQmlEngine *, QJSEngine *) -> QObject * { return new PlaylistModel(); });
     qmlRegisterSingletonType<Utils>("MoonPlayer", 1, 0, "Utils", [](QQmlEngine *, QJSEngine *) -> QObject * { return new Utils(); });
