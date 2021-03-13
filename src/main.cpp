@@ -119,7 +119,6 @@ int main(int argc, char *argv[])
     if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
     {
         engine.addImportPath(QStringLiteral("qrc:/qml/classicUI"));
-        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("Fusion"));
     }
     else
     {

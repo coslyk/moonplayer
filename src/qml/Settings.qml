@@ -148,6 +148,7 @@ CustomTabDialog {
             }
             StackLayout {
                 Layout.columnSpan: 2
+                Layout.minimumHeight: 16
                 Layout.fillHeight: false
                 currentIndex: hwdecComboBox.currentIndex
                 Label { text: qsTr("Choose hardware decoder automatically.") }

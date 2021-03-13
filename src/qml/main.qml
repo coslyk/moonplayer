@@ -16,7 +16,6 @@
  
 import QtQuick 2.7
 import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.3
 import QtQuick.Window 2.2
 import MoonPlayer 1.0
 import CustomWidgets 1.0
@@ -29,9 +28,6 @@ CustomWindow
     minimumHeight: 450
     autoHideBars: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
     title: "MoonPlayer"
-    
-    Material.theme: SkinColor.theme === "Dark" ? Material.Dark : Material.Light
-    Material.accent: Material.Grey
 
     // Background color
     color: SkinColor.windowBackground
