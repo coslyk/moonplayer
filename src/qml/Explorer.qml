@@ -108,7 +108,7 @@ Dialog {
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
-                                onEntered: parent.color = Color.listItemHovered
+                                onEntered: parent.color = SkinColor.listItemHovered
                                 onExited: parent.color = "transparent"
                                 onDoubleClicked: currentPlugin.openItem(index)
                             }

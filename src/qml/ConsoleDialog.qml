@@ -42,7 +42,7 @@ Dialog {
             implicitHeight: 16
             Layout.topMargin: 16
             Layout.rightMargin: 16
-            background: Rectangle { color: Color.closeButton; radius: 8; anchors.fill: parent }
+            background: Rectangle { color: SkinColor.closeButton; radius: 8; anchors.fill: parent }
             onClicked: consoleDialog.close()
         }
     }

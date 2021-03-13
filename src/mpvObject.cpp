@@ -25,12 +25,17 @@
 #include <QStandardPaths>
 #include <QMetaType>
 
-#include <QtGui/QOpenGLFramebufferObject>
-
 #include "accessManager.h"
 #include "danmakuLoader.h"
 #include "playlistModel.h"
 #include "platform/graphics.h"
+
+#if QT_VERSION_MAJOR >= 6
+#include <QtOpenGL/QOpenGLFramebufferObject>
+#include <QQuickOpenGLUtils>
+#else
+#include <QtGui/QOpenGLFramebufferObject>
+#endif
 
 
 /* MPV Renderer */
@@ -84,7 +89,11 @@ public:
         Q_ASSERT(m_obj != nullptr);
         Q_ASSERT(m_obj->window() != nullptr);
 
+#if QT_VERSION_MAJOR >= 6
+        QQuickOpenGLUtils::resetOpenGLState();
+#else
         m_obj->window()->resetOpenGLState();
+#endif
 
         QOpenGLFramebufferObject *fbo = framebufferObject();
         Q_ASSERT(fbo != nullptr);
@@ -104,7 +113,11 @@ public:
         };
         m_obj->m_mpv.render(params);
 
+#if QT_VERSION_MAJOR >= 6
+        QQuickOpenGLUtils::resetOpenGLState();
+#else
         m_obj->window()->resetOpenGLState();
+#endif
     }
 };
 
@@ -564,7 +577,7 @@ void MpvObject::onMpvEvent()
                         if (track["type"] == "sub") // Subtitles
                         {
                             int64_t id = track["id"];
-                            QString title = QString::fromUtf8(track["title"]);
+                            QString title = QString::fromUtf8(static_cast<const char*>(track["title"]));
                             if (m_subtitles.count() <= id)
                             {
                                 for (int j = m_subtitles.count(); j < id; j++)
@@ -580,7 +593,7 @@ void MpvObject::onMpvEvent()
                         else if (track["type"] == "audio") // Audio tracks
                         {
                             int64_t id = track["id"];
-                            QString title = QString::fromUtf8(track["title"]);
+                            QString title = QString::fromUtf8(static_cast<const char*>(track["title"]));
                             if (m_audioTracks.count() <= id)
                             {
                                 for (int j = m_audioTracks.count(); j < id; j++)
@@ -669,10 +682,15 @@ void MpvObject::showText(const QByteArray& text)
 
 QQuickFramebufferObject::Renderer *MpvObject::createRenderer() const
 {
-    Q_ASSERT(window() != nullptr);
+    QQuickWindow *win = window();
+    Q_ASSERT(win != nullptr);
 
-    window()->setPersistentOpenGLContext(true);
-    window()->setPersistentSceneGraph(true);
+#if QT_VERSION_MAJOR >= 6
+    win->setPersistentGraphics(true);
+#else
+    win->setPersistentOpenGLContext(true);
+#endif
+    win->setPersistentSceneGraph(true);
     return new MpvRenderer(const_cast<MpvObject*>(this));
 }
 

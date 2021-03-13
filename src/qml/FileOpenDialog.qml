@@ -91,7 +91,7 @@ Dialog {
                     property bool hovered: false
                     height: 32
                     width: parent.width
-                    color: index === listView.currentIndex ? Color.listItemSelected : hovered ? Color.listItemHovered : "transparent"
+                    color: index === listView.currentIndex ? SkinColor.listItemSelected : hovered ? SkinColor.listItemHovered : "transparent"
 
                     // Symbol
                     Rectangle {
@@ -102,7 +102,7 @@ Dialog {
                         width: 16
                         height: 16
                         radius: 5
-                        color: fileIsDir ? Color.folderItem : Color.fileItem
+                        color: fileIsDir ? SkinColor.folderItem : SkinColor.fileItem
                     }
 
                     // File / folder name

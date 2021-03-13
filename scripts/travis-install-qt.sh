@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [ -e "$QT5_BASE_DIR/bin/moc.exe" ]; then
-    echo "Found an existing Qt installation at $QT5_BASE_DIR"
+if [ -e "$QT_BASE_DIR/bin/moc.exe" ]; then
+    echo "Found an existing Qt installation at $QT_BASE_DIR"
     exit
 fi
 

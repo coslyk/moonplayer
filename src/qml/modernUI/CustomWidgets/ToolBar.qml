@@ -21,7 +21,7 @@ import MoonPlayer 1.0
 
 Rectangle {
     id: toolBar
-    color: Color.toolbar
+    color: SkinColor.toolbar
     width: 450
     height: 70
     radius: 8
@@ -54,8 +54,8 @@ Rectangle {
     CustomImageButton {
         id: playPauseButton
         image: isPlaying ?
-                   (Color.theme === "Light" ? "qrc:/images/pause_grey.png" : "qrc:/images/pause_lightgrey.png") :
-                   (Color.theme === "Light" ? "qrc:/images/play_grey.png" : "qrc:/images/play_lightgrey.png")
+                   (SkinColor.theme === "Light" ? "qrc:/images/pause_grey.png" : "qrc:/images/pause_lightgrey.png") :
+                   (SkinColor.theme === "Light" ? "qrc:/images/play_grey.png" : "qrc:/images/play_lightgrey.png")
         width: 16
         height: 16
         anchors.right: parent.horizontalCenter
@@ -67,7 +67,7 @@ Rectangle {
         
     CustomImageButton {
         id: stopButton
-        image: (Color.theme === "Light" ? "qrc:/images/stop_grey.png" : "qrc:/images/stop_lightgrey.png")
+        image: (SkinColor.theme === "Light" ? "qrc:/images/stop_grey.png" : "qrc:/images/stop_lightgrey.png")
         width: 16
         height: 16
         anchors.left: parent.horizontalCenter
@@ -79,7 +79,7 @@ Rectangle {
         
     CustomImageButton {
         id: settingsButton
-        image: (Color.theme === "Light" ? "qrc:/images/settings_grey.png" : "qrc:/images/settings_lightgrey.png")
+        image: (SkinColor.theme === "Light" ? "qrc:/images/settings_grey.png" : "qrc:/images/settings_lightgrey.png")
         width: 16
         height: 16
         anchors.left: parent.left
@@ -92,7 +92,7 @@ Rectangle {
         
     CustomImageButton {
         id: volumeButton
-        image: (Color.theme === "Light" ? "qrc:/images/volume_grey.png" : "qrc:/images/volume_lightgrey.png")
+        image: (SkinColor.theme === "Light" ? "qrc:/images/volume_grey.png" : "qrc:/images/volume_lightgrey.png")
         width: 16
         height: 16
         anchors.left: settingsButton.right
@@ -104,7 +104,7 @@ Rectangle {
         
     CustomImageButton {
         id: playlistButton
-        image: (Color.theme === "Light" ? "qrc:/images/playlist_grey.png" : "qrc:/images/playlist_lightgrey.png")
+        image: (SkinColor.theme === "Light" ? "qrc:/images/playlist_grey.png" : "qrc:/images/playlist_lightgrey.png")
         width: 16
         height: 16
         anchors.right: parent.right
@@ -116,7 +116,7 @@ Rectangle {
         
     CustomImageButton {
         id: explorerButton
-        image: (Color.theme === "Light" ? "qrc:/images/net_grey.png" : "qrc:/images/net_lightgrey.png")
+        image: (SkinColor.theme === "Light" ? "qrc:/images/net_grey.png" : "qrc:/images/net_lightgrey.png")
         width: 16
         height: 16
         anchors.right: playlistButton.left
@@ -129,7 +129,7 @@ Rectangle {
     Label {
         id: timeText
         text: toHHMMSS(time)
-        color: Color.toolbarText
+        color: SkinColor.toolbarText
         anchors.left: parent.left
         anchors.leftMargin: 16
         anchors.bottom: parent.bottom
@@ -139,7 +139,7 @@ Rectangle {
     Label {
         id: durationText
         text: toHHMMSS(duration)
-        color: Color.toolbarText
+        color: SkinColor.toolbarText
         anchors.right: parent.right
         anchors.rightMargin: 16
         anchors.bottom: parent.bottom
@@ -154,7 +154,7 @@ Rectangle {
         anchors.left: timeText.right
         anchors.right: durationText.left
         anchors.verticalCenter: timeText.verticalCenter
-        Material.theme: Color.theme === "Light" ? Material.Light : Material.Dark
+        Material.theme: SkinColor.theme === "Light" ? Material.Light : Material.Dark
         onPressedChanged: {
             if (!pressed)  // released
                 seekRequested(value);

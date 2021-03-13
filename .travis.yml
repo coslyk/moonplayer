@@ -7,7 +7,7 @@ jobs:
       os: linux
       dist: xenial
       env:
-        - QT5_BASE_DIR=/opt/qt515
+        - QT_BASE_DIR=/opt/qt515
         - PATH=/opt/qt515/bin/:$PATH
         - UPLOADTOOL_ISPRERELEASE=true
 
@@ -16,7 +16,7 @@ jobs:
       os: osx
       osx_image: xcode11.3
       env:
-        - QT5_BASE_DIR=/usr/local/opt/qt
+        - QT_BASE_DIR=/usr/local/opt/qt
         - UPLOADTOOL_ISPRERELEASE=true
       before_install:
         # Delete all packages since updating them takes too much time
@@ -30,7 +30,7 @@ jobs:
       os: windows
       env:
         - PLATFORM=x64
-        - QT5_BASE_DIR=C:/Qt/5.12.10/msvc2017_64
+        - QT_BASE_DIR=C:/Qt/5.12.10/msvc2017_64
         - PATH=/c/Qt/5.12.10/msvc2017_64/bin:$PATH
         - UPLOADTOOL_ISPRERELEASE=true
       before_install:
@@ -74,8 +74,9 @@ before_cache:
 
 
 script:
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cmake -A x64 -DCMAKE_PREFIX_PATH=$QT5_BASE_DIR .; fi
-  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$QT5_BASE_DIR -DCMAKE_INSTALL_PREFIX=/usr .; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cmake -A x64 -DCMAKE_PREFIX_PATH=$QT_BASE_DIR .; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$QT_BASE_DIR -DCMAKE_INSTALL_PREFIX=/usr .; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$QT_BASE_DIR -DUSE_QT6=ON .; fi
   - cmake --build . --config Release
 
 

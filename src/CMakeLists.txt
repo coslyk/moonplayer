@@ -1,6 +1,10 @@
 
-# Include Qt5Gui_Private
-include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+# Include Qt Gui private headers
+if (USE_QT6)
+    include_directories(${Qt6Gui_PRIVATE_INCLUDE_DIRS})
+else()
+    include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+endif()
 
 # Include MPV
 include_directories(${MPV_INCLUDE_DIRS})
@@ -57,16 +61,20 @@ endif()
 
 
 # Create translations
-qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
-configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
-
-# Compile QML files
-if (COMPILE_QML)
-    qtquick_compiler_add_resources(QML_FILES qmls.qrc)
+if (USE_QT6)
+    qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
+    configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
 else()
-    qt5_add_resources(QML_FILES qmls.qrc)
-endif()
+    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
+    configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
 
+    # Compile QML files
+    if (COMPILE_QML)
+        qtquick_compiler_add_resources(QML_FILES qmls.qrc)
+    else()
+        qt5_add_resources(QML_FILES qmls.qrc)
+    endif()
+endif()
 
 # Add MacOS bundle files
 add_project_meta(META_FILES_TO_INCLUDE)
@@ -76,27 +84,47 @@ if (APPLE)
         COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_NAME}.app/Contents/Resources/zh_CN.lproj")
 endif()
 
-
-# Create excutable
-add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
-    ${SOURCE_FILES}
-    ${QM_FILES}
-    ${QML_FILES}
-    resources.qrc
-    ${CMAKE_BINARY_DIR}/src/l10n.qrc
-    ${META_FILES_TO_INCLUDE})
-
 fix_win_compiler()
 
 # Link libraries
-target_link_libraries(${PROJECT_NAME}
-    Qt5::Qml
-    Qt5::Quick
-    Qt5::Gui
-    Qt5::Network
-    ${Qt5X11Extras_LIBRARIES}
-    ${MPV_LIBRARY}
-    Danmaku2AssCPP)
+if (USE_QT6)
+    # Create excutable
+    add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
+        ${SOURCE_FILES}
+        ${QM_FILES}
+        resources.qrc
+        qmls.qrc
+        ${CMAKE_BINARY_DIR}/src/l10n.qrc
+        ${META_FILES_TO_INCLUDE})
+
+    target_link_libraries(${PROJECT_NAME}
+        Qt6::Qml
+        Qt6::Quick
+        Qt6::Gui
+        Qt6::Network
+        Qt6::OpenGL
+        ${Qt6X11Extras_LIBRARIES}
+        ${MPV_LIBRARY}
+        Danmaku2AssCPP)
+else()
+    # Create excutable
+    add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
+        ${SOURCE_FILES}
+        ${QM_FILES}
+        ${QML_FILES}
+        resources.qrc
+        ${CMAKE_BINARY_DIR}/src/l10n.qrc
+        ${META_FILES_TO_INCLUDE})
+
+    target_link_libraries(${PROJECT_NAME}
+        Qt5::Qml
+        Qt5::Quick
+        Qt5::Gui
+        Qt5::Network
+        ${Qt5X11Extras_LIBRARIES}
+        ${MPV_LIBRARY}
+        Danmaku2AssCPP)
+endif()
 
 # Enable Automoc and Autorcc for Qt
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)

@@ -122,10 +122,10 @@ CustomTabDialog {
                 onCurrentTextChanged: {
                     if (Utils.environmentVariable("QT_QUICK_CONTROLS_STYLE") === "fusion") {
                         // classic UI
-                        Color.theme = palette.window.hsvValue < 0.3 ? "Dark" : "Mix";
+                        SkinColor.theme = palette.window.hsvValue < 0.3 ? "Dark" : "Mix";
                     } else {
                         // modern UI
-                        Color.theme = currentText;
+                        SkinColor.theme = currentText;
                     }
                 }
             }
@@ -257,7 +257,6 @@ CustomTabDialog {
                 selectByMouse: true
                 Layout.minimumWidth: 200
                 color: !text.match(/^[A-Za-z0-9\.]+:\d+$/) ? "red" : playerSettings.style == 1 ? "white" : "black"
-                validator: RegExpValidator { regExp: /^[A-Za-z0-9\.]+:\d+$/ }
             }
             
             Label {

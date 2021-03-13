@@ -23,7 +23,6 @@
 #include <QJsonParseError>
 #include <QProcess>
 #include <QSettings>
-#include <QTextCodec>
 #include "platform/paths.h"
 #include "dialogs.h"
 #include "playlistModel.h"
@@ -95,7 +94,7 @@ void ParserYkdl::parseOutput()
 {
     QByteArray output = m_process.readAllStandardOutput();
 #ifdef Q_OS_WIN
-    output = QTextCodec::codecForLocale()->toUnicode(output).toUtf8();
+    output = QString::fromLocal8Bit(output).toUtf8();
 #endif
 
     QJsonParseError json_error;

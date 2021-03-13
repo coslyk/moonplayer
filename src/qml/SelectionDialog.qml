@@ -44,7 +44,7 @@ Dialog {
                 property bool hovered: false
                 height: 25
                 width: parent.width
-                color: index == listView.currentIndex ? Color.listItemSelected : hovered ? Color.listItemHovered : "transparent"
+                color: index == listView.currentIndex ? SkinColor.listItemSelected : hovered ? SkinColor.listItemHovered : "transparent"
                 
                 Label {
                     text: modelData

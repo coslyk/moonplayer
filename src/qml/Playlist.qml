@@ -53,7 +53,7 @@ Popup {
                     height: 20
                     radius: 4
                     clip: true
-                    color: index == listView.currentIndex ? Color.listItemSelected : (index == PlaylistModel.playingIndex ? Color.listItemCurrentActive : "transparent")
+                    color: index == listView.currentIndex ? SkinColor.listItemSelected : (index == PlaylistModel.playingIndex ? SkinColor.listItemCurrentActive : "transparent")
                     Label { text: title }
                     MouseArea {
                         anchors.fill: parent

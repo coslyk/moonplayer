@@ -30,11 +30,11 @@ CustomWindow
     autoHideBars: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
     title: "MoonPlayer"
     
-    Material.theme: Color.theme === "Dark" ? Material.Dark : Material.Light
+    Material.theme: SkinColor.theme === "Dark" ? Material.Dark : Material.Light
     Material.accent: Material.Grey
 
     // Background color
-    color: Color.windowBackground
+    color: SkinColor.windowBackground
     
     // Mpv
     MpvObject {

@@ -49,6 +49,11 @@ int main(int argc, char *argv[])
         );
     }
 
+    // Force to use OpenGL in Qt6
+#if QT_VERSION_MAJOR >= 6
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);
+#endif
+
     // Set application attributes
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QCoreApplication::setOrganizationName(QStringLiteral("coslyk"));
@@ -101,7 +106,7 @@ int main(int argc, char *argv[])
         qmlRegisterType<FontDialog>("MoonPlayer", 1, 0, "FontDialog");
     }
 
-    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/qml/Color.qml")), "MoonPlayer", 1, 0, "Color");
+    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/qml/Color.qml")), "MoonPlayer", 1, 0, "SkinColor");
     qmlRegisterSingletonType<Dialogs>("MoonPlayer", 1, 0, "Dialogs", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Dialogs(); });
     qmlRegisterSingletonType<PlaylistModel>("MoonPlayer", 1, 0, "PlaylistModel", [](QQmlEngine *, QJSEngine *) -> QObject * { return new PlaylistModel(); });
     qmlRegisterSingletonType<Utils>("MoonPlayer", 1, 0, "Utils", [](QQmlEngine *, QJSEngine *) -> QObject * { return new Utils(); });
@@ -110,6 +115,19 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     // Set UI style
+#if QT_VERSION_MAJOR >= 6
+    if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
+    {
+        engine.addImportPath(QStringLiteral("qrc:/qml/classicUI"));
+        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("Fusion"));
+    }
+    else
+    {
+        engine.addImportPath(QStringLiteral("qrc:/qml/modernUI"));
+        qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
+        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("Material"));
+    }
+#else
     if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
     {
         engine.addImportPath(QStringLiteral("qrc:/qml/classicUI"));
@@ -121,6 +139,7 @@ int main(int argc, char *argv[])
         qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("material"));
     }
+#endif
 
     QQmlContext* context = engine.rootContext();
     Downloader* downloader = Downloader::instance();

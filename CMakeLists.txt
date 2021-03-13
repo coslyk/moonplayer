@@ -21,6 +21,7 @@ set(IDENTIFIER "io.github.coslyk")
 
 # Options
 option(COMPILE_QML "Compile QML to machine code" ON)
+option(USE_QT6 "Use Qt6" OFF)
 
 
 # Set C/C++ standard
@@ -42,14 +43,18 @@ add_definitions(-DQT_NO_CAST_FROM_ASCII)
 # Set PROJECT_VERSION_PATCH and PROJECT_VERSION_TWEAK to 0 if not present, needed by add_project_meta
 fix_project_version()
 
-
-find_package(Qt5 REQUIRED COMPONENTS Gui Qml Quick Network LinguistTools)
-find_package(Qt5Gui REQUIRED)
+if (USE_QT6)
+    find_package(Qt6 REQUIRED COMPONENTS Gui Qml Quick OpenGL Network LinguistTools)
+    find_package(Qt6Gui REQUIRED)
+else()
+    find_package(Qt5 REQUIRED COMPONENTS Gui Qml Quick Network LinguistTools)
+    find_package(Qt5Gui REQUIRED)
+    if (COMPILE_QML)
+        find_package(Qt5QuickCompiler REQUIRED)
+    endif()
+endif()
 find_package(MPV REQUIRED)
 
-if (COMPILE_QML)
-    find_package(Qt5QuickCompiler REQUIRED)
-endif()
 
 if (UNIX AND NOT APPLE)
     find_package(Qt5X11Extras REQUIRED)

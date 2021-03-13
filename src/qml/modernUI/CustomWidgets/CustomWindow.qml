@@ -201,7 +201,7 @@ Window
     // Titlebar
     Rectangle {
         id: titlebar
-        color: Color.titlebar
+        color: SkinColor.titlebar
         width: parent.width
         height: 28
         z: 100
@@ -214,7 +214,7 @@ Window
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: 8
-            background: Rectangle { color: Color.closeButton; radius: 7; anchors.fill: parent }
+            background: Rectangle { color: SkinColor.closeButton; radius: 7; anchors.fill: parent }
             onClicked: window.close()
         }
         Button {
@@ -224,7 +224,7 @@ Window
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: closeButton.left
             anchors.rightMargin: 6
-            background: Rectangle { color: Color.maxButton; radius: 7; anchors.fill: parent }
+            background: Rectangle { color: SkinColor.maxButton; radius: 7; anchors.fill: parent }
             onClicked: window.visibility == Window.Maximized ? window.showNormal() : window.showMaximized()
         }
         Button {
@@ -234,7 +234,7 @@ Window
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: maxButton.left
             anchors.rightMargin: 6
-            background: Rectangle { color: Color.minButton; radius: 7; anchors.fill: parent }
+            background: Rectangle { color: SkinColor.minButton; radius: 7; anchors.fill: parent }
             onClicked: window.showMinimized()
         }
     }

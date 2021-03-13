@@ -75,7 +75,7 @@ Dialog {
                     anchors.fill: parent
                     hoverEnabled: true
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
-                    onEntered: parent.color = Color.listItemHovered
+                    onEntered: parent.color = SkinColor.listItemHovered
                     onExited: parent.color = "transparent"
                 
                     onClicked: {
