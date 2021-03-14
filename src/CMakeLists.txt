@@ -84,8 +84,6 @@ if (APPLE)
         COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_NAME}.app/Contents/Resources/zh_CN.lproj")
 endif()
 
-fix_win_compiler()
-
 # Link libraries
 if (USE_QT6)
     # Create excutable
@@ -125,6 +123,8 @@ else()
         ${MPV_LIBRARY}
         Danmaku2AssCPP)
 endif()
+
+fix_win_compiler()
 
 # Enable Automoc and Autorcc for Qt
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
