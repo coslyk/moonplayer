@@ -55,11 +55,5 @@ else()
 endif()
 find_package(MPV REQUIRED)
 
-
-if (UNIX AND NOT APPLE)
-    find_package(Qt5X11Extras REQUIRED)
-endif()
-
-
 add_subdirectory(3rdparty)
 add_subdirectory(src)

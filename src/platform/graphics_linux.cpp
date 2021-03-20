@@ -18,7 +18,6 @@
 #include <mpv/client.h>
 #include <QSettings>
 #include <QGuiApplication>
-#include <QX11Info>
 #include <qpa/qplatformnativeinterface.h>
 #include "../mpvObject.h"
 
@@ -79,9 +78,10 @@ void Graphics::detectOpenGLLate()
 
 void* Graphics::x11Display()
 {
-    if (QX11Info::isPlatformX11())
+    if (QGuiApplication::platformName() == QLatin1String("xcb"))  // is x11
     {
-        return QX11Info::display();
+        Q_ASSERT(QGuiApplication::platformNativeInterface() != nullptr);
+        return QGuiApplication::platformNativeInterface()->nativeResourceForWindow(QByteArrayLiteral("display"), nullptr);
     }
     return nullptr;
 }
@@ -89,10 +89,10 @@ void* Graphics::x11Display()
 
 void* Graphics::waylandDisplay()
 {
-    if (!QX11Info::isPlatformX11())
+    if (QGuiApplication::platformName() != QLatin1String("xcb")) // is not x11
     {
         Q_ASSERT(QGuiApplication::platformNativeInterface() != nullptr);
-        return QGuiApplication::platformNativeInterface()->nativeResourceForWindow(QByteArrayLiteral("display"), NULL);
+        return QGuiApplication::platformNativeInterface()->nativeResourceForWindow(QByteArrayLiteral("display"), nullptr);
     }
     return nullptr;
 }

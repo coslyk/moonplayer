@@ -58,7 +58,6 @@ addons:
       - qt515declarative
       - qt515quickcontrols2
       - qt515tools
-      - qt515x11extras
     update: true
 
 

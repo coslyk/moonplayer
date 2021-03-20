@@ -53,7 +53,6 @@ On ArchLinux:
     - qt5-declarative
     - qt5-quickcontrols2
     - qt5-tools
-    - qt5-x11extras
     - wget / curl
 ```
 
@@ -67,13 +66,11 @@ For building:
     - qtbase5-private-dev
     - qtdeclarative5-dev
     - qttools5-dev
-    - libqt5x11extras5-dev
     - libmpv-dev
 For running:
     - ffmpeg
     - libmpv1
     - libqt5network5
-    - libqt5x11extras5
     - python
     - qml-module-qtquick2
     - qml-module-qtquick-controls2

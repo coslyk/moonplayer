@@ -9,11 +9,6 @@ endif()
 # Include MPV
 include_directories(${MPV_INCLUDE_DIRS})
 
-# Include Qt5_X11Extras
-if (UNIX AND NOT APPLE)
-    include_directories(${Qt5X11Extras_INCLUDE_DIRS})
-endif()
-
 #include danmaku2ass
 include_directories(${PROJECT_SOURCE_DIR}/3rdparty/danmaku2ass_cpp/include)
 
@@ -101,7 +96,6 @@ if (USE_QT6)
         Qt6::Gui
         Qt6::Network
         Qt6::OpenGL
-        ${Qt6X11Extras_LIBRARIES}
         ${MPV_LIBRARY}
         Danmaku2AssCPP)
 else()
@@ -119,7 +113,6 @@ else()
         Qt5::Quick
         Qt5::Gui
         Qt5::Network
-        ${Qt5X11Extras_LIBRARIES}
         ${MPV_LIBRARY}
         Danmaku2AssCPP)
 endif()
