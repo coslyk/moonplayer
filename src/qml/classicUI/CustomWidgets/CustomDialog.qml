@@ -22,6 +22,7 @@ Window {
     modality: Qt.WindowModal
 
     readonly property int suggestedMargins: 8
+    readonly property int reservedHeight: 0
 
     signal accepted()
     signal rejected()

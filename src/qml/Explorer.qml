@@ -24,7 +24,7 @@ import MoonPlayer 1.0
 CustomDialog {
     id: explorer
     width: 600
-    height: 400
+    height: 360 + reservedHeight
     title: qsTr("Explorer")
     
     // Remember the last used plugin

@@ -23,7 +23,7 @@ import MoonPlayer 1.0
 CustomDialog {
     id: openUrlDialog
     width: 350
-    height: 210
+    height: 165 + reservedHeight
     title: qsTr("Enter URL to parse")
 
     onAccepted: {

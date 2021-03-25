@@ -21,6 +21,7 @@ Dialog {
     id: dialog
 
     readonly property int suggestedMargins: -8
+    readonly property int reservedHeight: 48
 
     // Center in parent
     x: (parent.width - width) / 2;

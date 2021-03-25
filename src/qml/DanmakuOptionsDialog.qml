@@ -26,8 +26,8 @@ CustomDialog {
     property MpvObject mpvObject: null
     property var blockWords: []
     
-    width: 480
-    height: 320
+    width: 450
+    height: 265 + reservedHeight
     title: qsTr("Danmaku options")
 
     GridLayout {

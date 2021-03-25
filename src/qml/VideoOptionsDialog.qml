@@ -26,7 +26,7 @@ CustomDialog {
     property MpvObject mpvObject: null
     
     width: 400
-    height: 300
+    height: 260 + reservedHeight
     title: qsTr("Video options")
     
     GridLayout {
