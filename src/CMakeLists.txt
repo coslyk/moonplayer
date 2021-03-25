@@ -59,6 +59,7 @@ endif()
 if (USE_QT6)
     qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
     configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
+    qt6_add_resources(QML_FILES qmls.qrc)
 else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
     configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
@@ -82,11 +83,11 @@ endif()
 # Link libraries
 if (USE_QT6)
     # Create excutable
-    add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
+    add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
         ${SOURCE_FILES}
         ${QM_FILES}
+        ${QML_FILES}
         resources.qrc
-        qmls.qrc
         ${CMAKE_BINARY_DIR}/src/l10n.qrc
         ${META_FILES_TO_INCLUDE})
 
@@ -100,7 +101,7 @@ if (USE_QT6)
         Danmaku2AssCPP)
 else()
     # Create excutable
-    add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
+    add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
         ${SOURCE_FILES}
         ${QM_FILES}
         ${QML_FILES}
