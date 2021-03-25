@@ -60,7 +60,7 @@ CustomWindow
         }
         onStateChanged: {
             if (mpv.state === MpvObject.VIDEO_PLAYING || mpv.state === MpvObject.TV_PLAYING)
-                explorer.close();
+                explorer.visible = false
         }
     }
 
@@ -86,16 +86,12 @@ CustomWindow
     SelectionDialog {
         id: selectionDialog
 
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
-
         Connections {
             target: Dialogs
             onSelectionStarted: {
                 selectionDialog.title = title;
                 selectionDialog.items = items;
-                selectionDialog.open();
+                selectionDialog.visible = true;
             }
         }
 
@@ -114,10 +110,6 @@ CustomWindow
     // Select subtitles
     SelectionDialog {
         id: subtitleSelectionDialog
-        
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
 
         title: qsTr("Select subtitles")
         items: mpv.subtitles
@@ -134,10 +126,6 @@ CustomWindow
     // Select audio tracks
     SelectionDialog {
         id: audioTrackSelectionDialog
-        
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
 
         title: qsTr("Select audio tracks")
         items: mpv.audioTracks
@@ -147,11 +135,6 @@ CustomWindow
     // Video options
     VideoOptionsDialog {
         id: videoOptionsDialog
-        
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
-
         mpvObject: mpv
     }
 
@@ -172,8 +155,8 @@ CustomWindow
         id: playlist
         x: window.width / 2 + 200
         y: window.height - 410
-        onOpenFileRequested: fileDialog.open()
-        onOpenUrlRequested: openUrlDialog.open()
+        onOpenFileRequested: fileDialog.visible = true
+        onOpenUrlRequested: openUrlDialog.visible = true
     }
     
     // Volume
@@ -196,19 +179,11 @@ CustomWindow
     // Settings
     Settings {
         id: settings
-        
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
     }
     
     // Explorer
     Explorer {
         id: explorer
-        
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
     }
     
     // Downloader
@@ -224,11 +199,6 @@ CustomWindow
     // Open url by Dialog
     OpenUrlDialog {
         id: openUrlDialog
-        
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
-
     
         Connections {
             target: Dialogs
@@ -258,14 +228,14 @@ CustomWindow
     contextMenu: Menu {
         width: 150
         padding: 5
-        Action { text: qsTr("Open files"); onTriggered: fileDialog.open() }
-        Action { text: qsTr("Open URL"); onTriggered: openUrlDialog.open() }
-        Action { text: qsTr("Explorer"); onTriggered: explorer.open() }
+        Action { text: qsTr("Open files"); onTriggered: fileDialog.visible = true }
+        Action { text: qsTr("Open URL"); onTriggered: openUrlDialog.visible = true }
+        Action { text: qsTr("Explorer"); onTriggered: explorer.visible = true }
         MenuSeparator { padding: 0 }
         Menu {
             title: qsTr("Video")
             width: 150
-            Action { text: qsTr("Options"); onTriggered: videoOptionsDialog.open() }
+            Action { text: qsTr("Options"); onTriggered: videoOptionsDialog.visible = true }
             MenuSeparator { padding: 0 }
             Action { text: qsTr("Default"); onTriggered: mpv.setProperty("video-aspect", 0) }
             Action { text: qsTr("4:3"); onTriggered: mpv.setProperty("video-aspect", 4 / 3) }
@@ -278,15 +248,15 @@ CustomWindow
         Menu {
             title: qsTr("Audio")
             width: 150
-            Action { text: qsTr("Select"); onTriggered: audioTrackSelectionDialog.open() }
+            Action { text: qsTr("Select"); onTriggered: audioTrackSelectionDialog.visible = true }
             delegate: MenuItem { height: 25 }
         }
         Menu {
             title: qsTr("Subtitle")
             width: 150
             Action { text: qsTr("Visible"); onTriggered: mpv.subVisible = !mpv.subVisible }
-            Action { text: qsTr("Add"); onTriggered: addSubtitleDialog.open() }
-            Action { text: qsTr("Select"); onTriggered: subtitleSelectionDialog.open() }
+            Action { text: qsTr("Add"); onTriggered: addSubtitleDialog.visible = true }
+            Action { text: qsTr("Select"); onTriggered: subtitleSelectionDialog.visible = true }
             delegate: MenuItem { height: 25 }
         }
         Menu {
@@ -297,11 +267,11 @@ CustomWindow
             Action { text: qsTr("Reset"); onTriggered: mpv.speed = 1 }
             delegate: MenuItem { height: 25 }
         }
-        Action { text: qsTr("Danmaku"); onTriggered: danmakuOptionsDialog.open() }
+        Action { text: qsTr("Danmaku"); onTriggered: danmakuOptionsDialog.visible = true }
         Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
-        Action { text: qsTr("Downloader"); onTriggered: downloader.open() }
-        Action { text: qsTr("Settings"); onTriggered: settings.open() }
+        Action { text: qsTr("Downloader"); onTriggered: downloader.visible = true }
+        Action { text: qsTr("Settings"); onTriggered: settings.visible = true }
         Action { text: qsTr("Update plugins"); onTriggered: Utils.updateParser() }
         Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html#browser_extension") }
         Action { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html") }
@@ -316,14 +286,14 @@ CustomWindow
         duration: mpv.duration
         onPlayPauseButtonClicked: mpv.state == MpvObject.VIDEO_PLAYING ? mpv.pause() : mpv.play()
         onStopButtonClicked: mpv.stop()
-        onSettingsButtonClicked: settings.open()
-        onPlaylistButtonClicked: playlist.open()
-        onExplorerButtonClicked: explorer.open()
+        onSettingsButtonClicked: settings.visible = true
+        onPlaylistButtonClicked: playlist.visible = true
+        onExplorerButtonClicked: explorer.visible = true
         onSeekRequested: mpv.seek(time);
         onVolumeButtonClicked: {
             volumePopup.x = mpv.mapFromItem(volumeButton, 0, 0).x;
             volumePopup.y = mpv.mapFromItem(volumeButton, 0, 0).y - volumePopup.height;
-            volumePopup.open();
+            volumePopup.visible = true;
         }
     }
     
@@ -370,7 +340,7 @@ CustomWindow
 
     Shortcut {
         sequence: "D"
-        onActivated: danmakuOptionsDialog.open()
+        onActivated: danmakuOptionsDialog.visible = true
     }
 
     Shortcut {
@@ -380,7 +350,7 @@ CustomWindow
     
     Shortcut {
         sequence: "L"
-        onActivated: playlist.open()
+        onActivated: playlist.visible = true
     }
 
     Shortcut {
@@ -390,12 +360,12 @@ CustomWindow
 
     Shortcut {
         sequence: "U"
-        onActivated: openUrlDialog.open()
+        onActivated: openUrlDialog.visible = true
     }
 
     Shortcut {
         sequence: "W"
-        onActivated: explorer.open()
+        onActivated: explorer.visible = true
     }
 
     Shortcut {
@@ -410,12 +380,12 @@ CustomWindow
     
     Shortcut {
         sequence: "Ctrl+O"
-        onActivated: fileDialog.open()
+        onActivated: fileDialog.visible = true
     }
     
     Shortcut {
         sequence: "Ctrl+,"
-        onActivated: settings.open()
+        onActivated: settings.visible = true
     }
 
     Component.onCompleted: Utils.checkUpdate()

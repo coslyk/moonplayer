@@ -18,9 +18,10 @@ import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0 as QSettings
+import CustomWidgets 1.0
 import MoonPlayer 1.0
 
-Dialog {
+CustomDialog {
     id: explorer
     width: 600
     height: 400
@@ -34,8 +35,10 @@ Dialog {
     
     property QtObject currentPlugin: plugins[pluginComboBox.currentIndex]
     
-    contentItem: Item {
-
+    Item {
+        anchors.fill: parent
+        anchors.margins: suggestedMargins
+        
         GridLayout {
             columns: 3
             visible: plugins.length !== 0

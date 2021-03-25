@@ -13,40 +13,26 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
- 
-import QtQuick 2.7
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.3
+
 import QtQuick.Window 2.2
 
 Window {
     id: window
     flags: Qt.Dialog
     modality: Qt.WindowModal
-    property alias model: repeater.model
-    property alias currentIndex: tabBar.currentIndex
-    property alias content: loader.sourceComponent
-    
-    ColumnLayout {
-        // Tab bar
-        TabBar {
-            id: tabBar
-            Layout.fillWidth: true
-            Layout.margins: 5
-            Repeater {
-                id: repeater
-                TabButton {
-                    text: tabLabel
-                }
-            }
-        }
 
-        Loader {
-            id: loader
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.leftMargin: 20
-            Layout.rightMargin: 20
-        }
+    readonly property int suggestedMargins: 8
+
+    signal accepted()
+    signal rejected()
+
+    function accept() {
+        window.visible = false;
+        accepted();
+    }
+
+    function reject() {
+        window.visible = false;
+        rejected();
     }
 }

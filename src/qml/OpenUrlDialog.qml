@@ -17,14 +17,14 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import CustomWidgets 1.0
 import MoonPlayer 1.0
 
-Dialog {
+CustomDialog {
     id: openUrlDialog
     width: 350
     height: 210
     title: qsTr("Enter URL to parse")
-    standardButtons: Dialog.Ok | Dialog.Cancel
 
     onAccepted: {
         if (openUrlInput.text !== "")
@@ -38,24 +38,33 @@ Dialog {
         target: Dialogs
         onOpenUrlStarted: {
             openUrlInput.text = url
-            openUrlDialog.open()
+            openUrlDialog.visible = true
         }
     }
 
     ColumnLayout {
         anchors.fill: parent
+        anchors.margins: suggestedMargins
+        spacing: 0
 
         TextField {
             id: openUrlInput
             selectByMouse: true
             Layout.fillWidth: true
-            height: 30
             onAccepted: openUrlDialog.accept()
         }
 
         CheckBox {
             id: downloadCheckBox
             text: qsTr("Download video")
+        }
+
+        DialogButtonBox {
+            standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+            onAccepted: openUrlDialog.accept()
+            onRejected: openUrlDialog.reject()
         }
     }
 }
