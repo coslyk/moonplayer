@@ -141,11 +141,6 @@ CustomWindow
     // Danmaku options
     DanmakuOptionsDialog {
         id: danmakuOptionsDialog
-        
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
-
         mpvObject: mpv
     }
     

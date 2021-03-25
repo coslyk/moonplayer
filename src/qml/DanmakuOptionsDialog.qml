@@ -17,20 +17,22 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import CustomWidgets 1.0
 import MoonPlayer 1.0
 
-Dialog {
+CustomDialog {
     id: selectionDialog
     
     property MpvObject mpvObject: null
     property var blockWords: []
     
-    width: 450
-    height: 350
+    width: 480
+    height: 320
     title: qsTr("Danmaku options")
 
     GridLayout {
         anchors.fill: parent
+        anchors.margins: suggestedMargins
         flow: GridLayout.TopToBottom
         rows: 6
         rowSpacing: 0
