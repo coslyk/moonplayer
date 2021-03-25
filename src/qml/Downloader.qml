@@ -17,15 +17,19 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import CustomWidgets 1.0
 import MoonPlayer 1.0
 
-Dialog {
+CustomDialog {
     id: downloader
     width: 600
     height: 400
     title: qsTr("Downloader")
     
-    contentItem: Item {
+    Item {
+        anchors.fill: parent
+        anchors.margins: suggestedMargins
+
         ListView {
             id: listView
             anchors.fill: parent

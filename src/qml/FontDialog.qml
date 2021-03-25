@@ -17,9 +17,10 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import CustomWidgets 1.0
 import MoonPlayer 1.0
 
-Dialog {
+CustomDialog {
     id: dialog
     
     property string family
@@ -27,7 +28,9 @@ Dialog {
     width: 400
     height: 330
     
-    contentItem: ColumnLayout {
+    ColumnLayout {
+        anchors.fill: parent
+        anchors.margins: suggestedMargins
 
         // Search field
         RowLayout {

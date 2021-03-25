@@ -17,13 +17,13 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import CustomWidgets 1.0
 import MoonPlayer 1.0
 
-Dialog {
+CustomDialog {
     id: dialog
     width: 350
-    height: 160
-    standardButtons: Dialog.Ok | Dialog.Cancel
+    height: 120 + reservedHeight
 
     onAccepted: {
         if (textInput.text !== "") {
@@ -40,7 +40,9 @@ Dialog {
         }
     }
 
-    contentItem: ColumnLayout {
+    ColumnLayout {
+        anchors.fill: parent
+        anchors.margins: suggestedMargins
 
         TextField {
             id: textInput
@@ -48,6 +50,14 @@ Dialog {
             Layout.fillWidth: true
             height: 30
             onAccepted: dialog.accept()
+        }
+
+        DialogButtonBox {
+            standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+            onAccepted: dialog.accept()
+            onRejected: dialog.reject()
         }
     }
 }

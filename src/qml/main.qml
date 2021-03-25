@@ -76,10 +76,6 @@ CustomWindow
     // Message dialog
     MessageDialog {
         id: messageDialog
-
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
     }
 
     // Selection dialog
@@ -101,10 +97,6 @@ CustomWindow
     // Text input dialog
     TextInputDialog {
         id: textInputDialog
-
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
     }
     
     // Select subtitles
@@ -150,7 +142,7 @@ CustomWindow
         id: playlist
         x: window.width / 2 + 200
         y: window.height - 410
-        onOpenFileRequested: fileDialog.visible = true
+        onOpenFileRequested: fileDialog.open()
         onOpenUrlRequested: openUrlDialog.visible = true
     }
     
@@ -184,11 +176,6 @@ CustomWindow
     // Downloader
     Downloader {
         id: downloader
-        
-        // Center in parent
-        x: (parent.width - width) / 2;
-        y: (parent.height - height) / 2;
-
     }
 
     // Open url by Dialog
@@ -223,7 +210,7 @@ CustomWindow
     contextMenu: Menu {
         width: 150
         padding: 5
-        Action { text: qsTr("Open files"); onTriggered: fileDialog.visible = true }
+        Action { text: qsTr("Open files"); onTriggered: fileDialog.open() }
         Action { text: qsTr("Open URL"); onTriggered: openUrlDialog.visible = true }
         Action { text: qsTr("Explorer"); onTriggered: explorer.visible = true }
         MenuSeparator { padding: 0 }
@@ -250,7 +237,7 @@ CustomWindow
             title: qsTr("Subtitle")
             width: 150
             Action { text: qsTr("Visible"); onTriggered: mpv.subVisible = !mpv.subVisible }
-            Action { text: qsTr("Add"); onTriggered: addSubtitleDialog.visible = true }
+            Action { text: qsTr("Add"); onTriggered: addSubtitleDialog.open() }
             Action { text: qsTr("Select"); onTriggered: subtitleSelectionDialog.visible = true }
             delegate: MenuItem { height: 25 }
         }
@@ -375,7 +362,7 @@ CustomWindow
     
     Shortcut {
         sequence: "Ctrl+O"
-        onActivated: fileDialog.visible = true
+        onActivated: fileDialog.open()
     }
     
     Shortcut {

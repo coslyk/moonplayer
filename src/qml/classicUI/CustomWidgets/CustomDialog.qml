@@ -36,4 +36,12 @@ Window {
         window.visible = false;
         rejected();
     }
+
+    function open() {
+        window.visible = true;
+    }
+
+    function close() {
+        window.visible = false;
+    }
 }
