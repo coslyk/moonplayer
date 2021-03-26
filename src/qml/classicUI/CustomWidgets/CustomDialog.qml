@@ -14,12 +14,14 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import QtQuick 2.7
 import QtQuick.Window 2.2
 
 Window {
     id: window
     flags: Qt.Dialog
-    modality: Qt.WindowModal
+    modality: Qt.platform.os === "osx" ? Qt.NonModal : Qt.WindowModal
+    color: sysPalette.window
 
     readonly property int suggestedMargins: 8
     readonly property int reservedHeight: 0
@@ -44,4 +46,6 @@ Window {
     function close() {
         window.visible = false;
     }
+
+    SystemPalette { id: sysPalette; colorGroup: SystemPalette.Active }
 }

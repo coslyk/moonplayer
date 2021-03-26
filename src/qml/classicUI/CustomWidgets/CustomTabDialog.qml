@@ -19,10 +19,8 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
 
-Window {
+CustomDialog {
     id: window
-    flags: Qt.Dialog
-    modality: Qt.WindowModal
     property alias model: repeater.model
     property alias currentIndex: tabBar.currentIndex
     property alias content: loader.sourceComponent
