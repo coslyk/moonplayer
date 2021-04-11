@@ -45,6 +45,9 @@ public:
 };
 
 
+// Default User Agent
+QByteArray NetworkAccessManager::s_defaultUA = QByteArrayLiteral(DEFAULT_UA);
+
 
 NetworkAccessManager::NetworkAccessManager(QObject *parent) :
     QNetworkAccessManager(parent)
