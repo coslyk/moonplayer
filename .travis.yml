@@ -26,14 +26,18 @@ jobs:
         - brew install cmake qt openssl mpv-moonplayer md5deep
 
     
-    - name: Windows (VS2017 x64) build
+    - name: Windows (VS2019 x64) build
       os: windows
       env:
+        - VS160COMNTOOLS="/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools"
         - PLATFORM=x64
-        - QT_BASE_DIR=C:/Qt/5.12.10/msvc2017_64
-        - PATH=/c/Qt/5.12.10/msvc2017_64/bin:$PATH
+        - QT_BASE_DIR=C:/Qt/6.0.3/msvc2019_64
+        - PATH=/c/Qt/6.0.3/msvc2019_64/bin:$PATH
         - UPLOADTOOL_ISPRERELEASE=true
       before_install:
+        # Install vc2019
+        - choco install visualstudio2019buildtools
+        - choco install visualstudio2019-workload-vctools
         # Install libmpv, qt and innosetup
         - choco install -y zip innosetup 7zip
         - scripts/travis-install-mpv.bat
@@ -65,7 +69,7 @@ cache:
   directories:
     - $HOME/Library/Caches/Homebrew
     - /usr/local/Homebrew
-    - /C/Qt/5.12.10
+    - /C/Qt/6.0.3
 
 before_cache:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew cleanup; fi
