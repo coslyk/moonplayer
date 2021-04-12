@@ -26,6 +26,8 @@ CustomDialog {
     property alias content: loader.sourceComponent
     
     ColumnLayout {
+        anchors.fill: parent
+
         // Tab bar
         TabBar {
             id: tabBar
@@ -35,6 +37,7 @@ CustomDialog {
                 id: repeater
                 TabButton {
                     text: tabLabel
+                    width: implicitWidth + 10
                 }
             }
         }
