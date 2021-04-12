@@ -33,6 +33,7 @@ CustomDialog {
         Label {
             id: label
             wrapMode: Text.WordWrap
+            Layout.fillWidth: true
         }
 
         DialogButtonBox {
