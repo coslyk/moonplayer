@@ -71,7 +71,9 @@ Window
         }
 
         // Set cursor shape
-        if ((mouseArea.mouseX < 8 && mouseArea.mouseY < 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY > height - 8)) {
+        if (window.visibility !== Window.Windowed) {
+            mouseArea.cursorShape = Qt.ArrowCursor;
+        } else if ((mouseArea.mouseX < 8 && mouseArea.mouseY < 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY > height - 8)) {
             mouseArea.cursorShape = Qt.SizeFDiagCursor;
         } else if ((mouseArea.mouseX < 8 && mouseArea.mouseY > height - 8) || (mouseArea.mouseX > width - 8 && mouseArea.mouseY < 8)) {
             mouseArea.cursorShape = Qt.SizeBDiagCursor;
