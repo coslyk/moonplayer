@@ -190,11 +190,16 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
     m_mpv.set_option("hwdec", hwdecCopy ? "videotoolbox-copy" : "videotoolbox");
     
 #elif defined(Q_OS_WIN)
-    m_mpv.set_option("gpu-context", "angle");
     if (QSysInfo::productVersion() == QStringLiteral("8.1") || QSysInfo::productVersion() == QStringLiteral("10"))
+    {
         m_mpv.set_option("hwdec", hwdecCopy ? "d3d11va-copy" : "d3d11va");
+        m_mpv.set_option("gpu-context", "d3d11");
+    }
     else
+    {
         m_mpv.set_option("hwdec", hwdecCopy ? "dxva2-copy" : "dxva2");
+        m_mpv.set_option("gpu-context", "dxinterop");
+    }
 #endif
     
     if (m_mpv.initialize() < 0)
