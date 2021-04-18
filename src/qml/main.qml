@@ -140,8 +140,8 @@ CustomWindow
     // Playlist
     Playlist {
         id: playlist
-        x: window.width / 2 + 200
-        y: window.height - 410
+        x: playlistX
+        y: playlistY
         onOpenFileRequested: fileDialog.open()
         onOpenUrlRequested: openUrlDialog.visible = true
     }

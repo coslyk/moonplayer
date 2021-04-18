@@ -27,6 +27,9 @@ Window
     property var contextMenu
     property bool autoHideBars: false
     property alias toolbar: toolbarLoader.sourceComponent
+
+    readonly property int playlistX: window.width / 2 + 200
+    readonly property int playlistY: window.height - 410
     
     Material.theme: SkinColor.theme === "Dark" ? Material.Dark : Material.Light
     Material.accent: Material.Grey

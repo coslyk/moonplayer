@@ -24,6 +24,9 @@ Window
     property var contextMenu
     property bool autoHideBars: false
     property alias toolbar: toolbarLoader.sourceComponent
+
+    readonly property int playlistX: window.width - 180
+    readonly property int playlistY: window.height - 340
     
     signal mouseMoved()
     
