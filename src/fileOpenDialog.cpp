@@ -11,6 +11,7 @@
 #include <QQuickWindow>
 #include <private/qguiapplication_p.h>
 #include <QtGui/qpa/qplatformtheme.h>
+#include "mpvObject.h"
 
 FileOpenDialog::FileOpenDialog(QQuickItem *parent) :
     QQuickItem(parent),
@@ -48,6 +49,10 @@ QPlatformFileDialogHelper *FileOpenDialog::init_helper()
 
 void FileOpenDialog::open()
 {
+    // Pause video before showing dialog
+    Q_ASSERT(MpvObject::instance() != nullptr);
+    MpvObject::instance()->pause();
+
     QQuickItem *parent = this->parentItem();
     Q_ASSERT(parent);
 
