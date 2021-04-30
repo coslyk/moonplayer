@@ -16,14 +16,14 @@ jobs:
       os: osx
       osx_image: xcode11.3
       env:
-        - QT_BASE_DIR=/usr/local/opt/qt
+        - QT_BASE_DIR=/usr/local/opt/qt5
         - UPLOADTOOL_ISPRERELEASE=true
       before_install:
         # Delete all packages since updating them takes too much time
         - brew remove --force $(brew list) --ignore-dependencies
         - brew tap coslyk/mpv
         - brew update
-        - brew install cmake qt openssl mpv-moonplayer md5deep
+        - brew install cmake qt5 openssl mpv-moonplayer md5deep
 
     
     - name: Windows (VS2019 x64) build
@@ -79,7 +79,7 @@ before_cache:
 script:
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cmake -A x64 -DCMAKE_PREFIX_PATH=$QT_BASE_DIR -DUSE_QT6=ON .; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$QT_BASE_DIR -DCMAKE_INSTALL_PREFIX=/usr .; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$QT_BASE_DIR -DUSE_QT6=ON .; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$QT_BASE_DIR .; fi
   - cmake --build . --config Release
 
 
