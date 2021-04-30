@@ -582,7 +582,16 @@ void MpvObject::onMpvEvent()
                         if (track["type"] == "sub") // Subtitles
                         {
                             int64_t id = track["id"];
-                            QString title = QString::fromUtf8(static_cast<const char*>(track["title"]));
+                            QString title;
+                            try
+                            {
+                                title = QString::fromUtf8(static_cast<const char*>(track["title"]));
+                            }
+                            catch (std::exception&)
+                            {
+                                title = tr("Untitled ") + QString::number(id);
+                            }
+
                             if (m_subtitles.count() <= id)
                             {
                                 for (int j = m_subtitles.count(); j < id; j++)
@@ -598,7 +607,16 @@ void MpvObject::onMpvEvent()
                         else if (track["type"] == "audio") // Audio tracks
                         {
                             int64_t id = track["id"];
-                            QString title = QString::fromUtf8(static_cast<const char*>(track["title"]));
+                            QString title;
+                            try
+                            {
+                                title = QString::fromUtf8(static_cast<const char*>(track["title"]));
+                            }
+                            catch (std::exception&)
+                            {
+                                title = tr("Untitled ") + QString::number(id);
+                            }
+                            
                             if (m_audioTracks.count() <= id)
                             {
                                 for (int j = m_audioTracks.count(); j < id; j++)
