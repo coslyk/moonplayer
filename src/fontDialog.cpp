@@ -19,6 +19,7 @@
 #include <QQuickWindow>
 #include <private/qguiapplication_p.h>
 #include <QtGui/qpa/qplatformtheme.h>
+#include "mpvObject.h"
 
 FontDialog::FontDialog(QQuickItem *parent) :
     QQuickItem(parent),
@@ -56,6 +57,10 @@ QPlatformFontDialogHelper *FontDialog::init_helper()
 
 void FontDialog::open()
 {
+    // Pause video before showing dialog
+    Q_ASSERT(MpvObject::instance() != nullptr);
+    MpvObject::instance()->pause();
+    
     // Get parent window
     QQuickItem *parent = this->parentItem();
     Q_ASSERT(parent);
