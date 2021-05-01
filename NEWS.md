@@ -1,3 +1,10 @@
+### version 3.8 (2021.05.01)
+
+1. Fix segmentation fault when opening some YouTube videos (#106)
+1. Improvements in Classic UI
+1. Classic UI has a native look on Windows now
+1. Fix cannot select untitled audio tracks
+
 ### version 3.7 (2021.01.16)
 
 1. New logo
