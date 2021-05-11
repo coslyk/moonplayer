@@ -113,4 +113,6 @@ sudo make install
 
 ## License
 
-[GPL-3](https://github.com/coslyk/moonplayer/blob/develop/LICENSE)
+[GPLv3+](https://github.com/coslyk/moonplayer/blob/develop/LICENSE)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fcoslyk%2Fmoonplayer.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fcoslyk%2Fmoonplayer?ref=badge_large)
