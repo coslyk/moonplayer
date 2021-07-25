@@ -67,4 +67,11 @@ CustomDialog {
             onRejected: openUrlDialog.reject()
         }
     }
+
+    // Set focus to text input when shown up
+    onVisibleChanged: {
+        if (visible) {
+            openUrlInput.focus = true;
+        }
+    }
 }
