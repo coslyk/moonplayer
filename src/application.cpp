@@ -18,6 +18,7 @@
 #include "playlistModel.h"
 #include <QFileOpenEvent>
 #include <QUrl>
+#include <stdexcept>
 
 
 Application::Application(int &argc, char **argv) : QGuiApplication(argc, argv)
