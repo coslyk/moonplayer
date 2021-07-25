@@ -31,8 +31,8 @@ jobs:
       env:
         - VS160COMNTOOLS="/c/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools"
         - PLATFORM=x64
-        - QT_BASE_DIR=C:/Qt/6.0.3/msvc2019_64
-        - PATH=/c/Qt/6.0.3/msvc2019_64/bin:$PATH
+        - QT_BASE_DIR=C:/Qt/6.1.2/msvc2019_64
+        - PATH=/c/Qt/6.1.2/msvc2019_64/bin:$PATH
         - UPLOADTOOL_ISPRERELEASE=true
       before_install:
         # Install vc2019
@@ -69,7 +69,7 @@ cache:
   directories:
     - $HOME/Library/Caches/Homebrew
     - /usr/local/Homebrew
-    - /C/Qt/6.0.3
+    - /C/Qt/6.1.2
 
 before_cache:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew cleanup; fi
