@@ -18,7 +18,7 @@ curl -Lo ffmpeg.7z https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.4-essent
 7z e ffmpeg.7z -omoonplayer ffmpeg-4.4-essentials_build/bin/ffmpeg.exe
 
 # Bundle hlsdl
-curl -Lo hlsdl.7z https://rwijnsma.home.xs4all.nl/files/hlsdl/hlsdl-0.27-e9420c4-win32-static-xpmod-sse.7z
+curl -Lo hlsdl.7z https://rwijnsma.home.xs4all.nl/files/hlsdl/hlsdl-0.27-883acbd-win32-static-xpmod-sse.7z
 7z e hlsdl.7z -omoonplayer hlsdl.exe
 
 # Create installer
