@@ -12,18 +12,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: 5.15.2
+        run: ./scripts/win-install-qt.sh
 
       - name: Install MPV
-        run: |-
-          curl -Lo libmpv.7z https://deac-riga.dl.sourceforge.net/project/mpv-player-windows/libmpv/mpv-dev-x86_64-20210214-git-93066ff.7z
-          7z x -olibmpv libmpv.7z
-          cd libmpv
-          mv include mpv
-          lib /def:mpv.def /name:mpv-1.dll /out:mpv.lib /MACHINE:X64
-          cd ..
+        run: ./scripts/win-install-mpv.sh
 
       - name: Build
         run: |-
