@@ -11,13 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: ilammy/msvc-dev-cmd@v1
+
       - name: Install Qt
         shell: bash
         run: ./scripts/win-install-qt.sh
 
       - name: Install MPV
-        shell: bash
-        run: ./scripts/win-install-mpv.sh
+        shell: cmd
+        run: scripts\win-install-mpv.bat
 
       - name: Build
         run: |-
