@@ -12,12 +12,14 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install Qt
+        shell: bash
         run: ./scripts/win-install-qt.sh
 
       - name: Install MPV
+        shell: bash
         run: ./scripts/win-install-mpv.sh
 
       - name: Build
         run: |-
-          cmake -A x64 .
+          cmake -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/6.1.2/msvc2019_64 -DUSE_QT6=ON .
           cmake --build . --config Release
