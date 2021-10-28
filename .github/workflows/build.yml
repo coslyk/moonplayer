@@ -5,15 +5,15 @@ on:
     branches: [ develop ]
 
 jobs:
-  build:
+  win-build:
     runs-on: windows-2019
-
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: true
 
-      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Enable MSVC commands
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Install Qt
         shell: bash
@@ -27,3 +27,16 @@ jobs:
         run: |-
           cmake -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/6.1.2/msvc2019_64 -DUSE_QT6=ON .
           cmake --build . --config Release
+
+  linux-build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Install dependencies
+        run: sudo mk-build-deps -ir -t "apt-get -o Debug::pkgProblemResolver=yes -y --no-install-recommends"
+
+      - name: Build packages
+        run: dpkg-buildpackage -b -uc -us
