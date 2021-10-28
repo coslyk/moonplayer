@@ -36,7 +36,7 @@ jobs:
           submodules: true
 
       - name: Install dpkg tools
-        run: sudo apt-get install -y devscripts
+        run: sudo apt-get install -y cdbs devscripts equivs fakeroot
 
       - name: Install dependencies
         run: sudo mk-build-deps -ir -t "apt-get -o Debug::pkgProblemResolver=yes -y --no-install-recommends"
