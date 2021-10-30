@@ -28,7 +28,7 @@ jobs:
           cmake -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/6.1.2/msvc2019_64 -DUSE_QT6=ON .
           cmake --build . --config Release
 
-      - name: Install extra files
+      - name: Deploy
         shell: bash
         run: ./scripts/deploy-windows.sh
 
