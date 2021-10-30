@@ -10,4 +10,4 @@ export QT_SELECT=5
 	dh $@
 
 override_dh_auto_configure:
-	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DCOMPILE_QML=OFF
+	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release
