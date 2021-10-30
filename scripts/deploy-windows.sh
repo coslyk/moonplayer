@@ -14,8 +14,8 @@ curl -Lo openssl.7z https://download.qt.io/online/qtsdkrepository/windows_x86/de
 7z e openssl.7z -omoonplayer Tools/OpenSSL/Win_x64/bin/*.dll
 
 # Bundle ffmpeg
-curl -Lo ffmpeg.7z https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.4-essentials_build.7z
-7z e ffmpeg.7z -omoonplayer ffmpeg-4.4-essentials_build/bin/ffmpeg.exe
+curl -Lo ffmpeg.7z https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z
+7z e ffmpeg.7z -omoonplayer ffmpeg-4.4.1-essentials_build/bin/ffmpeg.exe
 
 # Bundle hlsdl
 curl -Lo hlsdl.7z https://rwijnsma.home.xs4all.nl/files/hlsdl/hlsdl-0.27-883acbd-win32-static-xpmod-sse.7z
