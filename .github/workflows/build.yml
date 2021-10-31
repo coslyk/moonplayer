@@ -12,6 +12,12 @@ jobs:
         with:
           submodules: true
 
+      - name: Cache Qt
+        uses: actions/cache@v2
+        with:
+          path: C:\Qt\6.2.1
+          key: qt621_win
+
       - name: Enable MSVC commands
         uses: ilammy/msvc-dev-cmd@v1
 
@@ -25,7 +31,7 @@ jobs:
 
       - name: Build
         run: |-
-          cmake -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/6.1.2/msvc2019_64 -DUSE_QT6=ON .
+          cmake -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/6.2.1/msvc2019_64 -DUSE_QT6=ON .
           cmake --build . --config Release
 
       - name: Deploy
@@ -33,6 +39,7 @@ jobs:
         run: ./scripts/deploy-windows.sh
 
       - name: Upload packages
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           UPLOADTOOL_ISPRERELEASE: true
