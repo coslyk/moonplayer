@@ -45,7 +45,7 @@ jobs:
           UPLOADTOOL_ISPRERELEASE: true
         run: |
           set -e
-          curl -L https://github.com/probonopd/uploadtool/raw/master/upload.sh
+          curl -Lo upload.sh https://github.com/probonopd/uploadtool/raw/master/upload.sh
           bash upload.sh MoonPlayer_*.exe
 
   linux-build:
