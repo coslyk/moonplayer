@@ -369,6 +369,4 @@ CustomWindow
         sequence: "Ctrl+,"
         onActivated: settings.visible = true
     }
-
-    Component.onCompleted: Utils.checkUpdate()
 }
