@@ -48,6 +48,7 @@ CustomTabDialog {
             property alias style: styleComboBox.currentIndex
             property alias use_system_frame: systemFrameCheckBox.checked
             property alias url_open_mode: openUrlComboBox.currentIndex
+            property alias autoplay: autoplayCheckBox.checked
         }
      
         // Video settings
@@ -134,6 +135,13 @@ CustomTabDialog {
             ComboBox {
                 id: openUrlComboBox
                 model: [ qsTr("Question"), qsTr("Play"), qsTr("Download") ]
+            }
+
+            CheckBox {
+                id: autoplayCheckBox
+                text: qsTr("Play videos after being added to playlist")
+                checked: true
+                Layout.columnSpan: 2
             }
         }
         

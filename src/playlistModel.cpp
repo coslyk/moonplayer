@@ -79,13 +79,14 @@ void PlaylistModel::addLocalFiles(const QList<QUrl>& fileUrls)
 {
     int start = m_titles.count();
     int count = fileUrls.count();
+
     beginInsertRows(QModelIndex(), start, start + count - 1);
-    for (int i = 0; i < count; i++)
+    for (const auto& fileUrl : fileUrls)
     {
-        m_titles << QFileInfo(fileUrls[i].toLocalFile()).fileName();
-        m_fileUrls << fileUrls[i];
+        m_titles << QFileInfo(fileUrl.toLocalFile()).fileName();
+        m_fileUrls << fileUrl;
         m_audioTrackUrls << QUrl();
-        QFile danmakuFile(fileUrls[i].toLocalFile() + QStringLiteral(".danmaku"));
+        QFile danmakuFile(fileUrl.toLocalFile() + QStringLiteral(".danmaku"));
         if (danmakuFile.open(QFile::ReadOnly | QFile::Text))
         {
             m_danmakuUrls << QString::fromUtf8(danmakuFile.readAll());
@@ -97,7 +98,16 @@ void PlaylistModel::addLocalFiles(const QList<QUrl>& fileUrls)
         }
     }
     endInsertRows();
-    playItem(start);
+
+    // Play video
+    if (QSettings().value(QStringLiteral("player/autoplay")).toBool())
+    {
+        playItem(start);
+    }
+    else
+    {
+        MpvObject::instance()->showText(QByteArrayLiteral("File added"));
+    }
 }
 
 
