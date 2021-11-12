@@ -14,7 +14,7 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-#include "parserYoutubedl.h"
+#include "parserYtdlp.h"
 #include "accessManager.h"
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -25,15 +25,15 @@
 #include "dialogs.h"
 #include "platform/paths.h"
 
-ParserYoutubeDL ParserYoutubeDL::s_instance;
+ParserYtdlp ParserYtdlp::s_instance;
 
-ParserYoutubeDL::ParserYoutubeDL(QObject *parent) : ParserBase(parent)
+ParserYtdlp::ParserYtdlp(QObject *parent) : ParserBase(parent)
 {
-    connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &ParserYoutubeDL::parseOutput);
+    connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &ParserYtdlp::parseOutput);
     connect(&m_process, &QProcess::errorOccurred, [&](){ showErrorDialog(m_process.errorString()); });
 }
 
-ParserYoutubeDL::~ParserYoutubeDL()
+ParserYtdlp::~ParserYtdlp()
 {
     if (m_process.state() == QProcess::Running)
     {
@@ -43,7 +43,7 @@ ParserYoutubeDL::~ParserYoutubeDL()
 }
 
 
-void ParserYoutubeDL::runParser(const QUrl& url)
+void ParserYtdlp::runParser(const QUrl& url)
 {
     if (m_process.state() == QProcess::Running)
     {
@@ -64,11 +64,11 @@ void ParserYoutubeDL::runParser(const QUrl& url)
         args << QStringLiteral("--proxy") << QStringLiteral("socks5://%1/").arg(proxy);
 
     args << url.toString();
-    m_process.start(userResourcesPath() + QStringLiteral("/youtube-dl"), args, QProcess::ReadOnly);
+    m_process.start(userResourcesPath() + QStringLiteral("/yt-dlp"), args, QProcess::ReadOnly);
 }
 
 
-void ParserYoutubeDL::parseOutput()
+void ParserYtdlp::parseOutput()
 {
     QByteArray output = m_process.readAllStandardOutput();
 #ifdef Q_OS_WIN

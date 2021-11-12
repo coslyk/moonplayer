@@ -51,28 +51,28 @@ function Save-Version-Info {
 }
 
 
-### Update youtube-dl
-Write-Output "-------- Checking youtube-dl's updates -------"
+### Update yt-dlp
+Write-Output "-------- Checking yt-dlp's updates -------"
 
-# Get latest youtube-dl version
-$latest_version = Get-Latest-Version-Github "ytdl-org/youtube-dl"
+# Get latest yt-dlp version
+$latest_version = Get-Latest-Version-Github "yt-dlp/yt-dlp"
 Write-Output "Latest version: $latest_version"
 
-# Get current youtube-dl version
-$current_version = Get-Current-Version "youtube-dl"
+# Get current yt-dlp version
+$current_version = Get-Current-Version "yt-dlp"
 Write-Output "Current version: $current_version"
 
 # Check if the version is latest
 if ($latest_version -eq $current_version) {
-    Write-Output "Youtube-dl already up-to-date."
+    Write-Output "Yt-dlp already up-to-date."
 } else {
     Write-Output ""
-    Write-Output "------------ Updating youtube-dl -------------"
+    Write-Output "------------ Updating yt-dlp -------------"
     Write-Output "Downloading latest version..."
-    $url = "https://github.com/ytdl-org/youtube-dl/releases/download/$latest_version/youtube-dl.exe"
-    $output = "$env:LOCALAPPDATA\MoonPlayer\youtube-dl.exe"
+    $url = "https://github.com/yt-dlp/yt-dlp/releases/download/$latest_version/yt-dlp.exe"
+    $output = "$env:LOCALAPPDATA\MoonPlayer\yt-dlp.exe"
     (New-Object System.Net.WebClient).DownloadFile($url, $output)
-    Save-Version-Info "youtube-dl" $latest_version
+    Save-Version-Info "yt-dlp" $latest_version
 }
 
 ### Update ykdl

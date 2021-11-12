@@ -70,31 +70,31 @@ save_version_info() {
 }
 
 
-### Update youtube-dl
-echo "\n-------- Checking youtube-dl's updates -------"
+### Update yt-dlp
+echo "\n-------- Checking yt-dlp's updates -------"
 
-# Get latest youtube-dl version
-CURRENT_VERSION=$(get_current_version "youtube-dl")
+# Get latest yt-dlp version
+CURRENT_VERSION=$(get_current_version "yt-dlp")
 echo "Current version: $CURRENT_VERSION"
 
-LATEST_VERSION=$(get_latest_version_github "ytdl-org/youtube-dl")
+LATEST_VERSION=$(get_latest_version_github "yt-dlp/yt-dlp")
 if [ -n "$LATEST_VERSION" ]; then
     echo "Latest version: $LATEST_VERSION"
 else
-    echo 'Error: Cannot get the latest version of youtube-dl. Please try again later.'
+    echo 'Error: Cannot get the latest version of yt-dlp. Please try again later.'
     exit 0
 fi
 
 if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
-    echo "Youtube-dl already up-to-date."
+    echo "Yt-dlp already up-to-date."
 else
     # Download latest version
-    echo "\n ------------ Updating youtube-dl -------------"
+    echo "\n ------------ Updating yt-dlp -------------"
     echo "Downloading latest version..."
-    rm -f youtube-dl
-    downloader youtube-dl "https://github.com/ytdl-org/youtube-dl/releases/download/$LATEST_VERSION/youtube-dl"
-    chmod a+x youtube-dl
-    save_version_info "youtube-dl" "$LATEST_VERSION"
+    rm -f yt-dlp
+    downloader yt-dlp "https://github.com/yt-dlp/yt-dlp/releases/download/$LATEST_VERSION/yt-dlp"
+    chmod a+x yt-dlp
+    save_version_info "yt-dlp" "$LATEST_VERSION"
 fi
 
 

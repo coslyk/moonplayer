@@ -30,7 +30,7 @@ set(SOURCE_FILES
     mpvObject.cpp
     parserBase.cpp
     parserYkdl.cpp
-    parserYoutubedl.cpp
+    parserYtdlp.cpp
     playlistModel.cpp
     plugin.cpp
     utils.cpp

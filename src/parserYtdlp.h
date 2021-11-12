@@ -14,19 +14,19 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-#ifndef PARSERYOUTUBEDL_H
-#define PARSERYOUTUBEDL_H
+#ifndef ParserYtdlp_H
+#define ParserYtdlp_H
 
 #include "parserBase.h"
 #include <QProcess>
 
-class ParserYoutubeDL : public ParserBase
+class ParserYtdlp : public ParserBase
 {
     Q_OBJECT
 public:
-    inline static ParserYoutubeDL* instance() { return &s_instance; }
-    explicit ParserYoutubeDL(QObject *parent = 0);
-    ~ParserYoutubeDL();
+    inline static ParserYtdlp* instance() { return &s_instance; }
+    explicit ParserYtdlp(QObject *parent = 0);
+    ~ParserYtdlp();
 
 protected:
     void runParser(const QUrl &url);
@@ -37,7 +37,7 @@ private slots:
 private:
     QProcess m_process;
     
-    static ParserYoutubeDL s_instance;
+    static ParserYtdlp s_instance;
 };
 
-#endif // PARSERYOUTUBEDL_H
+#endif // ParserYtdlp_H
