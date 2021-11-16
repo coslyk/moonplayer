@@ -59,7 +59,6 @@ endif()
 if (USE_QT6)
     qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
     configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
-    qt6_add_resources(QML_FILES qmls.qrc)
 else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
     configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
@@ -86,12 +85,65 @@ if (USE_QT6)
     add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
         ${SOURCE_FILES}
         ${QM_FILES}
-        ${QML_FILES}
-        resources.qrc
         ${CMAKE_BINARY_DIR}/src/l10n.qrc
         ${META_FILES_TO_INCLUDE})
 
-    target_link_libraries(${PROJECT_NAME}
+    # Enable Automoc and Autorcc for Qt
+    set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
+
+    # Add qml files and resources
+    qt6_add_qml_module(${PROJECT_NAME}
+        URI /
+        VERSION 1.0
+        NO_GENERATE_QMLDIR
+        NO_GENERATE_QMLTYPES
+        QML_FILES
+            qml/main.qml
+            qml/ConsoleDialog.qml
+            qml/DanmakuOptionsDialog.qml
+            qml/Downloader.qml
+            qml/Explorer.qml
+            qml/FileOpenDialog.qml
+            qml/FontDialog.qml
+            qml/MessageDialog.qml
+            qml/OpenUrlDialog.qml
+            qml/Playlist.qml
+            qml/SelectionDialog.qml
+            qml/Settings.qml
+            qml/SkinColor.qml
+            qml/TextInputDialog.qml
+            qml/VideoOptionsDialog.qml
+            qml/classicUI/CustomWidgets/CustomDialog.qml
+            qml/classicUI/CustomWidgets/CustomImageButton.qml
+            qml/classicUI/CustomWidgets/CustomTabDialog.qml
+            qml/classicUI/CustomWidgets/CustomWindow.qml
+            qml/classicUI/CustomWidgets/ToolBar.qml
+            qml/modernUI/CustomWidgets/CustomDialog.qml
+            qml/modernUI/CustomWidgets/CustomImageButton.qml
+            qml/modernUI/CustomWidgets/CustomTabDialog.qml
+            qml/modernUI/CustomWidgets/CustomWindow.qml
+            qml/modernUI/CustomWidgets/ToolBar.qml
+        RESOURCES
+            qml/classicUI/CustomWidgets/qmldir
+            qml/modernUI/CustomWidgets/qmldir
+            images/net_grey.png
+            images/net_lightgrey.png
+            images/pause_grey.png
+            images/pause_lightgrey.png
+            images/play_grey.png
+            images/play_lightgrey.png
+            images/playlist_grey.png
+            images/playlist_lightgrey.png
+            images/settings_grey.png
+            images/settings_lightgrey.png
+            images/stop_grey.png
+            images/stop_lightgrey.png
+            images/volume_grey.png
+            images/volume_lightgrey.png
+    )
+
+    # Link
+    target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt6::Qml
         Qt6::Quick
         Qt6::Gui
@@ -109,6 +161,10 @@ else()
         ${CMAKE_BINARY_DIR}/src/l10n.qrc
         ${META_FILES_TO_INCLUDE})
 
+    # Enable Automoc and Autorcc for Qt
+    set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
+
+    # Link
     target_link_libraries(${PROJECT_NAME}
         Qt5::Qml
         Qt5::Quick
@@ -119,9 +175,6 @@ else()
 endif()
 
 fix_win_compiler()
-
-# Enable Automoc and Autorcc for Qt
-set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
 
 # Enable all compilation warnings
 if(MSVC)
