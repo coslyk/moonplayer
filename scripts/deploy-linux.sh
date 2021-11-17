@@ -1,12 +1,14 @@
 #!/bin/sh
 
 # Run make install
-make install DESTDIR=appdir
-cp /usr/bin/ffmpeg ./appdir/usr/bin/
+make install DESTDIR=AppDir
 
 # Create appimage
 export VERSION=${TRAVIS_TAG#v}
+export QMAKE=/opt/qt621/bin/qmake
+export QML_SOURCES_PATHS=$PWD/src/qml
 
-curl -Lo linuxdeployqt.AppImage "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-chmod a+x linuxdeployqt.AppImage
-./linuxdeployqt.AppImage appdir/usr/share/applications/*.desktop -appimage -qmldir=src/qml/ -executable=appdir/usr/bin/ffmpeg -executable=appdir/usr/bin/moonplayer-hlsdl -exclude-libs=libdbus-1.so.3
+wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+chmod +x linuxdeploy*.AppImage
+./linuxdeploy-x86_64.AppImage --plugin qt --appdir AppDir --executable /usr/bin/ffmpeg --output appimage
