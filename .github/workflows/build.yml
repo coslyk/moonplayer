@@ -49,31 +49,23 @@ jobs:
           bash upload.sh MoonPlayer_*.exe
 
   linux-build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: true
 
-      - name: Install dpkg tools
-        run: |-
-          sudo apt-get update
-          sudo apt-get install -y cdbs devscripts equivs fakeroot
-
       - name: Install dependencies
-        run: sudo mk-build-deps -ir -t "apt-get -o Debug::pkgProblemResolver=yes -y --no-install-recommends"
+        run: |-
+          sudo add-apt-repository -y ppa:cos-lyk/qt-lite
+          sudo add-apt-repository -y ppa:cos-lyk/libmpv
+          sudo apt-get update
+          sudo apt-get install -y libmpv qt621declarative qt621tools libcurl4-openssl-dev, libssl-dev
 
-      - name: Build packages
-        run: dpkg-buildpackage -b -uc -us
-
-      - name: Upload packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          UPLOADTOOL_ISPRERELEASE: true
-        run: |
-          set -e
-          wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-          bash upload.sh ../moonplayer_*.deb
+      - name: Build
+        run: |-
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/opt/qt621 -DUSE_QT6=ON .
+          make
 
   macos-build:
     runs-on: macos-10.15
