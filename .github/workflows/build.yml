@@ -64,7 +64,7 @@ jobs:
 
       - name: Build
         run: |-
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/opt/qt621 -DUSE_QT6=ON .
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/opt/qt621 -DCMAKE_INSTALL_PREFIX=/usr -DUSE_QT6=ON .
           make
 
       - name: Deploy
