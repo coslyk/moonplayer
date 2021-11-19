@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
         qmlRegisterType<FontDialog>("MoonPlayer", 1, 0, "FontDialog");
     }
 
-    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/moonplayer/qml/SkinColor.qml")), "MoonPlayer", 1, 0, "SkinColor");
+    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/moonplayer_qml/qml/SkinColor.qml")), "MoonPlayer", 1, 0, "SkinColor");
     qmlRegisterSingletonType<Dialogs>("MoonPlayer", 1, 0, "Dialogs", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Dialogs(); });
     qmlRegisterSingletonType<PlaylistModel>("MoonPlayer", 1, 0, "PlaylistModel", [](QQmlEngine *, QJSEngine *) -> QObject * { return new PlaylistModel(); });
     qmlRegisterSingletonType<Utils>("MoonPlayer", 1, 0, "Utils", [](QQmlEngine *, QJSEngine *) -> QObject * { return new Utils(); });
@@ -118,23 +118,23 @@ int main(int argc, char *argv[])
 #if QT_VERSION_MAJOR >= 6
     if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
     {
-        engine.addImportPath(QStringLiteral("qrc:/moonplayer/qml/classicUI"));
+        engine.addImportPath(QStringLiteral("qrc:/moonplayer_qml/qml/classicUI"));
     }
     else
     {
-        engine.addImportPath(QStringLiteral("qrc:/moonplayer/qml/modernUI"));
+        engine.addImportPath(QStringLiteral("qrc:/moonplayer_qml/qml/modernUI"));
         qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("Material"));
     }
 #else
     if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
     {
-        engine.addImportPath(QStringLiteral("qrc:/moonplayer/qml/classicUI"));
+        engine.addImportPath(QStringLiteral("qrc:/moonplayer_qml/qml/classicUI"));
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("fusion"));
     }
     else
     {
-        engine.addImportPath(QStringLiteral("qrc:/moonplayer/qml/modernUI"));
+        engine.addImportPath(QStringLiteral("qrc:/moonplayer_qml/qml/modernUI"));
         qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("material"));
     }
@@ -155,7 +155,7 @@ int main(int argc, char *argv[])
         context->setContextProperty(QStringLiteral("downloaderModel"), QVariant::fromValue(downloader->model()));
     });
 
-    engine.load(QUrl(QStringLiteral("qrc:/moonplayer/qml/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/moonplayer_qml/qml/main.qml")));
     
     // Create user resources dir
     if (!QDir(userResourcesPath()).exists())

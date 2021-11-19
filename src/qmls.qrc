@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/moonplayer">
+    <qresource prefix="/moonplayer_qml">
         <file>qml/main.qml</file>
         <file>qml/SkinColor.qml</file>
         <file>qml/ConsoleDialog.qml</file>

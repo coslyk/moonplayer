@@ -54,8 +54,8 @@ Rectangle {
     CustomImageButton {
         id: playPauseButton
         image: isPlaying ?
-                   (SkinColor.theme === "Light" ? "qrc:/moonplayer/images/pause_grey.png" : "qrc:/moonplayer/images/pause_lightgrey.png") :
-                   (SkinColor.theme === "Light" ? "qrc:/moonplayer/images/play_grey.png" : "qrc:/moonplayer/images/play_lightgrey.png")
+                   (SkinColor.theme === "Light" ? "qrc:/moonplayer_qml/images/pause_grey.png" : "qrc:/moonplayer_qml/images/pause_lightgrey.png") :
+                   (SkinColor.theme === "Light" ? "qrc:/moonplayer_qml/images/play_grey.png" : "qrc:/moonplayer_qml/images/play_lightgrey.png")
         width: 16
         height: 16
         anchors.right: parent.horizontalCenter
@@ -67,7 +67,7 @@ Rectangle {
         
     CustomImageButton {
         id: stopButton
-        image: (SkinColor.theme === "Light" ? "qrc:/moonplayer/images/stop_grey.png" : "qrc:/moonplayer/images/stop_lightgrey.png")
+        image: (SkinColor.theme === "Light" ? "qrc:/moonplayer_qml/images/stop_grey.png" : "qrc:/moonplayer_qml/images/stop_lightgrey.png")
         width: 16
         height: 16
         anchors.left: parent.horizontalCenter
@@ -79,7 +79,7 @@ Rectangle {
         
     CustomImageButton {
         id: settingsButton
-        image: (SkinColor.theme === "Light" ? "qrc:/moonplayer/images/settings_grey.png" : "qrc:/moonplayer/images/settings_lightgrey.png")
+        image: (SkinColor.theme === "Light" ? "qrc:/moonplayer_qml/images/settings_grey.png" : "qrc:/moonplayer_qml/images/settings_lightgrey.png")
         width: 16
         height: 16
         anchors.left: parent.left
@@ -92,7 +92,7 @@ Rectangle {
         
     CustomImageButton {
         id: volumeButton
-        image: (SkinColor.theme === "Light" ? "qrc:/moonplayer/images/volume_grey.png" : "qrc:/moonplayer/images/volume_lightgrey.png")
+        image: (SkinColor.theme === "Light" ? "qrc:/moonplayer_qml/images/volume_grey.png" : "qrc:/moonplayer_qml/images/volume_lightgrey.png")
         width: 16
         height: 16
         anchors.left: settingsButton.right
@@ -104,7 +104,7 @@ Rectangle {
         
     CustomImageButton {
         id: playlistButton
-        image: (SkinColor.theme === "Light" ? "qrc:/moonplayer/images/playlist_grey.png" : "qrc:/moonplayer/images/playlist_lightgrey.png")
+        image: (SkinColor.theme === "Light" ? "qrc:/moonplayer_qml/images/playlist_grey.png" : "qrc:/moonplayer_qml/images/playlist_lightgrey.png")
         width: 16
         height: 16
         anchors.right: parent.right
@@ -116,7 +116,7 @@ Rectangle {
         
     CustomImageButton {
         id: explorerButton
-        image: (SkinColor.theme === "Light" ? "qrc:/moonplayer/images/net_grey.png" : "qrc:/moonplayer/images/net_lightgrey.png")
+        image: (SkinColor.theme === "Light" ? "qrc:/moonplayer_qml/images/net_grey.png" : "qrc:/moonplayer_qml/images/net_lightgrey.png")
         width: 16
         height: 16
         anchors.right: playlistButton.left

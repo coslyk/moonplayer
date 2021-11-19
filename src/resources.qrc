@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/moonplayer">
+    <qresource prefix="/moonplayer_qml">
         <file>qml/classicUI/CustomWidgets/qmldir</file>
         <file>qml/modernUI/CustomWidgets/qmldir</file>
         <file>scripts/update-parsers.sh</file>
