@@ -289,17 +289,6 @@ URL: %1
     </message>
 </context>
 <context>
-    <name>ParserYoutubeDL</name>
-    <message>
-        <source>Another file is being parsed.</source>
-        <translation type="obsolete">其他视频正在解析中。</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="obsolete">错误</translation>
-    </message>
-</context>
-<context>
     <name>ParserYtdlp</name>
     <message>
         <location filename="../parserYtdlp.cpp" line="51"/>
@@ -428,7 +417,7 @@ URL: %1
     <message>
         <location filename="../qml/Settings.qml" line="142"/>
         <source>Play videos after being added to playlist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">添加视频至播放列表后立即播放</translation>
     </message>
     <message>
         <location filename="../qml/Settings.qml" line="152"/>
@@ -448,7 +437,7 @@ URL: %1
     <message>
         <location filename="../qml/Settings.qml" line="164"/>
         <source>Nvidia hardware decoding on Linux (deprecated).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Linux下的Nvidia显卡硬件解码（已弃用）。</translation>
     </message>
     <message>
         <location filename="../qml/Settings.qml" line="165"/>
@@ -639,14 +628,6 @@ URL: %1
 </context>
 <context>
     <name>Utils</name>
-    <message>
-        <source>Update</source>
-        <translation type="obsolete">更新</translation>
-    </message>
-    <message>
-        <source>New version of MoonPlayer is available.</source>
-        <translation type="obsolete">有新版本可用。</translation>
-    </message>
     <message>
         <location filename="../utils.cpp" line="35"/>
         <location filename="../utils.cpp" line="45"/>
