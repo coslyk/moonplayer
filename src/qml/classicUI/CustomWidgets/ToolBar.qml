@@ -60,8 +60,8 @@ Control {
         CustomImageButton {
             id: playPauseButton
             image: isPlaying ?
-                       (isDarkTheme ? "qrc:/images/pause_lightgrey.png" : "qrc:/images/pause_grey.png") :
-                       (isDarkTheme ? "qrc:/images/play_lightgrey.png" : "qrc:/images/play_grey.png")
+                       (isDarkTheme ? "qrc:/moonplayer/images/pause_lightgrey.png" : "qrc:/moonplayer/images/pause_grey.png") :
+                       (isDarkTheme ? "qrc:/moonplayer/images/play_lightgrey.png" : "qrc:/moonplayer/images/play_grey.png")
             width: 16
             height: 16
             onClicked: playPauseButtonClicked()
@@ -69,7 +69,7 @@ Control {
 
         CustomImageButton {
             id: stopButton
-            image: isDarkTheme ? "qrc:/images/stop_lightgrey.png" : "qrc:/images/stop_grey.png"
+            image: isDarkTheme ? "qrc:/moonplayer/images/stop_lightgrey.png" : "qrc:/moonplayer/images/stop_grey.png"
             width: 16
             height: 16
             onClicked: stopButtonClicked()
@@ -77,7 +77,7 @@ Control {
 
         CustomImageButton {
             id: volumeButton
-            image: isDarkTheme ? "qrc:/images/volume_lightgrey.png" : "qrc:/images/volume_grey.png"
+            image: isDarkTheme ? "qrc:/moonplayer/images/volume_lightgrey.png" : "qrc:/moonplayer/images/volume_grey.png"
             width: 16
             height: 16
             onClicked: volumeButtonClicked()
@@ -107,7 +107,7 @@ Control {
 
         CustomImageButton {
             id: explorerButton
-            image: isDarkTheme ? "qrc:/images/net_lightgrey.png" : "qrc:/images/net_grey.png"
+            image: isDarkTheme ? "qrc:/moonplayer/images/net_lightgrey.png" : "qrc:/moonplayer/images/net_grey.png"
             width: 16
             height: 16
             onClicked: explorerButtonClicked()
@@ -115,7 +115,7 @@ Control {
 
         CustomImageButton {
             id: settingsButton
-            image: isDarkTheme ? "qrc:/images/settings_lightgrey.png" : "qrc:/images/settings_grey.png"
+            image: isDarkTheme ? "qrc:/moonplayer/images/settings_lightgrey.png" : "qrc:/moonplayer/images/settings_grey.png"
             width: 16
             height: 16
             onClicked: settingsButtonClicked()
@@ -123,7 +123,7 @@ Control {
 
         CustomImageButton {
             id: playlistButton
-            image: isDarkTheme ? "qrc:/images/playlist_lightgrey.png" : "qrc:/images/playlist_grey.png"
+            image: isDarkTheme ? "qrc:/moonplayer/images/playlist_lightgrey.png" : "qrc:/moonplayer/images/playlist_grey.png"
             width: 16
             height: 16
             onClicked: playlistButtonClicked()

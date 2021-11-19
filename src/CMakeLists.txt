@@ -93,7 +93,7 @@ if (USE_QT6)
 
     # Add qml files and resources
     qt6_add_qml_module(${PROJECT_NAME}
-        URI /
+        URI moonplayer
         VERSION 1.0
         NO_GENERATE_QMLDIR
         NO_GENERATE_QMLTYPES
