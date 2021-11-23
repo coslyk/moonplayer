@@ -1,3 +1,10 @@
+### version 3.9 (2021.11.23)
+
+1. Replace youtube-dl with yt-dlp
+1. Qt updates to 6.2 on Windows and Linux AppImage
+1. Add switch for autoplay after adding files (#115)
+1. Remove update check (#112) 
+
 ### version 3.8 (2021.05.01)
 
 1. Fix segmentation fault when opening some YouTube videos (#106)

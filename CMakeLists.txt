@@ -6,9 +6,9 @@ cmake_minimum_required(VERSION 3.0)
 
 # Basic information about project
 if (APPLE)
-    project(MoonPlayer VERSION 3.8)
+    project(MoonPlayer VERSION 3.9)
 else()
-    project(moonplayer VERSION 3.8)
+    project(moonplayer VERSION 3.9)
 endif()
 add_definitions(-DMOONPLAYER_VERSION="${PROJECT_VERSION}")
 
