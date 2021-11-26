@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export PATH=/c/Qt/6.2.1/msvc2019_64/bin:$PATH
+export PATH=/c/Qt/6.2.1/msvc2019_64/bin:/c/Qt/5.15.2/msvc2019_64/bin:$PATH
 
 # Copy binary files
 mkdir moonplayer
@@ -23,4 +23,4 @@ curl -Lo hlsdl.7z https://rwijnsma.home.xs4all.nl/files/hlsdl/hlsdl-0.27-883acbd
 
 # Create installer
 iscc scripts/win_installer.iss
-mv scripts/Output/mysetup.exe ./MoonPlayer_${TRAVIS_TAG#v}_win_x64.exe
+mv scripts/Output/mysetup.exe ./MoonPlayer_win_x64.exe
