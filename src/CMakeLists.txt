@@ -85,6 +85,7 @@ if (USE_QT6)
     add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
         ${SOURCE_FILES}
         ${QM_FILES}
+        resources_qt6.qrc
         ${CMAKE_BINARY_DIR}/src/l10n.qrc
         ${META_FILES_TO_INCLUDE})
 

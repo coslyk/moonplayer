@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>scripts/update-parsers.sh</file>
+    </qresource>
+</RCC>

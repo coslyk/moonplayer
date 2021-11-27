@@ -2,7 +2,6 @@
     <qresource prefix="/moonplayer_qml">
         <file>qml/classicUI/CustomWidgets/qmldir</file>
         <file>qml/modernUI/CustomWidgets/qmldir</file>
-        <file>scripts/update-parsers.sh</file>
         <file>images/net_lightgrey.png</file>
         <file>images/pause_lightgrey.png</file>
         <file>images/play_lightgrey.png</file>
@@ -17,5 +16,8 @@
         <file>images/settings_grey.png</file>
         <file>images/stop_grey.png</file>
         <file>images/volume_grey.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>scripts/update-parsers.sh</file>
     </qresource>
 </RCC>
