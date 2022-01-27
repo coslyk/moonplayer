@@ -110,6 +110,7 @@ CustomTabDialog {
                 id: systemFrameCheckBox
                 text: qsTr("Use classic UI (Restart needed)")
                 Layout.columnSpan: 2
+                onCheckedChanged: SkinColor.isClassic = checked
             }
 
             Label {
@@ -118,15 +119,12 @@ CustomTabDialog {
             }
             ComboBox {
                 id: styleComboBox
-                model: [ "Mix", "Dark", "Light" ]
+                model: [ "Dark", "Light" ]
                 enabled: !systemFrameCheckBox.checked
                 onCurrentTextChanged: {
-                    if (Utils.environmentVariable("QT_QUICK_CONTROLS_STYLE") === "fusion") {
-                        // classic UI
-                        SkinColor.theme = palette.window.hsvValue < 0.3 ? "Dark" : "Mix";
-                    } else {
+                    if (!playerSettings.use_system_frame) {
                         // modern UI
-                        SkinColor.theme = currentText;
+                        SkinColor.modernTheme = currentText;
                     }
                 }
             }

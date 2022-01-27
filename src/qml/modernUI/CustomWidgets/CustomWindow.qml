@@ -26,19 +26,19 @@ Window
 
     property var contextMenu
     property bool autoHideBars: false
-    property alias toolbar: toolbarLoader.sourceComponent
+    property var controlbar
 
     readonly property int playlistX: window.width / 2 + 200
     readonly property int playlistY: window.height - 410
     
-    Material.theme: SkinColor.theme === "Dark" ? Material.Dark : Material.Light
+    Material.theme: SkinColor.darkMode ? Material.Dark : Material.Light
     Material.accent: Material.Grey
 
     signal mouseMoved()
     
     flags: Qt.Window | Qt.FramelessWindowHint
 
-    // Auto hide mouse cursor, titlebar and toolbar
+    // Auto hide mouse cursor, titlebar and controlbar
     Timer {
         id: timer
         interval: 3000
@@ -49,9 +49,9 @@ Window
 
             mouseArea.cursorShape = Qt.BlankCursor;
 
-            if (!toolbarLoader.item.contains(toolbarLoader.item.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
+            if (!controlbar.contains(controlbar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
             {
-                toolbarLoader.item.visible = false;
+                controlbar.visible = false;
             }
             
             if (!titlebar.contains(titlebar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
@@ -62,8 +62,8 @@ Window
     }
     
     onMouseMoved: {
-        // Show titlebar and toolbar
-        toolbarLoader.item.visible = true;
+        // Show titlebar and controlbar
+        controlbar.visible = true;
         titlebar.visible = true;
         if (autoHideBars) {
             timer.restart();
@@ -246,14 +246,5 @@ Window
             background: Rectangle { color: SkinColor.minButton; radius: 7; anchors.fill: parent }
             onClicked: window.showMinimized()
         }
-    }
-
-    // Toolbar
-    Loader {
-        id: toolbarLoader
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 50
-        z: 100
     }
 }

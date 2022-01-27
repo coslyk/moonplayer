@@ -101,6 +101,7 @@ if (USE_QT6)
         QML_FILES
             qml/main.qml
             qml/ConsoleDialog.qml
+            qml/ControlBar.qml
             qml/DanmakuOptionsDialog.qml
             qml/Downloader.qml
             qml/Explorer.qml
@@ -118,12 +119,10 @@ if (USE_QT6)
             qml/classicUI/CustomWidgets/CustomImageButton.qml
             qml/classicUI/CustomWidgets/CustomTabDialog.qml
             qml/classicUI/CustomWidgets/CustomWindow.qml
-            qml/classicUI/CustomWidgets/ToolBar.qml
             qml/modernUI/CustomWidgets/CustomDialog.qml
             qml/modernUI/CustomWidgets/CustomImageButton.qml
             qml/modernUI/CustomWidgets/CustomTabDialog.qml
             qml/modernUI/CustomWidgets/CustomWindow.qml
-            qml/modernUI/CustomWidgets/ToolBar.qml
         RESOURCES
             qml/classicUI/CustomWidgets/qmldir
             qml/modernUI/CustomWidgets/qmldir

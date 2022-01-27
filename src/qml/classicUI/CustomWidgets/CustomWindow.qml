@@ -23,30 +23,30 @@ Window
 
     property var contextMenu
     property bool autoHideBars: false
-    property alias toolbar: toolbarLoader.sourceComponent
+    property var controlbar
 
     readonly property int playlistX: window.width - 180
     readonly property int playlistY: window.height - 340
     
     signal mouseMoved()
     
-    // Auto hide mouse cursor and toolbar
+    // Auto hide mouse cursor and controlbar
     
     Timer {
         id: timer
         interval: 3000
         onTriggered: {
             mouseArea.cursorShape = Qt.BlankCursor;
-            if (!toolbarLoader.item.contains(toolbarLoader.item.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
+            if (!controlbar.contains(controlbar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
             {
-                toolbarLoader.item.visible = false;
+                controlbar.visible = false;
             }
         }
     }
 
     onMouseMoved: {
-        // Show toolbar
-        toolbarLoader.item.visible = true;
+        // Show controlbar
+        controlbar.visible = true;
         if (autoHideBars)
             timer.restart();
 
@@ -80,14 +80,5 @@ Window
 
         onMouseXChanged: window.mouseMoved()
         onMouseYChanged: window.mouseMoved()
-    }
-
-    // Toolbar
-    Loader {
-        id: toolbarLoader
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        z: 100
     }
 }

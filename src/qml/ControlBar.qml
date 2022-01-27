@@ -17,12 +17,16 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import CustomWidgets 1.0
 
 Control {
-    id: toolBar
+    id: controlBar
+
+    // Color settings
+    
     background: Rectangle {
         implicitHeight: 40
-        color: palette.window
+        color: SkinColor.controlbar
     }
     
     signal playPauseButtonClicked()
@@ -34,7 +38,6 @@ Control {
     signal seekRequested(int time)
 
     property bool isPlaying: false
-    property bool isDarkTheme: palette.window.hsvValue < 0.3
     property int time: 0
     property int duration: 0
     property alias volumeButton: volumeButton
@@ -60,26 +63,26 @@ Control {
         CustomImageButton {
             id: playPauseButton
             image: isPlaying ?
-                       (isDarkTheme ? "qrc:/moonplayer_qml/images/pause_lightgrey.png" : "qrc:/moonplayer_qml/images/pause_grey.png") :
-                       (isDarkTheme ? "qrc:/moonplayer_qml/images/play_lightgrey.png" : "qrc:/moonplayer_qml/images/play_grey.png")
-            width: 16
-            height: 16
+                       (SkinColor.darkMode ? "qrc:/moonplayer_qml/images/pause_lightgrey.png" : "qrc:/moonplayer_qml/images/pause_grey.png") :
+                       (SkinColor.darkMode ? "qrc:/moonplayer_qml/images/play_lightgrey.png" : "qrc:/moonplayer_qml/images/play_grey.png")
+            Layout.preferredWidth: 16
+            Layout.preferredHeight: 16
             onClicked: playPauseButtonClicked()
         }
 
         CustomImageButton {
             id: stopButton
-            image: isDarkTheme ? "qrc:/moonplayer_qml/images/stop_lightgrey.png" : "qrc:/moonplayer_qml/images/stop_grey.png"
-            width: 16
-            height: 16
+            image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/stop_lightgrey.png" : "qrc:/moonplayer_qml/images/stop_grey.png"
+            Layout.preferredWidth: 16
+            Layout.preferredHeight: 16
             onClicked: stopButtonClicked()
         }
 
         CustomImageButton {
             id: volumeButton
-            image: isDarkTheme ? "qrc:/moonplayer_qml/images/volume_lightgrey.png" : "qrc:/moonplayer_qml/images/volume_grey.png"
-            width: 16
-            height: 16
+            image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/volume_lightgrey.png" : "qrc:/moonplayer_qml/images/volume_grey.png"
+            Layout.preferredWidth: 16
+            Layout.preferredHeight: 16
             onClicked: volumeButtonClicked()
         }
            
@@ -94,6 +97,7 @@ Control {
             to: duration
             focusPolicy: Qt.NoFocus
             Layout.fillWidth: true
+            Layout.preferredHeight: 16
             onPressedChanged: {
                 if (!pressed)  // released
                     seekRequested(value);
@@ -107,25 +111,25 @@ Control {
 
         CustomImageButton {
             id: explorerButton
-            image: isDarkTheme ? "qrc:/moonplayer_qml/images/net_lightgrey.png" : "qrc:/moonplayer_qml/images/net_grey.png"
-            width: 16
-            height: 16
+            image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/net_lightgrey.png" : "qrc:/moonplayer_qml/images/net_grey.png"
+            Layout.preferredWidth: 16
+            Layout.preferredHeight: 16
             onClicked: explorerButtonClicked()
         }
 
         CustomImageButton {
             id: settingsButton
-            image: isDarkTheme ? "qrc:/moonplayer_qml/images/settings_lightgrey.png" : "qrc:/moonplayer_qml/images/settings_grey.png"
-            width: 16
-            height: 16
+            image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/settings_lightgrey.png" : "qrc:/moonplayer_qml/images/settings_grey.png"
+            Layout.preferredWidth: 16
+            Layout.preferredHeight: 16
             onClicked: settingsButtonClicked()
         }
 
         CustomImageButton {
             id: playlistButton
-            image: isDarkTheme ? "qrc:/moonplayer_qml/images/playlist_lightgrey.png" : "qrc:/moonplayer_qml/images/playlist_grey.png"
-            width: 16
-            height: 16
+            image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/playlist_lightgrey.png" : "qrc:/moonplayer_qml/images/playlist_grey.png"
+            Layout.preferredWidth: 16
+            Layout.preferredHeight: 16
             onClicked: playlistButtonClicked()
         }
     }

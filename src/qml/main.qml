@@ -260,9 +260,14 @@ CustomWindow
         
         delegate: MenuItem { height: 25 }
     }
-    
-    // Toolbar
-    toolbar: ToolBar {
+
+    // ControlBar
+    ControlBar {
+        id: controlBar
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        z: 100
         isPlaying: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
         time: mpv.time
         duration: mpv.duration
@@ -278,6 +283,7 @@ CustomWindow
             volumePopup.visible = true;
         }
     }
+    controlbar: controlBar
     
     // Handle keyboard event
     Shortcut {
