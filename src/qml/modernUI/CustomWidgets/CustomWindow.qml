@@ -27,9 +27,6 @@ Window
     property var contextMenu
     property bool autoHideBars: false
     property var controlbar
-
-    readonly property int playlistX: window.width / 2 + 200
-    readonly property int playlistY: window.height - 410
     
     Material.theme: SkinColor.darkMode ? Material.Dark : Material.Light
     Material.accent: Material.Grey

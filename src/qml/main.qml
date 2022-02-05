@@ -16,6 +16,7 @@
  
 import QtQuick 2.7
 import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
 import MoonPlayer 1.0
 import CustomWidgets 1.0
@@ -136,16 +137,6 @@ CustomWindow
         mpvObject: mpv
     }
     
-    
-    // Playlist
-    Playlist {
-        id: playlist
-        x: playlistX
-        y: playlistY
-        onOpenFileRequested: fileDialog.open()
-        onOpenUrlRequested: openUrlDialog.visible = true
-    }
-    
     // Volume
     Popup {
         id: volumePopup
@@ -261,28 +252,54 @@ CustomWindow
         delegate: MenuItem { height: 25 }
     }
 
-    // ControlBar
-    ControlBar {
-        id: controlBar
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        z: 100
-        isPlaying: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
-        time: mpv.time
-        duration: mpv.duration
-        onPlayPauseButtonClicked: mpv.state == MpvObject.VIDEO_PLAYING ? mpv.pause() : mpv.play()
-        onStopButtonClicked: mpv.stop()
-        onSettingsButtonClicked: settings.visible = true
-        onPlaylistButtonClicked: playlist.visible = true
-        onExplorerButtonClicked: explorer.visible = true
-        onSeekRequested: mpv.seek(time);
-        onVolumeButtonClicked: {
-            volumePopup.x = mpv.mapFromItem(volumeButton, 0, 0).x;
-            volumePopup.y = mpv.mapFromItem(volumeButton, 0, 0).y - volumePopup.height;
-            volumePopup.visible = true;
+    // ControlBar and sidebar
+    GridLayout {
+        id: mainLayout
+        anchors.fill: parent
+        rows: 2
+        columns: 2
+        rowSpacing: 0
+        columnSpacing: 0
+
+        // Empty item as placeholder
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        // Sidebar
+        Sidebar {
+            id: sidebar
+            Layout.fillHeight: true
+            z: 100
+            visible: false
+            onOpenFileRequested: fileDialog.open()
+            onOpenUrlRequested: openUrlDialog.visible = true
+        }
+
+        // Controlbar
+        ControlBar {
+            id: controlBar
+            Layout.columnSpan: 2
+            Layout.fillWidth: true
+            z: 100
+            isPlaying: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
+            time: mpv.time
+            duration: mpv.duration
+            onPlayPauseButtonClicked: mpv.state == MpvObject.VIDEO_PLAYING ? mpv.pause() : mpv.play()
+            onStopButtonClicked: mpv.stop()
+            onSettingsButtonClicked: settings.visible = true
+            onSidebarButtonClicked: sidebar.visible = !sidebar.visible
+            onExplorerButtonClicked: explorer.visible = true
+            onSeekRequested: mpv.seek(time);
+            onVolumeButtonClicked: {
+                volumePopup.x = mpv.mapFromItem(volumeButton, 0, 0).x;
+                volumePopup.y = mpv.mapFromItem(volumeButton, 0, 0).y - volumePopup.height;
+                volumePopup.visible = true;
+            }
         }
     }
+
     controlbar: controlBar
     
     // Handle keyboard event
@@ -338,7 +355,7 @@ CustomWindow
     
     Shortcut {
         sequence: "L"
-        onActivated: playlist.visible = true
+        onActivated: sidebar.visible = true
     }
 
     Shortcut {

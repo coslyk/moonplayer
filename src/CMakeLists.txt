@@ -112,6 +112,7 @@ if (USE_QT6)
             qml/Playlist.qml
             qml/SelectionDialog.qml
             qml/Settings.qml
+            qml/Sidebar.aml
             qml/SkinColor.qml
             qml/TextInputDialog.qml
             qml/VideoOptionsDialog.qml

@@ -33,7 +33,7 @@ Control {
     signal stopButtonClicked()
     signal settingsButtonClicked()
     signal volumeButtonClicked()
-    signal playlistButtonClicked()
+    signal sidebarButtonClicked()
     signal explorerButtonClicked()
     signal seekRequested(int time)
 
@@ -126,11 +126,11 @@ Control {
         }
 
         CustomImageButton {
-            id: playlistButton
+            id: sidebarButton
             image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/playlist_lightgrey.png" : "qrc:/moonplayer_qml/images/playlist_grey.png"
             Layout.preferredWidth: 16
             Layout.preferredHeight: 16
-            onClicked: playlistButtonClicked()
+            onClicked: sidebarButtonClicked()
         }
     }
 

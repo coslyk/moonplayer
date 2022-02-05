@@ -24,9 +24,6 @@ Window
     property var contextMenu
     property bool autoHideBars: false
     property var controlbar
-
-    readonly property int playlistX: window.width - 180
-    readonly property int playlistY: window.height - 340
     
     signal mouseMoved()
     

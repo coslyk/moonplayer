@@ -19,14 +19,11 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.3
 import MoonPlayer 1.0
 
-Popup {
-    id: playlistPopup
+Item {
+    id: playlist
 
     signal openFileRequested()
     signal openUrlRequested()
-
-    width: 180
-    height: 300
     
     GridLayout {
         anchors.fill: parent
