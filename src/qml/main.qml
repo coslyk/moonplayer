@@ -154,11 +154,6 @@ CustomWindow
         }
     }
     
-    // Settings
-    Settings {
-        id: settings
-    }
-    
     // Explorer
     Explorer {
         id: explorer
@@ -244,7 +239,7 @@ CustomWindow
         Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Downloader"); onTriggered: downloader.visible = true }
-        Action { text: qsTr("Settings"); onTriggered: settings.visible = true }
+        Action { text: qsTr("Settings"); onTriggered: { sidebar.openSettings(); sidebar.visible = true; } }
         Action { text: qsTr("Update plugins"); onTriggered: Utils.updateParser() }
         Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html#browser_extension") }
         Action { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html") }
@@ -288,8 +283,8 @@ CustomWindow
             duration: mpv.duration
             onPlayPauseButtonClicked: mpv.state == MpvObject.VIDEO_PLAYING ? mpv.pause() : mpv.play()
             onStopButtonClicked: mpv.stop()
-            onSettingsButtonClicked: settings.visible = true
-            onSidebarButtonClicked: sidebar.visible = !sidebar.visible
+            onSettingsButtonClicked: { sidebar.openSettings(); sidebar.visible = !sidebar.visible; }
+            onSidebarButtonClicked: { sidebar.openPlaylist(); sidebar.visible = !sidebar.visible; }
             onExplorerButtonClicked: explorer.visible = true
             onSeekRequested: mpv.seek(time);
             onVolumeButtonClicked: {
@@ -390,6 +385,6 @@ CustomWindow
     
     Shortcut {
         sequence: "Ctrl+,"
-        onActivated: settings.visible = true
+        onActivated:  { sidebar.openSettings(); sidebar.visible = !sidebar.visible; }
     }
 }

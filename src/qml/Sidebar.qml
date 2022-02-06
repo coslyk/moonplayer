@@ -16,24 +16,49 @@
  
 import QtQuick 2.7
 import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.3
 
 Control {
     id: sideBar
 
+    // Width
+    property var widths: [
+        200,  // Playlist
+        300   // Settings
+    ]
+
     // Color settings
     background: Rectangle {
-        implicitWidth: 200
+        implicitWidth: widths[layout.currentIndex]
         color: SkinColor.controlbar
     }
 
     signal openFileRequested()
     signal openUrlRequested()
 
-    // Playlist
-    Playlist {
-        id: playlist
+    function openPlaylist() {
+        layout.currentIndex = 0;
+    }
+
+    function openSettings() {
+        layout.currentIndex = 1;
+    }
+
+    StackLayout {
+        id: layout
         anchors.fill: parent
-        onOpenFileRequested: openFileRequested()
-        onOpenUrlRequested: openUrlRequested()
+        anchors.leftMargin: 10
+        
+        // Playlist
+        Playlist {
+            id: playlist
+            onOpenFileRequested: openFileRequested()
+            onOpenUrlRequested: openUrlRequested()
+        }
+
+        // Settings
+        Settings {
+            id: settings
+        }
     }
 }
