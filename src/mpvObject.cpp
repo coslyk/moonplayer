@@ -160,44 +160,41 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
         m_mpv.set_option("demuxer-max-back-bytes", backwardBytes);
     }
     
-    // Configure hardware decoding
-    bool hwdecCopy = settings.value(QStringLiteral("video/hwdec_copy_mode"), false).toBool();
-    
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     Hwdec hwdec = (Hwdec) settings.value(QStringLiteral("video/hwdec"), 0).toInt();
     switch (hwdec)
     {
         case AUTO:
             m_mpv.set_option("gpu-hwdec-interop", "auto");
-            m_mpv.set_option("hwdec", hwdecCopy ? "auto-copy" : "auto");
+            m_mpv.set_option("hwdec", "auto");
             break;
         case VAAPI:
             m_mpv.set_option("gpu-hwdec-interop", "vaapi-egl");
-            m_mpv.set_option("hwdec", hwdecCopy ? "vaapi-copy" : "vaapi");
+            m_mpv.set_option("hwdec", "vaapi");
             break;
         case VDPAU:
             m_mpv.set_option("gpu-hwdec-interop", "vdpau-glx");
-            m_mpv.set_option("hwdec", hwdecCopy ? "vdpau-copy" : "vdpau");
+            m_mpv.set_option("hwdec", "vdpau");
             break;
         case NVDEC:
-            m_mpv.set_option("hwdec", hwdecCopy ? "nvdec-copy" : "nvdec");
+            m_mpv.set_option("hwdec", "nvdec");
             break;
         default: break;
     }
 
 #elif defined(Q_OS_MAC)
     m_mpv.set_option("gpu-hwdec-interop", "videotoolbox");
-    m_mpv.set_option("hwdec", hwdecCopy ? "videotoolbox-copy" : "videotoolbox");
+    m_mpv.set_option("hwdec", "videotoolbox");
     
 #elif defined(Q_OS_WIN)
     if (QSysInfo::productVersion() == QStringLiteral("8.1") || QSysInfo::productVersion() == QStringLiteral("10"))
     {
-        m_mpv.set_option("hwdec", hwdecCopy ? "d3d11va-copy" : "d3d11va");
+        m_mpv.set_option("hwdec", "d3d11va");
         m_mpv.set_option("gpu-context", "d3d11");
     }
     else
     {
-        m_mpv.set_option("hwdec", hwdecCopy ? "dxva2-copy" : "dxva2");
+        m_mpv.set_option("hwdec", "dxva2");
         m_mpv.set_option("gpu-context", "dxinterop");
     }
 #endif
