@@ -118,11 +118,9 @@ if (USE_QT6)
             qml/VideoOptionsDialog.qml
             qml/classicUI/CustomWidgets/CustomDialog.qml
             qml/classicUI/CustomWidgets/CustomImageButton.qml
-            qml/classicUI/CustomWidgets/CustomTabDialog.qml
             qml/classicUI/CustomWidgets/CustomWindow.qml
             qml/modernUI/CustomWidgets/CustomDialog.qml
             qml/modernUI/CustomWidgets/CustomImageButton.qml
-            qml/modernUI/CustomWidgets/CustomTabDialog.qml
             qml/modernUI/CustomWidgets/CustomWindow.qml
         RESOURCES
             qml/classicUI/CustomWidgets/qmldir
