@@ -25,6 +25,7 @@ MouseArea {
     property bool autoHideBars: false
     property var contextMenu
     property var controlbar
+    property var sidebar
     property var titlebar
     property var window
 
@@ -36,8 +37,14 @@ MouseArea {
     hoverEnabled: true
     acceptedButtons: Qt.LeftButton | Qt.RightButton
         
-    // ContextMenu
     onClicked: {
+        // Hide sidebar
+        if (mouse.button === Qt.LeftButton && !sidebar.contains(sidebar.mapFromItem(mouseArea, mouse.x, mouse.y)))
+        {
+            sidebar.visible = false;
+        }
+
+        // Show context menu
         if (mouse.button === Qt.RightButton)
         {
             contextMenu.x = mouse.x;
@@ -169,7 +176,8 @@ MouseArea {
         id: timer
         interval: 3000
         onTriggered: {
-            if (mouseArea.pressed === true) {
+            // Do not hide if mouse is pressed or sidebar is open
+            if (mouseArea.pressed === true || sidebar.visible) {
                 return;
             }
 
@@ -180,7 +188,7 @@ MouseArea {
                 controlbar.visible = false;
             }
             
-            if (!titlebar.contains(titlebar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
+            if (titlebar !== undefined && !titlebar.contains(titlebar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
             {
                 titlebar.visible = false;
             }

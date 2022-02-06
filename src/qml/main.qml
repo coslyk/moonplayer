@@ -67,6 +67,7 @@ CustomWindow
         autoHideBars: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
         contextMenu: contextMenu
         controlbar: controlBar
+        sidebar: sidebar
         titlebar: titlebar
         window: window
     }
@@ -200,7 +201,7 @@ CustomWindow
         padding: 5
         Action { text: qsTr("Open files"); onTriggered: fileDialog.open() }
         Action { text: qsTr("Open URL"); onTriggered: openUrlDialog.visible = true }
-        Action { text: qsTr("Explorer"); onTriggered: { sidebar.openExplorer(); sidebar.visible = true; } }
+        Action { text: qsTr("Explorer"); onTriggered: sidebar.openExplorer() }
         MenuSeparator { padding: 0 }
         Menu {
             title: qsTr("Video")
@@ -241,7 +242,7 @@ CustomWindow
         Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Downloader"); onTriggered: downloader.visible = true }
-        Action { text: qsTr("Settings"); onTriggered: { sidebar.openSettings(); sidebar.visible = true; } }
+        Action { text: qsTr("Settings"); onTriggered: sidebar.openSettings() }
         Action { text: qsTr("Update plugins"); onTriggered: Utils.updateParser() }
         Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html#browser_extension") }
         Action { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html") }
@@ -285,9 +286,9 @@ CustomWindow
             duration: mpv.duration
             onPlayPauseButtonClicked: mpv.state == MpvObject.VIDEO_PLAYING ? mpv.pause() : mpv.play()
             onStopButtonClicked: mpv.stop()
-            onSettingsButtonClicked: { sidebar.openSettings(); sidebar.visible = !sidebar.visible; }
-            onSidebarButtonClicked: { sidebar.openPlaylist(); sidebar.visible = !sidebar.visible; }
-            onExplorerButtonClicked: { sidebar.openExplorer(); sidebar.visible = true; }
+            onSettingsButtonClicked: sidebar.openSettings()
+            onSidebarButtonClicked: sidebar.openPlaylist()
+            onExplorerButtonClicked: sidebar.openExplorer()
             onSeekRequested: mpv.seek(time);
             onVolumeButtonClicked: {
                 volumePopup.x = mpv.mapFromItem(volumeButton, 0, 0).x;
@@ -350,7 +351,7 @@ CustomWindow
     
     Shortcut {
         sequence: "L"
-        onActivated: sidebar.visible = true
+        onActivated: sidebar.openPlaylist()
     }
 
     Shortcut {
@@ -365,7 +366,7 @@ CustomWindow
 
     Shortcut {
         sequence: "W"
-        onActivated: { sidebar.openExplorer(); sidebar.visible = true; }
+        onActivated: sidebar.openExplorer()
     }
 
     Shortcut {
@@ -385,6 +386,6 @@ CustomWindow
     
     Shortcut {
         sequence: "Ctrl+,"
-        onActivated:  { sidebar.openSettings(); sidebar.visible = !sidebar.visible; }
+        onActivated: sidebar.openSettings()
     }
 }

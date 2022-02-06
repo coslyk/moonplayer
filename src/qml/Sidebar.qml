@@ -39,14 +39,17 @@ Control {
 
     function openPlaylist() {
         layout.currentIndex = 0;
+        visible = true;
     }
 
     function openSettings() {
         layout.currentIndex = 1;
+        visible = true;
     }
 
     function openExplorer() {
         layout.currentIndex = 2;
+        visible = true;
     }
 
     StackLayout {
