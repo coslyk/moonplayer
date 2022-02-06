@@ -27,7 +27,6 @@ CustomWindow
     visible: true
     minimumWidth: 800
     minimumHeight: 450
-    autoHideBars: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
     title: "MoonPlayer"
 
     // Background color
@@ -59,6 +58,17 @@ CustomWindow
             window.x = (Screen.width - window.width) / 2;
             window.y = (Screen.height - window.height) / 2;
         }
+    }
+
+    // Cover area for mouse event
+    CoverArea {
+        id: coverArea
+        anchors.fill: parent
+        autoHideBars: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
+        contextMenu: contextMenu
+        controlbar: controlBar
+        titlebar: titlebar
+        window: window
     }
 
     // Console dialog
@@ -184,7 +194,8 @@ CustomWindow
     }
     
     // Menu
-    contextMenu: Menu {
+    Menu {
+        id: contextMenu
         width: 150
         padding: 5
         Action { text: qsTr("Open files"); onTriggered: fileDialog.open() }
@@ -285,8 +296,6 @@ CustomWindow
             }
         }
     }
-
-    controlbar: controlBar
     
     // Handle keyboard event
     Shortcut {

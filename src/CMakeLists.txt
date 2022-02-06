@@ -102,6 +102,7 @@ if (USE_QT6)
             qml/main.qml
             qml/ConsoleDialog.qml
             qml/ControlBar.qml
+            qml/CoverArea.qml
             qml/DanmakuOptionsDialog.qml
             qml/Downloader.qml
             qml/Explorer.qml

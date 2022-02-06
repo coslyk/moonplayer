@@ -4,6 +4,7 @@
         <file>qml/SkinColor.qml</file>
         <file>qml/ConsoleDialog.qml</file>
         <file>qml/ControlBar.qml</file>
+        <file>qml/CoverArea.qml</file>
         <file>qml/DanmakuOptionsDialog.qml</file>
         <file>qml/Downloader.qml</file>
         <file>qml/Explorer.qml</file>
