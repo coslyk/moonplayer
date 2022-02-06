@@ -59,10 +59,6 @@ CustomWindow
             window.x = (Screen.width - window.width) / 2;
             window.y = (Screen.height - window.height) / 2;
         }
-        onStateChanged: {
-            if (mpv.state === MpvObject.VIDEO_PLAYING || mpv.state === MpvObject.TV_PLAYING)
-                explorer.visible = false
-        }
     }
 
     // Console dialog
@@ -154,11 +150,6 @@ CustomWindow
         }
     }
     
-    // Explorer
-    Explorer {
-        id: explorer
-    }
-    
     // Downloader
     Downloader {
         id: downloader
@@ -198,7 +189,7 @@ CustomWindow
         padding: 5
         Action { text: qsTr("Open files"); onTriggered: fileDialog.open() }
         Action { text: qsTr("Open URL"); onTriggered: openUrlDialog.visible = true }
-        Action { text: qsTr("Explorer"); onTriggered: explorer.visible = true }
+        Action { text: qsTr("Explorer"); onTriggered: { sidebar.openExplorer(); sidebar.visible = true; } }
         MenuSeparator { padding: 0 }
         Menu {
             title: qsTr("Video")
@@ -285,7 +276,7 @@ CustomWindow
             onStopButtonClicked: mpv.stop()
             onSettingsButtonClicked: { sidebar.openSettings(); sidebar.visible = !sidebar.visible; }
             onSidebarButtonClicked: { sidebar.openPlaylist(); sidebar.visible = !sidebar.visible; }
-            onExplorerButtonClicked: explorer.visible = true
+            onExplorerButtonClicked: { sidebar.openExplorer(); sidebar.visible = true; }
             onSeekRequested: mpv.seek(time);
             onVolumeButtonClicked: {
                 volumePopup.x = mpv.mapFromItem(volumeButton, 0, 0).x;
@@ -365,7 +356,7 @@ CustomWindow
 
     Shortcut {
         sequence: "W"
-        onActivated: explorer.visible = true
+        onActivated: { sidebar.openExplorer(); sidebar.visible = true; }
     }
 
     Shortcut {

@@ -77,6 +77,7 @@ Item {
 
     ScrollView {
         anchors.fill: parent
+        clip: true
         
         GridLayout {
             columns: 2

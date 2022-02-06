@@ -24,7 +24,8 @@ Control {
     // Width
     property var widths: [
         200,  // Playlist
-        300   // Settings
+        300,  // Settings
+        300   // Explorer
     ]
 
     // Color settings
@@ -44,10 +45,15 @@ Control {
         layout.currentIndex = 1;
     }
 
+    function openExplorer() {
+        layout.currentIndex = 2;
+    }
+
     StackLayout {
         id: layout
         anchors.fill: parent
         anchors.leftMargin: 10
+        anchors.rightMargin: 10
         
         // Playlist
         Playlist {
@@ -59,6 +65,11 @@ Control {
         // Settings
         Settings {
             id: settings
+        }
+    
+        // Explorer
+        Explorer {
+            id: explorer
         }
     }
 }
