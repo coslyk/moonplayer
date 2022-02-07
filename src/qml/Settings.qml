@@ -304,12 +304,6 @@ Item {
             Label { text: qsTr("Open URL") }
             Label { text: "W" }
             Label { text: qsTr("Open Explorer") }
-            Label { text: "R" }
-            Label { text: qsTr("Set speed to default") }
-            Label { text: "Ctrl+Left" }
-            Label { text: qsTr("Speed down") }
-            Label { text: "Ctrl+Right" }
-            Label { text: qsTr("Speed up") }
             Label { text: "Ctrl+O" }
             Label { text: qsTr("Open files") }
             Label { text: "Ctrl+," }

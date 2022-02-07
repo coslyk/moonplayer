@@ -199,14 +199,6 @@ CustomWindow
             Action { text: qsTr("Select"); onTriggered: subtitleSelectionDialog.visible = true }
             delegate: MenuItem { height: 25 }
         }
-        Menu {
-            title: qsTr("Speed")
-            width: 150
-            Action { text: qsTr("Up"); onTriggered: if (mpv.speed < 2) mpv.speed += 0.25 }
-            Action { text: qsTr("Down"); onTriggered: if (mpv.speed > 0.5) mpv.speed -= 0.25 }
-            Action { text: qsTr("Reset"); onTriggered: mpv.speed = 1 }
-            delegate: MenuItem { height: 25 }
-        }
         Action { text: qsTr("Danmaku"); onTriggered: danmakuOptionsDialog.visible = true }
         Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
@@ -325,11 +317,6 @@ CustomWindow
     }
 
     Shortcut {
-        sequence: "R"
-        onActivated: mpv.speed = 1
-    }
-
-    Shortcut {
         sequence: "U"
         onActivated: openUrlDialog.visible = true
     }
@@ -337,16 +324,6 @@ CustomWindow
     Shortcut {
         sequence: "W"
         onActivated: sidebar.openExplorer()
-    }
-
-    Shortcut {
-        sequence: "Ctrl+Left"
-        onActivated: if (mpv.speed > 0.5) mpv.speed -= 0.25;
-    }
-
-    Shortcut {
-        sequence: "Ctrl+Right"
-        onActivated: if (mpv.speed < 2) mpv.speed += 0.25;
     }
     
     Shortcut {

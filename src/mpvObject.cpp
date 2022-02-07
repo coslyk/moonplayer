@@ -313,17 +313,6 @@ void MpvObject::setSubVisible(bool subVisible)
     emit subVisibleChanged();
 }
 
-// Set speed
-void MpvObject::setSpeed(double speed)
-{
-    if (m_speed - speed < 0.1 && speed - m_speed < 0.1)
-        return;
-    m_speed = speed;
-    m_mpv.set_property_async("speed", m_speed);
-    showText(QByteArrayLiteral("Speed: ") + QByteArray::number(m_speed));
-    emit speedChanged();
-}
-
 
 // Add audio track
 void MpvObject::addAudioTrack(const QUrl& url)
@@ -431,10 +420,8 @@ void MpvObject::onMpvEvent()
             m_videoWidth = m_videoHeight = 0;    // Set videoSize invalid
             m_time = 0;
             m_subVisible = true;
-            m_speed = 1;
             emit timeChanged();
             emit subVisibleChanged();
-            emit speedChanged();
             break;
 
         case MPV_EVENT_FILE_LOADED:

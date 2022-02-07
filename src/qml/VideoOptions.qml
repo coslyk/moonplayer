@@ -106,20 +106,36 @@ ColumnLayout {
         Label { text: hueSlider.value }
     }
 
-    // Resolution
+    // Video aspect
     Label {
-        text: qsTr("Resolution")
+        text: qsTr("Video aspect")
         font.bold: true
     }
 
     GridLayout {
         columns: 3
         Button { text: qsTr("Default"); onClicked: mpvObject.setProperty("video-aspect", 0) }
-        Button { text: qsTr("4:3"); onClicked: mpvObject.setProperty("video-aspect", 4 / 3) }
-        Button { text: qsTr("16:9"); onClicked: mpvObject.setProperty("video-aspect", 16 / 9) }
-        Button { text: qsTr("16:10"); onClicked: mpvObject.setProperty("video-aspect", 16 / 10) }
-        Button { text: qsTr("1.85:1"); onClicked: mpvObject.setProperty("video-aspect", 1.85) }
-        Button { text: qsTr("2.35:1"); onClicked: mpvObject.setProperty("video-aspect", 2.35) }
+        Button { text: "4:3"; onClicked: mpvObject.setProperty("video-aspect", 4 / 3) }
+        Button { text: "16:9"; onClicked: mpvObject.setProperty("video-aspect", 16 / 9) }
+        Button { text: "16:10"; onClicked: mpvObject.setProperty("video-aspect", 16 / 10) }
+        Button { text: "1.85:1"; onClicked: mpvObject.setProperty("video-aspect", 1.85) }
+        Button { text: "2.35:1"; onClicked: mpvObject.setProperty("video-aspect", 2.35) }
+    }
+
+    // Speed
+    Label {
+        text: qsTr("Speed")
+        font.bold: true
+    }
+
+    GridLayout {
+        columns: 3
+        Button { text: "0.5x"; onClicked: mpvObject.setProperty("speed", 0.5) }
+        Button { text: "0.75x"; onClicked: mpvObject.setProperty("speed", 0.75) }
+        Button { text: "1x"; onClicked: mpvObject.setProperty("speed", 1) }
+        Button { text: "1.25x"; onClicked: mpvObject.setProperty("speed", 1.25) }
+        Button { text: "1.5x"; onClicked: mpvObject.setProperty("speed", 1.5) }
+        Button { text: "2x"; onClicked: mpvObject.setProperty("speed", 2) }
     }
 
     // Audio
