@@ -25,6 +25,7 @@ ColumnLayout {
     
     property MpvObject mpvObject: null
 
+    // Equalizer
     Label {
         text: qsTr("Equalizer")
         font.bold: true
@@ -103,5 +104,21 @@ ColumnLayout {
             Layout.fillWidth: true
         }
         Label { text: hueSlider.value }
+    }
+
+    // Resolution
+    Label {
+        text: qsTr("Resolution")
+        font.bold: true
+    }
+
+    GridLayout {
+        columns: 3
+        Button { text: qsTr("Default"); onClicked: mpvObject.setProperty("video-aspect", 0) }
+        Button { text: qsTr("4:3"); onClicked: mpvObject.setProperty("video-aspect", 4 / 3) }
+        Button { text: qsTr("16:9"); onClicked: mpvObject.setProperty("video-aspect", 16 / 9) }
+        Button { text: qsTr("16:10"); onClicked: mpvObject.setProperty("video-aspect", 16 / 10) }
+        Button { text: qsTr("1.85:1"); onClicked: mpvObject.setProperty("video-aspect", 1.85) }
+        Button { text: qsTr("2.35:1"); onClicked: mpvObject.setProperty("video-aspect", 2.35) }
     }
 }

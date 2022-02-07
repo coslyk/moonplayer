@@ -199,19 +199,7 @@ CustomWindow
         Action { text: qsTr("Open URL"); onTriggered: openUrlDialog.visible = true }
         Action { text: qsTr("Explorer"); onTriggered: sidebar.openExplorer() }
         MenuSeparator { padding: 0 }
-        Menu {
-            title: qsTr("Video")
-            width: 150
-            Action { text: qsTr("Options"); onTriggered: sidebar.openVideoOptions() }
-            MenuSeparator { padding: 0 }
-            Action { text: qsTr("Default"); onTriggered: mpv.setProperty("video-aspect", 0) }
-            Action { text: qsTr("4:3"); onTriggered: mpv.setProperty("video-aspect", 4 / 3) }
-            Action { text: qsTr("16:9"); onTriggered: mpv.setProperty("video-aspect", 16 / 9) }
-            Action { text: qsTr("16:10"); onTriggered: mpv.setProperty("video-aspect", 16 / 10) }
-            Action { text: qsTr("1.85:1"); onTriggered: mpv.setProperty("video-aspect", 1.85) }
-            Action { text: qsTr("2.35:1"); onTriggered: mpv.setProperty("video-aspect", 2.35) }
-            delegate: MenuItem { height: 25 }
-        }
+        Action { text: qsTr("Video options"); onTriggered: sidebar.openVideoOptions() }
         Menu {
             title: qsTr("Audio")
             width: 150
