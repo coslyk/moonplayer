@@ -103,7 +103,6 @@ if (USE_QT6)
             qml/ConsoleDialog.qml
             qml/ControlBar.qml
             qml/CoverArea.qml
-            qml/DanmakuOptionsDialog.qml
             qml/Downloader.qml
             qml/Explorer.qml
             qml/FileOpenDialog.qml
@@ -115,6 +114,7 @@ if (USE_QT6)
             qml/Settings.qml
             qml/Sidebar.aml
             qml/SkinColor.qml
+            qml/SubtitlesAndDanmaku.qml
             qml/TextInputDialog.qml
             qml/VideoOptions.qml
             qml/classicUI/CustomWidgets/CustomDialog.qml

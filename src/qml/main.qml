@@ -124,12 +124,6 @@ CustomWindow
         title: qsTr("Please choose a file")
         onAccepted: mpv.addSubtitle(addSubtitleDialog.fileUrl)
     }
-
-    // Danmaku options
-    DanmakuOptionsDialog {
-        id: danmakuOptionsDialog
-        mpvObject: mpv
-    }
     
     // Volume
     Popup {
@@ -199,7 +193,7 @@ CustomWindow
             Action { text: qsTr("Select"); onTriggered: subtitleSelectionDialog.visible = true }
             delegate: MenuItem { height: 25 }
         }
-        Action { text: qsTr("Danmaku"); onTriggered: danmakuOptionsDialog.visible = true }
+        Action { text: qsTr("Danmaku"); onTriggered: sidebar.openSubtitles() }
         Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Downloader"); onTriggered: downloader.visible = true }
@@ -303,7 +297,7 @@ CustomWindow
 
     Shortcut {
         sequence: "D"
-        onActivated: danmakuOptionsDialog.visible = true
+        onActivated: sidebar.openSubtitles()
     }
 
     Shortcut {

@@ -47,12 +47,18 @@ Control {
         visible = true;
     }
 
+    function openSubtitles() {
+        layout.currentIndex = 4;
+        visible = true;
+    }
+
     // Width
     property var widths: [
         200,  // Playlist
         300,  // Settings
         300,  // Explorer
-        300   // Video options
+        250,  // Video options
+        250,  // Subtitles and danmaku
     ]
 
     // Color settings
@@ -87,6 +93,12 @@ Control {
         // Video Options
         VideoOptions {
             id: videoOptions
+            mpvObject: mpv
+        }
+
+        // Subtitles and danmaku
+        SubtitlesAndDanmaku {
+            id: subAndDanmaku
             mpvObject: mpv
         }
     }
