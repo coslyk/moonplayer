@@ -116,7 +116,7 @@ if (USE_QT6)
             qml/Sidebar.aml
             qml/SkinColor.qml
             qml/TextInputDialog.qml
-            qml/VideoOptionsDialog.qml
+            qml/VideoOptions.qml
             qml/classicUI/CustomWidgets/CustomDialog.qml
             qml/classicUI/CustomWidgets/CustomImageButton.qml
             qml/classicUI/CustomWidgets/CustomWindow.qml

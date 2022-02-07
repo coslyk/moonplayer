@@ -17,7 +17,7 @@
         <file>qml/Settings.qml</file>
         <file>qml/Sidebar.qml</file>
         <file>qml/TextInputDialog.qml</file>
-        <file>qml/VideoOptionsDialog.qml</file>
+        <file>qml/VideoOptions.qml</file>
         <file>qml/classicUI/CustomWidgets/CustomDialog.qml</file>
         <file>qml/classicUI/CustomWidgets/CustomImageButton.qml</file>
         <file>qml/classicUI/CustomWidgets/CustomWindow.qml</file>

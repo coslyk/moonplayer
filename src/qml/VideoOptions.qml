@@ -20,18 +20,17 @@ import QtQuick.Layouts 1.3
 import CustomWidgets 1.0
 import MoonPlayer 1.0
 
-CustomDialog {
+ColumnLayout {
     id: videoOptionsDialog
     
     property MpvObject mpvObject: null
-    
-    width: 400
-    height: 260 + reservedHeight
-    title: qsTr("Video options")
+
+    Label {
+        text: qsTr("Equalizer")
+        font.bold: true
+    }
     
     GridLayout {
-        anchors.fill: parent
-        anchors.margins: suggestedMargins
         columns: 3
         rowSpacing: 0
         

@@ -17,25 +17,15 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import MoonPlayer 1.0
 
 Control {
     id: sideBar
 
-    // Width
-    property var widths: [
-        200,  // Playlist
-        300,  // Settings
-        300   // Explorer
-    ]
-
-    // Color settings
-    background: Rectangle {
-        implicitWidth: widths[layout.currentIndex]
-        color: SkinColor.controlbar
-    }
-
     signal openFileRequested()
     signal openUrlRequested()
+
+    property MpvObject mpv: null
 
     function openPlaylist() {
         layout.currentIndex = 0;
@@ -50,6 +40,25 @@ Control {
     function openExplorer() {
         layout.currentIndex = 2;
         visible = true;
+    }
+
+    function openVideoOptions() {
+        layout.currentIndex = 3;
+        visible = true;
+    }
+
+    // Width
+    property var widths: [
+        200,  // Playlist
+        300,  // Settings
+        300,  // Explorer
+        300   // Video options
+    ]
+
+    // Color settings
+    background: Rectangle {
+        implicitWidth: widths[layout.currentIndex]
+        color: SkinColor.controlbar
     }
 
     StackLayout {
@@ -73,6 +82,12 @@ Control {
         // Explorer
         Explorer {
             id: explorer
+        }
+
+        // Video Options
+        VideoOptions {
+            id: videoOptions
+            mpvObject: mpv
         }
     }
 }

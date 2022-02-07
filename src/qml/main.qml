@@ -27,6 +27,8 @@ CustomWindow
     visible: true
     minimumWidth: 800
     minimumHeight: 450
+    width: 1024
+    height: 600
     title: "MoonPlayer"
 
     // Background color
@@ -131,12 +133,6 @@ CustomWindow
         items: mpv.audioTracks
         onAccepted: mpv.setProperty("aid", currentIndex)
     }
-    
-    // Video options
-    VideoOptionsDialog {
-        id: videoOptionsDialog
-        mpvObject: mpv
-    }
 
     // Danmaku options
     DanmakuOptionsDialog {
@@ -206,7 +202,7 @@ CustomWindow
         Menu {
             title: qsTr("Video")
             width: 150
-            Action { text: qsTr("Options"); onTriggered: videoOptionsDialog.visible = true }
+            Action { text: qsTr("Options"); onTriggered: sidebar.openVideoOptions() }
             MenuSeparator { padding: 0 }
             Action { text: qsTr("Default"); onTriggered: mpv.setProperty("video-aspect", 0) }
             Action { text: qsTr("4:3"); onTriggered: mpv.setProperty("video-aspect", 4 / 3) }
@@ -271,6 +267,7 @@ CustomWindow
             Layout.fillHeight: true
             z: 100
             visible: false
+            mpv: mpv
             onOpenFileRequested: fileDialog.open()
             onOpenUrlRequested: openUrlDialog.visible = true
         }
