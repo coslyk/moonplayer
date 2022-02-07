@@ -121,4 +121,22 @@ ColumnLayout {
         Button { text: qsTr("1.85:1"); onClicked: mpvObject.setProperty("video-aspect", 1.85) }
         Button { text: qsTr("2.35:1"); onClicked: mpvObject.setProperty("video-aspect", 2.35) }
     }
+
+    // Audio
+    Label {
+        text: qsTr("Audio")
+        font.bold: true
+    }
+
+    RowLayout {
+        Label { text: qsTr("Track:") }
+        ComboBox {
+            id: audioTrackComboBox
+            model: mpvObject.audioTracks
+        }
+        Button {
+            text: qsTr("Set")
+            onClicked: mpv.setProperty("aid", audioTrackComboBox.currentIndex)
+        }
+    }
 }

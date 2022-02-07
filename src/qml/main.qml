@@ -125,15 +125,6 @@ CustomWindow
         onAccepted: mpv.addSubtitle(addSubtitleDialog.fileUrl)
     }
 
-    // Select audio tracks
-    SelectionDialog {
-        id: audioTrackSelectionDialog
-
-        title: qsTr("Select audio tracks")
-        items: mpv.audioTracks
-        onAccepted: mpv.setProperty("aid", currentIndex)
-    }
-
     // Danmaku options
     DanmakuOptionsDialog {
         id: danmakuOptionsDialog
@@ -200,12 +191,6 @@ CustomWindow
         Action { text: qsTr("Explorer"); onTriggered: sidebar.openExplorer() }
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Video options"); onTriggered: sidebar.openVideoOptions() }
-        Menu {
-            title: qsTr("Audio")
-            width: 150
-            Action { text: qsTr("Select"); onTriggered: audioTrackSelectionDialog.visible = true }
-            delegate: MenuItem { height: 25 }
-        }
         Menu {
             title: qsTr("Subtitle")
             width: 150
