@@ -58,7 +58,7 @@ Control {
         300,  // Settings
         300,  // Explorer
         250,  // Video options
-        250,  // Subtitles and danmaku
+        300,  // Subtitles and danmaku
     ]
 
     // Color settings

@@ -24,10 +24,44 @@ ColumnLayout {
     
     property MpvObject mpvObject: null
     property var blockWords: []
+
+    // Subtitles
+    Label {
+        text: qsTr("Subtitles")
+        font.bold: true
+    }
+
+    CheckBox {
+        text: qsTr("Visible")
+        checked: true
+        onToggled: mpvObject.subVisible = checked
+    }
+
+    Label { text: qsTr("Track:") }
+    RowLayout {
+        ComboBox {
+            id: subComboBox
+            model: mpvObject.subtitles
+        }
+        Button {
+            text: qsTr("Set")
+            onClicked: mpv.setProperty("sid", subComboBox.currentIndex)
+        }
+        Button {
+            text: qsTr("Add")
+            onClicked: addSubtitleDialog.open()
+        }
+    }
+        
+    FileOpenDialog {
+        id: addSubtitleDialog
+        title: qsTr("Please choose a file")
+        onAccepted: mpv.addSubtitle(addSubtitleDialog.fileUrl)
+    }
     
     // Danmaku options
     Label {
-        text: qsTr("Danmaku options")
+        text: qsTr("Danmaku")
         font.bold: true
     }
 
@@ -35,6 +69,7 @@ ColumnLayout {
         text: qsTr("Shown comment type")
     }
 
+    RowLayout {
     CheckBox {
         id: topCheckBox
         text: qsTr("Top")
@@ -54,6 +89,7 @@ ColumnLayout {
         text: qsTr("Scrolling")
         checked: true
         onClicked: reloadDanmaku()
+    }
     }
 
     Label {

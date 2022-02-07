@@ -109,22 +109,6 @@ CustomWindow
         id: textInputDialog
     }
     
-    // Select subtitles
-    SelectionDialog {
-        id: subtitleSelectionDialog
-
-        title: qsTr("Select subtitles")
-        items: mpv.subtitles
-        onAccepted: mpv.setProperty("sid", currentIndex)
-    }
-    
-    // Add subtitles
-    FileOpenDialog {
-        id: addSubtitleDialog
-        title: qsTr("Please choose a file")
-        onAccepted: mpv.addSubtitle(addSubtitleDialog.fileUrl)
-    }
-    
     // Volume
     Popup {
         id: volumePopup
@@ -185,15 +169,7 @@ CustomWindow
         Action { text: qsTr("Explorer"); onTriggered: sidebar.openExplorer() }
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Video options"); onTriggered: sidebar.openVideoOptions() }
-        Menu {
-            title: qsTr("Subtitle")
-            width: 150
-            Action { text: qsTr("Visible"); onTriggered: mpv.subVisible = !mpv.subVisible }
-            Action { text: qsTr("Add"); onTriggered: addSubtitleDialog.open() }
-            Action { text: qsTr("Select"); onTriggered: subtitleSelectionDialog.visible = true }
-            delegate: MenuItem { height: 25 }
-        }
-        Action { text: qsTr("Danmaku"); onTriggered: sidebar.openSubtitles() }
+        Action { text: qsTr("Subtitle and danmaku"); onTriggered: sidebar.openSubtitles() }
         Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Downloader"); onTriggered: downloader.visible = true }
