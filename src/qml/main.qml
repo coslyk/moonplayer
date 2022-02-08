@@ -19,9 +19,9 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
 import MoonPlayer 1.0
-import CustomWidgets 1.0
+import QtQuick.Controls.Material 2.3
 
-CustomWindow
+Window
 {
     id: window
     visible: true
@@ -31,9 +31,15 @@ CustomWindow
     height: 600
     title: "MoonPlayer"
 
+    // Hide system titlebar when using material UI
+    property bool isMaterialUI: Utils.environmentVariable("QT_QUICK_CONTROLS_STYLE").toLowerCase() == "material"
+    flags: Qt.Window | (isMaterialUI ? Qt.FramelessWindowHint : 0)
+
     // Background color
     color: SkinColor.windowBackground
-    
+    Material.theme: SkinColor.darkMode ? Material.Dark : Material.Light
+    Material.accent: Material.Grey
+
     // Mpv
     MpvObject {
         id: mpv
@@ -181,7 +187,7 @@ CustomWindow
         delegate: MenuItem { height: 25 }
     }
 
-    // ControlBar and sidebar
+    // Titlebar, Controlbar and sidebar
     GridLayout {
         id: mainLayout
         anchors.fill: parent
@@ -189,6 +195,46 @@ CustomWindow
         columns: 2
         rowSpacing: 0
         columnSpacing: 0
+
+        // Titlebar
+        Rectangle {
+            id: titlebar
+            color: SkinColor.titlebar
+            Layout.fillWidth: true
+            Layout.minimumHeight: 28
+            Layout.columnSpan: 2
+            z: 100
+            Button {
+                id: closeButton
+                width: 14
+                height: 14
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 8
+                background: Rectangle { color: SkinColor.closeButton; radius: 7; anchors.fill: parent }
+                onClicked: window.close()
+            }
+            Button {
+                id: maxButton
+                width: 14
+                height: 14
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: closeButton.left
+                anchors.rightMargin: 6
+                background: Rectangle { color: SkinColor.maxButton; radius: 7; anchors.fill: parent }
+                onClicked: window.visibility == Window.Maximized ? window.showNormal() : window.showMaximized()
+            }
+            Button {
+                id: minButton
+                width: 14
+                height: 14
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: maxButton.left
+                anchors.rightMargin: 6
+                background: Rectangle { color: SkinColor.minButton; radius: 7; anchors.fill: parent }
+                onClicked: window.showMinimized()
+            }
+        }
 
         // Empty item as placeholder
         Item {
@@ -304,5 +350,13 @@ CustomWindow
     Shortcut {
         sequence: "Ctrl+,"
         onActivated: sidebar.openSettings()
+    }
+
+    // Hide custom titlebar when not using Material UI
+    Component.onCompleted: {
+        if (!isMaterialUI)
+        {
+            titlebar.visible = false;
+        }
     }
 }

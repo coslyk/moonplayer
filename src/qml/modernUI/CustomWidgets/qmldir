@@ -16,4 +16,3 @@
 module CustomWidgets
 CustomDialog 1.0 CustomDialog.qml
 CustomImageButton 1.0 CustomImageButton.qml
-CustomWindow 1.0 CustomWindow.qml

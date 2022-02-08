@@ -16,6 +16,7 @@
  
 import QtQuick 2.7
 import QtQuick.Window 2.2
+import MoonPlayer 1.0
 
 // Area to receive mouse events
 MouseArea {
@@ -33,6 +34,7 @@ MouseArea {
     property real lastMouseY: 0
     property int activeEdges: 0
     property bool moveable: false
+    property bool isMaterialUI: Utils.environmentVariable("QT_QUICK_CONTROLS_STYLE").toLowerCase() == "material"
 
     hoverEnabled: true
     acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -110,7 +112,7 @@ MouseArea {
         // Show titlebar and controlbar
         controlbar.visible = true;
 
-        if (titlebar !== undefined) {
+        if (isMaterialUI) {
             titlebar.visible = true;
         }
 
@@ -188,7 +190,7 @@ MouseArea {
                 controlbar.visible = false;
             }
             
-            if (titlebar !== undefined && !titlebar.contains(titlebar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
+            if (!titlebar.contains(titlebar.mapFromItem(mouseArea, mouseArea.mouseX, mouseArea.mouseY)))
             {
                 titlebar.visible = false;
             }

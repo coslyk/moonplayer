@@ -1,6 +1,6 @@
 
 # Include Qt Gui private headers
-if (USE_QT6)
+if (Qt6_FOUND)
     include_directories(${Qt6Gui_PRIVATE_INCLUDE_DIRS})
 else()
     include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
@@ -56,7 +56,7 @@ endif()
 
 
 # Create translations
-if (USE_QT6)
+if (Qt6_FOUND)
     qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
     configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
 else()
@@ -80,7 +80,7 @@ if (APPLE)
 endif()
 
 # Link libraries
-if (USE_QT6)
+if (Qt6_FOUND)
     # Create excutable
     add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
         ${SOURCE_FILES}
@@ -112,17 +112,15 @@ if (USE_QT6)
             qml/Playlist.qml
             qml/SelectionDialog.qml
             qml/Settings.qml
-            qml/Sidebar.aml
+            qml/Sidebar.qml
             qml/SkinColor.qml
             qml/SubtitlesAndDanmaku.qml
             qml/TextInputDialog.qml
             qml/VideoOptions.qml
             qml/classicUI/CustomWidgets/CustomDialog.qml
             qml/classicUI/CustomWidgets/CustomImageButton.qml
-            qml/classicUI/CustomWidgets/CustomWindow.qml
             qml/modernUI/CustomWidgets/CustomDialog.qml
             qml/modernUI/CustomWidgets/CustomImageButton.qml
-            qml/modernUI/CustomWidgets/CustomWindow.qml
         RESOURCES
             qml/classicUI/CustomWidgets/qmldir
             qml/modernUI/CustomWidgets/qmldir
