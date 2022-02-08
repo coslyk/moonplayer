@@ -43,8 +43,8 @@ add_definitions(-DQT_NO_CAST_FROM_ASCII)
 # Set PROJECT_VERSION_PATCH and PROJECT_VERSION_TWEAK to 0 if not present, needed by add_project_meta
 fix_project_version()
 
-if (USE_QT6)
-    find_package(Qt6 REQUIRED COMPONENTS Gui Qml Quick OpenGL Network LinguistTools)
+find_package(Qt6 COMPONENTS Gui Qml Quick OpenGL Network LinguistTools)
+if (Qt6_FOUND)
     find_package(Qt6Gui REQUIRED)
 else()
     find_package(Qt5 REQUIRED COMPONENTS Gui Qml Quick Network LinguistTools)
