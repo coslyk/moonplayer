@@ -57,14 +57,14 @@ Control {
         200,  // Playlist
         300,  // Settings
         300,  // Explorer
-        250,  // Video options
-        300,  // Subtitles and danmaku
+        300,  // Video options
+        320,  // Subtitles and danmaku
     ]
 
     // Color settings
     background: Rectangle {
         implicitWidth: widths[layout.currentIndex]
-        color: SkinColor.controlbar
+        color: SkinColor.sidebar
     }
 
     StackLayout {
@@ -72,6 +72,7 @@ Control {
         anchors.fill: parent
         anchors.leftMargin: 10
         anchors.rightMargin: 10
+        anchors.topMargin: 5
         
         // Playlist
         Playlist {

@@ -87,6 +87,7 @@ Item {
             Label {
                 text: qsTr("Player")
                 font.bold: true
+                font.pixelSize: 16
                 Layout.columnSpan: 2
             }
 
@@ -126,13 +127,13 @@ Item {
                 Layout.columnSpan: 2
             }
 
-            MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
-            
             // Video and audio
             Label {
                 text: qsTr("Video")
                 font.bold: true
+                font.pixelSize: 16
                 Layout.columnSpan: 2
+                Layout.topMargin: 20
             }
 
             Label { text: qsTr("Decode (*):") }
@@ -143,13 +144,13 @@ Item {
             
             Label { text: qsTr("(*): Restart needed"); Layout.columnSpan: 2 }
 
-            MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
-
             // Danmaku
             Label {
                 text: qsTr("Danmaku")
                 font.bold: true
+                font.pixelSize: 16
                 Layout.columnSpan: 2
+                Layout.topMargin: 20
             }
             
             Label { text: qsTr("Font:"); Layout.columnSpan: 2 }
@@ -178,13 +179,13 @@ Item {
             
             Label { text: "(*): " + qsTr("Set to 0 to let MoonPlayer choose automatically."); Layout.columnSpan: 2 }
 
-            MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
-
             // Cache
             Label {
                 text: qsTr("Cache")
                 font.bold: true
+                font.pixelSize: 16
                 Layout.columnSpan: 2
+                Layout.topMargin: 20
             }
 
             CheckBox {
@@ -213,13 +214,13 @@ Item {
                 enabled: limitCacheCheckBox.checked
             }
 
-            MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
-
             // Proxy
             Label {
                 text: qsTr("Proxy")
                 font.bold: true
+                font.pixelSize: 16
                 Layout.columnSpan: 2
+                Layout.topMargin: 20
             }            
 
             Label { text: qsTr("Proxy mode:"); Layout.columnSpan: 2 }
@@ -234,6 +235,7 @@ Item {
                 id: proxyInput
                 selectByMouse: true
                 Layout.columnSpan: 2
+                Layout.fillWidth: true
                 color: !text.match(/^[A-Za-z0-9\.]+:\d+$/) ? "red" : playerSettings.style == 1 ? "white" : "black"
             }
             
@@ -249,13 +251,13 @@ Item {
                 Layout.columnSpan: 2
             }
 
-            MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
-
             // Downloader
             Label {
                 text: qsTr("Downloader")
                 font.bold: true
+                font.pixelSize: 16
                 Layout.columnSpan: 2
+                Layout.topMargin: 20
             }
             
             Label { text: qsTr("Maximum number of threads:"); Layout.columnSpan: 2 }
@@ -280,6 +282,7 @@ Item {
             Label {
                 text: qsTr("Shortcuts")
                 font.bold: true
+                font.pixelSize: 16
                 Layout.columnSpan: 2
             }
             Label { text: "Left/Right" }

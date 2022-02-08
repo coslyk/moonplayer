@@ -25,6 +25,8 @@ ColumnLayout {
     
     property MpvObject mpvObject: null
 
+    property bool isMaterialUI: Utils.environmentVariable("QT_QUICK_CONTROLS_STYLE").toLowerCase() == "material"
+
     // Equalizer
     Label {
         text: qsTr("Equalizer")
@@ -33,7 +35,7 @@ ColumnLayout {
     
     GridLayout {
         columns: 3
-        rowSpacing: 0
+        rowSpacing: isMaterialUI ? -10 : 10
         
         // Brightness
         Label { text: qsTr("Brightness") }
@@ -114,6 +116,7 @@ ColumnLayout {
 
     GridLayout {
         columns: 3
+        rowSpacing: isMaterialUI ? -5 : 5
         Button { text: qsTr("Default"); onClicked: mpvObject.setProperty("video-aspect", 0) }
         Button { text: "4:3"; onClicked: mpvObject.setProperty("video-aspect", 4 / 3) }
         Button { text: "16:9"; onClicked: mpvObject.setProperty("video-aspect", 16 / 9) }
@@ -130,6 +133,7 @@ ColumnLayout {
 
     GridLayout {
         columns: 3
+        rowSpacing: isMaterialUI ? -5 : 5
         Button { text: "0.5x"; onClicked: mpvObject.setProperty("speed", 0.5) }
         Button { text: "0.75x"; onClicked: mpvObject.setProperty("speed", 0.75) }
         Button { text: "1x"; onClicked: mpvObject.setProperty("speed", 1) }

@@ -29,6 +29,7 @@ ColumnLayout {
     Label {
         text: qsTr("Subtitles")
         font.bold: true
+        font.pixelSize: 16
     }
 
     CheckBox {
@@ -63,6 +64,8 @@ ColumnLayout {
     Label {
         text: qsTr("Danmaku")
         font.bold: true
+        font.pixelSize: 16
+        Layout.topMargin: 20
     }
 
     Label {

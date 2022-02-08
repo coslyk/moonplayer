@@ -33,9 +33,9 @@ QtObject {
     property color maxButton: "#ffbf39"
     property color minButton: "#53cb43"
 
-    // Colors for controlbar
+    // Colors for controlbar and sidebar
     property color controlbar: isClassic ? sysPalette.window : darkMode ? "#d0303030" : "#d0e0e0e0"
-    //property color controlbarText: theme == "Light" ? "#505050" : "lightgrey"
+    property color sidebar: isClassic ? sysPalette.window : darkMode ? "#f0303030" : "#f0e0e0e0"
 
     // Colors for window background
     property color windowBackground: darkMode || isClassic ? "black" : "#fafafa"
