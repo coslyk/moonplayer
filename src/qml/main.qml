@@ -131,11 +131,6 @@ Window
             orientation: Qt.Vertical
         }
     }
-    
-    // Downloader
-    Downloader {
-        id: downloader
-    }
 
     // Open url by Dialog
     OpenUrlDialog {
@@ -178,7 +173,7 @@ Window
         Action { text: qsTr("Subtitle and danmaku"); onTriggered: sidebar.openSubtitles() }
         Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
-        Action { text: qsTr("Downloader"); onTriggered: downloader.visible = true }
+        Action { text: qsTr("Downloader"); onTriggered: sidebar.openDownloader() }
         Action { text: qsTr("Settings"); onTriggered: sidebar.openSettings() }
         Action { text: qsTr("Update plugins"); onTriggered: Utils.updateParser() }
         Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html#browser_extension") }

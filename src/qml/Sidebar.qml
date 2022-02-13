@@ -52,6 +52,11 @@ Control {
         visible = true;
     }
 
+    function openDownloader() {
+        layout.currentIndex = 5;
+        visible = true;
+    }
+
     // Width
     property var widths: [
         200,  // Playlist
@@ -59,6 +64,7 @@ Control {
         300,  // Explorer
         300,  // Video options
         320,  // Subtitles and danmaku
+        300,  // Downloader
     ]
 
     // Color settings
@@ -101,6 +107,11 @@ Control {
         SubtitlesAndDanmaku {
             id: subAndDanmaku
             mpvObject: mpv
+        }
+
+        // Downloader
+        Downloader {
+            id: downloader
         }
     }
 }

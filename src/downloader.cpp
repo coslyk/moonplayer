@@ -20,6 +20,7 @@
 #include <QSettings>
 #include "downloaderHlsItem.h"
 #include "downloaderItem.h"
+#include "dialogs.h"
 
 Downloader::Downloader(QObject *parent) : QObject(parent)
 {
@@ -55,6 +56,10 @@ void Downloader::addTasks(const QString& filename, const QList<QUrl>& urls, cons
     }
     m_model << item;
     emit modelUpdated();
+
+    // Show message
+    Q_ASSERT(Dialogs::instance() != nullptr);
+    Dialogs::instance()->messageDialog(tr("Downloader"), tr("Added task successfully."));
 }
 
 QObjectList Downloader::model()
