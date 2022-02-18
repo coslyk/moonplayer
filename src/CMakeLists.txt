@@ -117,9 +117,7 @@ if (Qt6_FOUND)
             qml/SubtitlesAndDanmaku.qml
             qml/TextInputDialog.qml
             qml/VideoOptions.qml
-            qml/classicUI/CustomWidgets/CustomDialog.qml
             qml/classicUI/CustomWidgets/CustomImageButton.qml
-            qml/modernUI/CustomWidgets/CustomDialog.qml
             qml/modernUI/CustomWidgets/CustomImageButton.qml
         RESOURCES
             qml/classicUI/CustomWidgets/qmldir

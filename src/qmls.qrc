@@ -18,9 +18,7 @@
         <file>qml/SubtitlesAndDanmaku.qml</file>
         <file>qml/TextInputDialog.qml</file>
         <file>qml/VideoOptions.qml</file>
-        <file>qml/classicUI/CustomWidgets/CustomDialog.qml</file>
         <file>qml/classicUI/CustomWidgets/CustomImageButton.qml</file>
-        <file>qml/modernUI/CustomWidgets/CustomDialog.qml</file>
         <file>qml/modernUI/CustomWidgets/CustomImageButton.qml</file>
     </qresource>
 </RCC>

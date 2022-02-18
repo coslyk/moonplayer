@@ -17,20 +17,22 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import CustomWidgets 1.0
 import MoonPlayer 1.0
 
-CustomDialog {
+Dialog {
     id: dialog
     
     property string family
     
     width: 400
     height: 330
+
+    // Center in parent
+    x: (parent.width - width) / 2;
+    y: (parent.height - height) / 2;
     
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: suggestedMargins
 
         // Search field
         RowLayout {

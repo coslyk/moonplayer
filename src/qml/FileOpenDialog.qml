@@ -18,11 +18,10 @@ import Qt.labs.folderlistmodel 2.11
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import CustomWidgets 1.0
 import MoonPlayer 1.0
 
 // Fallback FileOpenDialog when the system's native dialog is not available
-CustomDialog {
+Dialog {
     id: dialog
 
     property bool selectMultiple: false
@@ -33,10 +32,14 @@ CustomDialog {
     width: 600
     height: 400
     title: "Open file"
+    standardButtons: Dialog.Ok | Dialog.Cancel
+
+    // Center in parent
+    x: (parent.width - width) / 2;
+    y: (parent.height - height) / 2;
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: suggestedMargins
 
         FolderListModel {
             id: folderModel
@@ -140,14 +143,6 @@ CustomDialog {
                     }
                 }
             }
-        }
-
-        DialogButtonBox {
-            standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-            onAccepted: dialog.accept()
-            onRejected: dialog.reject()
         }
     }
 }

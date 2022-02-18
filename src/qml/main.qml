@@ -92,11 +92,19 @@ Window
     // Message dialog
     MessageDialog {
         id: messageDialog
+
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
     }
 
     // Selection dialog
     SelectionDialog {
         id: selectionDialog
+
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
 
         Connections {
             target: Dialogs
@@ -113,6 +121,10 @@ Window
     // Text input dialog
     TextInputDialog {
         id: textInputDialog
+
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
     }
     
     // Volume
@@ -135,6 +147,10 @@ Window
     // Open url by Dialog
     OpenUrlDialog {
         id: openUrlDialog
+
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
     
         Connections {
             target: Dialogs
