@@ -355,6 +355,11 @@ Window
     }
 
     Shortcut {
+        sequence: "V"
+        onActivated: sidebar.openVideoOptions()
+    }
+
+    Shortcut {
         sequence: "W"
         onActivated: sidebar.openExplorer()
     }

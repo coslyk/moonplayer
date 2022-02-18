@@ -23,7 +23,7 @@ Dialog {
     id: consoleDialog
     
     width: 600
-    height: 400
+    height: 420
     title: qsTr("Shortcuts")
 
     // Center in parent
@@ -35,7 +35,7 @@ Dialog {
         columnSpacing: 10
 
         Label { text: "Left/Right" }
-        Label { text: qsTr("Navigation") }
+        Label { text: qsTr("Seek") }
         Label { text: "Up/Down" }
         Label { text: qsTr("Set volume") }
         Label { text: "Space" }
@@ -54,6 +54,8 @@ Dialog {
         Label { text: qsTr("Show playlist") }
         Label { text: "U" }
         Label { text: qsTr("Open URL") }
+        Label { text: "V" }
+        Label { text: qsTr("Open video options") }
         Label { text: "W" }
         Label { text: qsTr("Open Explorer") }
         Label { text: "Ctrl+O" }
