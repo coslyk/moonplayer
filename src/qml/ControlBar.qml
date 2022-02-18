@@ -17,7 +17,6 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import CustomWidgets 1.0
 
 Control {
     id: controlBar
@@ -60,7 +59,7 @@ Control {
         anchors.leftMargin: 10
         anchors.rightMargin: 10
 
-        CustomImageButton {
+        ImageButton {
             id: playPauseButton
             image: isPlaying ?
                        (SkinColor.darkMode ? "qrc:/moonplayer_qml/images/pause_lightgrey.png" : "qrc:/moonplayer_qml/images/pause_grey.png") :
@@ -70,7 +69,7 @@ Control {
             onClicked: playPauseButtonClicked()
         }
 
-        CustomImageButton {
+        ImageButton {
             id: stopButton
             image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/stop_lightgrey.png" : "qrc:/moonplayer_qml/images/stop_grey.png"
             Layout.preferredWidth: 16
@@ -78,7 +77,7 @@ Control {
             onClicked: stopButtonClicked()
         }
 
-        CustomImageButton {
+        ImageButton {
             id: volumeButton
             image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/volume_lightgrey.png" : "qrc:/moonplayer_qml/images/volume_grey.png"
             Layout.preferredWidth: 16
@@ -109,7 +108,7 @@ Control {
             text: toHHMMSS(duration)
         }
 
-        CustomImageButton {
+        ImageButton {
             id: explorerButton
             image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/net_lightgrey.png" : "qrc:/moonplayer_qml/images/net_grey.png"
             Layout.preferredWidth: 16
@@ -117,7 +116,7 @@ Control {
             onClicked: explorerButtonClicked()
         }
 
-        CustomImageButton {
+        ImageButton {
             id: settingsButton
             image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/settings_lightgrey.png" : "qrc:/moonplayer_qml/images/settings_grey.png"
             Layout.preferredWidth: 16
@@ -125,7 +124,7 @@ Control {
             onClicked: settingsButtonClicked()
         }
 
-        CustomImageButton {
+        ImageButton {
             id: sidebarButton
             image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/playlist_lightgrey.png" : "qrc:/moonplayer_qml/images/playlist_grey.png"
             Layout.preferredWidth: 16

@@ -9,6 +9,7 @@
         <file>qml/Explorer.qml</file>
         <file>qml/FileOpenDialog.qml</file>
         <file>qml/FontDialog.qml</file>
+        <file>qml/ImageButton.qml</file>
         <file>qml/MessageDialog.qml</file>
         <file>qml/OpenUrlDialog.qml</file>
         <file>qml/Playlist.qml</file>
@@ -18,7 +19,5 @@
         <file>qml/SubtitlesAndDanmaku.qml</file>
         <file>qml/TextInputDialog.qml</file>
         <file>qml/VideoOptions.qml</file>
-        <file>qml/classicUI/CustomWidgets/CustomImageButton.qml</file>
-        <file>qml/modernUI/CustomWidgets/CustomImageButton.qml</file>
     </qresource>
 </RCC>

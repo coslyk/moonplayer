@@ -107,6 +107,7 @@ if (Qt6_FOUND)
             qml/Explorer.qml
             qml/FileOpenDialog.qml
             qml/FontDialog.qml
+            qml/ImageButton.qml
             qml/MessageDialog.qml
             qml/OpenUrlDialog.qml
             qml/Playlist.qml
@@ -117,11 +118,7 @@ if (Qt6_FOUND)
             qml/SubtitlesAndDanmaku.qml
             qml/TextInputDialog.qml
             qml/VideoOptions.qml
-            qml/classicUI/CustomWidgets/CustomImageButton.qml
-            qml/modernUI/CustomWidgets/CustomImageButton.qml
         RESOURCES
-            qml/classicUI/CustomWidgets/qmldir
-            qml/modernUI/CustomWidgets/qmldir
             images/net_grey.png
             images/net_lightgrey.png
             images/pause_grey.png

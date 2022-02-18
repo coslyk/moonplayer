@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/moonplayer_qml">
-        <file>qml/classicUI/CustomWidgets/qmldir</file>
-        <file>qml/modernUI/CustomWidgets/qmldir</file>
         <file>images/net_lightgrey.png</file>
         <file>images/pause_lightgrey.png</file>
         <file>images/play_lightgrey.png</file>
