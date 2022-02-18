@@ -113,6 +113,7 @@ if (Qt6_FOUND)
             qml/Playlist.qml
             qml/SelectionDialog.qml
             qml/Settings.qml
+            qml/ShortcutsDialog.qml
             qml/Sidebar.qml
             qml/SkinColor.qml
             qml/SubtitlesAndDanmaku.qml

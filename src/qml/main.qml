@@ -169,6 +169,11 @@ Window
         onAccepted: PlaylistModel.addLocalFiles(fileDialog.fileUrls)
     }
 
+    // Shortcuts dialog
+    ShortcutsDialog {
+        id: shortcutsDialog
+    }
+
     // Open file by drag
     DropArea {
         id: dropArea
@@ -192,6 +197,7 @@ Window
         Action { text: qsTr("Downloader"); onTriggered: sidebar.openDownloader() }
         Action { text: qsTr("Settings"); onTriggered: sidebar.openSettings() }
         Action { text: qsTr("Update plugins"); onTriggered: Utils.updateParser() }
+        Action { text: qsTr("Shortcuts"); onTriggered: shortcutsDialog.visible = true }
         Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html#browser_extension") }
         Action { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html") }
         

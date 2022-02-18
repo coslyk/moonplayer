@@ -277,40 +277,6 @@ Item {
                 selectFolder: true
                 fileUrl: Utils.movieLocation()
             }
-
-            // Shortcuts
-            Label {
-                text: qsTr("Shortcuts")
-                font.bold: true
-                font.pixelSize: 16
-                Layout.columnSpan: 2
-            }
-            Label { text: "Left/Right" }
-            Label { text: qsTr("Navigation") }
-            Label { text: "Up/Down" }
-            Label { text: qsTr("Set volume") }
-            Label { text: "Space" }
-            Label { text: qsTr("Pause/continue") }
-            Label { text: "Return" }
-            Label { text: qsTr("Enter/exit fullscreen") }
-            Label { text: "Esc" }
-            Label { text: qsTr("Exit fullscreen") }
-            Label { text: "S" }
-            Label { text: qsTr("Screenshot") }
-            Label { text: "D" }
-            Label { text: qsTr("Danmaku options") }
-            Label { text: "H" }
-            Label { text: qsTr("Switch on/off danmaku") }
-            Label { text: "L" }
-            Label { text: qsTr("Show playlist") }
-            Label { text: "U" }
-            Label { text: qsTr("Open URL") }
-            Label { text: "W" }
-            Label { text: qsTr("Open Explorer") }
-            Label { text: "Ctrl+O" }
-            Label { text: qsTr("Open files") }
-            Label { text: "Ctrl+," }
-            Label { text: qsTr("Open settings") }
         }
     }
 }
