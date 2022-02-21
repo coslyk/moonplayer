@@ -104,7 +104,6 @@ void ParserLux::parseOutput()
         if (!caption[QStringLiteral("danmaku")].isNull())
         {
             result.danmaku_url = caption[QStringLiteral("danmaku")][QStringLiteral("url")].toString();
-            qDebug("Danmaku url: %s", result.danmaku_url.toEncoded().constData());
         }
     }
 
