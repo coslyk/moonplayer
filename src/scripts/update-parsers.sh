@@ -19,11 +19,29 @@
 
 # Set OS-dependent variables
 OS_NAME=`uname -s`
-if [ "$OS_NAME" = 'Darwin' ]; then    # macOS
+CPU_ARCH=`uname -m`
+
+if [ "$OS_NAME" = 'Darwin' ]; then       ### macOS
     DEST_DIR="$HOME/Library/Application Support/MoonPlayer"
-elif [ "$OS_NAME" = 'Linux' ]; then   # Linux
+    if [ "$CPU_ARCH" = "x86_64" ]; then  ## Intel
+        LUX_SUFFIX="macOS_64-bit.tar.gz"
+    else
+        LUX_SUFFIX="macOS_ARM64.tar.gz"  ## Apple Silicon
+    fi
+
+elif [ "$OS_NAME" = 'Linux' ]; then      ### Linux
     XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
     DEST_DIR="$XDG_DATA_HOME/moonplayer"
+    case "$CPU_ARCH" in
+        i?86)
+            LUX_SUFFIX="Linux_32-bit.tar.gz" ;;
+        x86_64)
+            LUX_SUFFIX="Linux_64-bit.tar.gz" ;;
+        aarch64|aarch64|armv8|armv8?)
+            LUX_SUFFIX="Linux_ARM64.tar.gz" ;;
+        *)
+            LUX_SUFFIX="Linux_ARM_v6.tar.gz" ;;
+    esac
 else
     echo "Unsupported system!"
     exit 0
@@ -39,6 +57,14 @@ if which wget > /dev/null; then
 else
     alias downloader="curl -s -L -o"
     alias fetcher="curl -s"
+fi
+
+
+# Set download source
+if [ `date +"%z"` = "+0800" ]; then   # Mirror for China
+    GITHUB_MIRROR="https://download.fastgit.org"
+else
+    GITHUB_MIRROR="https://github.com"
 fi
 
 
@@ -70,66 +96,65 @@ save_version_info() {
 }
 
 
-### Update yt-dlp
-echo "\n-------- Checking yt-dlp's updates -------"
+### Update lux
+echo "\n-------- Checking lux's updates -------"
 
-# Get latest yt-dlp version
-CURRENT_VERSION=$(get_current_version "yt-dlp")
+# Get latest lux version
+CURRENT_VERSION=$(get_current_version "lux")
 echo "Current version: $CURRENT_VERSION"
 
-LATEST_VERSION=$(get_latest_version_github "yt-dlp/yt-dlp")
+LATEST_VERSION=$(get_latest_version_github "iawia002/lux")
 if [ -n "$LATEST_VERSION" ]; then
     echo "Latest version: $LATEST_VERSION"
 else
-    echo 'Error: Cannot get the latest version of yt-dlp. Please try again later.'
+    echo 'Error: Cannot get the latest version of lux. Please try again later.'
     exit 0
 fi
 
 if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
-    echo "Yt-dlp already up-to-date."
+    echo "Lux already up-to-date."
 else
     # Download latest version
-    echo "\n ------------ Updating yt-dlp -------------"
+    echo "\n ------------ Updating lux -------------"
     echo "Downloading latest version..."
-    rm -f yt-dlp
-    downloader yt-dlp "https://github.com/yt-dlp/yt-dlp/releases/download/$LATEST_VERSION/yt-dlp"
-    chmod a+x yt-dlp
-    save_version_info "yt-dlp" "$LATEST_VERSION"
+    rm -f lux.tar.gz lux
+    URL="${GITHUB_MIRROR}/iawia002/lux/releases/download/${LATEST_VERSION}/lux_${LATEST_VERSION:1}_${LUX_SUFFIX}"
+    echo "$URL"
+    downloader lux.tar.gz "$URL"
+    tar -xvf lux.tar.gz
+    chmod a+x lux
+    save_version_info "lux" "$LATEST_VERSION"
 fi
 
 
-### Update ykdl
-echo "\n----------- Checking ykdl's updates ----------"
+### Update plugins
+echo "\n----------- Checking plugin's updates ----------"
 
-# Get current ykdl version
-CURRENT_VERSION=$(get_current_version "ykdl")
+# Get current plugins' version
+CURRENT_VERSION=$(get_current_version "plugins")
 echo "Current version: $CURRENT_VERSION"
 
-# Get latest ykdl version
+# Get latest plugins' version
 LATEST_VERSION=$(get_latest_version_github "coslyk/moonplayer-plugins")
 if [ -n "$LATEST_VERSION" ]; then
     echo "Latest version: $LATEST_VERSION"
 else
-    echo 'Error: Cannot get the latest version of Ykdl. Please try again later.'
+    echo 'Error: Cannot get the latest version of plugins. Please try again later.'
     exit 0
 fi
 
 if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
-    echo "Ykdl already up-to-date."
+    echo "Plugins already up-to-date."
 else
     # Download latest version
-    echo "\n---------------- Updating ykdl ---------------"
-    echo "Downloading latest version..."
-    rm -f ykdl-moonplayer
-    downloader ykdl-moonplayer "https://github.com/coslyk/moonplayer-plugins/releases/download/$LATEST_VERSION/ykdl-moonplayer"
-    chmod a+x ykdl-moonplayer
-    save_version_info "ykdl" "$LATEST_VERSION"
-    
     echo "\n-------------- Updating plugins --------------"
     echo "Downloading latest version..."
-    downloader plugins.zip "https://github.com/coslyk/moonplayer-plugins/releases/download/$LATEST_VERSION/plugins.zip"
+    URL="$GITHUB_MIRROR/coslyk/moonplayer-plugins/releases/download/$LATEST_VERSION/plugins.zip"
+    echo "$URL"
+    downloader plugins.zip "$URL"
     unzip -o plugins.zip -d plugins
     rm -f plugins.zip
+    save_version_info "plugins" "$LATEST_VERSION"
     echo "Finished. You need to restart MoonPlayer to load plugins."
 fi
 
