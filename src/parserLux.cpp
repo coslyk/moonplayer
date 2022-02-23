@@ -103,7 +103,7 @@ void ParserLux::parseOutput()
         QJsonObject caption = root[QStringLiteral("caption")].toObject();
         if (!caption[QStringLiteral("danmaku")].isNull())
         {
-            result.danmaku_url = caption[QStringLiteral("danmaku")][QStringLiteral("url")].toString();
+            result.danmaku_url = caption[QStringLiteral("danmaku")].toObject()[QStringLiteral("url")].toString();
         }
     }
 
@@ -129,7 +129,7 @@ void ParserLux::parseOutput()
 
         for (const auto& part : parts)
         {
-            stream.urls << QUrl(part[QStringLiteral("url")].toString());
+            stream.urls << QUrl(part.toObject()[QStringLiteral("url")].toString());
         }
 
         // Add stream to list
