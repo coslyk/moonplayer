@@ -117,12 +117,13 @@ else
     # Download latest version
     echo "\n ------------ Updating lux -------------"
     echo "Downloading latest version..."
-    rm -f lux.tar.gz lux
-    URL="${GITHUB_MIRROR}/iawia002/lux/releases/download/${LATEST_VERSION}/lux_${LATEST_VERSION:1}_${LUX_SUFFIX}"
+    URL="${GITHUB_MIRROR}/iawia002/lux/releases/download/${LATEST_VERSION}/lux_${LATEST_VERSION#v}_${LUX_SUFFIX}"
     echo "$URL"
     downloader lux.tar.gz "$URL"
+    rm -f lux
     tar -xvf lux.tar.gz
     chmod a+x lux
+    rm -f lux.tar.gz
     save_version_info "lux" "$LATEST_VERSION"
 fi
 
