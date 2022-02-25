@@ -50,61 +50,74 @@ function Save-Version-Info {
     $version > "$env:LOCALAPPDATA\MoonPlayer\version-$plugin_name.txt"
 }
 
+### Set Github Mirror
+if ((Get-TimeZone).Id -eq "China Standard Time") {
+    $github_mirror = "https://download.fastgit.org"
+} else {
+    $github_mirror = "https://github.com"
+}
 
-### Update yt-dlp
-Write-Output "-------- Checking yt-dlp's updates -------"
 
-# Get latest yt-dlp version
-$latest_version = Get-Latest-Version-Github "yt-dlp/yt-dlp"
-Write-Output "Latest version: $latest_version"
+### Update lux
+Write-Output "-------- Checking lux's updates -------"
 
-# Get current yt-dlp version
-$current_version = Get-Current-Version "yt-dlp"
+# Get current lux version
+$current_version = Get-Current-Version "lux"
 Write-Output "Current version: $current_version"
+
+# Get latest lux version
+$latest_version = Get-Latest-Version-Github "iawia002/lux"
+Write-Output "Latest version: $latest_version"
 
 # Check if the version is latest
 if ($latest_version -eq $current_version) {
-    Write-Output "Yt-dlp already up-to-date."
+    Write-Output "Lux is already up-to-date."
 } else {
     Write-Output ""
-    Write-Output "------------ Updating yt-dlp -------------"
+    Write-Output "------------ Updating lux -------------"
+
+    # Download
     Write-Output "Downloading latest version..."
-    $url = "https://github.com/yt-dlp/yt-dlp/releases/download/$latest_version/yt-dlp.exe"
-    $output = "$env:LOCALAPPDATA\MoonPlayer\yt-dlp.exe"
+    $version_no_v = $latest_version.Substring(1)
+    $url = "$github_mirror/iawia002/lux/releases/download/$latest_version/lux_${version_no_v}_Windows_64-bit.zip"
+    Write-Output $url
+    $output = "$env:LOCALAPPDATA\MoonPlayer\lux.zip"
     (New-Object System.Net.WebClient).DownloadFile($url, $output)
-    Save-Version-Info "yt-dlp" $latest_version
+
+    # Extract
+    Write-Output "Extracting lux..."
+    Expand-Archive "$output" -DestinationPath "$env:LOCALAPPDATA\MoonPlayer" -Force
+    Save-Version-Info "lux" $latest_version
 }
 
-### Update ykdl
+### Update plugins
 Write-Output ""
-Write-Output "---------- Checking ykdl's updates ---------"
+Write-Output "---------- Checking plugins' updates ---------"
 
-# Get latest ykdl version
+# Get current plugins version
+$current_version = Get-Current-Version "plugins"
+Write-Output "Current version: $current_version"
+
+# Get latest plugins version
 $latest_version = Get-Latest-Version-Github "coslyk/moonplayer-plugins"
 Write-Output "Latest version: $latest_version"
 
-# Get current ykdl version
-$current_version = Get-Current-Version "ykdl"
-Write-Output "Current version: $current_version"
-
 # Check if the version is latest
 if ($latest_version -eq $current_version) {
-    Write-Output "Ykdl already up-to-date."
+    Write-Output "Plugins are already up-to-date."
 } else {
-    Write-Output ""
-    Write-Output "------------ Updating ykdl -------------"
-    Write-Output "Downloading latest version..."
-    $url = "https://github.com/coslyk/moonplayer-plugins/releases/download/$latest_version/ykdl-moonplayer.exe"
-    $output = "$env:LOCALAPPDATA\MoonPlayer\ykdl-moonplayer.exe"
-    (New-Object System.Net.WebClient).DownloadFile($url, $output)
-    Save-Version-Info "ykdl" $latest_version
-    
-    Write-Output ""
     Write-Output "-------------- Updating plugins --------------"
+
+    # Download
     Write-Output "Downloading plugins..."
-    $url = "https://github.com/coslyk/moonplayer-plugins/releases/download/$latest_version/plugins.zip"
+    $url = "$github_mirror/coslyk/moonplayer-plugins/releases/download/$latest_version/plugins.zip"
+    Write-Output $url
     $output = "$env:LOCALAPPDATA\MoonPlayer\plugins.zip"
     (New-Object System.Net.WebClient).DownloadFile($url, $output)
+
+    # Extract
+    Write-Output "Extracting plugins..."
     Expand-Archive "$output" -DestinationPath "$env:LOCALAPPDATA\MoonPlayer\plugins" -Force
+    Save-Version-Info "plugins" $latest_version
     Write-Output "Finished. You need to restart MoonPlayer to load plugins."
 }
