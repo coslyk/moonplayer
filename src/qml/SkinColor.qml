@@ -23,9 +23,9 @@ QtObject {
     property var sysPalette: SystemPalette { id: sysPalette; colorGroup: SystemPalette.Active }
 
     // theme from settings
-    property string modernTheme: "Dark"
+    property bool darkModeSet: true
     property bool isClassic: false
-    property bool darkMode: isClassic ? (sysPalette.window.hsvValue < 0.3) : modernTheme === "Dark"
+    property bool darkMode: isClassic ? (sysPalette.window.hsvValue < 0.3) : darkModeSet
 
     // Colors for titlebar
     property color titlebar: darkMode ? "#E6404040" : "#d8e0e0e0"

@@ -28,7 +28,7 @@ Item {
     QSettings.Settings {
         id: playerSettings
         category: "player"
-        property alias style: styleComboBox.currentIndex
+        property alias dark_mode: darkCheckBox.checked
         property alias use_system_frame: systemFrameCheckBox.checked
         property alias url_open_mode: openUrlComboBox.currentIndex
         property alias autoplay: autoplayCheckBox.checked
@@ -75,6 +75,9 @@ Item {
         property alias max_threads: maxThreadsSpinBox.value
     }
 
+    // Apply skin settings at init
+    Component.onCompleted: SkinColor.isClassic = playerSettings.use_system_frame
+
     ScrollView {
         anchors.fill: parent
         clip: true
@@ -95,21 +98,18 @@ Item {
                 id: systemFrameCheckBox
                 text: qsTr("Use classic UI (Restart needed)")
                 Layout.columnSpan: 2
-                onCheckedChanged: SkinColor.isClassic = checked
             }
 
-            Label {
-                text: qsTr("Style:")
+            CheckBox {
+                id: darkCheckBox
+                text: qsTr("Dark mode")
+                checked: true
                 enabled: !systemFrameCheckBox.checked
-            }
-            ComboBox {
-                id: styleComboBox
-                model: [ "Dark", "Light" ]
-                enabled: !systemFrameCheckBox.checked
-                onCurrentTextChanged: {
+                Layout.columnSpan: 2
+                onToggled: {
                     if (!playerSettings.use_system_frame) {
                         // modern UI
-                        SkinColor.modernTheme = currentText;
+                        SkinColor.darkModeSet = checked;
                     }
                 }
             }
