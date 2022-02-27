@@ -125,6 +125,10 @@ int main(int argc, char *argv[])
         qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("Material"));
         break;
+
+        case 2:  // Win10
+        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("Universal"));
+        break;
     }
 #else
     switch (QSettings().value(QStringLiteral("player/theme"), 1).toInt())
@@ -136,6 +140,11 @@ int main(int argc, char *argv[])
         case 1:  // Material
         qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("material"));
+        break;
+
+        case 2:  // Win10
+        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("universal"));
+        break;
     }
 #endif
 

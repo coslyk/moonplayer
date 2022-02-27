@@ -76,7 +76,10 @@ Item {
     }
 
     // Apply skin settings at init
-    Component.onCompleted: SkinColor.theme = playerSettings.theme
+    Component.onCompleted: {
+        SkinColor.theme = playerSettings.theme;
+        SkinColor.darkModeSet = playerSettings.dark_mode;
+    }
 
     ScrollView {
         anchors.fill: parent
@@ -94,10 +97,10 @@ Item {
                 Layout.columnSpan: 2
             }
 
-            Label { text: qsTr("Theme") }
+            Label { text: qsTr("Theme") + " (*):" }
             ComboBox {
                 id: themeComboBox
-                model: [ "Classic", "Material" ]
+                model: [ "Classic", "Material", "Win10" ]
                 currentIndex: 1
             }
 
@@ -110,12 +113,15 @@ Item {
                 onToggled: SkinColor.darkModeSet = checked
             }
             
+            Label { text: qsTr("(*): Restart needed"); Layout.columnSpan: 2 }
+            
             // Play
             Label {
                 text: qsTr("Play")
                 font.bold: true
                 font.pixelSize: 16
                 Layout.columnSpan: 2
+                Layout.topMargin: 20
             }
 
             Label { text: qsTr("Open URL:") }
@@ -140,7 +146,7 @@ Item {
                 Layout.topMargin: 20
             }
 
-            Label { text: qsTr("Decode (*):") }
+            Label { text: qsTr("Decode") + " (*):" }
             ComboBox {
                 id: hwdecComboBox
                 model: [ "auto", "vaapi", "vdpau", "nvdec" ]

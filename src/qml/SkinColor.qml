@@ -22,7 +22,7 @@ QtObject {
     // Palette object
     property var sysPalette: SystemPalette { id: sysPalette; colorGroup: SystemPalette.Active }
 
-    // theme from settings, 0 == Classic, 1 == Material
+    // theme from settings, 0 == Classic, 1 == Material, 2 == Win10
     property int theme: 1
 
     // Dark mode, classic theme must follow system's settings
