@@ -116,25 +116,24 @@ int main(int argc, char *argv[])
 
     // Set UI style
 #if QT_VERSION_MAJOR >= 6
-    if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
+    switch (QSettings().value(QStringLiteral("player/theme"), 1).toInt())
     {
-        engine.addImportPath(QStringLiteral("qrc:/moonplayer_qml/qml/classicUI"));
-    }
-    else
-    {
-        engine.addImportPath(QStringLiteral("qrc:/moonplayer_qml/qml/modernUI"));
+        case 0:  // Classic
+        break;
+
+        case 1:  // Material
         qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("Material"));
+        break;
     }
 #else
-    if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
+    switch (QSettings().value(QStringLiteral("player/theme"), 1).toInt())
     {
-        engine.addImportPath(QStringLiteral("qrc:/moonplayer_qml/qml/classicUI"));
+        case 0:  // Classic
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("fusion"));
-    }
-    else
-    {
-        engine.addImportPath(QStringLiteral("qrc:/moonplayer_qml/qml/modernUI"));
+        break;
+
+        case 1:  // Material
         qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("material"));
     }

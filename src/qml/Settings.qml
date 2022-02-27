@@ -29,7 +29,7 @@ Item {
         id: playerSettings
         category: "player"
         property alias dark_mode: darkCheckBox.checked
-        property alias use_system_frame: systemFrameCheckBox.checked
+        property alias theme: themeComboBox.currentIndex
         property alias url_open_mode: openUrlComboBox.currentIndex
         property alias autoplay: autoplayCheckBox.checked
     }
@@ -76,7 +76,7 @@ Item {
     }
 
     // Apply skin settings at init
-    Component.onCompleted: SkinColor.isClassic = playerSettings.use_system_frame
+    Component.onCompleted: SkinColor.theme = playerSettings.theme
 
     ScrollView {
         anchors.fill: parent
@@ -86,32 +86,36 @@ Item {
             columns: 2
             columnSpacing: 10
             
-            // Player
+            // Interface
             Label {
-                text: qsTr("Player")
+                text: qsTr("Interface")
                 font.bold: true
                 font.pixelSize: 16
                 Layout.columnSpan: 2
             }
 
-            CheckBox {
-                id: systemFrameCheckBox
-                text: qsTr("Use classic UI (Restart needed)")
-                Layout.columnSpan: 2
+            Label { text: qsTr("Theme") }
+            ComboBox {
+                id: themeComboBox
+                model: [ "Classic", "Material" ]
+                currentIndex: 1
             }
 
             CheckBox {
                 id: darkCheckBox
                 text: qsTr("Dark mode")
                 checked: true
-                enabled: !systemFrameCheckBox.checked
+                enabled: themeComboBox.currentIndex !== 0
                 Layout.columnSpan: 2
-                onToggled: {
-                    if (!playerSettings.use_system_frame) {
-                        // modern UI
-                        SkinColor.darkModeSet = checked;
-                    }
-                }
+                onToggled: SkinColor.darkModeSet = checked
+            }
+            
+            // Play
+            Label {
+                text: qsTr("Play")
+                font.bold: true
+                font.pixelSize: 16
+                Layout.columnSpan: 2
             }
 
             Label { text: qsTr("Open URL:") }
@@ -236,7 +240,7 @@ Item {
                 selectByMouse: true
                 Layout.columnSpan: 2
                 Layout.fillWidth: true
-                color: !text.match(/^[A-Za-z0-9\.]+:\d+$/) ? "red" : playerSettings.style == 1 ? "white" : "black"
+                color: !text.match(/^[A-Za-z0-9\.]+:\d+$/) ? "red" : SkinColor.darkMode ? "white" : "black"
             }
             
             Label {
