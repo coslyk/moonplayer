@@ -128,6 +128,37 @@ else
 fi
 
 
+### Update yt-dlp
+echo "\n-------- Checking yt-dlp's updates -------"
+
+# Get latest yt-dlp version
+CURRENT_VERSION=$(get_current_version "yt-dlp")
+echo "Current version: $CURRENT_VERSION"
+
+LATEST_VERSION=$(get_latest_version_github "yt-dlp/yt-dlp")
+if [ -n "$LATEST_VERSION" ]; then
+    echo "Latest version: $LATEST_VERSION"
+else
+    echo 'Error: Cannot get the latest version of yt-dlp. Please try again later.'
+    exit 0
+fi
+
+if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
+    echo "Yt-dlp already up-to-date."
+else
+    # Download latest version
+    echo "\n ------------ Updating yt-dlp -------------"
+    echo "Downloading latest version..."
+    rm -f yt-dlp
+    URL="$GITHUB_MIRROR/yt-dlp/yt-dlp/releases/download/$LATEST_VERSION/yt-dlp"
+    echo "$URL"
+    downloader yt-dlp "$URL"
+    chmod a+x yt-dlp
+    save_version_info "yt-dlp" "$LATEST_VERSION"
+fi
+
+
+
 ### Update plugins
 echo "\n----------- Checking plugin's updates ----------"
 

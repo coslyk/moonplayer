@@ -31,6 +31,11 @@ class PlaylistModel : public QAbstractListModel
         DOWNLOAD
     };
 
+    enum Parser {
+        LUX,
+        YT_DLP
+    };
+
 public:
     enum PlaylistRoles {
         TitleRole = Qt::UserRole + 1

@@ -31,6 +31,7 @@ Item {
         property alias dark_mode: darkCheckBox.checked
         property alias theme: themeComboBox.currentIndex
         property alias url_open_mode: openUrlComboBox.currentIndex
+        property alias parser: parserComboBox.currentIndex
         property alias autoplay: autoplayCheckBox.checked
     }
     
@@ -128,6 +129,12 @@ Item {
             ComboBox {
                 id: openUrlComboBox
                 model: [ qsTr("Question"), qsTr("Play"), qsTr("Download") ]
+            }
+
+            Label { text: qsTr("Parse URL with:") }
+            ComboBox {
+                id: parserComboBox
+                model: [ qsTr("lux"), qsTr("yt-dlp") ]
             }
 
             CheckBox {

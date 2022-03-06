@@ -20,6 +20,7 @@
 #include "dialogs.h"
 #include "mpvObject.h"
 #include "parserLux.h"
+#include "parserYtdlp.h"
 
 PlaylistModel* PlaylistModel::s_instance = nullptr;
 
@@ -114,7 +115,19 @@ void PlaylistModel::addLocalFiles(const QList<QUrl>& fileUrls)
 void PlaylistModel::addUrl ( const QUrl& url, bool download )
 {
     Q_ASSERT(ParserLux::instance() != nullptr);
-    ParserLux::instance()->parse(url, download);
+    Q_ASSERT(ParserYtdlp::instance() != nullptr);
+
+    // Select parser
+    QSettings settings;
+    Parser parser = static_cast<Parser>(settings.value(QStringLiteral("player/parser")).toInt());
+    if (parser == LUX)
+    {
+        ParserLux::instance()->parse(url, download);
+    }
+    else
+    {
+        ParserYtdlp::instance()->parse(url, download);
+    }
 }
 
 

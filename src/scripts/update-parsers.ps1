@@ -90,6 +90,34 @@ if ($latest_version -eq $current_version) {
     Save-Version-Info "lux" $latest_version
 }
 
+
+### Update yt-dlp
+Write-Output "-------- Checking yt-dlp's updates -------"
+
+# Get latest yt-dlp version
+$latest_version = Get-Latest-Version-Github "yt-dlp/yt-dlp"
+Write-Output "Latest version: $latest_version"
+
+# Get current yt-dlp version
+$current_version = Get-Current-Version "yt-dlp"
+Write-Output "Current version: $current_version"
+
+# Check if the version is latest
+if ($latest_version -eq $current_version) {
+    Write-Output "Yt-dlp already up-to-date."
+} else {
+    Write-Output ""
+    Write-Output "------------ Updating yt-dlp -------------"
+    Write-Output "Downloading latest version..."
+    $url = "$github_mirror/yt-dlp/yt-dlp/releases/download/$latest_version/yt-dlp.exe"
+    Write-Output $url
+    $output = "$env:LOCALAPPDATA\MoonPlayer\yt-dlp.exe"
+    (New-Object System.Net.WebClient).DownloadFile($url, $output)
+    Save-Version-Info "yt-dlp" $latest_version
+}
+
+
+
 ### Update plugins
 Write-Output ""
 Write-Output "---------- Checking plugins' updates ---------"
