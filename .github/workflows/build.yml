@@ -136,12 +136,13 @@ jobs:
           HOMEBREW_NO_AUTO_UPDATE: 1
         run: |-
           brew tap coslyk/mpv
+          brew tap coslyk/qtlite
           brew update
-          brew install qt5 openssl mpv-moonplayer
+          brew install qt-lite openssl mpv-moonplayer
 
       - name: Build packages
         run: |-
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/opt/qt5 .
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/opt/qt-lite .
           make
 
       - name: Deploy

@@ -6,15 +6,7 @@ mv 3rdparty/moonplayer-hlsdl MoonPlayer.app/Contents/MacOS/
 cp /usr/local/opt/ffmpeg-moonplayer/bin/ffmpeg MoonPlayer.app/Contents/MacOS/
 
 # Bundle libraries
-/usr/local/opt/qt5/bin/macdeployqt MoonPlayer.app -qmldir=src/qml/ -executable=MoonPlayer.app/Contents/MacOS/moonplayer-hlsdl
-
-# Cut Qt size
-rm -rf MoonPlayer.app/Contents/Frameworks/QtPdf.framework
-rm -rf MoonPlayer.app/Contents/Frameworks/QtRemoteObjects.framework
-rm -rf MoonPlayer.app/Contents/Frameworks/QtVirtualKeyboard.framework
-rm -rf MoonPlayer.app/Contents/PlugIns/platforminputcontexts
-rm -rf MoonPlayer.app/Contents/PlugIns/printsupport
-rm -rf MoonPlayer.app/Contents/PlugIns/virtualkeyboard
+/usr/local/opt/qt-lite/bin/macdeployqt MoonPlayer.app -qmldir=src/qml/ -executable=MoonPlayer.app/Contents/MacOS/moonplayer-hlsdl
 
 # Fix permissions
 chown $USER MoonPlayer.app/Contents/MacOS/*
