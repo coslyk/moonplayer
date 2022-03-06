@@ -61,8 +61,10 @@ public:
                 [](void *, const char *name) -> void* {
                     QOpenGLContext *glctx = QOpenGLContext::currentContext();
                     return glctx ? reinterpret_cast<void *>(glctx->getProcAddress(QByteArray(name))) : nullptr;
-                },
-                nullptr, nullptr
+                }
+#if MPV_CLIENT_API_VERSION < MPV_MAKE_VERSION(2, 0)
+                , nullptr, nullptr
+#endif
             };
 
             mpv_render_param params[] {
