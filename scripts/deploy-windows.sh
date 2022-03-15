@@ -4,7 +4,7 @@ export PATH=/c/Qt/6.2.1/msvc2019_64/bin:/c/Qt/5.15.2/msvc2019_64/bin:$PATH
 
 # Copy binary files
 mkdir moonplayer
-cp src/Release/moonplayer.exe src/scripts/update-parsers.ps1 libmpv/mpv-1.dll moonplayer/
+cp src/Release/moonplayer.exe src/scripts/update-parsers.ps1 libmpv/mpv-2.dll moonplayer/
 
 # Bundle Qt
 windeployqt moonplayer/moonplayer.exe --qmldir src/qml
