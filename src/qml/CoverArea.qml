@@ -176,7 +176,7 @@ MouseArea {
     // Auto hide mouse cursor, titlebar and controlbar
     Timer {
         id: timer
-        interval: 3000
+        interval: 2000
         onTriggered: {
             // Do not hide if mouse is pressed or sidebar is open
             if (mouseArea.pressed === true || sidebar.visible) {
