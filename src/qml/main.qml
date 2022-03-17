@@ -186,18 +186,20 @@ Window
     // Menu
     Menu {
         id: contextMenu
-        width: 150
+        width: 160
         padding: 5
         Action { text: qsTr("Open files"); onTriggered: fileDialog.open() }
         Action { text: qsTr("Open URL"); onTriggered: openUrlDialog.visible = true }
+        MenuSeparator { padding: 0 }
+        Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
+        MenuSeparator { padding: 0 }
         Action { text: qsTr("Explorer"); onTriggered: sidebar.openExplorer() }
+        Action { text: qsTr("Downloader"); onTriggered: sidebar.openDownloader() }
         MenuSeparator { padding: 0 }
         Action { text: qsTr("Video options"); onTriggered: sidebar.openVideoOptions() }
         Action { text: qsTr("Subtitle and danmaku"); onTriggered: sidebar.openSubtitles() }
-        Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
-        MenuSeparator { padding: 0 }
-        Action { text: qsTr("Downloader"); onTriggered: sidebar.openDownloader() }
         Action { text: qsTr("Settings"); onTriggered: sidebar.openSettings() }
+        MenuSeparator { padding: 0 }
         Action { text: qsTr("Update plugins"); onTriggered: Utils.updateParser() }
         Action { text: qsTr("Shortcuts"); onTriggered: shortcutsDialog.visible = true }
         Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html#browser_extension") }
