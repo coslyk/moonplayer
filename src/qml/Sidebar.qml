@@ -60,7 +60,7 @@ Control {
     // Width
     property var widths: [
         200,  // Playlist
-        300,  // Settings
+        320,  // Settings
         300,  // Explorer
         300,  // Video options
         320,  // Subtitles and danmaku

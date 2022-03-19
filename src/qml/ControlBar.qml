@@ -96,7 +96,7 @@ Control {
             to: duration
             focusPolicy: Qt.NoFocus
             Layout.fillWidth: true
-            Layout.preferredHeight: 16
+            Layout.preferredHeight: 24
             onPressedChanged: {
                 if (!pressed)  // released
                     seekRequested(value);

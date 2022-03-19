@@ -64,7 +64,7 @@ Item {
         Button {
             id: addButton
             text: qsTr("Add")
-            implicitWidth: 50
+            implicitWidth: 55
             onClicked: {
                 addMenu.x = addButton.x
                 addMenu.y = addButton.y - addMenu.height
@@ -75,14 +75,14 @@ Item {
         Button {
             id: delButton
             text: qsTr("Del")
-            implicitWidth: 50
+            implicitWidth: 55
             onClicked: PlaylistModel.removeItem(listView.currentIndex)
         }
         
         Button {
             id: clearButton
             text: qsTr("Clear")
-            implicitWidth: 50
+            implicitWidth: 55
             onClicked: PlaylistModel.clear()
         }
     }
