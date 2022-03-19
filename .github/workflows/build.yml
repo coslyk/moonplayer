@@ -142,7 +142,7 @@ jobs:
 
       - name: Build packages
         run: |-
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/opt/qt-lite .
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/Cellar/qt-lite/6.2.3 .
           make
 
       - name: Deploy
