@@ -134,20 +134,16 @@ jobs:
       - name: Install dependencies
         env:
           HOMEBREW_NO_AUTO_UPDATE: 1
+          HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
         run: |-
           brew tap coslyk/mpv
           brew tap coslyk/qtlite
           brew update
           brew install qt-lite openssl mpv-moonplayer
 
-      - name: Test
-        run: |-
-          ls /usr/local/opt/qt-lite
-          ls /usr/local/opt/qt-lite/lib/cmake
-
       - name: Build packages
         run: |-
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/Cellar/qt-lite/6.2.3 .
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/opt/qt-lite .
           make
 
       - name: Deploy
