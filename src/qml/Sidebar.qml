@@ -83,8 +83,8 @@ Control {
         // Playlist
         Playlist {
             id: playlist
-            onOpenFileRequested: openFileRequested()
-            onOpenUrlRequested: openUrlRequested()
+            onOpenFileRequested: sideBar.openFileRequested()
+            onOpenUrlRequested: sideBar.openUrlRequested()
         }
 
         // Settings
