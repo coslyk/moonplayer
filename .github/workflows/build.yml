@@ -140,6 +140,11 @@ jobs:
           brew update
           brew install qt-lite openssl mpv-moonplayer
 
+      - name: Test
+        run: |-
+          ls /usr/local/opt/qt-lite
+          ls /usr/local/opt/qt-lite/lib/cmake
+
       - name: Build packages
         run: |-
           cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/Cellar/qt-lite/6.2.3 .
