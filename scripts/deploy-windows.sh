@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export PATH=/c/Qt/6.2.1/msvc2019_64/bin:/c/Qt/5.15.2/msvc2019_64/bin:$PATH
+export PATH=/c/Qt/6.2.3/msvc2019_64/bin:/c/Qt/5.15.2/msvc2019_64/bin:$PATH
 
 # Copy binary files
 mkdir moonplayer
