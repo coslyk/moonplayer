@@ -6,7 +6,7 @@ mv 3rdparty/moonplayer-hlsdl MoonPlayer.app/Contents/MacOS/
 cp /usr/local/opt/ffmpeg-moonplayer/bin/ffmpeg MoonPlayer.app/Contents/MacOS/
 
 # Bundle libraries
-/usr/local/opt/qt-lite/bin/macdeployqt MoonPlayer.app -libpath=/usr/local/opt/qt-lite/lib -qmldir=src/qml/ -executable=MoonPlayer.app/Contents/MacOS/moonplayer-hlsdl
+/usr/local/opt/qt-lite/bin/macdeployqt MoonPlayer.app -qmldir=src/qml/ -executable=MoonPlayer.app/Contents/MacOS/moonplayer-hlsdl
 
 # Fix permissions
 chown $USER MoonPlayer.app/Contents/MacOS/*
