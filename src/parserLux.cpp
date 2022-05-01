@@ -59,7 +59,7 @@ void ParserLux::runParser(const QUrl &url)
 
     // Set user-agent
     QStringList args;
-    args << QStringLiteral("--json") << QStringLiteral("--user-agent") << QStringLiteral(DEFAULT_UA);
+    args << QStringLiteral("-j") << QStringLiteral("-p") << QStringLiteral("-u") << QStringLiteral(DEFAULT_UA);
 
     args << url.toString();
     m_process.start(userResourcesPath() + QStringLiteral("/lux"), args, QProcess::ReadOnly);
@@ -85,22 +85,46 @@ void ParserLux::parseOutput()
         return;
     }
 
-    QJsonObject root = document.array()[0].toObject();
-
-    // Check error
-    if (!root[QStringLiteral("err")].isNull())
+    // Get episode list
+    QJsonArray episodes = document.array();
+    if (episodes.size() == 0)
     {
-        showErrorDialog(QStringLiteral("Lux Error: ") + root[QStringLiteral("err")].toString());
+        Dialogs::instance()->messageDialog(tr("Error"), tr("The given url has no video item."));
+    }
+    else if (episodes.size() == 1)
+    {
+        parseEpisode(episodes[0].toObject());
+    }
+    else
+    {
+        QStringList titles;
+        for (auto episode : episodes)
+        {
+            titles << episode.toObject()[QStringLiteral("title")].toString();
+            Dialogs::instance()->selectionDialog(tr("Select episode"), titles, [=](int index) {
+                parseEpisode(episodes[index].toObject());
+            });
+        }
+    }
+}
+
+
+void ParserLux::parseEpisode(QJsonObject episode)
+{
+    // Check error
+    if (!episode[QStringLiteral("err")].isNull())
+    {
+        showErrorDialog(QStringLiteral("Lux Error: ") + episode[QStringLiteral("err")].toString());
         return;
     }
 
     // Get title
-    result.title = root[QStringLiteral("title")].toString();
+    result.title = episode[QStringLiteral("title")].toString();
 
     // Get danmaku
-    if (!root[QStringLiteral("caption")].isNull())
+    if (!episode[QStringLiteral("caption")].isNull())
     {
-        QJsonObject caption = root[QStringLiteral("caption")].toObject();
+        QJsonObject caption = episode[QStringLiteral("caption")].toObject();
         if (!caption[QStringLiteral("danmaku")].isNull())
         {
             result.danmaku_url = caption[QStringLiteral("danmaku")].toObject()[QStringLiteral("url")].toString();
@@ -108,7 +132,7 @@ void ParserLux::parseOutput()
     }
 
     // get all available streams
-    QJsonObject streams = root[QStringLiteral("streams")].toObject();
+    QJsonObject streams = episode[QStringLiteral("streams")].toObject();
     for (auto i = streams.constBegin(); i != streams.constEnd(); i++)
     {
         QJsonObject item = i.value().toObject();
@@ -117,7 +141,7 @@ void ParserLux::parseOutput()
         Stream stream;
         stream.container = item[QStringLiteral("ext")].toString();
         stream.is_dash = item[QStringLiteral("NeedMux")].toBool();
-        stream.referer = root[QStringLiteral("url")].toString();
+        stream.referer = episode[QStringLiteral("url")].toString();
         stream.seekable = true;
 
         // Write urls list

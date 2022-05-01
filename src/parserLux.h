@@ -19,6 +19,8 @@ private slots:
     void parseOutput(void);
 
 private:
+    void parseEpisode(QJsonObject episode);
+
     QProcess m_process;
     static ParserLux s_instance;
 };
