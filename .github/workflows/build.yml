@@ -147,7 +147,7 @@ jobs:
 
       - name: Build packages
         run: |-
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/opt/qt-lite .
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$HOME/qt6 .
           make
 
       - name: Deploy
