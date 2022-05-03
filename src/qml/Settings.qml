@@ -134,7 +134,7 @@ Item {
             Label { text: qsTr("Parse URL with:") }
             ComboBox {
                 id: parserComboBox
-                model: [ qsTr("lux"), qsTr("yt-dlp") ]
+                model: [ "lux", "yt-dlp" ]
             }
 
             CheckBox {
