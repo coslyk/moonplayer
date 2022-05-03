@@ -137,9 +137,13 @@ jobs:
           HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
         run: |-
           brew tap coslyk/mpv
-          brew tap coslyk/qtlite
           brew update
-          brew install qt-lite openssl mpv-moonplayer
+          brew install openssl mpv-moonplayer freetype double-conversion icu4c jasper jpeg libb2 libtiff pcre2
+
+      - name: Install Qt
+        run: |-
+          curl -Lo qt6.zip https://github.com/coslyk/qtlite-build/releases/download/continuous/qt6.zip
+          unzip -o qt6.zip -d $HOME
 
       - name: Build packages
         run: |-
