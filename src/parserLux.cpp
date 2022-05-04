@@ -70,11 +70,6 @@ void ParserLux::parseOutput()
 {
     QByteArray output = m_process.readAllStandardOutput();
 
-#ifdef Q_OS_WIN
-    // Convert to UTF-8 on Windows
-    output = QString::fromLocal8Bit(output).toUtf8();
-#endif
-
     // Parse JSON
     QJsonParseError json_error;
     QJsonDocument document = QJsonDocument::fromJson(output, &json_error);
