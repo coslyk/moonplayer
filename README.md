@@ -103,9 +103,9 @@ sudo make install
 
 - [ffmpeg](https://ffmpeg.org/) (License: GPLv2+)
 
-- [youtube-dl](https://yt-dl.org/) (License: Unlicense)
+- [yk-dlp](https://github.com/yt-dlp/yt-dlp) (License: Unlicense)
 
-- [ykdl](https://github.com/zhangn1985/ykdl) (License: MIT)
+- [lux](https://github.com/iawia002/lux) (License: MIT)
 
 - [hlsdl](https://github.com/selsta/hlsdl) (License: MIT)
 

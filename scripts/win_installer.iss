@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "MoonPlayer"
-#define MyAppVersion "3.9"
+#define MyAppVersion "4.0"
 #define MyAppPublisher "coslyk"
 #define MyAppURL "https://coslyk.github.io/moonplayer.html"
 #define MyAppExeName "moonplayer.exe"

@@ -1,3 +1,9 @@
+### version 4.0 (2022.05.03)
+
+1. New UI style
+1. Qt updates to 6.2 on macOS
+1. Use [lux](https://github.com/iawia002/lux) as default video parser and remove ykdl
+
 ### version 3.9 (2021.11.23)
 
 1. Replace youtube-dl with yt-dlp
