@@ -294,6 +294,32 @@ Item {
                 selectFolder: true
                 fileUrl: Utils.movieLocation()
             }
+
+            // Website settings
+            Label {
+                text: qsTr("Website settings")
+                font.bold: true
+                font.pixelSize: 16
+                Layout.columnSpan: 2
+                Layout.topMargin: 20
+            }
+            Label { text: qsTr("Quality choice:"); Layout.columnSpan: 2 }
+            ComboBox {
+                id: qualityComboBox
+                model: WebsiteSettings.websites
+                Layout.columnSpan: 2
+                Layout.fillWidth: true
+            }
+            Button {
+                text: qsTr("Remove")
+                Layout.columnSpan: 2
+                onClicked: {
+                    var index = qualityComboBox.currentIndex;
+                    if (index != -1) {
+                        WebsiteSettings.remove(WebsiteSettings.websites[index]);
+                    }
+                }
+            }
         }
     }
 }

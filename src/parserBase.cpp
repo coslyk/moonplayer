@@ -21,6 +21,7 @@
 #include "dialogs.h"
 #include "downloader.h"
 #include "playlistModel.h"
+#include "websiteSettings.h"
 
 ParserBase::ParserBase(QObject *parent) : QObject(parent)
 {
@@ -64,8 +65,24 @@ void ParserBase::finishParsing()
     // More than one stream, selection is needed
     else
     {
+        // Find stored profile first
+        Q_ASSERT(WebsiteSettings::instance() != nullptr);
+        QString storedProfile = WebsiteSettings::instance()->get(m_url.host());
+        int index = result.stream_types.indexOf(storedProfile);
+        if (index != -1)
+        {
+            finishStreamSelection(index);
+            return;
+        }
+        // No stored profile found, show dialog
         Q_ASSERT(Dialogs::instance() != nullptr);
-        Dialogs::instance()->selectionDialog(tr("Select streams"), result.stream_types, [=](int index) { finishStreamSelection(index); });
+        Dialogs::instance()->selectionDialog(tr("Select streams"), result.stream_types, [&](int index, bool remember) {
+            if (remember && index >= 0 && index < result.stream_types.size())
+            {
+                WebsiteSettings::instance()->set(m_url.host(), result.stream_types[index]);
+            }
+            finishStreamSelection(index);
+        }, tr("Remember my choice"));
     }
 }
 

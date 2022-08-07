@@ -113,11 +113,13 @@ Window
             onSelectionStarted: {
                 selectionDialog.title = title;
                 selectionDialog.items = items;
+                selectionDialog.checkboxText = checkboxText;
+                selectionDialog.checked = false;
                 selectionDialog.visible = true;
             }
         }
 
-        onAccepted: Dialogs.selectionCallback(currentIndex)
+        onAccepted: Dialogs.selectionCallback(currentIndex, checked)
     }
 
     // Text input dialog

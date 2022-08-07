@@ -35,6 +35,7 @@
 #include "platform/paths.h"
 #include "plugin.h"
 #include "utils.h"
+#include "websiteSettings.h"
 
 int main(int argc, char *argv[])
 {
@@ -110,6 +111,7 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonType<Dialogs>("MoonPlayer", 1, 0, "Dialogs", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Dialogs(); });
     qmlRegisterSingletonType<PlaylistModel>("MoonPlayer", 1, 0, "PlaylistModel", [](QQmlEngine *, QJSEngine *) -> QObject * { return new PlaylistModel(); });
     qmlRegisterSingletonType<Utils>("MoonPlayer", 1, 0, "Utils", [](QQmlEngine *, QJSEngine *) -> QObject * { return new Utils(); });
+    qmlRegisterSingletonType<WebsiteSettings>("MoonPlayer", 1, 0, "WebsiteSettings", [](QQmlEngine *, QJSEngine *) -> QObject * { return new WebsiteSettings(); });
     qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", QStringLiteral("Access to enums & flags only"));
     
     QQmlApplicationEngine engine;

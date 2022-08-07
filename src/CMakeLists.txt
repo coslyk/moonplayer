@@ -34,6 +34,7 @@ set(SOURCE_FILES
     playlistModel.cpp
     plugin.cpp
     utils.cpp
+    websiteSettings.cpp
 )
 
 # Add platform specific source files

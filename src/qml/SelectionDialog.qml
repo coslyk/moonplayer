@@ -24,44 +24,59 @@ Dialog {
     
     property var items: []
     property alias currentIndex: listView.currentIndex
+    property alias checked: checkbox.checked
+    property alias checkboxText: checkbox.text
     
     width: 400
-    height: 300
+    height: 400
     title: qsTr("Selection")
     standardButtons: Dialog.Ok | Dialog.Cancel
 
-    ScrollView {
+    ColumnLayout {
         anchors.fill: parent
-        clip: true
+        anchors.margins: 0
+        spacing: 0
+        ScrollView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.margins: 0
+            clip: true
     
-        ListView {
-            id: listView
-            property int mouseOverIndex: -1
-            anchors.fill: parent
-            model: items
+            ListView {
+                id: listView
+                property int mouseOverIndex: -1
+                anchors.fill: parent
+                model: items
             
-            delegate: Rectangle {
-                property bool hovered: false
-                height: 25
-                width: parent.width
-                color: index == listView.currentIndex ? SkinColor.listItemSelected : hovered ? SkinColor.listItemHovered : "transparent"
+                delegate: Rectangle {
+                    property bool hovered: false
+                    height: 25
+                    width: parent.width
+                    color: index == listView.currentIndex ? SkinColor.listItemSelected : hovered ? SkinColor.listItemHovered : "transparent"
                 
-                Label {
-                    text: modelData
-                    anchors.fill: parent
-                    verticalAlignment: Label.AlignVCenter
-                }
+                    Label {
+                        text: modelData
+                        anchors.fill: parent
+                        verticalAlignment: Label.AlignVCenter
+                    }
                 
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    acceptedButtons: Qt.LeftButton
-                    onClicked: listView.currentIndex = index
-                    onDoubleClicked: selectionDialog.accept()
-                    onEntered: parent.hovered = true
-                    onExited: parent.hovered = false
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        acceptedButtons: Qt.LeftButton
+                        onClicked: listView.currentIndex = index
+                        onDoubleClicked: selectionDialog.accept()
+                        onEntered: parent.hovered = true
+                        onExited: parent.hovered = false
+                    }
                 }
             }
+        }
+        CheckBox {
+            id: checkbox
+            visible: text !== "" && text !== null
+            Layout.fillWidth: true
+            Layout.margins: 0
         }
     }
 }
