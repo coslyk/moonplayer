@@ -15,6 +15,7 @@
  */
 
 #include "dialogs.h"
+#include <QTimer>
 
 Dialogs *Dialogs::s_instance = nullptr;
 
@@ -61,7 +62,10 @@ void Dialogs::selectionDialog(const QString &title, const QStringList& items, st
     const QString& checkboxText)
 {
     m_selectionCb = std::move(callback);
-    emit selectionStarted(title, items, checkboxText);
+    // Avoid showing dialog during previous dialog is closing
+    QTimer::singleShot(500, [=] {
+        emit selectionStarted(title, items, checkboxText);
+    });
 }
 
 void Dialogs::selectionCallback(int index, bool checked)

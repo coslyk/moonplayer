@@ -6,7 +6,7 @@ add_subdirectory(danmaku2ass_cpp)
 if (UNIX)
     if(APPLE)
         # Fix CMake's search for OpenSSL, see https://stackoverflow.com/a/62063357
-        set(OPENSSL_ROOT_DIR /usr/local/opt/openssl)
+        set(OPENSSL_ROOT_DIR /usr/local/opt/openssl@1.1)
         set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.dylib CACHE FILEPATH "" FORCE)
         set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.dylib CACHE FILEPATH "" FORCE)
     endif()

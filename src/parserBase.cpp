@@ -76,7 +76,7 @@ void ParserBase::finishParsing()
         }
         // No stored profile found, show dialog
         Q_ASSERT(Dialogs::instance() != nullptr);
-        Dialogs::instance()->selectionDialog(tr("Select streams"), result.stream_types, [&](int index, bool remember) {
+        Dialogs::instance()->selectionDialog(tr("Select streams"), result.stream_types, [this](int index, bool remember) {
             if (remember && index >= 0 && index < result.stream_types.size())
             {
                 WebsiteSettings::instance()->set(m_url.host(), result.stream_types[index]);
