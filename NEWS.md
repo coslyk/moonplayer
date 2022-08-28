@@ -1,3 +1,8 @@
+### version 4.1 (2022.08.28)
+
+1. Add option to save video quality selections
+2. Fix sometimes video quality selection dialog not shown
+
 ### version 4.0 (2022.05.03)
 
 1. New UI style
