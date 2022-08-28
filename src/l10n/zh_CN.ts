@@ -197,17 +197,22 @@
 <context>
     <name>ParserBase</name>
     <message>
-        <location filename="../parserBase.cpp" line="56"/>
+        <location filename="../parserBase.cpp" line="57"/>
         <source>The video has no streams. Maybe it is a VIP video and requires login.</source>
         <translation type="unfinished">未找到该视频的播放地址。可能这是一个VIP视频，需要登录。</translation>
     </message>
     <message>
-        <location filename="../parserBase.cpp" line="68"/>
+        <location filename="../parserBase.cpp" line="79"/>
         <source>Select streams</source>
         <translation type="unfinished">选择视频流</translation>
     </message>
     <message>
-        <location filename="../parserBase.cpp" line="122"/>
+        <location filename="../parserBase.cpp" line="85"/>
+        <source>Remember my choice</source>
+        <translation type="unfinished">记住我的选择</translation>
+    </message>
+    <message>
+        <location filename="../parserBase.cpp" line="139"/>
         <source>Parse failed!
 URL: %1
 
@@ -218,7 +223,7 @@ URL: %1
 请尝试更新插件。</translation>
     </message>
     <message>
-        <location filename="../parserBase.cpp" line="123"/>
+        <location filename="../parserBase.cpp" line="140"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
@@ -227,6 +232,7 @@ URL: %1
     <name>ParserLux</name>
     <message>
         <location filename="../parserLux.cpp" line="38"/>
+        <location filename="../parserLux.cpp" line="87"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
@@ -234,6 +240,16 @@ URL: %1
         <location filename="../parserLux.cpp" line="38"/>
         <source>Another file is being parsed.</source>
         <translation type="unfinished">其他视频正在解析中。</translation>
+    </message>
+    <message>
+        <location filename="../parserLux.cpp" line="87"/>
+        <source>The given url has no video item.</source>
+        <translation type="unfinished">该URL没有视频条目。</translation>
+    </message>
+    <message>
+        <location filename="../parserLux.cpp" line="99"/>
+        <source>Select episode</source>
+        <translation type="unfinished">选集</translation>
     </message>
 </context>
 <context>
@@ -285,7 +301,7 @@ URL: %1
 <context>
     <name>SelectionDialog</name>
     <message>
-        <location filename="../qml/SelectionDialog.qml" line="30"/>
+        <location filename="../qml/SelectionDialog.qml" line="32"/>
         <source>Selection</source>
         <translation type="unfinished">选择</translation>
     </message>
@@ -404,6 +420,21 @@ URL: %1
         <translation type="unfinished">只在解析视频时使用代理</translation>
     </message>
     <message>
+        <location filename="../qml/Settings.qml" line="300"/>
+        <source>Website settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="306"/>
+        <source>Quality choice:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="314"/>
+        <source>Remove</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
         <location filename="../qml/Settings.qml" line="117"/>
         <location filename="../qml/Settings.qml" line="162"/>
         <source>(*): Restart needed</source>
@@ -413,16 +444,6 @@ URL: %1
         <location filename="../qml/Settings.qml" line="134"/>
         <source>Parse URL with:</source>
         <translation type="unfinished">URL解析工具：</translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings.qml" line="137"/>
-        <source>lux</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings.qml" line="137"/>
-        <source>yt-dlp</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/Settings.qml" line="156"/>
@@ -692,67 +713,67 @@ URL: %1
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="191"/>
+        <location filename="../qml/main.qml" line="193"/>
         <source>Open files</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="169"/>
+        <location filename="../qml/main.qml" line="171"/>
         <source>Please choose a file</source>
         <translation type="unfinished">请选择文件</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="192"/>
+        <location filename="../qml/main.qml" line="194"/>
         <source>Open URL</source>
         <translation type="unfinished">打开URL</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="196"/>
+        <location filename="../qml/main.qml" line="198"/>
         <source>Explorer</source>
         <translation type="unfinished">探索</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="199"/>
+        <location filename="../qml/main.qml" line="201"/>
         <source>Video options</source>
         <translation type="unfinished">视频选项</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="200"/>
+        <location filename="../qml/main.qml" line="202"/>
         <source>Subtitle and danmaku</source>
         <translation type="unfinished">字幕和弹幕</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="194"/>
+        <location filename="../qml/main.qml" line="196"/>
         <source>Screenshot</source>
         <translation type="unfinished">截图</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="197"/>
+        <location filename="../qml/main.qml" line="199"/>
         <source>Downloader</source>
         <translation type="unfinished">下载管理</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="201"/>
+        <location filename="../qml/main.qml" line="203"/>
         <source>Settings</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="203"/>
+        <location filename="../qml/main.qml" line="205"/>
         <source>Update plugins</source>
         <translation type="unfinished">更新插件</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="204"/>
+        <location filename="../qml/main.qml" line="206"/>
         <source>Shortcuts</source>
         <translation type="unfinished">快捷键</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="205"/>
+        <location filename="../qml/main.qml" line="207"/>
         <source>Browser Ext.</source>
         <translation type="unfinished">浏览器扩展</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="206"/>
+        <location filename="../qml/main.qml" line="208"/>
         <source>Homepage</source>
         <translation type="unfinished">主页</translation>
     </message>
