@@ -15,8 +15,8 @@ jobs:
       - name: Cache Qt
         uses: actions/cache@v2
         with:
-          path: C:/Qt/6.2.3
-          key: qt623_win
+          path: C:/Qt/6.2.4
+          key: qt624_win
 
       - name: Enable MSVC commands
         uses: ilammy/msvc-dev-cmd@v1
@@ -31,7 +31,7 @@ jobs:
 
       - name: Build
         run: |-
-          cmake -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/6.2.3/msvc2019_64 -DUSE_QT6=ON .
+          cmake -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/6.2.4/msvc2019_64 -DUSE_QT6=ON .
           cmake --build . --config Release
 
       - name: Deploy
