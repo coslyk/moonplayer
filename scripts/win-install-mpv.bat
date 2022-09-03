@@ -7,5 +7,8 @@ curl -Lo libmpv.7z https://udomain.dl.sourceforge.net/project/mpv-player-windows
 : Produce .lib file
 cd libmpv
 rename include mpv
+rename mpv.def mpv.def.bak
+echo EXPORTS > mpv.def
+type mpv.def.bak >> mpv.def
 lib /def:mpv.def /name:mpv-2.dll /out:mpv.lib /MACHINE:X64
 cd ..
