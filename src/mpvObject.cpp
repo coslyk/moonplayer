@@ -189,7 +189,8 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
     m_mpv.set_option("hwdec", "videotoolbox");
     
 #elif defined(Q_OS_WIN)
-    if (QSysInfo::productVersion() == QStringLiteral("8.1") || QSysInfo::productVersion() == QStringLiteral("10"))
+    if (QSysInfo::productVersion() == QStringLiteral("8.1") || QSysInfo::productVersion() == QStringLiteral("10") ||
+        QSysInfo::productVersion() == QStringLiteral("11"))
     {
         m_mpv.set_option("hwdec", "d3d11va");
         m_mpv.set_option("gpu-context", "d3d11");
