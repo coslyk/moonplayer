@@ -122,19 +122,33 @@ if (Qt6_FOUND)
             qml/VideoOptions.qml
         RESOURCES
             images/net_grey.png
+            images/net_grey_on.png
             images/net_lightgrey.png
+            images/net_lightgrey_on.png
             images/pause_grey.png
+            images/pause_grey_on.png
             images/pause_lightgrey.png
+            images/pause_lightgrey_on.png
             images/play_grey.png
+            images/play_grey_on.png
             images/play_lightgrey.png
+            images/play_lightgrey_on.png
             images/playlist_grey.png
+            images/playlist_grey_on.png
             images/playlist_lightgrey.png
+            images/playlist_lightgrey_on.png
             images/settings_grey.png
+            images/settings_grey_on.png
             images/settings_lightgrey.png
+            images/settings_lightgrey_on.png
             images/stop_grey.png
+            images/stop_grey_on.png
             images/stop_lightgrey.png
+            images/stop_lightgrey_on.png
             images/volume_grey.png
+            images/volume_grey_on.png
             images/volume_lightgrey.png
+            images/volume_lightgrey_on.png
     )
 
     # Link

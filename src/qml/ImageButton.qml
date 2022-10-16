@@ -20,10 +20,13 @@ import QtQuick.Controls 2.3
 Button {
     id: button
     property string image: ""
+    property string hoverImage: ""
+
+    hoverEnabled: true
 
     background: Image { 
         mipmap: true
-        source: image
+        source: button.hovered ? hoverImage : image
         sourceSize.width: parent.width
         sourceSize.height: parent.height
     }

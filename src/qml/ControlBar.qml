@@ -62,8 +62,11 @@ Control {
         ImageButton {
             id: playPauseButton
             image: isPlaying ?
-                       (SkinColor.darkMode ? "qrc:/moonplayer_qml/images/pause_lightgrey.png" : "qrc:/moonplayer_qml/images/pause_grey.png") :
-                       (SkinColor.darkMode ? "qrc:/moonplayer_qml/images/play_lightgrey.png" : "qrc:/moonplayer_qml/images/play_grey.png")
+                (SkinColor.darkMode ? "qrc:/moonplayer_qml/images/pause_lightgrey.png" : "qrc:/moonplayer_qml/images/pause_grey.png") :
+                (SkinColor.darkMode ? "qrc:/moonplayer_qml/images/play_lightgrey.png" : "qrc:/moonplayer_qml/images/play_grey.png")
+            hoverImage: isPlaying ?
+                (SkinColor.darkMode ? "qrc:/moonplayer_qml/images/pause_lightgrey_on.png" : "qrc:/moonplayer_qml/images/pause_grey_on.png") :
+                (SkinColor.darkMode ? "qrc:/moonplayer_qml/images/play_lightgrey_on.png" : "qrc:/moonplayer_qml/images/play_grey_on.png")
             Layout.preferredWidth: 16
             Layout.preferredHeight: 16
             onClicked: playPauseButtonClicked()
@@ -72,6 +75,7 @@ Control {
         ImageButton {
             id: stopButton
             image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/stop_lightgrey.png" : "qrc:/moonplayer_qml/images/stop_grey.png"
+            hoverImage: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/stop_lightgrey_on.png" : "qrc:/moonplayer_qml/images/stop_grey_on.png"
             Layout.preferredWidth: 16
             Layout.preferredHeight: 16
             onClicked: stopButtonClicked()
@@ -80,6 +84,7 @@ Control {
         ImageButton {
             id: volumeButton
             image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/volume_lightgrey.png" : "qrc:/moonplayer_qml/images/volume_grey.png"
+            hoverImage: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/volume_lightgrey_on.png" : "qrc:/moonplayer_qml/images/volume_grey_on.png"
             Layout.preferredWidth: 16
             Layout.preferredHeight: 16
             onClicked: volumeButtonClicked()
@@ -111,6 +116,7 @@ Control {
         ImageButton {
             id: explorerButton
             image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/net_lightgrey.png" : "qrc:/moonplayer_qml/images/net_grey.png"
+            hoverImage: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/net_lightgrey_on.png" : "qrc:/moonplayer_qml/images/net_grey_on.png"
             Layout.preferredWidth: 16
             Layout.preferredHeight: 16
             onClicked: explorerButtonClicked()
@@ -119,6 +125,7 @@ Control {
         ImageButton {
             id: settingsButton
             image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/settings_lightgrey.png" : "qrc:/moonplayer_qml/images/settings_grey.png"
+            hoverImage: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/settings_lightgrey_on.png" : "qrc:/moonplayer_qml/images/settings_grey_on.png"
             Layout.preferredWidth: 16
             Layout.preferredHeight: 16
             onClicked: settingsButtonClicked()
@@ -127,6 +134,7 @@ Control {
         ImageButton {
             id: sidebarButton
             image: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/playlist_lightgrey.png" : "qrc:/moonplayer_qml/images/playlist_grey.png"
+            hoverImage: SkinColor.darkMode ? "qrc:/moonplayer_qml/images/playlist_lightgrey_on.png" : "qrc:/moonplayer_qml/images/playlist_grey_on.png"
             Layout.preferredWidth: 16
             Layout.preferredHeight: 16
             onClicked: sidebarButtonClicked()

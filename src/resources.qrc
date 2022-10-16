@@ -1,19 +1,33 @@
 <RCC>
     <qresource prefix="/moonplayer_qml">
-        <file>images/net_lightgrey.png</file>
-        <file>images/pause_lightgrey.png</file>
-        <file>images/play_lightgrey.png</file>
-        <file>images/playlist_lightgrey.png</file>
-        <file>images/settings_lightgrey.png</file>
-        <file>images/stop_lightgrey.png</file>
-        <file>images/volume_lightgrey.png</file>
         <file>images/net_grey.png</file>
+        <file>images/net_grey_on.png</file>
+        <file>images/net_lightgrey.png</file>
+        <file>images/net_lightgrey_on.png</file>
         <file>images/pause_grey.png</file>
+        <file>images/pause_grey_on.png</file>
+        <file>images/pause_lightgrey.png</file>
+        <file>images/pause_lightgrey_on.png</file>
         <file>images/play_grey.png</file>
+        <file>images/play_grey_on.png</file>
+        <file>images/play_lightgrey.png</file>
+        <file>images/play_lightgrey_on.png</file>
         <file>images/playlist_grey.png</file>
+        <file>images/playlist_grey_on.png</file>
+        <file>images/playlist_lightgrey.png</file>
+        <file>images/playlist_lightgrey_on.png</file>
         <file>images/settings_grey.png</file>
+        <file>images/settings_grey_on.png</file>
+        <file>images/settings_lightgrey.png</file>
+        <file>images/settings_lightgrey_on.png</file>
         <file>images/stop_grey.png</file>
+        <file>images/stop_grey_on.png</file>
+        <file>images/stop_lightgrey.png</file>
+        <file>images/stop_lightgrey_on.png</file>
         <file>images/volume_grey.png</file>
+        <file>images/volume_grey_on.png</file>
+        <file>images/volume_lightgrey.png</file>
+        <file>images/volume_lightgrey_on.png</file>
     </qresource>
     <qresource prefix="/">
         <file>scripts/update-parsers.sh</file>
