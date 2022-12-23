@@ -182,7 +182,14 @@ Window
     DropArea {
         id: dropArea
         anchors.fill: parent
-        onDropped: PlaylistModel.addLocalFiles(drop.urls)
+        onDropped: {
+            var url = drop.urls[0];
+            if (url.toString().endsWith(".srt") || url.toString().endsWith(".ass")) {
+                mpv.addSubtitle(url);
+            } else{
+                PlaylistModel.addLocalFiles(drop.urls);
+            }
+        }
     }
     
     // Menu
