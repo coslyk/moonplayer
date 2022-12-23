@@ -17,22 +17,42 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import QtQuick.Window 2.2
 import MoonPlayer 1.0
 
-Dialog {
+Window {
     id: dialog
+    flags: Qt.Dialog
     
     property string family
     
     width: 400
     height: 330
 
-    // Center in parent
-    x: (parent.width - width) / 2;
-    y: (parent.height - height) / 2;
-    
+    signal accepted()
+    signal rejected()
+
+    function accept() {
+        dialog.visible = false;
+        accepted();
+    }
+
+    function reject() {
+        dialog.visible = false;
+        rejected();
+    }
+
+    function open() {
+        dialog.visible = true;
+    }
+
+    function close() {
+        dialog.visible = false;
+    }
+
     ColumnLayout {
         anchors.fill: parent
+        anchors.margins: 10
 
         // Search field
         RowLayout {
