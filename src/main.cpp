@@ -35,6 +35,7 @@
 #include "platform/paths.h"
 #include "plugin.h"
 #include "utils.h"
+#include "websiteSettings.h"
 
 int main(int argc, char *argv[])
 {
@@ -106,37 +107,46 @@ int main(int argc, char *argv[])
         qmlRegisterType<FontDialog>("MoonPlayer", 1, 0, "FontDialog");
     }
 
-    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/qml/SkinColor.qml")), "MoonPlayer", 1, 0, "SkinColor");
+    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/moonplayer_qml/qml/SkinColor.qml")), "MoonPlayer", 1, 0, "SkinColor");
     qmlRegisterSingletonType<Dialogs>("MoonPlayer", 1, 0, "Dialogs", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Dialogs(); });
     qmlRegisterSingletonType<PlaylistModel>("MoonPlayer", 1, 0, "PlaylistModel", [](QQmlEngine *, QJSEngine *) -> QObject * { return new PlaylistModel(); });
     qmlRegisterSingletonType<Utils>("MoonPlayer", 1, 0, "Utils", [](QQmlEngine *, QJSEngine *) -> QObject * { return new Utils(); });
+    qmlRegisterSingletonType<WebsiteSettings>("MoonPlayer", 1, 0, "WebsiteSettings", [](QQmlEngine *, QJSEngine *) -> QObject * { return new WebsiteSettings(); });
     qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", QStringLiteral("Access to enums & flags only"));
     
     QQmlApplicationEngine engine;
 
     // Set UI style
 #if QT_VERSION_MAJOR >= 6
-    if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
+    switch (QSettings().value(QStringLiteral("player/theme"), 1).toInt())
     {
-        engine.addImportPath(QStringLiteral("qrc:/qml/classicUI"));
-    }
-    else
-    {
-        engine.addImportPath(QStringLiteral("qrc:/qml/modernUI"));
+        case 0:  // Classic
+        break;
+
+        case 1:  // Material
         qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("Material"));
+        break;
+
+        case 2:  // Win10
+        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("Universal"));
+        break;
     }
 #else
-    if (QSettings().value(QStringLiteral("player/use_system_frame")).toBool())
+    switch (QSettings().value(QStringLiteral("player/theme"), 1).toInt())
     {
-        engine.addImportPath(QStringLiteral("qrc:/qml/classicUI"));
+        case 0:  // Classic
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("fusion"));
-    }
-    else
-    {
-        engine.addImportPath(QStringLiteral("qrc:/qml/modernUI"));
+        break;
+
+        case 1:  // Material
         qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("material"));
+        break;
+
+        case 2:  // Win10
+        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("universal"));
+        break;
     }
 #endif
 
@@ -155,7 +165,7 @@ int main(int argc, char *argv[])
         context->setContextProperty(QStringLiteral("downloaderModel"), QVariant::fromValue(downloader->model()));
     });
 
-    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/moonplayer_qml/qml/main.qml")));
     
     // Create user resources dir
     if (!QDir(userResourcesPath()).exists())

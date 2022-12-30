@@ -20,6 +20,7 @@
 #include <mpv/render.h>
 #include <mpv/render_gl.h>
 #include <cstring>
+#include <stdexcept>
 
 namespace Mpv
 {

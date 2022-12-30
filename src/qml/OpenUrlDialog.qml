@@ -17,14 +17,14 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import CustomWidgets 1.0
 import MoonPlayer 1.0
 
-CustomDialog {
+Dialog {
     id: openUrlDialog
     width: 350
-    height: 165 + reservedHeight
+    height: 210
     title: qsTr("Enter URL to parse")
+    standardButtons: Dialog.Ok | Dialog.Cancel
 
     onAccepted: {
         if (openUrlInput.text !== "")
@@ -44,7 +44,6 @@ CustomDialog {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: suggestedMargins
         spacing: 0
 
         TextField {
@@ -58,13 +57,12 @@ CustomDialog {
             id: downloadCheckBox
             text: qsTr("Download video")
         }
+    }
 
-        DialogButtonBox {
-            standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-            onAccepted: openUrlDialog.accept()
-            onRejected: openUrlDialog.reject()
+    // Set focus to text input when shown up
+    onVisibleChanged: {
+        if (visible) {
+            openUrlInput.focus = true;
         }
     }
 }

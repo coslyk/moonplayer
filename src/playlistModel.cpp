@@ -19,8 +19,8 @@
 #include <QSettings>
 #include "dialogs.h"
 #include "mpvObject.h"
-#include "parserYkdl.h"
-#include "parserYoutubedl.h"
+#include "parserLux.h"
+#include "parserYtdlp.h"
 
 PlaylistModel* PlaylistModel::s_instance = nullptr;
 
@@ -79,13 +79,14 @@ void PlaylistModel::addLocalFiles(const QList<QUrl>& fileUrls)
 {
     int start = m_titles.count();
     int count = fileUrls.count();
+
     beginInsertRows(QModelIndex(), start, start + count - 1);
-    for (int i = 0; i < count; i++)
+    for (const auto& fileUrl : fileUrls)
     {
-        m_titles << QFileInfo(fileUrls[i].toLocalFile()).fileName();
-        m_fileUrls << fileUrls[i];
+        m_titles << QFileInfo(fileUrl.toLocalFile()).fileName();
+        m_fileUrls << fileUrl;
         m_audioTrackUrls << QUrl();
-        QFile danmakuFile(fileUrls[i].toLocalFile() + QStringLiteral(".danmaku"));
+        QFile danmakuFile(fileUrl.toLocalFile() + QStringLiteral(".danmaku"));
         if (danmakuFile.open(QFile::ReadOnly | QFile::Text))
         {
             m_danmakuUrls << QString::fromUtf8(danmakuFile.readAll());
@@ -97,19 +98,36 @@ void PlaylistModel::addLocalFiles(const QList<QUrl>& fileUrls)
         }
     }
     endInsertRows();
-    playItem(start);
+
+    // Play video
+    if (QSettings().value(QStringLiteral("player/autoplay")).toBool())
+    {
+        playItem(start);
+    }
+    else
+    {
+        MpvObject::instance()->showText(QByteArrayLiteral("File added"));
+    }
 }
 
 
 
 void PlaylistModel::addUrl ( const QUrl& url, bool download )
 {
-    Q_ASSERT(ParserYkdl::instance() != nullptr && ParserYoutubeDL::instance() != nullptr);
+    Q_ASSERT(ParserLux::instance() != nullptr);
+    Q_ASSERT(ParserYtdlp::instance() != nullptr);
 
-    if (ParserYkdl::isSupported(url))
-        ParserYkdl::instance()->parse(url, download);
+    // Select parser
+    QSettings settings;
+    Parser parser = static_cast<Parser>(settings.value(QStringLiteral("player/parser")).toInt());
+    if (parser == LUX)
+    {
+        ParserLux::instance()->parse(url, download);
+    }
     else
-        ParserYoutubeDL::instance()->parse(url, download);
+    {
+        ParserYtdlp::instance()->parse(url, download);
+    }
 }
 
 

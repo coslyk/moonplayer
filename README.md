@@ -105,9 +105,9 @@ sudo make install
 
 - [ffmpeg](https://ffmpeg.org/) (License: GPLv2+)
 
-- [youtube-dl](https://yt-dl.org/) (License: Unlicense)
+- [yk-dlp](https://github.com/yt-dlp/yt-dlp) (License: Unlicense)
 
-- [ykdl](https://github.com/zhangn1985/ykdl) (License: MIT)
+- [lux](https://github.com/iawia002/lux) (License: MIT)
 
 - [hlsdl](https://github.com/selsta/hlsdl) (License: MIT)
 
@@ -115,7 +115,6 @@ sudo make install
 
 ## License
 
-[GPL-3](https://github.com/coslyk/moonplayer/blob/develop/LICENSE)
-
+[GPLv3+](https://github.com/coslyk/moonplayer/blob/develop/LICENSE)
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fcoslyk%2Fmoonplayer.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fcoslyk%2Fmoonplayer?ref=badge_large)

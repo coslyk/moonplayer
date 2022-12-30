@@ -18,12 +18,13 @@ import Qt.labs.folderlistmodel 2.11
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import CustomWidgets 1.0
+import QtQuick.Window 2.2
 import MoonPlayer 1.0
 
 // Fallback FileOpenDialog when the system's native dialog is not available
-CustomDialog {
+Window {
     id: dialog
+    flags: Qt.Dialog
 
     property bool selectMultiple: false
     property bool selectFolder: false
@@ -34,9 +35,30 @@ CustomDialog {
     height: 400
     title: "Open file"
 
+    signal accepted()
+    signal rejected()
+
+    function accept() {
+        dialog.visible = false;
+        accepted();
+    }
+
+    function reject() {
+        dialog.visible = false;
+        rejected();
+    }
+
+    function open() {
+        dialog.visible = true;
+    }
+
+    function close() {
+        dialog.visible = false;
+    }
+
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: suggestedMargins
+        anchors.margins: 10
 
         FolderListModel {
             id: folderModel
@@ -140,14 +162,6 @@ CustomDialog {
                     }
                 }
             }
-        }
-
-        DialogButtonBox {
-            standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-            onAccepted: dialog.accept()
-            onRejected: dialog.reject()
         }
     }
 }

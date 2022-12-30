@@ -17,34 +17,21 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import CustomWidgets 1.0
 import MoonPlayer 1.0
 
-CustomDialog {
+Dialog {
     id: messageDialog
     
     width: 400
-    height: 160 + reservedHeight
+    height: 150
+    standardButtons: Dialog.Ok
 
-    ColumnLayout {
+    Label {
+        id: label
         anchors.fill: parent
-        anchors.margins: suggestedMargins
-
-        Label {
-            id: label
-            wrapMode: Text.WordWrap
-            Layout.fillWidth: true
-        }
-
-        DialogButtonBox {
-            standardButtons: DialogButtonBox.Ok
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-            onAccepted: messageDialog.accept()
-            onRejected: messageDialog.reject()
-        }
+        wrapMode: Text.WordWrap
+        Layout.fillWidth: true
     }
-
 
     Connections {
         target: Dialogs

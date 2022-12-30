@@ -36,7 +36,6 @@ class MpvObject : public QQuickFramebufferObject
     Q_PROPERTY(int volume               READ volume      WRITE setVolume      NOTIFY volumeChanged)
     Q_PROPERTY(QSize videoSize          READ videoSize                        NOTIFY videoSizeChanged)
     Q_PROPERTY(bool subVisible          READ subVisible  WRITE setSubVisible  NOTIFY subVisibleChanged)
-    Q_PROPERTY(double speed             READ speed       WRITE setSpeed       NOTIFY speedChanged)
     Q_PROPERTY(QStringList audioTracks  READ audioTracks                      NOTIFY audioTracksChanged)
     Q_PROPERTY(QStringList subtitles    READ subtitles                        NOTIFY subtitlesChanged)
     
@@ -57,7 +56,6 @@ public:
     inline State state() { return m_state; }
     inline qint64 duration() { return m_duration; }
     inline qint64 time() { return m_time; }
-    inline double speed() { return m_speed; }
     inline bool subVisible() { return m_subVisible; }
     inline int volume() { return m_volume; }
     inline QStringList audioTracks() { return m_audioTracks; }
@@ -65,7 +63,6 @@ public:
 
     void setVolume(int volume);
     void setSubVisible(bool subVisible);
-    void setSpeed(double speed);
 
 public slots:
     void open(const QUrl& fileUrl, const QUrl& danmakuUrl = QUrl(), const QUrl& audioTrackUrl = QUrl());
@@ -84,7 +81,6 @@ public slots:
 signals:
     void audioTracksChanged(void);
     void stateChanged(void);
-    void speedChanged(void);
     void subtitlesChanged(void);
     void subVisibleChanged(void);
     void durationChanged(void);
@@ -108,7 +104,6 @@ private:
     int64_t m_duration;
     int64_t m_videoWidth = 0;
     int64_t m_videoHeight = 0;
-    double m_speed = 1;
     double m_reservedArea = 0;
     QUrl m_danmakuUrl;
     QUrl m_audioToBeAdded;

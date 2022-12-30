@@ -16,22 +16,32 @@
  
 import QtQuick 2.7
 import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
 import MoonPlayer 1.0
-import CustomWidgets 1.0
+import QtQuick.Controls.Material 2.3
+import QtQuick.Controls.Universal 2.3
 
-CustomWindow
+Window
 {
     id: window
     visible: true
     minimumWidth: 800
     minimumHeight: 450
-    autoHideBars: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
+    width: 1024
+    height: 600
     title: "MoonPlayer"
+
+    // Hide system titlebar when using material UI
+    property bool isMaterialUI: Utils.environmentVariable("QT_QUICK_CONTROLS_STYLE").toLowerCase() == "material"
+    flags: Qt.Window | (isMaterialUI ? Qt.FramelessWindowHint : 0)
 
     // Background color
     color: SkinColor.windowBackground
-    
+    Material.theme: SkinColor.darkMode ? Material.Dark : Material.Light
+    Material.accent: Material.Grey
+    Universal.theme: SkinColor.darkMode ? Universal.Dark : Universal.Light
+
     // Mpv
     MpvObject {
         id: mpv
@@ -58,10 +68,18 @@ CustomWindow
             window.x = (Screen.width - window.width) / 2;
             window.y = (Screen.height - window.height) / 2;
         }
-        onStateChanged: {
-            if (mpv.state === MpvObject.VIDEO_PLAYING || mpv.state === MpvObject.TV_PLAYING)
-                explorer.visible = false
-        }
+    }
+
+    // Cover area for mouse event
+    CoverArea {
+        id: coverArea
+        anchors.fill: parent
+        autoHideBars: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
+        contextMenu: contextMenu
+        controlbar: controlBar
+        sidebar: sidebar
+        titlebar: titlebar
+        window: window
     }
 
     // Console dialog
@@ -76,74 +94,41 @@ CustomWindow
     // Message dialog
     MessageDialog {
         id: messageDialog
+
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
     }
 
     // Selection dialog
     SelectionDialog {
         id: selectionDialog
 
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
+
         Connections {
             target: Dialogs
             onSelectionStarted: {
                 selectionDialog.title = title;
                 selectionDialog.items = items;
+                selectionDialog.checkboxText = checkboxText;
+                selectionDialog.checked = false;
                 selectionDialog.visible = true;
             }
         }
 
-        onAccepted: Dialogs.selectionCallback(currentIndex)
+        onAccepted: Dialogs.selectionCallback(currentIndex, checked)
     }
 
     // Text input dialog
     TextInputDialog {
         id: textInputDialog
-    }
-    
-    // Select subtitles
-    SelectionDialog {
-        id: subtitleSelectionDialog
 
-        title: qsTr("Select subtitles")
-        items: mpv.subtitles
-        onAccepted: mpv.setProperty("sid", currentIndex)
-    }
-    
-    // Add subtitles
-    FileOpenDialog {
-        id: addSubtitleDialog
-        title: qsTr("Please choose a file")
-        onAccepted: mpv.addSubtitle(addSubtitleDialog.fileUrl)
-    }
-
-    // Select audio tracks
-    SelectionDialog {
-        id: audioTrackSelectionDialog
-
-        title: qsTr("Select audio tracks")
-        items: mpv.audioTracks
-        onAccepted: mpv.setProperty("aid", currentIndex)
-    }
-    
-    // Video options
-    VideoOptionsDialog {
-        id: videoOptionsDialog
-        mpvObject: mpv
-    }
-
-    // Danmaku options
-    DanmakuOptionsDialog {
-        id: danmakuOptionsDialog
-        mpvObject: mpv
-    }
-    
-    
-    // Playlist
-    Playlist {
-        id: playlist
-        x: playlistX
-        y: playlistY
-        onOpenFileRequested: fileDialog.open()
-        onOpenUrlRequested: openUrlDialog.visible = true
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
     }
     
     // Volume
@@ -162,25 +147,14 @@ CustomWindow
             orientation: Qt.Vertical
         }
     }
-    
-    // Settings
-    Settings {
-        id: settings
-    }
-    
-    // Explorer
-    Explorer {
-        id: explorer
-    }
-    
-    // Downloader
-    Downloader {
-        id: downloader
-    }
 
     // Open url by Dialog
     OpenUrlDialog {
         id: openUrlDialog
+
+        // Center in parent
+        x: (parent.width - width) / 2;
+        y: (parent.height - height) / 2;
     
         Connections {
             target: Dialogs
@@ -199,83 +173,136 @@ CustomWindow
         onAccepted: PlaylistModel.addLocalFiles(fileDialog.fileUrls)
     }
 
+    // Shortcuts dialog
+    ShortcutsDialog {
+        id: shortcutsDialog
+    }
+
     // Open file by drag
     DropArea {
         id: dropArea
         anchors.fill: parent
-        onDropped: PlaylistModel.addLocalFiles(drop.urls)
+        onDropped: {
+            var url = drop.urls[0];
+            if (url.toString().endsWith(".srt") || url.toString().endsWith(".ass")) {
+                mpv.addSubtitle(url);
+            } else{
+                PlaylistModel.addLocalFiles(drop.urls);
+            }
+        }
     }
     
     // Menu
-    contextMenu: Menu {
-        width: 150
+    Menu {
+        id: contextMenu
+        width: 160
         padding: 5
         Action { text: qsTr("Open files"); onTriggered: fileDialog.open() }
         Action { text: qsTr("Open URL"); onTriggered: openUrlDialog.visible = true }
-        Action { text: qsTr("Explorer"); onTriggered: explorer.visible = true }
         MenuSeparator { padding: 0 }
-        Menu {
-            title: qsTr("Video")
-            width: 150
-            Action { text: qsTr("Options"); onTriggered: videoOptionsDialog.visible = true }
-            MenuSeparator { padding: 0 }
-            Action { text: qsTr("Default"); onTriggered: mpv.setProperty("video-aspect", 0) }
-            Action { text: qsTr("4:3"); onTriggered: mpv.setProperty("video-aspect", 4 / 3) }
-            Action { text: qsTr("16:9"); onTriggered: mpv.setProperty("video-aspect", 16 / 9) }
-            Action { text: qsTr("16:10"); onTriggered: mpv.setProperty("video-aspect", 16 / 10) }
-            Action { text: qsTr("1.85:1"); onTriggered: mpv.setProperty("video-aspect", 1.85) }
-            Action { text: qsTr("2.35:1"); onTriggered: mpv.setProperty("video-aspect", 2.35) }
-            delegate: MenuItem { height: 25 }
-        }
-        Menu {
-            title: qsTr("Audio")
-            width: 150
-            Action { text: qsTr("Select"); onTriggered: audioTrackSelectionDialog.visible = true }
-            delegate: MenuItem { height: 25 }
-        }
-        Menu {
-            title: qsTr("Subtitle")
-            width: 150
-            Action { text: qsTr("Visible"); onTriggered: mpv.subVisible = !mpv.subVisible }
-            Action { text: qsTr("Add"); onTriggered: addSubtitleDialog.open() }
-            Action { text: qsTr("Select"); onTriggered: subtitleSelectionDialog.visible = true }
-            delegate: MenuItem { height: 25 }
-        }
-        Menu {
-            title: qsTr("Speed")
-            width: 150
-            Action { text: qsTr("Up"); onTriggered: if (mpv.speed < 2) mpv.speed += 0.25 }
-            Action { text: qsTr("Down"); onTriggered: if (mpv.speed > 0.5) mpv.speed -= 0.25 }
-            Action { text: qsTr("Reset"); onTriggered: mpv.speed = 1 }
-            delegate: MenuItem { height: 25 }
-        }
-        Action { text: qsTr("Danmaku"); onTriggered: danmakuOptionsDialog.visible = true }
         Action { text: qsTr("Screenshot"); onTriggered: mpv.screenshot() }
         MenuSeparator { padding: 0 }
-        Action { text: qsTr("Downloader"); onTriggered: downloader.visible = true }
-        Action { text: qsTr("Settings"); onTriggered: settings.visible = true }
+        Action { text: qsTr("Explorer"); onTriggered: sidebar.openExplorer() }
+        Action { text: qsTr("Downloader"); onTriggered: sidebar.openDownloader() }
+        MenuSeparator { padding: 0 }
+        Action { text: qsTr("Video options"); onTriggered: sidebar.openVideoOptions() }
+        Action { text: qsTr("Subtitle and danmaku"); onTriggered: sidebar.openSubtitles() }
+        Action { text: qsTr("Settings"); onTriggered: sidebar.openSettings() }
+        MenuSeparator { padding: 0 }
         Action { text: qsTr("Update plugins"); onTriggered: Utils.updateParser() }
+        Action { text: qsTr("Shortcuts"); onTriggered: shortcutsDialog.visible = true }
         Action { text: qsTr("Browser Ext."); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html#browser_extension") }
         Action { text: qsTr("Homepage"); onTriggered: Qt.openUrlExternally("https://coslyk.github.io/moonplayer.html") }
         
         delegate: MenuItem { height: 25 }
     }
-    
-    // Toolbar
-    toolbar: ToolBar {
-        isPlaying: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
-        time: mpv.time
-        duration: mpv.duration
-        onPlayPauseButtonClicked: mpv.state == MpvObject.VIDEO_PLAYING ? mpv.pause() : mpv.play()
-        onStopButtonClicked: mpv.stop()
-        onSettingsButtonClicked: settings.visible = true
-        onPlaylistButtonClicked: playlist.visible = true
-        onExplorerButtonClicked: explorer.visible = true
-        onSeekRequested: mpv.seek(time);
-        onVolumeButtonClicked: {
-            volumePopup.x = mpv.mapFromItem(volumeButton, 0, 0).x;
-            volumePopup.y = mpv.mapFromItem(volumeButton, 0, 0).y - volumePopup.height;
-            volumePopup.visible = true;
+
+    // Titlebar, Controlbar and sidebar
+    GridLayout {
+        id: mainLayout
+        anchors.fill: parent
+        rows: 2
+        columns: 2
+        rowSpacing: 0
+        columnSpacing: 0
+
+        // Titlebar
+        Rectangle {
+            id: titlebar
+            color: SkinColor.titlebar
+            Layout.fillWidth: true
+            Layout.minimumHeight: 28
+            Layout.columnSpan: 2
+            z: 100
+            Button {
+                id: closeButton
+                width: 14
+                height: 14
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 8
+                background: Rectangle { color: SkinColor.closeButton; radius: 7; anchors.fill: parent }
+                onClicked: window.close()
+            }
+            Button {
+                id: maxButton
+                width: 14
+                height: 14
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: closeButton.left
+                anchors.rightMargin: 6
+                background: Rectangle { color: SkinColor.maxButton; radius: 7; anchors.fill: parent }
+                onClicked: window.visibility == Window.Maximized ? window.showNormal() : window.showMaximized()
+            }
+            Button {
+                id: minButton
+                width: 14
+                height: 14
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: maxButton.left
+                anchors.rightMargin: 6
+                background: Rectangle { color: SkinColor.minButton; radius: 7; anchors.fill: parent }
+                onClicked: window.showMinimized()
+            }
+        }
+
+        // Empty item as placeholder
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        // Sidebar
+        Sidebar {
+            id: sidebar
+            Layout.fillHeight: true
+            z: 100
+            visible: false
+            mpv: mpv
+            onOpenFileRequested: fileDialog.open()
+            onOpenUrlRequested: openUrlDialog.visible = true
+        }
+
+        // Controlbar
+        ControlBar {
+            id: controlBar
+            Layout.columnSpan: 2
+            Layout.fillWidth: true
+            z: 100
+            isPlaying: mpv.state == MpvObject.VIDEO_PLAYING || mpv.state == MpvObject.TV_PLAYING
+            time: mpv.time
+            duration: mpv.duration
+            onPlayPauseButtonClicked: mpv.state == MpvObject.VIDEO_PLAYING ? mpv.pause() : mpv.play()
+            onStopButtonClicked: mpv.stop()
+            onSettingsButtonClicked: sidebar.openSettings()
+            onSidebarButtonClicked: sidebar.openPlaylist()
+            onExplorerButtonClicked: sidebar.openExplorer()
+            onSeekRequested: mpv.seek(time);
+            onVolumeButtonClicked: {
+                volumePopup.x = mpv.mapFromItem(volumeButton, 0, 0).x;
+                volumePopup.y = mpv.mapFromItem(volumeButton, 0, 0).y - volumePopup.height;
+                volumePopup.visible = true;
+            }
         }
     }
     
@@ -322,7 +349,7 @@ CustomWindow
 
     Shortcut {
         sequence: "D"
-        onActivated: danmakuOptionsDialog.visible = true
+        onActivated: sidebar.openSubtitles()
     }
 
     Shortcut {
@@ -332,12 +359,7 @@ CustomWindow
     
     Shortcut {
         sequence: "L"
-        onActivated: playlist.visible = true
-    }
-
-    Shortcut {
-        sequence: "R"
-        onActivated: mpv.speed = 1
+        onActivated: sidebar.openPlaylist()
     }
 
     Shortcut {
@@ -346,18 +368,13 @@ CustomWindow
     }
 
     Shortcut {
+        sequence: "V"
+        onActivated: sidebar.openVideoOptions()
+    }
+
+    Shortcut {
         sequence: "W"
-        onActivated: explorer.visible = true
-    }
-
-    Shortcut {
-        sequence: "Ctrl+Left"
-        onActivated: if (mpv.speed > 0.5) mpv.speed -= 0.25;
-    }
-
-    Shortcut {
-        sequence: "Ctrl+Right"
-        onActivated: if (mpv.speed < 2) mpv.speed += 0.25;
+        onActivated: sidebar.openExplorer()
     }
     
     Shortcut {
@@ -367,8 +384,14 @@ CustomWindow
     
     Shortcut {
         sequence: "Ctrl+,"
-        onActivated: settings.visible = true
+        onActivated: sidebar.openSettings()
     }
 
-    Component.onCompleted: Utils.checkUpdate()
+    // Hide custom titlebar when not using Material UI
+    Component.onCompleted: {
+        if (!isMaterialUI)
+        {
+            titlebar.visible = false;
+        }
+    }
 }

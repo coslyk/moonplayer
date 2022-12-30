@@ -1,6 +1,6 @@
 
 # Include Qt Gui private headers
-if (USE_QT6)
+if (Qt6_FOUND)
     include_directories(${Qt6Gui_PRIVATE_INCLUDE_DIRS})
 else()
     include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
@@ -29,11 +29,12 @@ set(SOURCE_FILES
     main.cpp
     mpvObject.cpp
     parserBase.cpp
-    parserYkdl.cpp
-    parserYoutubedl.cpp
+    parserLux.cpp
+    parserYtdlp.cpp
     playlistModel.cpp
     plugin.cpp
     utils.cpp
+    websiteSettings.cpp
 )
 
 # Add platform specific source files
@@ -56,10 +57,9 @@ endif()
 
 
 # Create translations
-if (USE_QT6)
+if (Qt6_FOUND)
     qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
     configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
-    qt6_add_resources(QML_FILES qmls.qrc)
 else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
     configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
@@ -81,17 +81,78 @@ if (APPLE)
 endif()
 
 # Link libraries
-if (USE_QT6)
+if (Qt6_FOUND)
     # Create excutable
     add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
         ${SOURCE_FILES}
         ${QM_FILES}
-        ${QML_FILES}
-        resources.qrc
+        resources_qt6.qrc
         ${CMAKE_BINARY_DIR}/src/l10n.qrc
         ${META_FILES_TO_INCLUDE})
 
-    target_link_libraries(${PROJECT_NAME}
+    # Enable Automoc and Autorcc for Qt
+    set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
+
+    # Add qml files and resources
+    qt6_add_qml_module(${PROJECT_NAME}
+        URI moonplayer_qml
+        VERSION 1.0
+        NO_GENERATE_QMLDIR
+        NO_GENERATE_QMLTYPES
+        QML_FILES
+            qml/main.qml
+            qml/ConsoleDialog.qml
+            qml/ControlBar.qml
+            qml/CoverArea.qml
+            qml/Downloader.qml
+            qml/Explorer.qml
+            qml/FileOpenDialog.qml
+            qml/FontDialog.qml
+            qml/ImageButton.qml
+            qml/MessageDialog.qml
+            qml/OpenUrlDialog.qml
+            qml/Playlist.qml
+            qml/SelectionDialog.qml
+            qml/Settings.qml
+            qml/ShortcutsDialog.qml
+            qml/Sidebar.qml
+            qml/SkinColor.qml
+            qml/SubtitlesAndDanmaku.qml
+            qml/TextInputDialog.qml
+            qml/VideoOptions.qml
+        RESOURCES
+            images/net_grey.png
+            images/net_grey_on.png
+            images/net_lightgrey.png
+            images/net_lightgrey_on.png
+            images/pause_grey.png
+            images/pause_grey_on.png
+            images/pause_lightgrey.png
+            images/pause_lightgrey_on.png
+            images/play_grey.png
+            images/play_grey_on.png
+            images/play_lightgrey.png
+            images/play_lightgrey_on.png
+            images/playlist_grey.png
+            images/playlist_grey_on.png
+            images/playlist_lightgrey.png
+            images/playlist_lightgrey_on.png
+            images/settings_grey.png
+            images/settings_grey_on.png
+            images/settings_lightgrey.png
+            images/settings_lightgrey_on.png
+            images/stop_grey.png
+            images/stop_grey_on.png
+            images/stop_lightgrey.png
+            images/stop_lightgrey_on.png
+            images/volume_grey.png
+            images/volume_grey_on.png
+            images/volume_lightgrey.png
+            images/volume_lightgrey_on.png
+    )
+
+    # Link
+    target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt6::Qml
         Qt6::Quick
         Qt6::Gui
@@ -109,6 +170,10 @@ else()
         ${CMAKE_BINARY_DIR}/src/l10n.qrc
         ${META_FILES_TO_INCLUDE})
 
+    # Enable Automoc and Autorcc for Qt
+    set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
+
+    # Link
     target_link_libraries(${PROJECT_NAME}
         Qt5::Qml
         Qt5::Quick
@@ -119,9 +184,6 @@ else()
 endif()
 
 fix_win_compiler()
-
-# Enable Automoc and Autorcc for Qt
-set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
 
 # Enable all compilation warnings
 if(MSVC)

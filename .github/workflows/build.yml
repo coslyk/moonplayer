@@ -1,0 +1,163 @@
+name: Build
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  win-build:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Cache Qt
+        uses: actions/cache@v2
+        with:
+          path: C:/Qt/6.2.4
+          key: qt624_win
+
+      - name: Enable MSVC commands
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install Qt
+        shell: bash
+        run: ./scripts/win-install-qt.sh
+
+      - name: Install MPV
+        shell: cmd
+        run: scripts\win-install-mpv.bat
+
+      - name: Build
+        run: |-
+          cmake -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/6.2.4/msvc2019_64 -DUSE_QT6=ON .
+          cmake --build . --config Release
+
+      - name: Deploy
+        shell: bash
+        run: ./scripts/deploy-windows.sh
+
+      - name: Upload packages
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPLOADTOOL_ISPRERELEASE: true
+        run: |
+          set -e
+          curl -Lo upload.sh https://github.com/probonopd/uploadtool/raw/master/upload.sh
+          bash upload.sh MoonPlayer_*.exe
+
+  win-build-qt5:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Cache Qt
+        uses: actions/cache@v2
+        with:
+          path: C:/Qt/5.15.2
+          key: qt515_win
+
+      - name: Enable MSVC commands
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install Qt
+        shell: bash
+        run: ./scripts/win-install-qt5.sh
+
+      - name: Install MPV
+        shell: cmd
+        run: scripts\win-install-mpv.bat
+
+      - name: Build
+        run: |-
+          cmake -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/5.15.2/msvc2019_64 .
+          cmake --build . --config Release
+
+      - name: Deploy
+        shell: bash
+        run: |-
+          ./scripts/deploy-windows.sh
+          mv ./MoonPlayer_win_x64.exe ./MoonPlayer_win_x64_qt5.exe
+
+      - name: Upload packages
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPLOADTOOL_ISPRERELEASE: true
+        run: |
+          set -e
+          curl -Lo upload.sh https://github.com/probonopd/uploadtool/raw/master/upload.sh
+          bash upload.sh MoonPlayer_*.exe
+
+  linux-build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Install dependencies
+        run: |-
+          sudo add-apt-repository -y ppa:cos-lyk/qt-lite
+          sudo add-apt-repository -y ppa:cos-lyk/libmpv
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libmpv-dev qt621declarative qt621tools libcurl4-openssl-dev libssl-dev
+
+      - name: Build
+        run: |-
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/opt/qt621 -DCMAKE_INSTALL_PREFIX=/usr -DUSE_QT6=ON .
+          make
+
+      - name: Deploy
+        run: bash ./scripts/deploy-linux.sh
+
+      - name: Upload packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPLOADTOOL_ISPRERELEASE: true
+        run: |
+          set -e
+          curl -Lo upload.sh https://github.com/probonopd/uploadtool/raw/master/upload.sh
+          bash upload.sh MoonPlayer-*.AppImage
+
+  macos-build:
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Install dependencies
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: 1
+          HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
+        run: |-
+          brew tap coslyk/mpv
+          brew update
+          brew install openssl mpv-moonplayer freetype double-conversion icu4c jasper jpeg libb2 libtiff pcre2
+
+      - name: Install Qt
+        run: |-
+          curl -Lo qt6.zip https://github.com/coslyk/qtlite-build/releases/download/continuous/qt6.zip
+          unzip -o qt6.zip -d $HOME
+
+      - name: Build packages
+        run: |-
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$HOME/qt6 .
+          make
+
+      - name: Deploy
+        run: bash ./scripts/deploy-macos.sh
+
+      - name: Upload packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPLOADTOOL_ISPRERELEASE: true
+        run: |
+          set -e
+          curl -Lo upload.sh https://github.com/probonopd/uploadtool/raw/master/upload.sh
+          bash upload.sh MoonPlayer_*.zip

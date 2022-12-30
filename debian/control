@@ -1,0 +1,16 @@
+Source: moonplayer
+Section: sound
+Priority: extra
+Maintainer: YK Liu <cos.lyk@gmail.com>
+Build-Depends: debhelper (>= 8.0.0),
+ cmake, qtbase5-dev, qtbase5-private-dev, qtdeclarative5-dev, qttools5-dev, libqt5x11extras5-dev, libmpv-dev, libcurl4-openssl-dev, libssl-dev
+Standards-Version: 3.9.2
+Homepage: https://github.com/coslyk/moonplayer
+#Vcs-Git: git://git.debian.org/collab-maint/moonplayer.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/moonplayer.git;a=summary
+
+Package: moonplayer
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ffmpeg, qml-module-qtquick2, qml-module-qtquick-controls2, qml-module-qtquick-layouts, qml-module-qtquick-window2, qml-module-qt-labs-folderlistmodel, qml-module-qt-labs-settings, wget
+Description: Video player
+ Video player for playing and downloading online videos from youtube, bilibili etc.

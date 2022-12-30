@@ -22,6 +22,7 @@
 #include <QFile>
 #include <QJSEngine>
 #include <QLocale>
+#include <stdexcept>
 
 // Load all plugins
 QObjectList Plugin::loadPlugins()

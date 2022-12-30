@@ -61,8 +61,10 @@ public:
                 [](void *, const char *name) -> void* {
                     QOpenGLContext *glctx = QOpenGLContext::currentContext();
                     return glctx ? reinterpret_cast<void *>(glctx->getProcAddress(QByteArray(name))) : nullptr;
-                },
-                nullptr, nullptr
+                }
+#if MPV_CLIENT_API_VERSION < MPV_MAKE_VERSION(2, 0)
+                , nullptr, nullptr
+#endif
             };
 
             mpv_render_param params[] {
@@ -160,44 +162,42 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
         m_mpv.set_option("demuxer-max-back-bytes", backwardBytes);
     }
     
-    // Configure hardware decoding
-    bool hwdecCopy = settings.value(QStringLiteral("video/hwdec_copy_mode"), false).toBool();
-    
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     Hwdec hwdec = (Hwdec) settings.value(QStringLiteral("video/hwdec"), 0).toInt();
     switch (hwdec)
     {
         case AUTO:
             m_mpv.set_option("gpu-hwdec-interop", "auto");
-            m_mpv.set_option("hwdec", hwdecCopy ? "auto-copy" : "auto");
+            m_mpv.set_option("hwdec", "auto");
             break;
         case VAAPI:
             m_mpv.set_option("gpu-hwdec-interop", "vaapi-egl");
-            m_mpv.set_option("hwdec", hwdecCopy ? "vaapi-copy" : "vaapi");
+            m_mpv.set_option("hwdec", "vaapi");
             break;
         case VDPAU:
             m_mpv.set_option("gpu-hwdec-interop", "vdpau-glx");
-            m_mpv.set_option("hwdec", hwdecCopy ? "vdpau-copy" : "vdpau");
+            m_mpv.set_option("hwdec", "vdpau");
             break;
         case NVDEC:
-            m_mpv.set_option("hwdec", hwdecCopy ? "nvdec-copy" : "nvdec");
+            m_mpv.set_option("hwdec", "nvdec");
             break;
         default: break;
     }
 
 #elif defined(Q_OS_MAC)
     m_mpv.set_option("gpu-hwdec-interop", "videotoolbox");
-    m_mpv.set_option("hwdec", hwdecCopy ? "videotoolbox-copy" : "videotoolbox");
+    m_mpv.set_option("hwdec", "videotoolbox");
     
 #elif defined(Q_OS_WIN)
-    if (QSysInfo::productVersion() == QStringLiteral("8.1") || QSysInfo::productVersion() == QStringLiteral("10"))
+    if (QSysInfo::productVersion() == QStringLiteral("8.1") || QSysInfo::productVersion() == QStringLiteral("10") ||
+        QSysInfo::productVersion() == QStringLiteral("11"))
     {
-        m_mpv.set_option("hwdec", hwdecCopy ? "d3d11va-copy" : "d3d11va");
+        m_mpv.set_option("hwdec", "d3d11va");
         m_mpv.set_option("gpu-context", "d3d11");
     }
     else
     {
-        m_mpv.set_option("hwdec", hwdecCopy ? "dxva2-copy" : "dxva2");
+        m_mpv.set_option("hwdec", "dxva2");
         m_mpv.set_option("gpu-context", "dxinterop");
     }
 #endif
@@ -316,17 +316,6 @@ void MpvObject::setSubVisible(bool subVisible)
     emit subVisibleChanged();
 }
 
-// Set speed
-void MpvObject::setSpeed(double speed)
-{
-    if (m_speed - speed < 0.1 && speed - m_speed < 0.1)
-        return;
-    m_speed = speed;
-    m_mpv.set_property_async("speed", m_speed);
-    showText(QByteArrayLiteral("Speed: ") + QByteArray::number(m_speed));
-    emit speedChanged();
-}
-
 
 // Add audio track
 void MpvObject::addAudioTrack(const QUrl& url)
@@ -434,10 +423,8 @@ void MpvObject::onMpvEvent()
             m_videoWidth = m_videoHeight = 0;    // Set videoSize invalid
             m_time = 0;
             m_subVisible = true;
-            m_speed = 1;
             emit timeChanged();
             emit subVisibleChanged();
-            emit speedChanged();
             break;
 
         case MPV_EVENT_FILE_LOADED:

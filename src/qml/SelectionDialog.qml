@@ -17,26 +17,29 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import CustomWidgets 1.0
 import MoonPlayer 1.0
 
-CustomDialog {
+Dialog {
     id: selectionDialog
     
     property var items: []
     property alias currentIndex: listView.currentIndex
+    property alias checked: checkbox.checked
+    property alias checkboxText: checkbox.text
     
     width: 400
-    height: 300
+    height: 400
     title: qsTr("Selection")
+    standardButtons: Dialog.Ok | Dialog.Cancel
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: suggestedMargins
-        
+        anchors.margins: 0
+        spacing: 0
         ScrollView {
-            Layout.fillHeight: true
             Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.margins: 0
             clip: true
     
             ListView {
@@ -69,13 +72,11 @@ CustomDialog {
                 }
             }
         }
-
-        DialogButtonBox {
-            standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+        CheckBox {
+            id: checkbox
+            visible: text !== "" && text !== null
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-            onAccepted: selectionDialog.accept()
-            onRejected: selectionDialog.reject()
+            Layout.margins: 0
         }
     }
 }

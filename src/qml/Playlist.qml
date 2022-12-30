@@ -19,14 +19,11 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.3
 import MoonPlayer 1.0
 
-Popup {
-    id: playlistPopup
+Item {
+    id: playlist
 
     signal openFileRequested()
     signal openUrlRequested()
-
-    width: 180
-    height: 300
     
     GridLayout {
         anchors.fill: parent
@@ -67,7 +64,7 @@ Popup {
         Button {
             id: addButton
             text: qsTr("Add")
-            implicitWidth: 50
+            implicitWidth: 55
             onClicked: {
                 addMenu.x = addButton.x
                 addMenu.y = addButton.y - addMenu.height
@@ -78,14 +75,14 @@ Popup {
         Button {
             id: delButton
             text: qsTr("Del")
-            implicitWidth: 50
+            implicitWidth: 55
             onClicked: PlaylistModel.removeItem(listView.currentIndex)
         }
         
         Button {
             id: clearButton
             text: qsTr("Clear")
-            implicitWidth: 50
+            implicitWidth: 55
             onClicked: PlaylistModel.clear()
         }
     }

@@ -24,27 +24,6 @@
 #include "accessManager.h"
 #include "dialogs.h"
 
-void Utils::checkUpdate()
-{
-    QUrl url(QStringLiteral("https://raw.githubusercontent.com/coslyk/moonplayer/develop/CMakeLists.txt"));
-    QNetworkReply* reply = NetworkAccessManager::instance()->get(QNetworkRequest(url));
-    QObject::connect(reply, &QNetworkReply::finished, [=]() {
-        static QRegularExpression re(QStringLiteral("project\\(moonplayer VERSION (\\d+\\.\\d+)\\)"));
-        if (reply->error() == QNetworkReply::NoError)
-        {
-            QString data = QString::fromLatin1(reply->readAll());
-            QString latestVersion = re.match(data).captured(1);
-            if (latestVersion != QStringLiteral(MOONPLAYER_VERSION))
-            {
-                Q_ASSERT(Dialogs::instance() != nullptr);
-                Dialogs::instance()->messageDialog(tr("Update"), tr("New version of MoonPlayer is available."));
-            }
-        }
-        reply->deleteLater();
-    });
-}
-
-
 
 void Utils::updateParser()
 {

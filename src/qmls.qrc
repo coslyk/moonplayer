@@ -1,29 +1,24 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/moonplayer_qml">
         <file>qml/main.qml</file>
         <file>qml/SkinColor.qml</file>
         <file>qml/ConsoleDialog.qml</file>
-        <file>qml/DanmakuOptionsDialog.qml</file>
+        <file>qml/ControlBar.qml</file>
+        <file>qml/CoverArea.qml</file>
         <file>qml/Downloader.qml</file>
         <file>qml/Explorer.qml</file>
         <file>qml/FileOpenDialog.qml</file>
         <file>qml/FontDialog.qml</file>
+        <file>qml/ImageButton.qml</file>
         <file>qml/MessageDialog.qml</file>
         <file>qml/OpenUrlDialog.qml</file>
         <file>qml/Playlist.qml</file>
         <file>qml/SelectionDialog.qml</file>
         <file>qml/Settings.qml</file>
+        <file>qml/ShortcutsDialog.qml</file>
+        <file>qml/Sidebar.qml</file>
+        <file>qml/SubtitlesAndDanmaku.qml</file>
         <file>qml/TextInputDialog.qml</file>
-        <file>qml/VideoOptionsDialog.qml</file>
-        <file>qml/classicUI/CustomWidgets/CustomDialog.qml</file>
-        <file>qml/classicUI/CustomWidgets/CustomImageButton.qml</file>
-        <file>qml/classicUI/CustomWidgets/CustomTabDialog.qml</file>
-        <file>qml/classicUI/CustomWidgets/CustomWindow.qml</file>
-        <file>qml/classicUI/CustomWidgets/ToolBar.qml</file>
-        <file>qml/modernUI/CustomWidgets/CustomDialog.qml</file>
-        <file>qml/modernUI/CustomWidgets/CustomImageButton.qml</file>
-        <file>qml/modernUI/CustomWidgets/CustomTabDialog.qml</file>
-        <file>qml/modernUI/CustomWidgets/CustomWindow.qml</file>
-        <file>qml/modernUI/CustomWidgets/ToolBar.qml</file>
+        <file>qml/VideoOptions.qml</file>
     </qresource>
 </RCC>
