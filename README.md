@@ -1,4 +1,6 @@
 # MoonPlayer
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fcoslyk%2Fmoonplayer.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fcoslyk%2Fmoonplayer?ref=badge_shield)
+
 
 MoonPlayer is an interesting player that lets you to enjoy videos. It can play the video online, download it or just open the local videos.
 
