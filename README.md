@@ -51,10 +51,9 @@ On ArchLinux:
     - ffmpeg
     - mpv
     - python
-    - qt5-base
-    - qt5-declarative
-    - qt5-quickcontrols2
-    - qt5-tools
+    - qt6-base
+    - qt6-declarative
+    - qt6-tools
     - wget / curl
 ```
 
@@ -64,22 +63,25 @@ On Debian:
 For building:
     - build-essential
     - cmake
-    - qtbase5-dev
-    - qtbase5-private-dev
-    - qtdeclarative5-dev
-    - qttools5-dev
+    - cmake
+    - qt6-base-dev
+    - qt6-base-private-dev
+    - qt6-declarative-dev
+    - qt6-declarative-private-dev
+    - qt6-tools-dev
     - libmpv-dev
+    - libcurl4-openssl-dev
+    - libssl-dev
 For running:
     - ffmpeg
-    - libmpv1
-    - libqt5network5
-    - python
-    - qml-module-qtquick2
-    - qml-module-qtquick-controls2
-    - qml-module-qtquick-layouts
-    - qml-module-qtquick-window2
-    - qml-module-qt-labs-folderlistmodel
-    - qml-module-qt-labs-settings
+    - qml6-module-qt-labs-folderlistmodel
+    - qml6-module-qt-labs-settings
+    - qml6-module-qtqml-workerscript
+    - qml6-module-qtquick
+    - qml6-module-qtquick-controls
+    - qml6-module-qtquick-layouts
+    - qml6-module-qtquick-templates
+    - qml6-module-qtquick-window
     - wget / curl
 ```
 

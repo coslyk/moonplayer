@@ -51,9 +51,7 @@ int main(int argc, char *argv[])
     }
 
     // Force to use OpenGL in Qt6
-#if QT_VERSION_MAJOR >= 6
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);
-#endif
 
     // Set application attributes
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -117,7 +115,6 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     // Set UI style
-#if QT_VERSION_MAJOR >= 6
     switch (QSettings().value(QStringLiteral("player/theme"), 1).toInt())
     {
         case 0:  // Classic
@@ -132,23 +129,6 @@ int main(int argc, char *argv[])
         qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("Universal"));
         break;
     }
-#else
-    switch (QSettings().value(QStringLiteral("player/theme"), 1).toInt())
-    {
-        case 0:  // Classic
-        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("fusion"));
-        break;
-
-        case 1:  // Material
-        qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", QByteArrayLiteral("Dense"));
-        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("material"));
-        break;
-
-        case 2:  // Win10
-        qputenv("QT_QUICK_CONTROLS_STYLE", QByteArrayLiteral("universal"));
-        break;
-    }
-#endif
 
     QQmlContext* context = engine.rootContext();
     Downloader* downloader = Downloader::instance();

@@ -20,22 +20,17 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QMetaType>
 #include <QOpenGLContext>
+#include <QQuickOpenGLUtils>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QMetaType>
+#include <QtOpenGL/QOpenGLFramebufferObject>
 
 #include "accessManager.h"
 #include "danmakuLoader.h"
 #include "playlistModel.h"
 #include "platform/graphics.h"
-
-#if QT_VERSION_MAJOR >= 6
-#include <QtOpenGL/QOpenGLFramebufferObject>
-#include <QQuickOpenGLUtils>
-#else
-#include <QtGui/QOpenGLFramebufferObject>
-#endif
 
 
 /* MPV Renderer */
@@ -91,12 +86,7 @@ public:
         Q_ASSERT(m_obj != nullptr);
         Q_ASSERT(m_obj->window() != nullptr);
 
-#if QT_VERSION_MAJOR >= 6
         QQuickOpenGLUtils::resetOpenGLState();
-#else
-        m_obj->window()->resetOpenGLState();
-#endif
-
         QOpenGLFramebufferObject *fbo = framebufferObject();
         Q_ASSERT(fbo != nullptr);
 
@@ -114,12 +104,7 @@ public:
             {MPV_RENDER_PARAM_INVALID, nullptr}
         };
         m_obj->m_mpv.render(params);
-
-#if QT_VERSION_MAJOR >= 6
         QQuickOpenGLUtils::resetOpenGLState();
-#else
-        m_obj->window()->resetOpenGLState();
-#endif
     }
 };
 
@@ -694,12 +679,7 @@ QQuickFramebufferObject::Renderer *MpvObject::createRenderer() const
 {
     QQuickWindow *win = window();
     Q_ASSERT(win != nullptr);
-
-#if QT_VERSION_MAJOR >= 6
     win->setPersistentGraphics(true);
-#else
-    win->setPersistentOpenGLContext(true);
-#endif
     win->setPersistentSceneGraph(true);
     return new MpvRenderer(const_cast<MpvObject*>(this));
 }

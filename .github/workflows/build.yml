@@ -48,51 +48,6 @@ jobs:
           curl -Lo upload.sh https://github.com/probonopd/uploadtool/raw/master/upload.sh
           bash upload.sh MoonPlayer_*.exe
 
-  win-build-qt5:
-    runs-on: windows-2019
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-
-      - name: Cache Qt
-        uses: actions/cache@v2
-        with:
-          path: C:/Qt/5.15.2
-          key: qt515_win
-
-      - name: Enable MSVC commands
-        uses: ilammy/msvc-dev-cmd@v1
-
-      - name: Install Qt
-        shell: bash
-        run: ./scripts/win-install-qt5.sh
-
-      - name: Install MPV
-        shell: cmd
-        run: scripts\win-install-mpv.bat
-
-      - name: Build
-        run: |-
-          cmake -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/5.15.2/msvc2019_64 .
-          cmake --build . --config Release
-
-      - name: Deploy
-        shell: bash
-        run: |-
-          ./scripts/deploy-windows.sh
-          mv ./MoonPlayer_win_x64.exe ./MoonPlayer_win_x64_qt5.exe
-
-      - name: Upload packages
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          UPLOADTOOL_ISPRERELEASE: true
-        run: |
-          set -e
-          curl -Lo upload.sh https://github.com/probonopd/uploadtool/raw/master/upload.sh
-          bash upload.sh MoonPlayer_*.exe
-
   linux-build:
     runs-on: ubuntu-18.04
     steps:

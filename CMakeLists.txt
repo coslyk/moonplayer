@@ -19,11 +19,6 @@ set(COPYRIGHT "Copyright (c) 2019 coslyk. All rights reserved.")
 set(IDENTIFIER "io.github.coslyk")
 
 
-# Options
-option(COMPILE_QML "Compile QML to machine code" ON)
-option(USE_QT6 "Use Qt6" OFF)
-
-
 # Set C/C++ standard
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 14)
@@ -43,16 +38,8 @@ add_definitions(-DQT_NO_CAST_FROM_ASCII)
 # Set PROJECT_VERSION_PATCH and PROJECT_VERSION_TWEAK to 0 if not present, needed by add_project_meta
 fix_project_version()
 
-find_package(Qt6 COMPONENTS Gui Qml Quick OpenGL Network LinguistTools)
-if (Qt6_FOUND)
-    find_package(Qt6Gui REQUIRED)
-else()
-    find_package(Qt5 REQUIRED COMPONENTS Gui Qml Quick Network LinguistTools)
-    find_package(Qt5Gui REQUIRED)
-    if (COMPILE_QML)
-        find_package(Qt5QuickCompiler REQUIRED)
-    endif()
-endif()
+find_package(Qt6 REQUIRED COMPONENTS Gui Qml Quick OpenGL Network LinguistTools)
+find_package(Qt6Gui REQUIRED)
 find_package(MPV REQUIRED)
 
 add_subdirectory(3rdparty)
