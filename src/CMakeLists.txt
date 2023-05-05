@@ -53,8 +53,11 @@ endif()
 
 
 # Create translations
+set(TS_FILES
+    l10n/zh_CN.ts
+)
+set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/l10n)
 qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
-configure_file(l10n/l10n.qrc ${CMAKE_BINARY_DIR}/src COPYONLY)
 
 # Add MacOS bundle files
 add_project_meta(META_FILES_TO_INCLUDE)
@@ -70,7 +73,7 @@ add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
     ${SOURCE_FILES}
     ${QM_FILES}
     resources_qt6.qrc
-    ${CMAKE_BINARY_DIR}/src/l10n.qrc
+    l10n/l10n.qrc
     ${META_FILES_TO_INCLUDE})
 
 # Enable Automoc and Autorcc for Qt
