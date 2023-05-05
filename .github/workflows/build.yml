@@ -12,18 +12,13 @@ jobs:
         with:
           submodules: true
 
-      - name: Cache Qt
-        uses: actions/cache@v2
-        with:
-          path: C:/Qt/6.2.4
-          key: qt624_win
-
       - name: Enable MSVC commands
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Install Qt
-        shell: bash
-        run: ./scripts/win-install-qt.sh
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.2.*'
 
       - name: Install MPV
         shell: cmd
@@ -31,7 +26,7 @@ jobs:
 
       - name: Build
         run: |-
-          cmake -A x64 -DCMAKE_PREFIX_PATH=C:/Qt/6.2.4/msvc2019_64 -DUSE_QT6=ON .
+          cmake -A x64 .
           cmake --build . --config Release
 
       - name: Deploy
