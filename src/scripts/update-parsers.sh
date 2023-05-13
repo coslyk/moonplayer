@@ -34,13 +34,13 @@ elif [ "$OS_NAME" = 'Linux' ]; then      ### Linux
     DEST_DIR="$XDG_DATA_HOME/moonplayer"
     case "$CPU_ARCH" in
         i?86)
-            LUX_SUFFIX="Linux_32-bit.tar.gz" ;;
+            LUX_SUFFIX="Linux_i386.tar.gz" ;;
         x86_64)
-            LUX_SUFFIX="Linux_64-bit.tar.gz" ;;
+            LUX_SUFFIX="Linux_x86_64.tar.gz" ;;
         aarch64|aarch64|armv8|armv8?)
-            LUX_SUFFIX="Linux_ARM64.tar.gz" ;;
+            LUX_SUFFIX="Linux_arm64.tar.gz" ;;
         *)
-            LUX_SUFFIX="Linux_ARM_v6.tar.gz" ;;
+            LUX_SUFFIX="Linux_armv6.tar.gz" ;;
     esac
 else
     echo "Unsupported system!"
@@ -61,11 +61,7 @@ fi
 
 
 # Set download source
-if [ `date +"%z"` = "+0800" ]; then   # Mirror for China
-    GITHUB_MIRROR="https://download.fastgit.org"
-else
-    GITHUB_MIRROR="https://github.com"
-fi
+GITHUB_MIRROR="https://github.com"
 
 
 # Set python
