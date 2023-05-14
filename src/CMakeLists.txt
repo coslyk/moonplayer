@@ -76,10 +76,14 @@ add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
     l10n/l10n.qrc
     ${META_FILES_TO_INCLUDE})
 
+# Enable Automoc and Autorcc for Qt
+set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
+
 # Add qml files and resources
 qt6_add_qml_module(${PROJECT_NAME}
     URI moonplayer_qml
     VERSION 1.0
+    NO_GENERATE_QMLTYPES
     QML_FILES
         qml/main.qml
         qml/ConsoleDialog.qml

@@ -42,8 +42,5 @@ find_package(Qt6 REQUIRED COMPONENTS Gui Qml Quick OpenGL Network LinguistTools)
 find_package(Qt6Gui REQUIRED)
 find_package(MPV REQUIRED)
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
 add_subdirectory(3rdparty)
 add_subdirectory(src)
