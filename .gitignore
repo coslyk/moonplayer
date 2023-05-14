@@ -6,6 +6,9 @@ build/
 # QtCreator
 *.user*
 
+# Qt compiled translation files
+*.qm
+
 # VSCode
 .vscode
 

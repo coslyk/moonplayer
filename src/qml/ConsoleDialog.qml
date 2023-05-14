@@ -65,12 +65,14 @@ Dialog {
 
     Connections {
         target: Dialogs
-        onConsoleStarted: {
+        function onConsoleStarted(title) {
             titleLabel.text = title;
             closeButton.visible = false;
             consoleDialog.open();
         }
-        onConsoleFinished: closeButton.visible = true
+        function onConsoleFinished() {
+            closeButton.visible = true;
+        }
     }
 }
 

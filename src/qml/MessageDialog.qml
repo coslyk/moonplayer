@@ -35,7 +35,7 @@ Dialog {
 
     Connections {
         target: Dialogs
-        onMessageStarted: {
+        function onMessageStarted(title, message) {
             messageDialog.title = title;
             label.text = message;
             messageDialog.open();

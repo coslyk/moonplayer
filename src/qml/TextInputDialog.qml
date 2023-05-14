@@ -33,7 +33,7 @@ Dialog {
     
     Connections {
         target: Dialogs
-        onTextInputStarted: {
+        function onTextInputStarted(title, defaultValue) {
             dialog.title = title;
             textInput.text = defaultValue;
             dialog.open()

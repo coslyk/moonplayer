@@ -39,7 +39,7 @@ MouseArea {
     hoverEnabled: true
     acceptedButtons: Qt.LeftButton | Qt.RightButton
         
-    onClicked: {
+    onClicked: (mouse) => {
         // Hide sidebar
         if (mouse.button === Qt.LeftButton && !sidebar.contains(sidebar.mapFromItem(mouseArea, mouse.x, mouse.y)))
         {
@@ -68,7 +68,7 @@ MouseArea {
     }
 
     // Mouse pressed
-    onPressed: {
+    onPressed: (mouse) => {
         if (mouse.button !== Qt.LeftButton ||
             window.visibility == Window.Maximized ||
             window.visibility == Window.FullScreen)
@@ -107,7 +107,7 @@ MouseArea {
     }
 
     // Mouse moved
-    onPositionChanged: {
+    onPositionChanged: (mouse) => {
 
         // Show titlebar and controlbar
         controlbar.visible = true;

@@ -36,7 +36,7 @@ Dialog {
     
     Connections {
         target: Dialogs
-        onOpenUrlStarted: {
+        function onOpenUrlStarted(url) {
             openUrlInput.text = url
             openUrlDialog.visible = true
         }

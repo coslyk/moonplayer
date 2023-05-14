@@ -84,7 +84,7 @@ Item {
                 text: currentPlugin.description
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                onLinkActivated: {
+                onLinkActivated: (link) => {
                     if (link.startsWith('http://') || link.startsWith('https://')) {
                         Qt.openUrlExternally(link);
                     } else {

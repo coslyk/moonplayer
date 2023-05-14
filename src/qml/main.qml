@@ -110,7 +110,7 @@ Window
 
         Connections {
             target: Dialogs
-            onSelectionStarted: {
+            function onSelectionStarted(title, items, checkboxText) {
                 selectionDialog.title = title;
                 selectionDialog.items = items;
                 selectionDialog.checkboxText = checkboxText;
@@ -158,7 +158,7 @@ Window
     
         Connections {
             target: Dialogs
-            onOpenUrlStarted: {
+            function onOpenUrlStarted(url) {
                 window.raise();
                 window.requestActivate();
             }
