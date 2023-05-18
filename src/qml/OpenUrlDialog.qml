@@ -26,6 +26,8 @@ Dialog {
     title: qsTr("Enter URL to parse")
     standardButtons: Dialog.Ok | Dialog.Cancel
 
+    property alias url: openUrlInput.text
+
     onAccepted: {
         if (openUrlInput.text !== "")
             PlaylistModel.addUrl(openUrlInput.text, downloadCheckBox.checked);

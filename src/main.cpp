@@ -24,6 +24,7 @@
 #include <clocale>
 #include "accessManager.h"
 #include "application.h"
+#include "clipboard.h"
 #include "dialogs.h"
 #include "downloader.h"
 #include "downloaderAbstractItem.h"
@@ -104,8 +105,8 @@ int main(int argc, char *argv[])
     {
         qmlRegisterType<FontDialog>("MoonPlayer", 1, 0, "FontDialog");
     }
-
     qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/moonplayer_qml/qml/SkinColor.qml")), "MoonPlayer", 1, 0, "SkinColor");
+    qmlRegisterSingletonType<Clipboard>("MoonPlayer", 1, 0, "Clipboard", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Clipboard(); });
     qmlRegisterSingletonType<Dialogs>("MoonPlayer", 1, 0, "Dialogs", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Dialogs(); });
     qmlRegisterSingletonType<PlaylistModel>("MoonPlayer", 1, 0, "PlaylistModel", [](QQmlEngine *, QJSEngine *) -> QObject * { return new PlaylistModel(); });
     qmlRegisterSingletonType<Utils>("MoonPlayer", 1, 0, "Utils", [](QQmlEngine *, QJSEngine *) -> QObject * { return new Utils(); });

@@ -383,6 +383,16 @@ Window
     }
     
     Shortcut {
+        sequence: "Ctrl+V"
+        onActivated: {
+            if (!openUrlDialog.visible) {
+                openUrlDialog.visible = true;
+                openUrlDialog.url = Clipboard.text;
+            }
+        }
+    }
+    
+    Shortcut {
         sequence: "Ctrl+,"
         onActivated: sidebar.openSettings()
     }
