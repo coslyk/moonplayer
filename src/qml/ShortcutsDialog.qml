@@ -23,7 +23,7 @@ Dialog {
     id: consoleDialog
     
     width: 600
-    height: 420
+    height: 450
     title: qsTr("Shortcuts")
 
     // Center in parent
@@ -62,6 +62,8 @@ Dialog {
         Label { text: qsTr("Open files") }
         Label { text: "Ctrl+," }
         Label { text: qsTr("Open settings") }
+        Label { text: "Ctrl+V" }
+        Label { text: qsTr("Paste and open URL") }
     }
 }
 
