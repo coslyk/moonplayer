@@ -55,7 +55,6 @@ int main(int argc, char *argv[])
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);
 
     // Set application attributes
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QCoreApplication::setOrganizationName(QStringLiteral("coslyk"));
     QCoreApplication::setOrganizationDomain(QStringLiteral("coslyk.github.io"));
     QCoreApplication::setApplicationName(QStringLiteral("MoonPlayer"));

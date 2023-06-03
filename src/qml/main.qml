@@ -21,6 +21,7 @@ import QtQuick.Window 2.2
 import MoonPlayer 1.0
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls.Universal 2.3
+import Qt.labs.settings 1.0 as QSettings
 
 Window
 {
@@ -68,6 +69,13 @@ Window
             window.x = (Screen.width - window.width) / 2;
             window.y = (Screen.height - window.height) / 2;
         }
+    }
+
+    // Settings
+    QSettings.Settings {
+        id: videoSettings
+        category: "video"
+        property alias volume: volumeSlider.value
     }
 
     // Cover area for mouse event
