@@ -45,6 +45,7 @@ jobs:
           brew install openssl mpv-moonplayer freetype double-conversion icu4c jasper jpeg libb2 libtiff pcre2
 
       - name: Build
+        shell: bash
         env:
           RUNNING_OS: ${{ matrix.os }}
         run: |-
