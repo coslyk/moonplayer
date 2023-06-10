@@ -41,6 +41,7 @@ jobs:
           HOMEBREW_NO_AUTO_UPDATE: 1
           HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
         run: |-
+          brew tap coslyk/mpv
           brew update
           brew install openssl mpv-moonplayer freetype double-conversion icu4c jasper jpeg libb2 libtiff pcre2
 
