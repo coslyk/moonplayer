@@ -52,13 +52,36 @@ elseif (WIN32)
     )
 endif()
 
+# QML files
+set(QML_FILES
+    qml/main.qml
+    qml/ConsoleDialog.qml
+    qml/ControlBar.qml
+    qml/CoverArea.qml
+    qml/Downloader.qml
+    qml/Explorer.qml
+    qml/FileOpenDialog.qml
+    qml/FontDialog.qml
+    qml/ImageButton.qml
+    qml/MessageDialog.qml
+    qml/OpenUrlDialog.qml
+    qml/Playlist.qml
+    qml/SelectionDialog.qml
+    qml/Settings.qml
+    qml/ShortcutsDialog.qml
+    qml/Sidebar.qml
+    qml/SkinColor.qml
+    qml/SubtitlesAndDanmaku.qml
+    qml/TextInputDialog.qml
+    qml/VideoOptions.qml
+)
 
 # Create translations
 set(TS_FILES
     l10n/zh_CN.ts
 )
 set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/l10n)
-qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} l10n/zh_CN.ts)
+qt6_create_translation(QM_FILES ${SOURCE_FILES} ${QML_FILES} l10n/zh_CN.ts)
 
 # Add MacOS bundle files
 add_project_meta(META_FILES_TO_INCLUDE)
@@ -86,26 +109,7 @@ qt6_add_qml_module(${PROJECT_NAME}
     VERSION 1.0
     NO_GENERATE_QMLTYPES
     QML_FILES
-        qml/main.qml
-        qml/ConsoleDialog.qml
-        qml/ControlBar.qml
-        qml/CoverArea.qml
-        qml/Downloader.qml
-        qml/Explorer.qml
-        qml/FileOpenDialog.qml
-        qml/FontDialog.qml
-        qml/ImageButton.qml
-        qml/MessageDialog.qml
-        qml/OpenUrlDialog.qml
-        qml/Playlist.qml
-        qml/SelectionDialog.qml
-        qml/Settings.qml
-        qml/ShortcutsDialog.qml
-        qml/Sidebar.qml
-        qml/SkinColor.qml
-        qml/SubtitlesAndDanmaku.qml
-        qml/TextInputDialog.qml
-        qml/VideoOptions.qml
+        ${QML_FILES}
     RESOURCES
         images/net_grey.png
         images/net_grey_on.png
