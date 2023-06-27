@@ -24,7 +24,7 @@ find_path(
   MPV_INCLUDE_DIR
   NAMES mpv/client.h
   PATHS
-      ${PROJECT_SOURCE_DIR}/libmpv           # Windows
+      ${PROJECT_SOURCE_DIR}/libmpv/include   # Windows
       /usr/local/opt/mpv-moonplayer/include  # macOS
   DOC "MPV include directory"
 )
