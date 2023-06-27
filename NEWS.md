@@ -1,7 +1,14 @@
+### version 4.2 (2023.06.11)
+
+1. Support d3d11va on Win11
+1. Add subtitle file by drag and drop
+1. Add shortcut Ctrl+V to paste URL quickly
+1. Memorize volume
+
 ### version 4.1 (2022.08.28)
 
 1. Add option to save video quality selections
-2. Fix sometimes video quality selection dialog not shown
+1. Fix sometimes video quality selection dialog not shown
 
 ### version 4.0 (2022.05.03)
 
