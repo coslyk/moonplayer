@@ -18,6 +18,7 @@
 #define CLIPBOARD_H
 
 #include <QObject>
+#include <QtQml/qqmlregistration.h>
 
 class QClipboard;
 
@@ -27,6 +28,8 @@ class QClipboard;
 class Clipboard : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
     Q_PROPERTY(QString text READ text WRITE setText)
 
 public:

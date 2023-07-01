@@ -20,11 +20,14 @@
 #include <QObject>
 #include <QProcess>
 #include <functional>
+#include <QtQml/qqmlregistration.h>
 
 // Show dialogs in QML
 class Dialogs : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
     Q_PROPERTY(QStringList consoleOutputs MEMBER m_consoleOutputs NOTIFY consoleOutputsChanged)
 
 public:

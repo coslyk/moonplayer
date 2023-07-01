@@ -19,10 +19,13 @@
 
 #include <QObject>
 #include <QUrl>
+#include <QtQml/qqmlregistration.h>
 
 class Utils : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
     
 public:
     // Update video parsers

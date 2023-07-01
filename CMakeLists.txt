@@ -27,6 +27,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# Force CMake to generate xxx_autogen targets when Visual Studio is used
+set(CMAKE_GLOBAL_AUTOGEN_TARGET ON)
 
 # Include Qt basic functions
 include(QtCommon)

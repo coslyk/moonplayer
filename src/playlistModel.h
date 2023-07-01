@@ -19,10 +19,13 @@
 
 #include <QAbstractListModel>
 #include <QUrl>
+#include <QtQml/qqmlregistration.h>
 
 class PlaylistModel : public QAbstractListModel
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
     Q_PROPERTY(int playingIndex MEMBER m_playingIndex NOTIFY playingIndexChanged)
     
     enum OpenUrlAction {

@@ -16,7 +16,7 @@
  
 import QtQuick 2.7
 import QtQuick.Window 2.2
-import MoonPlayer 1.0
+import com.github.coslyk.moonplayer 1.0
 
 // Area to receive mouse events
 MouseArea {

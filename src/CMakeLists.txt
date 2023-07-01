@@ -70,10 +70,10 @@ set(QML_FILES
     qml/Settings.qml
     qml/ShortcutsDialog.qml
     qml/Sidebar.qml
-    qml/SkinColor.qml
     qml/SubtitlesAndDanmaku.qml
     qml/TextInputDialog.qml
     qml/VideoOptions.qml
+    qml_singletons/SkinColor.qml
 )
 
 # Create translations
@@ -93,7 +93,7 @@ endif()
 
 
 # Create excutable
-add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
+qt_add_executable(${PROJECT_NAME}
     ${SOURCE_FILES}
     ${QM_FILES}
     resources_qt6.qrc
@@ -101,13 +101,21 @@ add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
     ${META_FILES_TO_INCLUDE})
 
 # Enable Automoc and Autorcc for Qt
-set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON AUTORCC ON)
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    AUTOMOC ON
+    AUTORCC ON
+    MACOSX_BUNDLE ON
+    WIN32_EXECUTABLE TRUE
+)
 
 # Add qml files and resources
-qt6_add_qml_module(${PROJECT_NAME}
-    URI moonplayer_qml
+set_source_files_properties(qml_singletons/SkinColor.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
+
+qt_add_qml_module(${PROJECT_NAME}
+    URI com.github.coslyk.moonplayer
     VERSION 1.0
-    NO_GENERATE_QMLTYPES
     QML_FILES
         ${QML_FILES}
     RESOURCES
@@ -143,6 +151,7 @@ qt6_add_qml_module(${PROJECT_NAME}
 
 # Link
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Core
     Qt6::Qml
     Qt6::Quick
     Qt6::Gui

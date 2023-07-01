@@ -93,26 +93,18 @@ int main(int argc, char *argv[])
     }
 
     // Register QML Types
-    qmlRegisterType<MpvObject>("MoonPlayer", 1, 0, "MpvObject");
-
     if (FileOpenDialog::hasNativeSupport())
     {
-        qmlRegisterType<FileOpenDialog>("MoonPlayer", 1, 0, "FileOpenDialog");
+        //qmlRegisterType<FileOpenDialog>("coslyk.moonplayer", 1, 0, "FileOpenDialog");
     }
 
     if (FontDialog::hasNativeSupport())
     {
-        qmlRegisterType<FontDialog>("MoonPlayer", 1, 0, "FontDialog");
+        //qmlRegisterType<FontDialog>("coslyk.moonplayer", 1, 0, "FontDialog");
     }
-    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/moonplayer_qml/qml/SkinColor.qml")), "MoonPlayer", 1, 0, "SkinColor");
-    qmlRegisterSingletonType<Clipboard>("MoonPlayer", 1, 0, "Clipboard", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Clipboard(); });
-    qmlRegisterSingletonType<Dialogs>("MoonPlayer", 1, 0, "Dialogs", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Dialogs(); });
-    qmlRegisterSingletonType<PlaylistModel>("MoonPlayer", 1, 0, "PlaylistModel", [](QQmlEngine *, QJSEngine *) -> QObject * { return new PlaylistModel(); });
-    qmlRegisterSingletonType<Utils>("MoonPlayer", 1, 0, "Utils", [](QQmlEngine *, QJSEngine *) -> QObject * { return new Utils(); });
-    qmlRegisterSingletonType<WebsiteSettings>("MoonPlayer", 1, 0, "WebsiteSettings", [](QQmlEngine *, QJSEngine *) -> QObject * { return new WebsiteSettings(); });
-    qmlRegisterUncreatableType<DownloaderAbstractItem>("MoonPlayer", 1, 0, "DownloaderItem", QStringLiteral("Access to enums & flags only"));
     
     QQmlApplicationEngine engine;
+    engine.addImportPath(QStringLiteral("qrc:/"));
 
     // Set UI style
     switch (QSettings().value(QStringLiteral("player/theme"), 1).toInt())
@@ -145,7 +137,7 @@ int main(int argc, char *argv[])
         context->setContextProperty(QStringLiteral("downloaderModel"), QVariant::fromValue(downloader->model()));
     });
 
-    engine.load(QUrl(QStringLiteral("qrc:/moonplayer_qml/qml/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/com/github/coslyk/moonplayer/qml/main.qml")));
     
     // Create user resources dir
     if (!QDir(userResourcesPath()).exists())

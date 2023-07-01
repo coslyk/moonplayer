@@ -20,11 +20,14 @@
 #include <QMap>
 #include <QObject>
 #include <QUrl>
+#include <QtQml/qqmlregistration.h>
 
 // Store website settings
 class WebsiteSettings : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
     Q_PROPERTY(QStringList websites READ getWebsites NOTIFY websitesChanged)
 
 public:

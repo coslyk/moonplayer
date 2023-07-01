@@ -19,10 +19,13 @@
 
 #include <QObject>
 #include <QUrl>
+#include <QtQml/qqmlregistration.h>
 
 class DownloaderAbstractItem : public QObject
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(DownloaderItem)
+    QML_UNCREATABLE("Access to enums & flags only")
     Q_PROPERTY(QString name      READ name        NOTIFY nameChanged)
     Q_PROPERTY(QString filePath  READ filePath    NOTIFY filePathChanged)
     Q_PROPERTY(QUrl danmakuUrl   READ danmakuUrl  NOTIFY danmakuUrlChanged)

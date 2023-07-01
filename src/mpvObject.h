@@ -17,8 +17,10 @@
 #ifndef MPVRENDERER_H_
 #define MPVRENDERER_H_
 
+#include <QObject>
 #include <QtQuick/QQuickFramebufferObject>
 #include <QQuickWindow>
+#include <QtQml/qqmlregistration.h>
 
 #include "mpv.hpp"
 
@@ -29,6 +31,7 @@ class MpvRenderer;
 class MpvObject : public QQuickFramebufferObject
 {
     Q_OBJECT
+    QML_ELEMENT
     
     Q_PROPERTY(State state              READ state                            NOTIFY stateChanged)
     Q_PROPERTY(qint64 duration          READ duration                         NOTIFY durationChanged)
