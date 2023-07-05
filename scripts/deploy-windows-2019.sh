@@ -2,7 +2,7 @@
 
 # Copy binary files
 mkdir moonplayer
-cp src/Release/moonplayer.exe src/scripts/update-parsers.ps1 libmpv/mpv-2.dll moonplayer/
+cp src/Release/moonplayer.exe src/scripts/update-parsers.ps1 libmpv/libmpv-2.dll moonplayer/
 
 # Bundle Qt
 windeployqt moonplayer/moonplayer.exe --qmldir src/qml
