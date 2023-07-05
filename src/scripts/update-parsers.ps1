@@ -79,7 +79,7 @@ if ($latest_version -eq $current_version) {
     # Download
     Write-Output "Downloading latest version..."
     $version_no_v = $latest_version.Substring(1)
-    $url = "$github_mirror/iawia002/lux/releases/download/$latest_version/lux_${version_no_v}_Windows_64-bit.zip"
+    $url = "$github_mirror/iawia002/lux/releases/download/$latest_version/lux_${version_no_v}_Windows_x86_64.zip"
     Write-Output $url
     $output = "$env:LOCALAPPDATA\MoonPlayer\lux.zip"
     (New-Object System.Net.WebClient).DownloadFile($url, $output)
