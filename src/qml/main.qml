@@ -14,14 +14,15 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
  
-import QtQuick 2.7
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.3
-import QtQuick.Window 2.2
-import QtQuick.Controls.Material 2.3
-import QtQuick.Controls.Universal 2.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import QtQuick.Window
+import QtQuick.Controls.Material
+import QtQuick.Controls.Universal
 import Qt.labs.settings 1.0 as QSettings
-import com.github.coslyk.moonplayer 1.0
+import com.github.coslyk.moonplayer
 
 Window
 {
@@ -174,11 +175,11 @@ Window
     }
 
     // Open file by Dialog
-    FileOpenDialog {
+    FileDialog {
         id: fileDialog
         title: qsTr("Please choose a file")
-        selectMultiple: true
-        onAccepted: PlaylistModel.addLocalFiles(fileDialog.fileUrls)
+        fileMode: FileDialog.OpenFiles
+        onAccepted: PlaylistModel.addLocalFiles(fileDialog.selectedFiles)
     }
 
     // Shortcuts dialog

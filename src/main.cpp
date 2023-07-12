@@ -28,7 +28,6 @@
 #include "dialogs.h"
 #include "downloader.h"
 #include "downloaderAbstractItem.h"
-#include "fileOpenDialog.h"
 #include "fontDialog.h"
 #include "mpvObject.h"
 #include "playlistModel.h"
@@ -93,11 +92,6 @@ int main(int argc, char *argv[])
     }
 
     // Register QML Types
-    if (FileOpenDialog::hasNativeSupport())
-    {
-        //qmlRegisterType<FileOpenDialog>("coslyk.moonplayer", 1, 0, "FileOpenDialog");
-    }
-
     if (FontDialog::hasNativeSupport())
     {
         //qmlRegisterType<FontDialog>("coslyk.moonplayer", 1, 0, "FontDialog");

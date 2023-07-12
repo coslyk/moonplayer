@@ -20,7 +20,6 @@ set(SOURCE_FILES
     downloaderHlsItem.cpp
     downloaderItem.cpp
     fileDownloader.cpp
-    fileOpenDialog.cpp
     fontDialog.cpp
     jsapiObject.cpp
     main.cpp
@@ -60,7 +59,6 @@ set(QML_FILES
     qml/CoverArea.qml
     qml/Downloader.qml
     qml/Explorer.qml
-    qml/FileOpenDialog.qml
     qml/FontDialog.qml
     qml/ImageButton.qml
     qml/MessageDialog.qml

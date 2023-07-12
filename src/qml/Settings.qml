@@ -14,11 +14,12 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
  
-import QtQuick 2.7
+import QtQuick
 import Qt.labs.settings 1.0 as QSettings
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.3
-import com.github.coslyk.moonplayer 1.0
+import QtQuick.Controls
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import com.github.coslyk.moonplayer
 
 Item {
     
@@ -72,7 +73,7 @@ Item {
     QSettings.Settings {
         id: downloaderSettings
         category: "downloader"
-        property alias save_to: folderDialog.fileUrl
+        property url save_to: Utils.movieLocation()
         property alias max_threads: maxThreadsSpinBox.value
     }
 
@@ -282,17 +283,18 @@ Item {
             
             Label { text: qsTr("Save to:"); Layout.columnSpan: 2 }
             Button {
-                text: folderDialog.fileUrl.toString().replace("file://", "")
+                id: saveToButton
+                text: downloaderSettings.save_to.toString().replace("file://", "")
                 Layout.columnSpan: 2
                 onClicked: folderDialog.open()
                 // Flatpak version is sandboxed and has no permission to access other folders
                 enabled: Utils.environmentVariable("FLATPAK_SANDBOX_DIR") == ""
             }
-            FileOpenDialog {
+            FolderDialog {
                 id: folderDialog
                 title: "Please choose a folder"
-                selectFolder: true
-                fileUrl: Utils.movieLocation()
+                currentFolder: Utils.movieLocation()
+                onAccepted: downloaderSettings.save_to = selectedFolder
             }
 
             // Website settings

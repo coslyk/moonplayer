@@ -14,10 +14,11 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
  
-import QtQuick 2.7
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.3
-import com.github.coslyk.moonplayer 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import com.github.coslyk.moonplayer
 
 ColumnLayout {
     
@@ -53,10 +54,10 @@ ColumnLayout {
         }
     }
         
-    FileOpenDialog {
+    FileDialog {
         id: addSubtitleDialog
         title: qsTr("Please choose a file")
-        onAccepted: mpv.addSubtitle(addSubtitleDialog.fileUrl)
+        onAccepted: mpv.addSubtitle(addSubtitleDialog.selectedFiles)
     }
     
     // Danmaku options
