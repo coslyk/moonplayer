@@ -28,7 +28,6 @@
 #include "dialogs.h"
 #include "downloader.h"
 #include "downloaderAbstractItem.h"
-#include "fontDialog.h"
 #include "mpvObject.h"
 #include "playlistModel.h"
 #include "platform/graphics.h"
@@ -89,12 +88,6 @@ int main(int argc, char *argv[])
     if (translator.load(QLocale::system().name(), QStringLiteral(":/l10n")))
     {
         app.installTranslator(&translator);
-    }
-
-    // Register QML Types
-    if (FontDialog::hasNativeSupport())
-    {
-        //qmlRegisterType<FontDialog>("coslyk.moonplayer", 1, 0, "FontDialog");
     }
     
     QQmlApplicationEngine engine;

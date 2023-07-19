@@ -50,8 +50,8 @@ Item {
         property alias alpha: alphaSpinBox.value
         property alias dm: dmSpinBox.value
         property alias ds: dsSpinBox.value
-        property alias font_family: fontDialog.family
-        property alias font_size: fontSizeSpinBox.value
+        property alias font_family: fontDialog.selectedFont.family
+        property alias font_size: fontDialog.selectedFont.pointSize
     }
     
     // Network settings
@@ -95,7 +95,7 @@ Item {
             Label {
                 text: qsTr("Interface")
                 font.bold: true
-                font.pixelSize: 16
+                font.pointSize: 16
                 Layout.columnSpan: 2
             }
 
@@ -121,7 +121,7 @@ Item {
             Label {
                 text: qsTr("Play")
                 font.bold: true
-                font.pixelSize: 16
+                font.pointSize: 16
                 Layout.columnSpan: 2
                 Layout.topMargin: 20
             }
@@ -149,7 +149,7 @@ Item {
             Label {
                 text: qsTr("Video")
                 font.bold: true
-                font.pixelSize: 16
+                font.pointSize: 16
                 Layout.columnSpan: 2
                 Layout.topMargin: 20
             }
@@ -166,7 +166,7 @@ Item {
             Label {
                 text: qsTr("Danmaku")
                 font.bold: true
-                font.pixelSize: 16
+                font.pointSize: 16
                 Layout.columnSpan: 2
                 Layout.topMargin: 20
             }
@@ -174,7 +174,7 @@ Item {
             Label { text: qsTr("Font:"); Layout.columnSpan: 2 }
             Button {
                 id: fontButton
-                text: fontDialog.family
+                text: fontDialog.selectedFont.family + "," + fontDialog.selectedFont.pointSize
                 Layout.columnSpan: 2
                 onClicked: fontDialog.open()
             }
@@ -182,9 +182,6 @@ Item {
                 id: fontDialog
                 title: qsTr("Please choose a font for Danmaku")
             }
-                
-            Label { text: qsTr("Font size:") + " (*)"; Layout.columnSpan: 2 }
-            SpinBox { id: fontSizeSpinBox; from: 0; to: 100; value: 0; Layout.columnSpan: 2 }
             
             Label { text: qsTr("Alpha (%):"); Layout.columnSpan: 2 }
             SpinBox { id: alphaSpinBox; from: 0; to: 100; value: 100; Layout.columnSpan: 2 }
@@ -201,7 +198,7 @@ Item {
             Label {
                 text: qsTr("Cache")
                 font.bold: true
-                font.pixelSize: 16
+                font.pointSize: 16
                 Layout.columnSpan: 2
                 Layout.topMargin: 20
             }
@@ -236,7 +233,7 @@ Item {
             Label {
                 text: qsTr("Proxy")
                 font.bold: true
-                font.pixelSize: 16
+                font.pointSize: 16
                 Layout.columnSpan: 2
                 Layout.topMargin: 20
             }            
@@ -273,7 +270,7 @@ Item {
             Label {
                 text: qsTr("Downloader")
                 font.bold: true
-                font.pixelSize: 16
+                font.pointSize: 16
                 Layout.columnSpan: 2
                 Layout.topMargin: 20
             }
@@ -301,7 +298,7 @@ Item {
             Label {
                 text: qsTr("Website settings")
                 font.bold: true
-                font.pixelSize: 16
+                font.pointSize: 16
                 Layout.columnSpan: 2
                 Layout.topMargin: 20
             }

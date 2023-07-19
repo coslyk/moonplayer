@@ -30,7 +30,7 @@ Dialog {
     header: RowLayout {
         Label {
             id: titleLabel
-            font.pixelSize: 16
+            font.pointSize: 16
             font.bold: true
             Layout.fillWidth: true
             Layout.topMargin: 16

@@ -24,7 +24,7 @@ ColumnLayout {
 
     Label {
         text: qsTr("Downloader")
-        font.pixelSize: 16
+        font.pointSize: 16
         font.bold: true
     }
 

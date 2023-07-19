@@ -31,7 +31,7 @@ Item {
         
         Label {
             text: qsTr("Playlist")
-            font.pixelSize: 16
+            font.pointSize: 16
             font.bold: true
             Layout.columnSpan: 3
         }
