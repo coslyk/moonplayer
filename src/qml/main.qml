@@ -35,7 +35,7 @@ Window
     title: "MoonPlayer"
 
     // Hide system titlebar when using material UI
-    property bool isMaterialUI: Utils.environmentVariable("QT_QUICK_CONTROLS_STYLE").toLowerCase() == "material"
+    property bool isMaterialUI: Utils.environmentVariable("QT_QUICK_CONTROLS_STYLE") == "Material"
     flags: Qt.Window | (isMaterialUI ? Qt.FramelessWindowHint : 0)
 
     // Background color
