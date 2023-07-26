@@ -36,6 +36,7 @@ private slots:
 
 private:
     QProcess m_process;
+    void convertToStream(const QJsonObject &item, Stream &stream);
     
     static ParserYtdlp s_instance;
 };
