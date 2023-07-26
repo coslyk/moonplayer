@@ -98,10 +98,10 @@ void FileDownloader::onFinished()
     if (status == 301 || status == 302) //redirect
     {
         m_reply->deleteLater();
-        m_reply = nullptr;
         m_file.seek(0);
         m_lastPos = 0;
         m_url = QString::fromUtf8(m_reply->rawHeader(QByteArrayLiteral("Location")));
+        m_reply = nullptr;
         start();
     }
 

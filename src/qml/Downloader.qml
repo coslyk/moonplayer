@@ -42,6 +42,7 @@ ColumnLayout {
 
             Label {
                 text: name
+                elide: Text.ElideLeft
                 anchors.left: parent.left
                 anchors.leftMargin: 5
                 anchors.right: separator.left
