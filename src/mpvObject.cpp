@@ -202,6 +202,7 @@ MpvObject::MpvObject(QQuickItem * parent) : QQuickFramebufferObject(parent)
 void MpvObject::open(const QUrl& fileUrl, const QUrl& danmakuUrl, const QUrl& audioTrack)
 {
     Q_ASSERT(NetworkAccessManager::instance() != nullptr);
+    QSettings settings;
     
     // set network parameters
     if (!fileUrl.isLocalFile())
@@ -211,6 +212,17 @@ void MpvObject::open(const QUrl& fileUrl, const QUrl& danmakuUrl, const QUrl& au
 
         // set user-agent
         m_mpv.set_option("user-agent", NetworkAccessManager::instance()->userAgentOf(fileUrl).constData());
+
+        // set proxy
+        if (NetworkAccessManager::HTTP_PROXY == (NetworkAccessManager::ProxyType) settings.value("network/proxy_type").toInt())
+        {
+            QByteArray proxy = QByteArrayLiteral("http://") + settings.value("network/proxy").toByteArray();
+            m_mpv.set_option("http-proxy", proxy.constData());
+        }
+        else
+        {
+            m_mpv.set_option("http-proxy", "");
+        }
 
         /* Some websites does not allow "Range" option in http request header.
          * To hack these websites, we force ffmpeg/libav to set the stream unseekable.
@@ -231,6 +243,7 @@ void MpvObject::open(const QUrl& fileUrl, const QUrl& danmakuUrl, const QUrl& au
     {
         m_mpv.set_option("stream-lavf-o", "");
         m_mpv.set_option("force-seekable", false);
+        m_mpv.set_option("http-proxy", "");
     }
     
     QByteArray fileuri_str = (fileUrl.isLocalFile() ? fileUrl.toLocalFile() : fileUrl.toString()).toUtf8();
