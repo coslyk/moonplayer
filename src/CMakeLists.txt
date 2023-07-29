@@ -1,7 +1,4 @@
 
-# Include Qt Gui private headers
-include_directories(${Qt6Gui_PRIVATE_INCLUDE_DIRS})
-
 # Include MPV
 include_directories(${MPV_INCLUDE_DIRS})
 
