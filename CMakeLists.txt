@@ -41,6 +41,7 @@ add_definitions(-DQT_NO_CAST_FROM_ASCII)
 fix_project_version()
 
 find_package(Qt6 REQUIRED COMPONENTS Gui Qml Quick OpenGL Network LinguistTools)
+find_package(Qt6Gui REQUIRED)
 find_package(MPV REQUIRED)
 
 add_subdirectory(3rdparty)
