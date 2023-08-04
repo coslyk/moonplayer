@@ -215,7 +215,7 @@ void MpvObject::open(const QUrl& fileUrl, const QUrl& danmakuUrl, const QUrl& au
 
         // set proxy
         NetworkAccessManager::ProxyType proxyType = (NetworkAccessManager::ProxyType) settings.value("network/proxy_type").toInt();
-        bool proxyForParseOnly = settings.value(QStringLiteral("network/proxy_only_for_parsing", false)).toBool();
+        bool proxyForParseOnly = settings.value(QStringLiteral("network/proxy_only_for_parsing"), false).toBool();
         if (!proxyForParseOnly && proxyType == NetworkAccessManager::HTTP_PROXY)
         {
             QByteArray proxy = QByteArrayLiteral("http://") + settings.value("network/proxy").toByteArray();

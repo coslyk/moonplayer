@@ -3,7 +3,7 @@ Section: sound
 Priority: extra
 Maintainer: YK Liu <cos.lyk@gmail.com>
 Build-Depends: debhelper (>= 8.0.0),
- cmake, qt6-base-dev, qt6-base-private-dev, qt6-declarative-dev, qt6-declarative-private-dev, qt6-tools-dev, libmpv-dev, libcurl4-openssl-dev, libssl-dev
+ cmake, qt6-base-dev, qt6-base-private-dev, qt6-declarative-dev, qt6-tools-dev, libmpv-dev, libcurl4-openssl-dev, libssl-dev
 Standards-Version: 3.9.2
 Homepage: https://github.com/coslyk/moonplayer
 #Vcs-Git: git://git.debian.org/collab-maint/moonplayer.git
@@ -11,5 +11,5 @@ Homepage: https://github.com/coslyk/moonplayer
 
 Package: moonplayer
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ffmpeg, qml6-module-qt-labs-folderlistmodel, qml6-module-qt-labs-settings, qml6-module-qtqml-workerscript, qml6-module-qtquick, qml6-module-qtquick-controls, qml6-module-qtquick-layouts, qml6-module-qtquick-templates, qml6-module-qtquick-window
+Depends: ${shlibs:Depends}, ${misc:Depends}, ffmpeg, qml6-module-qtquick-dialogs, qml6-module-qt-labs-settings, qml6-module-qtqml-workerscript, qml6-module-qtquick, qml6-module-qtquick-controls, qml6-module-qtquick-layouts, qml6-module-qtquick-templates, qml6-module-qtquick-window
  Video player for playing and downloading online videos from youtube, bilibili etc.
