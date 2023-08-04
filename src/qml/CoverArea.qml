@@ -14,9 +14,9 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
  
-import QtQuick 2.7
-import QtQuick.Window 2.2
-import com.github.coslyk.moonplayer 1.0
+import QtQuick
+import QtQuick.Window
+import com.github.coslyk.moonplayer
 
 // Area to receive mouse events
 MouseArea {
@@ -34,7 +34,7 @@ MouseArea {
     property real lastMouseY: 0
     property int activeEdges: 0
     property bool moveable: false
-    property bool isMaterialUI: Utils.environmentVariable("QT_QUICK_CONTROLS_STYLE").toLowerCase() == "material"
+    property bool isMaterialUI: Utils.environmentVariable("QT_QUICK_CONTROLS_STYLE") == "Material"
 
     hoverEnabled: true
     acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -82,21 +82,18 @@ MouseArea {
         if (mouseY < 8) activeEdges |= Qt.TopEdge;
         if (mouseX > window.width - 8) activeEdges |= Qt.RightEdge;
         if (mouseY > window.height - 8) activeEdges |= Qt.BottomEdge;
+        moveable = (activeEdges === 0);
 
-        // Use system native move & resize on Qt >= 5.15
-        if (window.startSystemMove !== undefined && Qt.platform.os !== "osx") {
-            if (activeEdges === 0) {
-                window.startSystemMove();
-            } else {
+        // Use system native move & resize on Windows / Linux
+        if (Qt.platform.os !== "osx") {
+            if (activeEdges !== 0) {
                 window.startSystemResize(activeEdges);
             }
         }
-            
-        // Use software move & resize on Qt < 5.15
+        // Use software move & resize on macOS
         else {
             lastMouseX = mouseX;
             lastMouseY = mouseY;
-            moveable = (activeEdges === 0);
         }
     }
 
@@ -108,6 +105,11 @@ MouseArea {
 
     // Mouse moved
     onPositionChanged: (mouse) => {
+        // Start system native move
+        if (Qt.platform.os !== "osx" && moveable) {
+            window.startSystemMove();
+            moveable = false;
+        }
 
         // Show titlebar and controlbar
         controlbar.visible = true;
