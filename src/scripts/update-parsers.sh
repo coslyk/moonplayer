@@ -115,7 +115,7 @@ else
     echo "Downloading latest version..."
     URL="${GITHUB_MIRROR}/iawia002/lux/releases/download/${LATEST_VERSION}/lux_${LATEST_VERSION#v}_${LUX_SUFFIX}"
     echo "$URL"
-    downloader lux.tar.gz "$URL"
+    downloader lux.tar.gz "$URL" || exit 1
     rm -f lux
     tar -xvf lux.tar.gz
     chmod a+x lux
@@ -148,7 +148,7 @@ else
     rm -f yt-dlp
     URL="$GITHUB_MIRROR/yt-dlp/yt-dlp/releases/download/$LATEST_VERSION/yt-dlp"
     echo "$URL"
-    downloader yt-dlp "$URL"
+    downloader yt-dlp "$URL" || exit 1
     chmod a+x yt-dlp
     save_version_info "yt-dlp" "$LATEST_VERSION"
 fi
@@ -179,7 +179,7 @@ else
     echo "Downloading latest version..."
     URL="$GITHUB_MIRROR/coslyk/moonplayer-plugins/releases/download/$LATEST_VERSION/plugins.zip"
     echo "$URL"
-    downloader plugins.zip "$URL"
+    downloader plugins.zip "$URL" || exit 1
     unzip -o plugins.zip -d plugins
     rm -f plugins.zip
     save_version_info "plugins" "$LATEST_VERSION"
