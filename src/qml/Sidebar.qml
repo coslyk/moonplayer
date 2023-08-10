@@ -59,9 +59,9 @@ Control {
 
     // Width
     property var widths: [
-        200,  // Playlist
+        250,  // Playlist
         320,  // Settings
-        300,  // Explorer
+        320,  // Explorer
         300,  // Video options
         320,  // Subtitles and danmaku
         300,  // Downloader

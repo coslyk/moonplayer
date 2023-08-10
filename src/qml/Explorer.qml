@@ -14,11 +14,11 @@
  * with this program. If not, see http://www.gnu.org/licenses/.
  */
  
-import QtQuick 2.7
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.3
-import Qt.labs.settings 1.0 as QSettings
-import com.github.coslyk.moonplayer 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Qt.labs.settings as QSettings
+import com.github.coslyk.moonplayer
 
 Item {
     id: explorer
@@ -64,7 +64,6 @@ Item {
         Button {
             id: searchButton
             text: qsTr("Search")
-            implicitWidth: 60
             onClicked: {
                 currentPlugin.keyword = keywordInput.text;
                 pageSpinBox.value = 1;
@@ -124,7 +123,6 @@ Item {
             text: qsTr("Back")
             enabled: resultArea.currentIndex === 1
             onClicked: resultArea.currentIndex = 0
-            implicitWidth: 80
         }
 
         SpinBox {
