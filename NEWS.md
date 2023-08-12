@@ -1,3 +1,12 @@
+### version 4.3 (2023.08.12)
+
+1. Support disabling video stream
+1. Add audio only options for YouTube videos
+1. Fix proxy not applied when playing online videos
+1. Fix crash when downloading videos
+1. Fix cannot update lux on Windows
+1. Fix lag in mouse click
+
 ### version 4.2 (2023.06.11)
 
 1. Support d3d11va on Win11
