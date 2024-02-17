@@ -28,8 +28,12 @@ ParserLux::~ParserLux()
     }
 }
 
-
 void ParserLux::runParser(const QUrl &url)
+{
+    runParserFull(url, true);
+}
+
+void ParserLux::runParserFull(const QUrl &url, bool parsePlaylist)
 {
     // Check if another task is running
     if (m_process.state() == QProcess::Running)
@@ -41,7 +45,8 @@ void ParserLux::runParser(const QUrl &url)
 
     // Get and apply proxy settings
     QSettings settings;
-    NetworkAccessManager::ProxyType proxyType = (NetworkAccessManager::ProxyType) settings.value(QStringLiteral("network/proxy_type")).toInt();
+    NetworkAccessManager::ProxyType proxyType =
+        (NetworkAccessManager::ProxyType) settings.value(QStringLiteral("network/proxy_type")).toInt();
     QString proxy = settings.value(QStringLiteral("network/proxy")).toString();
 
     if (!proxy.isEmpty() && proxyType == NetworkAccessManager::HTTP_PROXY)
@@ -59,8 +64,14 @@ void ParserLux::runParser(const QUrl &url)
 
     // Set user-agent
     QStringList args;
-    args << QStringLiteral("-j") << QStringLiteral("-p") << QStringLiteral("-u") << QStringLiteral(DEFAULT_UA);
+    args << QStringLiteral("-j") << QStringLiteral("-u") << QStringLiteral(DEFAULT_UA);
 
+    // Parse playlist
+    if (parsePlaylist) {
+        args << QStringLiteral("-p");
+    }
+    m_url = url;
+    m_parsePlaylist = parsePlaylist;
     args << url.toString();
     m_process.start(userResourcesPath() + QStringLiteral("/lux"), args, QProcess::ReadOnly);
 }
@@ -76,7 +87,14 @@ void ParserLux::parseOutput()
 
     if (json_error.error != QJsonParseError::NoError)
     {
-        showErrorDialog(QString::fromUtf8(m_process.readAllStandardError()));
+        if (m_parsePlaylist)
+        {
+            runParserFull(m_url, false);
+        }
+        else
+        {
+            showErrorDialog(QString::fromUtf8(m_process.readAllStandardError()));
+        }
         return;
     }
 

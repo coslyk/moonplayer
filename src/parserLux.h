@@ -13,15 +13,18 @@ public:
     inline static ParserLux* instance() { return &s_instance; }
 
 protected:
-    void runParser(const QUrl &url);
+    void runParser(const QUrl &url) override;
 
 private slots:
     void parseOutput(void);
 
 private:
+    void runParserFull(const QUrl &url, bool parsePlaylist);
     void parseEpisode(QJsonObject episode);
 
     QProcess m_process;
+    QUrl m_url;
+    bool m_parsePlaylist;
     static ParserLux s_instance;
 };
 
