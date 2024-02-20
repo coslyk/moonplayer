@@ -107,7 +107,7 @@ sudo make install
 
 - [ffmpeg](https://ffmpeg.org/) (License: GPLv2+)
 
-- [yk-dlp](https://github.com/yt-dlp/yt-dlp) (License: Unlicense)
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) (License: Unlicense)
 
 - [lux](https://github.com/iawia002/lux) (License: MIT)
 
