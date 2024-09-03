@@ -77,7 +77,7 @@ jobs:
     needs: builds
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: my-artifact
           
