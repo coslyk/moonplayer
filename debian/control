@@ -12,4 +12,4 @@ Homepage: https://github.com/coslyk/moonplayer
 Package: moonplayer
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, ffmpeg, qml6-module-qtquick-dialogs, qml6-module-qt-labs-settings, qml6-module-qtqml-workerscript, qml6-module-qtquick, qml6-module-qtquick-controls, qml6-module-qtquick-layouts, qml6-module-qtquick-templates, qml6-module-qtquick-window
- Video player for playing and downloading online videos from youtube, bilibili etc.
+Description:Video player for playing and downloading online videos from youtube, bilibili etc.
